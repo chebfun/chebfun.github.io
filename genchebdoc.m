@@ -8,25 +8,20 @@ function genchebdoc
 % TODO: Add links to things in 'See also'.
 
 tic
-%------------------------------------------------------------
-%% Options.
 
+% Directory and file naming options.
 opts.mdir = 'doc-mjunk'; % directory for m files
 opts.docdir = 'doc';     % directory for html files
 opts.fsuffix = '_DOC';   % suffix for m-files
-% Directory and file naming options.
-
-%------------------------------------------------------------
-%% Generate each individual doc file.
 
 % Collect all relevant chebfun methods.
 fcheb    = methods('chebfun');
 fnoncheb = { 'chebpref'; 'barymat'; 'chebpoly'
              'chebpts';  'jacpts';  'legpoly'
              'legpts';   'lobpts'; 'lebesgue' };
-NL = sprintf('\n'); % newline character
 
 % Initialize text to go in the index file.
+NL = sprintf('\n'); % newline character
 indextext = ['%% Chebfun documentation' NL '%' NL];
 
 %------------------------------------------------------------
@@ -64,8 +59,6 @@ end
 
 toc
 return
-%------------------------------------------------------------
-
 
 %------------------------------------------------------------
 function indextext = gendoc4these(list, theclass, opts)
