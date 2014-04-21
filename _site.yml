@@ -1,0 +1,10 @@
+brand: Chebfun
+baseURL: ''
+
+reflinks:
+    cheb-docs:
+        url: /docs/
+        title: Chebfun documentation
+    cheb-guide:
+        url: /guide/
+        title: Chebfun Guide
