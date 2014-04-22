@@ -4,7 +4,6 @@ layout: index
 content:
     - faq
     - structure
-    - examples
 tagline:
     Chebfun documentation.
 ---

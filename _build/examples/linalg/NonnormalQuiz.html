@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Frequently Asked Questions &laquo; Chebfun</title>
+    <title>Nonnormality quiz from Trefethen and Embree &laquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -48,8 +48,8 @@ pageTracker._trackPageview();
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/about/">About</a></li>
             <li><a href="/download.html">Download</a></li>
-            <li class="active"><a href="/docs/">Documentation</a></li>
-            <li><a href="/examples/">Examples</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
             <li><a href="/develop.html">Develop</a></li>
             <li><a href="/citing.html">Citing</a></li>
             <li><a href="/support.html">Support</a></li>
@@ -64,13 +64,16 @@ pageTracker._trackPageview();
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li><a href="/docs/">Documentation</a></li>
-       <li class="active">Frequently Asked Questions</li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/linalg/">Linear algebra</a></li>
+       <li class="active">Nonnormality quiz from Trefethen and Embree</li>
     </ol>
 
     <div class="page-header">
  
-        <h1>Frequently Asked Questions</h1>
+        <h1>Nonnormality quiz from Trefethen and Embree</h1>
+        <h2>Nick Trefethen, October 2010</h2>
+        <h3>#linearalgebra, #nonnormality, #pseudospectra, #NORM, #EXPM</h3>
     </div>
 
     <div class="row">
@@ -78,7 +81,49 @@ pageTracker._trackPageview();
  
         <div class="content">
             <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Here are some questions and answers.</p>
+                <p>The frontispiece of the book Spectra and Pseudospectra presents a quiz involving two matrices:</p>
+<pre class="mcode-input">format compact, format long
+A1 = [-1 1; 0 -1],  A2 = [-1 5; 0 -2]</pre>
+
+<pre class="mcode-output">A1 =
+    -1     1
+     0    -1
+A2 =
+    -1     5
+     0    -2
+</pre>
+
+<p>The quiz is about the behavior of solutions to the differential equation $u' = Au$, where $A$ is one of these matrices. The solution of this equation is $u(t) = \exp(tA)u(0)$, where $\exp(tA)$ is the exponential of the matrix $tA$, computed in Matlab by the command <code>expm</code>.  The maximum possible value of the quotient <code>norm(u(t))/norm(u(0))</code> is equal to the matrix norm of <code>expm(tA)</code>.</p>
+<p>We first present the plot, then explain what it means and how we computed it with Chebfun.</p>
+<pre class="mcode-input">e1 = chebfun(@(t) norm(expm(t*A1)),[0 3.4],'vectorize');
+e2 = chebfun(@(t) norm(expm(t*A2)),[0 3.4],'vectorize');
+LW = 'linewidth'; FS = 'fontsize';
+plot(e1,'b',e2,'r',LW,2)
+ylim([0 1.5]), grid on, legend('A1','A2')
+xlabel('t',FS,14)
+ylabel('||e^{tA}||',FS,14)
+title('Which curve is which?',FS,16)</pre>
+
+<p><img src="img/NonnormalQuiz_01.png" alt=""> The plot shows two curves, one with a hump and one without. The book asks, "Which curve is which?", and doesn't reveal the answer, but here you can see that <code>A2</code> is the matrix with the hump.  This is surprising to some people, for one might expect the hump to correspond to <code>A1</code> since it is nondiagonalizable.  In fact, the nondiagonalizability of <code>A1</code> is less important than the large entry 5 in the upper-right corner of <code>A2</code>.</p>
+<p>This is a natural problem for Chebfun because Chebfun is good at working with functions that don't have representations by explicit formulas.  Here the function we are concerned with is <code>norm(expm(tA))</code>, a function of time <code>t</code>.  Chebfun is happy to sample that function at various values of t and construct a corresponding chebfun.  Since <code>norm(expm(tA))</code> will not work when <code>t</code> is a vector, the <code>'vectorize'</code> flag is included to avoid a warning message.</p>
+<p>Once we have the chebfuns, we can do things with them. For example, here are the maximum values of the two curves and the locations where they occur:</p>
+<pre class="mcode-input">[maxnorm1, maxt1] = max(e1)
+[maxnorm2, maxt2] = max(e2)</pre>
+
+<pre class="mcode-output">maxnorm1 =
+     1
+maxt1 =
+     0
+maxnorm2 =
+   1.383621941609019
+maxt2 =
+   0.564256565401306
+</pre>
+
+<h3 id="references">References</h3>
+<ul>
+<li>L. N. Trefethen and M. Embree, Spectra and Pseudospectra: <em>The Behavior of   Nonnormal Matrices and Operators</em>, Princeton U. Press, 2005.</li>
+</ul>
             </div>
         </div>
 

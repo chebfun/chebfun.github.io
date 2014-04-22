@@ -70,7 +70,7 @@ def get_components(path, hasext=True):
     return components
 
 # def make_id(components):
-#     return ('/' + '/'.join(components)).lower()
+#     return ('/' + '/'.join(components))
 
 def make_clean(dir):
     for fn in os.listdir(dir):
@@ -98,7 +98,7 @@ class Project(object):
         self.layouts = []
 
     def make_id(self, components):
-        return ('/' + '/'.join(components)).lower()
+        return ('/' + '/'.join(components))
 
     def get_config(self):
         """Get the config data from the yaml config file."""
@@ -144,7 +144,7 @@ class Project(object):
 
     def add_reflink(self, id, info):
         """Add a valid reflink to the site reflinks."""
-        id = id.lower()
+        id = id
         if id in self.site['reflinks']:
             raise UrubuError(ambig_reflink_error.format(id))
         self.site['reflinks'][id] = info
@@ -246,7 +246,7 @@ class Project(object):
     def resolve_ref(self, ref, info):
         """Resolve a reference."""
         reflinks = self.site['reflinks']
-        ref = ref.lower()
+        ref = ref
         path = os.path.normpath(os.path.join(info['fn'], ref))
         indexfn = info['fn'] + '/index'
         id = self.make_id(get_components(path, hasext=False))

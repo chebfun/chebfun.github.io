@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Approximations and Oscillation of Error &laquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <link href="/css/published.css" rel="stylesheet" media="screen">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Chebfun</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download.html">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop.html">Develop</a></li>
+            <li><a href="/citing.html">Citing</a></li>
+            <li><a href="/support.html">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/approx/">Approximation</a></li>
+       <li class="active">Approximations and Oscillation of Error</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Approximations and Oscillation of Error</h1>
+        <h2>Mohsin Javed, 22nd October 2013</h2>
+        <h3>#approximation, #bestapproximation, #l2approximation, #interpolation</h3>
+    </div>
+
+    <div class="row">
+
+ 
+        <div class="content">
+            <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">LW = 'linewidth'; lw = 2;
+MS = 'markersize';
+FS = 'fontsize'; fs = 12;</pre>
+
+<h3 id="introduction">Introduction</h3>
+<p>Let us approximate a continuous function $f$ defined on $[-1,1]$ in three different ways.</p>
+<pre class="mcode-input">f = chebfun( @(x) exp(x) + .5*sin(2*pi*x), 10);
+plot(f, LW, lw),
+title( 'Function to be Approximated', FS, fs), hold on</pre>
+
+<p><img src="img/OscError_01.png" alt=""></p>
+<h3 id="best-approximation-in-infty-norm">Best Approximation in $\infty$-Norm</h3>
+<p>The existence and uniqueness of the the best mini-max approximation of $f$ in the space of polynomials of degree upto $n$ is well known. The best degree $n$ approximation is characterized by the equioscillation of the error at least $n+2$ times. The error consequently changes sign at least $n+1$ times [2]. Let us suppose we want to find the degree $n$ best approximation of this function. Chebfun's $\verb|remez|$ command can be used to find this polynomial:</p>
+<pre class="mcode-input">n = 4;
+p = remez(f, n)
+plot(p, 'r-.', LW, lw)
+title('Function and its Best Approximation', FS, fs), hold off</pre>
+
+<pre class="mcode-output">p = 
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]        5      0.81      2.3 
+Epslevel = 1.948362e-15.  Vscale = 2.279296e+00.
+</pre>
+
+<p><img src="img/OscError_02.png" alt=""></p>
+<pre class="mcode-input">clf, hold on
+h1 = plot(f - p, 'r', LW, lw);
+title('Approximation Error', FS, fs)
+maxError = norm(f-p, inf);
+plot( [-1, 1], [maxError maxError], 'k--', LW, 1.5)
+plot( [-1, 1], -[maxError maxError], 'k--', LW, 1.5)
+plot( [-1, 1], [0 0], 'k--', LW, 1.5)</pre>
+
+<p><img src="img/OscError_03.png" alt=""></p>
+<p>We can see that the error equioscillates $n+2$ times with $n+1$ sign changes.</p>
+<h3 id="best-weighted-l_2-approximation">Best Weighted $L_2$ Approximation</h3>
+<p>It is also interesting to note that the error curve of the best weighted $L_2$ approximation of a continuous function by a degree $n$ polynomial has the same oscillation property. The error curve is guaranteed to change sign at least $n+1$ times [1], however, in this case, the error curve does not generally equioscillate. For the same function, we now construct a degree $n$ approximation by Chebyshev polynomials. This can be done in Chebfun using the 'trunc' option, since best $L_2$ approximations are simply given by truncated Fourier series, (a Chebyshev-Fourier series in this case):</p>
+<pre class="mcode-input">fn = chebfun( @(x) f(x), 'trunc', n + 1)
+h2 = plot(f - fn, 'k', LW, lw);</pre>
+
+<pre class="mcode-output">fn = 
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]        5      0.61      2.5 
+Epslevel = 1.793441e-15.  Vscale = 2.476185e+00.
+</pre>
+
+<p><img src="img/OscError_04.png" alt=""></p>
+<h3 id="best-l_2-approximation">Best $L_2$ Approximation</h3>
+<p>We can also think of approximating the same function using Legendre polynomials. In this case, we can use Chebfun's $\verb|polyfit|$ command to generate the best $L_2$ approximating polynomial. This is just the truncated Fourier-Legendre series expansion of the function $f$. The error curve again behaves as expected:</p>
+<pre class="mcode-input">pLn = polyfit(f, n)
+h3 = plot(f - pLn, 'b', LW, lw);</pre>
+
+<pre class="mcode-output">pLn = 
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]        5      0.95      2.1 
+Epslevel = 2.081656e-15.  Vscale = 2.133346e+00.
+</pre>
+
+<p><img src="img/OscError_05.png" alt=""></p>
+<h3 id="interpolation">Interpolation</h3>
+<p>The degree $n$ interpolant of a function by definition hits the function normally at least $n+1$ times and hence the error curve again has at least $n+1$ sign changes.</p>
+<pre class="mcode-input">pn = chebfun( @(x) f(x), n + 1)
+h4 = plot( f - pn, 'g', LW, lw); hold off
+legend( [h1(:,1), h2(:,1), h3(:,1), h4(:,1)], ...
+    {'L_\infty-Best', 'L_2-Cheb', 'L_2-Legn', 'Interp'})</pre>
+
+<pre class="mcode-output">pn = 
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]        5      0.37      2.7 
+Epslevel = 1.633713e-15.  Vscale = 2.718282e+00.
+</pre>
+
+<p><img src="img/OscError_06.png" alt=""></p>
+<p>Notice that since Chebfun uses Chebyshev points of the second kind for interpolation, which include the end points $-1$ and $1$, the error curve will always have zeros at $-1$ and $1$.</p>
+<h3 id="references">References</h3>
+<p>[1] P. J. Davis, Interpolation and Approximation, Blaisdell Publishing Company, 1965.</p>
+<p>[2] L. N. Trefethen, Approximation Theory and Approximation Practice, SIAM, 2013.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+  </body>
+</html>

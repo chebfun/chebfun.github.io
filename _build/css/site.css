@@ -106,3 +106,27 @@ h3[id]:before{
 }
 
 
+
+
+
+
+
+/* Additions by Hrothgar, April 2014 */
+.gallery-item {
+  background-color: #efefef;
+}
+  .gallery-item .tags {
+    color: #aaa;
+  }
+  .gallery-item img {
+    max-width: 220px;
+    margin: 0;
+  }
+  .gallery-item.left img {
+    float: left;
+    margin-right: 20px;
+  }
+  .gallery-item.right img {
+    float: right;
+    margin-left: 20px;
+  }

@@ -29,7 +29,10 @@ from markdown_checklist.extension import ChecklistExtension
 # from urubu import UrubuWarning, UrubuError
 import md_extensions
 
+# Will look for templates in both _layouts/ and examples/
+# (NOT recursively into subdirectories!)
 layoutdir = "_layouts"
+examplesdir = "examples"
 
 def skip_yamlfm(f):
     """Return source of a file without yaml frontmatter."""
@@ -61,7 +64,7 @@ class ContentProcessor(object):
         self.md = markdown.Markdown(extensions=extensions,
                                     extension_configs=extension_configs)
         self.md.site = self.site
-        env = self.env = jinja2.Environment(loader=jinja2.FileSystemLoader(layoutdir),
+        env = self.env = jinja2.Environment(loader=jinja2.FileSystemLoader([layoutdir, examplesdir]),
                                             lstrip_blocks=True,
                                             trim_blocks=True
                                             )

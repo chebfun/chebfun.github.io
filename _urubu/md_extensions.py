@@ -88,7 +88,7 @@ class ProjectReferencePattern(ReferencePattern):
                 if shortref:
                     text = title
             else: # ignore undefined refs
-                warn(undef_ref_warning.format(ref, this['fn']), UrubuWarning)
+                # warn(undef_ref_warning.format(ref, this['fn']), UrubuWarning)
                 return None
 
         return self.makeTag(href, title, text)

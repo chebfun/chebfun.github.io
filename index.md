@@ -1,10 +1,14 @@
 ---
 title: Welcome!
-layout: mainpage
+layout: index
 content:
     - about
-    - install
+    - download
     - docs
+    - examples
+    - develop
+    - citing
+    - support
 tagline:
     Numerical computing with functions.
 ---
