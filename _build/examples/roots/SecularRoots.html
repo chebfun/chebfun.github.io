@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Roots of a secular equation with poles &laquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Chebfun</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/roots/">Rootfinding</a></li>
+       <li class="active">Roots of a secular equation with poles</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Roots of a secular equation with poles</h1>
+        <h2>Nick Trefethen, November 2010</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>Sometimes one needs to find the roots of a rational function expressed in partial fraction form, like this:</p>
+<p>r(x) = 1 + SUM_j=0^N  a_j/(b_j-x) .For example, a "secular equation" of this kind arises in numerical linear algebra as part of the divide and conquer algorithm for computing eigenvalues of symmetric matrices (see [1] and p. 231 of [2]). If the coefficients a_j are positive and the poles b_j are distinct, then r must switch from +inf to -inf as x passes through each pole, and it follows that r has exactly N-1 real zeros lying between the poles and also one more real zero lying to the right of all the poles.</p>
+<p>Here is an example with N=4:</p>
+<pre class="mcode-input">x = chebfun('x',[-5 10]);
+for j = 1:4
+  f = 1 + 1./(1-x) + 1./(2-x) + 1./(3-x) + 1./(4-x);
+end
+hold off, plot(f,'linewidth',2), grid on</pre>
+
+<p><img src="img/SecularRoots_01.png" alt=""></p>
+<p>Chebfun can compute the roots:</p>
+<pre class="mcode-input">format long, format compact
+r = roots(f)</pre>
+
+<pre class="mcode-output">r =
+   1.000000000000000
+   1.296089645312118
+   2.000000000000000
+   2.392275290272984
+   3.000000000000000
+   3.507748705363648
+   4.000000000000000
+   6.803886359051249
+</pre>
+
+<p>Notice that the result is 8 numbers, including the poles as well as the roots.  This is because Chebfun's convention is to regard a function as having a root at any point where it crosses between positive and negative values.  If we don't want roots of that kind, we can execute instead</p>
+<pre class="mcode-input">r = roots(f,'nojump')</pre>
+
+<pre class="mcode-output">r =
+   1.296089645312118
+   2.392275290272984
+   3.507748705363648
+   6.803886359051249
+</pre>
+
+<p>Let us add the roots to the plot.</p>
+<pre class="mcode-input">hold on, plot(r,f(r),'.r','markersize',24)</pre>
+
+<p><img src="img/SecularRoots_02.png" alt=""></p>
+<p>References:</p>
+<p>[1] J. J. M. Cuppen, A divide and conquer method for the symmetric tridiagonal eigenproblem, Numerische Mathematik 36 (1980/81), 177-195.</p>
+<p>[2] L. N. Trefethen and D. Bau, III, Numerical Linear Algebra, SIAM, 1997.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+
+  </body>
+</html>

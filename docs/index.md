@@ -3,7 +3,7 @@ title: Documentation
 layout: index
 content:
     - faq
-    - structure
+    - guide
 tagline:
     Chebfun documentation.
 ---

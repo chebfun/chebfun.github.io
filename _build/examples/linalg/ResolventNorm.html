@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Resolvent norm on the imaginary axis &laquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Chebfun</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/linalg/">Linear algebra</a></li>
+       <li class="active">Resolvent norm on the imaginary axis</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Resolvent norm on the imaginary axis</h1>
+        <h2>Nick Trefethen, May 2011</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>If A is a square matrix, the resolvent of A for a particular complex number z is the matrix inv(z*I-A).  The 2-norm of the resolvent is a quantity of interest in many applications.  For example, if norm(inv(zI-A)) = 1/eps for some quantity eps, then there is a matrix E with norm norm(E)=eps such that z is an eigenvalue of A+E.  This is the starting point of the theory of pseudospectra [1].</p>
+<p>In particular, suppose all the eigenvalues of A are in the left half of the complex plane, so that A is stable in the sense that all solutions of the differential equation du/dt = Au decay to zero as t -&gt; infinity.  How small a perturbation matrix E might make A unstable? The answer is norm(E)=eps, where 1/eps is the maximum of norm(inv(zI-A)) as z ranges over the imaginary axis.  Therefore in a number of fields such as control theory, there is special interest in the values taken by the norm of the resolvent on the imaginary axis.</p>
+<p>Let's compute this function with Chebfun.  As an example we take the matrix</p>
+<pre class="mcode-input">A = [-1 3 5 2; -3 -2 4 6; -5 -4 -2 1; -2 -6 -1 3]</pre>
+
+<pre class="mcode-output">A =
+    -1     3     5     2
+    -3    -2     4     6
+    -5    -4    -2     1
+    -2    -6    -1     3
+</pre>
+
+<p>A has two pairs of eigenvalues near the imaginary axis:</p>
+<pre class="mcode-input">format short, format compact
+eig(A)</pre>
+
+<pre class="mcode-output">ans =
+  -0.7688 + 8.9660i
+  -0.7688 - 8.9660i
+  -0.2312 + 1.5019i
+  -0.2312 - 1.5019i
+</pre>
+
+<p>Suppose z=x+iy.  It takes Chebfun a fraction of a second to compute a chebfun representing norm(inv(zI-A)) as a function of y, with x=0.  Here is that calculation and a plot of the result:</p>
+<pre class="mcode-input">I = eye(size(A));
+nr = @(y) 1/min(svd(1i*y*I-A));
+f = chebfun(nr,[-25,25],'vectorize');
+LW = 'linewidth';
+plot(f,LW,1.6), grid on</pre>
+
+<p><img src="img/ResolventNorm_01.png" alt=""></p>
+<p>The maximum of f is this,</p>
+<pre class="mcode-input">format long
+maxf = max(f)</pre>
+
+<pre class="mcode-output">maxf =
+   6.227545522966339
+</pre>
+
+<p>and the distance to instability is the reciprocal of this quantity,</p>
+<pre class="mcode-input">dist_sing = 1/maxf</pre>
+
+<pre class="mcode-output">dist_sing =
+   0.160576907276251
+</pre>
+
+<p>Let us consider another example matrix, and this time, let's make an anonymous function to construct the chebfun.</p>
+<pre class="mcode-input">normfun = @(A) chebfun(@(y) 1/min(svd(1i*y*eye(size(A))-A)),...
+   1.5*norm(A)*[-1,1],'vectorize');</pre>
+
+<p>Here is a 5x5 which we take to be complex, to break the symmetry:</p>
+<pre class="mcode-input">B =  [ -3-2i   1+1i    -1i      0   -1+1i
+           0  -2-3i    -1i     1i   -2-1i
+          1i      0  -2-4i  -2-1i    2-1i
+           0      1     1i  -2-4i      1i
+        1-2i      0      1      1   -2-3i ];
+format short, eig(B)</pre>
+
+<pre class="mcode-output">ans =
+  -5.3054 - 3.2003i
+  -0.6662 - 0.8209i
+  -0.3296 - 4.5158i
+  -2.9797 - 3.2972i
+  -1.7191 - 4.1659i
+</pre>
+
+<p>And here is its resolvent norm plot:</p>
+<pre class="mcode-input">fB = normfun(B);
+plot(fB,LW,1.6), grid on
+title(['maximum = ' num2str(max(fB))]);</pre>
+
+<p><img src="img/ResolventNorm_02.png" alt=""></p>
+<p>Here are 12 random 6x6 complex matrices, all with rightmost eigenvalue having real part -0.25:</p>
+<pre class="mcode-input">randn('seed',1)
+for j = 1:12
+    N = 6;
+    A = randn(N) + 1i*randn(N) + 2i*diag(randn(N,1));
+    abscissa = max(real(eig(A)));
+    A = A - (abscissa+0.25)*eye(N);
+    subplot(4,3,j)
+    plot(normfun(A),LW,1)
+    axis([-10 10 0 8]), drawnow
+end</pre>
+
+<p><img src="img/ResolventNorm_03.png" alt=""></p>
+<p>References:</p>
+<p>[1] L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of Nonnormal Matrices and Operators, Princeton U. Press, 2005.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+
+  </body>
+</html>

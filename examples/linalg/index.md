@@ -1,6 +1,6 @@
 ---
 title: Linear algebra
-layout: index
+layout: examples-category-index
 order: title
 ---
 

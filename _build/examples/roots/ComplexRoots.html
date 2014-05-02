@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Roots of a complex function via Cauchy integrals &laquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Chebfun</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/roots/">Rootfinding</a></li>
+       <li class="active">Roots of a complex function via Cauchy integrals</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Roots of a complex function via Cauchy integrals</h1>
+        <h2>Nick Trefethen, September 2011</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>Poles and zeros of complex functions can be located by the evaluation of contour integrals, as mentioned in Chapter 5 of the Chebfun Guide.  For example, suppose we have a function like this one with a single root s1 in the unit disk:</p>
+<pre class="mcode-input">ff = @(z) (z-0.5i).*exp(z);</pre>
+
+<p>We can find the root as the value of a contour integral around the unit circle:</p>
+<p>s = (1/2i*pi) INT z (f'(z)/f(z)) dzSince Chebfun works with real independent variables, we parametrize the unit circle by a real variable $t$ on $[-1,1]$:</p>
+<pre class="mcode-input">z = chebfun('exp(1i*pi*t)');</pre>
+
+<p>which gives us</p>
+<p>s1 = (1/2i<em>pi) INT z ( (df/dt)(dt/dz) / f ) (dz/dt) dt<pre class="mcode">    = (1/2i</em>pi) INT z ( (df/dt) / f ) dt</pre>So here is the Chebfun evaluation:</p>
+<pre class="mcode-input">f = ff(z);
+s1 = sum(z.*diff(f)./f)/(2i*pi)</pre>
+
+<pre class="mcode-output">s1 =
+  0.000000000000002 + 0.499999999999999i
+</pre>
+
+<p>There is nothing in this computation that depends on the use of the unit disk.  Other contours are equally tracatable in Chebfun, as illustrated in the Example complex/KeyholeContour and in Chapter 5 of the Chebfun Guide.</p>
+<p>This method of finding a single root goes back at least to McCune in 1966 [4].  In practice we would often want to be able to find multiple roots, and a generalized algorithm for this case was published by Delves and Lyness in 1967 [2], with mathematical origins as far back as Jackson in 1917 [3].  For a discussion of all kinds of related algorithms, see [1].  The idea here is that if f has more than one root in the unit disk, then the value s above comes out as the sum of all these roots.  Similarly</p>
+<p>s2 = (1/2i*pi) INT z^2 (f'(z)/f(z)) dzis the sum of the squares of the roots, the analogous formula for s3 with a factor $z^3$ gives the sum of the cubes, and so on.  And a count of the number of roots is given by</p>
+<p>s0 = (1/2i<em>pi) INT (f'(z)/f(z)) dz(this is basically the argument principle).  So for example we can count the number of roots of cosh(pi</em>z) in the unit disk like this:</p>
+<pre class="mcode-input">ff = @(z) cosh(pi*z);
+f = ff(z);
+s0 = sum(diff(f)./f)/(2i*pi)</pre>
+
+<pre class="mcode-output">s0 =
+  2.000000000000000 + 0.000000000000000i
+</pre>
+
+<p>Here are the sum of the roots and the sum of their squares:</p>
+<pre class="mcode-input">s1 = sum(z.*diff(f)./f)/(2i*pi)
+s2 = sum(z.^2.*diff(f)./f)/(2i*pi)</pre>
+
+<pre class="mcode-output">s1 =
+     -1.555010862042088e-15 + 1.013138012226223e-16i
+s2 =
+ -0.500000000000001 - 0.000000000000000i
+</pre>
+
+<p>corresponding to roots at +- 0.5i.  We can find these numbers systematically by noting that the monic polynomial p(z) with these roots has coefficients c0=(s1^2-s2)/2, c1=-s1, c2=1. So here is a calculation of the two roots in the unit disk of cosh(pi*z):</p>
+<pre class="mcode-input">p = [1 -s1 (s1^2-s2)/2];
+roots(p)</pre>
+
+<pre class="mcode-output">ans =
+ -0.000000000000001 + 0.500000000000000i
+ -0.000000000000001 - 0.500000000000000i
+</pre>
+
+<p>Generalization to higher numbers of roots can be done via Newton's identities.  We don't pursue the general case here but instead write a code that finds three roots of an analytic function in the unit disk:</p>
+<pre class="mcode-input">function r = roots3(ff)    % find 3 roots of ff in unit disk
+z = chebfun('exp(1i*pi*t)');
+f = ff(z);
+s0 = sum(diff(f)./f)/(2i*pi);
+s1 = sum(z.*diff(f)./f)/(2i*pi);
+s2 = sum(z.^2.*diff(f)./f)/(2i*pi);
+s3 = sum(z.^3.*diff(f)./f)/(2i*pi);
+p = [1 -s1 (s1^2-s2)/2 -(s1^3-3*s1*s2+2*s3)/6];
+r = roots(p);
+end</pre>
+
+<p>Here is an example:</p>
+<pre class="mcode-input">ff = @(z) cosh(exp(z)).*(z-.3).*(1+4*z.^2);
+roots3(ff)</pre>
+
+<pre class="mcode-output">ans =
+ -0.000000000000014 - 0.499999999999992i
+ -0.000000000000015 + 0.499999999999992i
+  0.300000000000149 + 0.000000000000000i
+</pre>
+
+<p>Here is another:</p>
+<pre class="mcode-input">ff = @(z) (z.^3-1/8).*exp((-1-2i)*z);
+roots3(ff)</pre>
+
+<pre class="mcode-output">ans =
+ -0.249999999999997 - 0.433012701892223i
+ -0.249999999999997 + 0.433012701892213i
+  0.499999999999995 + 0.000000000000001i
+</pre>
+
+<pre class="mcode-input">end</pre>
+
+<p>References</p>
+<p>[1] A. P. Austin, P. Kravanja and L. N. Trefethen, Numerical algorithms based on analytic function values at roots of unity, SIAM Journal on Numerical Analysis, to appear.</p>
+<p>[2] L. M. Delves and J. N. Lyness, A numerical method for lcoating the zeros of an analytic function, Mathematics of Computation 21 (1967), 543-560.</p>
+<p>[3] D. Jackson, Roots and singular points of analytic functions, Annals of Matheamtics 19 (1917), 142-151.</p>
+<p>[4] J. E. McCune, Exact inversion of dispersion relations, Physics of Fluids 9 (1966), 2082-2084.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+
+  </body>
+</html>

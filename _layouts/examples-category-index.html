@@ -1,0 +1,24 @@
+{% extends "_base.html" %}
+
+{% block body %}
+
+<div class="container">
+    <div class="page-header">
+        {% block title %} 
+        <h1>{{this.title}} examples</h1>
+        {% endblock %}
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8" role="main">
+            <ol class='orangenumbers'>
+            {% for item in this.content %}
+                <h4><li><a href="{{item.url}}">{{item.title}}</a></li></h4>
+                <!-- <p>{{item.abstract}}</p> -->
+            {% endfor %}
+            </ol>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

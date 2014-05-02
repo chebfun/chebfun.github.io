@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phase Portraits for Functions with Poles &laquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Chebfun</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/complex/">Complex variables</a></li>
+       <li class="active">Phase Portraits for Functions with Poles</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Phase Portraits for Functions with Poles</h1>
+        <h2>Nick Trefethen, 4th March 2013</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+ 
+            <div id="sidebar" class="sidebar">
+                <div class="">
+                    <!- <a href="#"><strong>Phase Portraits for Functions with Poles</strong></a> ->
+                    <div class="toc">
+<ul>
+<li><a href="#phase-portraits-for-analytic-functions">Phase portraits for analytic functions</a></li>
+<li><a href="#phase-portraits-for-functions-with-poles">Phase portraits for functions with poles</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+                    <hr/>
+                </div>
+            </div>
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <h3 id="phase-portraits-for-analytic-functions">Phase portraits for analytic functions</h3>
+<p>Here is a phase portrait [1] of the function $f(z) = z^2(z^3-1) $ on the square $[-1.5,1.5,-1.5,1.5]$:</p>
+<pre class="mcode-input">ff = @(z) z.^2.*(z.^3-1);
+d = 1.5*[-1 1 -1 1];
+f = chebfun2(ff,d);
+plot(f), axis(d), axis square on</pre>
+
+<p><img src="img/PortraitsWithPoles_01.png" alt=""></p>
+<h3 id="phase-portraits-for-functions-with-poles">Phase portraits for functions with poles</h3>
+<p>Now suppose the zeros of $f$ at the origin were poles instead of zeros. Then Chebfun2 couldn't represent $f$, so we couldn't do a phase portrait directly. However, for a phase portrait, all that matters is the phase!  So we should be able to replace $f$ by another function with the same phase but smooth modulus, like $f/(1+|f|^2)$. I've implemented this with a function called "smash" (picking a name reminiscent of a command in TeX).</p>
+<pre class="mcode-input">function g = smash(f)
+  absf = abs(f);
+  g = f./(1+absf.^2);      % smooth function with same phase as f
+  g(isnan(g)) = 0;         % give 0 rather than NaN at poles
+end</pre>
+
+<p>It works!  Notice that in the middle, yellow is clockwise of red rather than counterclockwise, indicating poles rather than zeros.</p>
+<pre class="mcode-input">ff = @(z) z.^(-2).*(z.^3-1);
+g = chebfun2(@(z) smash(ff(z)),d);
+plot(g), axis(d), axis square on</pre>
+
+<p><img src="img/PortraitsWithPoles_02.png" alt=""></p>
+<p>For another example, here is $\tan((3+3i)z)$.  Compare Figure 3.20 of [1].</p>
+<pre class="mcode-input">hh = @(z) tan((3+3i)*z);
+h = chebfun2(@(z) smash(hh(z)),d);
+plot(h), axis(d), axis square on</pre>
+
+<p><img src="img/PortraitsWithPoles_03.png" alt=""></p>
+<p>These experiments are promising.  In fact, I am not sure how robust the technique is; some careful exploration may be needed, and one might want to loosen the Chebfun2 convergence criterion, since the aim here is only to draw a plot in any case.  Also, the "smash" process as I've defined it isn't scale-invariant; instead of 1 in the denominator, there should be a number representing a typical magnitude of $f$.</p>
+<p>Perhaps it is worth emphasizing that although it is appealing to be able to use Chebfun2 to draw phase portraits for a wider range of functions than one might have imagined, ultimately there is no good reason for the phase portraitist to use Chebfun2.  A phase portrait is just a pixel-by-pixel image; it gets no benefit from the global high-accuracy representations of Chebfun2.</p>
+<h3 id="references">References</h3>
+<p>[1] E. Wegert, Visual Complex Functions: An Introduction with Phase Portraits, Birkhauser/Springer, Basel, 2012.</p>
+<pre class="mcode-input">end</pre>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+
+  </body>
+</html>

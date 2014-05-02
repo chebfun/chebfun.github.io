@@ -3,7 +3,7 @@
 {% block body %}
 
     {% block jumbotron %}
-    <div class="jumbotron">
+<!--     <div class="jumbotron">
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
@@ -12,9 +12,14 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     {% endblock %}
 <div class="container">
+    <div class="page-header">
+        {% block title %} 
+        <h1>{{this.title}}</h1>
+        {% endblock %}
+    </div>
     <div class="row">
         <div class="col-md-4" role="main">
             {% for item in this.content %}

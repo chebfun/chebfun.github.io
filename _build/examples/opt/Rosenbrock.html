@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Rosenbrock function in 2D optimisation &laquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Chebfun</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/opt/">Optimization</a></li>
+       <li class="active">The Rosenbrock function in 2D optimisation</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>The Rosenbrock function in 2D optimisation</h1>
+        <h2>Nick Trefethen, October 2010</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+ 
+            <div id="sidebar" class="sidebar">
+                <div class="">
+                    <!- <a href="#"><strong>The Rosenbrock function in 2D optimisation</strong></a> ->
+                    <div class="toc">
+<ul>
+<li><a href="#1-the-rosenbrock-function">1. The Rosenbrock function</a></li>
+<li><a href="#2-a-function-with-several-local-minima">2. A function with several local minima</a></li>
+</ul>
+</div>
+
+                    <hr/>
+                </div>
+            </div>
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <h3 id="1-the-rosenbrock-function">1. The Rosenbrock function</h3>
+<p>Chebfun can often do quite a good job of minimizing or maximizing a function defined on a 2D rectangle. Since the introduction of Chebfun2 in 2013, this would normally done with Chebfun2, but this example, originally written in 2010, uses 1D Chebfun to do the job. The "Rosenbrock revisited" Example treats the same problem more properly, and more efficiently, with Chebfun2 [3].</p>
+<p>The example we consider is the famous and challenging "Rosenbrock function":</p>
+<pre class="mcode-input">f = @(x,y) (1-x).^2 + 100*(y-x.^2).^2;</pre>
+
+<p>First let's plot it to get an idea:</p>
+<pre class="mcode-input">x = linspace(-1.5,1.5); y = linspace(-1,3);
+[xx,yy] = meshgrid(x,y); ff = f(xx,yy);
+levels = 10:10:300;
+LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
+figure, contour(x,y,ff,levels,LW,1.2), colorbar
+axis([-1.5 1.5 -1 3]), axis square, hold on
+title('Rosenbrock function f(x,y)',FS,14)</pre>
+
+<p><img src="img/Rosenbrock_01.png" alt=""></p>
+<p>It's obvious from the formula that the minimum value is 0, taken at x=y=1.  In 1D Chebfun, we can find this by taking slices.  If x0 is a constant, then the minimum of f(x0,y) over all y can be obtained like this:</p>
+<pre class="mcode-input">fminx0 = @(x0) min(chebfun(@(y) f(x0,y),[-1 3]));</pre>
+
+<p>Now we can make a chebfun representing fminx as a function of x:</p>
+<pre class="mcode-input">fminx = chebfun(fminx0,[-1.5 1.5],'vectorize','splitting','on');
+figure, plot(fminx,LW,1.6)
+xlabel('x',FS,14), ylabel('min_y(f(x,y))',FS,14)
+title('minimum of f(x,y) along vertical slices',FS,14)</pre>
+
+<p><img src="img/Rosenbrock_02.png" alt=""></p>
+<p>The global minimum of f(x,y) is the minimum of fminx:</p>
+<pre class="mcode-input">format long
+[minf,minx] = min(fminx)</pre>
+
+<pre class="mcode-output">minf =
+    -3.996802888650564e-15
+minx =
+   0.999999999999607
+</pre>
+
+<p>The variable minx represents the x coordinate of the minimum. We can find the y coordinate like this:</p>
+<pre class="mcode-input">[minf,miny] = min(chebfun(@(y) f(minx,y), [-1 3]))</pre>
+
+<pre class="mcode-output">minf =
+     0
+miny =
+   0.999999999999215
+</pre>
+
+<p>Let's show the contour plot again, with the minimum point:</p>
+<pre class="mcode-input">close, plot(minx,miny,'.k',MS,20)</pre>
+
+<p><img src="img/Rosenbrock_03.png" alt=""></p>
+<h3 id="2-a-function-with-several-local-minima">2. A function with several local minima</h3>
+<p>Why did we put 'splitting on' in this computation?  It wasn't actually necessary in this case, but it would be necessary for more general functions f(x,y) having several local extrema, because then the function fminx might not be smooth.</p>
+<p>For example, consider this function defined on the square [-1,1]x[-1,1]:</p>
+<pre class="mcode-input">f = @(x,y) exp(x-2*x.^2-y.^2).*sin(6*(x+y+x.*y.^2));
+x = linspace(-1,1); y = linspace(-1,1);
+[xx,yy] = meshgrid(x,y); ff = f(xx,yy);
+figure, contour(x,y,ff,30,LW,1.2), colorbar
+axis([-1 1 -1 1]), axis square, hold on
+title('f(x,y)',FS,14)</pre>
+
+<p><img src="img/Rosenbrock_04.png" alt=""></p>
+<p>We define fminx0 and fminx as before.  Because of the lack of smoothness and the consequent need for edge detection, this computation takes a little while:</p>
+<pre class="mcode-input">tic
+fminx0 = @(x0) min(chebfun(@(y) f(x0,y),[-1 1]));
+fminx = chebfun(fminx0,[-1 1],'vectorize','splitting','on');
+figure, plot(fminx,LW,1.6)
+xlabel('x',FS,14), ylabel('min_y(f(x,y))',FS,14)
+title('minimum of f(x,y) along vertical slices',FS,14)
+toc</pre>
+
+<pre class="mcode-output">Elapsed time is 14.652730 seconds.
+</pre>
+
+<p><img src="img/Rosenbrock_05.png" alt=""></p>
+<p>Here are the breakpoints that Chebfun has introduced:</p>
+<pre class="mcode-input">fminx.ends</pre>
+
+<pre class="mcode-output">ans =
+  Columns 1 through 3
+  -1.000000000000000  -0.635872022371398   0.210237104254783
+  Column 4
+   1.000000000000000
+</pre>
+
+<p>We can now quickly compute the global minimum as before:</p>
+<pre class="mcode-input">[minf,minx] = min(fminx)
+[minf,miny] = min(chebfun(@(y) f(minx,y), [-1 3]))</pre>
+
+<pre class="mcode-output">minf =
+  -0.969232500643148
+minx =
+   0.395759627601429
+minf =
+  -0.969232500643148
+miny =
+   0.331573987886847
+</pre>
+
+<p>And here's the plot:</p>
+<pre class="mcode-input">close, plot(minx,miny,'.k',MS,20)</pre>
+
+<p><img src="img/Rosenbrock_06.png" alt=""></p>
+<p>Reference:</p>
+<p>[1] H. H. Rosenbrock, "An automatic method for finding the greatest or least value of a function", Computer Journal 3 (1960), 175-184.</p>
+<p>[2] S. Scheuring, Global Optimization in the Chebfun System, thesis, MSc in Mathematical Modelling and Scientific Computing, Oxford University, 2008.</p>
+<p>[3] <a href="http://www.chebfun.org/examples/opt/html/Rosenbrock2.shtml">http://www.chebfun.org/examples/opt/html/Rosenbrock2.shtml</a></p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+
+  </body>
+</html>

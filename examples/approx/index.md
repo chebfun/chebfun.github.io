@@ -1,6 +1,6 @@
 ---
 title: Approximation
-layout: index
+layout: examples-category-index
 order: title
 ---
 

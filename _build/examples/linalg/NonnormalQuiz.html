@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/css/site.css" rel="stylesheet" media="screen">
-    <link href="/css/syntax.css" rel="stylesheet" media="screen">
-    <link href="/css/published.css" rel="stylesheet" media="screen">
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,7 +32,7 @@ pageTracker._trackPageview();
   <body>
 
     <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -47,12 +48,12 @@ pageTracker._trackPageview();
 
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/about/">About</a></li>
-            <li><a href="/download.html">Download</a></li>
+            <li><a href="/download/">Download</a></li>
             <li><a href="/docs/">Documentation</a></li>
             <li class="active"><a href="/examples/">Examples</a></li>
-            <li><a href="/develop.html">Develop</a></li>
-            <li><a href="/citing.html">Citing</a></li>
-            <li><a href="/support.html">Support</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
           </ul>
 
         </div><!--/.nav-collapse -->
@@ -73,14 +74,17 @@ pageTracker._trackPageview();
  
         <h1>Nonnormality quiz from Trefethen and Embree</h1>
         <h2>Nick Trefethen, October 2010</h2>
-        <h3>#linearalgebra, #nonnormality, #pseudospectra, #NORM, #EXPM</h3>
     </div>
 
     <div class="row">
 
- 
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
         <div class="content">
-            <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>The frontispiece of the book Spectra and Pseudospectra presents a quiz involving two matrices:</p>
 <pre class="mcode-input">format compact, format long
 A1 = [-1 1; 0 -1],  A2 = [-1 5; 0 -2]</pre>
@@ -93,7 +97,7 @@ A2 =
      0    -2
 </pre>
 
-<p>The quiz is about the behavior of solutions to the differential equation $u' = Au$, where $A$ is one of these matrices. The solution of this equation is $u(t) = \exp(tA)u(0)$, where $\exp(tA)$ is the exponential of the matrix $tA$, computed in Matlab by the command <code>expm</code>.  The maximum possible value of the quotient <code>norm(u(t))/norm(u(0))</code> is equal to the matrix norm of <code>expm(tA)</code>.</p>
+<p>The quiz is about the behavior of solutions to the differential equation u' = Au, where A is one of these matrices. The solution of this equation is u(t) = exp(tA)u(0), where exp(tA) is the exponential of the matrix tA, computed in Matlab by the command EXPM.  The maximum possible value of the quotient norm(u(t))/norm(u(0)) is equal to the matrix norm of expm(tA).</p>
 <p>We first present the plot, then explain what it means and how we computed it with Chebfun.</p>
 <pre class="mcode-input">e1 = chebfun(@(t) norm(expm(t*A1)),[0 3.4],'vectorize');
 e2 = chebfun(@(t) norm(expm(t*A2)),[0 3.4],'vectorize');
@@ -104,8 +108,9 @@ xlabel('t',FS,14)
 ylabel('||e^{tA}||',FS,14)
 title('Which curve is which?',FS,16)</pre>
 
-<p><img src="img/NonnormalQuiz_01.png" alt=""> The plot shows two curves, one with a hump and one without. The book asks, "Which curve is which?", and doesn't reveal the answer, but here you can see that <code>A2</code> is the matrix with the hump.  This is surprising to some people, for one might expect the hump to correspond to <code>A1</code> since it is nondiagonalizable.  In fact, the nondiagonalizability of <code>A1</code> is less important than the large entry 5 in the upper-right corner of <code>A2</code>.</p>
-<p>This is a natural problem for Chebfun because Chebfun is good at working with functions that don't have representations by explicit formulas.  Here the function we are concerned with is <code>norm(expm(tA))</code>, a function of time <code>t</code>.  Chebfun is happy to sample that function at various values of t and construct a corresponding chebfun.  Since <code>norm(expm(tA))</code> will not work when <code>t</code> is a vector, the <code>'vectorize'</code> flag is included to avoid a warning message.</p>
+<p><img src="img/NonnormalQuiz_01.png" alt=""></p>
+<p>The plot shows two curves, one with a hump and one without. The book asks, "Which curve is which?", and doesn't reveal the answer, but here you can see that A2 is the matrix with the hump.  This is surprising to some people, for one might expect the hump to correspond to A1 since it is nondiagonalizable.  In fact, the nondiagonalizability of A1 is less important than the large entry 5 in the upper-right corner of A2.</p>
+<p>This is a natural problem for Chebfun because Chebfun is good at working with functions that don't have representations by explicit formulas.  Here the function we are concerned with is norm(expm(tA)), a function of time t.  Chebfun is happy to sample that function at various values of t and construct a corresponding chebfun.  Since norm(expm(tA)) will not work when t is a vector, the 'vectorize' flag is included to avoid a warning message.</p>
 <p>Once we have the chebfuns, we can do things with them. For example, here are the maximum values of the two curves and the locations where they occur:</p>
 <pre class="mcode-input">[maxnorm1, maxt1] = max(e1)
 [maxnorm2, maxt2] = max(e2)</pre>
@@ -117,13 +122,11 @@ maxt1 =
 maxnorm2 =
    1.383621941609019
 maxt2 =
-   0.564256565401306
+   0.564256565401305
 </pre>
 
-<h3 id="references">References</h3>
-<ul>
-<li>L. N. Trefethen and M. Embree, Spectra and Pseudospectra: <em>The Behavior of   Nonnormal Matrices and Operators</em>, Princeton U. Press, 2005.</li>
-</ul>
+<p>Reference:</p>
+<p>L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of Nonnormal Matrices and Operators, Princeton U. Press, 2005.</p>
             </div>
         </div>
 
@@ -145,6 +148,8 @@ maxt2 =
     <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
+
   </body>
 </html>

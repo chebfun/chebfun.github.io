@@ -49,8 +49,8 @@ body {
 /* toc */
 
 .sidebar {
-  font-size: 90%;
-  line-height: normal
+  /*font-size: 90%;
+  line-height: 120%;*/
 }
 
 .toc ul  {
@@ -77,56 +77,38 @@ h3[id]:before{
   margin-top:-70px;
 }
 
-/* affix hacks from boostrap 3.0 docs */
-.sidebar.affix {
-    position: static;
+ol.orangenumbers li {
+  color: #dd4814;
 }
-
-@media (min-width: 992px) {
-  /* Widen the fixed sidebar */
-  .sidebar.affix,
-  .sidebar.affix-bottom {
-    width: 213px;
-  } 
-  .sidebar.affix {
-    position: fixed; /* Undo the static from mobile first approach */
-    top: 80px;
-  }
-  .sidebar.affix-bottom {
-    position: absolute; /* Undo the static from mobile first approach */
-  }
-}
-
-@media (min-width: 1200px) {
-  /* Widen the fixed sidebar again */
-  .sidebar.affix,
-  .sidebar.affix-bottom {
-    width: 263px;
-  }
-}
-
-
-
-
-
-
 
 /* Additions by Hrothgar, April 2014 */
-.gallery-item {
-  background-color: #efefef;
+ul li { list-style-type: square; }
+#sidebar ul li { list-style-type: none; }
+#sidebar.affix {
+    position: fixed;
+    top: 75px;
 }
-  .gallery-item .tags {
-    color: #aaa;
-  }
+
+.gallery-item {
+}
+  .gallery-item h3 { font-size: 1.2em; }
+  .gallery-item h4 { font-size: 1.1em; }
+  .gallery-item .tags { color: #aaa; }
   .gallery-item img {
     max-width: 220px;
     margin: 0;
   }
+  .gallery-item.left { padding: 0 20px 0 0; }
   .gallery-item.left img {
     float: left;
     margin-right: 20px;
   }
+  .gallery-item.right { padding: 0 0 0 20px; }
   .gallery-item.right img {
     float: right;
     margin-left: 20px;
   }
+
+.mcode-error { color: #900; }
+.mcode-input { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+.mcode-output { padding:10px 11px; border:none; margin:0px 0px 20px; color:#666; font-style: italic; }

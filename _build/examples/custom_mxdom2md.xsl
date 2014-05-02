@@ -18,15 +18,17 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="html"
 indent="no"/>
 <!-- <xsl:strip-space elements="code"/> -->
-<xsl:template match="mscript">---<!-- <xsl:variable name="hasIntro" select="count(cell[@style = 'overview'])"/><xsl:if test = "$hasIntro">title: <xsl:apply-templates select="cell[1]/steptitle"/> -->
-title: <xsl:apply-templates select="cell[1]/steptitle"/>
+<xsl:template match="mscript">
+<xsl:variable name="exTitle" select="cell[1]/steptitle"/>
+<xsl:variable name="exAuthordate" select="cell[1]/text"/>
+<xsl:variable name="exMeta" select="cell[2]/text"/>---
+title: <xsl:value-of select="normalize-space($exTitle)"/>
 layout: example
-authordate: <xsl:apply-templates select="cell[2]/steptitle"/>
-example: <xsl:apply-templates select="cell[3]/steptitle"/>
-tags: "<xsl:apply-templates select="cell[4]/steptitle"/>"
+authordate: "<xsl:value-of select="normalize-space($exAuthordate)"/>"
+meta: "<xsl:value-of select="normalize-space($exMeta)"/>"
 ---
 
-<xsl:variable name="body-cells" select="cell[position()>4]"/>
+<xsl:variable name="body-cells" select="cell[position()>2]"/>
 
 <!-- Include contents if there are titles for any subsections. -->
 <xsl:if test="count(cell/steptitle[not(@style = 'document')])">
@@ -42,15 +44,17 @@ tags: "<xsl:apply-templates select="cell[4]/steptitle"/>"
 <xsl:variable name="headinglevel">
 <xsl:choose>
 <xsl:when test="steptitle[@style = 'document']">
+
 ## </xsl:when>
 <xsl:otherwise>
+
 ## </xsl:otherwise>
 </xsl:choose>
 </xsl:variable>
 
 <xsl:value-of select="$headinglevel"/>
 <xsl:apply-templates select="steptitle"/>
-<xsl:text>&#xA;</xsl:text><!-- line break! -->
+<xsl:text>&#xA;&#xA;</xsl:text><!-- line break! -->
 
 </xsl:if>
 
@@ -69,6 +73,9 @@ tags: "<xsl:apply-templates select="cell[4]/steptitle"/>"
 </xsl:if>
 
 </xsl:template>
+
+
+<xsl:template name="meta"><xsl:value-of select="normalize-space()"/></xsl:template>
 
 
 <xsl:template name="contents">
@@ -164,7 +171,7 @@ tags: "<xsl:apply-templates select="cell[4]/steptitle"/>"
 <xsl:template match="img">
 
 <img>
-<xsl:attribute name="src">img/<xsl:value-of select="@src"/></xsl:attribute>
+<xsl:attribute name="src"><xsl:value-of select="@src"/></xsl:attribute>
 <xsl:attribute name="alt"><xsl:value-of select="@alt"/></xsl:attribute>
 <xsl:text>
 
@@ -172,5 +179,6 @@ tags: "<xsl:apply-templates select="cell[4]/steptitle"/>"
 </img>
 </xsl:template>
 
+<!-- <xsl:template match="text()" /> -->
 
 </xsl:stylesheet>

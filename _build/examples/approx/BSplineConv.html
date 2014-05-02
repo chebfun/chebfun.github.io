@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>B-splines and convolution &laquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Chebfun</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/approx/">Approximation</a></li>
+       <li class="active">B-splines and convolution</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>B-splines and convolution</h1>
+        <h2>Nick Trefethen, 24th July 2012</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>Here is the characteristic function on the interval $[-1/2,1/2]$:</p>
+<pre class="mcode-input">x = chebfun('x',[-0.5 0.5]);
+B0 = 1+0*x;
+LW = 'linewidth'; lw = 1.6; ax = [-3 3 -.2 1.2];
+hold off, plot(B0,LW,lw), axis(ax), grid on
+pts = [-.5 .5];
+MS = 'markersize'; ms = 12;
+hold on, plot(pts,B0(pts,'left'),'.k',MS,ms)
+plot(pts,B0(pts,'right'),'.k',MS,ms)
+FS = 'fontsize'; fs = 12;
+title('B-spline of order 0',FS,fs)</pre>
+
+<p><img src="img/BSplineConv_01.png" alt=""></p>
+<p>If we convolve B0 with itself, we get a hat function:</p>
+<pre class="mcode-input">B1 = conv(B0,B0);
+hold off, plot(B1,LW,lw), axis(ax), grid on
+pts = [pts-.5 max(pts)+.5];
+hold on, plot(pts,B1(pts),'.k',MS,ms)
+title('B-spline of order 1',FS,fs)</pre>
+
+<p><img src="img/BSplineConv_02.png" alt=""></p>
+<p>Convolving this result with B0 gives us a $C^1$ function, piecewise parabolic:</p>
+<pre class="mcode-input">B2 = conv(B0,B1);
+hold off, plot(B2,LW,lw), axis(ax), grid on
+pts = [pts-.5 max(pts)+.5];
+hold on, plot(pts,B2(pts),'.k',MS,ms)
+title('B-spline of order 2',FS,fs)</pre>
+
+<p><img src="img/BSplineConv_03.png" alt=""></p>
+<p>As the titles of the plots indicate, these functions are known as B-splines.  In our notation the B-spline $B_n$ is a $C^{n-1}$ piecewise polynomial of degree $n$ with support $[-(n+1)/2,(n+1)/2]$ and breakpoints uniformly spaced with separation 1 this interval. The B-splines form a good basis for numerical computation with splines. Here is B3:</p>
+<pre class="mcode-input">B3 = conv(B0,B2);
+hold off, plot(B3,LW,lw), axis(ax), grid on
+pts = [pts-.5 max(pts)+.5];
+hold on, plot(pts,B3(pts),'.k',MS,ms)
+title('B-spline of order 3',FS,fs)</pre>
+
+<p><img src="img/BSplineConv_04.png" alt=""></p>
+<p>And here is B4:</p>
+<pre class="mcode-input">B4 = conv(B0,B3);
+hold off, plot(B4,LW,lw), axis(ax), grid on
+pts = [pts-.5 max(pts)+.5];
+hold on, plot(pts,B4(pts),'.k',MS,ms)
+title('B-spline of order 4',FS,fs)</pre>
+
+<p><img src="img/BSplineConv_05.png" alt=""></p>
+<p>B-splines were introduced by Schoenberg and became a standard method for numerical computation following the work of de Boor [1] and Cox [2] in 1972.  In general there is no need for the breakpoints to be uniformly spaced.  With uniformly spaced points as in our example, however, the shape approaches a Gaussian as $n\to\infty$.  One could derive this fact by noting that in Fourier space, each convolution is a multiplication by the Fourier transform of $B_0$, namely a sinc function.  This is the same computation that arises in the proof of the Central Limit Theorem, and in fact, the B-splines have a probabilistic interpretation: if $B_0$ represents a random variable with uniform distribution on the interval $[-1/2,1/2]$ then $B_1$ is the distribution for the sum of two independent samples from $B_0$, $B_2$ is the distribution for the sum of three samples from $B_0$, and so on.</p>
+<p>References:</p>
+<p>[1] C. de Boor, On calculating with B-splines, Journal of Approximation Theory 6 (1972), 50-62.</p>
+<p>[2] M. Cox, The numerical evaluation of B-splines, Journal of the Institute of Mathematics and its Applications 10 (1972), 134-149.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+
+  </body>
+</html>

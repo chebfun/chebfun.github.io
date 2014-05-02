@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome! &laquo; Chebfun</title>
+    <title>Chebfun: Numerical computing with functions &laquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/css/site.css" rel="stylesheet" media="screen">
-    <link href="/css/syntax.css" rel="stylesheet" media="screen">
-    <link href="/css/published.css" rel="stylesheet" media="screen">
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,7 +32,7 @@ pageTracker._trackPageview();
   <body>
 
     <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -47,12 +48,12 @@ pageTracker._trackPageview();
 
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/about/">About</a></li>
-            <li><a href="/download.html">Download</a></li>
+            <li><a href="/download/">Download</a></li>
             <li><a href="/docs/">Documentation</a></li>
             <li><a href="/examples/">Examples</a></li>
-            <li><a href="/develop.html">Develop</a></li>
-            <li><a href="/citing.html">Citing</a></li>
-            <li><a href="/support.html">Support</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
           </ul>
 
         </div><!--/.nav-collapse -->
@@ -60,61 +61,60 @@ pageTracker._trackPageview();
     </div>
 
 
-    <div class="jumbotron">
+<!--     <div class="jumbotron">
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h1>Welcome!</h1>
+                    <h1>Chebfun: Numerical computing with functions</h1>
                     <p></p>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 <div class="container">
+    <div class="page-header">
+ 
+        <h1>Chebfun: Numerical computing with functions</h1>
+    </div>
     <div class="row">
         <div class="col-md-4" role="main">
                 <h4><a href="/about/">About</a></h4>
                 <p></p>
-                <h4><a href="/download.html">Download</a></h4>
+                <h4><a href="/download/">Download</a></h4>
                 <p></p>
                 <h4><a href="/docs/">Documentation</a></h4>
                 <p></p>
                 <h4><a href="/examples/">Examples</a></h4>
                 <p></p>
-                <h4><a href="/develop.html">Develop</a></h4>
+                <h4><a href="/develop/">Develop</a></h4>
                 <p></p>
-                <h4><a href="/citing.html">Citing</a></h4>
+                <h4><a href="/citing/">Citing</a></h4>
                 <p></p>
-                <h4><a href="/support.html">Support</a></h4>
+                <h4><a href="/support/">Support</a></h4>
                 <p></p>
         </div>
         <div class="col-md-8" role="main">
-            <div class="row">
+            <h2 id="what-is-chebfun">What is Chebfun?</h2>
+<p>Chebfun is an open-source MATLAB package for computing with
+functions to 15-digit accuracy. Most Chebfun commands are
+overloads of familiar MATLAB commands &mdash; for example <code>sum(f)</code>
+computes an integral, <code>roots(f)</code> finds zeros, and <code>u = L\f</code> solves
+a differential equation.</p>
+<p>Click <a href="/about/" title="About">here</a> for more information.</p>
+<h2 id="a-simple-example">A simple example</h2>
+<p>The following code finds and plots all intersections of two complicated
+functions on the interval $[-1,1]$.</p>
+<pre class='lang-matlab prettyprint'>
+x = chebfun('x');
+f = tanh(4*sin(40*x)).*exp(-x).*(2 + sin(7*x)) / 16;
+g = sin(9*x).^3 / 4;
+rr = roots(f - g);
+plot([f g])
+plot(rr, f(rr), 'k.')
+</pre>
 
-    <div class="col-md-4">
-        <h4>For websites, not just blogs</h4>
-        <p>
-        Set up a website as logically related content. Content
-        ordering is flexible, not just by date.
-        </p>
-    </div>
-
-    <div class="col-md-4">
-        <h4>Focus on navigation</h4>
-        <p>
-        Easily set up a navbar, a table of contents sidebar,
-        breadcrumbs and pagers.
-        </p>
-    </div>
-
-    <div class="col-md-4">
-        <h4>Ready for Bootstrap</h4>
-        <p>
-        Urubu plays well with Bootstrap, the popular framework
-        for great looking websites.
-        </p>
-    </div>
-
+<div style='text-align:center'>
+<img src='figure_frontpagedemo.png' />
 </div>
         </div>
     </div>
@@ -126,6 +126,8 @@ pageTracker._trackPageview();
     <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
+
   </body>
 </html>

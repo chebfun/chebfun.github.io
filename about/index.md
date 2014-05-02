@@ -8,4 +8,13 @@ content:
 What is Chebfun?
 ====
 
-Chebfun is a collection of algorithms and an open-source software system in object-oriented MATLAB which extends familiar powerful methods of numerical computation involving numbers to continuous or piecewise-continuous functions. It also implements continuous analogues of linear algebra notions like the QR decomposition and the SVD, and solves ordinary differential equations. The mathematical basis of the system combines tools of Chebyshev expansions, fast Fourier transform, barycentric interpolation, recursive zerofinding, and automatic differentiation. For the mathematical foundations of Chebfun, see Approximation Theory and Approximation Practice.
+The mathematical basis of Chebfun is piecewise polynomial interpolation
+implemented with what we call "Chebyshev technology". The foundations are
+described, with Chebfun examples, in [Approximation Theory and Approximation
+Practice][atap]. Chebfun has extensive capabilities for dealing with linear
+and nonlinear differential and integral operators, and it also includes
+continuous analogues of linear algebra notions like QR and singular value
+decomposition. The [Chebfun2][chebfun2] extension works with functions of two
+variables defined on a rectangle in the x-y plane.  To get a sense of the
+breadth and power of Chebfun, a great place to start is by looking at our
+<Examples>.

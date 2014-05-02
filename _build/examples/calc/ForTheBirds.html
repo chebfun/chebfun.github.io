@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Optimizing a bird's flight path &laquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Chebfun</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/calc/">Calculus</a></li>
+       <li class="active">Optimizing a bird's flight path</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Optimizing a bird's flight path</h1>
+        <h2>Toby Driscoll, 1st November 2012</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+ 
+            <div id="sidebar" class="sidebar">
+                <div class="">
+                    <!- <a href="#"><strong>Optimizing a bird's flight path</strong></a> ->
+                    <div class="toc">
+<ul>
+<li><a href="#the-premise">The premise</a></li>
+<li><a href="#finding-the-optimal-path">Finding the optimal path</a></li>
+<li><a href="#exploring-the-assumptions">Exploring the assumptions</a></li>
+<li><a href="#function-function">Function function</a></li>
+</ul>
+</div>
+
+                    <hr/>
+                </div>
+            </div>
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">LW = 'LineWidth'; MS = 'MarkerSize'; format short
+close all</pre>
+
+<p>This discussion is based on problem 75 from section 3.7 of [1].</p>
+<h3 id="the-premise">The premise</h3>
+<p>Suppose a bird is on an island 5 km away from the shore of a large lake. She wants to return to her nest, which is another 13 km away along the shoreline. However, it's more difficult to fly over water than over land, so the path of least energy may not be the most direct one. Instead, she may be better off flying to a point that is x km along the shore line, then traveling the remaining 13-x km over land.</p>
+<pre class="mcode-input">island = [0,5];  nest = [13,0];    % coordinates of start/end
+landfall = [4,0];                  % example with x=4
+path = [island;landfall;nest];
+plot(path(:,1),path(:,2),LW,3)
+text(island(1),island(2),'island','ver','bot','hor','c')
+text(nest(1),nest(2),'nest','ver','bot','hor','l')
+hold on, plot([island(1);0],[island(2);0],'k--',LW,2)
+plot([0;landfall(1)],[0;landfall(2)],'r--',LW,2)
+axis([-2 15 -2 7]), axis equal
+text(-1,island(2)/2,'5'), text(2,-1,'x'), text(8,-1,'13-x')</pre>
+
+<p><img src="img/ForTheBirds_01.png" alt=""></p>
+<h3 id="finding-the-optimal-path">Finding the optimal path</h3>
+<p>We know that the landfall spot x is between 0 and 13, so we will define a chebfun for it over that range.</p>
+<pre class="mcode-input">x = chebfun('x',[0 13]);</pre>
+
+<p>As a function of the landfall point, the length of the path over water is</p>
+<pre class="mcode-input">water_length = sqrt(x.^2+25);</pre>
+
+<p>and over land, it's</p>
+<pre class="mcode-input">land_length = 13-x;</pre>
+
+<p>Let's say it takes 40% more energy per km to fly over water than over land. If we normalize so that the energy to fly over land is 1 energy unit per km, then the total energy is</p>
+<pre class="mcode-input">total_energy = 1*land_length + 1.4*water_length;</pre>
+
+<p>(If we had not chosen to normalize the energy, then the total energy would be proportional to this quantity, which is irrelevant to minimization.)</p>
+<pre class="mcode-input">clf, plot(total_energy,LW,2), grid on
+xlabel('landfall point x'), ylabel('total energy of flight')</pre>
+
+<p><img src="img/ForTheBirds_02.png" alt=""></p>
+<p>As you can see from the curve, there is a unique value of x that minimizes the total energy.</p>
+<pre class="mcode-input">[energy_optimal,x_optimal] = min(total_energy)</pre>
+
+<pre class="mcode-output">energy_optimal =
+   17.8990
+x_optimal =
+    5.1031
+</pre>
+
+<p>Of course, that minimum point occurs at the single place where the derivative of the total energy is zero.</p>
+<pre class="mcode-input">find( diff(total_energy)==0 )</pre>
+
+<pre class="mcode-output">ans =
+    5.1031
+</pre>
+
+<h3 id="exploring-the-assumptions">Exploring the assumptions</h3>
+<p>The "40% more energy" assumption for water flying is a guess at best. How does the optimal point vary as a function of the water-to-land ratio? Let's explore it over a range from 1 (same energy for both) to 2 (twice as much energy over water).</p>
+<p>Each value of the W-to-L ratio will give a different optimal landfall point x. We will produce this value by mimicking the optimization step above. For example,</p>
+<pre class="mcode-input">WL_ratio = 1.05;
+total_energy = land_length + WL_ratio*water_length;
+[energy_optimal,x_optimal] = min(total_energy)</pre>
+
+<pre class="mcode-output">energy_optimal =
+   14.6248
+x_optimal =
+    13
+</pre>
+
+<p>Notice that the optimal strategy in this case is for the bird to fly directly to the nest, because the penalty for going over water is quite small. Mathematically, the minimum does not occur at a zero in the derivative, but at an endpoint of the interval.</p>
+<pre class="mcode-input">clf, subplot(1,2,1), plot(total_energy,LW,2), grid on
+xlabel('x'), ylabel('total energy')
+subplot(1,2,2), plot(diff(total_energy),LW,2), grid on
+xlabel('x'), ylabel('derivative')</pre>
+
+<p><img src="img/ForTheBirds_03.png" alt=""></p>
+<p>At the other extreme, you would expect that if flying over water is very difficult, the best strategy is to go directly to land. However, this is never exactly the case:</p>
+<pre class="mcode-input">WL_ratio = 5;
+total_energy = land_length + WL_ratio*water_length;
+[energy_optimal,x_optimal] = min(total_energy)</pre>
+
+<pre class="mcode-output">energy_optimal =
+   37.4949
+x_optimal =
+    1.0206
+</pre>
+
+<pre class="mcode-input">WL_ratio = 50;
+total_energy = land_length + WL_ratio*water_length;
+[energy_optimal,x_optimal] = min(total_energy)</pre>
+
+<pre class="mcode-output">energy_optimal =
+  262.9500
+x_optimal =
+    0.1000
+</pre>
+
+<h3 id="function-function">Function function</h3>
+<p>Rather than just exploring the behavior for individual water-to-land ratios, we can construct a new chebfun that captures the entire relationship. First, we encode the fact that the total energy function is dependent on the W-L ratio:</p>
+<pre class="mcode-input">total_energy_function = @(WL) land_length + WL*water_length;</pre>
+
+<p>It's a little tricky, but the output of that function of the WL parameter is a chebfun in the landfall variable x. (Remember, functions can map anything to anything, not just numbers to numbers.) The optimal location, which depends on WL, is still found as a critical point of the total energy. (It's slightly easier to work with the derivative of the energy than to extract the second output of the MIN function.)</p>
+<pre class="mcode-input">optimal_landfall_function = @(WL) find( diff(total_energy_function(WL))==0 );</pre>
+
+<p>The output of this function is now a number for each given value of WL. Our original result is simply</p>
+<pre class="mcode-input">optimal_landfall_function(1.4)</pre>
+
+<pre class="mcode-output">ans =
+    5.1031
+</pre>
+
+<p>So, now we construct a chebfun to capture the dependence on WL. (The 'vectorize' argument tells chebfun that our function expects only one value of WL at a time.)</p>
+<pre class="mcode-input">optimal_landfall = chebfun( optimal_landfall_function, [1.1 5], 'vectorize');
+clf, plot(optimal_landfall,LW,2), grid on
+xlabel('water-to-land energy ratio'), ylabel('optimal landfall position')</pre>
+
+<p><img src="img/ForTheBirds_04.png" alt=""></p>
+<p>In practice, it's easy to observe the behavior of birds but very difficult to estimate the true value of WL. We can turn the problem around. It's reasonable to assume that evolution has honed the instinct of our bird to behave optimally. So if, for example, we observed that x=4.5 was chosen on average, then we might conclude that the actual water-to-land energy ratio is</p>
+<pre class="mcode-input">find( optimal_landfall==4.5 )</pre>
+
+<pre class="mcode-output">ans =
+    1.4948
+</pre>
+
+<p>References:</p>
+<p>[1] J. Stewart, Calculus, 7th edition. Brooks/Cole, 2012.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+
+  </body>
+</html>

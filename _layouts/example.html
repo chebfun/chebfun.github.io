@@ -18,18 +18,30 @@
         {% block title %} 
         <h1>{{this.title}}</h1>
         <h2>{{this.authordate}}</h2>
-        <h3>{{this.tags}}</h3>
         {% endblock %}
     </div>
 
     <div class="row">
 
+<!--
         {% block sidebar %}
+        <div class="col-md-4" role="navigation"> 
+            {% if this.toc %} 
+            <div id="sidebar" class="sidebar">
+                <div class="">
+                    <!- <a href="#"><strong>{{this.title}}</strong></a> ->
+                    {{this.toc}}
+                    <hr/>
+                </div>
+            </div>
+            {% endif %}
+        </div>
         {% endblock %}
- 
+-->
+
         <div class="content">
         {% block content %}
-            <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
                 {{this.body}}
             </div>
         {% endblock %}

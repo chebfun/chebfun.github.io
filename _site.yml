@@ -2,6 +2,12 @@ brand: Chebfun
 baseURL: ''
 
 reflinks:
+    chebfun2:
+        url: \#
+        title: Chebfun2
+    atap:
+        url: \#
+        title: Approximation Theory and Approximation Practice
     file-chebfun.bib:
         url: chebfun.bib
         title: Chebfun bibliography

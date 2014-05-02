@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/css/site.css" rel="stylesheet" media="screen">
-    <link href="/css/syntax.css" rel="stylesheet" media="screen">
-    <link href="/css/published.css" rel="stylesheet" media="screen">
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,7 +32,7 @@ pageTracker._trackPageview();
   <body>
 
     <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -47,12 +48,12 @@ pageTracker._trackPageview();
 
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/about/">About</a></li>
-            <li><a href="/download.html">Download</a></li>
+            <li><a href="/download/">Download</a></li>
             <li><a href="/docs/">Documentation</a></li>
             <li class="active"><a href="/examples/">Examples</a></li>
-            <li><a href="/develop.html">Develop</a></li>
-            <li><a href="/citing.html">Citing</a></li>
-            <li><a href="/support.html">Support</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
           </ul>
 
         </div><!--/.nav-collapse -->
@@ -60,24 +61,36 @@ pageTracker._trackPageview();
     </div>
 
 
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7">
-                    <h1>Approximation</h1>
-                    <p></p>
-                </div>
-            </div>
-        </div>
-    </div>
 <div class="container">
+    <div class="page-header">
+ 
+        <h1>Approximation examples</h1>
+    </div>
+    
     <div class="row">
-        <div class="col-md-4" role="main">
-                <h4><a href="/examples/approx/OscError.html">Approximations and Oscillation of Error</a></h4>
-                <p></p>
-        </div>
         <div class="col-md-8" role="main">
-            
+            <ol class='orangenumbers'>
+                <h4><li><a href="/examples/approx/GreedyInterp.html">A greedy algorithm for choosing interpolation points</a></li></h4>
+                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/OscError.html">Approximations and oscillation of error</a></li></h4>
+                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/BSplineConv.html">B-splines and convolution</a></li></h4>
+                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/BernsteinPolys.html">Bernstein polynomials</a></li></h4>
+                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/BestApprox.html">Best approximation with the REMEZ command</a></li></h4>
+                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/Entire.html">Chebyshev interpolation of oscillatory entire functions</a></li></h4>
+                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/ChebPolysHigham.html">Chebyshev polynomials as plotted by Higham and Higham</a></li></h4>
+                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/ExactChebCoeffs.html">Exact Chebyshev expansion coefficients of a function</a></li></h4>
+                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/Halphen.html">Halphen's constant for approximation of exp(x)</a></li></h4>
+                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/LebesgueConst.html">Lebesgue functions and Lebesgue constants</a></li></h4>
+                <!-- <p></p> -->
+            </ol>
         </div>
     </div>
 </div>
@@ -88,6 +101,8 @@ pageTracker._trackPageview();
     <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
+
   </body>
 </html>
