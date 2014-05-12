@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>An ellipse rolling around another ellipse &laquo; Chebfun</title>
+    <title>An ellipse rolling around another ellipse &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -113,20 +113,20 @@ plot(w,'k',LW,1), grid on, axis(3*[-1 1 -1 1]), axis square</pre>
 <pre class="mcode-input">format long, tfinal = roots(imag(w{5,7.5}))</pre>
 
 <pre class="mcode-output">tfinal =
-   6.781868737333158
+   6.781868737311024
 </pre>
 
 <p>The length of the trajectory is the 1-norm of the derivative of w from t=0 to t=tfinal:</p>
 <pre class="mcode-input">trajectory_length = norm(diff(w{0,tfinal}),1)</pre>
 
 <pre class="mcode-output">trajectory_length =
-  11.755625978661536
+  11.755625978606179
 </pre>
 
 <p>The total computer time for the computations up to this point is as follows:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 3.773436 seconds.
+<pre class="mcode-output">Elapsed time is 3.805296 seconds.
 </pre>
 
 <p>Now let's plot the motion, using an anonymous function ell2 which returns a chebfun of the position of ellipse 2 at time t. We plot the big ellipse together with a succession of small ellipses:</p>

@@ -1,5 +1,5 @@
 ---
-title: Transient Growth
+title: "Transient Growth"
 layout: example
 authordate: "Nick Trefethen, July 2011"
 meta: "(Chebfun example linalg/TransientGrowth.m) [Tags: #linearalgebra, #norm, #transient]"
@@ -49,7 +49,7 @@ They are interested in calculating the maximum energy:
 <pre class="mcode-input">fprintf('Maximum energy = %15.8f\n',max(e2))</pre><pre class="mcode-output">Maximum energy = 358147.98785179
 </pre>Here's the time for this Example:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 8.122569 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 7.845187 seconds.
 </pre>References:
 
 [1] L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of Nonnormal Matrices and Operators, Princeton U. Press, 2005.

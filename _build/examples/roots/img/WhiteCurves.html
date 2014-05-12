@@ -1,5 +1,5 @@
 ---
-title: The white curves of Ortiz and Rivlin
+title: "The white curves of Ortiz and Rivlin"
 layout: example
 authordate: "Stefan Guettel, 2nd November 2011"
 meta: "(Chebfun example roots/WhiteCurves.m) [Tags: #whitecurves, #ROOTS]"

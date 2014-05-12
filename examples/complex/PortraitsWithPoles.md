@@ -1,11 +1,11 @@
 ---
-title: Phase Portraits for Functions with Poles
+title: "Phase Portraits for Functions with Poles"
 layout: example
 authordate: "Nick Trefethen, 4th March 2013"
 meta: "(Chebfun2 example complex/PortraitsWithPoles.m) [Tags: #phase portraits, #poles, #Chebfun2, #SMASH]"
 ---
 
-
+<pre class="mcode-input">function PortraitsWithPoles</pre>
 
 ## Phase portraits for analytic functions
 

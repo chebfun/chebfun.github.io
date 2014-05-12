@@ -1,11 +1,11 @@
 ---
-title: Histogram from function or data
+title: "Histogram from function or data"
 layout: example
 authordate: "Nick Trefethen, May 2011"
 meta: "(Chebfun example stats/Histogram.m)"
 ---
 
-<pre class="mcode-input">function Histogram</pre>Suppose we have a chebfun, like this one:
+<pre class="mcode-input">% [Tags: #histogram, #HIST]</pre><pre class="mcode-input">function Histogram</pre>Suppose we have a chebfun, like this one:
 
 <pre class="mcode-input">x = chebfun('x',[0,10]);
 f = x/3 + cos(2*x) + .5*sin(x.^2) + .2*sin(27*x);

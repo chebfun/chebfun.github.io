@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Phase Portraits for Functions with Poles &laquo; Chebfun</title>
+    <title>Phase Portraits for Functions with Poles &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -100,7 +100,9 @@ pageTracker._trackPageview();
 
         <div class="content">
             <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
-                <h3 id="phase-portraits-for-analytic-functions">Phase portraits for analytic functions</h3>
+                <pre class="mcode-input">function PortraitsWithPoles</pre>
+
+<h3 id="phase-portraits-for-analytic-functions">Phase portraits for analytic functions</h3>
 <p>Here is a phase portrait [1] of the function $f(z) = z^2(z^3-1) $ on the square $[-1.5,1.5,-1.5,1.5]$:</p>
 <pre class="mcode-input">ff = @(z) z.^2.*(z.^3-1);
 d = 1.5*[-1 1 -1 1];

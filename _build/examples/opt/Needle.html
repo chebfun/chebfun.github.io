@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Needle on a corrugated surface &laquo; Chebfun</title>
+    <title>Needle on a corrugated surface &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -85,7 +85,9 @@ pageTracker._trackPageview();
 
         <div class="content">
             <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>The final problem for Oxford's Numerical Analysis Problem Solving Squad this year was the following:</p>
+                <pre class="mcode-input">function needle()</pre>
+
+<p>The final problem for Oxford's Numerical Analysis Problem Solving Squad this year was the following:</p>
 <p>A needle of length $1$ rests on a surface defined by the height function</p>
 <p>$$ h(x) = 0.1 x^2 + 0.1\sin(6x) + 0.03\sin(12x). $$</p>
 <p>What is the lowest possible height of the centre of the needle?</p>
@@ -136,7 +138,7 @@ end
 close, contour(x,theta,yy,80), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 17.007575 seconds.
+<pre class="mcode-output">Elapsed time is 17.185128 seconds.
 </pre>
 
 <p><img src="img/Needle_03.png" alt=""></p>
@@ -153,7 +155,7 @@ levels = 0.06:.003:0.12;
 contour(x,theta,yy,levels), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 title(['min value on grid: ' num2str(min(min(yy)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 15.323102 seconds.
+<pre class="mcode-output">Elapsed time is 16.087450 seconds.
 </pre>
 
 <p><img src="img/Needle_04.png" alt=""></p>
@@ -167,7 +169,7 @@ end</pre>
 guess = [.41, -0.2];
 tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 6.821810 seconds.
+<pre class="mcode-output">Elapsed time is 8.202848 seconds.
 </pre>
 
 <p>So it would seem that to 10 digits or more, the minimal height is around</p>

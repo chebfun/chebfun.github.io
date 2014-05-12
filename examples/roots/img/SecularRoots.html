@@ -1,5 +1,5 @@
 ---
-title: Roots of a secular equation with poles
+title: "Roots of a secular equation with poles"
 layout: example
 authordate: "Nick Trefethen, November 2010"
 meta: "(Chebfun example roots/SecularRoots.m) [Tags: #pole, #ROOTS]"

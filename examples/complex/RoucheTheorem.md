@@ -1,5 +1,5 @@
 ---
-title: Rouche's Theorem
+title: "Rouche's Theorem"
 layout: example
 authordate: "Anthony Austin, 18th November 2012"
 meta: "(Chebfun example complex/RoucheTheorem.m) [Tags: #complex, #Rouche, #ROOTS]"

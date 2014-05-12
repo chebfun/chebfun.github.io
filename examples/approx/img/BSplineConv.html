@@ -1,5 +1,5 @@
 ---
-title: B-splines and convolution
+title: "B-splines and convolution"
 layout: example
 authordate: "Nick Trefethen, 24th July 2012"
 meta: "(Chebfun example approx/BSplineConv.m) [Tags: #spline, #Bspline, #convolution, #probability, #CONV]"

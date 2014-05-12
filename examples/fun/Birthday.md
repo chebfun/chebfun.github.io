@@ -1,5 +1,5 @@
 ---
-title: Birthday cards and analytic functions
+title: "Birthday cards and analytic functions"
 layout: example
 authordate: "Nick Trefethen, September 2010"
 meta: "(Chebfun example fun/Birthday.m) [Tags: #complex, #gift]"

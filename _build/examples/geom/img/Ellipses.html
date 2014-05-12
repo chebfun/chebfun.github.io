@@ -1,5 +1,5 @@
 ---
-title: An ellipse rolling around another ellipse
+title: "An ellipse rolling around another ellipse"
 layout: example
 authordate: "Nick Trefethen, 18th October 2011"
 meta: "(Chebfun example geom/Ellipses.m) [Tags: #complex, #ode, #trajectory, #geometry]"
@@ -36,14 +36,14 @@ plot(w,'k',LW,1), grid on, axis(3*[-1 1 -1 1]), axis square</pre><img src="img/E
 To find the answer to the problem posed, we need to know the time at which imag(w(t))=0:
 
 <pre class="mcode-input">format long, tfinal = roots(imag(w{5,7.5}))</pre><pre class="mcode-output">tfinal =
-   6.781868737333158
+   6.781868737311024
 </pre>The length of the trajectory is the 1-norm of the derivative of w from t=0 to t=tfinal:
 
 <pre class="mcode-input">trajectory_length = norm(diff(w{0,tfinal}),1)</pre><pre class="mcode-output">trajectory_length =
-  11.755625978661536
+  11.755625978606179
 </pre>The total computer time for the computations up to this point is as follows:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 3.773436 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 3.805296 seconds.
 </pre>Now let's plot the motion, using an anonymous function ell2 which returns a chebfun of the position of ellipse 2 at time t. We plot the big ellipse together with a succession of small ellipses:
 
 <pre class="mcode-input">ell2 = @(t) w(t) + z2*(z1(t)-w(t))/z2(t);

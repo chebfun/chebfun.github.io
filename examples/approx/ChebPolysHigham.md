@@ -1,5 +1,5 @@
 ---
-title: Chebyshev polynomials as plotted by Higham and Higham
+title: "Chebyshev polynomials as plotted by Higham and Higham"
 layout: example
 authordate: "Nick Trefethen, 13th December 2011"
 meta: "(Chebfun example approx/ChebPolysHigham.m) [Tags: #Higham, #Chebyshevpolynomial, #PLOT3, #CHEBPOLY]"

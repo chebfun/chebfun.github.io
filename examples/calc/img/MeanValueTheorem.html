@@ -1,5 +1,5 @@
 ---
-title: Mean Value Theorem
+title: "Mean Value Theorem"
 layout: example
 authordate: "Kuan Xu, 23rd October 2012"
 meta: "(Chebfun example calc/MeanValueTheorem.m) [Tags: #calculus, #ROOTS]"

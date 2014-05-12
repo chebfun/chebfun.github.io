@@ -43,10 +43,10 @@ authordate: "<xsl:value-of select="normalize-space($exAuthordate)"/>"
 <xsl:choose>
 <xsl:when test="steptitle[@style = 'document']">
 
-## </xsl:when>
+# </xsl:when>
 <xsl:otherwise>
 
-## </xsl:otherwise>
+# </xsl:otherwise>
 </xsl:choose>
 </xsl:variable>
 

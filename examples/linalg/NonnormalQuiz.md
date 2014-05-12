@@ -1,5 +1,5 @@
 ---
-title: Nonnormality quiz from Trefethen and Embree
+title: "Nonnormality quiz from Trefethen and Embree"
 layout: example
 authordate: "Nick Trefethen, October 2010"
 meta: "(Chebfun example linalg/NonnormalQuiz.m) [Tags: #linearalgebra, #nonnormality, #pseudospectra, #NORM, #EXPM]"

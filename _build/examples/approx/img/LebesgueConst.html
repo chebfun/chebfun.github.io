@@ -1,5 +1,5 @@
 ---
-title: Lebesgue functions and Lebesgue constants
+title: "Lebesgue functions and Lebesgue constants"
 layout: example
 authordate: "Nick Trefethen, November 2010"
 meta: "(Chebfun example approx/LebesgueConst.m) [Tags: #LEBESGUE]"

@@ -1,5 +1,5 @@
 ---
-title: The Birthday Paradox
+title: "The Birthday Paradox"
 layout: example
 authordate: "Mohsin Javed, Alex Townsend, and Nick Hale, LNT's birthday, 2012"
 meta: "(Chebfun example fun/BirthdayOdds.m)"

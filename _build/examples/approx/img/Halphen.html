@@ -1,5 +1,5 @@
 ---
-title: Halphen's constant for approximation of exp(x)
+title: "Halphen's constant for approximation of exp(x)"
 layout: example
 authordate: "Nick Trefethen, May 2011"
 meta: "(Chebfun example approx/Halphen.m) [Tags: #Halphen, #rational, #9.28903, #exponential]"

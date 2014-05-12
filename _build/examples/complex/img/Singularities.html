@@ -1,11 +1,11 @@
 ---
-title: Types of isolated singularities
+title: "Types of isolated singularities"
 layout: example
 authordate: "Hrothgar, 12th November 2013"
 meta: "(Chebfun example complex/Singularities.m) [Tags: #complex, #phase portraits, #Chebfun2]"
 ---
 
-<pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';</pre>An isolated singularity $z_0$ of a function $f$ in the complex plane is classified as removable, pole of order $n$, or essential depending on the coefficients $\{c_k\}$ of the function's Laurent series expansion at $z_0$, $$ f(z) = \sum_{k=-\infty}^\infty c_k (z - z_0)^k. $$ In particular, we say that $z_0$ is (following [1])
+<pre class="mcode-input">function Singularities</pre><pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';</pre>An isolated singularity $z_0$ of a function $f$ in the complex plane is classified as removable, pole of order $n$, or essential depending on the coefficients $\{c_k\}$ of the function's Laurent series expansion at $z_0$, $$ f(z) = \sum_{k=-\infty}^\infty c_k (z - z_0)^k. $$ In particular, we say that $z_0$ is (following [1])
 
 1. a removable singularity if $c_k = 0$ for all $k &lt; 0$,
 

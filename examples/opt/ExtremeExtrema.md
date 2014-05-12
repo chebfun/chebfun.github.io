@@ -1,5 +1,5 @@
 ---
-title: Extrema of a complicated function
+title: "Extrema of a complicated function"
 layout: example
 authordate: "Nick Trefethen, September 2010"
 meta: "(Chebfun example opt/ExtremeExtrema.m) [Tags: #optimization, #localextrema, #piecewise, #rootfinding]"
@@ -13,7 +13,7 @@ length(f)
 plot(f,'color',[0 .7 0],'numpts',10000)
 FS = 'fontsize';
 title('A complicated function',FS,14)</pre><pre class="mcode-output">ans =
-   523
+   529
 </pre><img src="img/ExtremeExtrema_01.png" alt="">
 
 Here's its absolute value:
@@ -33,9 +33,9 @@ We can find the maximum over the interval [0,5] like this:
 <pre class="mcode-input">[maxval,maxpos] = max(h{0,5})
 hold on, plot(maxpos,maxval,'.r','markersize',40)
 title('Global maximum',FS,14)</pre><pre class="mcode-output">maxval =
-   0.520496207018178
+   0.520496207016738
 maxpos =
-   4.164759283173398
+   4.164759283173292
 </pre><img src="img/ExtremeExtrema_04.png" alt="">
 
 Let's add all the local extrema to the plot:
@@ -52,5 +52,5 @@ They also showcase the treatment of discontinuities. To find extrema, Chebfun lo
 Here is the time for this whole sequence of computations:
 
 <pre class="mcode-input">Total_time = toc</pre><pre class="mcode-output">Total_time =
-  28.870043711000001
+  29.540320963999999
 </pre>

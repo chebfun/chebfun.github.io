@@ -50,8 +50,9 @@ function mypublish(varargin)
 close all
 evalin('base','clear all');
 % chebfunpref('factory'), cheboppref('factory')
-format long
-format compact
+guideFormats;
+warning('off', 'MATLAB:gui:latexsup:UnableToInterpretLaTeXString');
+warning('off', 'MATLAB:gui:latexsup:UnsupportedFont');
 publish(varargin{:});
 % chebfunpref('factory'), cheboppref('factory')
 close all

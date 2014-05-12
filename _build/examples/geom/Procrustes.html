@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Procrustes shape analysis &laquo; Chebfun</title>
+    <title>Procrustes shape analysis &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -101,7 +101,9 @@ pageTracker._trackPageview();
 
         <div class="content">
             <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
-                <pre class="mcode-input">close all</pre>
+                <pre class="mcode-input">function procrustes</pre>
+
+<pre class="mcode-input">close all</pre>
 
 <h3 id="shape-analysis-on-a-beach-holiday">Shape analysis on a beach holiday</h3>
 <p>Procrustes analysis is a method for analysing sets of shapes (see [1]). Let's suppose we pick up a pebble from the beach and want to know how closely its shape matches the outline of a frisbee. Here is a plot of the frisbee and the pebble.</p>
@@ -170,7 +172,7 @@ end
 <pre class="mcode-input">norm(f-g)</pre>
 
 <pre class="mcode-output">ans =
-   0.072347575424909
+   0.072347575424999
 </pre>
 
 <h3 id="a-little-warning">A little warning</h3>
@@ -195,7 +197,7 @@ title('Pebble and its reflection','FontSize',14), hold off</pre>
 <pre class="mcode-input">norm(f-g)</pre>
 
 <pre class="mcode-output">ans =
-   0.097593759012229
+   0.097593759012233
 </pre>
 
 <p>Comparing this result to the Procrustes distance of the pebble and a frisbee shows that the pebble is closer in shape to a frisbee than to its own reflection!</p>

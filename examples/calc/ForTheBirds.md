@@ -1,5 +1,5 @@
 ---
-title: Optimizing a bird's flight path
+title: "Optimizing a bird's flight path"
 layout: example
 authordate: "Toby Driscoll, 1st November 2012"
 meta: "(Chebfun example calc/ForTheBirds.m)[Tags: #optimisation, #birds]"

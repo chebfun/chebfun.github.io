@@ -1,5 +1,5 @@
 ---
-title: Complex roots near the real axis
+title: "Complex roots near the real axis"
 layout: example
 authordate: "Nick Trefethen, 26th October 2011"
 meta: "(Chebfun example roots/RootsNearAxis.m) [Tags: #roots, #complex, #CHEBELLIPSEPLOT]"
@@ -34,7 +34,7 @@ Notice that the number of roots is is less than the polynomial degree of the che
 degree = length(f)-1</pre><pre class="mcode-output">number_of_roots =
     32
 degree =
-    83
+    85
 </pre>That's because there are quite a few additional roots of the chebfun that have nothing to do with roots of the underlying function.  We can see them with the flag 'all':
 
 <pre class="mcode-input">plot(roots(f,'all'),'or'), axis auto, axis equal</pre><img src="img/RootsNearAxis_04.png" alt="">

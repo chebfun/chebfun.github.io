@@ -1,5 +1,5 @@
 ---
-title: Spectral radius of the SOR iteration matrix
+title: "Spectral radius of the SOR iteration matrix"
 layout: example
 authordate: "Nick Trefethen, 16th October 2012"
 meta: "(Chebfun example linalg/SOR.m)"

@@ -1,5 +1,5 @@
 ---
-title: Normal Distribution -- Exercises from a Textbook
+title: "Normal Distribution -- Exercises from a Textbook"
 layout: example
 authordate: "Jie Gao and Nick Trefethen, 23rd April 2013"
 meta: "(Chebfun example stats/NormalExercises.m) [Tags: #normaldistribution, #probability]"
@@ -31,7 +31,7 @@ f = chebfun(@(x) ff(x,mu,sigma), [-inf,inf]);</pre>The cumulative density functi
 
 <pre class="mcode-input">format long
 p = fint(3)-fint(1)</pre><pre class="mcode-output">p =
-   0.682689492136923
+   0.682689492136981
 </pre>Let's plot f and the region abs(X-2)&lt;1:
 
 <pre class="mcode-input">hold off, h = area(f{1,3});

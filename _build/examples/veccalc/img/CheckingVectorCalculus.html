@@ -1,5 +1,5 @@
 ---
-title: Checking vector calculus
+title: "Checking vector calculus"
 layout: example
 authordate: "Alex Townsend, 4th March 2013"
 meta: "(Chebfun example veccalc/CheckingVectorCalculus.m) [Tags: #parallelogram law, #gradient theorem, #divgradcurl, #Chebfun2]"
@@ -35,7 +35,7 @@ F = grad(f);                                 % gradient (chebfun2v)
 C = chebfun(@(t) t.*exp(100i*t),[0 pi/10]);  % spiral curve
 v = integral(F,C); ends = f(pi/10,0)-f(0,0); % line integral
 abs(v-ends)                                  % gradient theorem</pre><pre class="mcode-output">ans =
-     3.330669073875470e-16
+     1.110223024625157e-16
 </pre>
 
 ## Curl of the gradient

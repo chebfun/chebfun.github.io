@@ -1,5 +1,5 @@
 ---
-title: Lissajous curves
+title: "Lissajous curves"
 layout: example
 authordate: "Nick Trefethen, October 2010"
 meta: "(Chebfun example geom/Lissajous.m) [Tags: #complex, #sinewaves, #geometry, #Lissajous]"
@@ -41,12 +41,7 @@ for np = 1:6
   plot(lissajous(m,n,d),LW,lw,'color',colors(np,:))
   axis([-1 1 -1 1]), axis square off
   title(sprintf('m=%d  n=%d  d=%5.3f',m,n,d),FS,10)
-end</pre><pre class="mcode-output">Warning: Using 'seed' to set RAND's internal state causes RAND, RANDI, and RANDN
-to use legacy random number generators.  This syntax will be removed in a future
-release.  See &lt;a href="matlab:helpview([docroot
-'\techdoc\math\math.map'],'update_random_number_generator')"&gt;Updating Your
-Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax. 
-</pre><img src="img/Lissajous_02.png" alt="">
+end</pre><img src="img/Lissajous_02.png" alt="">
 
 Just for fun, let's draw a cube in which each face is a different Lissajous figure:
 

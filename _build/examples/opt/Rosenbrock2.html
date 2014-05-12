@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>The Rosenbrock function in 2D optimisation (revisited) &laquo; Chebfun</title>
+    <title>The Rosenbrock function in 2D optimisation (revisited) &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -99,7 +99,10 @@ pageTracker._trackPageview();
 
         <div class="content">
             <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
-                <h3 id="1-the-rosenbrock-function">1. The Rosenbrock function</h3>
+                <pre class="mcode-input">LW = 'LineWidth';  lw = 1;
+MS = 'MarkerSize'; ms = 20;</pre>
+
+<h3 id="1-the-rosenbrock-function">1. The Rosenbrock function</h3>
 <p>One of the very first Chebfun examples [2] demonstrated how standard 1D Chebfun can do a reasonable job of minimizing or maximizing a function defined on a 2D rectangle, such as the Rosenbrock function [1]:</p>
 <pre class="mcode-input">f = @(x,y) (1-x).^2 + 100*(y-x.^2).^2;</pre>
 
@@ -132,7 +135,7 @@ toc</pre>
   -0.969232500643154
 minx =
    0.395759624697258   0.331573982761955
-Elapsed time is 0.585355 seconds.
+Elapsed time is 0.582882 seconds.
 </pre>
 
 <p>Here is a plot, again with the computed global minimum.</p>

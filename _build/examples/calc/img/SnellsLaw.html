@@ -1,11 +1,12 @@
 ---
-title: A Drowning Man and Snell's Law
+title: "A Drowning Man and Snell's Law"
 layout: example
 authordate: "Mohsin Javed, 30th October 2013"
 meta: "(Chebfun example calc/SnellsLaw.m) [Tags: #calculus, #Snell's Law]"
 ---
 
-
+<pre class="mcode-input">FS = 'fontsize'; MS = 'markersize';
+LW = 'linewidth'; lw = 1.6;</pre>
 
 ## How to save a drowning man
 

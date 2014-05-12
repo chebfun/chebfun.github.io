@@ -1,5 +1,5 @@
 ---
-title: Exact Chebyshev expansion coefficients of a function
+title: "Exact Chebyshev expansion coefficients of a function"
 layout: example
 authordate: "Mark Richardson, 13th June 2012"
 meta: "(Chebfun example approx/ExactChebCoeffs.m) [Tags: #Chebyshevcoefficients, #residue]"

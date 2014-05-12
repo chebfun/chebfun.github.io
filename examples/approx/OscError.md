@@ -1,5 +1,5 @@
 ---
-title: Approximations and oscillation of error
+title: "Approximations and oscillation of error"
 layout: example
 authordate: "Mohsin Javed, 22nd October 2013"
 meta: "(Chebfun example approx/OscError.m) [Tags: #bestapproximation, #l2approximation, #interpolation, #POLYFIT]"

@@ -1,5 +1,5 @@
 ---
-title: Eigenvalue level repulsion
+title: "Eigenvalue level repulsion"
 layout: example
 authordate: "Nick Trefethen, October 2010"
 meta: "(Chebfun example linalg/LevelRepulsion.m) [Tags: #linearalgebra, #eigenvalues]"
@@ -17,7 +17,12 @@ We can illustrate the effect with Chebfun.  First we pick a pair of random matri
 
 <pre class="mcode-input">n = 10;
 randn('seed',1);
-A = randn(n); A = A+A'; B = randn(n); B = B+B';</pre>We would now like to get our hands on the n functions of t representing the n eigenvalues of A(t).  In Chebfun, a convenient format for this result will be a quasimatrix with n columns.  The first column will contain a chebfun for the lowest eigenvalue of A(t) as a function of t, the 2nd column for the 2nd eigenvalue, and so on.
+A = randn(n); A = A+A'; B = randn(n); B = B+B';</pre><pre class="mcode-output">Warning: Using 'seed' to set RANDN's internal state causes RAND, RANDI, and
+RANDN to use legacy random number generators.  This syntax will be removed in a
+future release.  See &lt;a href="matlab:helpview([docroot
+'\techdoc\math\math.map'],'update_random_number_generator')"&gt;Updating Your
+Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax. 
+</pre>We would now like to get our hands on the n functions of t representing the n eigenvalues of A(t).  In Chebfun, a convenient format for this result will be a quasimatrix with n columns.  The first column will contain a chebfun for the lowest eigenvalue of A(t) as a function of t, the 2nd column for the 2nd eigenvalue, and so on.
 
 We can construct this quasimatrix as follows.  (The ''splitting off'' command has no effect, since splitting off is the default, but is included to show where one would put ''splitting on'' to handle a problem with curves actually crossing or coming very close.)
 
@@ -33,16 +38,16 @@ end
 FS = 'fontsize'; LW = 'linewidth'; MS = 'markersize';
 figure, plot(E,LW,1.6), grid on
 title('Eigenvalues of (1-t)A + tB',FS,16);
-xlabel('t',FS,12), toc</pre><pre class="mcode-output">Elapsed time is 3.196595 seconds.
+xlabel('t',FS,12), toc</pre><pre class="mcode-output">Elapsed time is 1.517063 seconds.
 </pre><img src="img/LevelRepulsion_01.png" alt="">
 
 The 5th and 6th curves have a very close near-crossing.  We can find it like this:
 
 <pre class="mcode-input">E5 = E(:,5); E6 = E(:,6);
 [minval,minpos] = min(E6-E5)</pre><pre class="mcode-output">minval =
-   0.019588198983140
+   0.019588198983148
 minpos =
-   0.866611938053623
+   0.866611938053627
 </pre>Let's zoom in and mark the minimal gap in red:
 
 <pre class="mcode-input">axis([minpos-.05 minpos+.05 E5(minpos)-.4 E5(minpos)+.4])

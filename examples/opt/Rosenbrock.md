@@ -1,5 +1,5 @@
 ---
-title: The Rosenbrock function in 2D optimisation
+title: "The Rosenbrock function in 2D optimisation"
 layout: example
 authordate: "Nick Trefethen, October 2010"
 meta: "(Chebfun example opt/Rosenbrock.m) [Tags: #optimization, #Rosenbrock, #2D, #edgedetection]"
@@ -44,7 +44,7 @@ minx =
 <pre class="mcode-input">[minf,miny] = min(chebfun(@(y) f(minx,y), [-1 3]))</pre><pre class="mcode-output">minf =
      0
 miny =
-   0.999999999999215
+   0.999999999999213
 </pre>Let's show the contour plot again, with the minimum point:
 
 <pre class="mcode-input">close, plot(minx,miny,'.k',MS,20)</pre><img src="img/Rosenbrock_03.png" alt="">
@@ -72,7 +72,7 @@ fminx = chebfun(fminx0,[-1 1],'vectorize','splitting','on');
 figure, plot(fminx,LW,1.6)
 xlabel('x',FS,14), ylabel('min_y(f(x,y))',FS,14)
 title('minimum of f(x,y) along vertical slices',FS,14)
-toc</pre><pre class="mcode-output">Elapsed time is 14.652730 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 14.677167 seconds.
 </pre><img src="img/Rosenbrock_05.png" alt="">
 
 Here are the breakpoints that Chebfun has introduced:

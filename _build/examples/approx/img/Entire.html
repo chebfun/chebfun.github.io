@@ -1,5 +1,5 @@
 ---
-title: Chebyshev interpolation of oscillatory entire functions
+title: "Chebyshev interpolation of oscillatory entire functions"
 layout: example
 authordate: "Mark Richardson, 4th October 2011"
 meta: "(Chebfun example approx/Entire.m) [Tags: #entire, #interpolation, #ellipse, #resolution]"

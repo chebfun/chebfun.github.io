@@ -2,7 +2,7 @@
 title: About
 layout: index
 content:
-    - team
+    - people
 ---
 
 What is Chebfun?

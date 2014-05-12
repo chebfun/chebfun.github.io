@@ -1,5 +1,5 @@
 ---
-title: Roots of random polynomials
+title: "Roots of random polynomials"
 layout: example
 authordate: "Nick Trefethen, 6th November 2011"
 meta: "(Chebfun example roots/RandomPolynomials.m) [Tags: #random, #ROOTS]"

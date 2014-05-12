@@ -6,7 +6,7 @@ authordate: "Lloyd N. Trefethen, October 2009, latest revision May 2014"
 
 
 
-## 1.1  What is a chebfun?
+# 1.1  What is a chebfun?
 
 A chebfun is a function of one variable defined on an interval $[a,b]$. The syntax for chebfuns is almost exactly the same as the usual Matlab syntax for vectors, with the familiar Matlab commands for vectors overloaded in natural ways. Thus, for example, whereas `sum(f)` returns the sum of the entries when `f` is a vector, it returns a definite integral when `f` is a chebfun.
 
@@ -14,17 +14,17 @@ Chebfun with a capital C is the name of the software system.
 
 The aim of Chebfun is to "feel symbolic but run at the speed of numerics". More precisely our vision is to achieve for functions what floating-point arithmetic achieves for numbers: rapid computation in which each successive operation is carried out exactly apart from a rounding error that is very small in relative terms [Trefethen 2007].
 
-The implementation of Chebfun is based on the mathematical fact that smooth functions can be represented very efficiently by polynomial interpolation in Chebyshev points, or equivalently, thanks to the Fast Fourier Transform, by expansions in Chebyshev polynomials.  For a simple function, 20 or 30 points often suffice, but the process is stable and effective even for functions complicated enough to require 1000 or 1,000,000 points. Chebfun makes use of adaptive procedures that aim to find the right number of points automatically so as to represent each function to roughly machine precision (about 15 digits of relative accuracy).  (Originally Chebfun stored function values at Chebyshev points; in Version 5 it switched to storing Chebyshev expansion coefficients.)
+The implementation of Chebfun is based on the mathematical fact that smooth functions can be represented very efficiently by polynomial interpolation in Chebyshev points, or equivalently, thanks to the Fast Fourier Transform, by expansions in Chebyshev polynomials.  For a simple function, 20 or 30 points often suffice, but the process is stable and effective even for functions complicated enough to require 1000 or 1,000,000 points. Chebfun makes use of adaptive procedures that aim to find the right number of points automatically so as to represent each function to roughly machine precision, that is, about 15 digits of relative accuracy.  (Originally Chebfun stored function values at Chebyshev points; in Version 5 it switched to storing Chebyshev expansion coefficients.)
 
 The mathematical foundations of Chebfun are for the most part well established by results scattered throughout the 20th century.  A key early figure, for example, was Bernstein in the 1910s. Much of the relevant material can be found collected in the Chebfun-based book [Trefethen 2013].
 
-Chebfun was originally created by Zachary Battles and Nick Trefethen at Oxford during 2002-2005 [Battles &amp; Trefethen 2004].  Battles left the project in 2005, and soon four new members were added to the team: Ricardo Pachon (from 2006), Rodrigo Platte (from 2007), and Toby Driscoll and Nick Hale (from 2008). In 2009, Asgeir Birkisson and Mark Richardson also became involved, and other contributors included Pedro Gonnet, Joris Van Deun, and Georges Klein.  Nick Hale served as Director of the project during 2010-2014.  The Chebfun Version 5 rewrite was directed by Nick Hale during 2013-2014 and the team included Anthony Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin Javed, Hadrien Montanelli, Nick Trefethen, Grady Wright, and Kuan Xu. Further information about Chebfun history is available at the Chebfun web site.
+Chebfun was originally created by Zachary Battles and Nick Trefethen at Oxford during 2002-2005 [Battles &amp; Trefethen 2004].  Battles left the project in 2005, and soon four new members were added to the team: Ricardo Pachon (from 2006), Rodrigo Platte (from 2007), and Toby Driscoll and Nick Hale (from 2008). In 2009, Asgeir Birkisson and Mark Richardson also became involved, and other contributors included Pedro Gonnet, Joris Van Deun, and Georges Klein.  Nick Hale served as Director of the project during 2010-2014.  The Chebfun Version 5 rewrite was directed by Nick Hale during 2013-2014, and the team included Anthony Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin Javed, Hadrien Montanelli, Nick Trefethen, Grady Wright, and Kuan Xu. Further information about Chebfun history is available at the Chebfun web site.
 
 This Guide is based on Chebfun Version 5, released in 2014.  Chebfun is available at <a href="http://www.maths.ox.ac.uk/chebfun/">http://www.maths.ox.ac.uk/chebfun/</a>, and an earlier version of the Guide for Version 4 can found there.
 
 
 
-## 1.2  Constructing simple chebfuns
+# 1.2  Constructing simple chebfuns
 
 The `chebfun` command constructs a chebfun from a specification such as a string or an anonymous function.  If you don't specify an interval, then the default interval $[-1,1]$ is used. For example, the following command makes a chebfun corresponding to $\cos(20x)$ on $[-1,1]$ and plots it.
 
@@ -75,17 +75,17 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
 
 <pre class="mcode-input">  format long
   x = 100*rand(3,1)</pre><pre class="mcode-output">x =
-  91.337585613901936
-  63.235924622540949
-   9.754040499940952
+  81.472368639317892
+  90.579193707561927
+  12.698681629350606
 </pre>Let's compare the chebfun to the true Bessel function at these points:
 
 <pre class="mcode-input">  exact = besselj(0,x);
   error = g(x) - exact;
   [g(x) exact error]</pre><pre class="mcode-output">ans =
-  -0.070938332803690  -0.070938332803690  -0.000000000000000
-   0.093053890749966   0.093053890749966                   0
-  -0.227754955147806  -0.227754955147806  -0.000000000000000
+   0.048059538377880   0.048059538377880   0.000000000000000
+  -0.021311086924089  -0.021311086924090   0.000000000000000
+   0.176415464952875   0.176415464952875  -0.000000000000001
 </pre>If you want to know the first 5 zeros of the Bessel function, here they are:
 
 <pre class="mcode-input">  r = roots(g); r = r(1:5)</pre><pre class="mcode-output">r =
@@ -114,120 +114,106 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
 
 
 
-## 1.3  Operations on chebfuns
+# 1.3  Operations on chebfuns
 
 There are more than 200 commands that can be applied to a chebfun.  For a list of many of them you can type `methods`:
 
 <pre class="mcode-input">  methods chebfun</pre><pre class="mcode-output">
 Methods for class chebfun:
 
-abs                     domainCheck             not                     
-acos                    ellipj                  null                    
-acosd                   ellipke                 num2cell                
-acosh                   end                     numColumns              
-acot                    epslevel                or                      
-acotd                   eq                      orth                    
-acoth                   erf                     overlap                 
-acsc                    erfc                    pde15s                  
-acscd                   erfcinv                 pinv                    
-acsch                   erfcx                   plot                    
-addBreaks               erfinv                  plot3                   
-addBreaksAtRoots        exp                     plotData                
-airy                    expm1                   plus                    
-all                     extractColumns          poly                    
-and                     feval                   polyfit                 
-angle                   fill                    pow2                    
-any                     find                    power                   
-arcLength               fix                     prod                    
-area                    fliplr                  qr                      
-asec                    flipud                  quasi2cheb              
-asecd                   floor                   rank                    
-asech                   fred                    rdivide                 
-asin                    ge                      real                    
-asind                   get                     reallog                 
-asinh                   getDeltaFunctions       rem                     
-assignColumns           getRootsForBreaks       remez                   
-atan                    gt                      repmat                  
-atan2                   heaviside               residue                 
-atan2d                  horzcat                 restrict                
-atand                   hscale                  roots                   
-atanh                   hypot                   round                   
-besselh                 imag                    sec                     
-besseli                 innerProduct            secd                    
-besselj                 integral                sech                    
-besselk                 inv                     semilogx                
-bessely                 isdelta                 semilogy                
-bvp4c                   isempty                 setPointValues          
-bvp5c                   isequal                 sign                    
-cat                     isfinite                simplify                
-ceil                    isinf                   sin                     
-cf                      isnan                   sinc                    
-cheb2cell               isreal                  sind                    
-cheb2quasi              issing                  sinh                    
-chebellipseplot         iszero                  size                    
-chebfun                 join                    sound                   
-chebpade                jump                    spy                     
-chebpoly                ldivide                 sqrt                    
-chebpolyplot            le                      std                     
-chebtune                legpoly                 subsasgn                
-complex                 length                  subspace                
-compose                 log                     subsref                 
-cond                    log10                   sum                     
-conj                    log1p                   surf                    
-conv                    log2                    surface                 
-cos                     logical                 surfc                   
-cosd                    loglog                  svd                     
-cosh                    lt                      tan                     
-cot                     lu                      tand                    
-cotd                    mat2cell                tanh                    
-coth                    max                     tidyImpulses            
-cov                     mean                    times                   
-csc                     merge                   transpose               
-cscd                    mesh                    tweakDomain             
-csch                    min                     uminus                  
-ctranspose              minandmax               unwrap                  
-cumprod                 minus                   uplus                   
-cumsum                  mldivide                vander                  
-cylinder                mod                     var                     
-defineInterval          mrdivide                vertcat                 
-definePoint             mtimes                  volt                    
-diff                    ne                      vscale                  
-dirac                   newDomain               waterfall               
-disp                    nextpow2                why                     
-dispData                norm                    xor                     
-display                 normal                  
-domain                  normest                 
+abs              cot              issing           rdivide          
+acos             cotd             iszero           real             
+acosd            coth             join             reallog          
+acosh            cov              jump             rem              
+acot             csc              ldivide          remez            
+acotd            cscd             le               repmat           
+acoth            csch             legpoly          residue          
+acsc             ctranspose       length           restrict         
+acscd            cumprod          log              roots            
+acsch            cumsum           log10            round            
+airy             cylinder         log1p            sec              
+all              diff             log2             secd             
+and              dirac            logical          sech             
+angle            disp             loglog           semilogx         
+any              display          lt               semilogy         
+arcLength        domain           lu               sign             
+area             ellipj           mat2cell         simplify         
+asec             ellipke          max              sin              
+asecd            end              mean             sinc             
+asech            epslevel         merge            sind             
+asin             eq               mesh             sinh             
+asind            erf              min              size             
+asinh            erfc             minandmax        sound            
+atan             erfcinv          minus            spy              
+atan2            erfcx            mldivide         sqrt             
+atan2d           erfinv           mod              std              
+atand            exp              mrdivide         subsasgn         
+atanh            expm1            mtimes           subspace         
+besselh          feval            ne               subsref          
+besseli          fill             newDomain        sum              
+besselj          find             nextpow2         surf             
+besselk          fix              norm             surface          
+bessely          fliplr           normal           surfc            
+bvp4c            flipud           normest          svd              
+bvp5c            floor            not              tan              
+cat              fred             null             tand             
+ceil             ge               num2cell         tanh             
+cf               get              or               times            
+cheb2cell        gt               orth             transpose        
+cheb2quasi       heaviside        overlap          uminus           
+chebellipseplot  horzcat          pde15s           unwrap           
+chebfun          hscale           permute          uplus            
+chebpade         hypot            pinv             vander           
+chebpoly         imag             plot             var              
+chebpolyplot     innerProduct     plot3            vertcat          
+chebtune         integral         plus             volt             
+complex          inv              poly             vscale           
+compose          isdelta          polyfit          waterfall        
+cond             isempty          pow2             why              
+conj             isequal          power            xor              
+conv             isfinite         prod             
+cos              isinf            qr               
+cosd             isnan            quasi2cheb       
+cosh             isreal           rank             
 
 Static methods:
 
-constructor             mergeDomains            pref                    
-detectEdge              ode113                  spline                  
-getValuesAtBreakpoints  ode15s                  whichInterval           
-interp1                 ode45                   
-lagrange                pchip                   
+constructor      ode113           pchip            
+interp1          ode15s           spline           
+lagrange         ode45            
 
 </pre>To find out what a command does, you can use `help`.
 
-<pre class="mcode-input">  help chebfun/chebpoly</pre><pre class="mcode-output"> CHEBPOLY   Chebyshev polynomial coefficients of a CHEBFUN.
-    A = CHEBPOLY(F, N) returns the first N Chebyshev coefficients of F, i.e.,
-    the row vector such that F = ... + A(1) T_N(x) + ... + A(N) T_1(x) +
-    A(N+1) T_0(x), where T_M(x) denotes the M-th Chebyshev polynomial.
+<pre class="mcode-input">  help chebfun/sum</pre><pre class="mcode-output"> SUM   Definite integral of a CHEBFUN.
+    SUM(F) is the integral of a column CHEBFUN F over its domain of definition.
  
-    If F is a smooth CHEBFUN (i.e., with no breakpoints), then CHEBPOLY(F) is
-    equivalent to CHEBPOLY(F, LENGTH(F)).
-  
-    If F is array-valued with M columns, then A is an MxN matrix.
+    SUM(F, A, B), where A and B are scalars, integrates a column CHEBFUN F over
+    [A, B], which must be a subdomain of F.domain:
  
-    C = CHEBPOLY(F, N, 'kind', 2) returns the vector of coefficients for the
-    Chebyshev expansion of F in 2nd-kind Chebyshev polynomials F = ... + C(1)
-    U_N(x) + ... + C(N) U_1(x) + C(N+1) U_0(x).
+                          B
+                          /
+                SUM(F) =  | F(t) dt.
+                          /
+                         A
  
-    There is also a CHEBPOLY command in the Chebfun trunk directory, which
-    computes the CHEBFUN corresponding to the Chebyshev polynomial T_M(x).
+    SUM(F, A, B), where A and B are CHEBFUN objects, returns a CHEBFUN S which
+    satisfies
  
-  See also LEGPOLY.
+                        B(s)
+                        /
+                S(s) =  | F(t) dt.
+                        /
+                      A(s)
+ 
+    SUM(F, DIM), where DIM is one of 1, 2, sums F over the dimension DIM. If F
+    is a column CHEBFUN and DIM = 1 or if F is a row CHEBFUN and DIM = 2 then
+    this integrates in the continuous dimension of F, as described above.
+    Otherwise, SUM(F, DIM) sums across the columns (rows) of the column (row)
+    CHEBFUN F.
+ 
+  See also CUMSUM, DIFF.
 
-</pre>Most of the commands in the list exist in ordinary Matlab; some exceptions are `domain`, `restrict`, `chebpoly`, `define`, and `remez`. We have already seen `length` and `sum` in action.  In fact we have already seen `subsref` too, since that is the Matlab command for (among other things) evaluating arguments in parentheses.  Here is another example of its use:
+</pre>Most of the commands in the list exist in ordinary Matlab; some exceptions are `domain`, `restrict`, `chebpoly`, and `remez`. We have already seen `length` and `sum` in action.  In fact we have already seen `subsref` too, since that is the Matlab command for (among other things) evaluating arguments in parentheses.  Here is another example of its use:
 
 <pre class="mcode-input">  f(0.5)</pre><pre class="mcode-output">ans =
    0.137931034482756
@@ -241,7 +227,7 @@ In the next part of this tour we shall explore many of these commands systematic
 
 
 
-## 1.4  Piecewise smooth chebfuns
+# 1.4  Piecewise smooth chebfuns
 
 Many functions of interest are not smooth but piecewise smooth.  In this case a chebfun may consist of a concatenation of smooth pieces, each with its own polynomial representation.  Each of the smooth pieces is called a "fun".  This enhancement of Chebfun was developed initially by Ricardo Pachon during 2006-2007, then also by Rodrigo Platte starting in 2007 [Pachon, Platte and Trefethen 2009]. Essentially funs are the "classic chebfuns" for smooth functions on $[-1,1]$ originally implemented by Zachary Battles in Chebfun Version 1.
 
@@ -262,16 +248,7 @@ Later we shall describe the options in greater detail, but for the moment let us
 [      -1,     0.3]        2       1.3        0 
 [     0.3,       1]        2         0      0.7 
 Epslevel = 6.492624e-16.  Vscale = 1.300000e+00.  Total length = 4.
-</pre>This output confirms that f consists of two funs, each defined by two points and two corresponding function values. We can see the structure from another angle with `disp`:
-
-<pre class="mcode-input">  disp(f)</pre><pre class="mcode-output">ans =
-f = 
-   chebfun column (2 smooth pieces)
-       interval       length   endpoint values  
-[      -1,     0.3]        2       1.3        0 
-[     0.3,       1]        2         0      0.7 
-Epslevel = 6.492624e-16.  Vscale = 1.300000e+00.  Total length = 4.
-</pre>This output again show that `f` consists of two funs with breakpoints at $-1$, $1$, and a number very close to $0.3$.  The `Vscale` field is related to the maximum absolute value of `f` and `Epslevel` gives some information (to be discussed later) about its relative accuracy.
+</pre>This output confirms that f consists of two funs, each defined by two points and two corresponding function values. The functions live on intervals defined by breakpoints at $-1$, $1$, and a number very close to $0.3$.  The `Vscale` field is related to the maximum absolute value of `f` and `Epslevel` gives some information (to be discussed later) about its relative accuracy.
 
 Another way to make a piecewise smooth chebfun is to construct it explicitly from various pieces.  For example, the following command specifies three functions $x^2$, $1$, and $4-x$, together with a vector of endpoints indicating that the first function applies on $[-1,1]$, the second on $[1,2]$, and the third on $[2,4]$:
 
@@ -320,12 +297,12 @@ As always, h may look complicated to a human, but to Chebfun it is just a functi
 </pre>A final note about piecewise smooth chebfuns is that the automatic edge detection or "splitting" feature, when it is turned on, may subdivide functions even though they do not have clean point singularities, and this may be desirable or undesirable depending on the application.  For example, considering $\sin(x)$ over $[0,1000]$ with splitting on, we end up with a chebfun with many pieces:
 
 <pre class="mcode-input">  tic, f = chebfun('sin(x)',[0 1000*pi],'splitting','on'); toc
-  disp(f)</pre><pre class="mcode-output">Elapsed time is 0.796139 seconds.
+  disp(f)</pre><pre class="mcode-output">Elapsed time is 1.400759 seconds.
 ans =
 f = 
    chebfun column (32 smooth pieces)
        interval       length   endpoint values  
-[       0,      98]       88         0    -0.71 
+[       0,      98]       87         0    -0.71 
 [      98,   2e+02]       88     -0.71        1 
 [   2e+02, 2.9e+02]       88         1    -0.71 
 [ 2.9e+02, 3.9e+02]       87     -0.71        0 
@@ -357,34 +334,35 @@ f =
 [ 2.8e+03, 2.9e+03]       84      0.71       -1 
 [ 2.9e+03,   3e+03]       86        -1     0.71 
 [   3e+03, 3.1e+03]       85      0.71        0 
-Epslevel = 3.487741e-13.  Vscale = 1.000000e+00.  Total length = 2749.
+Epslevel = 3.487391e-13.  Vscale = 1.000000e+00.  Total length = 2748.
 </pre>In this case it is more efficient -- and more interesting mathematically -- to omit the splitting and construct one global chebfun:
 
 <pre class="mcode-input">  tic, f2 = chebfun('sin(x)',[0 1000*pi]); toc
-  disp(f2)</pre><pre class="mcode-output">Elapsed time is 0.035794 seconds.
+  disp(f2)</pre><pre class="mcode-output">Elapsed time is 0.035720 seconds.
 ans =
 f2 = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [       0, 3.1e+03]     1684         0        0 
-Epslevel = 3.487915e-13.  Vscale = 9.999862e-01.
+Epslevel = 3.487867e-13.  Vscale = 9.999862e-01.
 </pre>
 
-## 1.5  Infinite intervals and infinite function values
+# 1.5  Infinite intervals and infinite function values
 
-A major change from Chebfun Version 2 to Version 3 was the generalization of chebfuns to allow certain functions on infinite intervals or which diverge to infinity: the initial credit for these innovations belongs to Nick Hale, Rodrigo Platte, and Mark Richardson. For example, here is a function on the whole real axis,
+A major change from Chebfun Version 2 to Version 3 was the generalization of chebfuns to allow certain functions on infinite intervals or which diverge to infinity; the initial credit for these innovations belongs to Nick Hale, Rodrigo Platte, and Mark Richardson. For example, here is a function on the whole real axis,
 
 <pre class="mcode-input">  f = chebfun('exp(-x.^2/16).*(1+.2*cos(10*x))',[-inf,inf]);
   plot(f)</pre><img src="img/guide1_09.png" alt="">
 
 and here is its integral:
 
-<pre class="mcode-input">  sum(f)</pre><pre class="mcode-output">ans =
-   Inf
+<pre class="mcode-input">  sum(f)</pre><pre class="mcode-output">Warning: Result may not be accurate as the function decays slowly at infinity. 
+ans =
+   7.089817931976723
 </pre>Here's the integral of a function on [1,inf]:
 
 <pre class="mcode-input">  sum(chebfun('1./x.^4',[1 inf]))</pre><pre class="mcode-output">ans =
-   0.333333333378722
+   0.333333333254510
 </pre>Notice that several digits of accuracy have been lost here.  Be careful! -- operations involving infinities in Chebfun are not always as accurate and robust as their finite counterparts.
 
 Here is an example of a function that diverges to infinity, which we can capture by including the flag `'blowup 2'` (try help chebfun for details):
@@ -400,7 +378,7 @@ In this case the integral comes out just right:
 
 
 
-## 1.6  Rows, columns, and quasimatrices
+# 1.6  Rows, columns, and quasimatrices
 
 Matlab doesn't only deal with column vectors: there are also row vectors and matrices.  The same is true of Chebfun. The chebfuns shown so far have all been in column orientation, which is the default, but one can also take the transpose, compute inner products, and so on:
 
@@ -430,23 +408,23 @@ Epslevel = 6.492624e-16.  Vscale = 1.
    chebfun column3 (1 smooth piece)
        interval       length   endpoint values  
 [      -1,       1]        3         1        1 
-Epslevel = 1.298525e-15.  Vscale = 1.
+Epslevel = 1.298525e-15.  Vscale = 1.000000e+00.
 (P.S. I am an array-valued CHEBFUN!)
 </pre><pre class="mcode-input">  A'*A</pre><pre class="mcode-output">ans =
    2.000000000000000   0.000000000000000   0.666666666666667
-   0.000000000000000   0.666666666666667  -0.000000000000000
-   0.666666666666667  -0.000000000000000   0.400000000000000
+   0.000000000000000   0.666666666666667   0.000000000000000
+   0.666666666666667   0.000000000000000   0.400000000000000
 </pre>These are called _quasimatrices_, and they are discussed in Chapter 6.
 
 
 
-## 1.7  How this Guide is produced
+# 1.7  How this Guide is produced
 
-This guide is produced in Matlab using the "publish" command with a style sheet somewhat different from the usual; the output of publish is then processed by markdown. To publish a chapter for yourself, make sure the chebfun guide directory is in your path and then type, for example, `open(publish('guide1'))`.  The formatting may not be exactly right but it should certainly be legible.
+This guide is produced in Matlab using the "publish" command with a style sheet somewhat different from the usual; the output of publish is then processed by Markdown. To publish a chapter for yourself, make sure the chebfun guide directory is in your path and then type, for example, `open(publish('guide1'))`.  The formatting may not be exactly right but it should certainly be legible.
 
 
 
-## 1.8  References
+# 1.8  References
 
 [Battles &amp; Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension of Matlab to continuous functions and operators", _SIAM Journal on Scientific Computing_ 25 (2004), 1743-1770.
 

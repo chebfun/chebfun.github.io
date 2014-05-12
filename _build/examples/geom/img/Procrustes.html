@@ -1,11 +1,11 @@
 ---
-title: Procrustes shape analysis
+title: "Procrustes shape analysis"
 layout: example
 authordate: "Alex Townsend, August 2011"
 meta: "(Chebfun Example geom/Procrustes.m) [Tags: #shapeanaylsis, #affinetransformations, #geometry, #Procrustes]"
 ---
 
-<pre class="mcode-input">close all</pre>
+<pre class="mcode-input">function procrustes</pre><pre class="mcode-input">close all</pre>
 
 ## Shape analysis on a beach holiday
 
@@ -70,7 +70,7 @@ end
 To calculate the Procrustes distance in the discrete case we would measure the error between the two shapes at a finite number of reference points and compute the vector 2-norm. In Chebfun we calculate the continuous analogue:
 
 <pre class="mcode-input">norm(f-g)</pre><pre class="mcode-output">ans =
-   0.072347575424909
+   0.072347575424999
 </pre>
 
 ## A little warning
@@ -99,7 +99,7 @@ Here is how the pebble and its reflection compare after each stage of translatin
 Now we calculate the continuous Procrustes distance.
 
 <pre class="mcode-input">norm(f-g)</pre><pre class="mcode-output">ans =
-   0.097593759012229
+   0.097593759012233
 </pre>Comparing this result to the Procrustes distance of the pebble and a frisbee shows that the pebble is closer in shape to a frisbee than to its own reflection!
 
 <pre class="mcode-input">end</pre>

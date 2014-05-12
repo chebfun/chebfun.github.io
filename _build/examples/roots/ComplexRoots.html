@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Roots of a complex function via Cauchy integrals &laquo; Chebfun</title>
+    <title>Roots of a complex function via Cauchy integrals &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -85,7 +85,9 @@ pageTracker._trackPageview();
 
         <div class="content">
             <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Poles and zeros of complex functions can be located by the evaluation of contour integrals, as mentioned in Chapter 5 of the Chebfun Guide.  For example, suppose we have a function like this one with a single root s1 in the unit disk:</p>
+                <pre class="mcode-input">function ComplexRoots</pre>
+
+<p>Poles and zeros of complex functions can be located by the evaluation of contour integrals, as mentioned in Chapter 5 of the Chebfun Guide.  For example, suppose we have a function like this one with a single root s1 in the unit disk:</p>
 <pre class="mcode-input">ff = @(z) (z-0.5i).*exp(z);</pre>
 
 <p>We can find the root as the value of a contour integral around the unit circle:</p>
@@ -98,7 +100,7 @@ pageTracker._trackPageview();
 s1 = sum(z.*diff(f)./f)/(2i*pi)</pre>
 
 <pre class="mcode-output">s1 =
-  0.000000000000002 + 0.499999999999999i
+  0.000000000000001 + 0.499999999999999i
 </pre>
 
 <p>There is nothing in this computation that depends on the use of the unit disk.  Other contours are equally tracatable in Chebfun, as illustrated in the Example complex/KeyholeContour and in Chapter 5 of the Chebfun Guide.</p>
@@ -118,9 +120,9 @@ s0 = sum(diff(f)./f)/(2i*pi)</pre>
 s2 = sum(z.^2.*diff(f)./f)/(2i*pi)</pre>
 
 <pre class="mcode-output">s1 =
-     -1.555010862042088e-15 + 1.013138012226223e-16i
+     -2.400960569288819e-15 - 2.212954893096594e-16i
 s2 =
- -0.500000000000001 - 0.000000000000000i
+ -0.500000000000001 + 0.000000000000001i
 </pre>
 
 <p>corresponding to roots at +- 0.5i.  We can find these numbers systematically by noting that the monic polynomial p(z) with these roots has coefficients c0=(s1^2-s2)/2, c1=-s1, c2=1. So here is a calculation of the two roots in the unit disk of cosh(pi*z):</p>
@@ -128,8 +130,8 @@ s2 =
 roots(p)</pre>
 
 <pre class="mcode-output">ans =
- -0.000000000000001 + 0.500000000000000i
- -0.000000000000001 - 0.500000000000000i
+ -0.000000000000002 - 0.500000000000001i
+ -0.000000000000001 + 0.500000000000001i
 </pre>
 
 <p>Generalization to higher numbers of roots can be done via Newton's identities.  We don't pursue the general case here but instead write a code that finds three roots of an analytic function in the unit disk:</p>
@@ -149,9 +151,9 @@ end</pre>
 roots3(ff)</pre>
 
 <pre class="mcode-output">ans =
- -0.000000000000014 - 0.499999999999992i
- -0.000000000000015 + 0.499999999999992i
-  0.300000000000149 + 0.000000000000000i
+ -0.000000000000042 - 0.499999999999947i
+ -0.000000000000041 + 0.499999999999947i
+  0.300000000000001 - 0.000000000000000i
 </pre>
 
 <p>Here is another:</p>
@@ -159,9 +161,9 @@ roots3(ff)</pre>
 roots3(ff)</pre>
 
 <pre class="mcode-output">ans =
- -0.249999999999997 - 0.433012701892223i
- -0.249999999999997 + 0.433012701892213i
-  0.499999999999995 + 0.000000000000001i
+ -0.249999999999997 - 0.433012701892226i
+ -0.249999999999996 + 0.433012701892217i
+  0.499999999999996 + 0.000000000000002i
 </pre>
 
 <pre class="mcode-input">end</pre>

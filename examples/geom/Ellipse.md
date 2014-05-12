@@ -1,5 +1,5 @@
 ---
-title: Perimeter of an ellipse
+title: "Perimeter of an ellipse"
 layout: example
 authordate: "Nick Hale and Nick Trefethen, December 2010"
 meta: "(Chebfun example geom/Ellipse.m) [Tags: #perimeter, #geometry]"

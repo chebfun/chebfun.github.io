@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Orr-Sommerfeld eigenvalues &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Chebfun</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/ode-eig/">ODE eigenvalue problems</a></li>
+       <li class="active">Orr-Sommerfeld eigenvalues</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Orr-Sommerfeld eigenvalues</h1>
+        <h2>Toby Driscoll and Nick Trefethen, October 2010</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>The Orr-Sommerfeld problem is a classic problem from the field of hydrodynamic stability.  In the simplest case it models the flow of a Newtonian fluid between two infinite plates, governed by the Navier-Stokes equations. The Reynolds number $Re$ is a nondimensional parameter corresponding roughly to velocity divided by viscosity.  For any value of $Re$ there is a smooth ("laminar") solution to the Navier-Stokes equations, but the stability, and hence the observability, of this solution is a delicate and much-studied question.  In practice one observes instability and transition to turbulence when $Re$ is in the thousands or higher.</p>
+<p>The Orr-Sommerfeld operator is the linear operator $L$ that maps infinitesimal perturbations on the laminar flow to their infinitesimal growth rates. Classically speaking we expect the flow to be stable if all the eigenvalues of $L$ lie in the left half-plane, and unstable if there are any eigenvalues in the right half-plane.</p>
+<p>The following Chebfun code computes the rightmost $50$ eigenvalues of $L$ for $Re=2000$.  This mathematical formulation, due to Reddy and Henningson and described in Appendix A of [1], involves a fourth order complex generalized eigenvalue problem.</p>
+<pre class="mcode-input">Re = 2000;                  % Reynolds number
+alph = 1;                   % longitudinal Fourier parameter
+A = chebop(-1,1);
+
+A.op = @(x,u) (diff(u,4)-2*alph^2*diff(u,2)+alph^4*u)/Re - ...
+    2i*alph*u - 1i*alph*(1-x.^2).*(diff(u,2)-alph^2*u);
+B = chebop(-1,1);
+B.op = @(x,u) diff(u,2) - u;
+A.lbc = @(u) [u ; diff(u)];
+A.rbc = @(u) [u ; diff(u)];
+e = eigs(A,B,50,'LR');
+FS = 'fontsize'; MS = 'markersize';
+maxe = max(real(e));
+plot(e,'.r',MS,16), grid on, axis([-.9 .1 -1 0]), axis square
+title(sprintf('Re = %8.2f   \\lambda_r = %7.5f',Re,maxe),FS,16)</pre>
+
+<p><img src="img/OrrSommerfeld_01.png" alt=""></p>
+<p>(The eigenvalues on the lower-right branch are near-degenerate pairs.) Here is the same computation for $Re = 5772.22$, the critical value at which an eigenvalue first crosses into the right half-plane:</p>
+<pre class="mcode-input">Re = 5772.22; alph = 1.02;
+A.op = @(x,u) (diff(u,4)-2*alph^2*diff(u,2)+alph^4*u)/Re - ...
+    2i*alph*u - 1i*alph*(1-x.^2).*(diff(u,2)-alph^2*u);
+e = eigs(A,B,50,'LR');
+maxe = max(real(e));
+plot(e,'.r',MS,16), grid on, axis([-.9 .1 -1 0]), axis square
+title(['Re = ' sprintf('%5d',Re) ...
+   ',   \lambda_r = ' sprintf('%7.5f',maxe)],FS,16)</pre>
+
+<p><img src="img/OrrSommerfeld_02.png" alt=""></p>
+<p>Although the Orr-Sommerfeld equation is very famous, this eigenvalue analysis actually has little to do with what makes fluid flows unstable in practice, and it is difficult to see the number $5772.22$ in the laboratory [2].</p>
+<p>References:</p>
+<p>[1] P. J. Schmid and D. S. Henningson, <em>Stability and Transition in Shear Flows</em>, Springer, 2001.</p>
+<p>[2] L. N. Trefethen and M. Embree, <em>Spectra and Pseudospectra: The Behavior of Nonnormal Matrices and Operators</em>, Princeton U. Press, 2005.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+
+  </body>
+</html>

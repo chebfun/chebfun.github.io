@@ -1,11 +1,11 @@
 ---
-title: Needle on a corrugated surface
+title: "Needle on a corrugated surface"
 layout: example
 authordate: "Nick Trefethen and Hrothgar, 11th December 2013"
 meta: "(Chebfun example opt/Needle.m) [Tags: #optimization]"
 ---
 
-The final problem for Oxford's Numerical Analysis Problem Solving Squad this year was the following:
+<pre class="mcode-input">function needle()</pre>The final problem for Oxford's Numerical Analysis Problem Solving Squad this year was the following:
 
 A needle of length $1$ rests on a surface defined by the height function
 
@@ -61,7 +61,7 @@ for k = 1:length(x)
   end
 end
 close, contour(x,theta,yy,80), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
-colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre><pre class="mcode-output">Elapsed time is 17.007575 seconds.
+colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre><pre class="mcode-output">Elapsed time is 17.185128 seconds.
 </pre><img src="img/Needle_03.png" alt="">
 
 In this picture we see that there are two promising regions: one with $(x,\theta) \approx (-.5, -.4)$, and one with $(x,\theta) \approx (.5, -.2)$. The central white regions have an interesting interpretation: if the needle is balanced on top of a mountain, then moving it left or right, or tilting it, doesn't have much effect.
@@ -77,7 +77,7 @@ for k = 1:length(x)
 end
 levels = 0.06:.003:0.12;
 contour(x,theta,yy,levels), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
-title(['min value on grid: ' num2str(min(min(yy)))],FS,14), toc</pre><pre class="mcode-output">Elapsed time is 15.323102 seconds.
+title(['min value on grid: ' num2str(min(min(yy)))],FS,14), toc</pre><pre class="mcode-output">Elapsed time is 16.087450 seconds.
 </pre><img src="img/Needle_04.png" alt="">
 
 The winner seems to be the region on the right. From here the right thing to do is call a bivariate optimization routine. In basic Matlab the simplest one is the direct search code `<a href="http://www.mathworks.co.uk/help/matlab/ref/fminsearch.html">fminsearch</a>`. This requires the input to be a single vector, so we'll need a wrapper:
@@ -88,7 +88,7 @@ end</pre>Here goes.
 
 <pre class="mcode-input">opts = optimset('tolx',1e-14,'display','off');
 guess = [.41, -0.2];
-tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre><pre class="mcode-output">Elapsed time is 6.821810 seconds.
+tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre><pre class="mcode-output">Elapsed time is 8.202848 seconds.
 </pre>So it would seem that to 10 digits or more, the minimal height is around
 
 <pre class="mcode-input">yval</pre><pre class="mcode-output">yval =

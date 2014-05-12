@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Team &laquo; Chebfun</title>
+    <title>Wave equation with decay band &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -47,10 +47,10 @@ pageTracker._trackPageview();
           <!--<ul class="nav navbar-nav navbar-left"></ul>-->
 
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="/about/">About</a></li>
+            <li><a href="/about/">About</a></li>
             <li><a href="/download/">Download</a></li>
             <li><a href="/docs/">Documentation</a></li>
-            <li><a href="/examples/">Examples</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
             <li><a href="/develop/">Develop</a></li>
             <li><a href="/citing/">Citing</a></li>
             <li><a href="/support/">Support</a></li>
@@ -65,21 +65,70 @@ pageTracker._trackPageview();
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li><a href="/about/">About</a></li>
-       <li class="active">Team</li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/ode-eig/">ODE eigenvalue problems</a></li>
+       <li class="active">Wave equation with decay band</li>
     </ol>
 
     <div class="page-header">
  
-        <h1>Team</h1>
+        <h1>Wave equation with decay band</h1>
+        <h2>Nick Trefethen, November 2010</h2>
     </div>
 
     <div class="row">
 
- 
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
         <div class="content">
-            <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Pictures of the team</p>
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>Here are eigenmodes $1$, $2$, $10$, $20$ of the wave equation on $[-\pi/2,\pi/2]$:</p>
+<pre class="mcode-input">LW = 'linewidth'; lw = 1.6; FS = 'fontsize'; fs = 8;
+L = chebop(-pi/2,pi/2);
+L.op = @(u) diff(u,2);
+L.bc = 'dirichlet';
+nn = [1 2 20 40]; nmax = max(nn);
+[V,D] = eigs(L,nmax);
+d = diag(D); [d,ii] = sort(d,'descend'); V = V(:,ii');
+for j = 1:4
+  n = nn(j);
+  v = V(:,n);                 % pick out nth eigenvector
+  v = v/norm(v,inf);          % normalize to have amplitude 1
+  lam = d(n);                 % nth eigenvalue
+  subplot(4,1,j)
+  plot(v,LW,lw)
+  axis([-pi/2 pi/2 -1.6 1.6])
+  if j &lt; 4, set(gca,'xtick',[]), end
+  text(.3,1.1,sprintf('mode %d         lam = %6.3f',n,lam),FS,fs)
+end</pre>
+
+<p><img src="img/WaveDecay_01.png" alt=""></p>
+<p>Here are the same, but for the wave equation with a decay band:</p>
+<pre class="mcode-input">figure
+a = 0.2;
+x = chebfun('x',[-pi/2 pi/2]);
+middle = (abs(x)&lt;=a);
+L.op = @(x,u) diff(u,2) + (2/a)*middle.*diff(u);   % decay band
+nn = [1 2 20 40]; nmax = max(nn);
+[V,D] = eigs(L,nmax);
+d = diag(D); [d,ii] = sort(d,'descend'); V = V(:,ii');
+for j = 1:4
+  n = nn(j);
+  v = V(:,n);                 % pick out nth eigenvector
+  v = v/norm(v,inf);          % normalize to have amplitude 1
+  lam = d(n);                 % nth eigenvalue
+  subplot(4,1,j)
+  hold off, fill(a*[-1 1 1 -1],1.6*[-1 -1 1 1],[1 .8 .8])
+  hold on, plot(v,LW,lw)
+  axis([-pi/2 pi/2 -1.6 1.6])
+  if j &lt; 4, set(gca,'xtick',[]), end
+  text(.3,1,sprintf('mode %d         lam = %6.3f',n,lam),FS,fs)
+end</pre>
+
+<p><img src="img/WaveDecay_02.png" alt=""></p>
             </div>
         </div>
 

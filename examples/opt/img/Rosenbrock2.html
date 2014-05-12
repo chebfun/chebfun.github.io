@@ -1,11 +1,12 @@
 ---
-title: The Rosenbrock function in 2D optimisation (revisited)
+title: "The Rosenbrock function in 2D optimisation (revisited)"
 layout: example
 authordate: "Nick Hale, 4th March 2013"
 meta: "(Chebfun example opt/Rosenbrock2.m) [Tags: #Rosenbrock, #optimization, #Chebfun2]"
 ---
 
-
+<pre class="mcode-input">LW = 'LineWidth';  lw = 1;
+MS = 'MarkerSize'; ms = 20;</pre>
 
 ## 1. The Rosenbrock function
 
@@ -38,7 +39,7 @@ toc</pre><pre class="mcode-output">minf =
   -0.969232500643154
 minx =
    0.395759624697258   0.331573982761955
-Elapsed time is 0.585355 seconds.
+Elapsed time is 0.582882 seconds.
 </pre>Here is a plot, again with the computed global minimum.
 
 <pre class="mcode-input">contour(F,30, LW, lw), colorbar, hold on

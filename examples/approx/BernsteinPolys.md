@@ -1,11 +1,11 @@
 ---
-title: Bernstein polynomials
+title: "Bernstein polynomials"
 layout: example
 authordate: "Nick Trefethen, 15th May 2012"
 meta: "(Chebfun example approx/BernsteinPolys.m) [Tags: #Bernstein, #Gibbs, #Weierstrass, #binomial]"
 ---
 
-The Weierstrass Approximation Theorem asserts that a continuous function $f$ on a bounded interval like $[0,1]$ can be approximated by polynomials (i.e., approximated as closely as you like in the supremum norm). Weierstrass proved this in 1885 by a diffusion argument: if $f$ diffuses however little, it becomes an entire function, which can be approximated by truncating the Taylor series. (Before the diffusion, one first extends $f$ to a continuous with compact support on the whole real line.)
+<pre class="mcode-input">function BernsteinPolys()</pre>The Weierstrass Approximation Theorem asserts that a continuous function $f$ on a bounded interval like $[0,1]$ can be approximated by polynomials (i.e., approximated as closely as you like in the supremum norm). Weierstrass proved this in 1885 by a diffusion argument: if $f$ diffuses however little, it becomes an entire function, which can be approximated by truncating the Taylor series. (Before the diffusion, one first extends $f$ to a continuous with compact support on the whole real line.)
 
 Bernstein gave a proof of the Weierstrass Approximation Theorem in 1912 that is a kind of discrete version of this diffusion proof: it replaces the continuous diffusion by a random walk on an equispaced grid in $[0,1]$.  While this is perhaps a little more complicated conceptually, it is mathematically more elementary since you don't need any analysis and you don't need to truncate a series, for the polynomials emerge directly.
 
@@ -62,5 +62,5 @@ end</pre><img src="img/BernsteinPolys_05.png" alt="">
 Though $f$ is now entire, the convergence is not really better than before.  By contrast we know that $n=100$ is more than enough for Chebyshev interpolation to nail this function to machine precision:
 
 <pre class="mcode-input">length(f)</pre><pre class="mcode-output">ans =
-    80
+    85
 </pre><pre class="mcode-input">end</pre>

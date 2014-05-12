@@ -1,5 +1,5 @@
 ---
-title: Phase Portraits
+title: "Phase Portraits"
 layout: example
 authordate: "Alex Townsend, 4th March 2013"
 meta: "(Chebfun2 example complex/PhasePortraits.m) [Tags: #phase portraits, #Chebfun2]"

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <!--
 This is an XSL stylesheet which converts mscript XML files into XSLT.
@@ -13,10 +13,10 @@ Modified by Hrothgar to create a to-MarkDown custom .xsl.
 
 <!DOCTYPE xsl:stylesheet [ <!ENTITY nbsp "&#160;"> ]>
 <xsl:stylesheet
-version="1.0"
-xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    version="1.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="html"
-indent="no"/>
+    indent="no"/>
 <!-- <xsl:strip-space elements="code"/> -->
 <xsl:template match="mscript">
 <xsl:variable name="exTitle" select="cell[1]/steptitle"/>
@@ -28,7 +28,7 @@ authordate: "<xsl:value-of select="normalize-space($exAuthordate)"/>"
 meta: "<xsl:value-of select="normalize-space($exMeta)"/>"
 ---
 
-<xsl:variable name="body-cells" select="cell[position()>2]"/>
+<xsl:variable name="body-cells" select="cell[position()>1]"/>
 
 <!-- Include contents if there are titles for any subsections. -->
 <xsl:if test="count(cell/steptitle[not(@style = 'document')])">
@@ -59,7 +59,9 @@ meta: "<xsl:value-of select="normalize-space($exMeta)"/>"
 </xsl:if>
 
 <!-- Contents of each cell -->
-<xsl:apply-templates select="text"/>
+<xsl:if test="position()>1">
+    <xsl:apply-templates select="text"/>
+</xsl:if>
 <xsl:apply-templates select="mcode"/>
 <xsl:apply-templates select="mcodeoutput"/>
 <xsl:apply-templates select="img"/>

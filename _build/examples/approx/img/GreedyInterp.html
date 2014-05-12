@@ -1,5 +1,5 @@
 ---
-title: A greedy algorithm for choosing interpolation points
+title: "A greedy algorithm for choosing interpolation points"
 layout: example
 authordate: "Nick Trefethen, 27 November 2011"
 meta: "(Chebfun example approx/GreedyInterp.m) [Tags: #greedy, #interpolation, #Leja, #Chebyshevpoints]"

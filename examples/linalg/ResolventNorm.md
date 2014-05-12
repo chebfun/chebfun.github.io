@@ -1,5 +1,5 @@
 ---
-title: Resolvent norm on the imaginary axis
+title: "Resolvent norm on the imaginary axis"
 layout: example
 authordate: "Nick Trefethen, May 2011"
 meta: "(Chebfun example linalg/ResolventNorm.m) [Tags: #linearalgebra, #norm, #resolvent, #pseudospectra]"
@@ -36,11 +36,11 @@ The maximum of f is this,
 
 <pre class="mcode-input">format long
 maxf = max(f)</pre><pre class="mcode-output">maxf =
-   6.227545522966339
+   6.227545522966329
 </pre>and the distance to instability is the reciprocal of this quantity,
 
 <pre class="mcode-input">dist_sing = 1/maxf</pre><pre class="mcode-output">dist_sing =
-   0.160576907276251
+   0.160576907276252
 </pre>Let us consider another example matrix, and this time, let's make an anonymous function to construct the chebfun.
 
 <pre class="mcode-input">normfun = @(A) chebfun(@(y) 1/min(svd(1i*y*eye(size(A))-A)),...

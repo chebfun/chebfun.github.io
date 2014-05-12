@@ -1,5 +1,5 @@
 ---
-title: Least-squares data fitting and POLYFIT
+title: "Least-squares data fitting and POLYFIT"
 layout: example
 authordate: "Nick Trefethen, 1st October 2011"
 meta: "(Chebfun example stats/LeastSquares.m) [Tags: #least-squares, #POLYFIT]"
