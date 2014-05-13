@@ -9,10 +9,7 @@ function genchebdoc
 
 tic
 
-<<<<<<< HEAD
 
-=======
->>>>>>> aa89fe8ad4247a02171be740f6cd5741e1bf552b
 % Directory and file naming options.
 opts.mdir    = 'functions-mjunk'; % directory for m files
 opts.docdir  = 'functions';       % directory for html files
