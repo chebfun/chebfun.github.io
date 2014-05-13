@@ -1,0 +1,120 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ROOTS :: Roots of a CHEBFUN.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="roots_DOC.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ROOTS :: Roots of a CHEBFUN.</h1><pre>  ROOTS(F) returns the roots of F in its domain of definition. By default,
+  roots are returned at jumps in F which pass through zero, and if F is
+  identically zero on a part of its domain, then a single root is returned at
+  the midpoint. Each of these behaviours can be modified using the optional
+  inputs described below:</pre><pre>  ROOTS(F, 'nojump') prevents ROOTS() from returning points where F changes
+  sign due to a jump discontinuity, such as roots(chebfun(@sign, 'splitting',
+  'on')).</pre><pre>  ROOTS(F, 'nozerofun') prevents ROOTS() from returning a zero at the midpoint
+  of the domain of F when F if identically zero, such as ROOTS(chebfun(0)).</pre><pre>  ROOTS(F, 'norecursion') deactivates the recursion procedure used to compute
+  roots (see the Guide 3: Rootfinding and minima and maxima for more
+  information on this recursion procedure).</pre><pre>  ROOTS(F, 'all') returns the roots of all the FUN objects representing the
+  smooth pieces of F. Note that by default this disables recursion, and so is
+  equivalent to ROOTS(F, 'all', 'norecursion').</pre><pre>  ROOTS(F, 'complex') returns the real and complex roots of the FUN objects
+  representing the smooth pieces of F that are determined to be non-spurious.
+  (See CHEBELLIPSEPLOT). This capability may remove some spurious roots that
+  can appear if using ROOTS(F, 'all'). ROOTS(F, 'complex') is equivalent to
+  ROOTS(F, 'complex', 'recursion').</pre><pre>  ROOTS(F, 'all', 'recursion') and ROOTS(F, 'complex','norecursion') can be
+  used to activate and deactivate the recursion procedure respectively, to
+  compute the roots as explained in the 'all' and 'complex' modes.</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ROOTS :: Roots of a CHEBFUN.
+%    ROOTS(F) returns the roots of F in its domain of definition. By default,
+%    roots are returned at jumps in F which pass through zero, and if F is
+%    identically zero on a part of its domain, then a single root is returned at
+%    the midpoint. Each of these behaviours can be modified using the optional
+%    inputs described below:
+% 
+%    ROOTS(F, 'nojump') prevents ROOTS() from returning points where F changes
+%    sign due to a jump discontinuity, such as roots(chebfun(@sign, 'splitting',
+%    'on')).
+% 
+%    ROOTS(F, 'nozerofun') prevents ROOTS() from returning a zero at the midpoint
+%    of the domain of F when F if identically zero, such as ROOTS(chebfun(0)).
+%  
+%    ROOTS(F, 'norecursion') deactivates the recursion procedure used to compute
+%    roots (see the Guide 3: Rootfinding and minima and maxima for more
+%    information on this recursion procedure).
+% 
+%    ROOTS(F, 'all') returns the roots of all the FUN objects representing the
+%    smooth pieces of F. Note that by default this disables recursion, and so is
+%    equivalent to ROOTS(F, 'all', 'norecursion').
+% 
+%    ROOTS(F, 'complex') returns the real and complex roots of the FUN objects
+%    representing the smooth pieces of F that are determined to be non-spurious.
+%    (See CHEBELLIPSEPLOT). This capability may remove some spurious roots that
+%    can appear if using ROOTS(F, 'all'). ROOTS(F, 'complex') is equivalent to
+%    ROOTS(F, 'complex', 'recursion').
+% 
+%    ROOTS(F, 'all', 'recursion') and ROOTS(F, 'complex','norecursion') can be
+%    used to activate and deactivate the recursion procedure respectively, to
+%    compute the roots as explained in the 'all' and 'complex' modes.
+%
+##### SOURCE END #####
+--></body></html>
