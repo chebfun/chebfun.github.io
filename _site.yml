@@ -1,0 +1,25 @@
+brand: Chebfun
+baseURL: ''
+
+reflinks:
+    chebfun2:
+        url: \#
+        title: Chebfun2
+    atap:
+        url: \#
+        title: Approximation Theory and Approximation Practice
+    file-chebfun.bib:
+        url: chebfun.bib
+        title: Chebfun bibliography
+    github-chebfun:
+        url: //github.com/chebfun/chebfun
+        title: Chebfun at GitHub
+    github-chebfun-master.zip:
+        url: https://github.com/chebfun/chebfun/archive/master.zip
+        title: chebfun.zip
+    matlab:
+        url: http://www.mathworks.com/products/matlab/
+        title: Matlab
+    matlab-doc:
+        url: http://www.mathworks.com/help/matlab/
+        title: Matlab documentation

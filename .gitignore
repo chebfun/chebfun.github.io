@@ -1,0 +1,11 @@
+
+# urubu build files
+# _build/*
+
+# Python files
+*.pyc
+
+# Images
+*.png
+*.eps
+*.pdf

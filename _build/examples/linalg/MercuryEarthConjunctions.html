@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mercury-Earth Conjunctions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/linalg/">Linear algebra</a></li>
+       <li class="active">Mercury-Earth Conjunctions</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Mercury-Earth Conjunctions</h1>
+        <h2>Tonatiuh Sanchez-Vizuet and Matthew Moye, 17th June 2012</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>In an example in [1] the positions of Earth and Mercury are given, relative to the sun at one foci of their elliptical orbits at (0,0), by the parametric equations</p>
+<p>$$ x_M(t) = -11.9084+57.9117\cos(2\pi t/87.97), $$</p>
+<p>$$ y_M(t) = 56.6741\sin(2\pi t/87.97), $$</p>
+<p>$$ x_E(t) = -2.4987+149.6041\cos(2\pi t/365.25), $$</p>
+<p>$$ y_E(t) = 149.5832\sin(2\pi t/365.25). $$</p>
+<p>Conjunctions occur when Mercury is in a straight line configuration with the Earth and the Sun. A solution for the times of conjunctions can then be determined by the zeros of the cross product of the planets' position vectors on a time interval.</p>
+<pre class="mcode-input">M = @(t) [-11.9084 + 57.9117 * cos(2*pi*t/87.97),...
+           56.6741 * sin(2*pi*t/87.97);
+          -2.4987 + 149.6041 * cos(2*pi*t/365.25),...
+           149.5832 * sin(2*pi*t/365.25)];
+
+f = chebfun(@(t) det(M(t)),[0 600],'vectorize');</pre>
+
+<p>The roots of the determinant give the days at which a conjunction occurs.</p>
+<pre class="mcode-input">zeros = roots(f);</pre>
+
+<p>To get a visual interpretation of the roots, one can plot the determinant and then plot <em>zeros</em> all at value $0$. The following figure depicts the times of the first ten conjunctions.</p>
+<pre class="mcode-input">figure
+plot(f,'linewidth',1.6), hold on, grid on
+plot(zeros(1:10),0,'.r','markersize',20)
+xlabel('Time(days)')</pre>
+
+<p><img src="img/MercuryEarthConjunctions_01.png" alt=""></p>
+<p>References:</p>
+<p>[1] Charles F. Van Loan, Introduction to Scientific Computing, Prentice-Hall, 1997, p. 274.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+
+  </body>
+</html>

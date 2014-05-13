@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Area and centroid of a 2D region &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/geom/">Geometry</a></li>
+       <li class="active">Area and centroid of a 2D region</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Area and centroid of a 2D region</h1>
+        <h2>Stefan Guettel, October 2010</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>With Chebfun it is easy to compute with parametrized curves in the plane. For example, the following lines define a curve $(x,y)$ as a pair of chebfuns in the variable $t$:</p>
+<pre class="mcode-input">t = chebfun('t',[0,2*pi]);
+b = 1; m = 7; a = (m-1)*b;
+x = (a+b)*cos(t) - b*cos((a+b)/b*t);
+y = (a+b)*sin(t) - b*sin((a+b)/b*t);</pre>
+
+<p>Such curves are called epicycloids, named by the Danish astronomer Ole Romer in 1674. Epicycloids can be produced by tracing a point on a circle which rolls out on a larger circle. Romer discovered that cog-wheels with epicycloidal teeth turned with minimum friction. This is what our epicycloid looks like:</p>
+<pre class="mcode-input">fill(x,y,[.6 .6 1])
+axis equal</pre>
+
+<p><img src="img/Area_01.png" alt=""></p>
+<p>Note that although this curve is not smooth, the functions $x(t)$ and $y(t)$ that parameterize it are smooth, so Chebfun has no difficulty representing them by global polynomials:</p>
+<pre class="mcode-input">x
+y</pre>
+
+<pre class="mcode-output">x = 
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[       0,     6.3]       53         6        6 
+Epslevel = 2.184670e-15.  Vscale = 7.386013e+00.
+y = 
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[       0,     6.3]       54         0        0 
+Epslevel = 2.041297e-15.  Vscale = 7.919024e+00.
+</pre>
+
+<p>With the following formula we can compute the area enclosed by the curve $(x,y)$:</p>
+<pre class="mcode-input">format long
+A = sum(x.*diff(y))</pre>
+
+<pre class="mcode-output">A =
+     1.759291886010283e+02
+</pre>
+
+<p>Let's compare this result with the exact area of the epicycloid, given (for integer $m$) by the formula</p>
+<pre class="mcode-input">exact = pi*b^2*(m^2+m)</pre>
+
+<pre class="mcode-output">exact =
+     1.759291886010284e+02
+</pre>
+
+<p>Here is a more complicated curve (now defined as a single complex-valued chebfun rather than a pair of real-valued chebfuns):</p>
+<pre class="mcode-input">z = exp(1i*t) + (1+1i)*sin(6*t).^2;
+fill(real(z),imag(z),[.6 1 .6])
+axis equal</pre>
+
+<p><img src="img/Area_02.png" alt=""></p>
+<p>Because this curve is a perturbed unit circle, with every perturbation occurring twice with opposite signs, the enclosed area should be equal to $\pi$, as is confirmed by Chebfun:</p>
+<pre class="mcode-input">A = sum(real(z).*diff(imag(z)));
+[ A ; pi ]</pre>
+
+<pre class="mcode-output">ans =
+   3.141592653589786
+   3.141592653589793
+</pre>
+
+<p>We can compute and plot the centroid (or center of mass) of this region as follows:</p>
+<pre class="mcode-input">c = sum(diff(z).*z.*conj(z))/(2i*A);
+hold on
+plot(c,'r+','markersize',20)</pre>
+
+<p><img src="img/Area_03.png" alt=""></p>
+<p>If you use scissors to produce a piece of paper in this shape, it should remain balanced when placed on a vertical needle centered at the red cross. (If it doesn't, it's likely your handicraft precision isn't as good as Chebfun's!)</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+
+  </body>
+</html>

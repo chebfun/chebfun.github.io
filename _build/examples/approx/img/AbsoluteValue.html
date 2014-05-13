@@ -1,0 +1,81 @@
+---
+title: "Absolute value approximations by rationals"
+layout: example
+authordate: "Nick Trefethen, May 2011"
+meta: "(Chebfun example approx/AbsoluteValue.m) [Tags: #rational, #Newton, #ABS]"
+---
+
+Peter Lax mentioned to me recently an example that no doubt various people have thought about over the years.  Suppose we think of $x^2$ as a given number and we try to find its square root by solving the equation
+
+$$ r^2 = x^2 $$
+
+for $r$ using Newton's method beginning from the guess $r=1$. The successive iterates are given by the formula
+
+$$  r := (r^2+x^2)/2r .  $$
+
+After $k$ steps we have a rational function of type $(2^k,2^k)$, and these functions will approach the function $|x|$.
+
+Let's see the iteration in action:
+
+<pre class="mcode-input">x = chebfun('x');
+r = chebfun('1');
+LW = 'linewidth'; lw = 1.6; FS = 'fontsize'; fs = 12;
+for k = 0:5
+    subplot(3,2,k+1)
+    plot(r,LW,lw), axis([-1 1 -.2 1.2]), grid on
+    err = norm(r-abs(x),inf);
+    s = sprintf('error=%4.1e   len=%d',err,length(r));
+    title(s,FS,fs)
+    r = (r.^2+x.^2)./(2*r);
+end</pre><img src="img/AbsoluteValue_01.png" alt="">
+
+The curves look nice, but the exponentially growing chebfun lengths do not. To improve this, we can put a breakpoint at $x=0$:
+
+<pre class="mcode-input">x = chebfun('x',[-1 0 1]);
+r = chebfun('1',[-1 0 1]);
+for k = 0:5
+    subplot(3,2,k+1)
+    plot(r,LW,lw), axis([-1 1 -.2 1.2]), grid on
+    err = norm(r-abs(x),inf);
+    s = sprintf('error=%4.1e   length = %d',err,length(r));
+    title(s,FS,fs)
+    r = (r.^2+x.^2)./(2*r);
+end</pre><img src="img/AbsoluteValue_02.png" alt="">
+
+It's interesting to look at the error.  In the outer half of the interval, we've already achieved machine precision, whereas near $x=0$ the errors remain large.
+
+<pre class="mcode-input">clf, semilogy(abs(r-abs(x)),LW,lw)
+axis([-1 1 1e-18 10]), grid on
+xlabel('x',FS,fs)
+title('Error',FS,fs)</pre><pre class="mcode-output">Warning: Negative data ignored 
+</pre><img src="img/AbsoluteValue_03.png" alt="">
+
+Let's take six more steps of the iteration:
+
+<pre class="mcode-input">for k = 0:5
+    subplot(3,2,k+1)
+    plot(r,LW,lw), axis([-1 1 -.2 1.2]), grid on
+    err = norm(r-abs(x),inf);
+    s = sprintf('error=%4.1e   length = %d',err,length(r));
+    title(s,FS,fs)
+    r = (r.^2+x.^2)./(2*r);
+end</pre><img src="img/AbsoluteValue_04.png" alt="">
+
+Here is the error:
+
+<pre class="mcode-input">clf, semilogy(abs(r-abs(x)),LW,lw)
+axis([-1 1 1e-18 10]), grid on
+xlabel('x',FS,fs)
+title('Error',FS,fs)</pre><pre class="mcode-output">Warning: Negative data ignored 
+</pre><img src="img/AbsoluteValue_05.png" alt="">
+
+Evidently we are getting convergence to $|x|$, for all $x$. In the $\infty$-norm, the rate looks pretty disappointing. Donald Newman showed that the optimal type $(n,n)$ rational approximants to $|x|$ achieve accuracy $O(\exp(-C \sqrt n))$ [1,2], whereas here the maximum error is exactly $2^{-k}$ after $k$ steps, which corresponds to $1/n$ for the type $(n,n)$ approximation. Away from $x=0$, however, the accuracy is $O(\exp(-Cn))$, thanks to the quadratic convergence of Newton's method.
+
+Incidentally, note that this last curve is not very close to symmetrical about $x=0$.  I wonder why not?
+
+References:
+
+[1] D. J. Newman, Rational approximation of $|x|$, _Michigan Mathematical Journal_, 11 (1964), 11-14.
+
+[2] L. N. Trefethen, _Approximation Theory and Approximation Practice_, SIAM, 2013.
+

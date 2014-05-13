@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Birthday Paradox &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/fun/">Fun stuff!</a></li>
+       <li class="active">The Birthday Paradox</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>The Birthday Paradox</h1>
+        <h2>Mohsin Javed, Alex Townsend, and Nick Hale, LNT's birthday, 2012</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>The other day my buddy Pafnuty and I were at our friend Sergei's birthday party, where we were all celebrating and having some fun. Whilst we were standing at the buffet eating some finger food we found out that another friend, Carl Gustav, was having his birthday the same day as well. This seemed odd, and being undergraduate mathematicians we asked ourselves the question: What is the probability that two people in the room share a birthday? (Fortunately Gene hadn't arrived yet, which made things a little simpler). We soon realised that if the number of people was greater than 365, there would surely be at least one pair having the same birthday. First year had taught us that that the pigeonhole principle always holds, even in real life. So we looked around and safely assumed there were fewer than 365 friends in the room; otherwise the probability is immediately one.</p>
+<pre class="mcode-input">function birthday</pre>
+
+<pre class="mcode-input">N = 365;
+p = zeros(1,N);</pre>
+
+<p>(You can make the same assumption on your last birthday, unless you have more than 365 friends.)</p>
+<p>We found that it was much easier to think about the case when all the people in the room had distinct birthdays, for then the probabilty $q$ that everyone in the room had distinct birthdays was given by the expression [ q = 1\left(1-\frac{1}{365}\right) \left(1-\frac{2}{365}\right) \ldots \left(1-\frac{n-1}{365}\right),] or we could write [ q = \prod_{k=0}^{n-1}\left(1-\frac{k}{365}\right).] From this the probability of getting at least one `collision' of birthdays was easy. We simply computed $1-q$ and after simplifying the expression for $q$, we were able to write $p$ as [ p=1-\frac{365!}{365^n(365-n)!}.] However, we quickly realized that the above expression is useless for our calculators, so we applied the standard exp-log trick to the above expression. This gave us a numerically tractable expression for $p$:</p>
+<pre class="mcode-input">a = sum(log(1:365));
+pk = @(k) 1-exp(a-sum(log(1:(365-k)))-k.*log(365));</pre>
+
+<p>We then computed the probability of at least one match as a function of the number of people.</p>
+<pre class="mcode-input">set(0,'DefaultLineLineWidth',2)
+for i = 1:N, p(i) = pk(i); end
+plot(1:N,p,'.b'), axis([0 365 -.1 1.1]), hold on
+xlabel('Size of the party'), ylabel('Probability of finding at least one pair')</pre>
+
+<p><img src="img/BirthdayOdds_01.png" alt=""></p>
+<p>The plot looked nice on our graphical calculators and we were intrigued. <code>Let's make a chebfun out of it!", Pafnuty said.</code>But for that we will have to evaluate $p$ at non-integer values."</p>
+<pre class="mcode-input">function prob = matchProb(n)
+    nr = floor(n);
+    if nr ==n, prob = pk(n); return, end
+    v1 = prod((365:-1:365-nr+1)./(365*ones(1,nr)));
+    v2 = prod((365-nr:-1:2)./(365-n:-1:1));
+    prob = 1-v1*v2/gamma(2-n+nr)/365^(n-nr);
+end</pre>
+
+<p>We were now ready to make a chebfun.</p>
+<pre class="mcode-input">p = chebfun(@(n) matchProb(n), [1 365],'vectorise');
+plot(p), hold off</pre>
+
+<p><img src="img/BirthdayOdds_02.png" alt=""></p>
+<p>We then computed the number of people needed for a 50-50 chance of finding two people with the same birthday. Surprisingly the answer was:</p>
+<pre class="mcode-input">ceil(roots(p-.5))</pre>
+
+<pre class="mcode-output">ans =
+    23
+</pre>
+
+<p>Pafnuty was quick to announce: ``I will never invite more than 23 people to my birthday!". We then thought about the number of people in the same room for a 99 percent chance of finding at least one pair sharing a birthday. This time we got</p>
+<pre class="mcode-input">ceil(roots(p-.99))</pre>
+
+<pre class="mcode-output">ans =
+    57
+</pre>
+
+<pre class="mcode-input">end</pre>
+
+<p>So here is what we suggest: LNT should throw a party where he invites one friend for each year of his life. If no-one shares a birthday that would make it a very special party indeed!</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+
+  </body>
+</html>

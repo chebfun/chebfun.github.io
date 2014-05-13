@@ -1,0 +1,34 @@
+---
+title: "Roots of a Bessel function"
+layout: example
+authordate: "Nick Trefethen, September 2010"
+meta: "(Chebfun example roots/BesselRoots.m) [Tags: #Bessel, #ROOTS]"
+---
+
+Here is the Bessel function J0 on the interval [0,100].
+
+<pre class="mcode-input">J0 = chebfun(@(x) besselj(0,x),[0 100]);
+figure, plot(J0,'linewidth',1.6), grid on
+title('Bessel function J_0','fontsize',16)</pre><img src="img/BesselRoots_01.png" alt="">
+
+We can find its roots like this:
+
+<pre class="mcode-input">r = roots(J0);
+hold on, plot(r,J0(r),'.r','markersize',20)</pre><img src="img/BesselRoots_02.png" alt="">
+
+The number of roots can be found with the LENGTH command:
+
+<pre class="mcode-input">number_of_roots = length(r)</pre><pre class="mcode-output">number_of_roots =
+    32
+</pre>Suppose you wanted to know the numbers of roots in various intervals [a,b]. You could define an anonymous function:
+
+<pre class="mcode-input">rootsab = @(a,b) length(roots(chebfun(@(x) besselj(0,x),[a b])));</pre>For example:
+
+<pre class="mcode-input">tic
+disp('Number of roots between 1000000 and 1001000:')
+n = rootsab(1000000,1001000)
+toc</pre><pre class="mcode-output">Number of roots between 1000000 and 1001000:
+n =
+   318
+Elapsed time is 0.075825 seconds.
+</pre>
