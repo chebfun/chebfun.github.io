@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
-    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,7 +40,8 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Chebfun</a>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
 
@@ -149,7 +150,7 @@ subplot(1,2,2), plot(exp(h)), axis equal</pre>
 <pre class="mcode-input">sum(h)</pre>
 
 <pre class="mcode-output">ans =
-     -1.769262817858902e-16 + 8.585481516988449e-17i
+     -6.999851837738844e-16 + 1.291664876099699e-16i
 </pre>
 
 <p>Piecewise smooth complex chebfuns are also possible. For example, the following starts from a chebfun <code>z</code> defined as $(1+0.5i)s$ for $s$ on the interval $[0,1]$ and $1+0.5i-2(s-1)$ for $s$ on the interval $[1,2]$.</p>
@@ -313,7 +314,7 @@ B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 exact = 5/66</pre>
 
 <pre class="mcode-output">B10 =
-      7.100349743346320e-17 + 4.431251499862740e-17i
+  0.075757575757576 + 0.000000000000001i
 exact =
    0.075757575757576
 </pre>
@@ -338,7 +339,7 @@ f = sin(z).^3 + cos(z).^3;
 N = sum((diff(f)./f))/(2i*pi)</pre>
 
 <pre class="mcode-output">N =
-  3.000000000000008 - 0.000000000000001i
+  3.000000000000001 - 0.000000000000001i
 </pre>
 
 <p>What is really going on here is a calculation of the change of the argument of $f$ as the boundary is traversed.  Another way to find that number is with the Chebfun overloads of the Matlab commands <code>angle</code> and <code>unwrap</code>:</p>
@@ -453,6 +454,7 @@ axis auto equal off</pre>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
 
   </body>
 </html>

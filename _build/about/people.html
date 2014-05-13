@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
-    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,7 +40,8 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Chebfun</a>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
 
@@ -78,26 +79,294 @@ pageTracker._trackPageview();
 
  
         <div class="content">
-            <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
-                <h3 id="anthony-austin">Anthony Austin</h3>
-<h3 id="zachary-battles">Zachary Battles</h3>
-<h3 id="wzxhzdk0sgeir-birkisson">&#193;sgeir Birkisson</h3>
-<h3 id="toby-driscoll">Toby Driscoll</h3>
-<h3 id="pedro-gonnet">Pedro Gonnet</h3>
-<h3 id="stefan-gwzxhzdk1ttel">Stefan G&#252;ttel</h3>
-<h3 id="nick-hale">Nick Hale</h3>
-<h3 id="hrothgar">Hrothgar</h3>
-<h3 id="mohsin-javed">Mohsin Javed</h3>
-<h3 id="georges-klein">Georges Klein</h3>
-<h3 id="hadrien-montanelli">Hadrien Montanelli</h3>
-<h3 id="ricardo-pachwzxhzdk2n">Ricardo Pach&#243;n</h3>
-<h3 id="rodrigo-platte">Rodrigo Platte</h3>
-<h3 id="mark-richardson">Mark Richardson</h3>
-<h3 id="alex-townsend">Alex Townsend</h3>
-<h3 id="nick-trefethen">Nick Trefethen</h3>
-<h3 id="joris-van-deun">Joris Van Deun</h3>
-<h3 id="grady-wright">Grady Wright</h3>
-<h3 id="kuan-xu">Kuan Xu</h3>
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <div class="row widgets">
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/apa.png" />
+    <h3>Anthony Austin</h3>
+    Anthony Austin started as a DPhil student at Oxford in 2012. When not
+    doing research related to contour integrals, large-scale linear algebra,
+    and rational approximation, he is our code guru, keeping us honest with
+    object-oriented programming and Git. After Nick Hale, he is the team
+    member responsible for the most lines of Chebfun v5.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/zb.png" />
+    <h3>Zachary Battles</h3>
+    Zachary Battles was a Rhodes Scholar and DPhil student from 2002 to 2005,
+    and he wrote Chebfun version 1.  It has hard to believe it was just a few
+    hundred lines of code!  Zachary introduced the recursive rootfinding
+    algorithm in ROOTS as well as commands such as QR, SVD, \, RANK and COND
+    for quasimatrices.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/ab.jpeg" />
+    <h3>&#193;sgeir Birkisson</h3>
+    Asgeir Birkisson was an MSc and then DPhil student at Oxford from 2008 to
+    2014.  With Toby Driscoll he introduced automatic differentiation into
+    Chebfun and thus enabled us to solve nonlinear differential equations.  He
+    also wrote CHEBGUI.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/tad.jpg" />
+    <h3>Toby Driscoll</h3>
+    Toby Driscoll, a professor at the University of Delaware, created the ODE
+    and integral equations side of Chebfun starting in 2008 and has been one
+    of the leaders of the Chebfun project since then. Among other codes he is
+    responsible for SOLVEBVP, EIGS, EXPM, VOLT, and FRED.  He has also led
+    Chebfun's movement to more advanced linear and nonlinear block structures.
+    </div>
+    </div>
+
+</div>
+
+<div class="row widgets">
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/pg.png" />
+    <h3>Pedro Gonnet</h3>
+    Pedro Gonnet, a quadrature expert, was a postdoc at Oxford from 2009 to
+    2012 and introduced a number of speedups to Chebfun. He was a key
+    contributor to the robust rational approximation algorithms of RATINTERP
+    and PADEAPPROX.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/sg.png" />
+    <h3>Stefan G&#252;ttel</h3>
+    Stefan Guettel was a postdoc at Oxford during 2011 and 2012. Besides
+    contributions to Chebfun's rational functions capabilities, Stefan
+    introduced CHEBSNAKE.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/nh.png" />
+    <h3>Nick Hale</h3>
+    Nick Hale was a DPhil student at Oxford from 2006 to 2009 and then a
+    postdoc until 2014.  He has written more Chebfun code than anyone else as
+    well as developing many algorithms related to solution of ODEs and PDEs
+    (with Driscoll and Birkisson, including PDE15S) and fast quadrature and
+    orthogonal expansions (with Townsend, including SUM, LEGPTS, CHEB2LEG, and
+    CONV).  He was director of the Chebfun project from 2010 to 2014 and
+    managed the creation of Chebfun version 5.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/h.png" />
+    <h3>Hrothgar</h3>
+    Hrothgar, a DPhil student at Oxford from 2013, created and manages the
+    Chebfun web site introduced in 2014.  He is working on algorithms related
+    to block operators, adjoints, and optimization.
+    </div>
+    </div>
+
+</div>
+
+<div class="row widgets">
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/mj.png" />
+    <h3>Mohsin Javed</h3>
+    Mohsin Javed, an MSc and DPhil student at Oxford from 2011, is Chebfun's
+    expert on delta functions and associated algorithms and mathematics,
+    including DIRAC.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/gk.jpg" />
+    <h3>Georges Klein</h3>
+    Georges Klein, an expert on barycentric and Floater-Hormann interpolation,
+    was a postdoc at Oxford during 2012 and 2013. He introduced the "EQUI"
+    operation in the Chebfun constructor.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/hm.jpg" />
+    <h3>Hadrien Montanelli</h3>
+    Hadrien Montanelli started as a DPhil student at Oxford in 2013. He is
+    interested in fundamental algorithms and theorems related to numerical
+    computation with functions.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/rpa.png" />
+    <h3>Ricardo Pach&#243;n</h3>
+    Ricardo Pach&#243;n was Chebfun team member #3, arriving at Oxford as a
+    DPhil student in 2006.  With Rodrigo Platte, he advanced Chebfun from
+    global polynomials to piecewise polynomials, and became an expert in
+    approximation algorithms, including REMEZ, CHEBPADE, and LEBESGUE.
+    </div>
+    </div>
+
+</div>
+
+<div class="row widgets">
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/rpl.png" />
+    <h3>Rodrigo Platte</h3>
+    Rodrigo Platte, Chebfun team member #4, was a postdoc at Oxford from 2007
+    to 2009 and worked with Ricardo Pachon to produce Chebfun version 2.
+    Rodrigo extended Chebfun to infinite intervals and invented the fast edge
+    detection algorithm used by the Chebfun constructor in "splitting on"
+    mode.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/mr.png" />
+    <h3>Mark Richardson</h3>
+    Mark Richardson was an MSc and then DPhil student at Oxford from 2008 to
+    2013.  Mark introduced "blowup on" and other features to enable Chebfun to
+    treat poles and other singularities.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/at.png" />
+    <h3>Alex Townsend</h3>
+    Alex Townsend, a DPhil student at Oxford from 2010, developed the
+    algorithms and code for Chebfun2 during 2012-2014, including its fast
+    rootfinding and optimization methods.  With Nick Hale, Alex developed the
+    fast algorithms based on orthogonal polynomials of codes including LEGPTS,
+    SUM, CONV, and CHEB2LEG, and with Sheehan Olver, he developed the
+    ultraspherical spectral methods for ODEs introduced in Chebfun version 5.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/lnt.png" />
+    <h3>Nick Trefethen</h3>
+    Nick Trefethen invented Chebfun in 2002 and has been involved in the
+    project ever since.  Nick wrote most of the Chebfun Guide, many of the
+    Examples, and the Chebfun-based book Approximation Theory and
+    Approximation Practice.  He also invented SCRIBBLE.
+    </div>
+    </div>
+
+</div>
+
+<div class="row widgets">
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/jvd.png" />
+    <h3>Joris Van Deun</h3>
+    Joris Van Deun spent three months with the Chebfun team in 2010. He wrote
+    the code CF for Caratheodory-Fejer approximation.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/mw.png" />
+    <h3>Marcus Webb</h3>
+    Marcus Webb spent six months with the Chebfun team at the end of his
+    undergraduate studies at Oxford in 2012.  He showed how Chebfun can be
+    used for analytic continuation in the complex plane and improved BARY.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/gw.png" />
+    <h3>Grady Wright</h3>
+    Grady Wright, an expert in radial basis functions, spent six months with
+    the Chebfun team in 2014.  He introduced the "Fourtech" class that enables
+    Chebfun to work with Fourier as well as Chebyshev expansions for periodic
+    functions.
+    </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+    <div class="widget">
+    <img class="thumbnail profile" src="images/placeholder.png" />
+    <h3>Kuan Xu</h3>
+    Kuan Xu has been a postdoc at Oxford since 2012.  He is the team's expert
+    on algorithms and mathematics for Chebyshev points of the first kind, and
+    he wrote the Chebfun v5 code for handling unbounded intervals.
+    </div>
+    </div>
+
+</div>
+
+<h3 id="other-contributors">Other contributors</h3>
+<ul>
+<li>
+<p><strong>Jean-Paul Berrut</strong>, a professor at the University of Fribourg, has been a
+  tireless advocate of the power of barycentric formulas for polynomial
+  interpolation.  That was the idea that originally led to Chebfun.</p>
+</li>
+<li>
+<p><strong>Folkmar Bornemann</strong>, a professor at the Technical University of Munich,
+  proposed the lazy evaluation idea that enabled Chebfun to represent linear
+  operators and thereby solve ODEs.</p>
+</li>
+<li>
+<p><strong>Jon Cherrie</strong>, of MathWorks UK, has given the Chebfun project software
+  engineering advice during the construction of version 5.</p>
+</li>
+<li>
+<p><strong>Coorous Mohtadi</strong>, of MathWorks UK, has been MathWorks' liaison with the
+  Chebfun project since the company started supporting the Chebfun project in</p>
+</li>
+<li>
+<p>The other principal funders of the Chebfun project have been the UK
+  Engineering and Physical Sciences Research Council and the European Research
+  Council.</p>
+</li>
+<li>
+<p><strong>Cleve Moler</strong>, a great communicator and the inventor of Matlab, has been a
+  inspiration to us from the beginning.</p>
+</li>
+<li>
+<p><strong>Yuji Nakatsukasa</strong>, now at the University of Tokyo, worked with Vanni
+  Noferini and Alex Townsend on the fast rootfinding algorithms for Chebfun2.</p>
+</li>
+<li>
+<p><strong>Vanni Noferini</strong>, a postdoc at the University of Manchester, worked with
+  Alex Townsend and Yuji Nakatsukasa on the fast rootfinding algorithms for
+  Chebfun2.</p>
+</li>
+<li>
+<p><strong>Sheehan Olver</strong>, now at the University of Sydney, was a Junior Research
+  Fellow at Oxford from 2007 to 2011.  He and Alex Townsend created the
+  ultrapherical spectral methods for ODEs introduced in Chebfun version 5.</p>
+</li>
+<li>
+<p><strong>Gil Strang</strong>, a professor at MIT, spends one month each year at Oxford. It
+  is to Gil that we owe the line, "There is no fun like Chebfun".</p>
+</li>
+</ul>
             </div>
         </div>
 
@@ -121,6 +390,7 @@ pageTracker._trackPageview();
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
 
   </body>
 </html>

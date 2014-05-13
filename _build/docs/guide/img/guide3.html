@@ -49,7 +49,7 @@ Here for example are the three roots of Ai and Bi closest to 0:
   tic, r = roots(f); toc
   r</pre><pre class="mcode-output">lengthf =
     44
-Elapsed time is 0.005073 seconds.
+Elapsed time is 0.005771 seconds.
 r =
                    0
    0.999999999999998
@@ -69,7 +69,7 @@ r =
   tic, r = roots(f); toc
   fprintf('%22.14f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
    214
-Elapsed time is 0.062049 seconds.
+Elapsed time is 0.062784 seconds.
      96.00000000000000
      97.00000000000000
      98.00000000000001
@@ -82,7 +82,7 @@ Elapsed time is 0.062049 seconds.
   tic, r = roots(f); toc
   fprintf('%22.13f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
         1684
-Elapsed time is 0.213085 seconds.
+Elapsed time is 0.183936 seconds.
      996.0000000000000
      996.9999999999999
      998.0000000000000
@@ -149,7 +149,7 @@ g =
 [      -1,   -0.63]        1       0.6      0.6 
 [   -0.63,    0.63]        3       0.6      0.6 
 [    0.63,       1]        1       0.6      0.6 
-Epslevel = 1.026738e-15.  Vscale = 1.  Total length = 5.
+Epslevel = 1.015636e-15.  Vscale = 1.  Total length = 5.
 </pre><img src="img/guide3_07.png" alt="">
 
 The function `sign` also introduces breaks, as illustrated in the last section. The commands `round`, `floor`, and `ceil` behave like this too. For example, here is $\exp(x)$ rounded to nearest multiples of $0.5$:
@@ -246,7 +246,7 @@ extremepositions =
 
 # 3.5 norm(f,1) and norm(f,inf)
 
-The default, $2$-norm form of the `norm` command was considered in Section 2.2. In standard Matlab one can also compute $1$-, $\infty$-, and Frobenius norms with `norm(f,1)`, `norm(f,inf)`, and `norm(f,'fro')`.  These have been overloaded in Chebfun, and in the first two cases, rootfinding is part of the implementation.  (The $2$- and Frobenius norms are equal for a single chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm `norm(f,1)` is the integral of the absolute value, and Chebfun computes this by adding up segments between zeros, at which $|f(x)|$ will typically have a discontinuous slope. The $\infty$-norm is computed from the formula $\|f\|_\infty = \max\{\max(f),-\min(f)\}$.
+The default, $2$-norm form of the `norm` command was considered in Section 2.2. In standard Matlab one can also compute $1$-, $\infty$-, and Frobenius norms with `norm(f,1)`, `norm(f,inf)`, and `norm(f,'fro')`.  These have been overloaded in Chebfun, and in the first two cases, rootfinding is part of the implementation.  (The $2$- and Frobenius norms are equal for a single chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm `norm(f,1)` is the integral of the absolute value, and Chebfun computes this by adding up segments between zeros, at which $|f(x)|$ will typically have a discontinuous slope. The $\infty$-norm is computed from the formula $\|f\|_\infty = \max(\max(f),-\min(f))$.
 
 For example:
 
@@ -299,7 +299,7 @@ The simplest example is a chebfun that is truly intended to correspond to a poly
   5.542977120059442 + 6.812933550348273i
 </pre>Most of these are spurious. What has happened is that `g` is represented by a polynomial chosen for its approximation properties on $[-1,1]$. Inevitably that polynomial will have roots in the complex plane, even if they have little to do with `g`.
 
-One cannot expect Chebfun to solve this problem perfectly -- after all, it is working on a real interval, not in the complex plane, and analytic continuation from the one to the other is well known to be an ill-posed problem.  Nevertheless, Chebfun may do a pretty good job of selecting genuine complex (and real) roots near the interval of definition if you use the 'complex' flag:
+One cannot expect Chebfun to solve this problem perfectly -- after all, it is working on a real interval, not in the complex plane, and analytic continuation from the one to the other is well known to be an ill-posed problem.  Nevertheless, Chebfun may do a pretty good job of selecting genuine complex (and real) roots near the interval of definition if you use the `'complex'` flag:
 
 <pre class="mcode-input">roots(g,'complex')</pre><pre class="mcode-output">ans =
  -0.000000000000005 - 0.249999999999979i
@@ -321,7 +321,7 @@ Here is a more complicated example:
 f = chebfun(F,[-100,100]);</pre>This function has a lot of complex roots lying in strips on either side of the real axis.
 
 <pre class="mcode-input">  r = roots(f,'complex');
-  hold off, plot(r,'.','markersize',6)</pre><img src="img/guide3_15.png" alt="">
+  hold off, plot(r,'.','markersize',8)</pre><img src="img/guide3_15.png" alt="">
 
 If you are dealing with complex roots of complicated chebfuns like this, it may be safer to add a flag `'norecursion'` to the roots call, at the cost of slowing down the computation. This turns off the Boyd-Battles recursion mentioned above, lowering the chance of missing a few roots near interfaces of the recursion.  If we try that here we find that the results look almost the same as before in a plot:
 

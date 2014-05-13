@@ -47,7 +47,7 @@ Such plots make pretty pictures, but as always with Chebfun, the underlying oper
 </pre>and the integral of `h` is zero:
 
 <pre class="mcode-input">sum(h)</pre><pre class="mcode-output">ans =
-     -1.769262817858902e-16 + 8.585481516988449e-17i
+     -6.999851837738844e-16 + 1.291664876099699e-16i
 </pre>Piecewise smooth complex chebfuns are also possible. For example, the following starts from a chebfun `z` defined as $(1+0.5i)s$ for $s$ on the interval $[0,1]$ and $1+0.5i-2(s-1)$ for $s$ on the interval $[1,2]$.
 
 <pre class="mcode-input">z = chebfun({@(s) (1+.5i)*s, @(s) 1+.5i-2*(s-1)},[0 1 2]);
@@ -203,7 +203,7 @@ z = chebfun('5*exp(1i*s)',[0 2*pi]);
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 exact = 5/66</pre><pre class="mcode-output">B10 =
-      7.100349743346320e-17 + 4.431251499862740e-17i
+  0.075757575757576 + 0.000000000000001i
 exact =
    0.075757575757576
 </pre>Notice that we have taken $z$ to be a circle of radius $5$. If the radius is $1$, the accuracy is a good deal lower:
@@ -227,7 +227,7 @@ For example, the function $f(z) = \sin(z)^3 + \cos(z)^3$ clearly has no poles; h
 <pre class="mcode-input">z = chebfun('2*exp(1i*s)',[0 2*pi]);
 f = sin(z).^3 + cos(z).^3;
 N = sum((diff(f)./f))/(2i*pi)</pre><pre class="mcode-output">N =
-  3.000000000000008 - 0.000000000000001i
+  3.000000000000001 - 0.000000000000001i
 </pre>What is really going on here is a calculation of the change of the argument of $f$ as the boundary is traversed.  Another way to find that number is with the Chebfun overloads of the Matlab commands `angle` and `unwrap`:
 
 <pre class="mcode-input">anglef = unwrap(angle(f));

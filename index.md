@@ -1,6 +1,6 @@
 ---
 title: "Chebfun: Numerical computing with functions"
-layout: index
+layout: homepage
 content:
     - about
     - download
@@ -13,30 +13,33 @@ tagline:
     Numerical computing with functions.
 ---
 
-# What is Chebfun?
-
-Chebfun is an open-source MATLAB package for computing with
-functions to 15-digit accuracy. Most Chebfun commands are
-overloads of familiar MATLAB commands &mdash; for example `sum(f)`
-computes an integral, `roots(f)` finds zeros, and `u = L\f` solves
-a differential equation.
-
-Click [here][about] for more information.
-
-# A simple example
-
-The following code finds and plots all intersections of two complicated
-functions on the interval $[-1,1]$.
-
-<pre class='lang-matlab prettyprint'>
-x = chebfun('x');
-f = tanh(4*sin(40*x)).*exp(-x).*(2 + sin(7*x)) / 16;
-g = sin(9*x).^3 / 4;
-rr = roots(f - g);
-plot([f g])
-plot(rr, f(rr), 'k.')
-</pre>
-
-<div style='text-align:center'>
-<img src='figure_frontpagedemo.png' />
+<div class="row widgets">
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3>Get started<span class="glyphicon glyphicon-off" style='float:right'></span></h3>
+      <p>Whether you're a student, educator, or researcher, it's easy to learn and use Chebfun.</p>
+      <p><a href="docs/guide" class="btn btn-primary full-width" role="button">Read the Chebfun Guide&nbsp;&nbsp;&raquo;</a></p>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3>Download<span class="glyphicon glyphicon-download" style='float:right'></span></h3>
+      <p>Chebfun runs in standard Matlab. You'll be up and running in seconds.</p>
+      <p><a href="download" class="btn btn-primary full-width" role="button">Download Chebfun v5&nbsp;&nbsp;&raquo;</a></p>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3>View Examples<span class="glyphicon glyphicon-th" style='float:right'></span></h3>
+      <p>The gallery contains over 200 examples of Chebfun's mathematical applications.</p>
+      <p><a href="examples" class="btn btn-primary full-width" role="button">Browse the Examples&nbsp;&nbsp;&raquo;</a></p>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3></span>Contribute<span class="glyphicon glyphicon-wrench" style='float:right'></span></h3>
+      <p>Chebfun is open-source and hosted on Github. We're always looking for new developers.</p>
+      <p><a href="develop" class="btn btn-primary full-width" role="button">Get involved &raquo;</a></p>
+    </div>
+  </div>
 </div>

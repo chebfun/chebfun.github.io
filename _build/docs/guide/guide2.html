@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
-    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,7 +40,8 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Chebfun</a>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
 
@@ -148,7 +149,7 @@ Iexact =
 
 <pre class="mcode-output">ans =
    0.842700792949715
-Elapsed time is 0.000079 seconds.
+Elapsed time is 0.000077 seconds.
 </pre>
 
 <p>Using Matlab's various quadrature commands is understandably slower:</p>
@@ -160,16 +161,16 @@ Elapsed time is 0.000079 seconds.
   tic, I = quadgk(F,0,1,'abstol',tol,'reltol',tol); t = toc;
     fprintf('QUADGK:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output">  QUAD:  I = 0.842700792949715  time = 0.1385 secs
- QUADL:  I = 0.842700792949715  time = 0.0495 secs
-QUADGK:  I = 0.842700792949715  time = 0.0599 secs
+<pre class="mcode-output">  QUAD:  I = 0.842700792949715  time = 0.0465 secs
+ QUADL:  I = 0.842700792949715  time = 0.0312 secs
+QUADGK:  I = 0.842700792949715  time = 0.0477 secs
 </pre>
 
 <p>The timing for Chebfun comes out competitive:</p>
 <pre class="mcode-input">  tic, I = sum(chebfun(F,[0,1])); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0103 secs
+<pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0114 secs
 </pre>
 
 <p>Here is a similar comparison for a function that is more difficult, because of the absolute value, which leads with "splitting on" to a chebfun consisting of a number of funs.</p>
@@ -188,10 +189,10 @@ QUADGK:  I = 0.842700792949715  time = 0.0599 secs
   tic, I = sum(chebfun(@(x) abs(besselj(0,x)),[0,20],'splitting','on')); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">   QUAD:  I = 4.445031603001505  time = 0.163 secs
-  QUADL:  I = 4.445031603001576  time = 0.089 secs
- QUADGK:  I = 4.445031603001578  time = 0.041 secs
-CHEBFUN:  I = 4.445031603001566  time = 0.288 secs
+<pre class="mcode-output">   QUAD:  I = 4.445031603001505  time = 0.131 secs
+  QUADL:  I = 4.445031603001576  time = 0.079 secs
+ QUADGK:  I = 4.445031603001578  time = 0.016 secs
+CHEBFUN:  I = 4.445031603001566  time = 0.267 secs
 </pre>
 
 <p>This last example highlights the piecewise-smooth aspect of Chebfun integration.  Here is another example of a piecewise smooth problem.</p>
@@ -207,7 +208,7 @@ CHEBFUN:  I = 4.445031603001566  time = 0.288 secs
 
 <pre class="mcode-output">ans =
   -0.381556448850250
-Elapsed time is 0.002953 seconds.
+Elapsed time is 0.001579 seconds.
 </pre>
 
 <p>For another example of a definite integral we turn to an integrand given as example <code>F21F</code> in [Kahaner 1971].  We treat it first in the default mode of splitting off:</p>
@@ -335,11 +336,11 @@ ans =
 <pre class="mcode-input">  [fint((1:5)') erf((1:5)')]</pre>
 
 <pre class="mcode-output">ans =
-   0.842700792949729   0.842700792949715
-   0.995322265018968   0.995322265018953
-   0.999977909502992   0.999977909503001
-   0.999999984582762   0.999999984582742
-   0.999999999998480   0.999999999998463
+   0.842700792949715   0.842700792949715
+   0.995322265018952   0.995322265018953
+   0.999977909503001   0.999977909503001
+   0.999999984582742   0.999999984582742
+   0.999999999998463   0.999999999998463
 </pre>
 
 <p>Here is the integral of an oscillatory step function:</p>
@@ -478,14 +479,14 @@ ans =
   tic, I = sum(chebfun(@(y) Iy(y),[0.5 2.5],'vectorize')); t = toc;
   fprintf('CHEBFUN:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.525 secs
+<pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.503 secs
 </pre>
 
 <p>Here for comparison is Matlab's <code>dblquad/quadl</code> with a tolerance of $10^{-11}$:</p>
 <pre class="mcode-input">  tic, I = dblquad(f,-2,2,0.5,2.5,1e-11,@quadl); t = toc;
   fprintf('DBLQUAD/QUADL:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">DBLQUAD/QUADL:  I = 0.02041246545700  time = 5.022 secs
+<pre class="mcode-output">DBLQUAD/QUADL:  I = 0.02041246545700  time = 4.503 secs
 </pre>
 
 <p>This example of a 2D integrand is smooth, so both Chebfun and <code>dblquad</code> can handle it to high accuracy.</p>
@@ -497,7 +498,7 @@ toc</pre>
 
 <pre class="mcode-output">ans =
    0.020412465456998
-Elapsed time is 0.386895 seconds.
+Elapsed time is 0.267550 seconds.
 </pre>
 
 <p>and we can plot the function without the need for <code>meshgrid</code>:</p>
@@ -539,7 +540,7 @@ Iexact =
 
 <pre class="mcode-output">Igauss =
    2.350402387287603
-Elapsed time is 0.212015 seconds.
+Elapsed time is 0.178298 seconds.
 </pre>
 
 <p>Even 100,000 points doesn't take very long:</p>
@@ -549,7 +550,7 @@ Elapsed time is 0.212015 seconds.
 
 <pre class="mcode-output">Igauss =
    2.350402387287603
-Elapsed time is 0.350358 seconds.
+Elapsed time is 0.243763 seconds.
 </pre>
 
 <p>Traditionally, numerical analysts computed Gauss quadrature nodes and weights by the eigenvalue algorithm of Golub and Welsch [Golub &amp; Welsch 1969]. However, the Hale-Townsend algorithms are both more accurate and much faster [Hale &amp; Townsend 2013].</p>
@@ -590,6 +591,7 @@ Elapsed time is 0.350358 seconds.
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
 
   </body>
 </html>

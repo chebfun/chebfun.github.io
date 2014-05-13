@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
-    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,7 +40,8 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Chebfun</a>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
 
@@ -72,6 +73,8 @@ pageTracker._trackPageview();
             <ol class='orangenumbers'>
                 <h4><li><a href="/examples/approx/GreedyInterp.html">A greedy algorithm for choosing interpolation points</a></li></h4>
                 <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/AbsoluteValue.html">Absolute value approximations by rationals</a></li></h4>
+                <!-- <p></p> -->
                 <h4><li><a href="/examples/approx/OscError.html">Approximations and oscillation of error</a></li></h4>
                 <!-- <p></p> -->
                 <h4><li><a href="/examples/approx/BSplineConv.html">B-splines and convolution</a></li></h4>
@@ -90,6 +93,8 @@ pageTracker._trackPageview();
                 <!-- <p></p> -->
                 <h4><li><a href="/examples/approx/LebesgueConst.html">Lebesgue functions and Lebesgue constants</a></li></h4>
                 <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/RationalInterp.html">Rational interpolation, robust and non-robust</a></li></h4>
+                <!-- <p></p> -->
             </ol>
         </div>
     </div>
@@ -103,6 +108,7 @@ pageTracker._trackPageview();
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
 
   </body>
 </html>

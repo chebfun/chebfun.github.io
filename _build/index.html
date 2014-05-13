@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
-    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,7 +40,8 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Chebfun</a>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
 
@@ -61,64 +62,114 @@ pageTracker._trackPageview();
     </div>
 
 
-<!--     <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7">
-                    <h1>Chebfun: Numerical computing with functions</h1>
-                    <p></p>
+<div class="jumbotron">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h1>Chebfun<span>numerical computing with functions</span></h1>
+
+                <div class="flexslider billboard">
+                  <ul class="slides">
+                    <li>
+                    <div class='row'>
+<div class='col-md-6 codewrap'><div class='code'>
+<pre class='mcode-input'>x = chebfun('x');
+
+% Define two functions
+f = exp(-x).*tanh(4*sin(40*x)).*(2 + sin(7*x)) / 16;
+g = (exp(sin(12*x) - x) + x - 2) / 12;
+
+rr = roots(f - g);      % Compute their intersections
+
+plot([f g]), hold on    % Plot the functions
+plot(rr, f(rr), 'o')    % and their intersections
+</pre>
+</div></div>
+
+<div class='col-md-6 image'>
+    <img src='demo1.png' style='margin-top: 33px' />
+</div>
+                    </div>
+                    </li>
+
+
+                    <li>
+                    <div class='row'>
+<div class='col-md-6 codewrap'><div class='code'>
+<pre class='mcode-input'>% Airy operator
+L = chebop(@(x,u) 0.01*diff(u,2) - x.*u, [-5,5]);
+L.bc = 'dirichlet';
+
+% Solve
+u = L \ 1;
+
+plot(u)
+</pre>
+</div></div>
+
+<div class='col-md-6 image'>
+    <img src='demo2.png' style='margin-top: 40px' />
+</div>
+                    </div>
+                    </li>
+                  </ul>
                 </div>
-            </div>
-        </div>
-    </div> -->
-<div class="container">
-    <div class="page-header">
- 
-        <h1>Chebfun: Numerical computing with functions</h1>
-    </div>
-    <div class="row">
-        <div class="col-md-4" role="main">
-                <h4><a href="/about/">About</a></h4>
-                <p></p>
-                <h4><a href="/download/">Download</a></h4>
-                <p></p>
-                <h4><a href="/docs/">Documentation</a></h4>
-                <p></p>
-                <h4><a href="/examples/">Examples</a></h4>
-                <p></p>
-                <h4><a href="/develop/">Develop</a></h4>
-                <p></p>
-                <h4><a href="/citing/">Citing</a></h4>
-                <p></p>
-                <h4><a href="/support/">Support</a></h4>
-                <p></p>
-        </div>
-        <div class="col-md-8" role="main">
-            <h2 id="what-is-chebfun">What is Chebfun?</h2>
-<p>Chebfun is an open-source MATLAB package for computing with
+
+<h4 class='description'>Chebfun is an open-source MATLAB package for computing with
 functions to 15-digit accuracy. Most Chebfun commands are
 overloads of familiar MATLAB commands &mdash; for example <code>sum(f)</code>
 computes an integral, <code>roots(f)</code> finds zeros, and <code>u = L\f</code> solves
-a differential equation.</p>
-<p>Click <a href="/about/" title="About">here</a> for more information.</p>
-<h2 id="a-simple-example">A simple example</h2>
-<p>The following code finds and plots all intersections of two complicated
-functions on the interval $[-1,1]$.</p>
-<pre class='lang-matlab prettyprint'>
-x = chebfun('x');
-f = tanh(4*sin(40*x)).*exp(-x).*(2 + sin(7*x)) / 16;
-g = sin(9*x).^3 / 4;
-rr = roots(f - g);
-plot([f g])
-plot(rr, f(rr), 'k.')
-</pre>
+a differential equation.</h4>
 
-<div style='text-align:center'>
-<img src='figure_frontpagedemo.png' />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" role="main">
+            <div class="row widgets">
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3>Get started<span class="glyphicon glyphicon-off" style='float:right'></span></h3>
+      <p>Whether you're a student, educator, or researcher, it's easy to learn and use Chebfun.</p>
+      <p><a href="docs/guide" class="btn btn-primary full-width" role="button">Read the Chebfun Guide&nbsp;&nbsp;&raquo;</a></p>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3>Download<span class="glyphicon glyphicon-download" style='float:right'></span></h3>
+      <p>Chebfun runs in standard Matlab. You'll be up and running in seconds.</p>
+      <p><a href="download" class="btn btn-primary full-width" role="button">Download Chebfun v5&nbsp;&nbsp;&raquo;</a></p>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3>View Examples<span class="glyphicon glyphicon-th" style='float:right'></span></h3>
+      <p>The gallery contains over 200 examples of Chebfun's mathematical applications.</p>
+      <p><a href="examples" class="btn btn-primary full-width" role="button">Browse the Examples&nbsp;&nbsp;&raquo;</a></p>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3></span>Contribute<span class="glyphicon glyphicon-wrench" style='float:right'></span></h3>
+      <p>Chebfun is open-source and hosted on Github. We're always looking for new developers.</p>
+      <p><a href="develop" class="btn btn-primary full-width" role="button">Get involved &raquo;</a></p>
+    </div>
+  </div>
 </div>
         </div>
     </div>
 </div>
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -128,6 +179,7 @@ plot(rr, f(rr), 'k.')
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
 
   </body>
 </html>

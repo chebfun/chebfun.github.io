@@ -1,0 +1,80 @@
+{% extends "_base.html" %}
+
+{% block body %}
+
+<div class="jumbotron">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h1>Chebfun<span>numerical computing with functions</span></h1>
+
+                <div class="flexslider billboard">
+                  <ul class="slides">
+                    <li>
+                    <div class='row'>
+<div class='col-md-6 codewrap'><div class='code'>
+<pre class='mcode-input'>x = chebfun('x');
+
+% Define two functions
+f = exp(-x).*tanh(4*sin(40*x)).*(2 + sin(7*x)) / 16;
+g = (exp(sin(12*x) - x) + x - 2) / 12;
+
+rr = roots(f - g);      % Compute their intersections
+
+plot([f g]), hold on    % Plot the functions
+plot(rr, f(rr), 'o')    % and their intersections
+</pre>
+</div></div>
+
+<div class='col-md-6 image'>
+    <img src='demo1.png' style='margin-top: 33px' />
+</div>
+                    </div>
+                    </li>
+
+
+                    <li>
+                    <div class='row'>
+<div class='col-md-6 codewrap'><div class='code'>
+<pre class='mcode-input'>% Airy operator
+L = chebop(@(x,u) 0.01*diff(u,2) - x.*u, [-5,5]);
+L.bc = 'dirichlet';
+
+% Solve
+u = L \ 1;
+
+plot(u)
+</pre>
+</div></div>
+
+<div class='col-md-6 image'>
+    <img src='demo2.png' style='margin-top: 40px' />
+</div>
+                    </div>
+                    </li>
+                  </ul>
+                </div>
+
+<h4 class='description'>Chebfun is an open-source MATLAB package for computing with
+functions to 15-digit accuracy. Most Chebfun commands are
+overloads of familiar MATLAB commands &mdash; for example <code>sum(f)</code>
+computes an integral, <code>roots(f)</code> finds zeros, and <code>u = L\f</code> solves
+a differential equation.</h4>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" role="main">
+            {{this.body}}
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+{% endblock %}

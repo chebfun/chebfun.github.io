@@ -27,8 +27,35 @@ for imgdir, dirs, files in os.walk("./"):
             # Copy the file to a .md file one directory up,
             # i.e. into  [...]/examples/CATEGORY/NAME.md.
             shutil.copyfile(htmlfull, mdfull)
-
 os.chdir(os.path.join("..",".."))
+
+
+# Traverse the Guide2 directory, moving chapters up a directory while renaming
+# them to have a .md extension.
+os.chdir(os.path.join("docs","guide2"))
+for imgdir, dirs, files in os.walk("./"):
+    for htmlfile in files:
+        if htmlfile.endswith('.html') and imgdir.endswith('img'):
+            # At this point, we have something like this:
+            #   imgdir     = [...]/docs/guide2/img
+            #   htmlfile   = guideX.html
+
+            slug     = htmlfile[:-5]
+            guidedir = os.path.abspath(os.path.join(imgdir, os.pardir))
+
+            mdfile   = slug + '.md'
+            mfile    = slug + '.m'
+
+            # Relative path to the example's .html file (which is actually
+            # formatted as MarkDown, but.)
+            htmlfull = os.path.join(imgdir, htmlfile)
+            mdfull   = os.path.join(guidedir, mdfile)
+
+            # Copy the file to a .md file one directory up,
+            # i.e. into  [...]/examples/CATEGORY/NAME.md.
+            shutil.copyfile(htmlfull, mdfull)
+os.chdir(os.path.join("..",".."))
+
 
 # Traverse the examples directory, finding any examples, whose filenames are
 # of the form                 ../examples/CATEGORY/img/NAME.html

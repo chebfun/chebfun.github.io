@@ -35,7 +35,7 @@ where $N\ge 1 $ is an integer.  (If $N=0$, we take $x_0=0$.)   A fuller name is 
    128     0  -256     0   160     0   -32     0     1
 </pre>Note that that output of `poly` follows the pattern for Matlab's standard `poly` command: it is a row vector, and the high-order coefficients come first. Thus, for example, the fourth row above tells us that $T_3(x) = 4x^3 - 3x$.
 
-Here are plots of T_2, T_3, T_15, and T_50.
+Here are plots of $T_2$, $T_3$, $T_{15}$, and $T_{50}$.
 
 <pre class="mcode-input">  subplot(2,2,1), plot(chebpoly(2))
   subplot(2,2,2), plot(chebpoly(3))
@@ -128,7 +128,7 @@ disp([cchebfun ctaylor])</pre><pre class="mcode-output">        chebfun         
 
 # 4.3 `chebfun(...,N)` and the Gibbs phenomenon
 
-We can examine the approximation qualities of Chebyshev interpolants by means of a command of the form "chebfun(...,N)".  When an integer N is specified in this manner, it indicates that a Chebyshev interpolant is to be constructed of precisely length N rather than by the usual adaptive process.
+We can examine the approximation qualities of Chebyshev interpolants by means of a command of the form `chebfun(...,N)`.  When an integer $N$ is specified in this manner, it indicates that a Chebyshev interpolant is to be constructed of precisely length $N$ rather than by the usual adaptive process.
 
 Let us begin with a function that cannot be well approximated by polynomials, the step function sign($x$).  To start with we interpolate it in $10$ or $20$ points, taking $N$ to be even to avoid including a value $0$ at the middle of the step.
 
@@ -212,7 +212,7 @@ err1000 =
    0.001001001001001
 </pre>Notice the clean linear decrease of the error as N increases.
 
-If f is a bit smoother, polynomial approximation to machine precision becomes practical:
+If $f$ is a bit smoother, polynomial approximation to machine precision becomes practical:
 
 <pre class="mcode-input">  length(chebfun('abs(x).*x'))
   length(chebfun('abs(x).*x.^2'))
@@ -274,7 +274,7 @@ The first theorem asserts that Chebyshev interpolants are "near-best" [Ehlich &a
 
 *THEOREM 1.* \\[ \|f-p^\*\| \le (2+(2/\pi)\log(N)) \|f-p^\*\|. \\]
 
-This theorem implies that even if $N$ is as large as $100,000$, one can lose no more than one digit by using $p$ instead of \\(p^\*\\). Whereas Chebfun will readily compute such a $p$, it is unlikely that anybody has ever computed a nontrivial $p^*$ for a value of $N$ so large.
+This theorem implies that even if $N$ is as large as 100,000, one can lose no more than one digit by using $p$ instead of \\(p^\*\\). Whereas Chebfun will readily compute such a $p$, it is unlikely that anybody has ever computed a nontrivial $p^*$ for a value of $N$ so large.
 
 The next theorem asserts that if $f$ is $k$ times differentiable, roughly speaking, then the Chebyshev interpolants converge at the algebraic rate $1/N^k$ [Mastroianni &amp; Szabados 1995].
 
@@ -314,7 +314,8 @@ A plot of the error curve $(f-p)(x)$ shows that it equioscillates between $20+2 
 
 <pre class="mcode-input">[p,err] = remez(f,20);
 plot(f-p,'m'), hold on
-plot([0 4],err*[1 1],'--k'), plot([0 4],-err*[1 1],'--k')</pre><img src="img/guide4_10.png" alt="">
+plot([0 4],err*[1 1],'--k'), plot([0 4],-err*[1 1],'--k')
+ylim(1.5*err*[-1,1])</pre><img src="img/guide4_10.png" alt="">
 
 Let's add the error curve for the degree $20$ (i.e. $21$-point) Chebyshev interpolant to the same plot:
 
@@ -422,7 +423,7 @@ Again the poles are not bad:
 r = p./q;
 norm(f-r)
 plot(f-r,'c')</pre><pre class="mcode-output">ans =
-     2.999436165321059e-10
+     2.999276953414202e-10
 </pre><img src="img/guide4_21.png" alt="">
 
 And the poles:
@@ -476,7 +477,7 @@ And the poles:
 
 [Platte, Trefethen &amp; Kuijlaars 2011] R. P. Platte, L. N. Trefethen and A. B. J. Kuijlaars, "Impossibility of fast stable approximation of analytic functions from equispaced samples", _SIAM Review_, 53 (2011), 308-318.
 
-[Powell 1981] M. J. D. Powell, _`Approximation Theory and Methods_, Cambridge University Press, 1981.
+[Powell 1981] M. J. D. Powell, _Approximation Theory and Methods_, Cambridge University Press, 1981.
 
 [Rack &amp; Reimer 1982] H.-J. Rack and M. Reimer, "The numerical stability of evaluation schemes for polynomials based on the Lagrange interpolation form", _BIT Numerical Mathematics_, 22 (1982), 101-107.
 

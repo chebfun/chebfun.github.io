@@ -21,7 +21,6 @@ body {
   margin: 25px auto;
 }
 
-
 .fa {
   margin-right: 0.5em;
 }
@@ -80,6 +79,24 @@ h3[id]:before{
 ol.orangenumbers li {
   color: #dd4814;
 }
+
+
+
+/* ------------------------------------------------------------------------ */
+/* NAVBAR */
+
+#logo img {
+  height: 48px;
+}
+
+@media print {
+  .breadcrumb {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* EXAMPLES PAGE */
 
 /* Additions by Hrothgar, April 2014 */
 ul li { list-style-type: square; }

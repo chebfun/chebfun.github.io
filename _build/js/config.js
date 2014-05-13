@@ -37,4 +37,9 @@ MathJax.Hub.Config({
 
 prettyPrint();
 
+$('.flexslider').flexslider({
+    animation: "slide"
+});
+
+
 });

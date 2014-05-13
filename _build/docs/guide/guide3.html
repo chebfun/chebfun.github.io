@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-noprint.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
-    <!-- <link href="/css/published.css" rel="stylesheet" media="screen"> -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,7 +40,8 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Chebfun</a>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
 
@@ -156,7 +157,7 @@ pageTracker._trackPageview();
 
 <pre class="mcode-output">lengthf =
     44
-Elapsed time is 0.005073 seconds.
+Elapsed time is 0.005771 seconds.
 r =
                    0
    0.999999999999998
@@ -179,7 +180,7 @@ r =
 
 <pre class="mcode-output">lengthf =
    214
-Elapsed time is 0.062049 seconds.
+Elapsed time is 0.062784 seconds.
      96.00000000000000
      97.00000000000000
      98.00000000000001
@@ -195,7 +196,7 @@ Elapsed time is 0.062049 seconds.
 
 <pre class="mcode-output">lengthf =
         1684
-Elapsed time is 0.213085 seconds.
+Elapsed time is 0.183936 seconds.
      996.0000000000000
      996.9999999999999
      998.0000000000000
@@ -266,7 +267,7 @@ g =
 [      -1,   -0.63]        1       0.6      0.6 
 [   -0.63,    0.63]        3       0.6      0.6 
 [    0.63,       1]        1       0.6      0.6 
-Epslevel = 1.026738e-15.  Vscale = 1.  Total length = 5.
+Epslevel = 1.015636e-15.  Vscale = 1.  Total length = 5.
 </pre>
 
 <p><img src="img/guide3_07.png" alt=""></p>
@@ -367,7 +368,7 @@ extremepositions =
 </pre>
 
 <h2 id="35-normf1-and-normfinf">3.5 norm(f,1) and norm(f,inf)</h2>
-<p>The default, $2$-norm form of the <code>norm</code> command was considered in Section 2.2. In standard Matlab one can also compute $1$-, $\infty$-, and Frobenius norms with <code>norm(f,1)</code>, <code>norm(f,inf)</code>, and <code>norm(f,'fro')</code>.  These have been overloaded in Chebfun, and in the first two cases, rootfinding is part of the implementation.  (The $2$- and Frobenius norms are equal for a single chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm <code>norm(f,1)</code> is the integral of the absolute value, and Chebfun computes this by adding up segments between zeros, at which $|f(x)|$ will typically have a discontinuous slope. The $\infty$-norm is computed from the formula $\|f\|_\infty = \max{\max(f),-\min(f)}$.</p>
+<p>The default, $2$-norm form of the <code>norm</code> command was considered in Section 2.2. In standard Matlab one can also compute $1$-, $\infty$-, and Frobenius norms with <code>norm(f,1)</code>, <code>norm(f,inf)</code>, and <code>norm(f,'fro')</code>.  These have been overloaded in Chebfun, and in the first two cases, rootfinding is part of the implementation.  (The $2$- and Frobenius norms are equal for a single chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm <code>norm(f,1)</code> is the integral of the absolute value, and Chebfun computes this by adding up segments between zeros, at which $|f(x)|$ will typically have a discontinuous slope. The $\infty$-norm is computed from the formula $\|f\|_\infty = \max(\max(f),-\min(f))$.</p>
 <p>For example:</p>
 <pre class="mcode-input">  f = chebfun('sin(x)',[103 103+4*pi]);
   norm(f,inf)
@@ -431,7 +432,7 @@ ans =
 </pre>
 
 <p>Most of these are spurious. What has happened is that <code>g</code> is represented by a polynomial chosen for its approximation properties on $[-1,1]$. Inevitably that polynomial will have roots in the complex plane, even if they have little to do with <code>g</code>.</p>
-<p>One cannot expect Chebfun to solve this problem perfectly -- after all, it is working on a real interval, not in the complex plane, and analytic continuation from the one to the other is well known to be an ill-posed problem.  Nevertheless, Chebfun may do a pretty good job of selecting genuine complex (and real) roots near the interval of definition if you use the 'complex' flag:</p>
+<p>One cannot expect Chebfun to solve this problem perfectly -- after all, it is working on a real interval, not in the complex plane, and analytic continuation from the one to the other is well known to be an ill-posed problem.  Nevertheless, Chebfun may do a pretty good job of selecting genuine complex (and real) roots near the interval of definition if you use the <code>'complex'</code> flag:</p>
 <pre class="mcode-input">roots(g,'complex')</pre>
 
 <pre class="mcode-output">ans =
@@ -457,7 +458,7 @@ f = chebfun(F,[-100,100]);</pre>
 
 <p>This function has a lot of complex roots lying in strips on either side of the real axis.</p>
 <pre class="mcode-input">  r = roots(f,'complex');
-  hold off, plot(r,'.','markersize',6)</pre>
+  hold off, plot(r,'.','markersize',8)</pre>
 
 <p><img src="img/guide3_15.png" alt=""></p>
 <p>If you are dealing with complex roots of complicated chebfuns like this, it may be safer to add a flag <code>'norecursion'</code> to the roots call, at the cost of slowing down the computation. This turns off the Boyd-Battles recursion mentioned above, lowering the chance of missing a few roots near interfaces of the recursion.  If we try that here we find that the results look almost the same as before in a plot:</p>
@@ -507,6 +508,7 @@ ans =
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
 
   </body>
 </html>

@@ -33,11 +33,13 @@ else
     folders = varargin;
 end
 
-
 %%
 % Loop through each folder and run all the examples.
+
 linebrk = '';
 count = 0;
+tic;
+
 for j = 1:length(folders)
     folder = folders{j};
 
@@ -60,7 +62,12 @@ for j = 1:length(folders)
 
     %%
     % Give the user a friendly message to reassure them this is working.
-    disp([linebrk 'Found ' num2str(length(examples)) ' examples in folder ./' folder '.'])
+    plural = 's';
+    if ( length(examples) == 1 )
+        plural = '';
+    end
+    disp([linebrk 'Found ' num2str(length(examples)) ' example' plural ...
+        ' in folder ./' folder '.'])
     linebrk = sprintf('\n');
 
     %%
@@ -72,9 +79,15 @@ for j = 1:length(folders)
         count = count + 1;
     end
 end
+t = toc;
 
 %%
 % Give the user a friendly goodbye message.
-disp(['Done and done and done!'])
+plural = 's';
+if ( count == 1 )
+    plural = '';
+end
+
+disp([linebrk 'Made ' num2str(count) ' example' plural ' in ' num2str(t) 's.'])
 
 return

@@ -4,6 +4,7 @@ layout: index
 content:
     - faq
     - guide
+    - guide2
 tagline:
     Chebfun documentation.
 ---

@@ -75,17 +75,17 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
 
 <pre class="mcode-input">  format long
   x = 100*rand(3,1)</pre><pre class="mcode-output">x =
-  81.472368639317892
-  90.579193707561927
-  12.698681629350606
+  91.337585613901936
+  63.235924622540949
+   9.754040499940952
 </pre>Let's compare the chebfun to the true Bessel function at these points:
 
 <pre class="mcode-input">  exact = besselj(0,x);
   error = g(x) - exact;
   [g(x) exact error]</pre><pre class="mcode-output">ans =
-   0.048059538377880   0.048059538377880   0.000000000000000
-  -0.021311086924089  -0.021311086924090   0.000000000000000
-   0.176415464952875   0.176415464952875  -0.000000000000001
+  -0.070938332803690  -0.070938332803690  -0.000000000000000
+   0.093053890749966   0.093053890749966                   0
+  -0.227754955147806  -0.227754955147806  -0.000000000000000
 </pre>If you want to know the first 5 zeros of the Bessel function, here they are:
 
 <pre class="mcode-input">  r = roots(g); r = r(1:5)</pre><pre class="mcode-output">r =
@@ -109,7 +109,7 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
   f = 1./(1+25*x.^2);
   length(f)
   clf, plot(f)</pre><pre class="mcode-output">ans =
-   167
+   183
 </pre><img src="img/guide1_04.png" alt="">
 
 
@@ -121,60 +121,60 @@ There are more than 200 commands that can be applied to a chebfun.  For a list o
 <pre class="mcode-input">  methods chebfun</pre><pre class="mcode-output">
 Methods for class chebfun:
 
-abs              cot              issing           rdivide          
-acos             cotd             iszero           real             
-acosd            coth             join             reallog          
-acosh            cov              jump             rem              
-acot             csc              ldivide          remez            
-acotd            cscd             le               repmat           
-acoth            csch             legpoly          residue          
-acsc             ctranspose       length           restrict         
-acscd            cumprod          log              roots            
-acsch            cumsum           log10            round            
-airy             cylinder         log1p            sec              
-all              diff             log2             secd             
-and              dirac            logical          sech             
-angle            disp             loglog           semilogx         
-any              display          lt               semilogy         
-arcLength        domain           lu               sign             
-area             ellipj           mat2cell         simplify         
-asec             ellipke          max              sin              
-asecd            end              mean             sinc             
-asech            epslevel         merge            sind             
-asin             eq               mesh             sinh             
-asind            erf              min              size             
-asinh            erfc             minandmax        sound            
-atan             erfcinv          minus            spy              
-atan2            erfcx            mldivide         sqrt             
-atan2d           erfinv           mod              std              
-atand            exp              mrdivide         subsasgn         
-atanh            expm1            mtimes           subspace         
-besselh          feval            ne               subsref          
-besseli          fill             newDomain        sum              
-besselj          find             nextpow2         surf             
-besselk          fix              norm             surface          
-bessely          fliplr           normal           surfc            
-bvp4c            flipud           normest          svd              
-bvp5c            floor            not              tan              
-cat              fred             null             tand             
-ceil             ge               num2cell         tanh             
-cf               get              or               times            
-cheb2cell        gt               orth             transpose        
-cheb2quasi       heaviside        overlap          uminus           
-chebellipseplot  horzcat          pde15s           unwrap           
-chebfun          hscale           permute          uplus            
-chebpade         hypot            pinv             vander           
-chebpoly         imag             plot             var              
-chebpolyplot     innerProduct     plot3            vertcat          
-chebtune         integral         plus             volt             
-complex          inv              poly             vscale           
-compose          isdelta          polyfit          waterfall        
-cond             isempty          pow2             why              
-conj             isequal          power            xor              
-conv             isfinite         prod             
+abs              cot              issing           rank             
+acos             cotd             iszero           rdivide          
+acosd            coth             join             real             
+acosh            cov              jump             reallog          
+acot             csc              ldivide          rem              
+acotd            cscd             le               remez            
+acoth            csch             legpoly          repmat           
+acsc             ctranspose       length           residue          
+acscd            cumprod          log              restrict         
+acsch            cumsum           log10            roots            
+airy             cylinder         log1p            round            
+all              diff             log2             sec              
+and              dirac            logical          secd             
+angle            disp             loglog           sech             
+any              display          lt               semilogx         
+arcLength        domain           lu               semilogy         
+area             ellipj           mat2cell         sign             
+asec             ellipke          max              simplify         
+asecd            end              mean             sin              
+asech            epslevel         merge            sinc             
+asin             eq               mesh             sind             
+asind            erf              min              sinh             
+asinh            erfc             minandmax        size             
+atan             erfcinv          minus            sound            
+atan2            erfcx            mldivide         spy              
+atan2d           erfinv           mod              sqrt             
+atand            exp              mrdivide         std              
+atanh            expm1            mtimes           subsasgn         
+besselh          feval            ne               subspace         
+besseli          fill             newDomain        subsref          
+besselj          find             nextpow2         sum              
+besselk          fix              norm             surf             
+bessely          fliplr           normal           surface          
+bvp4c            flipud           normest          surfc            
+bvp5c            floor            not              svd              
+cat              fred             null             tan              
+ceil             ge               num2cell         tand             
+cf               get              or               tanh             
+cheb2cell        gt               orth             times            
+cheb2quasi       heaviside        overlap          transpose        
+chebellipseplot  horzcat          pde15s           uminus           
+chebfun          hscale           permute          unwrap           
+chebpade         hypot            pinv             uplus            
+chebpoly         imag             plot             vander           
+chebpolyplot     innerProduct     plot3            var              
+chebtune         integral         plus             vertcat          
+complex          inv              poly             volt             
+compose          isdelta          polyfit          vscale           
+cond             isempty          pow2             waterfall        
+conj             isequal          power            why              
+conv             isfinite         prod             xor              
 cos              isinf            qr               
-cosd             isnan            quasi2cheb       
-cosh             isreal           rank             
+cosd             isnan            quantumstates    
+cosh             isreal           quasi2cheb       
 
 Static methods:
 
@@ -216,7 +216,7 @@ lagrange         ode45
 </pre>Most of the commands in the list exist in ordinary Matlab; some exceptions are `domain`, `restrict`, `chebpoly`, and `remez`. We have already seen `length` and `sum` in action.  In fact we have already seen `subsref` too, since that is the Matlab command for (among other things) evaluating arguments in parentheses.  Here is another example of its use:
 
 <pre class="mcode-input">  f(0.5)</pre><pre class="mcode-output">ans =
-   0.137931034482756
+   0.137931034482759
 </pre>Here for comparison is the true result:
 
 <pre class="mcode-input">  1/(1+25/4)</pre><pre class="mcode-output">ans =
@@ -297,7 +297,7 @@ As always, h may look complicated to a human, but to Chebfun it is just a functi
 </pre>A final note about piecewise smooth chebfuns is that the automatic edge detection or "splitting" feature, when it is turned on, may subdivide functions even though they do not have clean point singularities, and this may be desirable or undesirable depending on the application.  For example, considering $\sin(x)$ over $[0,1000]$ with splitting on, we end up with a chebfun with many pieces:
 
 <pre class="mcode-input">  tic, f = chebfun('sin(x)',[0 1000*pi],'splitting','on'); toc
-  disp(f)</pre><pre class="mcode-output">Elapsed time is 1.400759 seconds.
+  disp(f)</pre><pre class="mcode-output">Elapsed time is 0.762380 seconds.
 ans =
 f = 
    chebfun column (32 smooth pieces)
@@ -338,7 +338,7 @@ Epslevel = 3.487391e-13.  Vscale = 1.000000e+00.  Total length = 2748.
 </pre>In this case it is more efficient -- and more interesting mathematically -- to omit the splitting and construct one global chebfun:
 
 <pre class="mcode-input">  tic, f2 = chebfun('sin(x)',[0 1000*pi]); toc
-  disp(f2)</pre><pre class="mcode-output">Elapsed time is 0.035720 seconds.
+  disp(f2)</pre><pre class="mcode-output">Elapsed time is 0.024330 seconds.
 ans =
 f2 = 
    chebfun column (1 smooth piece)
