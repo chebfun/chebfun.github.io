@@ -10,9 +10,9 @@ function genchebdoc
 tic
 
 % Directory and file naming options.
-opts.mdir = 'doc-mjunk'; % directory for m files
-opts.docdir = 'doc';     % directory for html files
-opts.fsuffix = '_DOC';   % suffix for m-files
+opts.mdir    = 'functions-mjunk'; % directory for m files
+opts.docdir  = 'functions';       % directory for html files
+opts.fsuffix = '_DOC';            % suffix for m-files
 
 % Collect all relevant chebfun methods.
 fcheb    = methods('chebfun');
