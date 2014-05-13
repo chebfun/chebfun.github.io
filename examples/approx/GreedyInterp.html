@@ -62,6 +62,18 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>A greedy algorithm for choosing interpolation points</h1>
+                <h2>Nick Trefethen, 27 November 2011</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
@@ -71,12 +83,6 @@ pageTracker._trackPageview();
        <li class="active">A greedy algorithm for choosing interpolation points</li>
     </ol>
 
-    <div class="page-header">
- 
-        <h1>A greedy algorithm for choosing interpolation points</h1>
-        <h2>Nick Trefethen, 27 November 2011</h2>
-    </div>
-
     <div class="row">
 
 <!--
@@ -84,8 +90,8 @@ pageTracker._trackPageview();
         </div>
 -->
 
-        <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>In the theory of polynomial interpolation, an important issue is the distribution of the interpolation points.  Points that cluster near the boundary, such as Chebyshev points, are usually much better than equispaced points.</p>
 <p>Suppose we don't know any of the theory and just let an algorithm pick effective points on the fly.  Specifically, suppose f is a continuous function on [-1,1]. We could take the first interpolation point x0 to be a point where f achieves its maximum absolute value and compute the corresponding interpolant p0 of degree 0.  Then we could take the second interpolation point x1 to be a point where f-p0 achieves its maximum absolute value. And so on.</p>
 <p>Using Chebfun's interp1 command, it is easy to try out this idea. An interesting choice for f is the absolute value:</p>
@@ -151,14 +157,14 @@ hold on, semilogy(lebesgue(scheb),'r',LW,1.4)</pre>
     </div>
     
 
+</div> 
+
+
     <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

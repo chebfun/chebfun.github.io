@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>CHEBFUN :: CHEBFUN class for representing functions on [a,b].</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="chebfun_DOC.m"><style type="text/css">
+      --><title>CHEBFUN :: CHEBFUN class for representing functions on [a,b].</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-13"><meta name="DC.source" content="chebfun_DOC.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -94,9 +94,9 @@ CHEBFUN(F, N, 'chebkind', 2) is equivalent to CHEBFUN(feval(F, chebpts(N)).</pre
 represents Fj on the interval [ENDS(j), END(j+1)]. Each entry Fj may be a
 string, function handle, or vector of doubles. For example
   CHEBFUN({@(x) sin(x), @(x) cos(x)}, [-1, 0, 1])</pre><pre>CHEBFUN(F, PREF) or CHEBFUN(F, [A, B], PREF) constructs a CHEBFUN object from
-F with the options determined by the CHEBPREF object PREF. Construction time
+F with the options determined by the CHEBFUNPREF object PREF. Construction time
 options may also be passed directly to the constructor in the form CHEBFUN(F,
-[A, B], PROP1, VAL1, PROP2, VAL2, ...). (See CHEBPREF for details of the
+[A, B], PROP1, VAL1, PROP2, VAL2, ...). (See CHEBFUNPREF for details of the
 various preference options and their defaults.). In particular, CHEBFUN(F,
 'splitting', 'on') allows the constructor to adaptively determine breakpoints
 to better represent piecewise smooth functions F. For example,
@@ -119,7 +119,7 @@ and
   CHEBFUN({@(x) sin(x), @(x) cos(x)}, [-1, 0, 1]).
 The former constructs an array-valued CHEBFUN with both columns defined on the
 domain [-1, 0, 1]. The latter defines a single column CHEBFUN which represents
-sin(x) in the interval [-1, 0) and cos(x) on the interval (0, 1].</pre><pre>See also CHEBPREF, CHEBPTS.</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+sin(x) in the interval [-1, 0) and cos(x) on the interval (0, 1].</pre><pre>See also CHEBFUNPREF, CHEBPTS.</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% CHEBFUN :: CHEBFUN class for representing functions on [a,b].
 % 
@@ -162,9 +162,9 @@ sin(x) in the interval [-1, 0) and cos(x) on the interval (0, 1].</pre><pre>See 
 %    CHEBFUN({@(x) sin(x), @(x) cos(x)}, [-1, 0, 1])
 % 
 %  CHEBFUN(F, PREF) or CHEBFUN(F, [A, B], PREF) constructs a CHEBFUN object from
-%  F with the options determined by the CHEBPREF object PREF. Construction time
+%  F with the options determined by the CHEBFUNPREF object PREF. Construction time
 %  options may also be passed directly to the constructor in the form CHEBFUN(F,
-%  [A, B], PROP1, VAL1, PROP2, VAL2, ...). (See CHEBPREF for details of the
+%  [A, B], PROP1, VAL1, PROP2, VAL2, ...). (See CHEBFUNPREF for details of the
 %  various preference options and their defaults.). In particular, CHEBFUN(F,
 %  'splitting', 'on') allows the constructor to adaptively determine breakpoints
 %  to better represent piecewise smooth functions F. For example,
@@ -193,7 +193,7 @@ sin(x) in the interval [-1, 0) and cos(x) on the interval (0, 1].</pre><pre>See 
 %  domain [-1, 0, 1]. The latter defines a single column CHEBFUN which represents
 %  sin(x) in the interval [-1, 0) and cos(x) on the interval (0, 1]. 
 % 
-%  See also CHEBPREF, CHEBPTS.
+%  See also CHEBFUNPREF, CHEBPTS.
 %
 ##### SOURCE END #####
 --></body></html>

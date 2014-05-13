@@ -21,7 +21,7 @@
 %  Furthermore, the +\-inf norms for scalar-valued CHEBFUN objects may also
 %  return a second output, giving the position where the max/min occurs. For
 %  array-valued CHEBFUN objects, the 1 norm can return as its 2nd output the
-%  index of the column with the largest norm, while the inf, -inf, and p-norms
+%  index of the column with the largest norm, while the inf and -inf norms
 %  can return as their 2nd output the point in the domain of the CHEBFUN at
 %  which the norm is attained.
 % 

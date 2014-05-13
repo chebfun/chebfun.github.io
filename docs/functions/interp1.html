@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>INTERP1 :: CHEBFUN polynomial interpolant at any distribution of points.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="interp1_DOC.m"><style type="text/css">
+      --><title>INTERP1 :: CHEBFUN polynomial interpolant at any distribution of points.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-13"><meta name="DC.source" content="interp1_DOC.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -65,9 +65,9 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>INTERP1 :: CHEBFUN polynomial interpolant at any distribution of points.</h1><pre>  P = INTERP1(X, Y), where X and Y are vectors, returns the CHEBFUN P defined
-  on the domain [X(1), X(end)] corresponding to the polynomial interpolant
-  through the data Y(j) at points X(j).</pre><pre>  If Y is a matrix with more than one column then then Y(:,j) is taken as the
+  </style></head><body><div class="content"><h1>INTERP1 :: CHEBFUN polynomial interpolant at any distribution of points.</h1><pre>  P = CHEBFUN.INTERP1(X, Y), where X and Y are vectors, returns the CHEBFUN P
+  defined on the domain [X(1), X(end)] corresponding to the polynomial
+  interpolant through the data Y(j) at points X(j).</pre><pre>  If Y is a matrix with more than one column then then Y(:,j) is taken as the
   value to be matched at X(j) and P is an array-valued CHEBFUN with each
   column corresponding to the appropriate interpolant.</pre><pre>  EXAMPLE: The following commands plot the interpolant in 11 equispaced points
   on [-1, 1] through the famous Runge function:
@@ -76,19 +76,20 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
       x = linspace(d(1), d(2), 11);
       p = chebfun.interp1(x, ff(x))
       f = chebfun(ff, d);
-      plot(f, 'k', p, 'r-'), hold on, plot(x, ff(x), 'r.'), grid on</pre><pre>  P = INTERP1(X, Y, METHOD) specifies alternate interpolation methods. The
-  default is as described above. (Use an empty matrix [] to specify the
+      plot(f, 'k', p, 'r-'), hold on, plot(x, ff(x), 'r.'), grid on</pre><pre>  P = CHEBFUN.INTERP1(X, Y, METHOD) specifies alternate interpolation methods.
+  The default is as described above. (Use an empty matrix [] to specify the
   default.) Available methods are:
       'linear'   - linear interpolation
       'spline'   - piecewise cubic spline interpolation (SPLINE)
       'pchip'    - shape-preserving piecewise cubic interpolation
       'cubic'    - same as 'pchip'
-      'poly'     - polynomial interpolation, as described above</pre><pre>  P = INTERP1(X, Y, METHOD, DOM) restricts the result P to the domain DOM.</pre><pre>See also SPLINE, PCHIP.</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+      'poly'     - polynomial interpolation, as described above</pre><pre>  P = CHEBFUN.INTERP1(X, Y, METHOD, DOM) restricts the result P to the domain
+  DOM.</pre><pre>See also SPLINE, PCHIP.</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% INTERP1 :: CHEBFUN polynomial interpolant at any distribution of points.
-%    P = INTERP1(X, Y), where X and Y are vectors, returns the CHEBFUN P defined
-%    on the domain [X(1), X(end)] corresponding to the polynomial interpolant
-%    through the data Y(j) at points X(j).
+%    P = CHEBFUN.INTERP1(X, Y), where X and Y are vectors, returns the CHEBFUN P
+%    defined on the domain [X(1), X(end)] corresponding to the polynomial
+%    interpolant through the data Y(j) at points X(j).
 % 
 %    If Y is a matrix with more than one column then then Y(:,j) is taken as the
 %    value to be matched at X(j) and P is an array-valued CHEBFUN with each
@@ -103,8 +104,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %        f = chebfun(ff, d);
 %        plot(f, 'k', p, 'r-'), hold on, plot(x, ff(x), 'r.'), grid on
 % 
-%    P = INTERP1(X, Y, METHOD) specifies alternate interpolation methods. The
-%    default is as described above. (Use an empty matrix [] to specify the
+%    P = CHEBFUN.INTERP1(X, Y, METHOD) specifies alternate interpolation methods.
+%    The default is as described above. (Use an empty matrix [] to specify the
 %    default.) Available methods are:
 %        'linear'   - linear interpolation
 %        'spline'   - piecewise cubic spline interpolation (SPLINE)
@@ -112,7 +113,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %        'cubic'    - same as 'pchip'
 %        'poly'     - polynomial interpolation, as described above
 % 
-%    P = INTERP1(X, Y, METHOD, DOM) restricts the result P to the domain DOM.
+%    P = CHEBFUN.INTERP1(X, Y, METHOD, DOM) restricts the result P to the domain
+%    DOM.
 % 
 %  See also SPLINE, PCHIP.
 %

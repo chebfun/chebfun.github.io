@@ -27,7 +27,7 @@ fprintf(1, [message spaces])
 % Publish options.
 opts.outputDir  = 'img';
 opts.format     = 'html';
-opts.stylesheet = fullfile(pwd, 'custom_mxdom2md_img.xsl');
+opts.stylesheet = fullfile(pwd, 'custom_example2md.xsl');
 
 % Move into the containing folder, publish the example, make a bare MarkDown
 % template file, then move back out.

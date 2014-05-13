@@ -20,4 +20,6 @@
 % 
 %    [1] Jarg Waldvogel, "Fast construction of the Fejer and Clenshaw-Curtis
 %    quadrature rules", BIT Numerical Mathematics, 46, (2006), pp 195-202. 
+% 
+%  See also LEGPTS, JACPTS, LAGPTS, and HERMPTS.
 %

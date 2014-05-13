@@ -4,7 +4,8 @@
 %    is an array-valued CHEBFUN.
 % 
 %    P = LEGPOLY(N, D) computes the Legendre polynomials as above, but on the
-%    interval given by the domain D, which must be bounded.
+%    interval given by the domain D, which must be bounded. Note that interior
+%    breakpoints in D are ignored.
 % 
 %    P = LEGPOLY(N, D, 'norm') or P = LEGPOLY(N, 'norm') normalises so that
 %    integrate(P(:,j).*P(:,k)) = delta_{j,k}.

@@ -5,7 +5,7 @@
 %    planes with opaque whitespace or connect edges to zero.
 % 
 %    Additional plotting options can also be passed, for example
-%        WATERFALL(U,T,'linewidth',2).
+%        WATERFALL(U, T, 'linewidth', 2).
 % 
 %  See also PLOT, PLOT3, PLOTDATA.
 %

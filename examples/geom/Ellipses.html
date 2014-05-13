@@ -62,6 +62,18 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>An ellipse rolling around another ellipse</h1>
+                <h2>Nick Trefethen, 18th October 2011</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
@@ -71,12 +83,6 @@ pageTracker._trackPageview();
        <li class="active">An ellipse rolling around another ellipse</li>
     </ol>
 
-    <div class="page-header">
- 
-        <h1>An ellipse rolling around another ellipse</h1>
-        <h2>Nick Trefethen, 18th October 2011</h2>
-    </div>
-
     <div class="row">
 
 <!--
@@ -84,8 +90,8 @@ pageTracker._trackPageview();
         </div>
 -->
 
-        <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>Here's a problem from Oxford's Numerical Analysis Group Problem Solving Squad in October 2011.  A 2x1 ellipse is lined up touching a 3x1 ellipse tip-to-tip, and then the little ellipse rolls around the big one with boundaries touching and not slipping. How long is the trajectory of the center of the little ellipse from the starting point to when it completes a full 360-degree revolution?</p>
 <p>For convenience, since the geometry is 2D, let's use complex variables z1(t) and z2(t) to track the contact points on the two ellipse boundaries as a function of time t, assuming motion at speed 1. It is convenient to let theta1(t) be the argument of z1(t) if it is scaled down to the unit circle:</p>
 <p>z1 = L1 cos(theta1)/2 + i sin(theta1)/2 ,   that is,
@@ -155,14 +161,14 @@ end</pre>
     </div>
     
 
+</div> 
+
+
     <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

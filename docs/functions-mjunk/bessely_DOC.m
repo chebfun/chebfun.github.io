@@ -8,11 +8,11 @@
 %         0 - (default) is the same as BESSELY(NU, F)
 %         1 -  scales Y_NU(F) by exp(-abs(imag(F)))
 % 
-%    Y = BESSELY(NU, F, SCALE, PREF) uses the CHEBPREF object PREF when
+%    Y = BESSELY(NU, F, SCALE, PREF) uses the CHEBFUNPREF object PREF when
 %    building the CHEBFUN Y.
 % 
 %  See also AIRY, BESSELH, BESSELI, BESSELJ, BESSELK.
 % 
-%  Copyright 2013 by The University of Oxford and The Chebfun Developers.
+%  Copyright 2014 by The University of Oxford and The Chebfun Developers.
 %  See http://www.chebfun.org for Chebfun information.
 %

@@ -11,12 +11,9 @@
 %    or if F and G do not have the same dimensions, then an error is thrown.
 % 
 %    COMPOSE(F, OP, PREF), COMPOSE(F, OP, G, PREF), and COMPOSE(F, G, PREF) use
-%    the options passed by the CHEBPREF object PREF.
+%    the options passed by the CHEBFUNPREF object PREF.
 % 
-%    Note 1: If the locations of required breakpoints in the output are known in
+%    Note: If the locations of required breakpoints in the output are known in
 %    advance, they should be applied to F and/or G using RESTRICT() before the
 %    call to COMPOSE().
-% 
-%    Note 2: Any higher-order impulse/delta function data in F and/or G is
-%    ignored by COMPOSE().
 %

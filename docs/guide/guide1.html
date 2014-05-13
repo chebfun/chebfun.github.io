@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CHEBFUN GUIDE 1: GETTING STARTED WITH CHEBFUN &raquo; Chebfun</title>
+    <title>Chebfun Guide 1: Getting Started with Chebfun &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -62,20 +62,26 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Chebfun Guide 1: Getting Started with Chebfun</h1>
+                <h2>Lloyd N. Trefethen, October 2009, latest revision May 2014</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
        <li><a href="/docs/">Documentation</a></li>
        <li><a href="/docs/guide/">The Chebfun Guide</a></li>
-       <li class="active">CHEBFUN GUIDE 1: GETTING STARTED WITH CHEBFUN</li>
+       <li class="active">Chebfun Guide 1: Getting Started with Chebfun</li>
     </ol>
-
-    <div class="page-header">
- 
-        <h1>CHEBFUN GUIDE 1: GETTING STARTED WITH CHEBFUN</h1>
-        <h2>Lloyd N. Trefethen, October 2009, latest revision May 2014</h2>
-    </div>
 
     <div class="row">
 
@@ -84,7 +90,7 @@ pageTracker._trackPageview();
  
             <div id="sidebar" class="sidebar">
                 <div class="">
-                    <!- <a href="#"><strong>CHEBFUN GUIDE 1: GETTING STARTED WITH CHEBFUN</strong></a> ->
+                    <!- <a href="#"><strong>Chebfun Guide 1: Getting Started with Chebfun</strong></a> ->
                     <div class="toc">
 <ul>
 <li><a href="#11-what-is-a-chebfun">1.1  What is a chebfun?</a></li>
@@ -105,7 +111,7 @@ pageTracker._trackPageview();
 -->
 
         <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <h2 id="11-what-is-a-chebfun">1.1  What is a chebfun?</h2>
 <p>A chebfun is a function of one variable defined on an interval $[a,b]$. The syntax for chebfuns is almost exactly the same as the usual Matlab syntax for vectors, with the familiar Matlab commands for vectors overloaded in natural ways. Thus, for example, whereas <code>sum(f)</code> returns the sum of the entries when <code>f</code> is a vector, it returns a definite integral when <code>f</code> is a chebfun.</p>
 <p>Chebfun with a capital C is the name of the software system.</p>
@@ -119,7 +125,7 @@ pageTracker._trackPageview();
 <pre class="mcode-input">  f = chebfun('cos(20*x)');
   plot(f)</pre>
 
-<p><img src="img/guide1_01.png" alt=""></p>
+<p><img src="img/guide1_01.png" class="figure" alt=""></p>
 <p>From this little experiment, you cannot see that <code>f</code> is represented by a polynomial.  One way to see this is to find the length of <code>f</code>:</p>
 <pre class="mcode-input">  length(f)</pre>
 
@@ -140,7 +146,7 @@ Epslevel = 2.183626e-15.  Vscale = 1.
 <p>These results tell us that <code>f</code> is represented by a polynomial interpolant through 59 Chebyshev points, i.e., a polynomial of degree 58.  These numbers have been determined by an adaptive process.  We can see the data points by plotting <code>f</code>with the <code>'.-'</code> option:</p>
 <pre class="mcode-input">  plot(f,'.-')</pre>
 
-<p><img src="img/guide1_02.png" alt=""></p>
+<p><img src="img/guide1_02.png" class="figure" alt=""></p>
 <p>The formula for $N+1$ Chebyshev points in $[-1,1]$ is</p>
 <p>$$ x(j) = -\cos(j \pi/N), \quad  j = 0:N, $$</p>
 <p>and in the figure we can see that the points are clustered accordingly near $1$ and $-1$. Note that in the middle of the grid, there are about 5 points per wavelength, which is evidently what it takes to represent this cosine to 15 digits of accuracy.  For intervals other than $[-1,1]$, appropriate Chebyshev points are obtained by a linear scaling.</p>
@@ -163,7 +169,7 @@ Epslevel = 2.183626e-15.  Vscale = 1.
 <pre class="mcode-input">  g = chebfun(@(t) besselj(0,t),[0,100]);
   plot(g), ylim([-.5 1])</pre>
 
-<p><img src="img/guide1_03.png" alt=""></p>
+<p><img src="img/guide1_03.png" class="figure" alt=""></p>
 <p>The function looks complicated, but it is actually a polynomial of surprisingly small degree:</p>
 <pre class="mcode-input">  length(g)</pre>
 
@@ -176,9 +182,9 @@ Epslevel = 2.183626e-15.  Vscale = 1.
   x = 100*rand(3,1)</pre>
 
 <pre class="mcode-output">x =
-  91.337585613901936
-  63.235924622540949
-   9.754040499940952
+  95.750683543429759
+  96.488853519927659
+  15.761308167754828
 </pre>
 
 <p>Let's compare the chebfun to the true Bessel function at these points:</p>
@@ -187,9 +193,9 @@ Epslevel = 2.183626e-15.  Vscale = 1.
   [g(x) exact error]</pre>
 
 <pre class="mcode-output">ans =
-  -0.070938332803690  -0.070938332803690  -0.000000000000000
-   0.093053890749966   0.093053890749966                   0
-  -0.227754955147806  -0.227754955147806  -0.000000000000000
+   0.061505443779444   0.061505443779444   0.000000000000000
+   0.009434736968274   0.009434736968274   0.000000000000000
+  -0.148381651531972  -0.148381651531971  -0.000000000000001
 </pre>
 
 <p>If you want to know the first 5 zeros of the Bessel function, here they are:</p>
@@ -225,7 +231,7 @@ Epslevel = 2.183626e-15.  Vscale = 1.
    183
 </pre>
 
-<p><img src="img/guide1_04.png" alt=""></p>
+<p><img src="img/guide1_04.png" class="figure" alt=""></p>
 <h2 id="13-operations-on-chebfuns">1.3  Operations on chebfuns</h2>
 <p>There are more than 200 commands that can be applied to a chebfun.  For a list of many of them you can type <code>methods</code>:</p>
 <pre class="mcode-input">  methods chebfun</pre>
@@ -380,7 +386,7 @@ Epslevel = 6.492624e-16.  Vscale = 1.300000e+00.  Total length = 4.
 <pre class="mcode-input">  f = chebfun({@(x) x.^2, @(x) 1+0*x, @(x) 4-x},[-1 1 2 4]);
   plot(f)</pre>
 
-<p><img src="img/guide1_05.png" alt=""></p>
+<p><img src="img/guide1_05.png" class="figure" alt=""></p>
 <p>We expect <code>f</code> to consist of three pieces of lengths 3, 1, and 2, and this is indeed the case:</p>
 <pre class="mcode-input">  f</pre>
 
@@ -403,19 +409,19 @@ Epslevel = 6.492624e-16.  Vscale = 2.000000e+00.  Total length = 6.
 <p>Here is an algebraic transformation of <code>f</code>, which we plot in another color for variety.</p>
 <pre class="mcode-input">  plot(1./(1+f),'r')</pre>
 
-<p><img src="img/guide1_06.png" alt=""></p>
+<p><img src="img/guide1_06.png" class="figure" alt=""></p>
 <p>Some Chebfun commands naturally introduce breakpoints in a chebfun. For example, the <code>abs</code> command first finds zeros of a function and introduces breakpoints there.  Here is a chebfun consisting of 6 funs:</p>
 <pre class="mcode-input">  f = abs(exp(x).*sin(8*x));
   plot(f)</pre>
 
-<p><img src="img/guide1_07.png" alt=""></p>
+<p><img src="img/guide1_07.png" class="figure" alt=""></p>
 <p>And here is an example where breakpoints are introduced by the <code>max</code> command, leading to a chebfun with 13 pieces:</p>
 <pre class="mcode-input">  f = sin(20*x);
   g = exp(x-1);
   h = max(f,g);
   plot(h)</pre>
 
-<p><img src="img/guide1_08.png" alt=""></p>
+<p><img src="img/guide1_08.png" class="figure" alt=""></p>
 <p>As always, h may look complicated to a human, but to Chebfun it is just a function.  Here are its mean, standard deviation, minimum, and maximum:</p>
 <pre class="mcode-input">  mean(h)</pre>
 
@@ -445,7 +451,7 @@ Epslevel = 6.492624e-16.  Vscale = 2.000000e+00.  Total length = 6.
 <pre class="mcode-input">  tic, f = chebfun('sin(x)',[0 1000*pi],'splitting','on'); toc
   disp(f)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.762380 seconds.
+<pre class="mcode-output">Elapsed time is 0.780025 seconds.
 ans =
 f = 
    chebfun column (32 smooth pieces)
@@ -489,7 +495,7 @@ Epslevel = 3.487391e-13.  Vscale = 1.000000e+00.  Total length = 2748.
 <pre class="mcode-input">  tic, f2 = chebfun('sin(x)',[0 1000*pi]); toc
   disp(f2)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.024330 seconds.
+<pre class="mcode-output">Elapsed time is 0.026574 seconds.
 ans =
 f2 = 
    chebfun column (1 smooth piece)
@@ -503,7 +509,7 @@ Epslevel = 3.487867e-13.  Vscale = 9.999862e-01.
 <pre class="mcode-input">  f = chebfun('exp(-x.^2/16).*(1+.2*cos(10*x))',[-inf,inf]);
   plot(f)</pre>
 
-<p><img src="img/guide1_09.png" alt=""></p>
+<p><img src="img/guide1_09.png" class="figure" alt=""></p>
 <p>and here is its integral:</p>
 <pre class="mcode-input">  sum(f)</pre>
 
@@ -524,7 +530,7 @@ ans =
 <pre class="mcode-input">  h = chebfun('(1/pi)./sqrt(1-x.^2)','blowup',2);
   plot(h)</pre>
 
-<p><img src="img/guide1_10.png" alt=""></p>
+<p><img src="img/guide1_10.png" class="figure" alt=""></p>
 <p>In this case the integral comes out just right:</p>
 <pre class="mcode-input">  sum(h)</pre>
 
@@ -603,15 +609,14 @@ Epslevel = 1.298525e-15.  Vscale = 1.000000e+00.
     </div>
     
 
-    <!--     <div class="footer">
+</div> 
+
+
+    <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
- -->
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

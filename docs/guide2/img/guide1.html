@@ -1,5 +1,5 @@
 ---
-title: "CHEBFUN2 GUIDE 1: GETTING STARTED"
+title: "Chebfun2 Guide 1: Getting Started"
 layout: guide-chapter
 authordate: "A. Townsend, March 2013, last updated May 2014"
 ---
@@ -29,11 +29,11 @@ Chebfun2 can represent scalar valued functions, such as $\exp(x+y)$, and vector 
 A chebfun2 is constructed by supplying the Chebfun2 constructor with a function handle or string. The default rectangular domain of a chebfun2 is $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is given at the end of this chapter.) For example, here we make a chebfun2 representing $\cos(xy)$ on $[-1,1]\times[-1,1]$ and then plot it.
 
 <pre class="mcode-input">f = chebfun2(@(x,y) cos(x.*y));
-plot(f), zlim([-2 2])</pre><img src="img/guide1_01.png" alt="">
+plot(f), zlim([-2 2])</pre><img src="img/guide1_01.png" class="figure" alt="">
 
 There are several commands for plotting a chebfun2, including `plot`, `contour`, `surf`, and `mesh`.  Here is a contour plot of $f$:
 
-<pre class="mcode-input">contour(f), axis square</pre><img src="img/guide1_02.png" alt="">
+<pre class="mcode-input">contour(f), axis square</pre><img src="img/guide1_02.png" class="figure" alt="">
 
 One way to find the rank of the approximant used to represent $f$ is the following:
 
@@ -66,7 +66,7 @@ Evaluation at a point:
 
 <pre class="mcode-input">x = 2*rand - 1; y = 2*rand - 1;
 f(x,y)</pre><pre class="mcode-output">ans =
-   0.999137447888985
+   0.652014593874431
 </pre>Evaluation along the line $y = \pi/6$:
 
 <pre class="mcode-input">f(:,pi/6)</pre><pre class="mcode-output">ans = 
@@ -81,7 +81,7 @@ r = roots(f-.95); plot(r), axis square, title('Zero contours of f-.95')
 What is the partial derivative $\partial f/\partial y$?
 
 <pre class="mcode-input">fy = diff(f,1,1);
-plot(fy)</pre><img src="img/guide1_03.png" alt="">
+plot(fy)</pre><img src="img/guide1_03.png" class="figure" alt="">
 
 The syntax for the `diff` command can cause confusion because we are following the matrix syntax in Matlab. We also offer `diffx(f,k)` and `diffy(f,k)` which differentiate $f(x,y)$ $k$ times with respect to the first first and second variable, respectively.
 
@@ -165,7 +165,7 @@ So far, in this chapter, chebfun2 objects have been constructed explicitly via a
 y = chebfun2(@(x,y) y, [-2 3 -4 4]);
 
 f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
-contour(f), axis square</pre><img src="img/guide1_04.png" alt="">
+contour(f), axis square</pre><img src="img/guide1_04.png" class="figure" alt="">
 
 
 

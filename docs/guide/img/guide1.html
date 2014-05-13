@@ -1,5 +1,5 @@
 ---
-title: "CHEBFUN GUIDE 1: GETTING STARTED WITH CHEBFUN"
+title: "Chebfun Guide 1: Getting Started with Chebfun"
 layout: guide-chapter
 authordate: "Lloyd N. Trefethen, October 2009, latest revision May 2014"
 ---
@@ -29,7 +29,7 @@ This Guide is based on Chebfun Version 5, released in 2014.  Chebfun is availabl
 The `chebfun` command constructs a chebfun from a specification such as a string or an anonymous function.  If you don't specify an interval, then the default interval $[-1,1]$ is used. For example, the following command makes a chebfun corresponding to $\cos(20x)$ on $[-1,1]$ and plots it.
 
 <pre class="mcode-input">  f = chebfun('cos(20*x)');
-  plot(f)</pre><img src="img/guide1_01.png" alt="">
+  plot(f)</pre><img src="img/guide1_01.png" class="figure" alt="">
 
 From this little experiment, you cannot see that `f` is represented by a polynomial.  One way to see this is to find the length of `f`:
 
@@ -44,7 +44,7 @@ From this little experiment, you cannot see that `f` is represented by a polynom
 Epslevel = 2.183626e-15.  Vscale = 1.
 </pre>These results tell us that `f` is represented by a polynomial interpolant through 59 Chebyshev points, i.e., a polynomial of degree 58.  These numbers have been determined by an adaptive process.  We can see the data points by plotting `f`with the `'.-'` option:
 
-<pre class="mcode-input">  plot(f,'.-')</pre><img src="img/guide1_02.png" alt="">
+<pre class="mcode-input">  plot(f,'.-')</pre><img src="img/guide1_02.png" class="figure" alt="">
 
 The formula for $N+1$ Chebyshev points in $[-1,1]$ is
 
@@ -65,7 +65,7 @@ What is the integral of $f$ from $-1$ to $1$?  Here it is:
 </pre>Here is another example, now with the chebfun defined by an anonymous function instead of a string. In this case the interval is specified as $[0,100]$.
 
 <pre class="mcode-input">  g = chebfun(@(t) besselj(0,t),[0,100]);
-  plot(g), ylim([-.5 1])</pre><img src="img/guide1_03.png" alt="">
+  plot(g), ylim([-.5 1])</pre><img src="img/guide1_03.png" class="figure" alt="">
 
 The function looks complicated, but it is actually a polynomial of surprisingly small degree:
 
@@ -75,17 +75,17 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
 
 <pre class="mcode-input">  format long
   x = 100*rand(3,1)</pre><pre class="mcode-output">x =
-  91.337585613901936
-  63.235924622540949
-   9.754040499940952
+  95.750683543429759
+  96.488853519927659
+  15.761308167754828
 </pre>Let's compare the chebfun to the true Bessel function at these points:
 
 <pre class="mcode-input">  exact = besselj(0,x);
   error = g(x) - exact;
   [g(x) exact error]</pre><pre class="mcode-output">ans =
-  -0.070938332803690  -0.070938332803690  -0.000000000000000
-   0.093053890749966   0.093053890749966                   0
-  -0.227754955147806  -0.227754955147806  -0.000000000000000
+   0.061505443779444   0.061505443779444   0.000000000000000
+   0.009434736968274   0.009434736968274   0.000000000000000
+  -0.148381651531972  -0.148381651531971  -0.000000000000001
 </pre>If you want to know the first 5 zeros of the Bessel function, here they are:
 
 <pre class="mcode-input">  r = roots(g); r = r(1:5)</pre><pre class="mcode-output">r =
@@ -110,7 +110,7 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
   length(f)
   clf, plot(f)</pre><pre class="mcode-output">ans =
    183
-</pre><img src="img/guide1_04.png" alt="">
+</pre><img src="img/guide1_04.png" class="figure" alt="">
 
 
 
@@ -253,7 +253,7 @@ Epslevel = 6.492624e-16.  Vscale = 1.300000e+00.  Total length = 4.
 Another way to make a piecewise smooth chebfun is to construct it explicitly from various pieces.  For example, the following command specifies three functions $x^2$, $1$, and $4-x$, together with a vector of endpoints indicating that the first function applies on $[-1,1]$, the second on $[1,2]$, and the third on $[2,4]$:
 
 <pre class="mcode-input">  f = chebfun({@(x) x.^2, @(x) 1+0*x, @(x) 4-x},[-1 1 2 4]);
-  plot(f)</pre><img src="img/guide1_05.png" alt="">
+  plot(f)</pre><img src="img/guide1_05.png" class="figure" alt="">
 
 We expect `f` to consist of three pieces of lengths 3, 1, and 2, and this is indeed the case:
 
@@ -270,19 +270,19 @@ Epslevel = 6.492624e-16.  Vscale = 2.000000e+00.  Total length = 6.
    3.666666666666667
 </pre>Here is an algebraic transformation of `f`, which we plot in another color for variety.
 
-<pre class="mcode-input">  plot(1./(1+f),'r')</pre><img src="img/guide1_06.png" alt="">
+<pre class="mcode-input">  plot(1./(1+f),'r')</pre><img src="img/guide1_06.png" class="figure" alt="">
 
 Some Chebfun commands naturally introduce breakpoints in a chebfun. For example, the `abs` command first finds zeros of a function and introduces breakpoints there.  Here is a chebfun consisting of 6 funs:
 
 <pre class="mcode-input">  f = abs(exp(x).*sin(8*x));
-  plot(f)</pre><img src="img/guide1_07.png" alt="">
+  plot(f)</pre><img src="img/guide1_07.png" class="figure" alt="">
 
 And here is an example where breakpoints are introduced by the `max` command, leading to a chebfun with 13 pieces:
 
 <pre class="mcode-input">  f = sin(20*x);
   g = exp(x-1);
   h = max(f,g);
-  plot(h)</pre><img src="img/guide1_08.png" alt="">
+  plot(h)</pre><img src="img/guide1_08.png" class="figure" alt="">
 
 As always, h may look complicated to a human, but to Chebfun it is just a function.  Here are its mean, standard deviation, minimum, and maximum:
 
@@ -297,7 +297,7 @@ As always, h may look complicated to a human, but to Chebfun it is just a functi
 </pre>A final note about piecewise smooth chebfuns is that the automatic edge detection or "splitting" feature, when it is turned on, may subdivide functions even though they do not have clean point singularities, and this may be desirable or undesirable depending on the application.  For example, considering $\sin(x)$ over $[0,1000]$ with splitting on, we end up with a chebfun with many pieces:
 
 <pre class="mcode-input">  tic, f = chebfun('sin(x)',[0 1000*pi],'splitting','on'); toc
-  disp(f)</pre><pre class="mcode-output">Elapsed time is 0.762380 seconds.
+  disp(f)</pre><pre class="mcode-output">Elapsed time is 0.780025 seconds.
 ans =
 f = 
    chebfun column (32 smooth pieces)
@@ -338,7 +338,7 @@ Epslevel = 3.487391e-13.  Vscale = 1.000000e+00.  Total length = 2748.
 </pre>In this case it is more efficient -- and more interesting mathematically -- to omit the splitting and construct one global chebfun:
 
 <pre class="mcode-input">  tic, f2 = chebfun('sin(x)',[0 1000*pi]); toc
-  disp(f2)</pre><pre class="mcode-output">Elapsed time is 0.024330 seconds.
+  disp(f2)</pre><pre class="mcode-output">Elapsed time is 0.026574 seconds.
 ans =
 f2 = 
    chebfun column (1 smooth piece)
@@ -352,7 +352,7 @@ Epslevel = 3.487867e-13.  Vscale = 9.999862e-01.
 A major change from Chebfun Version 2 to Version 3 was the generalization of chebfuns to allow certain functions on infinite intervals or which diverge to infinity; the initial credit for these innovations belongs to Nick Hale, Rodrigo Platte, and Mark Richardson. For example, here is a function on the whole real axis,
 
 <pre class="mcode-input">  f = chebfun('exp(-x.^2/16).*(1+.2*cos(10*x))',[-inf,inf]);
-  plot(f)</pre><img src="img/guide1_09.png" alt="">
+  plot(f)</pre><img src="img/guide1_09.png" class="figure" alt="">
 
 and here is its integral:
 
@@ -368,7 +368,7 @@ ans =
 Here is an example of a function that diverges to infinity, which we can capture by including the flag `'blowup 2'` (try help chebfun for details):
 
 <pre class="mcode-input">  h = chebfun('(1/pi)./sqrt(1-x.^2)','blowup',2);
-  plot(h)</pre><img src="img/guide1_10.png" alt="">
+  plot(h)</pre><img src="img/guide1_10.png" class="figure" alt="">
 
 In this case the integral comes out just right:
 

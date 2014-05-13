@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>History &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>History</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About</a></li>
+        <li class="active">History</li>
+    </ol>
+
+    <div class="row">
+
+ 
+        <div class="content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <h2 id="the-beginnings">The beginnings</h2>
+<p>Chebfun began in Oxford's Numerical Analysis Group, part of the Oxford
+University Mathematical Institute. It started during 2002-2005 as a DPhil
+research investigation by Zachary Battles, a Rhodes Scholar from the USA,
+under the supervision of Nick Trefethen.  (The idea of overloading Matlab's
+vectors to functions was first put in writing in an email from Trefethen to
+Battles of 8 December 2001.)  This led to <a
+href="/chebfun/download/past/chebfun_v1.zip"><b>Version 1</b></a> of Chebfun, for
+smooth functions on the interval [-1,1], described in the 2004 <i>SIAM J. Sci.
+Comp.</i> <a href="/chebfun/publications/chebfun_paper.pdf">paper</a> by
+Battles and Trefethen and in Battles' 2006 thesis.</p>
+<center>
+    <img class='thumbnail' title="Zachary Battles" src="/images/thomas_zachary.jpg" width="330px" alt="Zachary Battles"/>
+</center></p>
+<h2 id="version-2">Version 2</h2>
+<p>The second phase of the project begin in the autumn of 2006 with the beginning
+of research funding from the UK Engineering and Physical Sciences Research
+Council (EPSRC). First to join the team was DPhil student Ricardo Pach&#243;n,
+from Colombia, who extended Chebfun to piecewise continuous functions and
+arbitrary intervals.  Automatic subdivision and edge detection were added by
+Pach&#243;n and further developed in collaboration with Rodrigo Platte, from
+Brazil, a post-doc who arrived in October 2007.  Then beginning January 2008,
+linear operators and solution of differential equations were added to Chebfun,
+together with integral operators, eigenvalue problems, and exponentials of
+operators.  This was the work of Toby Driscoll, of the University of Delaware,
+who has led the differential equations side of Chebfun since then.  A key
+collaborator at the beginning of this work was Folkmar Bornemann of the
+Technical University of Munich. All these developments came together with the
+release of Chebfun <b>Version 2</b> in June 2008.
+<center>
+    <img class='thumbnail' title="Anticlockwise from top left: Trefethen, Driscoll, Pachon, Platte" src="/images/chebteamtaxi.jpg" name="team" width="330px" alt="Version 2 Team" 
+    onmousedown="document.images['team'].src='../images/linpack.jpg'" 
+    onmouseup="document.images['team'].src='../images/chebteamtaxi.jpg'"/>
+</center></p>
+<h2 id="version-3">Version 3</h2>
+<p>After the release of Version 2, the project continued to grow.  We now had a
+logo, a version control system, an expanding test suite, a web site, eight
+chapters of a users guide, half a dozen publications, and quite a few users.
+Pach&#243;n added best approximation by the Remez algorithm and explorations
+of the complex plane via rational interpolants.  Platte introduced mappings
+that make it possible to treat infinite intervals.  Nick Hale joined the
+Chebfun core team, first as a DPhil student of Trefethen's and then as a
+postdoc at the Oxford Center for Collaborative Applied Mathematics. Hale added
+Gauss and other quadrature formulas, even for millions of points, and
+developed PDE15S for solving nonlinear PDEs (with 1 space and 1 time
+dimension) within the Chebfun framework. A capability of handling functions
+that diverge to infinity or have other singularities was added by Oxford DPhil
+student Mark Richardson, and automatic differentiation and related methods for
+solving nonlinear boundary-value problems by DPhil student &Aacute;sgeir
+Birkisson in collaboration with Driscoll.  Pedro Gonnet, Sheehan Olver, Joris
+Van Deun and Alex Townsend also became involved. <a
+href="../notes/notes_V3_1000.shtml"><b>Version 3</b></a>, a major enhancement of
+Version 2 incorporating these and other extensions, was coordinated by Rodrigo
+Platte and Nick Hale and released in December 2009.
+<center>
+    <img class='thumbnail' title="Rodrigo Platte &amp; Nick Hale" src="/images/platte_hale.jpg" name="randn" width="330px" alt="Rodrigo Platte &amp; Nick Hale"/>
+</center></p>
+<h2 id="version-4">Version 4</h2>
+<p>It was now apparent that Chebfun was more than a software package: it was an
+ongoing and growing software project with half a dozen developers, hundreds of
+programs, and tens of thousands of lines of code.  How could we ensure that it
+would continue to grow and remain available and up-to-date for a long time to
+help people solve problems?  We were committed to the vision of numerical
+computing with functions and determined to give that vision as secure as
+future as possible.</p>
+<p>Accordingly, in 2010, we decided that Chebfun should become an open-source
+project.  The software had always been freely available, but we decided to go
+further and make our operations fully accessible to outsiders, including our
+<a href="https://svn.maths.ox.ac.uk/trac/chebfun/">Trac bug tracking</a>
+system</a>, our <a href="https://svn.maths.ox.ac.uk/pub/chebfun/">svn software
+repository</a>, and <a href="/chebfun/lists">discussion groups</a> for
+communication among interested parties.  In particular we would open the door
+to developers outside Oxford (in addition to Toby Driscoll, who had long been
+a key player based at the University of Delaware).  The open-source Chebfun
+project would be launched with the release of Chebfun Version 4.
+Scientifically, the big new features in Version 4 were related to differential
+equations (led by Driscoll and Hale), the graphical user interface called <a
+href="/chebfun/chebgui/">CHEBGUI</a> (led by Birkisson and Hale), and a new
+collection of <a href="/examples/">Examples</a> to serve as templates
+for all kinds of problems (led by Trefethen). Details can be found <a
+href="/chebfun/notes/notes_V4.0.shtml">here</a>.</p>
+<p><center style="margin-bottom:10px;">
+    <img class='thumbnail' title="(Most of the) V4.0 Team" src="/images/team_v4.jpg" width="560px" alt="(Most of the) V4.0 Team" style="margin-bottom:10px;"/>
+</center></p>
+<p><b>Version 4</b> was released on 28 February 2011 under a <a
+href="/license/">New BSD license</a>. Chebfun is now a fully-fledged open-
+source project, and outsiders who wish to <a
+href="https://svn.maths.ox.ac.uk/trac/chebfun/wiki/DeveloperZone">get
+involved</a> are encouraged to do so. The Chebfun team is currently led by
+Nick Hale (Director), Nick Trefethen, and Toby Driscoll.</p>
+<p>In September 2012 the Chebfun Team organised a three day workshop in St
+Anthony's College Oxford entitled <a href="/beyond">Chebfun and
+Beyond</a>. The theme was building on the success of Chebfun and reaching
+towards computing with functions in higher dimensions. Below is a picture of
+(most of) the team present at the workshop.</p>
+<p><center>
+    <img class='thumbnail' title="(Most of the) V4.0 Team" src="/images/team_andbeyond.jpg" width="560px" alt="(Most of the) And Beyond Team"/>
+</center></p>
+<p>For licensing and copyright purposes, a complete list of the Chebfun contributors is maintained <a href="people.html">here</a>.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+</div> 
+
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+
+  </body>
+</html>

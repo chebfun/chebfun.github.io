@@ -2,7 +2,7 @@
 %    FINV = INV(F) attempts to compute the inverse of the monotonic CHEBFUN F.
 % 
 %    FINV =INV(F, PREF) uses the preferences specified by the structure or
-%    CHEBPREF object PREF when constructing the inverse.
+%    CHEBFUNPREF object PREF when constructing the inverse.
 % 
 %    FINV = INV(..., 'SPLITTING', 'ON') enables breakpoint detection locally for
 %    INV.  Setting this option (or the equivalent preference in PREF) is

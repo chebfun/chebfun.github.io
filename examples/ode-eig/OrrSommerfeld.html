@@ -62,6 +62,18 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Orr-Sommerfeld eigenvalues</h1>
+                <h2>Toby Driscoll and Nick Trefethen, October 2010</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
@@ -71,12 +83,6 @@ pageTracker._trackPageview();
        <li class="active">Orr-Sommerfeld eigenvalues</li>
     </ol>
 
-    <div class="page-header">
- 
-        <h1>Orr-Sommerfeld eigenvalues</h1>
-        <h2>Toby Driscoll and Nick Trefethen, October 2010</h2>
-    </div>
-
     <div class="row">
 
 <!--
@@ -84,8 +90,8 @@ pageTracker._trackPageview();
         </div>
 -->
 
-        <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>The Orr-Sommerfeld problem is a classic problem from the field of hydrodynamic stability.  In the simplest case it models the flow of a Newtonian fluid between two infinite plates, governed by the Navier-Stokes equations. The Reynolds number $Re$ is a nondimensional parameter corresponding roughly to velocity divided by viscosity.  For any value of $Re$ there is a smooth ("laminar") solution to the Navier-Stokes equations, but the stability, and hence the observability, of this solution is a delicate and much-studied question.  In practice one observes instability and transition to turbulence when $Re$ is in the thousands or higher.</p>
 <p>The Orr-Sommerfeld operator is the linear operator $L$ that maps infinitesimal perturbations on the laminar flow to their infinitesimal growth rates. Classically speaking we expect the flow to be stable if all the eigenvalues of $L$ lie in the left half-plane, and unstable if there are any eigenvalues in the right half-plane.</p>
 <p>The following Chebfun code computes the rightmost $50$ eigenvalues of $L$ for $Re=2000$.  This mathematical formulation, due to Reddy and Henningson and described in Appendix A of [1], involves a fourth order complex generalized eigenvalue problem.</p>
@@ -127,14 +133,14 @@ title(['Re = ' sprintf('%5d',Re) ...
     </div>
     
 
+</div> 
+
+
     <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

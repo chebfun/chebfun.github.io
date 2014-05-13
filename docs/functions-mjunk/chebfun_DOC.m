@@ -39,9 +39,9 @@
 %    CHEBFUN({@(x) sin(x), @(x) cos(x)}, [-1, 0, 1])
 % 
 %  CHEBFUN(F, PREF) or CHEBFUN(F, [A, B], PREF) constructs a CHEBFUN object from
-%  F with the options determined by the CHEBPREF object PREF. Construction time
+%  F with the options determined by the CHEBFUNPREF object PREF. Construction time
 %  options may also be passed directly to the constructor in the form CHEBFUN(F,
-%  [A, B], PROP1, VAL1, PROP2, VAL2, ...). (See CHEBPREF for details of the
+%  [A, B], PROP1, VAL1, PROP2, VAL2, ...). (See CHEBFUNPREF for details of the
 %  various preference options and their defaults.). In particular, CHEBFUN(F,
 %  'splitting', 'on') allows the constructor to adaptively determine breakpoints
 %  to better represent piecewise smooth functions F. For example,
@@ -70,5 +70,5 @@
 %  domain [-1, 0, 1]. The latter defines a single column CHEBFUN which represents
 %  sin(x) in the interval [-1, 0) and cos(x) on the interval (0, 1]. 
 % 
-%  See also CHEBPREF, CHEBPTS.
+%  See also CHEBFUNPREF, CHEBPTS.
 %

@@ -1,6 +1,7 @@
 %% CHEBPOLY :: Chebyshev polynomial.
 %    F = CHEBPOLY(N) returns the CHEBFUN corresponding to the Chebyshev
-%    polynomials T_N(x) on [-1,1], where N may be a vector of positive integers.
+%    polynomials T_N(x) on [-1,1], where N may be a vector of nonnegative
+%    integers.
 % 
 %    F = CHEBPOLY(N, D), where D is an interval or a domain, gives the same
 %    result scaled accordingly.

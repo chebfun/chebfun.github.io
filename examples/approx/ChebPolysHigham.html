@@ -62,6 +62,18 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Chebyshev polynomials as plotted by Higham and Higham</h1>
+                <h2>Nick Trefethen, 13th December 2011</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
@@ -71,12 +83,6 @@ pageTracker._trackPageview();
        <li class="active">Chebyshev polynomials as plotted by Higham and Higham</li>
     </ol>
 
-    <div class="page-header">
- 
-        <h1>Chebyshev polynomials as plotted by Higham and Higham</h1>
-        <h2>Nick Trefethen, 13th December 2011</h2>
-    </div>
-
     <div class="row">
 
 <!--
@@ -84,8 +90,8 @@ pageTracker._trackPageview();
         </div>
 -->
 
-        <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>On p. 259 of their Matlab Guide, 2nd ed. [1], Higham and Higham present an attractive 3D plot of several Chebyshev polynomials. Here is their plot reproduced in Chebfun.</p>
 <pre class="mcode-input">k = [0 2 4 10 20 40 60];
 x = chebfun('x'); one = 1 + 0*x;
@@ -110,14 +116,14 @@ h = get(gca,'ylabel'); set(h,'position',get(h,'position')+[0 0.25 0])</pre>
     </div>
     
 
+</div> 
+
+
     <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

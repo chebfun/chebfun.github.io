@@ -12,7 +12,7 @@
 %      H = BESSELH(NU, 1, F, 1) scales H1_NU(F) by exp(-i*F))).
 %      H = BESSELH(NU, 2, F, 1) scales H2_NU(F) by exp(+i*F))).
 % 
-%    H = BESSELH(NU, K, F, SCALE, PREF) uses the CHEBPREF object PREF when
+%    H = BESSELH(NU, K, F, SCALE, PREF) uses the CHEBFUNPREF object PREF when
 %    building the CHEBFUN H.
 % 
 %   The relationship between the Hankel and Bessel functions is:
@@ -22,6 +22,6 @@
 % 
 %  See also AIRY, BESSELI, BESSELJ, BESSELK, BESSELY.
 % 
-%  Copyright 2013 by The University of Oxford and The Chebfun Developers.
+%  Copyright 2014 by The University of Oxford and The Chebfun Developers.
 %  See http://www.chebfun.org for Chebfun information.
 %

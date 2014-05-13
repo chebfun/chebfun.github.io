@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CHEBFUN GUIDE 3: ROOTFINDING AND MINIMA AND MAXIMA &raquo; Chebfun</title>
+    <title>Chebfun Guide 3: Rootfinding and Minima and Maxima &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -62,20 +62,26 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Chebfun Guide 3: Rootfinding and Minima and Maxima</h1>
+                <h2>Lloyd N. Trefethen, October 2009, latest revision May 2014</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
        <li><a href="/docs/">Documentation</a></li>
        <li><a href="/docs/guide/">The Chebfun Guide</a></li>
-       <li class="active">CHEBFUN GUIDE 3: ROOTFINDING AND MINIMA AND MAXIMA</li>
+       <li class="active">Chebfun Guide 3: Rootfinding and Minima and Maxima</li>
     </ol>
-
-    <div class="page-header">
- 
-        <h1>CHEBFUN GUIDE 3: ROOTFINDING AND MINIMA AND MAXIMA</h1>
-        <h2>Lloyd N. Trefethen, October 2009, latest revision May 2014</h2>
-    </div>
 
     <div class="row">
 
@@ -84,7 +90,7 @@ pageTracker._trackPageview();
  
             <div id="sidebar" class="sidebar">
                 <div class="">
-                    <!- <a href="#"><strong>CHEBFUN GUIDE 3: ROOTFINDING AND MINIMA AND MAXIMA</strong></a> ->
+                    <!- <a href="#"><strong>Chebfun Guide 3: Rootfinding and Minima and Maxima</strong></a> ->
                     <div class="toc">
 <ul>
 <li><a href="#31-roots">3.1 roots</a></li>
@@ -104,7 +110,7 @@ pageTracker._trackPageview();
 -->
 
         <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <h2 id="31-roots">3.1 <code>roots</code></h2>
 <p>Chebfun comes with a global rootfinding capability -- the ability to find all the zeros of a function in its region of definition.  For example, here is a polynomial with two roots in $[-1,1]$:</p>
 <pre class="mcode-input">  x = chebfun('x');
@@ -120,7 +126,7 @@ pageTracker._trackPageview();
 <pre class="mcode-input">  plot(p)
   hold on, plot(r,p(r),'.r')</pre>
 
-<p><img src="img/guide3_01.png" alt=""></p>
+<p><img src="img/guide3_01.png" class="figure" alt=""></p>
 <p>Of course, one does not need Chebfun to find roots of a polynomial. The Matlab roots command works from a polynomial's coefficients and computes estimates of all the roots, not just those in a particular interval.</p>
 <pre class="mcode-input">  roots([1 1 -1 0])</pre>
 
@@ -139,7 +145,7 @@ pageTracker._trackPageview();
   rB = roots(Bi); plot(rB,Bi(rB),'.b')
   axis([-10 3 -.6 1.5]), grid on</pre>
 
-<p><img src="img/guide3_02.png" alt=""></p>
+<p><img src="img/guide3_02.png" class="figure" alt=""></p>
 <p>Here for example are the three roots of Ai and Bi closest to 0:</p>
 <pre class="mcode-input">  [rA(end-2:end) rB(end-2:end)]</pre>
 
@@ -157,7 +163,7 @@ pageTracker._trackPageview();
 
 <pre class="mcode-output">lengthf =
     44
-Elapsed time is 0.005771 seconds.
+Elapsed time is 0.005759 seconds.
 r =
                    0
    0.999999999999998
@@ -180,7 +186,7 @@ r =
 
 <pre class="mcode-output">lengthf =
    214
-Elapsed time is 0.062784 seconds.
+Elapsed time is 0.056893 seconds.
      96.00000000000000
      97.00000000000000
      98.00000000000001
@@ -196,7 +202,7 @@ Elapsed time is 0.062784 seconds.
 
 <pre class="mcode-output">lengthf =
         1684
-Elapsed time is 0.183936 seconds.
+Elapsed time is 0.191703 seconds.
      996.0000000000000
      996.9999999999999
      998.0000000000000
@@ -216,7 +222,7 @@ Elapsed time is 0.183936 seconds.
    0.739085133215161
 </pre>
 
-<p><img src="img/guide3_03.png" alt=""></p>
+<p><img src="img/guide3_03.png" class="figure" alt=""></p>
 <p>All of the examples above concern chebfuns consisting of a single fun. If there are several funs, then roots are included at jumps as necessary. The following example shows a chebfun with $26$ pieces.  It has nine zeros: one within a fun, eight at jumps between funs.</p>
 <pre class="mcode-input">  x = chebfun('x',[-2 2]);
   f = x.^3 - 3*x - 2 + sign(sin(20*x));
@@ -224,12 +230,12 @@ Elapsed time is 0.183936 seconds.
   r = roots(f);
   hold on, plot(r,0*r,'.r')</pre>
 
-<p><img src="img/guide3_04.png" alt=""></p>
+<p><img src="img/guide3_04.png" class="figure" alt=""></p>
 <p>If one prefers only the "genuine" roots, omitting those at jumps, they can be computed like this:</p>
 <pre class="mcode-input">  r = roots(f,'nojump');
   plot(r,0*r,'.r','markersize',30)</pre>
 
-<p><img src="img/guide3_05.png" alt=""></p>
+<p><img src="img/guide3_05.png" class="figure" alt=""></p>
 <h2 id="32-min-max-abs-sign-round-floor-ceil">3.2 min, max, abs, sign, round, floor, ceil</h2>
 <p>Rootfinding is more central to Chebfun than one might at first imagine, because a number of commands, when applied to smooth chebfuns, must produce non-smooth results, and it is rootfinding that tells us where to put the discontinuities. For example, the "abs" command introduces breakpoints wherever the argument goes through zero.  Here we see that <code>x</code> consists of a single piece, whereas <code>abs(x)</code> consists of two pieces.</p>
 <pre class="mcode-input">  x = chebfun('x')
@@ -250,7 +256,7 @@ absx =
 Epslevel = 6.492624e-16.  Vscale = 1.  Total length = 4.
 </pre>
 
-<p><img src="img/guide3_06.png" alt=""></p>
+<p><img src="img/guide3_06.png" class="figure" alt=""></p>
 <p>We saw this effect already in Section 1.4. Another similar effect shown in that section occurs with <code>min(f,g)</code> or <code>max(f,g)</code>.  Here, breakpoints are introduced at points where <code>f-g</code> is zero:</p>
 <pre class="mcode-input">  f = min(x,-x/2), subplot(1,2,1), plot(f,'.-')
   g = max(.6,1-x.^2), subplot(1,2,2), plot(g,'.-'), ylim([.5,1])</pre>
@@ -270,7 +276,7 @@ g =
 Epslevel = 1.015636e-15.  Vscale = 1.  Total length = 5.
 </pre>
 
-<p><img src="img/guide3_07.png" alt=""></p>
+<p><img src="img/guide3_07.png" class="figure" alt=""></p>
 <p>The function <code>sign</code> also introduces breaks, as illustrated in the last section. The commands <code>round</code>, <code>floor</code>, and <code>ceil</code> behave like this too. For example, here is $\exp(x)$ rounded to nearest multiples of $0.5$:</p>
 <pre class="mcode-input">  g = exp(x);
   clf, plot(g)
@@ -278,7 +284,7 @@ Epslevel = 1.015636e-15.  Vscale = 1.  Total length = 5.
   hold on, plot(gh,'r');
   grid on</pre>
 
-<p><img src="img/guide3_08.png" alt=""></p>
+<p><img src="img/guide3_08.png" class="figure" alt=""></p>
 <h2 id="33-local-extrema-rootsdifff">3.3 Local extrema: roots(diff(f))</h2>
 <p>Local extrema of smooth functions can be located by finding zeros of the derivative.  For example, here is a variant of the Airy function again, with all its extrema in its range of definition located and plotted.</p>
 <pre class="mcode-input">  f = chebfun('exp(real(airy(x)))',[-15,0]);
@@ -286,7 +292,7 @@ Epslevel = 1.015636e-15.  Vscale = 1.  Total length = 5.
   r = roots(diff(f));
   hold on, plot(r,f(r),'.r'), grid on</pre>
 
-<p><img src="img/guide3_09.png" alt=""></p>
+<p><img src="img/guide3_09.png" class="figure" alt=""></p>
 <p>This method will find non-smooth extrema as well as smooth ones, since these correspond to "zeros" of the derivative where the derivative jumps from one sign to the other.  Here is an example.</p>
 <pre class="mcode-input">  x = chebfun('x');
   f = exp(x).*sin(30*x);
@@ -294,18 +300,18 @@ Epslevel = 1.015636e-15.  Vscale = 1.  Total length = 5.
   h = max(f,g);
   clf, plot(h)</pre>
 
-<p><img src="img/guide3_10.png" alt=""></p>
+<p><img src="img/guide3_10.png" class="figure" alt=""></p>
 <p>Here are all the local extrema, smooth and nonsmooth:</p>
 <pre class="mcode-input">  extrema = roots(diff(h));
   hold on, plot(extrema,h(extrema),'.r')</pre>
 
-<p><img src="img/guide3_11.png" alt=""></p>
+<p><img src="img/guide3_11.png" class="figure" alt=""></p>
 <p>Suppose we want to pick out the local extrema that are actually local minima.  We can do that by checking for the second derivative to be positive:</p>
 <pre class="mcode-input">  h2 = diff(h,2);
   maxima = extrema(h2(extrema)&gt;0);
   plot(maxima,h(maxima),'ok','markersize',12)</pre>
 
-<p><img src="img/guide3_12.png" alt=""></p>
+<p><img src="img/guide3_12.png" class="figure" alt=""></p>
 <h2 id="34-global-extrema-max-and-min">3.4 Global extrema: max and min</h2>
 <p>If <code>min</code> or <code>max</code> is applied to a single chebfun, it returns its global minimum or maximum.  For example:</p>
 <pre class="mcode-input">  f = chebfun('1-x.^2/2');
@@ -330,7 +336,7 @@ minpos =
 <pre class="mcode-input">  f = chebfun('sin(x)+sin(x.^2)',[0,15]);
   hold off, plot(f,'k')</pre>
 
-<p><img src="img/guide3_13.png" alt=""></p>
+<p><img src="img/guide3_13.png" class="figure" alt=""></p>
 <p>The length of this chebfun is not as great as one might imagine:</p>
 <pre class="mcode-input">  length(f)</pre>
 
@@ -355,7 +361,7 @@ maxpos =
   14.234791972306914
 </pre>
 
-<p><img src="img/guide3_14.png" alt=""></p>
+<p><img src="img/guide3_14.png" class="figure" alt=""></p>
 <p>For larger chebfuns, it is inefficient to compute the global minimum and maximum separately like this -- each one must compute the derivative and find all its zeros. An alternative code is offered that computes both at once:</p>
 <pre class="mcode-input">  [extemevalues,extremepositions] = minandmax(f)</pre>
 
@@ -460,12 +466,12 @@ f = chebfun(F,[-100,100]);</pre>
 <pre class="mcode-input">  r = roots(f,'complex');
   hold off, plot(r,'.','markersize',8)</pre>
 
-<p><img src="img/guide3_15.png" alt=""></p>
+<p><img src="img/guide3_15.png" class="figure" alt=""></p>
 <p>If you are dealing with complex roots of complicated chebfuns like this, it may be safer to add a flag <code>'norecursion'</code> to the roots call, at the cost of slowing down the computation. This turns off the Boyd-Battles recursion mentioned above, lowering the chance of missing a few roots near interfaces of the recursion.  If we try that here we find that the results look almost the same as before in a plot:</p>
 <pre class="mcode-input">r2 = roots(f,'complex','norecursion');
 hold on, plot(r,'om','markersize',8)</pre>
 
-<p><img src="img/guide3_16.png" alt=""></p>
+<p><img src="img/guide3_16.png" class="figure" alt=""></p>
 <p>However, the accuracy has improved:</p>
 <pre class="mcode-input">norm(F(r))
 norm(F(r2))</pre>
@@ -490,15 +496,14 @@ ans =
     </div>
     
 
-    <!--     <div class="footer">
+</div> 
+
+
+    <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
- -->
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

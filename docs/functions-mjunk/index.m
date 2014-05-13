@@ -11,8 +11,6 @@
 % * <acsc.html ACSC :: Inverse cosecant of a CHEBFUN.>
 % * <acscd.html ACSCD :: Inverse cosecant of a CHEBFUN, result in degrees.>
 % * <acsch.html ACSCH :: Inverse hyperbolic cosecant of a CHEBFUN.>
-% * <addBreaks.html ADDBREAKS :: Add breakpoints to the domain of a CHEBFUN>
-% * <addBreaksAtRoots.html ADDBREAKSATROOTS :: Add breaks at appropriate roots of a CHEBFUN>
 % * <airy.html AIRY :: Airy function of a CHEBFUN.>
 % * <all.html ALL :: True if all values of a CHEBFUN are nonzero.>
 % * <and.html & :: CHEBFUN Logical AND>
@@ -26,7 +24,6 @@
 % * <asin.html ASIN :: Inverse sine of a CHEBFUN.>
 % * <asind.html ASIND :: Inverse sine of a CHEBFUN, result in degrees.>
 % * <asinh.html ASINH :: Inverse hyperbolic sine of a CHEBFUN.>
-% * <assignColumns.html ASSIGNCOLUMNS :: Assign columns (or rows) of an array-valued CHEBFUN.>
 % * <atan.html ATAN :: Inverse tangent of a CHEBFUN.>
 % * <atan2.html ATAN2 :: Four quadrant inverse tangent of a CHEBFUN.>
 % * <atan2d.html ATAN2 :: Four quadrant inverse tangent (in degrees) of a CHEBFUN.>
@@ -69,15 +66,12 @@
 % * <ctranspose.html ' :: Complex conjugate transpose of a CHEBFUN.>
 % * <cumprod.html CUMPROD :: Indefinite product integral.>
 % * <cumsum.html CUMSUM :: Indefinite integral of a CHEBFUN.>
-% * <defineInterval.html DEFINEINTERVAL :: Supply a new definition for a CHEBFUN on a subinterval.>
-% * <definePoint.html DEFINEPOINT :: Supply new definition for a CHEBFUN at a point or set of points.>
-% * <detectEdge.html DETECTEDGE :: Edge detection.>
+% * <cylinder.html CYLINDER Generate cylinder. Surface revolution of a chebfun to form a chebfun2.>
 % * <diff.html DIFF :: Differentiation of a CHEBFUN.>
+% * <dirac.html DIRAC ::  :: Dirac delta function.>
 % * <disp.html DISPLAY :: Display a chebfun object.>
-% * <dispData.html DISPDATA :: Useful information for DISPLAY.>
 % * <display.html TODO: Document this file.>
 % * <domain.html DOMAIN :: Domain of definition of a CHEBFUN.>
-% * <domainCheck.html DOMAINCHECK :: True if the domains of two CHEBFUN objects are the same.>
 % * <ellipj.html ELLIPJ :: Jacobi elliptic functions.>
 % * <ellipke.html ELLIPKE :: Complete elliptic integral of a CHEBFUN.>
 % * <end.html END :: Rightmost point of a CHEBFUN domain (or last row/col of quasimatrix).>
@@ -90,7 +84,6 @@
 % * <erfinv.html ERFINV :: Inverse error function of a CHEBFUN.>
 % * <exp.html EXP :: Exponential of a CHEBFUN.>
 % * <expm1.html EXPM1 :: Compute EXP(F)-1 of a CHEBFUN accurately.>
-% * <extractColumns.html EXTRACTCOLUMNS :: Extract columns (or rows) of an array-valued CHEBFUN.>
 % * <feval.html FEVAL :: Evaluate a CHEBFUN.>
 % * <fill.html FILL  Filled 2-D CHEBFUN plots.>
 % * <find.html FIND :: Find locations of nonzeros in a CHEBFUN.>
@@ -98,10 +91,9 @@
 % * <fliplr.html FLIPLR :: Flip/reverse a CHEBFUN.>
 % * <flipud.html FLIPUD :: Flip/reverse a CHEBFUN.>
 % * <floor.html FLOOR :: Pointwise floor function of a CHEBFUN.>
+% * <fred.html FRED :: Fredholm integral operator.>
 % * <ge.html >= :: Greater than or equal operator for CHEBFUN objects.>
 % * <get.html GET :: GET method for the CHEBFUN class>
-% * <getRootsForBreaks.html GETROOTSFORBREAKS :: Get roots of a CHEBFUN and polish for use as breakpoints.>
-% * <getValuesAtBreakpoints.html GETVALUESATBREAKPOINTS :: Determine values between neighbouring FUN objects.>
 % * <gt.html > :: Greater than operator for CHEBFUN objects.>
 % * <heaviside.html HEAVISIDE :: Heaviside function of a CHEBFUN.>
 % * <horzcat.html HORZCAT :: Horizontal concatenation of CHEBFUN objects.>
@@ -112,6 +104,7 @@
 % * <integral.html INTEGRAL :: Evaluate integral of a CHEBFUN.>
 % * <interp1.html INTERP1 :: CHEBFUN polynomial interpolant at any distribution of points.>
 % * <inv.html INV :: Invert a CHEBFUN.>
+% * <isdelta.html ISDELTA :: Test if a CHEBFUN object is built upon DELTAFUN.>
 % * <isempty.html ISEMPTY :: Test for empty CHEBFUN.>
 % * <isequal.html ISEQUAL :: Equality test for two CHEBFUNs.>
 % * <isfinite.html ISFINITE :: Test if a CHEBFUN is bounded.>
@@ -134,11 +127,12 @@
 % * <logical.html LOGICAL :: CHEBFUN logical.>
 % * <loglog.html LOGLOG  log-log scale plot of a CHEBFUN.>
 % * <lt.html < :: Less than operator for CHEBFUN objects.>
+% * <lu.html LU  LU factorization of a quasimatrix.>
 % * <mat2cell.html MAT2CELL :: Convert an array-valued CHEBFUN to a cell array of CHEBFUN objects.>
 % * <max.html MAX :: Maximum value of a CHEBFUN.>
 % * <mean.html MEAN ::  :: Average or mean value of a CHEBFUN.>
 % * <merge.html MERGE :: Remove unnecessary breakpoints in from a CHEBFUN.>
-% * <mergeDomains.html MERGEDOMAINS ::  :: Merge breakpoints (with a tolerance).>
+% * <mesh.html MESH :: Surface mesh plot for array-valued CHEBFUN objects.>
 % * <min.html MIN :: Minimum values of a CHEBFUN.>
 % * <minandmax.html MINANDMAX :: Minimum and maximum values of a CHEBFUN.>
 % * <minus.html - :: CHEBFUN minus.>
@@ -155,7 +149,6 @@
 % * <not.html ~ :: CHEBFUN logical NOT.>
 % * <null.html NULL :: Null space of an array-valued CHEBFUN.>
 % * <num2cell.html NUM2CELL :: Convert an array-valued CHEBFUN into cell array.>
-% * <numColumns.html NUMCOLUMNS :: Number of columns (or rows) of a CHEBFUN quasimatrix.>
 % * <ode113.html ODE113 :: Solve stiff differential equations and DAEs. Output a CHEBFUN.>
 % * <ode15s.html ODE15S :: Solve stiff differential equations and DAEs. Output a CHEBFUN.>
 % * <ode45.html ODE45 :: Solve stiff differential equations and DAEs. Output a CHEBFUN.>
@@ -163,18 +156,19 @@
 % * <orth.html ORTH :: Array-valued CHEBFUN orthogonalization.>
 % * <overlap.html OVERLAP :: Overlap the domain of two CHEBFUN objects.>
 % * <pchip.html PCHIP :: CHEBFUN Cubic Hermite interpolating polynomial.>
+% * <pde15s.html PDE15S :: Solve PDEs using the CHEBFUN system.>
+% * <permute.html PERMUTE :: Permute CHEBFUN array dimensions.>
 % * <pinv.html PINV :: Pseudoinverse of a column CHEBFUN.>
 % * <plot.html PLOT :: Basic linear plot for CHEBFUN objects.>
 % * <plot3.html PLOT3 :: Plot for CHEBFUN objects in 3-D space.>
-% * <plotData.html PLOTDATA :: Useful data values for plotting a CHEBFUN object.>
 % * <plus.html + :: CHEBFUN plus.>
 % * <poly.html POLY	 Polynomial coefficients of a CHEBFUN.>
 % * <polyfit.html POLYFIT :: Fit polynomial to a CHEBFUN.>
 % * <pow2.html POW2 :: Base 2 power of a CHEBFUN.>
 % * <power.html .^ :: CHEBFUN power.>
-% * <pref.html HELP topics:>
 % * <prod.html PROD :: Product integral.>
 % * <qr.html QR :: QR factorization of an array-valued CHEBFUN.>
+% * <quantumstates.html QUANTUMSTATES ::  :: Compute and plot Schroedinger eigenstates.>
 % * <quasi2cheb.html QUASI2CHEB :: Convert a quasimatrix to an array-valued CHEBFUN.>
 % * <rank.html RANK :: Rank of an array-valued CHEBFUN.>
 % * <rdivide.html ./ :: Pointwise CHEBFUN right divide.>
@@ -192,7 +186,6 @@
 % * <sech.html SECH :: Hyperbolic secant of a CHEBFUN.>
 % * <semilogx.html SEMILOGX :: Semi-log scale plot of a CHEBFUN.>
 % * <semilogy.html SEMILOGY :: Semi-log scale plot of a CHEBFUN.>
-% * <setImpulses.html SETIMPUSES>
 % * <sign.html SIGN :: Sign function of a CHEBFUN.>
 % * <simplify.html SIMPLIFY  Simplify a CHEBFUN.>
 % * <sin.html SIN :: Sine of a CHEBFUN.>
@@ -209,26 +202,28 @@
 % * <subspace.html SUBSPACE :: Angle between subspaces.>
 % * <subsref.html SUBSREF :: CHEBFUN subsref.>
 % * <sum.html SUM :: Definite integral of a CHEBFUN.>
+% * <surf.html SURF :: Surface plot for array-valued CHEBFUN objects.>
+% * <surface.html SURFACE :: Surface plot for CHEBFUN objects.>
+% * <surfc.html SURFC :: Combination surf/contour plot for CHEBFUN objects.>
 % * <svd.html SVD :: Singular value decomposition of a CHEBFUN.>
 % * <tan.html TAN :: Tangent of a CHEBFUN.>
 % * <tand.html TAND :: Tangent of a CHEBFUN, result in degrees.>
 % * <tanh.html TANH :: Hyperbolic tangent of a CHEBFUN.>
 % * <times.html .* :: CHEBFUN multiplication.>
 % * <transpose.html .' :: CHEBFUN transpose.>
-% * <tweakDomain.html TWEAKDOMAIN :: Adjust nearby common break points in domains of CHEBFUN objects.>
 % * <uminus.html - :: CHEBFUN unary minus.>
 % * <unwrap.html UNWRAP :: Unwrap CHEBFUN phase angle.>
 % * <uplus.html + :: CHEBFUN unary plus.>
 % * <vander.html VANDER :: Vandermonde array-valued CHEBFUN.>
 % * <var.html VAR :: Variance of a CHEBFUN.>
 % * <vertcat.html VERTCAT :: Vertical concatenation of CHEBFUN objects.>
+% * <volt.html VOLT :: Volterra integral operator.>
 % * <vscale.html VSCALE :: Vertical scale of a CHEBFUN object.>
 % * <waterfall.html WATERFALL Waterfall plot for array-valued CHEBFUN objects and quasimatrices.>
-% * <whichInterval.html WHICHINTERVAL :: Determine which interval a point lies in.>
 % * <why.html WHY :: Provides a succinct answer to almost any Chebfun related question in the>
 % * <xor.html XOR :: Logical CHEBFUN EXCLUSIVE OR.>
 %% Other Chebfun-related methods
-% * <chebpref.html CHEBPREF :: Class for managing Chebfun preferences.>
+% * <chebpref.html CHEBPREF :: Abstract class for Chebfun system preferences.>
 % * <barymat.html BARYMAT  Barycentric Interpolation Matrix.>
 % * <chebpoly.html CHEBPOLY :: Chebyshev polynomial.>
 % * <chebpts.html CHEBPTS ::  :: Chebyshev points.>

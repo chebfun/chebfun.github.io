@@ -8,8 +8,7 @@
 %    CHEBELLIPSEPLOT(U, EPS) allows a user-specified EPS.
 % 
 %    CHEBELLIPSEPLOT(U, K) and CHEBELLIPSEPLOT(U, EPS, K) plot ellipses for
-%    the funs of U indexed by the vector K. If U is a quasimatrix, only
-%    the first column/row is considered.
+%    the funs of U indexed by the vector K.
 % 
 %    CHEBELLIPSEPLOT(U, ..., S) allows plotting options to be passed. For
 %    example, for black lines one may write CHEBELLIPSEPLOT(U, 'k-').

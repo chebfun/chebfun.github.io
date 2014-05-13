@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>MINANDMAX :: Minimum and maximum values of a CHEBFUN.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="minandmax_DOC.m"><style type="text/css">
+      --><title>MINANDMAX :: Minimum and maximum values of a CHEBFUN.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-13"><meta name="DC.source" content="minandmax_DOC.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -69,7 +69,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
   min(F) and Y(2,1) = max(F).</pre><pre>  [Y, X] = MINANDMAX(F) returns also points X such that F(X(j,1)) = Y(j,1), j
   = 1, 2.</pre><pre>  [Y, X] = MINANDMAX(F, 'local') returns not just the global minimum and
   maximum values, but all of the local extrema (i.e., local min and max).
-  Note that point values (i.e., impulses) are not regarded as local extrema.</pre><pre>  If F is complex-valued, absolute values are taken to determine extrema, but
+  Note that point values are not regarded as local extrema.</pre><pre>  If F is complex-valued, absolute values are taken to determine extrema, but
   the resulting values correspond to those of the original function.</pre><pre>  If F is array-valued, then the columns of X and Y correspond to the columns
   of F. NaNs are used to pad Y and X when the 'local' flag is used and the
   columns are not of the same length.</pre><pre>See also MAX, MIN.</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
@@ -83,7 +83,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % 
 %    [Y, X] = MINANDMAX(F, 'local') returns not just the global minimum and
 %    maximum values, but all of the local extrema (i.e., local min and max).
-%    Note that point values (i.e., impulses) are not regarded as local extrema.
+%    Note that point values are not regarded as local extrema.
 % 
 %    If F is complex-valued, absolute values are taken to determine extrema, but
 %    the resulting values correspond to those of the original function.

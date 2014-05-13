@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>INV :: Invert a CHEBFUN.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="inv_DOC.m"><style type="text/css">
+      --><title>INV :: Invert a CHEBFUN.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-13"><meta name="DC.source" content="inv_DOC.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
   </style></head><body><div class="content"><h1>INV :: Invert a CHEBFUN.</h1><pre>  FINV = INV(F) attempts to compute the inverse of the monotonic CHEBFUN F.</pre><pre>  FINV =INV(F, PREF) uses the preferences specified by the structure or
-  CHEBPREF object PREF when constructing the inverse.</pre><pre>  FINV = INV(..., 'SPLITTING', 'ON') enables breakpoint detection locally for
+  CHEBFUNPREF object PREF when constructing the inverse.</pre><pre>  FINV = INV(..., 'SPLITTING', 'ON') enables breakpoint detection locally for
   INV.  Setting this option (or the equivalent preference in PREF) is
   particularly advisable if F has zero derivatives at its endpoints.</pre><pre>  FINV = INV(..., 'EPS', TOL) will construct with the relative tolerance set
   by TOL.  If no tolerance is passed, TOL = EPSLEVEL(F) is used.</pre><pre>  FINV = INV(..., 'MONOCHECK', 'ON') enables an optional check for
@@ -86,7 +86,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %    FINV = INV(F) attempts to compute the inverse of the monotonic CHEBFUN F.
 % 
 %    FINV =INV(F, PREF) uses the preferences specified by the structure or
-%    CHEBPREF object PREF when constructing the inverse.
+%    CHEBFUNPREF object PREF when constructing the inverse.
 % 
 %    FINV = INV(..., 'SPLITTING', 'ON') enables breakpoint detection locally for
 %    INV.  Setting this option (or the equivalent preference in PREF) is

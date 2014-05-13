@@ -172,6 +172,7 @@ authordate: "<xsl:value-of select="normalize-space($exAuthordate)"/>"
      to be in the folder ./img -->
 <img>
 <xsl:attribute name="src">img/<xsl:value-of select="@src"/></xsl:attribute>
+<xsl:attribute name="class">figure</xsl:attribute>
 <xsl:attribute name="alt"><xsl:value-of select="@alt"/></xsl:attribute>
 <xsl:text>
 

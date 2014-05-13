@@ -62,6 +62,18 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Rational interpolation, robust and non-robust</h1>
+                <h2>Nick Trefethen, August 2011</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
@@ -71,12 +83,6 @@ pageTracker._trackPageview();
        <li class="active">Rational interpolation, robust and non-robust</li>
     </ol>
 
-    <div class="page-header">
- 
-        <h1>Rational interpolation, robust and non-robust</h1>
-        <h2>Nick Trefethen, August 2011</h2>
-    </div>
-
     <div class="row">
 
 <!--
@@ -84,8 +90,8 @@ pageTracker._trackPageview();
         </div>
 -->
 
-        <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>A rational function is a quotient of two polynomials. Many numerical algorithms make use of rational interpolants and approximants, including well-known methods for acceleration of convergence of sequences and series like the Aitken delta-squared formula and the epsilon and eta algorithms [2].</p>
 <p>In Chebfun, since functions are defined on intervals, a natural form of rational interpolation involves sample points in an interval.  In particular, if $f$ is a function defined on $[a,b]$ and $m$ and $n$ are nonnegative integers, then one may ask for a rational function of type $(m,n)$ that interpolates $f$ at the $N+1$ Chebyshev points in $[a,b]$, where $N=m+n$.  By "type $(m,n)$", we mean representable as a quotient $p(x)/q(x)$ with $p$ of degree at most $m$ and $q$ of degree at most $n$. If $N&gt;m+n$, then the problem is overdetermined one may still ask for a rational approximant to $f$ but now based on some kind of least-squares fit.</p>
 <p>Here are three examples taken from Chapter 26 of [4]; some of our wording is also copied from there. The first is a problem that can be solved analytically. Suppose we seek a type $(1,1)$ rational function $r$ with $r(-1)=1+\varepsilon$, $r(0)=1$, and $r(1)=1+2\varepsilon$, where $\varepsilon$ is a parameter. The exact solution is</p>
@@ -196,14 +202,14 @@ spurious_poles =
     </div>
     
 
+</div> 
+
+
     <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

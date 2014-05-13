@@ -1,5 +1,5 @@
 ---
-title: "CHEBFUN GUIDE 4: CHEBFUN AND APPROXIMATION THEORY"
+title: "Chebfun Guide 4: Chebfun and Approximation Theory"
 layout: guide-chapter
 authordate: "Lloyd N. Trefethen, November 2009, latest revision May 2014"
 ---
@@ -40,7 +40,7 @@ Here are plots of $T_2$, $T_3$, $T_{15}$, and $T_{50}$.
 <pre class="mcode-input">  subplot(2,2,1), plot(chebpoly(2))
   subplot(2,2,2), plot(chebpoly(3))
   subplot(2,2,3), plot(chebpoly(15))
-  subplot(2,2,4), plot(chebpoly(50))</pre><img src="img/guide4_01.png" alt="">
+  subplot(2,2,4), plot(chebpoly(50))</pre><img src="img/guide4_01.png" class="figure" alt="">
 
 A *Chebyshev series* is an expansion
 
@@ -135,19 +135,19 @@ Let us begin with a function that cannot be well approximated by polynomials, th
 <pre class="mcode-input">f = chebfun('sign(x)',10);
 subplot(1,2,1), plot(f,'.-'), grid on
 f = chebfun('sign(x)',20);
-subplot(1,2,2), plot(f,'.-'), grid on</pre><img src="img/guide4_02.png" alt="">
+subplot(1,2,2), plot(f,'.-'), grid on</pre><img src="img/guide4_02.png" class="figure" alt="">
 
 There is an overshoot problem here, known as the Gibbs phenomenon, that does not go away as $N\to\infty$. We can zoom in on the overshoot region by resetting the axes:
 
 <pre class="mcode-input">subplot(1,2,1), axis([0 .4 .5 1.5])
-subplot(1,2,2), axis([0 .2 .5 1.5])</pre><img src="img/guide4_03.png" alt="">
+subplot(1,2,2), axis([0 .2 .5 1.5])</pre><img src="img/guide4_03.png" class="figure" alt="">
 
 Here are analogous results with $N=100$ and $1000$.
 
 <pre class="mcode-input">f = chebfun('sign(x)',100);
 subplot(1,2,1), plot(f,'.-'), grid on, axis([0 .04 .5 1.5])
 f = chebfun('sign(x)',1000);
-subplot(1,2,2), plot(f,'.-'), grid on, axis([0 .004 .5 1.5])</pre><img src="img/guide4_04.png" alt="">
+subplot(1,2,2), plot(f,'.-'), grid on, axis([0 .004 .5 1.5])</pre><img src="img/guide4_04.png" class="figure" alt="">
 
 What is the amplitude of the Gibbs overshoot for Chebyshev interpolation of a step function?  We can find out by using `max`:
 
@@ -190,14 +190,14 @@ After the step function, a function with "one more derivative" of smoothness wou
 f10 = chebfun('abs(x)',10);
 subplot(1,2,1), plot(f10,'.-'), ylim([0 1]), grid on
 f20 = chebfun('abs(x)',20);
-subplot(1,2,2), plot(f20,'.-'), ylim([0 1]), grid on</pre><img src="img/guide4_05.png" alt="">
+subplot(1,2,2), plot(f20,'.-'), ylim([0 1]), grid on</pre><img src="img/guide4_05.png" class="figure" alt="">
 
 Chebfun has no difficulty computing interpolants of much higher order:
 
 <pre class="mcode-input">f100 = chebfun('abs(x)',100);
 subplot(1,2,1), plot(f100), grid on
 f1000 = chebfun('abs(x)',1000);
-subplot(1,2,2), plot(f1000), grid on</pre><img src="img/guide4_06.png" alt="">
+subplot(1,2,2), plot(f1000), grid on</pre><img src="img/guide4_06.png" class="figure" alt="">
 
 Such plots look good to the eye, but they do not achieve machine precision. We can confirm this by using `splitting on` to compute a true absolute value and then measuring some norms.
 
@@ -242,7 +242,7 @@ hold  on, loglog(NN.^(-5),'--r'), grid on
 text(6,4e-7,'N^{-5}','color','r','fontsize',16)
 subplot(1,2,2)
 semilogy(e), ylim([1e-10 10]), grid on, title('semilog scale')
-hold  on, semilogy(NN.^(-5),'--r'), grid on</pre><img src="img/guide4_07.png" alt="">
+hold  on, semilogy(NN.^(-5),'--r'), grid on</pre><img src="img/guide4_07.png" class="figure" alt="">
 
 The figure reveals very clean convergence at the rate $N^{-5}$.  According to Theorem 2 of the next section, this happens because $f$ has a fifth derivative of bounded variation.
 
@@ -260,7 +260,7 @@ hold  on, loglog(c.^(-NN),'--r'), grid on
 subplot(1,2,2)
 semilogy(e), ylim([1e-10 10]), title('semilog scale')
 hold  on, semilogy(c.^(-NN),'--r'), grid on
-text(45,1e-3,'C^{-N}','color','r','fontsize',16)</pre><img src="img/guide4_08.png" alt="">
+text(45,1e-3,'C^{-N}','color','r','fontsize',16)</pre><img src="img/guide4_08.png" class="figure" alt="">
 
 This time the convergence is equally clean but quite different in nature. Now the straight line appears on the semilogy axes rather than the loglog axes, revealing the geometric convergence.
 
@@ -308,19 +308,19 @@ For example, here is a function on the interval $[0,4]$ together with its best a
 
 <pre class="mcode-input">f = chebfun('sqrt(abs(x-3))',[0,4],'splitting','on');
 p = remez(f,20);
-clf, plot(f,'b',p,'r'), grid on</pre><img src="img/guide4_09.png" alt="">
+clf, plot(f,'b',p,'r'), grid on</pre><img src="img/guide4_09.png" class="figure" alt="">
 
 A plot of the error curve $(f-p)(x)$ shows that it equioscillates between $20+2 = 22$ alternating extreme values.  Note that a second output argument from `remez` returns the error as well as the polynomial.
 
 <pre class="mcode-input">[p,err] = remez(f,20);
 plot(f-p,'m'), hold on
 plot([0 4],err*[1 1],'--k'), plot([0 4],-err*[1 1],'--k')
-ylim(1.5*err*[-1,1])</pre><img src="img/guide4_10.png" alt="">
+ylim(1.5*err*[-1,1])</pre><img src="img/guide4_10.png" class="figure" alt="">
 
 Let's add the error curve for the degree $20$ (i.e. $21$-point) Chebyshev interpolant to the same plot:
 
 <pre class="mcode-input">pinterp = chebfun(f,[0,4],21);
-plot(f-pinterp,'b')</pre><img src="img/guide4_11.png" alt="">
+plot(f-pinterp,'b')</pre><img src="img/guide4_11.png" class="figure" alt="">
 
 Notice that although the best approximation has a smaller maximum error, it is a worse approximation for most values of $x$.
 
@@ -332,14 +332,14 @@ r = p./q;
 err = norm(f-r,inf);
 clf, plot(f-r,'c'), hold on
 plot([-1 1],err*[1 1],'--k'), plot([-1 1],-err*[1 1],'--k')
-ylim(2e-13*[-1 1])</pre><img src="img/guide4_12.png" alt="">
+ylim(2e-13*[-1 1])</pre><img src="img/guide4_12.png" class="figure" alt="">
 
 CF approximation often comes close to optimal for non-smooth functions too, provided you specify a fourth argument to tell the system on how fine a Chebyshev grid to sample:
 
 <pre class="mcode-input">f = abs(x-.3);
 [p,q,r_handle,lam] = cf(f,5,5,300);
 clf, plot(f-p./q,'c'), hold on
-plot([-1 1],lam*[1 1],'--k'), plot([-1 1],-lam*[1 1],'--k')</pre><img src="img/guide4_13.png" alt="">
+plot([-1 1],lam*[1 1],'--k'), plot([-1 1],-lam*[1 1],'--k')</pre><img src="img/guide4_13.png" class="figure" alt="">
 
 
 
@@ -352,21 +352,21 @@ In Chebfun, we can compute them with the `interp1` command. For example, here is
 <pre class="mcode-input">f = tanh(10*x);
 s = linspace(-1,1,10);
 p = chebfun.interp1(s,f(s)); hold off
-plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')</pre><img src="img/guide4_14.png" alt="">
+plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')</pre><img src="img/guide4_14.png" class="figure" alt="">
 
 Perhaps this doesn't look too bad, but here is what happens for degree $19$.  Note the vertical scale.
 
 <pre class="mcode-input">s = linspace(-1,1,20);
 p = chebfun.interp1(s,f(s)); hold off
-plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')</pre><img src="img/guide4_15.png" alt="">
+plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')</pre><img src="img/guide4_15.png" class="figure" alt="">
 
 Approximation experts will know that one of the tools used in analyzing effects like this is known as the Lebesgue function associated with a given set of interpolation points. Chebfun has a command `lebesgue` for computing these functions. The problem with interpolation in $20$ equispaced points is reflected in a Lebesgue function of size $10^4$ -- note the semilog scale:
 
-<pre class="mcode-input">clf, semilogy(lebesgue(s))</pre><img src="img/guide4_16.png" alt="">
+<pre class="mcode-input">clf, semilogy(lebesgue(s))</pre><img src="img/guide4_16.png" class="figure" alt="">
 
 For $40$ points it is much worse:
 
-<pre class="mcode-input">semilogy(lebesgue(linspace(-1,1,40)))</pre><img src="img/guide4_17.png" alt="">
+<pre class="mcode-input">semilogy(lebesgue(linspace(-1,1,40)))</pre><img src="img/guide4_17.png" class="figure" alt="">
 
 As the degree increases, polynomial interpolants in equispaced points diverge exponentially, and no other method of approximation based on equispaced data can completely get around this problem [Platte, Trefethen &amp; Kuijlaars 2011].
 
@@ -382,7 +382,7 @@ To illustrate the possibilities, consider the function
 length(f)
 plot(f)</pre><pre class="mcode-output">ans =
    354
-</pre><img src="img/guide4_18.png" alt="">
+</pre><img src="img/guide4_18.png" class="figure" alt="">
 
 We can use the command `chebpade`, developed by Ricardo Pachon, to compute a Chebyshev-Pade approximant, defined by the condition that the Chebyshev series of $p/q$ should match that of $f$ as far as possible [Baker &amp; Graves-Morris 1996].  (This is the so-called "Clenshaw-Lord" Chebyshev-Pade approximation; if the flag `maehly` is specified the code alternatively computes the linearized variation known as the "Maehly" approximation.) Chebyshev-Pade approximation is the analogue for functions defined on an interval of Pade approximation for functions defined in a neighborhood of a point.
 
@@ -392,7 +392,7 @@ r = p./q;</pre>The functions $f$ and $r$ match to about $8$ digits:
 <pre class="mcode-input">norm(f-r)
 plot(f-r,'r')</pre><pre class="mcode-output">ans =
      4.884644927562027e-09
-</pre><img src="img/guide4_19.png" alt="">
+</pre><img src="img/guide4_19.png" class="figure" alt="">
 
 Mathematically, $f$ has poles in the complex plane at $\pm i$, $\pm 3i$, $\pm 5i$, and so on. We can obtain approximations to these values by looking at the roots of $q$:
 
@@ -408,7 +408,7 @@ r = p./q;
 norm(f-r)
 plot(f-r,'m')</pre><pre class="mcode-output">ans =
      3.500834192142640e-07
-</pre><img src="img/guide4_20.png" alt="">
+</pre><img src="img/guide4_20.png" class="figure" alt="">
 
 Again the poles are not bad:
 
@@ -424,7 +424,7 @@ r = p./q;
 norm(f-r)
 plot(f-r,'c')</pre><pre class="mcode-output">ans =
      2.999276953414202e-10
-</pre><img src="img/guide4_21.png" alt="">
+</pre><img src="img/guide4_21.png" class="figure" alt="">
 
 And the poles:
 

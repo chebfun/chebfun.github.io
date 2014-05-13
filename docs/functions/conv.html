@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>CONV :: Convolution of CHEBFUN objects.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="conv_DOC.m"><style type="text/css">
+      --><title>CONV :: Convolution of CHEBFUN objects.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-13"><meta name="DC.source" content="conv_DOC.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -74,7 +74,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
   where domain(F) is [a, b] and domain(G) is [c, d]. The integral is taken
   over all t for which the integrand is defined: max(a, x - d) &lt;= t &lt;= min(b,
   x - c).  The breakpoints of H are all pairwise sums of the breakpoints of F
-  and G.</pre><pre>  Note that CONV only supports piecewise-smooth functions on bounded domains.</pre><pre>  Example:
+  and G.</pre><pre>  If F and G are simple, in the sense that their FUNS are CHEBTECH objects, a
+  fast algorithm due to Hale and Townsend is used [1]. Otherwise, the integral
+  is computed by brute force. CONV(F, G, 'old') forces the brute force
+  approach, even when the fast algorithm may be used.</pre><pre>  Note that CONV only supports piecewise-smooth functions on bounded domains.</pre><pre>  Example:
     f = chebfun(1/2); g = f;
     subplot(2, 2, 1), plot(f)
     for j = 2:4, g = conv(f, g); subplot(2, 2, j), plot(g), end
@@ -91,6 +94,11 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %    over all t for which the integrand is defined: max(a, x - d) <= t <= min(b,
 %    x - c).  The breakpoints of H are all pairwise sums of the breakpoints of F
 %    and G.
+% 
+%    If F and G are simple, in the sense that their FUNS are CHEBTECH objects, a
+%    fast algorithm due to Hale and Townsend is used [1]. Otherwise, the integral
+%    is computed by brute force. CONV(F, G, 'old') forces the brute force
+%    approach, even when the fast algorithm may be used.
 % 
 %    Note that CONV only supports piecewise-smooth functions on bounded domains.
 % 

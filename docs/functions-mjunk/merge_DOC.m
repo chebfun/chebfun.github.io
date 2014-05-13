@@ -16,11 +16,11 @@
 %    breakpoints.)
 % 
 %    In all cases, elimination is attempted from left to right, and non-trivial
-%    impulses will prevent merging at the corresponding breakpoints.
+%    pointValues will prevent merging at the corresponding breakpoints.
 % 
 %    Example:
 %        f = chebfun(@(x) abs(x), 'splitting','on');
 %        [g, mergedPts] = merge(f.^2);
 % 
-%  See also CHEBPREF.
+%  See also CHEBFUNPREF.
 %

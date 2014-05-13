@@ -62,6 +62,18 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Roots of random polynomials</h1>
+                <h2>Nick Trefethen, 6th November 2011</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
@@ -71,12 +83,6 @@ pageTracker._trackPageview();
        <li class="active">Roots of random polynomials</li>
     </ol>
 
-    <div class="page-header">
- 
-        <h1>Roots of random polynomials</h1>
-        <h2>Nick Trefethen, 6th November 2011</h2>
-    </div>
-
     <div class="row">
 
 <!--
@@ -84,8 +90,8 @@ pageTracker._trackPageview();
         </div>
 -->
 
-        <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>If p(z) = a_0 + a_1 z + ... + a_n z^n is a polynomial with random coefficients, its roots tend to lie near the unit circle [1,2]. To be specific, suppose a_0,...,a_(n-1) are independent real numbers from the standard normal distribution, with a_n=1. Here are typical pictures for n = 50 and 200, based on Matlab's ROOTS command.  Incidentally, such computations are numerically stable [4]; the well-known difficulties of polynomial rootfinding pertain mainly to problems with roots away from the unit circle and coefficients far from random.</p>
 <pre class="mcode-input">nn = [50 200];
 MS = 'markersize'; FS = 'fontsize'; ms = 12; fs = 12;
@@ -139,14 +145,14 @@ end</pre>
     </div>
     
 
+</div> 
+
+
     <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

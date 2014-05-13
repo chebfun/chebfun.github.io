@@ -7,7 +7,7 @@
 % 
 %    [Y, X] = MINANDMAX(F, 'local') returns not just the global minimum and
 %    maximum values, but all of the local extrema (i.e., local min and max).
-%    Note that point values (i.e., impulses) are not regarded as local extrema.
+%    Note that point values are not regarded as local extrema.
 % 
 %    If F is complex-valued, absolute values are taken to determine extrema, but
 %    the resulting values correspond to those of the original function.

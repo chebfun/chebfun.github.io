@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>CHEBELLIPSEPLOT :: Plot the Bernstein (aka Chebyshev) ellipses.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="chebellipseplot_DOC.m"><style type="text/css">
+      --><title>CHEBELLIPSEPLOT :: Plot the Bernstein (aka Chebyshev) ellipses.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-13"><meta name="DC.source" content="chebellipseplot_DOC.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -70,8 +70,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
   major axes summing to rho(k) = C*exp(abs(log(EPS))/N(k)), where C is the
   appropriate scaling for the interval [U.ends(k) U.ends(k+1)] and EPS is the
   EPSLEVEL of U.</pre><pre>  CHEBELLIPSEPLOT(U, EPS) allows a user-specified EPS.</pre><pre>  CHEBELLIPSEPLOT(U, K) and CHEBELLIPSEPLOT(U, EPS, K) plot ellipses for
-  the funs of U indexed by the vector K. If U is a quasimatrix, only
-  the first column/row is considered.</pre><pre>  CHEBELLIPSEPLOT(U, ..., S) allows plotting options to be passed. For
+  the funs of U indexed by the vector K.</pre><pre>  CHEBELLIPSEPLOT(U, ..., S) allows plotting options to be passed. For
   example, for black lines one may write CHEBELLIPSEPLOT(U, 'k-').</pre><pre>  CHEBELLIPSEPLOT(U, ..., 'legends', 0) prevents the legends being
   displayed on the plot.</pre><pre>  CHEBELLIPSEPLOT(U, ..., 'numpts', N) plots each ellipse using N points.</pre><pre>  H = CHEBELLIPSEPLOT(U) returns a handle H to the figure.</pre><pre>  Example:
       u = chebfun({@sin, @cos, @tan, @cot}, [-2, -1, 0, 1, 2]);
@@ -87,8 +86,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %    CHEBELLIPSEPLOT(U, EPS) allows a user-specified EPS.
 % 
 %    CHEBELLIPSEPLOT(U, K) and CHEBELLIPSEPLOT(U, EPS, K) plot ellipses for
-%    the funs of U indexed by the vector K. If U is a quasimatrix, only
-%    the first column/row is considered.
+%    the funs of U indexed by the vector K.
 % 
 %    CHEBELLIPSEPLOT(U, ..., S) allows plotting options to be passed. For
 %    example, for black lines one may write CHEBELLIPSEPLOT(U, 'k-').

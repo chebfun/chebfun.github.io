@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>LEGPOLY :: Legendre polynomials.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="legpoly_DOC.m"><style type="text/css">
+      --><title>LEGPOLY :: Legendre polynomials.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-13"><meta name="DC.source" content="legpoly_DOC.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -68,7 +68,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
   </style></head><body><div class="content"><h1>LEGPOLY :: Legendre polynomials.</h1><pre>  P = LEGPOLY(N) computes a chebfun of the Legendre polynomial of degree N on
   the interval [-1,1]. N can be a vector of integers, in which case the output
   is an array-valued CHEBFUN.</pre><pre>  P = LEGPOLY(N, D) computes the Legendre polynomials as above, but on the
-  interval given by the domain D, which must be bounded.</pre><pre>  P = LEGPOLY(N, D, 'norm') or P = LEGPOLY(N, 'norm') normalises so that
+  interval given by the domain D, which must be bounded. Note that interior
+  breakpoints in D are ignored.</pre><pre>  P = LEGPOLY(N, D, 'norm') or P = LEGPOLY(N, 'norm') normalises so that
   integrate(P(:,j).*P(:,k)) = delta_{j,k}.</pre><pre>  For N &lt;= 1000 LEGPOLY uses a weighted QR factorisation of a 2*(N+1) x
   2*(N+1) Chebyshev Vandermonde matrix. For scalar N &gt; 1000 it uses the
   LEG2CHEB method and for a vector of N with any entry &gt; 1000 it uses the
@@ -83,7 +84,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %    is an array-valued CHEBFUN.
 % 
 %    P = LEGPOLY(N, D) computes the Legendre polynomials as above, but on the
-%    interval given by the domain D, which must be bounded.
+%    interval given by the domain D, which must be bounded. Note that interior
+%    breakpoints in D are ignored.
 % 
 %    P = LEGPOLY(N, D, 'norm') or P = LEGPOLY(N, 'norm') normalises so that
 %    integrate(P(:,j).*P(:,k)) = delta_{j,k}.

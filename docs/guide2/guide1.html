@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CHEBFUN2 GUIDE 1: GETTING STARTED &raquo; Chebfun</title>
+    <title>Chebfun2 Guide 1: Getting Started &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -62,20 +62,26 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Chebfun2 Guide 1: Getting Started</h1>
+                <h2>A. Townsend, March 2013, last updated May 2014</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
        <li><a href="/docs/">Documentation</a></li>
        <li><a href="/docs/guide2/">The Chebfun2 Guide</a></li>
-       <li class="active">CHEBFUN2 GUIDE 1: GETTING STARTED</li>
+       <li class="active">Chebfun2 Guide 1: Getting Started</li>
     </ol>
-
-    <div class="page-header">
- 
-        <h1>CHEBFUN2 GUIDE 1: GETTING STARTED</h1>
-        <h2>A. Townsend, March 2013, last updated May 2014</h2>
-    </div>
 
     <div class="row">
 
@@ -84,7 +90,7 @@ pageTracker._trackPageview();
  
             <div id="sidebar" class="sidebar">
                 <div class="">
-                    <!- <a href="#"><strong>CHEBFUN2 GUIDE 1: GETTING STARTED</strong></a> ->
+                    <!- <a href="#"><strong>Chebfun2 Guide 1: Getting Started</strong></a> ->
                     <div class="toc">
 <ul>
 <li><a href="#11-what-is-a-chebfun2">1.1  What is a chebfun2?</a></li>
@@ -105,7 +111,7 @@ pageTracker._trackPageview();
 -->
 
         <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <h2 id="11-what-is-a-chebfun2">1.1  What is a chebfun2?</h2>
 <p>A chebfun2 is a function of two variables defined on a rectangle $[a,b]\times[c,d]$. The syntax for chebfun2 objects is similar to the syntax for matrices in Matlab, and Chebfun2 objects have many Matlab commands overloaded. For instance, <code>trace(f)</code> returns the sum of the diagonal entries when $f$ is a matrix and the integral of $f(x,x)$ when $f$ is a chebfun2.</p>
 <p>Chebfun2 builds on Chebfun's univariate representations and algorithms. It is the first extension of Chebfun to functions of two variables.  Algorithmic details are given in [Townsend &amp; Trefethen 2013b].</p>
@@ -118,11 +124,11 @@ pageTracker._trackPageview();
 <pre class="mcode-input">f = chebfun2(@(x,y) cos(x.*y));
 plot(f), zlim([-2 2])</pre>
 
-<p><img src="img/guide1_01.png" alt=""></p>
+<p><img src="img/guide1_01.png" class="figure" alt=""></p>
 <p>There are several commands for plotting a chebfun2, including <code>plot</code>, <code>contour</code>, <code>surf</code>, and <code>mesh</code>.  Here is a contour plot of $f$:</p>
 <pre class="mcode-input">contour(f), axis square</pre>
 
-<p><img src="img/guide1_02.png" alt=""></p>
+<p><img src="img/guide1_02.png" class="figure" alt=""></p>
 <p>One way to find the rank of the approximant used to represent $f$ is the following:</p>
 <pre class="mcode-input">length(f)</pre>
 
@@ -162,7 +168,7 @@ vertical scale =   1
 f(x,y)</pre>
 
 <pre class="mcode-output">ans =
-   0.999137447888985
+   0.652014593874431
 </pre>
 
 <p>Evaluation along the line $y = \pi/6$:</p>
@@ -181,7 +187,7 @@ Epslevel = 7.797936e-15.  Vscale = 1.
 <pre class="mcode-input">fy = diff(f,1,1);
 plot(fy)</pre>
 
-<p><img src="img/guide1_03.png" alt=""></p>
+<p><img src="img/guide1_03.png" class="figure" alt=""></p>
 <p>The syntax for the <code>diff</code> command can cause confusion because we are following the matrix syntax in Matlab. We also offer <code>diffx(f,k)</code> and <code>diffy(f,k)</code> which differentiate $f(x,y)$ $k$ times with respect to the first first and second variable, respectively.</p>
 <p>What is the mean value of $f(x,y)$ on $[-1,1]\times[-1,1]$?</p>
 <pre class="mcode-input">mean2(f)</pre>
@@ -267,7 +273,7 @@ y = chebfun2(@(x,y) y, [-2 3 -4 4]);
 f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
 contour(f), axis square</pre>
 
-<p><img src="img/guide1_04.png" alt=""></p>
+<p><img src="img/guide1_04.png" class="figure" alt=""></p>
 <h2 id="17-what-to-do-now">1.7 What to do now</h2>
 <p>To find out more about Chebfun2 you can continue reading this guide, or have a look at the Chebfun2 Examples. This guide and the Chebfun2 Examples are written as publishable m-files. For example, you can publish this chapter of the guide by typing publish('guide1.m').</p>
 <h2 id="18-references">1.8 References</h2>
@@ -281,15 +287,14 @@ contour(f), axis square</pre>
     </div>
     
 
-    <!--     <div class="footer">
+</div> 
+
+
+    <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
- -->
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

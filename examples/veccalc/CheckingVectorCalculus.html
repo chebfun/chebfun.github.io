@@ -62,6 +62,18 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Checking vector calculus</h1>
+                <h2>Alex Townsend, 4th March 2013</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
@@ -70,12 +82,6 @@ pageTracker._trackPageview();
        <li><a href="/examples/veccalc/">Vector calculus</a></li>
        <li class="active">Checking vector calculus</li>
     </ol>
-
-    <div class="page-header">
- 
-        <h1>Checking vector calculus</h1>
-        <h2>Alex Townsend, 4th March 2013</h2>
-    </div>
 
     <div class="row">
 
@@ -102,8 +108,8 @@ pageTracker._trackPageview();
         </div>
 -->
 
-        <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <h3 id="introduction">Introduction</h3>
 <p>Chebfun2 is designed to work with vector valued functions defined on rectangles, as well as scalar valued ones. Our convention is to use a lower case letter for a scalar function, $f$, and an upper case letter for a vector function, $F = \left(f_1,f_2\right)^T$. Vector valued functions can be approximated by objects of type chebfun2v. There are two standard ways to make a chebfun2v:</p>
 <pre class="mcode-input">F = chebfun2v(@(x,y) sin(x), @(x,y) sin(y));     % direct construction
@@ -151,14 +157,14 @@ abs(v-ends)                                  % gradient theorem</pre>
     </div>
     
 
+</div> 
+
+
     <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

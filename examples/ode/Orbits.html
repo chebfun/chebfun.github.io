@@ -62,6 +62,18 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Orbiting around fixed stars</h1>
+                <h2>Nick Trefethen, 16th November 2011</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
@@ -71,12 +83,6 @@ pageTracker._trackPageview();
        <li class="active">Orbiting around fixed stars</li>
     </ol>
 
-    <div class="page-header">
- 
-        <h1>Orbiting around fixed stars</h1>
-        <h2>Nick Trefethen, 16th November 2011</h2>
-    </div>
-
     <div class="row">
 
 <!--
@@ -84,8 +90,8 @@ pageTracker._trackPageview();
         </div>
 -->
 
-        <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>Suppose a "star" of unit mass is fixed at the origin in the $x$ - $y$ plane, and a planet, also of unit mass, moves around it according to Newton's laws with gravitational constant $1$.  To be specific, let's suppose the planet starts at $(-1,1)$ heading east with speed $v=1$.  What does the trajectory look like?</p>
 <p>Here is a code to solve this problem using Chebfun's <code>ode113</code> command, and complex arithmetic for simplicity.  We track the orbit for $23$ time units and see that it is an ellipse.</p>
 <pre class="mcode-input">tmax = 23; d = [0 tmax];
@@ -150,14 +156,14 @@ plot(uv(0:tmax),'.k',MS,16)</pre>
     </div>
     
 
+</div> 
+
+
     <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

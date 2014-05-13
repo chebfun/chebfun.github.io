@@ -10,6 +10,11 @@
 %    x - c).  The breakpoints of H are all pairwise sums of the breakpoints of F
 %    and G.
 % 
+%    If F and G are simple, in the sense that their FUNS are CHEBTECH objects, a
+%    fast algorithm due to Hale and Townsend is used [1]. Otherwise, the integral
+%    is computed by brute force. CONV(F, G, 'old') forces the brute force
+%    approach, even when the fast algorithm may be used.
+% 
 %    Note that CONV only supports piecewise-smooth functions on bounded domains.
 % 
 %    Example:

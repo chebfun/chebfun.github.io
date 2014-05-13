@@ -62,6 +62,18 @@ pageTracker._trackPageview();
     </div>
 
 
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+ 
+                <h1>Roots of a secular equation with poles</h1>
+                <h2>Nick Trefethen, November 2010</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <ol class="breadcrumb">
@@ -71,12 +83,6 @@ pageTracker._trackPageview();
        <li class="active">Roots of a secular equation with poles</li>
     </ol>
 
-    <div class="page-header">
- 
-        <h1>Roots of a secular equation with poles</h1>
-        <h2>Nick Trefethen, November 2010</h2>
-    </div>
-
     <div class="row">
 
 <!--
@@ -84,8 +90,8 @@ pageTracker._trackPageview();
         </div>
 -->
 
-        <div class="content">
-            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>Sometimes one needs to find the roots of a rational function expressed in partial fraction form, like this:</p>
 <p>r(x) = 1 + SUM_j=0^N  a_j/(b_j-x) .For example, a "secular equation" of this kind arises in numerical linear algebra as part of the divide and conquer algorithm for computing eigenvalues of symmetric matrices (see [1] and p. 231 of [2]). If the coefficients a_j are positive and the poles b_j are distinct, then r must switch from +inf to -inf as x passes through each pole, and it follows that r has exactly N-1 real zeros lying between the poles and also one more real zero lying to the right of all the poles.</p>
 <p>Here is an example with N=4:</p>
@@ -134,14 +140,14 @@ r = roots(f)</pre>
     </div>
     
 
+</div> 
+
+
     <div class="footer">
         <div style="margin: 5px">
         </div>
-        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
-
-</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

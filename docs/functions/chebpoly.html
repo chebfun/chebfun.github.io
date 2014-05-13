@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>CHEBPOLY :: Chebyshev polynomial.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="chebpoly_DOC.m"><style type="text/css">
+      --><title>CHEBPOLY :: Chebyshev polynomial.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-13"><meta name="DC.source" content="chebpoly_DOC.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,14 +66,16 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
   </style></head><body><div class="content"><h1>CHEBPOLY :: Chebyshev polynomial.</h1><pre>  F = CHEBPOLY(N) returns the CHEBFUN corresponding to the Chebyshev
-  polynomials T_N(x) on [-1,1], where N may be a vector of positive integers.</pre><pre>  F = CHEBPOLY(N, D), where D is an interval or a domain, gives the same
+  polynomials T_N(x) on [-1,1], where N may be a vector of nonnegative
+  integers.</pre><pre>  F = CHEBPOLY(N, D), where D is an interval or a domain, gives the same
   result scaled accordingly.</pre><pre>  F = CHEBPOLY(N, KIND) or F = CHEBPOLY(N, D, KIND) returns Chebyshev
   polynomials of the 1st kind, T_N(x)), when KIND = 1, and Chebyshev
   polynomials of the 2nd kind, U_N(x)), when KIND = 2.</pre><pre>See also CHEBFUN/CHEBPOLY, LEGPOLY, and CHEBPTS.</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% CHEBPOLY :: Chebyshev polynomial.
 %    F = CHEBPOLY(N) returns the CHEBFUN corresponding to the Chebyshev
-%    polynomials T_N(x) on [-1,1], where N may be a vector of positive integers.
+%    polynomials T_N(x) on [-1,1], where N may be a vector of nonnegative
+%    integers.
 % 
 %    F = CHEBPOLY(N, D), where D is an interval or a domain, gives the same
 %    result scaled accordingly.

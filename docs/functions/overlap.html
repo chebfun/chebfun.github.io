@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>OVERLAP :: Overlap the domain of two CHEBFUN objects.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-01-30"><meta name="DC.source" content="overlap_DOC.m"><style type="text/css">
+      --><title>OVERLAP :: Overlap the domain of two CHEBFUN objects.</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-13"><meta name="DC.source" content="overlap_DOC.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -67,17 +67,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
   </style></head><body><div class="content"><h1>OVERLAP :: Overlap the domain of two CHEBFUN objects.</h1><pre>  [FOUT, GOUT] = OVERLAP(F, G) returns two CHEBFUNs such that FOUT.DOMAIN ==
   GOUT.DOMAIN and F(x) = FOUT(x), G(x) = GOUT(x) for all x in the domain of
-  F. The third dimension of the IMPULSES fields of F and G will be padded with
-  zeros if necessary so that FOUT.IMPULSES and GOUT.IMPULSES store impulse
-  data to the same order.</pre><pre>  If F and G are array-valued, they must have the same numer of columns/rows,
+  F.</pre><pre>  If F and G are array-valued, they must have the same numer of columns/rows,
   else an error is thrown.</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% OVERLAP :: Overlap the domain of two CHEBFUN objects.
 %    [FOUT, GOUT] = OVERLAP(F, G) returns two CHEBFUNs such that FOUT.DOMAIN ==
 %    GOUT.DOMAIN and F(x) = FOUT(x), G(x) = GOUT(x) for all x in the domain of
-%    F. The third dimension of the IMPULSES fields of F and G will be padded with
-%    zeros if necessary so that FOUT.IMPULSES and GOUT.IMPULSES store impulse
-%    data to the same order.
+%    F. 
 % 
 %    If F and G are array-valued, they must have the same numer of columns/rows,
 %    else an error is thrown.
