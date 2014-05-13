@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The white curves of Ortiz and Rivlin &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/roots/">Rootfinding</a></li>
+       <li class="active">The white curves of Ortiz and Rivlin</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>The white curves of Ortiz and Rivlin</h1>
+        <h2>Stefan Guettel, 2nd November 2011</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>In their article ``Another look at the Chebyshev polynomials'' from 1983 [1], E. L. Ortiz and T. J. Rivlin considered the graph of 30 Chebyshev polynomials T_j(x), noticing the appearance of what they called "white curves":</p>
+<pre class="mcode-input">plot(chebpoly(1:30),'b-')
+hold on</pre>
+
+<p><img src="img/WhiteCurves_01.png" alt=""></p>
+<p>The white curves are regions in the graph with exceptionally many intersection points of Chebyshev polynomials. Ortiz and Rivlin show that if 0 &lt; m &lt;= n and T_m(x) = T_n(x) = y, then</p>
+<pre class="mcode">  (1 - T_{n-m}(x)) * (T_2(y) - T_{n-m}(x)) = 0.</pre>
+
+<p>Hence the interior intersection points of Chebyshev polynomials must lie on the curve (x,y) satisfying T_2(y) = T_{n-m}(x). Smaller numbers n-m correspond to smaller numbers of intersection points. Here are the intersection points obtained with n-m &lt;= 4, obtained with Chebfun's rootfinding capability:</p>
+<pre class="mcode-input">T_2 = chebpoly(2);
+for j = 1:4,        % j = n-m
+    T_j = chebpoly(j);
+    for y = linspace(-1,1,200),
+        x = roots(T_j - T_2(y));
+        plot(x,y,'r.');
+    end
+end
+ylim([-1 1])</pre>
+
+<p><img src="img/WhiteCurves_02.png" alt=""></p>
+<p>Ortiz and Rivlin also noted that the phenomenon of white curves appears for other orthogonal polynomials as well. For example, let's take the Legendre polynomials and plot them with some appropriate reweighting:</p>
+<pre class="mcode-input">figure
+x = chebfun('x');
+for j = 1:30,
+    L = legpoly(j);
+    q = (pi*j/2)^.5*(1-x.^2).^.25;
+    plot(L.*q);
+    hold on
+end
+ylim([-1 1])</pre>
+
+<p><img src="img/WhiteCurves_03.png" alt=""></p>
+<p>It is easy to compute the points (x,y) satisfying L_2(y) = L_j(x) just as before. They have no particular meaning in this case, but they appear as a nice pattern:</p>
+<pre class="mcode-input">figure
+L_2 = legpoly(2);
+for j = 1:4,        % j = n-m
+    L_j = legpoly(j);
+    for y = linspace(-1,1,200),
+        x = roots(L_j - L_2(y));
+        if(~isempty(x)), plot(x,y,'r.'); hold on; end
+    end
+end</pre>
+
+<p><img src="img/WhiteCurves_04.png" alt=""></p>
+<p>References:</p>
+<p>[1] E. L. Ortiz and T. J. Rivlin, Another look at the Chebyshev polynomials, American Mathematical Monthly 90 (1983), 3-10.</p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+
+  </body>
+</html>

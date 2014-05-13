@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Examples &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<!--     <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h1>Examples</h1>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+<div class="container">
+    <div class="page-header">
+ 
+        <h1>Examples</h1>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4" role="main">
+                <h4><a href="/examples/approx/">Approximation</a></h4>
+                <p></p>
+                <h4><a href="/examples/calc/">Calculus</a></h4>
+                <p></p>
+                <h4><a href="/examples/complex/">Complex variables</a></h4>
+                <p></p>
+                <h4><a href="/examples/fun/">Fun stuff!</a></h4>
+                <p></p>
+                <h4><a href="/examples/geom/">Geometry</a></h4>
+                <p></p>
+                <h4><a href="/examples/integro/">Integral and integro-differential equations</a></h4>
+                <p></p>
+                <h4><a href="/examples/linalg/">Linear algebra</a></h4>
+                <p></p>
+                <h4><a href="/examples/ode-eig/">ODE eigenvalue problems</a></h4>
+                <p></p>
+                <h4><a href="/examples/opt/">Optimization</a></h4>
+                <p></p>
+                <h4><a href="/examples/ode/">Ordinary differential equations</a></h4>
+                <p></p>
+                <h4><a href="/examples/pde/">Partial differential equations</a></h4>
+                <p></p>
+                <h4><a href="/examples/stats/">Probability and statistics</a></h4>
+                <p></p>
+                <h4><a href="/examples/quad/">Quadrature</a></h4>
+                <p></p>
+                <h4><a href="/examples/roots/">Rootfinding</a></h4>
+                <p></p>
+                <h4><a href="/examples/veccalc/">Vector calculus</a></h4>
+                <p></p>
+        </div>
+        <div class="col-md-8" role="main">
+            <p>The Chebfun Examples have been written by various authors
+beginning in 2010.  New Examples are always welcome! &mdash; if
+you have an idea or a draft, please <a href="/support/" title="Support">contact us</a>.</p>
+<p>The Examples are updated from time to time, but the original
+date is retained. That is why, for example, you will sometimes
+see an example dated in one year referencing a paper from a
+later year.</p>
+<p>In the early years especially, MathJax was not yet being
+used for mathematical formatting within Matlab/Publish.
+Accordingly, some of the formatting in early examples may
+require some patience on the part of the reader.</p>
+<hr />
+<div class='row'><a href='opt/Needle.html'><div class='col-md-12 well gallery-item left'><img src='./opt/img/Needle_01.png' /><h3>Needle on a corrugated surface</h3><h4>Nick Trefethen and Hrothgar, 11th December 2013</h4><h4 class='tags'>#optimization</h4></div></a></div><div class='row'><a href='complex/Singularities.html'><div class='col-md-12 well gallery-item right'><img src='./complex/img/Singularities_01.png' /><h3>Types of isolated singularities</h3><h4>Hrothgar, 12th November 2013</h4><h4 class='tags'>#complex, #phase portraits, #Chebfun2</h4></div></a></div><div class='row'><a href='ode/FourBugs.html'><div class='col-md-12 well gallery-item left'><img src='./ode/img/FourBugs_01.png' /><h3>Four bugs on a rectangle</h3><h4>Hrothgar, 5th November 2013</h4><h4 class='tags'>#nonlinearODE</h4></div></a></div><div class='row'><a href='calc/SnellsLaw.html'><div class='col-md-12 well gallery-item right'><img src='./calc/img/SnellsLaw_01.png' /><h3>A Drowning Man and Snell's Law</h3><h4>Mohsin Javed, 30th October 2013</h4><h4 class='tags'>#calculus, #Snell's Law</h4></div></a></div><div class='row'><a href='approx/OscError.html'><div class='col-md-12 well gallery-item left'><img src='./approx/img/OscError_01.png' /><h3>Approximations and oscillation of error</h3><h4>Mohsin Javed, 22nd October 2013</h4><h4 class='tags'>#bestapproximation, #l2approximation, #interpolation, #POLYFIT</h4></div></a></div><div class='row'><a href='stats/NormalExercises.html'><div class='col-md-12 well gallery-item right'><img src='./stats/img/NormalExercises_01.png' /><h3>Normal Distribution -- Exercises from a Textbook</h3><h4>Jie Gao and Nick Trefethen, 23rd April 2013</h4><h4 class='tags'>#normaldistribution, #probability</h4></div></a></div><div class='row'><a href='complex/PhasePortraits.html'><div class='col-md-12 well gallery-item left'><img src='./complex/img/PhasePortraits_01.png' /><h3>Phase Portraits</h3><h4>Alex Townsend, 4th March 2013</h4><h4 class='tags'>#phase portraits, #Chebfun2</h4></div></a></div><div class='row'><a href='complex/PortraitsWithPoles.html'><div class='col-md-12 well gallery-item right'><img src='./complex/img/PortraitsWithPoles_01.png' /><h3>Phase Portraits for Functions with Poles</h3><h4>Nick Trefethen, 4th March 2013</h4><h4 class='tags'>#phase portraits, #poles, #Chebfun2, #SMASH</h4></div></a></div><div class='row'><a href='opt/GlobalMinimum.html'><div class='col-md-12 well gallery-item left'><img src='./opt/img/GlobalMinimum_01.png' /><h3>The global minimum of a complicated function</h3><h4>Alex Townsend, 4th March 2013</h4><h4 class='tags'>#100-Digit Challenge, #optimization, #Chebfun2</h4></div></a></div><div class='row'><a href='opt/Rosenbrock2.html'><div class='col-md-12 well gallery-item right'><img src='./opt/img/Rosenbrock2_01.png' /><h3>The Rosenbrock function in 2D optimisation (revisited)</h3><h4>Nick Hale, 4th March 2013</h4><h4 class='tags'>#Rosenbrock, #optimization, #Chebfun2</h4></div></a></div>        </div>
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+
+  </body>
+</html>

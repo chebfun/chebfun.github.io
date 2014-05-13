@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lissajous curves &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/geom/">Geometry</a></li>
+       <li class="active">Lissajous curves</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Lissajous curves</h1>
+        <h2>Nick Trefethen, October 2010</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>Lissajous figures or Lissajous curves are the curves in the x-y plane obtained by taking x and y to vary sinusoidally with respect to a parameter t, typically with different frequencies.  They are named after the 19th century French mathematician Jules Antoine Lissajous.</p>
+<p>To keep things simple let's assume that the sine waves in both directions have amplitude 1 and the frequencies are both positive integers, hence rationally related.  Then the Lissajous figure is a closed curve (i.e., 2pi-periodic with respect to t) that we can define by parameters m, n, and d.</p>
+<p>x(t) = sin(mt),  y(t) = sin(nt+d*pi).For example, here are the cases m=5, n=6 with d=0 and d=1/2:</p>
+<pre class="mcode-input">t = chebfun('t',[0 2*pi]);
+m = 5; n = 6;
+x = sin(m*t);
+y = sin(n*t);
+LW = 'Linewidth'; lw = 1.6; FS = 'fontsize';
+subplot(1,2,1), plot(x,y,LW,lw)
+axis([-1 1 -1 1]), axis square off
+title(sprintf('m=%d  n=%d  d=%3.1f',m,n,0),FS,12)
+y = sin(n*t+pi/2);
+subplot(1,2,2), plot(x,y,LW,lw)
+title(sprintf('m=%d  n=%d  d=%3.1f',m,n,0.5),FS,12)
+axis([-1 1 -1 1]), axis square off</pre>
+
+<p><img src="img/Lissajous_01.png" alt=""></p>
+<p>As usual with 2D computations, it's convenient to use complex arithmetic, defining</p>
+<p>z(t) = x(t) + iy(t).Here's an anonymous function that returns a Chebfun corresponding to parameters m,n,d:</p>
+<pre class="mcode-input">lissajous = @(m,n,d) sin(m*t) + 1i*cos(n*t+pi*d);</pre>
+
+<p>Here are six Lissajous curves drawn at random:</p>
+<pre class="mcode-input">clf
+rand('seed',1);
+colors = [1 0 0; 0 .8 0; 1 .75 0; 0 1 1; 1 0 1; 0 0 .75];
+for np = 1:6
+  subplot(2,3,np)
+  m = ceil(10*rand);
+  n = ceil(10*rand);
+  d = rand;
+  plot(lissajous(m,n,d),LW,lw,'color',colors(np,:))
+  axis([-1 1 -1 1]), axis square off
+  title(sprintf('m=%d  n=%d  d=%5.3f',m,n,d),FS,10)
+end</pre>
+
+<p><img src="img/Lissajous_02.png" alt=""></p>
+<p>Just for fun, let's draw a cube in which each face is a different Lissajous figure:</p>
+<pre class="mcode-input">clf
+f = lissajous(23,5,.5);
+plot3(real(f),imag(f),1+0*t,'r'), hold on
+f = lissajous(7,16,2/3);
+plot3(-1+0*t,real(f),imag(f),'b')
+f = lissajous(13,17,0);
+plot3(real(f),-1+0*t,imag(f),'color',[0 .8 0])
+axis equal off</pre>
+
+<p><img src="img/Lissajous_03.png" alt=""></p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+
+  </body>
+</html>

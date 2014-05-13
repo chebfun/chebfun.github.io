@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chebfun: Numerical computing with functions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="jumbotron">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h1>Chebfun<span>numerical computing with functions</span></h1>
+
+                <div class="flexslider billboard">
+                  <ul class="slides">
+                    <li>
+                    <div class='row'>
+<div class='col-md-6 codewrap'><div class='code'>
+<pre class='mcode-input'>x = chebfun('x');
+
+% Define two functions
+f = exp(-x).*tanh(4*sin(40*x)).*(2 + sin(7*x)) / 16;
+g = (exp(sin(12*x) - x) + x - 2) / 12;
+
+rr = roots(f - g);      % Compute their intersections
+
+plot([f g]), hold on    % Plot the functions
+plot(rr, f(rr), 'o')    % and their intersections
+</pre>
+</div></div>
+
+<div class='col-md-6 image'>
+    <img src='demo1.png' style='margin-top: 33px' />
+</div>
+                    </div>
+                    </li>
+
+
+                    <li>
+                    <div class='row'>
+<div class='col-md-6 codewrap'><div class='code'>
+<pre class='mcode-input'>% Airy operator
+L = chebop(@(x,u) 0.01*diff(u,2) - x.*u, [-5,5]);
+L.bc = 'dirichlet';
+
+% Solve
+u = L \ 1;
+
+plot(u)
+</pre>
+</div></div>
+
+<div class='col-md-6 image'>
+    <img src='demo2.png' style='margin-top: 40px' />
+</div>
+                    </div>
+                    </li>
+                  </ul>
+                </div>
+
+<h4 class='description'>Chebfun is an open-source MATLAB package for computing with
+functions to 15-digit accuracy. Most Chebfun commands are
+overloads of familiar MATLAB commands &mdash; for example <code>sum(f)</code>
+computes an integral, <code>roots(f)</code> finds zeros, and <code>u = L\f</code> solves
+a differential equation.</h4>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" role="main">
+            <div class="row widgets">
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3>Get started<span class="glyphicon glyphicon-off" style='float:right'></span></h3>
+      <p>Whether you're a student, educator, or researcher, it's easy to learn and use Chebfun.</p>
+      <p><a href="docs/guide" class="btn btn-primary full-width" role="button">Read the Chebfun Guide&nbsp;&nbsp;&raquo;</a></p>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3>Download<span class="glyphicon glyphicon-download" style='float:right'></span></h3>
+      <p>Chebfun runs in standard Matlab. You'll be up and running in seconds.</p>
+      <p><a href="download" class="btn btn-primary full-width" role="button">Download Chebfun v5&nbsp;&nbsp;&raquo;</a></p>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3>View Examples<span class="glyphicon glyphicon-th" style='float:right'></span></h3>
+      <p>The gallery contains over 200 examples of Chebfun's mathematical applications.</p>
+      <p><a href="examples" class="btn btn-primary full-width" role="button">Browse the Examples&nbsp;&nbsp;&raquo;</a></p>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="widget">
+      <h3></span>Contribute<span class="glyphicon glyphicon-wrench" style='float:right'></span></h3>
+      <p>Chebfun is open-source and hosted on Github. We're always looking for new developers.</p>
+      <p><a href="develop" class="btn btn-primary full-width" role="button">Get involved &raquo;</a></p>
+    </div>
+  </div>
+</div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+
+  </body>
+</html>

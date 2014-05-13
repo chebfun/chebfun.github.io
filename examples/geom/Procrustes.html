@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Procrustes shape analysis &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4297200-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/docs/">Documentation</a></li>
+            <li class="active"><a href="/examples/">Examples</a></li>
+            <li><a href="/develop/">Develop</a></li>
+            <li><a href="/citing/">Citing</a></li>
+            <li><a href="/support/">Support</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/examples/">Examples</a></li>
+       <li><a href="/examples/geom/">Geometry</a></li>
+       <li class="active">Procrustes shape analysis</li>
+    </ol>
+
+    <div class="page-header">
+ 
+        <h1>Procrustes shape analysis</h1>
+        <h2>Alex Townsend, August 2011</h2>
+    </div>
+
+    <div class="row">
+
+<!--
+        <div class="col-md-4" role="navigation"> 
+ 
+            <div id="sidebar" class="sidebar">
+                <div class="">
+                    <!- <a href="#"><strong>Procrustes shape analysis</strong></a> ->
+                    <div class="toc">
+<ul>
+<li><a href="#shape-analysis-on-a-beach-holiday">Shape analysis on a beach holiday</a></li>
+<li><a href="#a-little-warning">A little warning</a></li>
+<li><a href="#a-shape-and-its-reflection">A shape and its reflection</a></li>
+<li><a href="#reference">Reference</a></li>
+</ul>
+</div>
+
+                    <hr/>
+                </div>
+            </div>
+        </div>
+-->
+
+        <div class="content">
+            <div class="col-md-8" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">function procrustes</pre>
+
+<pre class="mcode-input">close all</pre>
+
+<h3 id="shape-analysis-on-a-beach-holiday">Shape analysis on a beach holiday</h3>
+<p>Procrustes analysis is a method for analysing sets of shapes (see [1]). Let's suppose we pick up a pebble from the beach and want to know how closely its shape matches the outline of a frisbee. Here is a plot of the frisbee and the pebble.</p>
+<pre class="mcode-input">figure(1)
+t = chebfun('x',[0,2*pi]);
+f = 3*(1.5*cos(t) + 1i*sin(t)); %frisbee
+g = exp(1i*pi/3)*(1+cos(t)+1.5i*sin(t)+ .125*(1+1.5i)*sin(3*t).^2); %pebble
+plot(f,'r','LineWidth',2), hold on, axis equal, plot(g,'k','LineWidth',2)
+title('Frisbee and pebble','FontSize',14), hold off</pre>
+
+<p><img src="img/Procrustes_01.png" alt=""></p>
+<p>Two shapes are equivalent if one can be obtained from the other by translating, scaling and rotating. Before comparison we thus:</p>
+<ol>
+<li>
+<p>Translate the shapes so they have mean zero.</p>
+</li>
+<li>
+<p>Scale so the shapes have Root Mean Squared Distance (RMSD) to the origin of 1.</p>
+</li>
+<li>
+<p>Rotate to align major axis.</p>
+</li>
+</ol>
+<p>Here is how the frisbee and the pebble compare after each stage.</p>
+<pre class="mcode-input">function [f,g]=ShapeAnalysis(f,g)
+    % SHAPEANALYSIS(F,G) Plots the parameterised curves before and after
+    % each stage of translating, scaling and aligning. Outputs are
+    % parameterised curves ready for Procrustes shape analysis.
+
+    LW = 'LineWidth'; FS = 'FontSize';
+    % Plot original
+    subplot(2,2,1)
+    plot(f,'r',LW,2), hold on, axis equal, plot(g,'k',LW,2)
+    title('Orignal',FS,14)
+
+    % Translate mean to 0.
+    f = f-mean(f); g = g-mean(g);
+    subplot(2,2,2)
+    plot(f,'r',LW,2), hold on, axis equal, plot(g,'k',LW,2)
+    title('After translation',FS,14)
+
+    % Scale so RMSD is 1.
+    f = f/norm(f); g = g/norm(g);
+    subplot(2,2,3)
+    plot(f,'r',LW,2), hold on, axis equal, plot(g,'k',LW,2)
+    title('After scaling',FS,14)
+
+    % Align major axis.
+    subplot(2,2,4)
+    % Find argument of major axis.
+    [ignored,fxmax] = max(abs(f));
+    [ignored,gxmax] = max(abs(g));
+    rotf = angle(f(fxmax)); rotg = angle(g(gxmax));
+    % Rotate both so major axis lies on the positive real axis.
+    x = chebfun('x',[0,2*pi]);
+    f = exp(-1i*rotf)*f(mod(x+fxmax,2*pi));
+    g = exp(-1i*rotg)*g(mod(x+gxmax,2*pi));
+    plot(f,'r',LW,2), hold on, axis equal, plot(g,'k',LW,2)
+    title('After aligning',FS,14), hold off
+end
+
+[f,g] = ShapeAnalysis(f,g);</pre>
+
+<p><img src="img/Procrustes_02.png" alt=""></p>
+<p>To calculate the Procrustes distance in the discrete case we would measure the error between the two shapes at a finite number of reference points and compute the vector 2-norm. In Chebfun we calculate the continuous analogue:</p>
+<pre class="mcode-input">norm(f-g)</pre>
+
+<pre class="mcode-output">ans =
+   0.072347575424999
+</pre>
+
+<h3 id="a-little-warning">A little warning</h3>
+<p>In the discrete version of Procrustes shape analysis statisticians choose reference points on the two shapes (to compare).  They then work out the difference between corresponding reference points.  The error computed depends on this correspondence.  A different correspondence gives a different error.   In the continuous case this correspondence becomes the parameterisation. A different parameterisation of the two curves gives a different error. This continuous version of Procrustes (as implemented in this example) is therefore more of an 'eyeball' check than a robust statistical analysis.</p>
+<h3 id="a-shape-and-its-reflection">A shape and its reflection</h3>
+<p>At the beach shapes reflect on the surface of the sea. An interesting question is: How close, in shape, is a pebble to its reflection?  Here is a plot of a pebble and its reflection.</p>
+<pre class="mcode-input">figure(2)
+% pebble
+f = exp(1i*pi/3)*(1+cos(t)+1.5i*sin(t)+.125*(1+1.5i)*sin(3*t).^2);
+% reflection
+g = exp(-1i*pi/3)*(1+cos(2*pi-t)-1.5i*sin(2*pi-t)+.125*(1-1.5i)*sin(3*(2*pi-t)).^2);
+
+plot(f,'r','LineWidth',2), hold on, axis equal, plot(g,'k','LineWidth',2)
+title('Pebble and its reflection','FontSize',14), hold off</pre>
+
+<p><img src="img/Procrustes_03.png" alt=""></p>
+<p>Here is how the pebble and its reflection compare after each stage of translating, scaling and rotating.</p>
+<pre class="mcode-input">[f,g] = ShapeAnalysis(f,g);</pre>
+
+<p><img src="img/Procrustes_04.png" alt=""></p>
+<p>Now we calculate the continuous Procrustes distance.</p>
+<pre class="mcode-input">norm(f-g)</pre>
+
+<pre class="mcode-output">ans =
+   0.097593759012233
+</pre>
+
+<p>Comparing this result to the Procrustes distance of the pebble and a frisbee shows that the pebble is closer in shape to a frisbee than to its own reflection!</p>
+<pre class="mcode-input">end</pre>
+
+<h3 id="reference">Reference</h3>
+<p>[1] <a href="http://en.wikipedia.org/wiki/Procrustes">http://en.wikipedia.org/wiki/Procrustes</a></p>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="footer">
+        <div style="margin: 5px">
+        </div>
+        <p>Website powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>.</p>
+    </div>
+
+
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+
+  </body>
+</html>
