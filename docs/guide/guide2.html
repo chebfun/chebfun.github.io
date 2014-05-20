@@ -17,20 +17,15 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-4297200-9");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
-
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
   <body>
-
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -40,75 +35,39 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
-
-          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
-
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/about/">About</a></li>
-            <li><a href="/download/">Download</a></li>
-            <li class="active"><a href="/docs/">Documentation</a></li>
-            <li><a href="/examples/">Examples</a></li>
-            <li><a href="/develop/">Develop</a></li>
-            <li><a href="/citing/">Citing</a></li>
-            <li><a href="/support/">Support</a></li>
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
           </ul>
-
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
-
 <div class='jumbotron page-header'>
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
- 
                 <h1>Chebfun Guide 2: Integration and Differentiation</h1>
                 <h2>Lloyd N. Trefethen, November 2009, latest revision May 2014</h2>
             </div>
         </div>
     </div>
 </div>
-
 <div class="container">
-
-    <ol class="breadcrumb">
-       <li><a href="/">Home</a></li>
-       <li><a href="/docs/">Documentation</a></li>
-       <li><a href="/docs/guide/">The Chebfun Guide</a></li>
-       <li class="active">Chebfun Guide 2: Integration and Differentiation</li>
-    </ol>
-
     <div class="row">
-
-<!--
-        <div class="col-md-4" role="navigation"> 
- 
-            <div id="sidebar" class="sidebar">
-                <div class="">
-                    <!- <a href="#"><strong>Chebfun Guide 2: Integration and Differentiation</strong></a> ->
-                    <div class="toc">
-<ul>
-<li><a href="#21-sum">2.1 sum</a></li>
-<li><a href="#22-norm-mean-std-var">2.2 norm, mean, std, var</a></li>
-<li><a href="#23-cumsum">2.3 cumsum</a></li>
-<li><a href="#24-diff">2.4 diff</a></li>
-<li><a href="#25-integrals-in-two-dimensions">2.5 Integrals in two dimensions</a></li>
-<li><a href="#26-gauss-and-gauss-jacobi-quadrature">2.6 Gauss and Gauss-Jacobi quadrature</a></li>
-<li><a href="#27-references">2.7 References</a></li>
-</ul>
-</div>
-
-                    <hr/>
-                </div>
-            </div>
-        </div>
--->
-
         <div class="content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <h2 id="21-sum">2.1 sum</h2>
@@ -155,7 +114,7 @@ Iexact =
 
 <pre class="mcode-output">ans =
    0.842700792949715
-Elapsed time is 0.000086 seconds.
+Elapsed time is 0.000149 seconds.
 </pre>
 
 <p>Using Matlab's various quadrature commands is understandably slower:</p>
@@ -167,16 +126,16 @@ Elapsed time is 0.000086 seconds.
   tic, I = quadgk(F,0,1,'abstol',tol,'reltol',tol); t = toc;
     fprintf('QUADGK:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output">  QUAD:  I = 0.842700792949715  time = 0.0867 secs
- QUADL:  I = 0.842700792949715  time = 0.0495 secs
-QUADGK:  I = 0.842700792949715  time = 0.0328 secs
+<pre class="mcode-output">  QUAD:  I = 0.842700792949715  time = 0.1976 secs
+ QUADL:  I = 0.842700792949715  time = 0.0614 secs
+QUADGK:  I = 0.842700792949715  time = 0.0379 secs
 </pre>
 
 <p>The timing for Chebfun comes out competitive:</p>
 <pre class="mcode-input">  tic, I = sum(chebfun(F,[0,1])); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0104 secs
+<pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0117 secs
 </pre>
 
 <p>Here is a similar comparison for a function that is more difficult, because of the absolute value, which leads with "splitting on" to a chebfun consisting of a number of funs.</p>
@@ -195,10 +154,10 @@ QUADGK:  I = 0.842700792949715  time = 0.0328 secs
   tic, I = sum(chebfun(@(x) abs(besselj(0,x)),[0,20],'splitting','on')); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">   QUAD:  I = 4.445031603001505  time = 0.127 secs
-  QUADL:  I = 4.445031603001576  time = 0.077 secs
- QUADGK:  I = 4.445031603001578  time = 0.034 secs
-CHEBFUN:  I = 4.445031603001566  time = 0.248 secs
+<pre class="mcode-output">   QUAD:  I = 4.445031603001505  time = 0.144 secs
+  QUADL:  I = 4.445031603001576  time = 0.083 secs
+ QUADGK:  I = 4.445031603001578  time = 0.056 secs
+CHEBFUN:  I = 4.445031603001566  time = 0.302 secs
 </pre>
 
 <p>This last example highlights the piecewise-smooth aspect of Chebfun integration.  Here is another example of a piecewise smooth problem.</p>
@@ -214,7 +173,7 @@ CHEBFUN:  I = 4.445031603001566  time = 0.248 secs
 
 <pre class="mcode-output">ans =
   -0.381556448850250
-Elapsed time is 0.001548 seconds.
+Elapsed time is 0.002044 seconds.
 </pre>
 
 <p>For another example of a definite integral we turn to an integrand given as example <code>F21F</code> in [Kahaner 1971].  We treat it first in the default mode of splitting off:</p>
@@ -485,14 +444,14 @@ ans =
   tic, I = sum(chebfun(@(y) Iy(y),[0.5 2.5],'vectorize')); t = toc;
   fprintf('CHEBFUN:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.468 secs
+<pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.609 secs
 </pre>
 
 <p>Here for comparison is Matlab's <code>dblquad/quadl</code> with a tolerance of $10^{-11}$:</p>
 <pre class="mcode-input">  tic, I = dblquad(f,-2,2,0.5,2.5,1e-11,@quadl); t = toc;
   fprintf('DBLQUAD/QUADL:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">DBLQUAD/QUADL:  I = 0.02041246545700  time = 4.346 secs
+<pre class="mcode-output">DBLQUAD/QUADL:  I = 0.02041246545700  time = 4.835 secs
 </pre>
 
 <p>This example of a 2D integrand is smooth, so both Chebfun and <code>dblquad</code> can handle it to high accuracy.</p>
@@ -503,8 +462,8 @@ sum2(f2)
 toc</pre>
 
 <pre class="mcode-output">ans =
-   0.020412465456998
-Elapsed time is 0.457614 seconds.
+   0.020412465456999
+Elapsed time is 0.507883 seconds.
 </pre>
 
 <p>and we can plot the function without the need for <code>meshgrid</code>:</p>
@@ -546,7 +505,7 @@ Iexact =
 
 <pre class="mcode-output">Igauss =
    2.350402387287603
-Elapsed time is 0.298669 seconds.
+Elapsed time is 0.346949 seconds.
 </pre>
 
 <p>Even 100,000 points doesn't take very long:</p>
@@ -556,7 +515,7 @@ Elapsed time is 0.298669 seconds.
 
 <pre class="mcode-output">Igauss =
    2.350402387287603
-Elapsed time is 0.314636 seconds.
+Elapsed time is 0.399392 seconds.
 </pre>
 
 <p>Traditionally, numerical analysts computed Gauss quadrature nodes and weights by the eigenvalue algorithm of Golub and Welsch [Golub &amp; Welsch 1969]. However, the Hale-Townsend algorithms are both more accurate and much faster [Hale &amp; Townsend 2013].</p>
@@ -575,19 +534,11 @@ Elapsed time is 0.314636 seconds.
 <p>[Wolfram 2003] S. Wolfram, <em>The Mathematica Book</em>, 5th ed., Wolfram Media, 2003.</p>
             </div>
         </div>
-
     </div>
-    
-
-</div> 
-
-
+</div>
     <div class="footer">
-        <div style="margin: 5px">
-        </div>
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
@@ -597,6 +548,5 @@ Elapsed time is 0.314636 seconds.
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
-
   </body>
 </html>

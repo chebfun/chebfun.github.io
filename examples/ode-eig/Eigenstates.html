@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Eigenstates of the Schr&Atilde;&para;dinger equation &raquo; Chebfun</title>
+    <title>Eigenstates of the Schroedinger equation &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -17,20 +17,15 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-4297200-9");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
-
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
   <body>
-
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -40,34 +35,32 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
-
-          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
-
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/about/">About</a></li>
-            <li><a href="/download/">Download</a></li>
-            <li><a href="/docs/">Documentation</a></li>
-            <li class="active"><a href="/examples/">Examples</a></li>
-            <li><a href="/develop/">Develop</a></li>
-            <li><a href="/citing/">Citing</a></li>
-            <li><a href="/support/">Support</a></li>
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
           </ul>
-
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
-
 <div class='jumbotron page-header'>
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
- 
-                <h1>Eigenstates of the Schr&Atilde;&para;dinger equation</h1>
+                <h1>Eigenstates of the Schroedinger equation</h1>
                 <h2>Nick Trefethen, 25th January 2012</h2>
             </div>
         </div>
@@ -75,25 +68,11 @@ pageTracker._trackPageview();
 </div>
 
 <div class="container">
-
-    <ol class="breadcrumb">
-       <li><a href="/">Home</a></li>
-       <li><a href="/examples/">Examples</a></li>
-       <li><a href="/examples/ode-eig/">ODE eigenvalue problems</a></li>
-       <li class="active">Eigenstates of the Schr&Atilde;&para;dinger equation</li>
-    </ol>
-
     <div class="row">
-
-<!--
-        <div class="col-md-4" role="navigation"> 
-        </div>
--->
-
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Chebfun is very good at solving eigenvalue problems in one dimension defined by smooth or piecewise-smooth coefficients.  An important example of such problems is the determination of eigenstates of the Schr&Atilde;&para;dinger operator, which correspond to energy levels of quantum systems. There is a special Chebfun command, <code>quantumstates</code>, for computing and plotting such functions.</p>
-<p>The Schr&Atilde;&para;dinger eigenvalue problem solved by <code>quantumstates</code> takes the form</p>
+                <p>Chebfun is very good at solving eigenvalue problems in one dimension defined by smooth or piecewise-smooth coefficients.  An important example of such problems is the determination of eigenstates of the Schroedinger operator, which correspond to energy levels of quantum systems. There is a special Chebfun command, <code>quantumstates</code>, for computing and plotting such functions.</p>
+<p>The Schroedinger eigenvalue problem solved by <code>quantumstates</code> takes the form</p>
 <p>$$  L u = \lambda u, $$</p>
 <p>where $\lambda$ is the eigenvalue, $u(x)$ is the eigenfunction defined on a finite interval with zero boundary conditions, and $L$ is the linear operator defined by</p>
 <p>$$  L u(x) = -h^2 u"(x) + V(x) u(x). $$</p>
@@ -117,55 +96,55 @@ quantumstates(V)</pre>
    1.900000000000032
 </pre>
 
-<p><img src="img/Eigenstates_01.png" alt=""></p>
+<p><img src="img/Eigenstates_01.png" class="figure" alt=""></p>
 <p>Notice that the eigenvalues take the regularly spaced values $h[1, 3, 5, \dots]$.  <code>quantumstates</code> permits various outputs including just eigenvalues or eigenvalues and eigenfunctions, and it is also possible to suppress the plot with the string <code>noplot</code>; see the help text.  For the rest of this Example, however, we shall just look at plots and suppress all output with a semicolon.</p>
 <p>Suppose we want $60$ eigenstates instead of the default number $10$. Here is the result:</p>
 <pre class="mcode-input">quantumstates(V,60);</pre>
 
-<p><img src="img/Eigenstates_02.png" alt=""></p>
+<p><img src="img/Eigenstates_02.png" class="figure" alt=""></p>
 <p>Notice that the potential now looks like a parabola that meets vertical walls at $x=-3$ and $x=3$, for this is the effect of the Dirichlet boundary condition.  To get $60$ genuine states of the harmonic oscillator, we could increase the interval from $[-3,3]$ to $[-L,L]$ with, say, $L=8$. (The accuracy improves exponentially as $L$ increases.)</p>
 <p>Or suppose we want eigenstates for $h=0.01$ instead of $h=1$:</p>
 <pre class="mcode-input">quantumstates(V,0.01);</pre>
 
-<p><img src="img/Eigenstates_03.png" alt=""></p>
+<p><img src="img/Eigenstates_03.png" class="figure" alt=""></p>
 <p>When <code>quantumstates</code> is given two arguments like this, it takes the second to be $h$ if it is not an integer, and the number of eigenstates if it is an integer.  To specify both, put them in this order:</p>
 <pre class="mcode-input">quantumstates(V,20,0.5);</pre>
 
-<p><img src="img/Eigenstates_04.png" alt=""></p>
+<p><img src="img/Eigenstates_04.png" class="figure" alt=""></p>
 <p>Here is an effectively infinite square well.  The eigenvalues are spaced quadratically.</p>
 <pre class="mcode-input">V = 10 - 10*(abs(x)&lt;1);
 quantumstates(V);</pre>
 
-<p><img src="img/Eigenstates_05.png" alt=""></p>
+<p><img src="img/Eigenstates_05.png" class="figure" alt=""></p>
 <p>Here is a finite square well:</p>
 <pre class="mcode-input">V = 1 - (abs(x)&lt;1);
 quantumstates(V,20);</pre>
 
-<p><img src="img/Eigenstates_06.png" alt=""></p>
+<p><img src="img/Eigenstates_06.png" class="figure" alt=""></p>
 <p>Since we are working on a finite interval $[-L,L]$, the spectrum is discrete both below and above the level $1$, but the spacing will get closer as $L$ is increased, and it is easy to imagine that for $L=\infty$, one gets a continuum of eigenvalues above $1$ -- more precisely, a "continuous spectrum".  The discrete eigenfunctions below level $1$ are called bound states, whereas the states above level $1$ (in the limit $L=\infty$) are continuous states.</p>
 <p>Here is an absolute value potential,</p>
 <pre class="mcode-input">quantumstates(abs(x));</pre>
 
-<p><img src="img/Eigenstates_07.png" alt=""></p>
+<p><img src="img/Eigenstates_07.png" class="figure" alt=""></p>
 <p>and here is a square root function:</p>
 <pre class="mcode-input">quantumstates(sqrt(abs(x)+.1));</pre>
 
-<p><img src="img/Eigenstates_08.png" alt=""></p>
+<p><img src="img/Eigenstates_08.png" class="figure" alt=""></p>
 <p>Here is a double well potential, with the barrier in the middle slightly off-center to break the symmetry:</p>
 <pre class="mcode-input">V = 0.5*(abs(x-.5)&lt;.5);
 quantumstates(V,18);</pre>
 
-<p><img src="img/Eigenstates_09.png" alt=""></p>
+<p><img src="img/Eigenstates_09.png" class="figure" alt=""></p>
 <p>Notice that each lower eigenfunction is localized on one or the other side of the barrier, whereas the higher eigenfunctions are not localized. Inside the barrier, the eigenfunction is nonzero -- this is quantum tunnelling -- but its amplitude decreases exponentially with distance inside the barrier.</p>
 <p>Here is an analogous problem with a smooth potential:</p>
 <pre class="mcode-input">V = 0.5*exp(-2*(x-.5).^2);
 quantumstates(V,18);</pre>
 
-<p><img src="img/Eigenstates_10.png" alt=""></p>
+<p><img src="img/Eigenstates_10.png" class="figure" alt=""></p>
 <p>Here is the total time for this Example:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 25.997598 seconds.
+<pre class="mcode-output">Elapsed time is 29.841709 seconds.
 </pre>
 
 <p>One can learn about the physics of these quantum mechanical problems in innumerable books and other sources.  One reference we have consulted is the textbook by Robinett [1].</p>
@@ -173,19 +152,12 @@ quantumstates(V,18);</pre>
 <p>[1] Richard W. Robinett, <em>Quantum Mechanics</em>, 2nd ed., Oxford University Press, 2006.</p>
             </div>
         </div>
-
     </div>
-    
-
-</div> 
-
+</div>
 
     <div class="footer">
-        <div style="margin: 5px">
-        </div>
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
@@ -195,6 +167,5 @@ quantumstates(V,18);</pre>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
-
   </body>
 </html>

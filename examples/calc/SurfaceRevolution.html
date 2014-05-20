@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Surfaces of revolution &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Surfaces of revolution</h1>
+                <h2>Georges Klein, 4th March 2013</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">x = chebfun('x');
+f = sqrt(1.0001-x.^2);
+plot(f,'linewidth',1.6), axis equal
+snapnow
+cylinder(f), axis equal</pre>
+
+<p><img src="img/SurfaceRevolution_01.png" class="figure" alt=""></p>
+<p><img src="img/SurfaceRevolution_02.png" class="figure" alt=""></p>
+<p>An even simpler example is a cone, which is constructed by rotating a linear polynomial around an axis.</p>
+<p>In the <code>cylinder</code> command, the input chebfun defines the radius along the unit height of the cylinder. Omitting output arguments causes the cylinder to be displayed with a <code>surf</code> command and no outputs to be returned. For the cone example, we can proceed as follows:</p>
+<pre class="mcode-input">f = chebfun(@(x) -3*x + 3);
+cylinder(f)</pre>
+
+<p><img src="img/SurfaceRevolution_03.png" class="figure" alt=""></p>
+<p>By default the surface of revolution has height $1$ and is displayed as if the generator curve was rotated around the $z$-axis. We can get the $(x,y,z)$-coordinates, stretch the $z$-coordinates to match the interval of definition of the generator chebfun, and rearrange the coordinates so that the generator chebfun is rotated around the $x$-axis:</p>
+<pre class="mcode-input">f = chebfun(@(x) 2.8*sin(0.2*x - 0.1) + 6.3, [-5 35]);
+ends = f.ends;
+[xx, yy, zz] = cylinder(f);
+zzstr = diff(ends)*zz + ends(1);
+surf(zzstr,flipud(yy),xx)</pre>
+
+<p><img src="img/SurfaceRevolution_04.png" class="figure" alt=""></p>
+<p>Let us create yet another surface and study some of its properties within Chebfun.</p>
+<pre class="mcode-input">x = chebfun('x', [0 2*pi]);
+f = sqrt(4 + 2*sin(2*x));
+[xx, yy, zz] = cylinder(f);
+surf(xx,yy,zz)</pre>
+
+<p><img src="img/SurfaceRevolution_05.png" class="figure" alt=""></p>
+<p>The volume of this object can be computed as</p>
+<p>$$ V = \pi \int_a^b f^2(x)\, \mathrm{d}x. $$</p>
+<p>This is a basic computation in Chebfun and we compare the result with the exact value:</p>
+<pre class="mcode-input">V = pi*sum(f.^2)
+error = V - 8*pi^2</pre>
+
+<pre class="mcode-output">V =
+  78.956835208714864
+error =
+     0
+</pre>
+
+<p>The area of the surface is given by</p>
+<p>$$ A = 2\pi \int_a^b f(x)\sqrt{1+|f'(x)|^2}\, \mathrm{d}x. $$</p>
+<pre class="mcode-input">A = 2*pi*sum(f.*sqrt(1 + abs(diff(f)).^2))</pre>
+
+<pre class="mcode-output">A =
+  95.016245402719022
+</pre>
+
+<p>The coordinates of the center of gravity are $x_G=0$, $y_G=0$, and</p>
+<p>$$ z_G = \frac{\pi}{V} \int_a^b x f^2(x)\, \mathrm{d}x. $$</p>
+<pre class="mcode-input">zG = pi/V*sum(x.*f.^2)
+hold on
+colormap hsv, alpha(.1)
+plot3(0,0,zG,'.r','MarkerSize',40)
+hold off</pre>
+
+<pre class="mcode-output">zG =
+   2.891592653589793
+</pre>
+
+<p><img src="img/SurfaceRevolution_06.png" class="figure" alt=""></p>
+<p>Finally we compute the moment of inertia, assuming that the object is homogeneous with density $1$,</p>
+<p>$$ J = \frac{\pi}{2} \int_a^b f^4(x)\, \mathrm{d}x. $$</p>
+<pre class="mcode-input">J = pi/2*sum(f.^4)</pre>
+
+<pre class="mcode-output">J =
+     1.776528792196084e+02
+</pre>
+
+<p>And a last one:</p>
+<pre class="mcode-input">fls = chebfun('1./(1+8*x.^2)');
+[xx, yy, zz] = cylinder(fls);
+surf(xx,yy,zz/4)
+axis equal
+hold on
+h = findobj('type', 'axes');
+set(h(1), 'visible', 'off')
+colormap(gray)
+view(0,10)
+theta = (0:12)/12*2*pi;
+plot3(cos(theta),sin(theta),.01*ones(size(theta)),'g.')
+plot3(fls(.4)/2*cos(theta),fls(.4)/2*sin(theta),.17*ones(size(theta)),'r.')
+plot3(fls(.4)/2*cos(theta),fls(.4)/2*sin(theta),-.17*ones(size(theta)),'y.')</pre>
+
+<p><img src="img/SurfaceRevolution_07.png" class="figure" alt=""></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

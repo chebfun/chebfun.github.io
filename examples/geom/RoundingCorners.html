@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rounding Corners by Convolution &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Rounding Corners by Convolution</h1>
+                <h2>Nick Trefethen, 20th November 2012</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>Here is a function with the shape of a W:</p>
+<pre class="mcode-input">t = chebfun(@(t) t);
+f = 3*min(abs(t+.4),abs(t-.3));
+LW = 'linewidth'; lw = 2;
+ax = [-1.2 1.2 0 2.4];
+plot(f,LW,lw), axis(ax), axis square, grid on</pre>
+
+<p><img src="img/RoundingCorners_01.png" class="figure" alt=""></p>
+<p>And here is a narrow function with integral equal to $1$:</p>
+<pre class="mcode-input">h = 0.1;
+s = chebfun(@(s) s,[-h h]);
+g = (h-abs(s))/h^2;
+plot(g,'k',LW,lw), axis([-1 1 0 12]), grid on</pre>
+
+<p><img src="img/RoundingCorners_02.png" class="figure" alt=""></p>
+<p>If we convolve the two functions, we get a W with rounded corners. At the ends, the "rounding" has brought the values down to $0$:</p>
+<pre class="mcode-input">f2 = conv(f,g);
+plot(f2,LW,lw), axis(ax), axis square, grid on</pre>
+
+<p><img src="img/RoundingCorners_03.png" class="figure" alt=""></p>
+<p>Let's try a similar but different computation in which the W is not a real function of a real variable, but a complex function of a real parameter.  Here is that complex function:</p>
+<pre class="mcode-input">W = t + 1i*f(t);
+plot(W,'r',LW,lw), axis(ax), axis square, grid on</pre>
+
+<p><img src="img/RoundingCorners_04.png" class="figure" alt=""></p>
+<p>And here is its convolution with g:</p>
+<pre class="mcode-input">W2 = conv(W,g);
+plot(W2,'r',LW,lw), axis(ax), axis square, grid on</pre>
+
+<p><img src="img/RoundingCorners_05.png" class="figure" alt=""></p>
+<p>Do you understand why thse picture looks different from the previous one?</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

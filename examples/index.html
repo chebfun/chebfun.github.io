@@ -17,20 +17,15 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-4297200-9");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
-
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
   <body>
-
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -40,78 +35,59 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
-
-          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
-
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/about/">About</a></li>
-            <li><a href="/download/">Download</a></li>
-            <li><a href="/docs/">Documentation</a></li>
-            <li class="active"><a href="/examples/">Examples</a></li>
-            <li><a href="/develop/">Develop</a></li>
-            <li><a href="/citing/">Citing</a></li>
-            <li><a href="/support/">Support</a></li>
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
           </ul>
-
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
-
-
 <div class='jumbotron page-header'>
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
- 
                 <h1>Examples</h1>
             </div>
         </div>
     </div>
 </div>
-
 <div class="container">
     <div class="row">
         <div class="col-md-4" role="main">
-                <h4><a href="/examples/approx/">Approximation</a></h4>
-                <p></p>
-                <h4><a href="/examples/calc/">Calculus</a></h4>
-                <p></p>
-                <h4><a href="/examples/complex/">Complex variables</a></h4>
-                <p></p>
-                <h4><a href="/examples/fun/">Fun stuff!</a></h4>
-                <p></p>
-                <h4><a href="/examples/geom/">Geometry</a></h4>
-                <p></p>
-                <h4><a href="/examples/integro/">Integral and integro-differential equations</a></h4>
-                <p></p>
-                <h4><a href="/examples/linalg/">Linear algebra</a></h4>
-                <p></p>
-                <h4><a href="/examples/ode-eig/">ODE eigenvalue problems</a></h4>
-                <p></p>
-                <h4><a href="/examples/opt/">Optimization</a></h4>
-                <p></p>
-                <h4><a href="/examples/ode/">Ordinary differential equations</a></h4>
-                <p></p>
-                <h4><a href="/examples/pde/">Partial differential equations</a></h4>
-                <p></p>
-                <h4><a href="/examples/stats/">Probability and statistics</a></h4>
-                <p></p>
-                <h4><a href="/examples/quad/">Quadrature</a></h4>
-                <p></p>
-                <h4><a href="/examples/roots/">Rootfinding</a></h4>
-                <p></p>
-                <h4><a href="/examples/veccalc/">Vector calculus</a></h4>
-                <p></p>
+            <h4><a href="/examples/approx/">Approximation</a></h4>
+            <h4><a href="/examples/calc/">Calculus</a></h4>
+            <h4><a href="/examples/complex/">Complex variables</a></h4>
+            <h4><a href="/examples/fun/">Fun stuff!</a></h4>
+            <h4><a href="/examples/geom/">Geometry</a></h4>
+            <h4><a href="/examples/integro/">Integral and integro-differential equations</a></h4>
+            <h4><a href="/examples/linalg/">Linear algebra</a></h4>
+            <h4><a href="/examples/ode-eig/">ODE eigenvalue problems</a></h4>
+            <h4><a href="/examples/opt/">Optimization</a></h4>
+            <h4><a href="/examples/ode/">Ordinary differential equations</a></h4>
+            <h4><a href="/examples/pde/">Partial differential equations</a></h4>
+            <h4><a href="/examples/stats/">Probability and statistics</a></h4>
+            <h4><a href="/examples/quad/">Quadrature</a></h4>
+            <h4><a href="/examples/roots/">Rootfinding</a></h4>
+            <h4><a href="/examples/veccalc/">Vector calculus</a></h4>
         </div>
         <div class="col-md-8" role="main">
             <p>The Chebfun Examples have been written by various authors
 beginning in 2010.  New Examples are always welcome! &mdash; if
-you have an idea or a draft, please <a href="/support/" title="Support">contact us</a>.</p>
+you have an idea or a draft, please [contact us][/support].</p>
 <!-- 
 The Examples are updated from time to time, but the original
 date is retained. That is why, for example, you will sometimes
@@ -125,17 +101,72 @@ require some patience on the part of the reader.
  -->
 
 <hr />
-<div class='row'><a href='opt/Needle.html'><div class='col-md-12 well gallery-item left'><img src='./opt/img/Needle_01.png' /><h3>Needle on a corrugated surface</h3><h4>Nick Trefethen and Hrothgar, 11th December 2013</h4><h4 class='tags'>#optimization</h4></div></a></div><div class='row'><a href='complex/Singularities.html'><div class='col-md-12 well gallery-item right'><img src='./complex/img/Singularities_01.png' /><h3>Types of isolated singularities</h3><h4>Hrothgar, 12th November 2013</h4><h4 class='tags'>#complex, #phase portraits, #Chebfun2</h4></div></a></div><div class='row'><a href='ode/FourBugs.html'><div class='col-md-12 well gallery-item left'><img src='./ode/img/FourBugs_01.png' /><h3>Four bugs on a rectangle</h3><h4>Hrothgar, 5th November 2013</h4><h4 class='tags'>#nonlinearODE</h4></div></a></div><div class='row'><a href='calc/SnellsLaw.html'><div class='col-md-12 well gallery-item right'><img src='./calc/img/SnellsLaw_01.png' /><h3>A Drowning Man and Snell's Law</h3><h4>Mohsin Javed, 30th October 2013</h4><h4 class='tags'>#calculus, #Snell's Law</h4></div></a></div><div class='row'><a href='approx/OscError.html'><div class='col-md-12 well gallery-item left'><img src='./approx/img/OscError_01.png' /><h3>Approximations and oscillation of error</h3><h4>Mohsin Javed, 22nd October 2013</h4><h4 class='tags'>#bestapproximation, #l2approximation, #interpolation, #POLYFIT</h4></div></a></div><div class='row'><a href='stats/NormalExercises.html'><div class='col-md-12 well gallery-item right'><img src='./stats/img/NormalExercises_01.png' /><h3>Normal Distribution -- Exercises from a Textbook</h3><h4>Jie Gao and Nick Trefethen, 23rd April 2013</h4><h4 class='tags'>#normaldistribution, #probability</h4></div></a></div><div class='row'><a href='complex/PhasePortraits.html'><div class='col-md-12 well gallery-item left'><img src='./complex/img/PhasePortraits_01.png' /><h3>Phase Portraits</h3><h4>Alex Townsend, 4th March 2013</h4><h4 class='tags'>#phase portraits, #Chebfun2</h4></div></a></div><div class='row'><a href='complex/PortraitsWithPoles.html'><div class='col-md-12 well gallery-item right'><img src='./complex/img/PortraitsWithPoles_01.png' /><h3>Phase Portraits for Functions with Poles</h3><h4>Nick Trefethen, 4th March 2013</h4><h4 class='tags'>#phase portraits, #poles, #Chebfun2, #SMASH</h4></div></a></div><div class='row'><a href='opt/GlobalMinimum.html'><div class='col-md-12 well gallery-item left'><img src='./opt/img/GlobalMinimum_01.png' /><h3>The global minimum of a complicated function</h3><h4>Alex Townsend, 4th March 2013</h4><h4 class='tags'>#100-Digit Challenge, #optimization, #Chebfun2</h4></div></a></div><div class='row'><a href='opt/Rosenbrock2.html'><div class='col-md-12 well gallery-item right'><img src='./opt/img/Rosenbrock2_01.png' /><h3>The Rosenbrock function in 2D optimisation (revisited)</h3><h4>Nick Hale, 4th March 2013</h4><h4 class='tags'>#Rosenbrock, #optimization, #Chebfun2</h4></div></a></div>        </div>
+<div class='row'><a href='/examples/approx/FiltersCF.html'>
+                 <div class='col-md-12 well gallery-item left'>
+                 <img src='/examples/approx/img/FiltersCF_01.png' />
+                 <h3>Digital Filters via CF Approximation</h3>
+                 <h4>Nick Trefethen, 16 April 2014</h4>
+                 <h4 class='tags'>#filter, #Caratheodory-Fejer, #CF, #REMEZ</h4>
+                 </div></a></div><div class='row'><a href='/examples/opt/ConstrainedOptimization.html'>
+                 <div class='col-md-12 well gallery-item right'>
+                 <img src='/examples/opt/img/ConstrainedOptimization_01.png' />
+                 <h3>Constrained Optimization in Chebfun</h3>
+                 <h4>Alex Townsend, 16th January 2014</h4>
+                 <h4 class='tags'>#Chebfun2, #rootfinding, #optimization</h4>
+                 </div></a></div><div class='row'><a href='/examples/opt/Needle.html'>
+                 <div class='col-md-12 well gallery-item left'>
+                 <img src='/examples/opt/img/Needle_01.png' />
+                 <h3>Needle on a corrugated surface</h3>
+                 <h4>Nick Trefethen and Hrothgar, 11th December 2013</h4>
+                 <h4 class='tags'>#optimization</h4>
+                 </div></a></div><div class='row'><a href='/examples/complex/Singularities.html'>
+                 <div class='col-md-12 well gallery-item right'>
+                 <img src='/examples/complex/img/Singularities_01.png' />
+                 <h3>Types of isolated singularities</h3>
+                 <h4>Hrothgar, 12th November 2013</h4>
+                 <h4 class='tags'>#complex, #phase portraits, #Chebfun2</h4>
+                 </div></a></div><div class='row'><a href='/examples/ode/FourBugs.html'>
+                 <div class='col-md-12 well gallery-item left'>
+                 <img src='/examples/ode/img/FourBugs_01.png' />
+                 <h3>Four bugs on a rectangle</h3>
+                 <h4>Hrothgar, 5th November 2013</h4>
+                 <h4 class='tags'>#nonlinearODE</h4>
+                 </div></a></div><div class='row'><a href='/examples/calc/SnellsLaw.html'>
+                 <div class='col-md-12 well gallery-item right'>
+                 <img src='/examples/calc/img/SnellsLaw_01.png' />
+                 <h3>A Drowning Man and Snell's Law</h3>
+                 <h4>Mohsin Javed, 30th October 2013</h4>
+                 <h4 class='tags'>#calculus, #Snell's Law</h4>
+                 </div></a></div><div class='row'><a href='/examples/approx/OscError.html'>
+                 <div class='col-md-12 well gallery-item left'>
+                 <img src='/examples/approx/img/OscError_01.png' />
+                 <h3>Approximations and oscillation of error</h3>
+                 <h4>Mohsin Javed, 22nd October 2013</h4>
+                 <h4 class='tags'>#bestapproximation, #l2approximation, #interpolation, #POLYFIT</h4>
+                 </div></a></div><div class='row'><a href='/examples/linalg/Crouzeix.html'>
+                 <div class='col-md-12 well gallery-item right'>
+                 <img src='/examples/linalg/img/Crouzeix_01.png' />
+                 <h3>Crouzeix's conjecture</h3>
+                 <h4>Nick Trefethen and Michael Overton, 16th October 2013</h4>
+                 <h4 class='tags'>#linear algebra, #field of values, #Crouzeix, #FOV</h4>
+                 </div></a></div><div class='row'><a href='/examples/roots/AverageDegreeReduction1D.html'>
+                 <div class='col-md-12 well gallery-item left'>
+                 <img src='/examples/roots/img/AverageDegreeReduction1D_01.png' />
+                 <h3>1D subdivision and the average degree reduction</h3>
+                 <h4>Alex Townsend, 21st August 2013</h4>
+                 <h4 class='tags'>#roots, #subdivision</h4>
+                 </div></a></div><div class='row'><a href='/examples/roots/AverageDegreeReduction2D.html'>
+                 <div class='col-md-12 well gallery-item right'>
+                 <img src='/examples/roots/img/AverageDegreeReduction2D_01.png' />
+                 <h3>2D subdivision and the average degree reduction</h3>
+                 <h4>Alex Townsend, 21st August 2013</h4>
+                 <h4 class='tags'>#roots, #Chebfun2, #subdivision</h4>
+                 </div></a></div>        </div>
     </div>
 </div>
-
-
     <div class="footer">
-        <div style="margin: 5px">
-        </div>
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
@@ -145,6 +176,5 @@ require some patience on the part of the reader.
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
-
   </body>
 </html>

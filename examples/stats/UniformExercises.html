@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Uniform Distribution -- Exercises from a Textbook &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Uniform Distribution -- Exercises from a Textbook</h1>
+                <h2>Jie Gao, 5th July 2013</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <h3 id="1-introduction">1. Introduction</h3>
+<p>Probability and statistics textbooks contain many exercise problems concerning various probability distributions.  In this Example we use Chebfun to solve two problems involving the uniform distribution from the textbook [1]. The domain is a finite interval. Other similar Examples look at problems from the same book involving the normal, beta, exponential, gamma, Rayleigh, and Maxwell distributions.</p>
+<p>Like most textbooks, [1] emphasizes problems that can be solved on paper and don't need numerical tools such as Chebfun. As soon as one varies the problem a little, however, numerical solutions often become necessary. Thus first we solve the problems as written, and then we show an application.</p>
+<h3 id="2-problem-1c-page-124">2. Problem 1(c), page 124</h3>
+<p><em>If $X$ is uniformly distributed over $(1,2)$, find $z$ such that $P[X&gt;z+\mu_x]=1/4$.</em></p>
+<p>We first define the probability density function (PDF) of $X$ as follows:</p>
+<pre class="mcode-input">f = chebfun(@(x) 1/(2-1)+0*x, [1 2]);</pre>
+
+<p>The cumulative density function (CDF) of $X$ is the indefinite integral of $f$:</p>
+<pre class="mcode-input">fint = cumsum(f);</pre>
+
+<p>We can compute the mean of $X$, denoted $\mu_x$, like this:</p>
+<pre class="mcode-input">format long
+mu_x = sum(chebfun(@(x) x.*f(x), [1 2]))</pre>
+
+<pre class="mcode-output">mu_x =
+   1.500000000000000
+</pre>
+
+<p>This is obviously correct.</p>
+<p>Let $a = z+\mu_x$. Since $P[X&gt;a] = 1/4$, we can find $a$ like this:</p>
+<pre class="mcode-input">a = roots(1-fint-1/4)</pre>
+
+<pre class="mcode-output">a =
+   1.750000000000000
+</pre>
+
+<p>Then we know the value of $z$:</p>
+<pre class="mcode-input">z = a-mu_x</pre>
+
+<pre class="mcode-output">z =
+   0.250000000000000
+</pre>
+
+<p>We now plot the PDF of this uniform distribution and the probability $P[X&gt;z+\mu_x] = 1/4$:</p>
+<pre class="mcode-input">hold off, h = area(f{a, 2});
+set(h,'FaceColor',[0.3 0.2 0.5]), xlim([1 2]), ylim([0, 2])
+LW = 'linewidth';
+hold on, plot(f,'k',LW,2), grid on</pre>
+
+<p><img src="img/UniformExercises_01.png" class="figure" alt=""></p>
+<h3 id="3-problem-1m-page-124">3. Problem 1(m), page 124</h3>
+<p><em>Suppose $X$ is a continuous random variable with uniform distribution having mean $1$ and variance $4/3$. What is $P[X&lt;0]$?</em></p>
+<p>The probability density function (PDF) of the uniform distribution can be defined like this: $f = 1/(b-a)$ for $x \in (a,b)$.</p>
+<p>Then the mean is $(a+b)/2$ and the variance is $(b-a)^2/12$. We want to solve for $a$ and $b$ given the stated conditions on the mean and variance.</p>
+<p>One approach would be to use Chebfun2. We can do that like this:</p>
+<pre class="mcode-input">mean = 1;
+var  = 4/3;</pre>
+
+<p>Let us assume that the roots are within a square of side length 10 centered at the origin</p>
+<pre class="mcode-input">f = chebfun2( @(a,b) (a+b)/2 - mean, [-5,5,-5,5] );
+g = chebfun2( @(a,b) (b-a).^2/12 - var,  [-5,5,-5,5] );</pre>
+
+<p>The common roots of $f$ and $g$ are the points where the mean and the variance attain the desired values.</p>
+<pre class="mcode-input">r = roots( f, g )</pre>
+
+<pre class="mcode-output">r =
+  -1.000000000000001   3.000000000000000
+   3.000000000000000  -1.000000000000000
+</pre>
+
+<p>We then get two pairs of values for $a$ and $b$. Since $a &lt; b$, we can easily make the right choice of the $(a,b)$ pair and discard the other one. As we can see $a = -1$ and $b = 3$ are the correct choices.</p>
+<pre class="mcode-input">a = min(r(2,:))
+b = max(r(2,:))</pre>
+
+<pre class="mcode-output">a =
+  -1.000000000000000
+b =
+     3
+</pre>
+
+<p>Now we have the PDF of $X$ as follows:</p>
+<pre class="mcode-input">f = chebfun(@(x)0*x + 1/(b-a),[a, b]);</pre>
+
+<p>The cumulative density function (CDF) is the indefinite integral of $f$:</p>
+<pre class="mcode-input">fint = cumsum(f);</pre>
+
+<p>$P[X&lt;0]$ is this integral evaluated at $0$:</p>
+<pre class="mcode-input">p = fint(0)</pre>
+
+<pre class="mcode-output">p =
+   0.250000000000000
+</pre>
+
+<p>Let us plot $f$ on the interval $[a, b]$ and the region $x&lt;0$.</p>
+<pre class="mcode-input">hold off, h = area(f{a, 0});
+set(h,'FaceColor',[0.75 0.3 0.2]), xlim([a, b]), ylim([0, 0.5])
+LW = 'linewidth';
+hold on, plot(f,'k',LW,1.6), grid on</pre>
+
+<p><img src="img/UniformExercises_02.png" class="figure" alt=""></p>
+<p>Alternatively, let us find $a$ and $b$ with Chebfun. One approach is to eliminate $b$ by hand and then use Chebfun's <code>roots</code> command to find $a$.</p>
+<p>We express $b$ in terms of $a$ according to $mean = (a+b)/2 = 1$:</p>
+<pre class="mcode-input">b = @(a) 2-a</pre>
+
+<pre class="mcode-output">b = 
+    @(a)2-a
+</pre>
+
+<p>By $variance = (b-a)^2/12 = 4/3$, we can try $a$ in the interval $[-5,5]$ to see if we get a root for the function $g$ defined as:</p>
+<pre class="mcode-input">g = chebfun(@(a) (b(a)-a).^2/12 -4/3, [-5,5]);
+aa = roots(g)</pre>
+
+<pre class="mcode-output">aa =
+  -0.999999999999999
+   2.999999999999999
+</pre>
+
+<p>As before, we can see $a = -1$ and $b = 3$ are the correct choices.</p>
+<pre class="mcode-input">a = aa(1)
+b = aa(2)</pre>
+
+<pre class="mcode-output">a =
+  -0.999999999999999
+b =
+   2.999999999999999
+</pre>
+
+<p>Let us plot $f$ on the interval $[-5,5]$, the two roots $a$ and $b$:</p>
+<pre class="mcode-input">hold off, plot(g, LW, 2),
+hold on, plot([-5,5],[0,0], '-k'), axis auto
+plot(aa, g(a), 'r.', 'markersize', 20)
+grid on</pre>
+
+<p><img src="img/UniformExercises_03.png" class="figure" alt=""></p>
+<p>Another Chebfun approach would be to solve for both $a$ and $b$ using Chebfun2.</p>
+<p>Let us define the mean of the distribution like this:</p>
+<pre class="mcode-input">meanab = chebfun2(@(a, b) (a+b)/2, [-5, 5, -5, 5]);</pre>
+
+<p>Similarly, we can define the variance like this:</p>
+<pre class="mcode-input">varab = chebfun2(@(a, b) (b-a).^2/12, [-5, 5, -5, 5]);</pre>
+
+<p>We can solve for $a$ and $b$ simultaneously as follows:</p>
+<pre class="mcode-input">ab = roots(meanab-1, varab-4/3)</pre>
+
+<pre class="mcode-output">ab =
+  -1.000000000000001   2.999999999999999
+   3.000000000000001  -1.000000000000000
+</pre>
+
+<p>As there are two pairs of $a$ and $b$ listed in `ab, we need to identify the correct pair:</p>
+<pre class="mcode-input">a = ab(1, 2)
+b = ab(1, 1)</pre>
+
+<pre class="mcode-output">a =
+   2.999999999999999
+b =
+  -1.000000000000001
+</pre>
+
+<h3 id="4-application-adapted-from-example-12-page-107">4. Application adapted from Example 12, page 107</h3>
+<p>In a lottery draw, we let a participant spin a wheel and allow it to come to rest. The wheel is partitioned into ordered sectors: red ($5^\circ$), cyan ($15^\circ$), yellow ($35^\circ$), green ($50^\circ$), white ($65^\circ$), blue ($80^\circ$), black ($110^\circ$). Each color represents a prize. When the wheel comes to rest, a fixed arrow on the circumference points to a color. The participant then receives the prize that the corresponding color stands for. We can see that the point on the circumference of the wheel that is located opposite the fixed arrow could be considered as the value of a random variable $X$ that is uniformly distributed over the circumference of the wheel.</p>
+<p><em>(Q1) What is the probability of a participant receiving a prize represented by red or cyan?</em></p>
+<p>The PDF of $X$ can be defined like this:</p>
+<pre class="mcode-input">f = chebfun(@(x) 1/(360-0)+0*x, [0 360]);</pre>
+
+<p>Let us plot the composition of the wheel:</p>
+<pre class="mcode-input">FC = 'Facecolor';
+hold off, h1 = area(f{0, 5}); set(h1,FC,[1 0 0]), axis auto
+hold on, h2 = area(f{5, 20}); set(h2,FC,[0 1 1]),
+h3 = area(f{20, 55}); set(h3,FC,[1 1 0]),
+h4 = area(f{55, 105}); set(h4,FC,[0 1 0]),
+h5 = area(f{105, 170}); set(h5,FC,[1 1 1]),
+h6 = area(f{170, 250}); set(h6,FC,[0 0 1]),
+h7 = area(f{250, 360}); set(h7,FC,[0 0 0]),
+plot(f,'k',LW,2), grid on</pre>
+
+<p><img src="img/UniformExercises_04.png" class="figure" alt=""></p>
+<p>The CDF of $X$ is thus:</p>
+<pre class="mcode-input">fint = cumsum(f);</pre>
+
+<p>We can compute the probability of $0&lt;X&lt;(5+15)$ like this:</p>
+<pre class="mcode-input">p1 = fint(5+15)</pre>
+
+<pre class="mcode-output">p1 =
+   0.055555555555556
+</pre>
+
+<p>Let us compare <code>p1</code> to the exact value obtained by simple algebra:</p>
+<pre class="mcode-input">p1_exact = (5+15)/360</pre>
+
+<pre class="mcode-output">p1_exact =
+   0.055555555555556
+</pre>
+
+<p>Now we plot the probability:</p>
+<pre class="mcode-input">hold off, plot(f,'k',LW,2), grid on
+hold on, h = area(f{0, 20}); set(h,FC,[0.7 0 0.6]),
+xlim([0 360])</pre>
+
+<p><img src="img/UniformExercises_05.png" class="figure" alt=""></p>
+<p><em>(Q2) We now know that the arrow will not point to the blue region when the wheel comes to rest. Under this condition, what is the probability that it will point to neither black nor yellow?</em></p>
+<p>Because $X$ is uniformly distributed, the probability of the arrow not pointing to the blue region is:</p>
+<pre class="mcode-input">pnb = 1-fint(80)</pre>
+
+<pre class="mcode-output">pnb =
+   0.777777777777778
+</pre>
+
+<p>Similarly, the probability of the arrow not pointing to either the yellow or black region is:</p>
+<pre class="mcode-input">pnyb = 1-fint(35)-fint(110)</pre>
+
+<pre class="mcode-output">pnyb =
+   0.597222222222222
+</pre>
+
+<p>So the probability of the arrow not pointing to any of yellow, black, or blue is:</p>
+<pre class="mcode-input">pn = pnyb-fint(80)</pre>
+
+<pre class="mcode-output">pn =
+   0.375000000000000
+</pre>
+
+<p>By Bayes' Theorem, the conditional probability can be computed as follows:</p>
+<pre class="mcode-input">p2 = pn/pnb</pre>
+
+<pre class="mcode-output">p2 =
+   0.482142857142857
+</pre>
+
+<p>As before, we can compare <code>p2</code> to the exact value of the conditional probability obtained by simple algebra:</p>
+<pre class="mcode-input">p2_exact = (1-(35+110+80)/360)/(1-80/360)</pre>
+
+<pre class="mcode-output">p2_exact =
+   0.482142857142857
+</pre>
+
+<p>Now let us plot the conditional probability:</p>
+<pre class="mcode-input">g= f/(280/360);
+g = g.*chebfun({g,0,g}, [0, 170, 250, 360]);
+hold off, h1 = area(g{0, 20}); set(h1,FC,[0.3 0.5 0.2]),
+hold on, h2 = area(g{55, 170}); set(h2,FC,[0.3 0.5 0.2]),
+plot(g,'b',LW,2), xlim([0 360]), grid on</pre>
+
+<p><img src="img/UniformExercises_06.png" class="figure" alt=""></p>
+<p>Reference:</p>
+<p>[1] A. M. Mood, F. A. Graybill, and D. Boes, <em>Introduction to the Theory of Statistics</em>, McGraw-Hill, 1974.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

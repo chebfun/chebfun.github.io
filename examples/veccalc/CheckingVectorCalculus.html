@@ -17,20 +17,15 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-4297200-9");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
-
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
   <body>
-
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -40,33 +35,31 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
-
-          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
-
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/about/">About</a></li>
-            <li><a href="/download/">Download</a></li>
-            <li><a href="/docs/">Documentation</a></li>
-            <li class="active"><a href="/examples/">Examples</a></li>
-            <li><a href="/develop/">Develop</a></li>
-            <li><a href="/citing/">Citing</a></li>
-            <li><a href="/support/">Support</a></li>
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
           </ul>
-
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
-
 <div class='jumbotron page-header'>
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
- 
                 <h1>Checking vector calculus</h1>
                 <h2>Alex Townsend, 4th March 2013</h2>
             </div>
@@ -75,39 +68,7 @@ pageTracker._trackPageview();
 </div>
 
 <div class="container">
-
-    <ol class="breadcrumb">
-       <li><a href="/">Home</a></li>
-       <li><a href="/examples/">Examples</a></li>
-       <li><a href="/examples/veccalc/">Vector calculus</a></li>
-       <li class="active">Checking vector calculus</li>
-    </ol>
-
     <div class="row">
-
-<!--
-        <div class="col-md-4" role="navigation"> 
- 
-            <div id="sidebar" class="sidebar">
-                <div class="">
-                    <!- <a href="#"><strong>Checking vector calculus</strong></a> ->
-                    <div class="toc">
-<ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#the-parallelogram-law">The parallelogram Law</a></li>
-<li><a href="#the-gradient-theorem">The gradient theorem</a></li>
-<li><a href="#curl-of-the-gradient">Curl of the gradient</a></li>
-<li><a href="#more-information">More information</a></li>
-<li><a href="#references">References</a></li>
-</ul>
-</div>
-
-                    <hr/>
-                </div>
-            </div>
-        </div>
--->
-
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <h3 id="introduction">Introduction</h3>
@@ -153,19 +114,12 @@ abs(v-ends)                                  % gradient theorem</pre>
 <p>[1] A. Townsend and L. N. Trefethen, An extension of Chebfun to two dimensions, SIAM Journal on Scientific Computing, 35 (2013), C495-C518.</p>
             </div>
         </div>
-
     </div>
-    
-
-</div> 
-
+</div>
 
     <div class="footer">
-        <div style="margin: 5px">
-        </div>
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
@@ -175,6 +129,5 @@ abs(v-ends)                                  % gradient theorem</pre>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
-
   </body>
 </html>

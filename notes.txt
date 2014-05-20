@@ -9,44 +9,25 @@ inside bootswatch folder, do
 
 ----
 
-Bug with make_example / custom publish:
-    See calc/SnellsLaw, where the first cell's "FS" and "MS" definitions are
-    not output to the markdown file.
-
-Ugliness, compare:
+Ugliness of a plot -- compare:
     http://localhost:8000/examples/roots/WhiteCurves.html
     http://www2.maths.ox.ac.uk/chebfun/examples/roots/html/WhiteCurves.shtml
 
 ----
 
-CURRENT:
-Chebfun is a collection of algorithms and an open-source
-software system in object-oriented MATLAB which extends
-familiar powerful methods of numerical computation involving
-numbers to continuous or piecewise-continuous functions. It
-also implements continuous analogues of linear algebra notions
-like the QR decomposition and the SVD, and solves ordinary
-differential equations. The mathematical basis of the system
-combines tools of Chebyshev expansions, fast Fourier transform,
-barycentric interpolation, recursive zerofinding, and automatic
-differentiation. For the mathematical foundations of Chebfun,
-see Approximation Theory and Approximation Practice.
-
-REVISED?
-Chebfun is an open-source MATLAB package for computing with
-functions to 15-digit accuracy.  Most Chebfun commands are
-overloads of familiar MATLAB commands -- for example SUM(f)
-computes an integral, ROOTS(f) finds zeros, and u = L\f solves
-a differential equation.  Click <here> for more.
-
-<more>The mathematical basis of Chebfun is piecewise
-polynomial interpolation implemented with what we call "Chebyshev
-technology".  The foundations are described, with Chebfun examples,
-in <>Approximation Theory and Approximation Practice<>.
-Chebfun has extensive capabilities for dealing with linear and
-nonlinear differential and integral operators, and it also
-includes continuous analogues of linear algebra notions like QR
-and singular value decomposition.  The Chebfun2 extension works
-with functions of two variables defined on a rectangle in the
-x-y plane.  To get a sense of the breadth and power of Chebfun,
-a great place to start is by looking at our <Examples>.
+TO DO:
+    - figure out hosting
+    - add forum
+    - add twitter?
+    - news section
+    - examples category galleries
+    - prettify function reference
+    - css cleanup
+    - reflinks everywhere
+    - add content
+        - update faq
+        - update history
+        - update support -- only one help@chebfun.org
+        - update develop, citing -> publications, etc, etc.
+        - add more simple examples on the homepage
+        - fix the white-on-black issue from LNT

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Orthogonal polynomials via the Gram-Schmidt process &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Orthogonal polynomials via the Gram-Schmidt process</h1>
+                <h2>Nick Hale, June 2011</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">function OrthPolys</pre>
+
+<p><em>Orthogonal</em> polynomials are, as the name suggests, polynomials which are orthogonal to each other in some weighted $L^2$ inner product, i.e.,</p>
+<p>$$ \int_a^b |w(x)P_j(x)P_k(x) dx = \langle P_j, P_k \rangle = 0 $$</p>
+<p>for all $j\ne k$. If we normalise so that $\langle P_j, P_j \rangle = 1$, the polynomials are <em>orthonormal</em>.</p>
+<p>Chebfun has commands built-in for some of the standard orthogonal polynomials. Here is a table of the polynomial, the weight function, the standard domain $[a,b]$, and the Chebfun routine name.</p>
+<pre class="mcode">    Name       |       w(x)     |   domain   | Chebfun routine
+-------------------------------------------------------------------
+   Legendre    |        1       |   [-1 1]   | legpoly(N)
+Chebyshev(1st) |  1/sqrt(1-x^2) |   [-1 1]   | chebpoly(N)
+Chebyshev(2nd) |   sqrt(1-x^2)  |   [-1 1]   | chebpoly(N,2)
+   Laguerre    |     exp(-x)    |   [0 inf]  | lagpoly(N)
+   Hermite     |    exp(-x^2)   | [-inf inf] | hermpoly(N)</pre>
+
+<p>For each of these examples, there are readily derived recurrence relations which allow fast computation of the polynomials, and Chebfun exploits these. However, sometimes we wish to construct orthogonal polynomials with non-standard weight functions, and orthogonalisation via the Gram-Schmidt process is one method of doing so.</p>
+<p>The process (sometimes referred to as the <em>Stieltjes process</em>) iteratively constructs the next degree polynomial by removing the components in the directions of the previous ones. The formula is</p>
+<p>$$ P_{k+1} = x^{k+1}-\sum\langle x^{k+1},P_j\rangle/\langle
+P_j,P_j \rangle P_j. $$</p>
+<p>In practice one usually replaces $x^{k+1}$ by $x P_k(x)$ or the Chebyshev polynomial $T_{k+1}(x)$ to improve stability.</p>
+<p>The short code below demonstrates these ideas by computing the first $5$ orthonormal polynomials with respect to the weight function $w = e^{\pi x}$.</p>
+<pre class="mcode-input">x = chebfun('x',[-1 1]);
+w = exp(pi*x);
+N = 5;
+P = OrthPoly(w,N);
+
+    function P = OrthPoly(w,N)
+        if isnumeric(w), w = chebfun(w,[-1 1]); end
+        d = w.ends;                     % the domain
+        x = chebfun('x',d);             % linear chebfun
+        P = chebfun(1./sqrt(sum(w)),d); % the constant (normalised)
+        for k = 1:N;
+            xk = x.*P(:,k);
+            P(:,k+1) = xk;
+            for j = 1:k       % Subtract out the components
+                C = sum(w.*xk.*P(:,j));
+                P(:,k+1) = P(:,k+1) - C*P(:,j);
+            end
+            P(:,k+1) = P(:,k+1)./sqrt(sum(w.*P(:,k+1).^2)); % normalise
+        end
+    end</pre>
+
+<p>We can now plot these polynomials</p>
+<pre class="mcode-input">LW = 'linewidth'; lw = 1.6; FS = 'fontsize';
+plot(P,LW,lw)
+title('Orthogonal polynomials on [-1,1] wrt w = exp(pi*x)',FS,12);</pre>
+
+<p><img src="img/OrthPolys_01.png" class="figure" alt=""></p>
+<p>and confirm that they are orthogonal</p>
+<pre class="mcode-input">W = repmat(w,1,N+1);
+I = P'*(W.*P);
+err = norm(I-eye(N+1))</pre>
+
+<pre class="mcode-output">err =
+     1.520312090534704e-13
+</pre>
+
+<p>One useful application of orthogonal polynomials is to find best polynomial approximations in weighted weighted $L^2$ inner-product space associated with $w(x)$, with</p>
+<p>$$  P^*_n = \sum \langle f, P_j \rangle P_j . $$</p>
+<p>Here we do this with $w$ as above and approximate $f(x) = |x|$.</p>
+<pre class="mcode-input">f = abs(x);
+alpha = zeros(N+1,1);
+for k = 0:N
+    alpha(k+1) = sum(w.*P(:,k+1).*f);
+end
+P_star = P*alpha;
+
+plot(f,'b',P_star,'--r',LW,lw)
+title('Least-squares approximation to |x| wrt w = exp(pi*x)',FS,12);</pre>
+
+<p><img src="img/OrthPolys_02.png" class="figure" alt=""></p>
+<p>Notice that the approximation is much closer for larger $x$, as $w(x) = \exp(\pi x)$ gives more weight to the error introduced there.</p>
+<pre class="mcode-input">end</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

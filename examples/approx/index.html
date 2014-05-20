@@ -17,20 +17,15 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-<!-- ********* BEGIN GOOGLE ANALYTICS *********** -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-4297200-9");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-<!-- ********* END GOOGLE ANALYTICS *********** -->  </head>
-
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
   <body>
-
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -40,79 +35,64 @@ pageTracker._trackPageview();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <!-- <a class="navbar-brand" href="/">Chebfun</a> -->
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
-
-          <!--<ul class="nav navbar-nav navbar-left"></ul>-->
-
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/about/">About</a></li>
-            <li><a href="/download/">Download</a></li>
-            <li><a href="/docs/">Documentation</a></li>
-            <li class="active"><a href="/examples/">Examples</a></li>
-            <li><a href="/develop/">Develop</a></li>
-            <li><a href="/citing/">Citing</a></li>
-            <li><a href="/support/">Support</a></li>
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
           </ul>
-
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
-
 <div class='jumbotron page-header'>
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
- 
                 <h1>Approximation</h1>
             </div>
         </div>
     </div>
 </div>
-
 <div class="container">
     <div class="row">
         <div class="col-md-12" role="main">
             <ol class='orangenumbers'>
-                <h4><li><a href="/examples/approx/GreedyInterp.html">A greedy algorithm for choosing interpolation points</a></li></h4>
-                <!-- <p></p> -->
                 <h4><li><a href="/examples/approx/AbsoluteValue.html">Absolute value approximations by rationals</a></li></h4>
-                <!-- <p></p> -->
-                <h4><li><a href="/examples/approx/OscError.html">Approximations and oscillation of error</a></li></h4>
-                <!-- <p></p> -->
-                <h4><li><a href="/examples/approx/BSplineConv.html">B-splines and convolution</a></li></h4>
-                <!-- <p></p> -->
                 <h4><li><a href="/examples/approx/BernsteinPolys.html">Bernstein polynomials</a></li></h4>
-                <!-- <p></p> -->
                 <h4><li><a href="/examples/approx/BestApprox.html">Best approximation with the REMEZ command</a></li></h4>
-                <!-- <p></p> -->
-                <h4><li><a href="/examples/approx/Entire.html">Chebyshev interpolation of oscillatory entire functions</a></li></h4>
-                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/BSplineConv.html">B-splines and convolution</a></li></h4>
                 <h4><li><a href="/examples/approx/ChebPolysHigham.html">Chebyshev polynomials as plotted by Higham and Higham</a></li></h4>
-                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/Entire.html">Chebyshev interpolation of oscillatory entire functions</a></li></h4>
                 <h4><li><a href="/examples/approx/ExactChebCoeffs.html">Exact Chebyshev expansion coefficients of a function</a></li></h4>
-                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/FiltersCF.html">Digital Filters via CF Approximation</a></li></h4>
+                <h4><li><a href="/examples/approx/GreedyInterp.html">A greedy algorithm for choosing interpolation points</a></li></h4>
                 <h4><li><a href="/examples/approx/Halphen.html">Halphen's constant for approximation of exp(x)</a></li></h4>
-                <!-- <p></p> -->
                 <h4><li><a href="/examples/approx/LebesgueConst.html">Lebesgue functions and Lebesgue constants</a></li></h4>
-                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/OrthPolys.html">Orthogonal polynomials via the Gram-Schmidt process</a></li></h4>
+                <h4><li><a href="/examples/approx/OscError.html">Approximations and oscillation of error</a></li></h4>
+                <h4><li><a href="/examples/approx/PrettyFunctions.html">Pretty functions approximated by Chebfun2</a></li></h4>
                 <h4><li><a href="/examples/approx/RationalInterp.html">Rational interpolation, robust and non-robust</a></li></h4>
-                <!-- <p></p> -->
+                <h4><li><a href="/examples/approx/ScalingAndSquaring.html">Rational approximation to the exponential in a complex region</a></li></h4>
+                <h4><li><a href="/examples/approx/WigglyApprox.html">A wiggly function and its best approximations</a></li></h4>
             </ol>
         </div>
     </div>
 </div>
-
-
     <div class="footer">
-        <div style="margin: 5px">
-        </div>
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
-
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
@@ -122,6 +102,5 @@ pageTracker._trackPageview();
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
-
   </body>
 </html>

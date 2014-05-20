@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>1D subdivision and the average degree reduction &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>1D subdivision and the average degree reduction</h1>
+                <h2>Alex Townsend, 21st August 2013</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">function AverageDegreeReduction1D</pre>
+
+<h3 id="1d-subdivision">1D subdivision</h3>
+<p>Generally, Chebfun approximates globally smooth functions $f(x)$ by global polynomial interpolants [1]. However, in the <code>roots</code> command, if the degree of a chebfun is over $49$, the algorithm recursively subdivides, effectively representing $f(x)$ by a piecewise smooth polynomial before finding its roots [1,2]. For example, if one subdivision is required, instead of solving $f(x) = 0$ on $[-1,1]$, the algorithm solves $f_{left}(x) = 0$ on $[-1,r]$ and $f_{right}(x)=0$ on $[r,1]$, where $r$ is an arbitrary small constant. Furthermore, it continues to subdivide $f$ on smaller domains until it is of degree $49$ or less on each subinterval. The expectation is that if $f$ is of degree $n$, then $f_{left}$ and $f_{right}$ are of lower degree than $n$, but this is not always the case.</p>
+<h3 id="the-average-degree-reduction-in-1d">The average degree reduction in 1D</h3>
+<p>Let $\tau$ be a parameter that measures the average degree reduction of $f(x)$. That is, if $f(x)$ is of degree $n$, then $f_{left}$ and $f_{right}$ are of degree about $\tau n$. The parameter $\tau$ can be simply taken as $1/2$ as done in [3], but this is a simplification. We approximate $\tau$ by subdividing and calculating the degree reduction.  The function we use to estimate $\tau$ is <code>compute_tau</code> (see below).</p>
+<h3 id="oscillatory-functions">Oscillatory functions</h3>
+<p>For oscillatory functions the numerical degree of a chebfun closely follows Nyquist's rule, i.e., resolution requires on average $\pi$ points per wavelength when using Chebyshev points. When the interval is halved, the number of oscillations is halved and hence, the number of points to resolve the functions on each subinterval is also halved. Therefore, we expect $\tau$ to be approximately $1/2$. For example,</p>
+<pre class="mcode-input">M = 5e2;
+f = @(x) sin(M*x);
+compute_tau(f, 2^3)</pre>
+
+<pre class="mcode-output">tau = 0.56216</pre>
+
+<p>Here is a diagram that shows the various degrees of the piecewise polynomial after the first three subdivisions.</p>
+<pre class="mcode-input">subdivisionDiagram(f,3)</pre>
+
+<p><img src="img/AverageDegreeReduction1D_01.png" class="figure" alt=""></p>
+<p>As $M\to\infty$, the function becomes more oscillatory and $\tau\to 1/2$.</p>
+<h3 id="locally-nonsmooth-functions">Locally nonsmooth functions</h3>
+<p>Functions that are locally nonsmooth at a point on the interval but are smooth everywhere else can have an average degree reduction significantly less than $1/2$. This is especially true if the subdivision almost exactly isolates the difficult point.  For instance,</p>
+<pre class="mcode-input">f = @(x) abs(x).^3;
+compute_tau(f, 2)
+subdivisionDiagram(f,1)</pre>
+
+<pre class="mcode-output">tau = 0.00093</pre>
+
+<p><img src="img/AverageDegreeReduction1D_02.png" class="figure" alt=""></p>
+<p>In this example the degree reduction after one subdivision makes $\tau\ll 1$. However, the subdivision within Chebfun subdivides $[-1,1]$ in $[-1,r]$ and $[r,1]$, where $r$ is an arbitrary constant so such small values for $\tau$ are rarely realised.</p>
+<p>If the subdivision does not divide exactly on the point of discontinuity, then $\tau$ is just something less than $1/2$.</p>
+<pre class="mcode-input">f = @(x) abs(x-.01).^7;
+compute_tau(f, 2^3)</pre>
+
+<pre class="mcode-output">tau = 0.34032</pre>
+
+<h3 id="analytic-functions">Analytic functions</h3>
+<p>For functions that are analytic on the real line with simple poles in the complex plane, Elliott's method [1] can be used to understand $\tau$. For example, consider the function $1/(x-1.0001)$.</p>
+<pre class="mcode-input">f = @(x) 1./(x-1.0001);
+compute_tau(f, 8)
+subdivisionDiagram(f,3)</pre>
+
+<pre class="mcode-output">tau = 0.37094</pre>
+
+<p><img src="img/AverageDegreeReduction1D_03.png" class="figure" alt=""></p>
+<p>This function is meromorphic in the complex $x$-plane with a simple pole at $x=1.0001$, and for these types of functions the Chebyshev coefficient are explicitly known (see [4,5]). In this case it can be shown that the numerical degrees of $f$ on the subinterval $[a,1]$, for $a = -1,0,1/2,1/4$, are the following integers:</p>
+<pre class="mcode-input">for lvl = 1:4
+   c = 1.0001;      % location of pole
+   a = 1-2.^(-lvl+1); b = 1;   % interval
+   A = -(-2*c+b+a)/(b-a);      % Elliott's formula
+   m(lvl) = ceil(log(-4*(a-c)*eps^(-1)/(b-a)/sqrt(A^2-1))...
+                       ./log(A+sqrt(A.^2-1)));
+end
+m = m'</pre>
+
+<pre class="mcode-output">m =
+        2068
+        1450
+        1017
+         713
+</pre>
+
+<p>The reason the numerical degrees found by Elliott's formula do not exactly match those found by Chebfun is that the Chebfun constructor has a varying tolerance, and the tail of the coefficients is not always truncated at the same level.</p>
+<h3 id="a-globally-difficult-function">A globally difficult function</h3>
+<p>Some functions have values of $\tau$ larger than $1/2$, at least for the first few subdivisions. These functions tend to be difficult at many points on the interval. For example,</p>
+<pre class="mcode-input">f = chebfun(@(x) abs(prod(x-linspace(-1,1,10)).^3),'vectorise');
+compute_tau(f, 2)</pre>
+
+<pre class="mcode-output">tau = 0.70778</pre>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>The average degree reduction parameter $\tau$ can take almost any value between $0$ and $1$. For functions that are equally difficult throughout the whole interval, $\tau$ is close to $1/2$. For functions that are difficult, local $\tau$ is often small. Therefore, one would expect that Chebfun's rootfinding algorithm would be more efficient at finding the roots of functions that have a small $\tau$.  However, this is not the case, as the following two examples (of roughly the same size) show:</p>
+<pre class="mcode-input">M = 2000;
+f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
+tic, roots(f); toc</pre>
+
+<pre class="mcode-output">Elapsed time is 0.409793 seconds.
+</pre>
+
+<pre class="mcode-input">c = -1.0001;
+f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
+tic, roots(f); toc</pre>
+
+<pre class="mcode-output">Elapsed time is 1.148595 seconds.
+</pre>
+
+<p>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.</p>
+<pre class="mcode-input">end
+
+function compute_tau(f, N)
+% COMPUTE_TAU estimate the average degree reduction parameter
+    d = [-1 1]; len = length(chebfun(f,d));
+    newends = d(1) + (0:N)./N*(d(2)-d(1));
+    newlen = length(chebfun(f, newends))/N;
+    tau = (newlen/len).^(1/log2(N));
+    fprintf('tau = %1.5f',tau)
+end
+
+function subdivisionDiagram(f, levels)
+% SUBDIVISIONDIAGRAM draw a diagram to show subdivision and polynomial
+% degrees.
+g = chebfun(f);
+LW = 'linewidth'; lw = 2;
+for lvl = 0:levels
+    plot([-1 1],[lvl lvl],LW,lw), hold on,
+    xx = linspace(-1,1,2^lvl+1);
+    newg = chebfun(f, xx); j = 1;
+    for x = xx(1:end-1)
+        plot([x x],[-.1 .1]+lvl,LW,lw)
+        funs = newg.funs;
+        text(x+2.^(-lvl)-.09,lvl+.1,sprintf('N = %u',length(funs{j})-1));
+        j = j + 1;
+    end
+    plot([xx(end) xx(end)],[-.1 .1]+lvl,LW,lw)
+end
+set(gca,'ytick',[])
+set(gca,'yticklabel',[])
+hold off
+end</pre>
+
+<h3 id="references">References</h3>
+<p>[1] Z. Battels and L. N. Trefethen, An extension of MATLAB to continuous functions and operators, <em>SIAM Journal on Scientific Computing</em>, 25 (2004), pp.1743-1770.</p>
+<p>[2] J. P. Boyd, Computing zeros on a real interval through Chebyshev expansion and polynomial rootfinding, <em>SIAM Journal on Numerical Analysis</em>, 40 (2002), pp. 1666-1682.</p>
+<p>[3] J. P. Boyd, Finding the zeros of a univariate equation: Proxy rootfinders, Chebyshev interpolation, and the companion matrix, <em>SIAM Review</em>, 55 (2013), pp. 375-396.</p>
+<p>[4] D. Elliott, The evaluation and estimation of the coefficients in the Chebyshev series expansion of a function, <em>Mathematics of Computation</em>, 18 (1964), pp. 274-284.</p>
+<p>[5] M. Richardson, Exact Chebyshev expansion coefficients of a function, Chebfun Example, June 2012.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

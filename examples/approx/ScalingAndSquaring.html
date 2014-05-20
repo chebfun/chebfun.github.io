@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rational approximation to the exponential in a complex region &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Rational approximation to the exponential in a complex region</h1>
+                <h2>Yuji Nakatsukasa and Stefan Guettel, 23rd July 2012</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>Approximation of the exponential function has many applications, some of which are described in other Chebfun examples. Here we consider approximating $e^z$ via a rational function in a region in the complex plane, in the context of computing the matrix exponential $e^A$ via the scaling and squaring method, the most commonly used method for this purpose, cf. chapter 10 of [2]. Constructions of rational approximations to $e^z$ on a real interval are described in [3].</p>
+<p>In brief, the scaling and squaring method is based on a type $(2^sm,2^sm)$ rational approximation to the exponential in a region in the complex plane that contains the eigenvalues of $A$, where $s$ and $m$ are suitably chosen integer parameters. It first computes $e^A$ by first choosing an integer $s$ such that $A/2^s$ has norm of order $1$, then taking a rational (normally type $(m,m)$ Pade) approximation $r(z)$ to $e^z$ where $m$ is chosen so that $e^{A/2^s}\approx r(A/2^s)$.  Then we compute $e^A\approx (r(A/2^s))^{2^s}$ via repeated squaring of the matrix.</p>
+<p>(Note that the letter e in the name Pade should have an accent aigu, but we dispense with this in a Chebfun Example to avoid trouble in some web browsers.)</p>
+<p>Suppose $A$ is diagonalizable and $A=X\mbox{diag}(\lambda_i)X^{-1}$. Then this method approximates</p>
+<p>$$ e^A=X\mbox{diag}(e^{\lambda_i})X^{-1} $$</p>
+<p>by</p>
+<p>$$ Y:=X\mbox{diag}((r(\lambda_i/2^s))^{2^s})X^{-1}\approx e^A, $$</p>
+<p>and the error satisfies</p>
+<p>$$ \|e^A- Y\|<em _cal_D="{\cal
+D" z_in="z\in">2 \leq \kappa_2(X)\max</em>}\left|(r(z/2^s))^{2^s}-e^{z}\right|, $$</p>
+<p>where $\cal{D}$ is a region in the complex plane that contains the eigenvalues of $A$, and $\kappa_2(X)=\|X\|_2 \|X^{-1}\|_2$ is the 2-norm condition number of the eigenvectors.  The term $\max_i\left|(r(\lambda_i/2^s))^{2^s}-e^{\lambda_i}\right|$ represents the exact error if $A$ is a normal matrix: the term $\kappa_2(X)$ can have nontrivial effects on the method for nonnormal $A$, but this is outside the scope of this example.  Below we investigate the error $\left|(r(z/2^s))^{2^s}-e^{z}\right|$ where $z$ takes points in the complex plane.  If this is small in the whole region $\cal D$, then $Y$ is a good approximation to $e^A$.</p>
+<p>The type $(k,m)$ Pade approximant of the exponential is explicitly known to be $r(z)=p_{k,m}(z)/q_{k,m}(z)$, where</p>
+<p>$$ p_{k,m}(z)=\sum_{j=0}^{k}\frac{(k+m-j)!k!}{(k+m)!(k-j)!}\frac{z^j}{j!},
+\quad
+q_{k,m}(z)=\sum_{j=0}^{m}\frac{(k+m-j)!m!}{(k+m)!(m-j)!}\frac{(-z)^j}{j!}. $$</p>
+<p>Alternatively (and in particular for general functions for which Pade approximants are not explicitly known), Pade approximants can be obtained simply and robustly via the Chebfun command <code>padeapprox</code>, see [1].</p>
+<p>Here is a contour plot of the logarithm of $\max_{z\in {\cal D}}\left|(r(z/2^s))^{2^s}-e^{z}\right|$ for the case $s=2$ and $m=8$:</p>
+<pre class="mcode-input">s = 2; m = 8;
+f = [1 , 1./cumprod(1:50)]; % or f = @(z)exp(z);
+[r,a,b] = padeapprox(f,m,m,0);
+xgrid = linspace(-100,100,140);
+[x,y] = meshgrid(xgrid,xgrid);
+z = x + 1i*y;
+contourf(x,y,log10(abs(exp(z) - r(z/(2^s)).^(2^s))+eps),[-16:2:0])
+colorbar</pre>
+
+<p><img src="img/ScalingAndSquaring_01.png" class="figure" alt=""></p>
+<p>Since we are using a Pade approximation centered at the origin, the error is zero at the origin and is expected to grow with $|z|$. However, notice that the plot is highly nonsymmetric about the imaginary axis: the error is large for large $\mbox{Re}(z)&gt;0$ and small for $\mbox{Re}(z)&lt;0$.  In particular, the region in which the error is $O(10^{-14})$ stretches much farther into the left complex plane than the right, reaching $\mbox{Re}(z)\approx -65$. This is perhaps not surprising because $e^z$ (literally) grows exponentially with $\mbox{Re}(z)$, so for $\mbox{Re}(z)\ll 0$ we have $|e^z|=e^{\mbox{Re}(z)}\approx 0$ and the error is essentially just $\left|(r(z/2^s))^{2^s}\right|$, which is itself small for moderately large $s$ provided that $|(r(z/2^s))| &lt; 1$.</p>
+<p>The relative error $\frac{1}{|e^{z}|}\left|(r(z/2^s))^{2^s}-e^{z}\right|$, on the other hand, looks completely different:</p>
+<pre class="mcode-input">contourf(x,y,log10(abs(exp(z) - r(z/(2^s)).^(2^s))./abs(exp(z))),[-16:2:16])
+colorbar</pre>
+
+<p><img src="img/ScalingAndSquaring_02.png" class="figure" alt=""></p>
+<p>The graph shows that $(r(z/2^s))^{2^s}$ has no digits of relative accuracy except in the blue region.</p>
+<p>The two plots illustrate for example that around the point $z = -50$, the relative accuracy is terrible but the absolute accuracy is of order unit roundoff.  Hence $(r(z/2^s))^{2^s}$ is a good approximant near $z=-50$ if we are concerned with absolute accuracy instead of relative accuracy.</p>
+<p>In the context of the matrix exponential, the forward error is measured by the quantity $\|e^A- Y\|_2/\|e^A\|_2$, which for normal $A$ reduces to</p>
+<p>$$\max_i\left|(r(\lambda_i/2^s))^{2^s}-e^{\lambda_i}\right|/e^{\max_i{\mbox{Re}(\lambda_i)}}\leq
+\max_{z\in {\cal
+    D}}\left|(r(z/2^s))^{2^s}-e^{z}\right|/e^{\max_i{\mbox{Re}(\lambda_i)}}.$$</p>
+<p>Since the denominator is constant (when $z$ varies in $\cal D$), this means the absolute error is indeed the appropriate metric of error in the $e^A$ context.  The implication is that $e^A$ is well-approximated by $Y$ if the eigenvalues of $A$ lie inside the dark-blue region in the first plot.</p>
+<p>References:</p>
+<p>[1] P. Gonnet, S. Guettel, and L. N. Trefethen: Robust Pade approximation via SVD. <em>SIAM Review</em>, 55 (2013), 101-117.</p>
+<p>[2] N. J. Higham. <em>Functions of Matrices: Theory and Computation</em>. SIAM, Philadelphia, 2008.</p>
+<p>[3] L. N. Trefethen, J. A. C. Weideman, and T. Schmelzer: Talbot quadratures and rational approximations. <em>BIT Numerical Mathematics</em>, 46 (2006), pp. 653-670.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

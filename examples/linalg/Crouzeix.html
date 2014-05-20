@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Crouzeix's conjecture &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Crouzeix's conjecture</h1>
+                <h2>Nick Trefethen and Michael Overton, 16th October 2013</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">function Crouzeix</pre>
+
+<p>Crouzeix's conjecture is a fascinating open problem in matrix theory, which bounds the size of a function of a matrix, $p(A)$.  See [1].</p>
+<p>Let $p$ be an analytic function, and in fact, it is enough to suppose $p$ is a polynomial.  Let $A$ be a square matrix, and let $\|\cdot\|$ be the 2-norm on matrices.  Crouzeix's conjecture is the inequality $$ \|p(A)\| \le 2 \|p\|<em W_A_="W(A)">{W(A)} $$ where $\|p(A)\|</em>$ denotes the maximum of $|p(z)|$ where $z$ ranges over the <em>field of values</em> (or <em>numerical range</em>) of $A$.  $W(A)$ is defined as the set of Rayleigh quotients associated with $A$, and there is a Chebfun command <code>fov</code> to compute it.  This is a nonempty, bounded, convex set in the complex plane that contains the eigenvalues of $A$.  For more about $W(A)$, see the Chebfun Example linalg/FieldOfValues.</p>
+<p>Intriguingly, the inequality of Crouzeix's conjecture has been established with a weaker constant [2]: $$ \|p(A)\| \le 11.08 \|p\|_{W(A)}. $$ Thus the challenge is to improve $11.08$ to $2$.  This is the best possible constant, as we shall see in a moment.</p>
+<p>It is known that Crouzeix's inequality holds in all kinds of special cases, including if $A$ has dimension $2$, if $A^2=0$, if $A^3=0$ and $d=3$ (Crouzeix 2012), if $W(A)$ is a disk (Badea 2004 based on work of von Neumann 1951 and Okubo and Ando 1975), if $p(z)=z^n$ (Berger 1965) and 1967, Pearcy 1966). or if $A$ is normal (in which case the constant $2$ can be improved to $1$ and the inequality is an equality). The case of matrices of dimension $3$ is open but has been explored so thoroughly numerically that if Crouzeix's conjecture is false, it is highly likely that the first counterexample is of dimension $4$ or higher.</p>
+<p>Given a matrix $A$ and a polynomial $p$, let $c(A,p)$ be the ''Crouzeix ratio'' $\|p(A)\|/\|p\|_{W(A)}$.  We can compute this in a single line of Chebfun!</p>
+<pre class="mcode-input">c = @(A,a) norm(polyvalm(a, A)) / norm(polyvalc(a, fov(A)), inf);</pre>
+
+<p>Here $a$ is a vector of coefficients of $p$, ordered from highest to lowest degree in Matlab's usual fashion, and polyvalc is a function that evaluates a polynomial of a chebfun. (We should probably replace this with an overload of polyval for chebfuns.)</p>
+<pre class="mcode-input">function pf = polyvalc(a,f)  % evaluate polynomial of chebfun f
+    pf = a(end)*f.^0;
+    for k = 1:length(a)-1
+        pf = pf + a(end-k)*f.^k;
+    end
+end</pre>
+
+<p>For example, here is an example that shows that the constant 2 is best possible, namely $p(A) = A$ where $A$ is a Jordan block of dimension 2:</p>
+<pre class="mcode-input">A = [0 1 ; 0 0];
+a = [1 0];
+c(A,a)</pre>
+
+<pre class="mcode-output">ans =
+   1.999999999999997
+</pre>
+
+<p>Here is a random matrix of dimension 20 with a random polynomial of degree 4:</p>
+<pre class="mcode-input">rng('default'), A = randn(20)/sqrt(20);
+a = randn(5, 1);
+c(A,a)</pre>
+
+<pre class="mcode-output">ans =
+   1.191767399740754
+</pre>
+
+<p>Here is the same polynomial with the matrix B defined as a diagonal matrix, hence normal, with the same eigenvalues as A. In this case the Crouzeix ratio must be 1.</p>
+<pre class="mcode-input">B = diag(eig(A));
+c(B,a)</pre>
+
+<pre class="mcode-output">ans =
+   1.000000000000000
+</pre>
+
+<p>We have done experiments with an optimization code to try to find counterexamples to Crouzeix conjecture for matrices of various dimensions, and so far, we have found no counterexamples.</p>
+<p>References:</p>
+<p>[1] M. Crouzeix, Bounds for analytical functions of matrices, <em>Integral Equations and Operator Theory</em>, 48 (2004), 461-477.</p>
+<p>[2] M. Crouzeix, Numerical range and functional calculus in Hilbert space, <em>Journal of Functional Analysis</em>, 244 (2007), 668-690.</p>
+<pre class="mcode-input">end</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

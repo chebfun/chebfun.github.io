@@ -71,6 +71,8 @@ set(0, 'defaultpatchlinewidth', 1.5);
 set(0, 'defaultlinemarkersize', 15); 
 format compact
 format long
+warning('off', 'MATLAB:gui:latexsup:UnableToInterpretLaTeXString');
+warning('off', 'MATLAB:gui:latexsup:UnsupportedFont');
 
 publish(varargin{:});
 close all
