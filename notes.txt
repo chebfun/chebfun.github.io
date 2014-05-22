@@ -2,6 +2,8 @@
 python _urubu/__main__.py build
 python _urubu/__main__.py serve &
 
+find . -name "*.md" -type f -delete
+
 /Applications/MATLAB_R2013a.app/toolbox/matlab/codetools/private/mxdom2simplehtml.xsl
 
 inside bootswatch folder, do
@@ -25,9 +27,17 @@ TO DO:
     - css cleanup
     - reflinks everywhere
     - add content
-        - update faq
+        - add videos page (in docs?)
+        - add sponsors to about page:
+            EPSRC, ERC, MathWorks, and OCCAM
+        - update faq, including collapsibleness and style
         - update history
         - update support -- only one help@chebfun.org
+          ask for feedback!!!
         - update develop, citing -> publications, etc, etc.
         - add more simple examples on the homepage
+        - add prominent 'download' link on homepage
         - fix the white-on-black issue from LNT
+        - maybe include the class diagram:
+          http://www.gliffy.com/go/publish/image/4249553/L.png
+    - 404 error should be a SCRIBBLE rendering
