@@ -1,0 +1,41 @@
+---
+title: "A keyhole contour integral"
+layout: example
+authordate: "Nick Trefethen and Nick Hale, October 2010"
+meta: "(Chebfun example complex/KeyholeContour.m) [Tags: #complex, #contour]"
+---
+
+Chebfun is able to represent complex functions of a real variable, which lends itself very well to computing paths and path integrals in the complex plane. In this brief example we demonstrate this by integrating the function
+
+<pre class="mcode-input">f = @(x) log(x).*tanh(x);</pre>around a 'keyhole' contour which avoids the branch cut on the negative real axis.
+
+We'll first define our keyhole. Let r, R, and e be the inner and outer radii and the width of the key respectively:
+
+<pre class="mcode-input">r = 0.2;   R = 2;   e = 0.1;</pre>Construct the contour:
+
+<pre class="mcode-input">s = chebfun('s',[0 1]);                 % dummy variable
+c = [-R+e*1i -r+e*1i -r-e*1i -R-e*1i];
+z = join( c(1) + s*(c(2)-c(1)), ...     % top of the keyhole
+          c(2)*c(3).^s ./ c(2).^s, ...  % inner circle
+          c(3) + s*(c(4)-c(3)), ...     % bottom of the keyhole
+          c(4)*c(1).^s ./ c(4).^s);     % outer circle</pre>Plot the contour and the branch cut of the function f:
+
+<pre class="mcode-input">LW = 'LineWidth'; lw = 1.2; FS = 'FontSize'; fs = 14;
+plot(z,LW,lw), axis equal, title('A keyhole contour in the complex plane',FS,fs);
+hold on, plot([-2.6 0],[0 0],'-r',LW,lw); hold off, xlim([-2.6 2.6])</pre><img src="img/KeyholeContour_01.png" class="figure" alt="">
+
+Now to integrate around the contour, one parametrises by a real variable, say t (which here is done implicitly by the Chebfun representation), and integrates the function f(z(t))*z'(t) with respect to  t.
+
+In Chebfun, this is easy:
+
+<pre class="mcode-input">I = sum(f(z).*diff(z))</pre><pre class="mcode-output">I =
+  0.000000000000001 + 5.674755637702225i
+</pre>For the function we chose above, one can compute this integral exactly.
+
+<pre class="mcode-input">Iexact = 4i*pi*log(pi/2)</pre><pre class="mcode-output">Iexact =
+  0.000000000000000 + 5.674755637702224i
+</pre>How does this compare with our computation?
+
+<pre class="mcode-input">error = abs(I - Iexact)</pre><pre class="mcode-output">error =
+     1.322683703616010e-15
+</pre>
