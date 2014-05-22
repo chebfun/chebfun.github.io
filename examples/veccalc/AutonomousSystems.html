@@ -84,7 +84,7 @@ end
 quiver(F,'b'), hold on, FS = 'fontsize';
 title('The simple harmonic oscillator',FS,14), hold off</pre>
 
-<p><img src="img/AutonomousSystems_01.png" alt=""></p>
+<p><img src="img/AutonomousSystems_01.png" class="figure" alt=""></p>
 <p>The chebfun2v <code>F</code> is a vector field, and the overloaded <code>ode45</code> command is used to compute its trajectories. Each trajectory is represented by a complex valued chebfun <code>y</code> parameterised by the real time variable $t$.</p>
 <h3 id="nonlinear-pendulum">Nonlinear pendulum</h3>
 <p>Here is another familiar phase plane with slightly more interesting trajectories:</p>
@@ -97,7 +97,7 @@ end
 quiver(F,'b'), axis equal                 % vector field
 title('The eye of a nonlinear pendulum',FS,14), hold off</pre>
 
-<p><img src="img/AutonomousSystems_02.png" alt=""></p>
+<p><img src="img/AutonomousSystems_02.png" class="figure" alt=""></p>
 <h3 id="duffing-oscillator">Duffing oscillator</h3>
 <p>The Duffing oscillator is a nonlinear second order differential equation that models a damped oscillator. It has three critical points, two stable and one unstable.  Here is the phase portrait with a carefully selected trajectory:</p>
 <pre class="mcode-input">d = 0.04; a=1; b=-.75;
@@ -107,7 +107,7 @@ plot(y,'r'), hold on
 quiver(F,'b'), axis equal
 title('The Duffing oscillator',FS,14)</pre>
 
-<p><img src="img/AutonomousSystems_03.png" alt=""></p>
+<p><img src="img/AutonomousSystems_03.png" class="figure" alt=""></p>
 <p>The critical points can be located using the <code>roots</code> command:</p>
 <pre class="mcode-input">r = roots(F)       % Find critical points and display them.
 plot(r(:,1),r(:,2),'k.','markersize',25)</pre>
@@ -118,7 +118,7 @@ plot(r(:,1),r(:,2),'k.','markersize',25)</pre>
    0.866025403784438   0.000000000000000
 </pre>
 
-<p><img src="img/AutonomousSystems_04.png" alt=""></p>
+<p><img src="img/AutonomousSystems_04.png" class="figure" alt=""></p>
 <h3 id="more-information">More information</h3>
 <p>Some of the code found in this Example can also be found in [1] along with additional information about autonomous systems in Chebfun2.</p>
 <h3 id="references">References</h3>

@@ -24,7 +24,7 @@ plot(xx, yy, 'k.', MS, 18), text(-.07,0,'?','FontSize',60)
 text(.93,-.5,'1',FS,12), text(1,.43,'2',FS,12),
 text(-.93,.5,'3',FS,12), text(-1,-.43,'4',FS,12)
 axis tight equal off
-title('The "Four bugs on a rectangle" problem', FS, 14)</pre><img src="img/FourBugs_01.png" alt="">
+title('The "Four bugs on a rectangle" problem', FS, 14)</pre><img src="img/FourBugs_01.png" class="figure" alt="">
 
 
 
@@ -77,7 +77,7 @@ bugs(:,3) = -bugs(:,1);  bugs(:,4) = -bugs(:,2);  bugs(:,5) = bugs(:,1);</pre>He
 <pre class="mcode-input">figure(2)
 plot(bugs, LW, 2), hold on
 plot(xx, yy, 'k.', MS, 18), axis equal off
-title('The dance of four bugs on a rectangle', FS, 14)</pre><img src="img/FourBugs_02.png" alt="">
+title('The dance of four bugs on a rectangle', FS, 14)</pre><img src="img/FourBugs_02.png" class="figure" alt="">
 
 As explained above, the bugs always form a parallelogram as they converge. What is less obvious is how the parallelogram transforms as the bugs near the origin. Here are some level sets of the bugs' approach.
 
@@ -86,7 +86,7 @@ for t = linspace(-1.5, -.01, 7),
     plot(bugs(t,:), 'k.-', MS, 18)
 end
 ylim([-.55 .55])
-title('The dance of four bugs on a rectangle, with level sets', FS, 14)</pre><img src="img/FourBugs_03.png" alt="">
+title('The dance of four bugs on a rectangle, with level sets', FS, 14)</pre><img src="img/FourBugs_03.png" class="figure" alt="">
 
 We can verify in Chebfun that the perimeter of the bugs' parallelogram decreases at the constant rate 4.
 
@@ -98,7 +98,7 @@ subplot(2,1,1)
 subplot(2,1,2)
     plot(2*diff(ell1 + ell2), 'k-', LW, 2)
     ylim([-7 0])
-    title('Rate of change of parallelogram perimeter', FS, 14)</pre><img src="img/FourBugs_04.png" alt="">
+    title('Rate of change of parallelogram perimeter', FS, 14)</pre><img src="img/FourBugs_04.png" class="figure" alt="">
 
 
 
@@ -147,7 +147,7 @@ subplot(2,2,4), hold on
     plot(bugs, 'interval', [-1.5 tt(4)], LW, 2)
     plot(bugs(tt(4),:), 'k.-', MS, 18)
     axis equal, zoom(52), axis off
-    title(['rhombus, t = ' num2str(tt(4),10)], FS, 12)</pre><img src="img/FourBugs_05.png" alt="">
+    title(['rhombus, t = ' num2str(tt(4),10)], FS, 12)</pre><img src="img/FourBugs_05.png" class="figure" alt="">
 
 References:
 

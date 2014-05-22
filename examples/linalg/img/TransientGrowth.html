@@ -35,21 +35,21 @@ A = [-1 0 0 0 0 0 -625; 0 -1 -30 400 0 0 250; -2 0 -1 0 0 0 30;
 LW = 'linewidth'; FS = 'fontsize'; plot(e,'b',LW,2)
 xlabel('t',FS,14), ylabel('||e^{tA}||',FS,14)
 title('amplitude',FS,16)</pre><pre class="mcode-output">Warning: Function not resolved using 6086 pts. 
-</pre><img src="img/TransientGrowth_01.png" alt="">
+</pre><img src="img/TransientGrowth_01.png" class="figure" alt="">
 
 Actually Whidborne and Amar plot the square of this function. The following figure matches their Figure 1.
 
 <pre class="mcode-input">e2 = e.^2;
 plot(e2,'b',LW,2)
 xlabel('t',FS,14), ylabel('||e^{tA}||^2',FS,14)
-title('energy',FS,16)</pre><img src="img/TransientGrowth_02.png" alt="">
+title('energy',FS,16)</pre><img src="img/TransientGrowth_02.png" class="figure" alt="">
 
 They are interested in calculating the maximum energy:
 
 <pre class="mcode-input">fprintf('Maximum energy = %15.8f\n',max(e2))</pre><pre class="mcode-output">Maximum energy = 358147.98785179
 </pre>Here's the time for this Example:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 7.845187 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 8.476863 seconds.
 </pre>References:
 
 [1] L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of Nonnormal Matrices and Operators, Princeton U. Press, 2005.

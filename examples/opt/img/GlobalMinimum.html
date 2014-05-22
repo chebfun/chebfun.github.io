@@ -17,7 +17,7 @@ In February 2002, an article in SIAM News by Nick Trefethen set a challenge to s
 x = linspace(-1,1);
 [xx, yy] = meshgrid(x);
 surf(xx, yy, f(xx,yy)),
-title('The complicated function', 'FontSize', 16)</pre><img src="img/GlobalMinimum_01.png" alt="">
+title('The complicated function', 'FontSize', 16)</pre><img src="img/GlobalMinimum_01.png" class="figure" alt="">
 
 Since the term $(x^2+y^2)/4$ grows away from $(0,0)$ while the other terms remain bounded, it can be shown that the global minimum occurs in $[-1,1]^2$ [2].
 
@@ -42,15 +42,15 @@ g = chebfun2(f);
 [Y, X] = min2(g);
 t = toc(s);
 
-fprintf('Total time taken = %1.4fs\n',t)</pre><pre class="mcode-output">Total time taken = 0.6483s
+fprintf('Total time taken = %1.4fs\n',t)</pre><pre class="mcode-output">Total time taken = 0.7947s
 </pre>Here is the plot of the minimum in a contour plot:
 
-<pre class="mcode-input">contour(g), hold on, plot(X(1), X(2), 'k.', 'markersize', 20), hold off</pre><img src="img/GlobalMinimum_02.png" alt="">
+<pre class="mcode-input">contour(g), hold on, plot(X(1), X(2), 'k.', 'markersize', 20), hold off</pre><img src="img/GlobalMinimum_02.png" class="figure" alt="">
 
 To see that the computed point is the global minimum we make the following plot:
 
 <pre class="mcode-input">plot(g), hold on, plot3(X(1),X(2),Y,'k.','markersize',40)
-zlim([-10 10]), view(-24.5,4)</pre><img src="img/GlobalMinimum_03.png" alt="">
+zlim([-10 10]), view(-24.5,4)</pre><img src="img/GlobalMinimum_03.png" class="figure" alt="">
 
 
 

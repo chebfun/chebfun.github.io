@@ -13,7 +13,7 @@ Phase portraits are a technique for visualising complex valued functions of a si
 
 <pre class="mcode-input">FS = 'FontSize'; fs = 14; d = pi*[-1 1 -1 1];
 f = chebfun2(@(z) sin(z),d);
-plot(f), title('Phase portrait for sin(z)',FS,fs);</pre><img src="img/PhasePortraits_01.png" alt="">
+plot(f), title('Phase portrait for sin(z)',FS,fs);</pre><img src="img/PhasePortraits_01.png" class="figure" alt="">
 
 
 
@@ -34,19 +34,28 @@ If two complex valued analytic functions $f(z)$ and $g(z)$ have the same phase p
 We find these plots addictive to draw. Here are two of our favourites:
 
 <pre class="mcode-input">f = chebfun2(@(z) cos(z.^2), d);
-plot(f), title('cos(z^2)',FS,fs)</pre><img src="img/PhasePortraits_02.png" alt="">
+plot(f), title('cos(z^2)',FS,fs)</pre><img src="img/PhasePortraits_02.png" class="figure" alt="">
 
 <pre class="mcode-input">g = chebfun2(@(z) sum(z.^(0:9)),d./2,'vectorise');
-plot(g), title('Nearly the ten roots of unity',FS,fs)</pre><img src="img/PhasePortraits_03.png" alt="">
+plot(g), title('Nearly the ten roots of unity',FS,fs)</pre><pre class="mcode-output">Error using .^
+Matrix dimensions must agree.
+Error in @(z)sum(z.^(0:9))
 
-
+Error in chebfun2/constructor&gt;@(x,y)op(x+1i*y) (line 97)
+    op = @(x, y) op( x + 1i*y );
+Error in chebfun2/sampleTest (line 22)
+vOp = feval(op, xeval, yeval);
+Error in chebfun2/constructor (line 306)
+        pass = g.sampleTest(op, tol);
+Error in chebfun2 (line 57)
+            f = constructor(f, varargin{:});
+Error in PhasePortraits (line 38)
+g = chebfun2(@(z) sum(z.^(0:9)),d./2,'vectorise');</pre>
 
 ## And one more... just for fun
 
 <pre class="mcode-input">f = chebfun2(@(z) sin(z)-sinh(z),2*d);
-plot(f), title('Phase portrait plot for sin(z)-sinh(z)',FS,fs)</pre><img src="img/PhasePortraits_04.png" alt="">
-
-
+plot(f), title('Phase portrait plot for sin(z)-sinh(z)',FS,fs)</pre>
 
 ## Poles and other singularities
 

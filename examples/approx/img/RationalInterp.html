@@ -20,7 +20,7 @@ for j = 1:2
   subplot(2,1,j), plot(r(ep),LW,1.6), axis([-1 1 0 3])
   hold on, plot([-1 0 1],[1+ep 1 1+2*ep],'.k',MS,20)
   text(-.8,2.3,['ep = ' num2str(ep)],FS,12)
-end</pre><img src="img/RationalInterp_01.png" alt="">
+end</pre><img src="img/RationalInterp_01.png" class="figure" alt="">
 
 We see that in this particular case, the interpolant could hardly be considered to be an good approximation over the interval $[-1,1]$. It has a pole at $x=1/3$ that gets weaker as $\varepsilon$ decreases to zero (the residue is $4\varepsilon/3$), but never goes away so long as $\varepsilon$ is nonzero. One can think of this as a nearly-cancelling pole-zero pair: the nearby zero is at $1/(3-4\varepsilon))$.
 
@@ -56,7 +56,7 @@ subplot(2,1,2)
 [p,q] = ratinterp(f,3,3,15);
 hold off, plot(p./q,'m',LW,1.6), hold on
 xx = chebpts(16); plot(xx,f(xx),'.k',MS,16)
-title(['Type (3,3) least-squares approximant to cos(e^x) in 16 Chebyshev points'])</pre><img src="img/RationalInterp_02.png" alt="">
+title(['Type (3,3) least-squares approximant to cos(e^x) in 16 Chebyshev points'])</pre><img src="img/RationalInterp_02.png" class="figure" alt="">
 
 For our final example, suppose we want the interpolant of type $(8,8)$ to $\exp(x)$ in $17$ Chebyshev points.  A computation with `ratinterp` is very successful, as shown by the first plot below.  However, this success is a tribute to the robustness features of `ratinterp` when called in its default mode. By default, `ratinterp` uses an approximation procedure that is more robust than pure interpolation, based on the singular value decomposition, which often manages to eliminate spurious poles introduced by rounding errors. We can turn off this robustness by repeating the computation with a tolerance of $0$ rather than the default $10^{-14}$, and that is what is done in the second panel of the plot.  The plot looks the same! In fact it isn't though; there's a spurious pole-zero pair that has gone undected.  We can see it like this:
 
@@ -67,7 +67,7 @@ xx = chebpts(17); plot(xx,exp(xx),'.k',MS,16)
 tol = 0;
 [p,q] = ratinterp(f,8,8,[],[],tol);
 subplot(2,1,2), plot(p./q,LW,1.6), hold on
-xx = chebpts(17); plot(xx,exp(xx),'.k',MS,16)</pre><img src="img/RationalInterp_03.png" alt="">
+xx = chebpts(17); plot(xx,exp(xx),'.k',MS,16)</pre><img src="img/RationalInterp_03.png" class="figure" alt="">
 
 <pre class="mcode-input">format long
 spurious_zeros = roots(p)

@@ -86,10 +86,13 @@ f = L\1;
 toc
 plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre>
 
-<pre class="mcode-output">Elapsed time is 3.573538 seconds.
-</pre>
+<pre class="mcode-output">Error using chebop/parsebc (line 38)
+Number of inputs to BCs do not match operator.
+Error in chebop/set.bc (line 246)
+                N.bc = parseBC(N, val);
+Error in DawsonIntegral (line 24)
+L.bc = @(x,f) f(0);                 % interior point condition</pre>
 
-<p><img src="img/DawsonIntegral_01.png" class="figure" alt=""></p>
 <p>The problem can be solved analytically:</p>
 <p>$$ F(x) = e^{-x^2} \int_0^x e^{t^2} dt. $$</p>
 <p>Users with access to the Matlab Symbolic Toolbox could also solve it with the following code:</p>
@@ -106,10 +109,6 @@ f = join(fl,fr);                     % must be an easier way to do this!
 f = chebfun(f, [-W 0 W]);              % is there a better way to do this?
 plot(f,LW,lw), grid on</pre>
 
-<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
-</pre>
-
-<p><img src="img/DawsonIntegral_02.png" class="figure" alt=""></p>
 <p>How big is the discrepancy between $F$ and $f$?   You can find out by running these three lines:</p>
 <p>semilogy(abs(f-fexact)); title('error when evaluate F directly'); grid on, hold off</p>
 <p>If you do, you'll find that the accuracy is only about 5 digits. It's not difficult to understand the low accuracy if we notice that Dawson's integral as shown in Equation (2) is a product of type $0 \cdot \infty$ as $x$ diverges away from the origin. A standard way to compute Dawson's integral is given in Numerical Recipes [1], where the integral is evaluated using its Maclaurin series [2,3] near the origin and Rybicki's exponentially accurate approximation [4] otherwise. It's very likely that MATLAB's built-in routine adopts this algorithm.</p>
@@ -118,9 +117,6 @@ plot(f,LW,lw), grid on</pre>
 tic
 f = chebfun(@(x) real(sqrt(pi)*(cef(x,N)-exp(-x.^2))/2i), [-W W]);
 toc</pre>
-
-<pre class="mcode-output">Elapsed time is 0.066140 seconds.
-</pre>
 
 <p>If you have the Symbolic Toolbox...</p>
 <pre class="mcode-input">% semilogy(abs(f-fexact)), grid on

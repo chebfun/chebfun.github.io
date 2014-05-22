@@ -85,7 +85,7 @@ G = chebfun2v(@(x,y)x+y,@(x,y)1+x+y);
 abs((2*norm(F)^2 + 2*norm(G)^2) - (norm(F+G)^2 + norm(F-G)^2))</pre>
 
 <pre class="mcode-output">ans =
-     2.131628207280301e-14
+     3.552713678800501e-14
 </pre>
 
 <h3 id="the-gradient-theorem">The gradient theorem</h3>
@@ -97,7 +97,7 @@ v = integral(F,C); ends = f(pi/10,0)-f(0,0); % line integral
 abs(v-ends)                                  % gradient theorem</pre>
 
 <pre class="mcode-output">ans =
-     1.110223024625157e-16
+     3.330669073875470e-16
 </pre>
 
 <h3 id="curl-of-the-gradient">Curl of the gradient</h3>
@@ -105,7 +105,7 @@ abs(v-ends)                                  % gradient theorem</pre>
 <pre class="mcode-input">norm(curl(grad(f)))</pre>
 
 <pre class="mcode-output">ans =
-     1.005889647912074e-14
+     1.868795656255077e-15
 </pre>
 
 <h3 id="more-information">More information</h3>

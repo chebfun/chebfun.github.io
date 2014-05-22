@@ -25,7 +25,7 @@ for k = 1:2
     plot(u,'m',LW,2), ylim(1.4*[-1 1]); grid on
     s = sprintf('Ep = %5.1e   Length =%4d   Time =%6.3f',ep,length(u),t);
     title(s,FS,10)
-end</pre><img src="img/LeeGreengardODEs_01.png" alt="">
+end</pre><img src="img/LeeGreengardODEs_01.png" class="figure" alt="">
 
 
 
@@ -39,7 +39,7 @@ The second example is $$ u''(x) + x^{-1} u'(x) + {x^2-\nu^2\over x^2} u(x) = 0, 
 tic, u = unu(nu); t = toc;
 clf, plot(u,LW,1.2), grid on
 s = sprintf('nu = %3d   Length =%4d   Time =%6.3f',nu,length(u),t);
-title(s,FS,10)</pre><img src="img/LeeGreengardODEs_02.png" alt="">
+title(s,FS,10)</pre><img src="img/LeeGreengardODEs_02.png" class="figure" alt="">
 
 
 
@@ -56,7 +56,7 @@ for k = 1:2
     plot(u,'r',LW,1.2), grid on
     s = sprintf('Ep = %5.1e   Length =%4d   Time =%6.3f',ep,length(u),t);
     title(s,FS,10)
-end</pre><img src="img/LeeGreengardODEs_03.png" alt="">
+end</pre><img src="img/LeeGreengardODEs_03.png" class="figure" alt="">
 
 
 
@@ -72,7 +72,7 @@ for k = 1:2
     plot(u,'color',[0 .7 0],LW,1.2), grid on
     s = sprintf('Ep = %5.1e   Length =%4d   Time =%6.3f',ep,length(u),t);
     title(s,FS,10)
-end</pre><img src="img/LeeGreengardODEs_04.png" alt="">
+end</pre><img src="img/LeeGreengardODEs_04.png" class="figure" alt="">
 
 
 
@@ -88,7 +88,7 @@ for k = 1:2
     plot(u,'color',[1 .5 .5],LW,2), grid on
     s = sprintf('Ep = %5.1e   Length =%4d   Time =%6.3f',ep,length(u),t);
     title(s,FS,10)
-end</pre><img src="img/LeeGreengardODEs_05.png" alt="">
+end</pre><img src="img/LeeGreengardODEs_05.png" class="figure" alt="">
 
 
 
@@ -104,7 +104,7 @@ for k = 1:2
     plot(u,'color',[0 .8 .8],LW,2), grid on
     s = sprintf('Ep = %5.1e   Length =%4d   Time =%6.3f',ep,length(u),t);
     title(s,FS,10)
-end</pre><img src="img/LeeGreengardODEs_06.png" alt="">
+end</pre><img src="img/LeeGreengardODEs_06.png" class="figure" alt="">
 
 However, this problem is highly ill-conditioned and I have not investigated how accurate the solution really is.
 

@@ -78,7 +78,7 @@ LW = 'linewidth'; lw = 2; FS = 'fontsize'; fs = 12;
 plot(f, LW, lw),
 title( 'Function to be approximated', FS, fs), hold on</pre>
 
-<p><img src="img/OscError_01.png" alt=""></p>
+<p><img src="img/OscError_01.png" class="figure" alt=""></p>
 <h3 id="best-approximation-in-infty-norm">Best Approximation in $\infty$-Norm</h3>
 <p>The existence and uniqueness of the the best minimax approximation of $f$ in the space of polynomials of degree up to $n$ is well known. The best degree $n$ approximation is characterized by the equioscillation of the error between at least $n+2$ extrema. The error consequently changes sign at least $n+1$ times [1]. Let us suppose we want to find the degree $n$ best approximation of this function. Chebfun's $\verb|remez|$ command can be used to find this polynomial:</p>
 <pre class="mcode-input">n = 4;
@@ -86,7 +86,7 @@ p = remez(f, n);
 plot(p, 'r-.', LW, lw)
 title('Function and its best approximation', FS, fs), hold off</pre>
 
-<p><img src="img/OscError_02.png" alt=""></p>
+<p><img src="img/OscError_02.png" class="figure" alt=""></p>
 <pre class="mcode-input">clf, hold on
 h1 = plot(f - p, 'r', LW, lw);
 title('Approximation error', FS, fs)
@@ -95,20 +95,20 @@ plot( [-1, 1], [maxError maxError], 'k--', LW, 1.5)
 plot( [-1, 1], -[maxError maxError], 'k--', LW, 1.5)
 plot( [-1, 1], [0 0], 'k--', LW, 1.5), box on</pre>
 
-<p><img src="img/OscError_03.png" alt=""></p>
+<p><img src="img/OscError_03.png" class="figure" alt=""></p>
 <p>We can see that the error equioscillates $n+2$ times with $n+1$ sign changes.</p>
 <h3 id="best-weighted-l_2-approximation">Best Weighted $L_2$ Approximation</h3>
 <p>It is also interesting to note that the error curve of the best weighted $L_2$ approximation of a continuous function by a degree $n$ polynomial has the same oscillation property. The error curve is guaranteed to change sign at least $n+1$ times [2], however, in this case, the error curve does not generally equioscillate. For the same function, we now construct a degree $n$ approximation by Chebyshev polynomials. This can be done in Chebfun using the 'trunc' option, since best $L_2$ approximations are simply given by truncated Fourier series (a Chebyshev-Fourier series in this case):</p>
 <pre class="mcode-input">fn = chebfun( @(x) f(x), 'trunc', n + 1);
 h2 = plot(f - fn, 'k', LW, lw);</pre>
 
-<p><img src="img/OscError_04.png" alt=""></p>
+<p><img src="img/OscError_04.png" class="figure" alt=""></p>
 <h3 id="best-l_2-approximation">Best $L_2$ Approximation</h3>
 <p>We can also think of approximating the same function using Legendre polynomials. In this case, we can use Chebfun's $\verb|polyfit|$ command to generate the best $L_2$ approximating polynomial. This is just the truncated Fourier-Legendre series expansion of the function $f$. The error curve again behaves as expected:</p>
 <pre class="mcode-input">pLn = polyfit(f, n);
 h3 = plot(f - pLn, 'b', LW, lw);</pre>
 
-<p><img src="img/OscError_05.png" alt=""></p>
+<p><img src="img/OscError_05.png" class="figure" alt=""></p>
 <h3 id="interpolation">Interpolation</h3>
 <p>The degree $n$ interpolant of a function by definition hits the function normally at least $n+1$ times, and hence the error curve again has at least $n+1$ sign changes.</p>
 <pre class="mcode-input">pn = chebfun( @(x) f(x), n + 1);
@@ -116,7 +116,7 @@ h4 = plot( f - pn, 'g', LW, lw); hold off
 legend( [h1(:,1), h2(:,1), h3(:,1), h4(:,1)], ...
     {'L_\infty-Best', 'L_2-Cheb', 'L_2-Legn', 'Interp'})</pre>
 
-<p><img src="img/OscError_06.png" alt=""></p>
+<p><img src="img/OscError_06.png" class="figure" alt=""></p>
 <p>Notice that since Chebfun normally uses Chebyshev points of the second kind for interpolation, which include the end points $-1$ and $1$, the error curve will always have zeros at $-1$ and $1$.  You will get a different effect however if you run this example in a mode using Chebyshev points of the first kind rather than the second kind.</p>
 <h3 id="references">References</h3>
 <p>[1] L. N. Trefethen, Approximation Theory and Approximation Practice, SIAM, 2013.</p>

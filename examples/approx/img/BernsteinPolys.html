@@ -17,7 +17,7 @@ Let's demonstrate in Chebfun.  Here is a continuous function on [0,1]:
 s = chebfun('s',[0 1]);
 f = min(abs(s-.3),2*abs(s-.7));
 f = s + max(0,1-5*f);
-hold off, plot(f,LW,lw)</pre><img src="img/BernsteinPolys_01.png" alt="">
+hold off, plot(f,LW,lw)</pre><img src="img/BernsteinPolys_01.png" class="figure" alt="">
 
 Since $B_n$ is a polynomial of degree $n$, we can construct it by evaluating it on a grid of $n+1$ points and then interpolating. For stability these should be Chebyshev points, not equispaced. Here is an elementary code to do this at least for small values of $n$. Note that it isn't really stable, so it turns warnings off.
 
@@ -37,11 +37,11 @@ end</pre>To illustrate the behavior of Bernstein polynomials, here we see slow c
   hold on, plot(Bn(f,n),'r',LW,lw)
   title(['n = ' int2str(n)],'fontsize',14)
   snapnow
-end</pre><img src="img/BernsteinPolys_02.png" alt="">
+end</pre><img src="img/BernsteinPolys_02.png" class="figure" alt="">
 
-<img src="img/BernsteinPolys_03.png" alt="">
+<img src="img/BernsteinPolys_03.png" class="figure" alt="">
 
-<img src="img/BernsteinPolys_04.png" alt="">
+<img src="img/BernsteinPolys_04.png" class="figure" alt="">
 
 Note a signature feature of Bernstein polynomial approximations, their monotonicity in various senses.  There is never any Gibbs phenomenon.
 
@@ -53,11 +53,11 @@ for n = [25 50 100]
   hold on, plot(Bn(f,n),'r',LW,lw)
   title(['n = ' int2str(n)],'fontsize',14)
   snapnow
-end</pre><img src="img/BernsteinPolys_05.png" alt="">
+end</pre><img src="img/BernsteinPolys_05.png" class="figure" alt="">
 
-<img src="img/BernsteinPolys_06.png" alt="">
+<img src="img/BernsteinPolys_06.png" class="figure" alt="">
 
-<img src="img/BernsteinPolys_07.png" alt="">
+<img src="img/BernsteinPolys_07.png" class="figure" alt="">
 
 Though $f$ is now entire, the convergence is not really better than before.  By contrast we know that $n=100$ is more than enough for Chebyshev interpolation to nail this function to machine precision:
 

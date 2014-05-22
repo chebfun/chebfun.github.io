@@ -88,7 +88,7 @@ plot([0;landfall(1)],[0;landfall(2)],'r--',LW,2)
 axis([-2 15 -2 7]), axis equal
 text(-1,island(2)/2,'5'), text(2,-1,'x'), text(8,-1,'13-x')</pre>
 
-<p><img src="img/ForTheBirds_01.png" alt=""></p>
+<p><img src="img/ForTheBirds_01.png" class="figure" alt=""></p>
 <h3 id="finding-the-optimal-path">Finding the optimal path</h3>
 <p>We know that the landfall spot x is between 0 and 13, so we will define a chebfun for it over that range.</p>
 <pre class="mcode-input">x = chebfun('x',[0 13]);</pre>
@@ -106,7 +106,7 @@ text(-1,island(2)/2,'5'), text(2,-1,'x'), text(8,-1,'13-x')</pre>
 <pre class="mcode-input">clf, plot(total_energy,LW,2), grid on
 xlabel('landfall point x'), ylabel('total energy of flight')</pre>
 
-<p><img src="img/ForTheBirds_02.png" alt=""></p>
+<p><img src="img/ForTheBirds_02.png" class="figure" alt=""></p>
 <p>As you can see from the curve, there is a unique value of x that minimizes the total energy.</p>
 <pre class="mcode-input">[energy_optimal,x_optimal] = min(total_energy)</pre>
 
@@ -142,7 +142,7 @@ xlabel('x'), ylabel('total energy')
 subplot(1,2,2), plot(diff(total_energy),LW,2), grid on
 xlabel('x'), ylabel('derivative')</pre>
 
-<p><img src="img/ForTheBirds_03.png" alt=""></p>
+<p><img src="img/ForTheBirds_03.png" class="figure" alt=""></p>
 <p>At the other extreme, you would expect that if flying over water is very difficult, the best strategy is to go directly to land. However, this is never exactly the case:</p>
 <pre class="mcode-input">WL_ratio = 5;
 total_energy = land_length + WL_ratio*water_length;
@@ -183,7 +183,7 @@ x_optimal =
 clf, plot(optimal_landfall,LW,2), grid on
 xlabel('water-to-land energy ratio'), ylabel('optimal landfall position')</pre>
 
-<p><img src="img/ForTheBirds_04.png" alt=""></p>
+<p><img src="img/ForTheBirds_04.png" class="figure" alt=""></p>
 <p>In practice, it's easy to observe the behavior of birds but very difficult to estimate the true value of WL. We can turn the problem around. It's reasonable to assume that evolution has honed the instinct of our bird to behave optimally. So if, for example, we observed that x=4.5 was chosen on average, then we might conclude that the actual water-to-land energy ratio is</p>
 <pre class="mcode-input">find( optimal_landfall==4.5 )</pre>
 

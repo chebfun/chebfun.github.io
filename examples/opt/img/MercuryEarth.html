@@ -20,7 +20,7 @@ x_e = -2.4987 + 149.6041*cos(2*pi*t/365.25);</pre>Chebfun is excellent in comput
 <pre class="mcode-input">[minval,mintime] = min(f);
 plot(t,f)
 xlabel('Time (days)')
-hold on, plot(mintime,minval, '.r', 'markersize', 20)</pre><img src="img/MercuryEarth_01.png" alt="">
+hold on, plot(mintime,minval, '.r', 'markersize', 20)</pre><img src="img/MercuryEarth_01.png" class="figure" alt="">
 
 Here are the parametrized orbits with the planets' positions at `mintime`.
 
@@ -29,7 +29,7 @@ plot(x_m, y_m), hold on
 plot(x_e, y_e)
 plot(x_m(mintime),y_m(mintime),'.r', 'markersize', 20)
 plot(x_e(mintime),y_e(mintime),'.r', 'markersize', 20)
-title('Mercury and Earth Orbits')</pre><img src="img/MercuryEarth_02.png" alt="">
+title('Mercury and Earth Orbits')</pre><img src="img/MercuryEarth_02.png" class="figure" alt="">
 
 Reference:
 

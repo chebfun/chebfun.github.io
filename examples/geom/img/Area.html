@@ -13,7 +13,7 @@ x = (a+b)*cos(t) - b*cos((a+b)/b*t);
 y = (a+b)*sin(t) - b*sin((a+b)/b*t);</pre>Such curves are called epicycloids, named by the Danish astronomer Ole Romer in 1674. Epicycloids can be produced by tracing a point on a circle which rolls out on a larger circle. Romer discovered that cog-wheels with epicycloidal teeth turned with minimum friction. This is what our epicycloid looks like:
 
 <pre class="mcode-input">fill(x,y,[.6 .6 1])
-axis equal</pre><img src="img/Area_01.png" alt="">
+axis equal</pre><img src="img/Area_01.png" class="figure" alt="">
 
 Note that although this curve is not smooth, the functions $x(t)$ and $y(t)$ that parameterize it are smooth, so Chebfun has no difficulty representing them by global polynomials:
 
@@ -41,19 +41,19 @@ A = sum(x.*diff(y))</pre><pre class="mcode-output">A =
 
 <pre class="mcode-input">z = exp(1i*t) + (1+1i)*sin(6*t).^2;
 fill(real(z),imag(z),[.6 1 .6])
-axis equal</pre><img src="img/Area_02.png" alt="">
+axis equal</pre><img src="img/Area_02.png" class="figure" alt="">
 
 Because this curve is a perturbed unit circle, with every perturbation occurring twice with opposite signs, the enclosed area should be equal to $\pi$, as is confirmed by Chebfun:
 
 <pre class="mcode-input">A = sum(real(z).*diff(imag(z)));
 [ A ; pi ]</pre><pre class="mcode-output">ans =
-   3.141592653589786
+   3.141592653589783
    3.141592653589793
 </pre>We can compute and plot the centroid (or center of mass) of this region as follows:
 
 <pre class="mcode-input">c = sum(diff(z).*z.*conj(z))/(2i*A);
 hold on
-plot(c,'r+','markersize',20)</pre><img src="img/Area_03.png" alt="">
+plot(c,'r+','markersize',20)</pre><img src="img/Area_03.png" class="figure" alt="">
 
 If you use scissors to produce a piece of paper in this shape, it should remain balanced when placed on a vertical needle centered at the red cross. (If it doesn't, it's likely your handicraft precision isn't as good as Chebfun's!)
 

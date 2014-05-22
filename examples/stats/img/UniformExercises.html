@@ -123,15 +123,15 @@ Let us define the mean of the distribution like this:
 <pre class="mcode-input">varab = chebfun2(@(a, b) (b-a).^2/12, [-5, 5, -5, 5]);</pre>We can solve for $a$ and $b$ simultaneously as follows:
 
 <pre class="mcode-input">ab = roots(meanab-1, varab-4/3)</pre><pre class="mcode-output">ab =
-  -1.000000000000001   2.999999999999999
-   3.000000000000001  -1.000000000000000
+  -0.999999999999999   3.000000000000001
+   3.000000000000000  -0.999999999999999
 </pre>As there are two pairs of $a$ and $b$ listed in `ab, we need to identify the correct pair:
 
 <pre class="mcode-input">a = ab(1, 2)
 b = ab(1, 1)</pre><pre class="mcode-output">a =
-   2.999999999999999
+   3.000000000000001
 b =
-  -1.000000000000001
+  -0.999999999999999
 </pre>
 
 ## 4. Application adapted from Example 12, page 107

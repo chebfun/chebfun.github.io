@@ -32,7 +32,7 @@ err = [.5 .0668 7.36e-3 7.99e-4 8.65e-5 9.35e-6 ...
 model = 2*halphen_const.^(-n-.5);
 hold off, semilogy(n,model,'-b',LW,1.2)
 hold on, semilogy(n,err,'.k',MS,18), grid on
-xlabel('n',FS,14), ylabel('error',FS,14)</pre><img src="img/Halphen_01.png" alt="">
+xlabel('n',FS,14), ylabel('error',FS,14)</pre><img src="img/Halphen_01.png" class="figure" alt="">
 
 One way to characterize Halphen's constant mathematically is that it is the inverse of the unique positive value of s where the function
 
@@ -50,7 +50,7 @@ hold off, plot(1./s,f,LW,1.6), grid on
 h = 1/roots(f-1/8);
 hold on, plot(h,1/8,'.r',MS,24)
 title('Halphen''s constant',FS,16)
-text(h,.135,sprintf('%16.13f',h),FS,18)</pre><img src="img/Halphen_02.png" alt="">
+text(h,.135,sprintf('%16.13f',h),FS,18)</pre><img src="img/Halphen_02.png" class="figure" alt="">
 
 References:
 

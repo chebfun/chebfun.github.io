@@ -23,17 +23,20 @@ plot(g,'k',LW,lw), axis([-1 1 0 12]), grid on</pre><img src="img/RoundingCorners
 If we convolve the two functions, we get a W with rounded corners. At the ends, the "rounding" has brought the values down to $0$:
 
 <pre class="mcode-input">f2 = conv(f,g);
-plot(f2,LW,lw), axis(ax), axis square, grid on</pre><img src="img/RoundingCorners_03.png" class="figure" alt="">
-
-Let's try a similar but different computation in which the W is not a real function of a real variable, but a complex function of a real parameter.  Here is that complex function:
+plot(f2,LW,lw), axis(ax), axis square, grid on</pre><pre class="mcode-output">Error using bndfun/restrict (line 32)
+Not a valid interval.
+Error in bndfun/conv (line 110)
+g_restricted = restrict(g, doms);
+Error in chebfun/conv (line 80)
+        hjk = conv(f.funs{j}, g.funs{k});  
+Error in chebfun/conv (line 70)
+    h = conv(g, f);
+Error in RoundingCorners (line 26)
+f2 = conv(f,g);</pre>Let's try a similar but different computation in which the W is not a real function of a real variable, but a complex function of a real parameter.  Here is that complex function:
 
 <pre class="mcode-input">W = t + 1i*f(t);
-plot(W,'r',LW,lw), axis(ax), axis square, grid on</pre><img src="img/RoundingCorners_04.png" class="figure" alt="">
-
-And here is its convolution with g:
+plot(W,'r',LW,lw), axis(ax), axis square, grid on</pre>And here is its convolution with g:
 
 <pre class="mcode-input">W2 = conv(W,g);
-plot(W2,'r',LW,lw), axis(ax), axis square, grid on</pre><img src="img/RoundingCorners_05.png" class="figure" alt="">
-
-Do you understand why thse picture looks different from the previous one?
+plot(W2,'r',LW,lw), axis(ax), axis square, grid on</pre>Do you understand why thse picture looks different from the previous one?
 

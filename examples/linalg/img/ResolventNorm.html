@@ -30,7 +30,7 @@ eig(A)</pre><pre class="mcode-output">ans =
 nr = @(y) 1/min(svd(1i*y*I-A));
 f = chebfun(nr,[-25,25],'vectorize');
 LW = 'linewidth';
-plot(f,LW,1.6), grid on</pre><img src="img/ResolventNorm_01.png" alt="">
+plot(f,LW,1.6), grid on</pre><img src="img/ResolventNorm_01.png" class="figure" alt="">
 
 The maximum of f is this,
 
@@ -61,7 +61,7 @@ format short, eig(B)</pre><pre class="mcode-output">ans =
 
 <pre class="mcode-input">fB = normfun(B);
 plot(fB,LW,1.6), grid on
-title(['maximum = ' num2str(max(fB))]);</pre><img src="img/ResolventNorm_02.png" alt="">
+title(['maximum = ' num2str(max(fB))]);</pre><img src="img/ResolventNorm_02.png" class="figure" alt="">
 
 Here are 12 random 6x6 complex matrices, all with rightmost eigenvalue having real part -0.25:
 
@@ -74,7 +74,7 @@ for j = 1:12
     subplot(4,3,j)
     plot(normfun(A),LW,1)
     axis([-10 10 0 8]), drawnow
-end</pre><img src="img/ResolventNorm_03.png" alt="">
+end</pre><img src="img/ResolventNorm_03.png" class="figure" alt="">
 
 References:
 

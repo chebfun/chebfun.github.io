@@ -33,7 +33,7 @@ rho = @(om) max(abs(eig(G(om))));</pre>Analysis of the SOR iteration was carried
 <pre class="mcode-input">f = chebfun(rho,[1 2],'splitting','on','vectorize');
 plot(f,'linewidth',2), grid on
 xlabel('\omega','fontsize',16)
-ylabel('convergence factor')</pre><img src="img/SOR_01.png" alt="">
+ylabel('convergence factor')</pre><img src="img/SOR_01.png" class="figure" alt="">
 
 Chebfun gives us the following optimal omega:
 

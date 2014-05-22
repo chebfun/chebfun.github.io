@@ -17,7 +17,7 @@ N.op = @(u) 0.2*diff(u,2) + diff(u);
 N.bc = 'dirichlet';
 u = N\-1;
 plot(u,LW,lw), grid on
-axis([-10.1 10 0 20])</pre><img src="img/AdvDiffJump_01.png" alt="">
+axis([-10.1 10 0 20])</pre><img src="img/AdvDiffJump_01.png" class="figure" alt="">
 
 Suppose the advection is only turned on on the right half of the domain?
 
@@ -26,10 +26,10 @@ N.op = @(x,u) 0.2*diff(u,2) + (x&gt;=0).*diff(u);
 N.bc = 'dirichlet';
 v = N\-1;
 plot(v,'r',LW,lw), grid on
-axis([-10.1 10 0 75])</pre><img src="img/AdvDiffJump_02.png" alt="">
+axis([-10.1 10 0 75])</pre><img src="img/AdvDiffJump_02.png" class="figure" alt="">
 
 For fun we can plot both solutions on the same axis.
 
 <pre class="mcode-input">plot(u,'b',v,'--r',LW,lw), grid on
-axis([-10.1 10 0 75])</pre><img src="img/AdvDiffJump_03.png" alt="">
+axis([-10.1 10 0 75])</pre><img src="img/AdvDiffJump_03.png" class="figure" alt="">
 

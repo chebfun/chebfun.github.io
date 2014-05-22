@@ -23,7 +23,7 @@ text(nest(1),nest(2),'nest','ver','bot','hor','l')
 hold on, plot([island(1);0],[island(2);0],'k--',LW,2)
 plot([0;landfall(1)],[0;landfall(2)],'r--',LW,2)
 axis([-2 15 -2 7]), axis equal
-text(-1,island(2)/2,'5'), text(2,-1,'x'), text(8,-1,'13-x')</pre><img src="img/ForTheBirds_01.png" alt="">
+text(-1,island(2)/2,'5'), text(2,-1,'x'), text(8,-1,'13-x')</pre><img src="img/ForTheBirds_01.png" class="figure" alt="">
 
 
 
@@ -40,7 +40,7 @@ We know that the landfall spot x is between 0 and 13, so we will define a chebfu
 <pre class="mcode-input">total_energy = 1*land_length + 1.4*water_length;</pre>(If we had not chosen to normalize the energy, then the total energy would be proportional to this quantity, which is irrelevant to minimization.)
 
 <pre class="mcode-input">clf, plot(total_energy,LW,2), grid on
-xlabel('landfall point x'), ylabel('total energy of flight')</pre><img src="img/ForTheBirds_02.png" alt="">
+xlabel('landfall point x'), ylabel('total energy of flight')</pre><img src="img/ForTheBirds_02.png" class="figure" alt="">
 
 As you can see from the curve, there is a unique value of x that minimizes the total energy.
 
@@ -71,7 +71,7 @@ x_optimal =
 <pre class="mcode-input">clf, subplot(1,2,1), plot(total_energy,LW,2), grid on
 xlabel('x'), ylabel('total energy')
 subplot(1,2,2), plot(diff(total_energy),LW,2), grid on
-xlabel('x'), ylabel('derivative')</pre><img src="img/ForTheBirds_03.png" alt="">
+xlabel('x'), ylabel('derivative')</pre><img src="img/ForTheBirds_03.png" class="figure" alt="">
 
 At the other extreme, you would expect that if flying over water is very difficult, the best strategy is to go directly to land. However, this is never exactly the case:
 
@@ -103,7 +103,7 @@ Rather than just exploring the behavior for individual water-to-land ratios, we 
 
 <pre class="mcode-input">optimal_landfall = chebfun( optimal_landfall_function, [1.1 5], 'vectorize');
 clf, plot(optimal_landfall,LW,2), grid on
-xlabel('water-to-land energy ratio'), ylabel('optimal landfall position')</pre><img src="img/ForTheBirds_04.png" alt="">
+xlabel('water-to-land energy ratio'), ylabel('optimal landfall position')</pre><img src="img/ForTheBirds_04.png" class="figure" alt="">
 
 In practice, it's easy to observe the behavior of birds but very difficult to estimate the true value of WL. We can turn the problem around. It's reasonable to assume that evolution has honed the instinct of our bird to behave optimally. So if, for example, we observed that x=4.5 was chosen on average, then we might conclude that the actual water-to-land energy ratio is
 

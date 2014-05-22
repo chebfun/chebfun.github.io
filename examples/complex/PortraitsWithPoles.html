@@ -80,7 +80,7 @@ d = 1.5*[-1 1 -1 1];
 f = chebfun2(ff,d);
 plot(f), axis(d), axis square on</pre>
 
-<p><img src="img/PortraitsWithPoles_01.png" alt=""></p>
+<p><img src="img/PortraitsWithPoles_01.png" class="figure" alt=""></p>
 <h3 id="phase-portraits-for-functions-with-poles">Phase portraits for functions with poles</h3>
 <p>Now suppose the zeros of $f$ at the origin were poles instead of zeros. Then Chebfun2 couldn't represent $f$, so we couldn't do a phase portrait directly. However, for a phase portrait, all that matters is the phase!  So we should be able to replace $f$ by another function with the same phase but smooth modulus, like $f/(1+|f|^2)$. I've implemented this with a function called "smash" (picking a name reminiscent of a command in TeX).</p>
 <pre class="mcode-input">function g = smash(f)
@@ -94,13 +94,13 @@ end</pre>
 g = chebfun2(@(z) smash(ff(z)),d);
 plot(g), axis(d), axis square on</pre>
 
-<p><img src="img/PortraitsWithPoles_02.png" alt=""></p>
+<p><img src="img/PortraitsWithPoles_02.png" class="figure" alt=""></p>
 <p>For another example, here is $\tan((3+3i)z)$.  Compare Figure 3.20 of [1].</p>
 <pre class="mcode-input">hh = @(z) tan((3+3i)*z);
 h = chebfun2(@(z) smash(hh(z)),d);
 plot(h), axis(d), axis square on</pre>
 
-<p><img src="img/PortraitsWithPoles_03.png" alt=""></p>
+<p><img src="img/PortraitsWithPoles_03.png" class="figure" alt=""></p>
 <p>These experiments are promising.  In fact, I am not sure how robust the technique is; some careful exploration may be needed, and one might want to loosen the Chebfun2 convergence criterion, since the aim here is only to draw a plot in any case.  Also, the "smash" process as I've defined it isn't scale-invariant; instead of 1 in the denominator, there should be a number representing a typical magnitude of $f$.</p>
 <p>Perhaps it is worth emphasizing that although it is appealing to be able to use Chebfun2 to draw phase portraits for a wider range of functions than one might have imagined, ultimately there is no good reason for the phase portraitist to use Chebfun2.  A phase portrait is just a pixel-by-pixel image; it gets no benefit from the global high-accuracy representations of Chebfun2.</p>
 <h3 id="references">References</h3>

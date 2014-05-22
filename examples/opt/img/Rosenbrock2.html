@@ -22,7 +22,7 @@ minx =
 </pre>We can plot the function and the computed minimum like this:
 
 <pre class="mcode-input">contour(F, 10:10:300, LW, lw), colorbar, shg
-hold on, plot(minx(1), minx(2), '.k', MS, ms), hold off</pre><img src="img/Rosenbrock2_01.png" alt="">
+hold on, plot(minx(1), minx(2), '.k', MS, ms), hold off</pre><img src="img/Rosenbrock2_01.png" class="figure" alt="">
 
 
 
@@ -36,14 +36,14 @@ The example [2] explained how Chebfun computed these results: by taking maxima a
 F = chebfun2(f);
 [minf, minx] = min2(F)
 toc</pre><pre class="mcode-output">minf =
-  -0.969232500643154
+  -0.969232500643146
 minx =
    0.395759624697258   0.331573982761955
-Elapsed time is 0.582882 seconds.
+Elapsed time is 0.641800 seconds.
 </pre>Here is a plot, again with the computed global minimum.
 
 <pre class="mcode-input">contour(F,30, LW, lw), colorbar, hold on
-plot(minx(1), minx(2), '.k', MS, ms)</pre><img src="img/Rosenbrock2_02.png" alt="">
+plot(minx(1), minx(2), '.k', MS, ms)</pre><img src="img/Rosenbrock2_02.png" class="figure" alt="">
 
 In fact, since Chebfun2 is really working with a 2D representation, we can investigate more deeply.
 
@@ -51,25 +51,25 @@ For example we can compute all the stationary points of f and add these to our c
 
 <pre class="mcode-input">tp = roots(grad(F))
 plot(tp(:,1), tp(:,2), 'ko', MS, 12, LW, 2)</pre><pre class="mcode-output">tp =
-  -0.254107550759456  -0.842267634382925
-  -0.112229538510263  -0.603133543918145
-   0.067365721534502  -0.317601643415219
-   0.253778760811372   0.007586184707163
-   0.395759627601558   0.331573987886736
-   0.504693529063324   0.601204260241175
-   0.595308872488552   0.817030764536912
-   0.672904440396282   0.994413300108018
-</pre><img src="img/Rosenbrock2_03.png" alt="">
+  -0.254107550759546  -0.842267634382812
+  -0.112229538510291  -0.603133543918111
+   0.067365721534435  -0.317601643415147
+   0.253778760811317   0.007586184707221
+   0.395759627601428   0.331573987886848
+   0.504693529063457   0.601204260241061
+   0.595308872488305   0.817030764537117
+   0.672904440396071   0.994413300108201
+</pre><img src="img/Rosenbrock2_03.png" class="figure" alt="">
 
 We can make chebfuns of the zero level curves of F:
 
 <pre class="mcode-input">g = roots(F);
-plot(g, 'k', LW, 2), shg</pre><img src="img/Rosenbrock2_04.png" alt="">
+plot(g, 'k', LW, 2), shg</pre><img src="img/Rosenbrock2_04.png" class="figure" alt="">
 
 Or we can even make chebfuns of the .5 level curves of F:
 
 <pre class="mcode-input">g = roots(F - .5);
-plot(g, 'r', LW, 2), shg</pre><img src="img/Rosenbrock2_05.png" alt="">
+plot(g, 'r', LW, 2), shg</pre><img src="img/Rosenbrock2_05.png" class="figure" alt="">
 
 References:
 

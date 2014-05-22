@@ -15,19 +15,19 @@ On a bright sunny day we are having a nice time at the beach:
 <pre class="mcode-input">figure(1)
 area( [-6, 6], [-6, -6] ); colormap([0 .8 1])
 axis([-6,6,-6,6]), hold on
-title('Beach',FS,14)</pre><img src="img/SnellsLaw_01.png" alt="">
+title('Beach',FS,14)</pre><img src="img/SnellsLaw_01.png" class="figure" alt="">
 
 A lifeguard is located at the point $(-5, 5)$.  (We use complex arithmetic for simplicity.)
 
 <pre class="mcode-input">sMan = -5+1i*5;
 plot(sMan, '.k', MS, 24)
-title('Beach, lifeguard',FS,14)</pre><img src="img/SnellsLaw_02.png" alt="">
+title('Beach, lifeguard',FS,14)</pre><img src="img/SnellsLaw_02.png" class="figure" alt="">
 
 The lifeguard spots a man desperately struggling and about to drown. The location of the drowning man is $(5,-5)$:
 
 <pre class="mcode-input">dMan = 5-1i*5;
 plot(dMan, '.r', MS, 24)
-title('Beach, lifeguard, drowning man',FS,14)</pre><img src="img/SnellsLaw_03.png" alt="">
+title('Beach, lifeguard, drowning man',FS,14)</pre><img src="img/SnellsLaw_03.png" class="figure" alt="">
 
 Before the lifeguard makes a dash to save the drowning man, we note that the speed at which he can run on the sand is much greater than the speed at which he can swim in the water:
 
@@ -47,14 +47,14 @@ xlabel('x',FS,12), ylabel('Time',FS,12)</pre><pre class="mcode-output">Tmin =
    2.725459432914104
 x0 =
    3.654986635087132
-</pre><img src="img/SnellsLaw_04.png" alt="">
+</pre><img src="img/SnellsLaw_04.png" class="figure" alt="">
 
 Let us now draw the optimal path that should be followed in order to reach the drowning man as quickly as possible.
 
 <pre class="mcode-input">figure(1)
 plot([real(sMan), x0], [imag(sMan), 0], LW, lw )
 plot([x0, real(dMan)], [0, imag(dMan)], 'r', LW, lw )
-title('Beach, lifeguard, rescued man',FS,14)</pre><img src="img/SnellsLaw_05.png" alt="">
+title('Beach, lifeguard, rescued man',FS,14)</pre><img src="img/SnellsLaw_05.png" class="figure" alt="">
 
 
 
@@ -67,7 +67,7 @@ sinTh1 = abs(real(sMan)-x0)/abs(sMan-x0);
 sinTh2 = abs(real(dMan)-x0)/abs(dMan-x0);
 th1 = asin(sinTh1); th2 = asin(sinTh2);
 plot(x0+exp(1i*(pi/2+linspace(0,th1,100))))
-plot(x0+exp(1i*(3*pi/2+linspace(0,th2,100))), 'r'), hold off</pre><img src="img/SnellsLaw_06.png" alt="">
+plot(x0+exp(1i*(3*pi/2+linspace(0,th2,100))), 'r'), hold off</pre><img src="img/SnellsLaw_06.png" class="figure" alt="">
 
 <pre class="mcode-input">sinTh1/vLand - sinTh2/vWater</pre><pre class="mcode-output">ans =
     -1.706967900361178e-15

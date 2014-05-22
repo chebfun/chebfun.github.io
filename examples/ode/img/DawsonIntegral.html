@@ -19,10 +19,12 @@ L.op = @(x,f) diff(f,1) + 2*x.*f;   % ODE
 L.bc = @(x,f) f(0);                 % interior point condition
 f = L\1;
 toc
-plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre><pre class="mcode-output">Elapsed time is 3.573538 seconds.
-</pre><img src="img/DawsonIntegral_01.png" class="figure" alt="">
-
-The problem can be solved analytically:
+plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre><pre class="mcode-output">Error using chebop/parsebc (line 38)
+Number of inputs to BCs do not match operator.
+Error in chebop/set.bc (line 246)
+                N.bc = parseBC(N, val);
+Error in DawsonIntegral (line 24)
+L.bc = @(x,f) f(0);                 % interior point condition</pre>The problem can be solved analytically:
 
 $$ F(x) = e^{-x^2} \int_0^x e^{t^2} dt. $$
 
@@ -44,10 +46,7 @@ fr = exp(-x.^2).*cumsum(exp(x.^2));  % right of x=0
 fl = newDomain(-flipud(fr),[-W 0]);  % left of x=0
 f = join(fl,fr);                     % must be an easier way to do this!
 f = chebfun(f, [-W 0 W]);              % is there a better way to do this?
-plot(f,LW,lw), grid on</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
-</pre><img src="img/DawsonIntegral_02.png" class="figure" alt="">
-
-How big is the discrepancy between $F$ and $f$?   You can find out by running these three lines:
+plot(f,LW,lw), grid on</pre>How big is the discrepancy between $F$ and $f$?   You can find out by running these three lines:
 
 semilogy(abs(f-fexact)); title('error when evaluate F directly'); grid on, hold off
 
@@ -58,8 +57,7 @@ An elegant way to evaluate Dawson's integral as well as several others in the co
 <pre class="mcode-input">N = 36;
 tic
 f = chebfun(@(x) real(sqrt(pi)*(cef(x,N)-exp(-x.^2))/2i), [-W W]);
-toc</pre><pre class="mcode-output">Elapsed time is 0.066140 seconds.
-</pre>If you have the Symbolic Toolbox...
+toc</pre>If you have the Symbolic Toolbox...
 
 <pre class="mcode-input">% semilogy(abs(f-fexact)), grid on
 

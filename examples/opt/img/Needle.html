@@ -18,7 +18,7 @@ Let's begin with a picture:
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
 s = chebfun('s',[-4 4]);
 h = .1*s.^2 + .1*sin(6*s)+.03*sin(12*s);
-close all, plot(h,LW,1), axis equal, axis([-4 4 -.4 2])</pre><img src="img/Needle_01.png" alt="">
+close all, plot(h,LW,1), axis equal, axis([-4 4 -.4 2])</pre><img src="img/Needle_01.png" class="figure" alt="">
 
 We see immediately that the optimal position of the center of the needle, call it $x$, will lie in $[-2,2]$.  Actually it's pretty clear it will lie in $[-1,1]$.
 
@@ -47,7 +47,7 @@ end</pre>For example, here are needle positions for $(x,\theta) = (-.6, -0.2)$ a
 <pre class="mcode-input">subplot(2,1,1)
 plotneedle(-0.6,-0.2), title('needle with (x,theta) = (-.6, -0.2)',FS,14)
 subplot(2,1,2)
-plotneedle(1.7,1), title('needle with (x,theta) = (1.7, 1)',FS,14)</pre><img src="img/Needle_02.png" alt="">
+plotneedle(1.7,1), title('needle with (x,theta) = (1.7, 1)',FS,14)</pre><img src="img/Needle_02.png" class="figure" alt="">
 
 Now we just have to minimize over $x$ and $\theta$. Let's first do that over a wide range.
 
@@ -61,8 +61,8 @@ for k = 1:length(x)
   end
 end
 close, contour(x,theta,yy,80), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
-colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre><pre class="mcode-output">Elapsed time is 17.185128 seconds.
-</pre><img src="img/Needle_03.png" alt="">
+colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre><pre class="mcode-output">Elapsed time is 23.348271 seconds.
+</pre><img src="img/Needle_03.png" class="figure" alt="">
 
 In this picture we see that there are two promising regions: one with $(x,\theta) \approx (-.5, -.4)$, and one with $(x,\theta) \approx (.5, -.2)$. The central white regions have an interesting interpretation: if the needle is balanced on top of a mountain, then moving it left or right, or tilting it, doesn't have much effect.
 
@@ -77,8 +77,8 @@ for k = 1:length(x)
 end
 levels = 0.06:.003:0.12;
 contour(x,theta,yy,levels), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
-title(['min value on grid: ' num2str(min(min(yy)))],FS,14), toc</pre><pre class="mcode-output">Elapsed time is 16.087450 seconds.
-</pre><img src="img/Needle_04.png" alt="">
+title(['min value on grid: ' num2str(min(min(yy)))],FS,14), toc</pre><pre class="mcode-output">Elapsed time is 21.893861 seconds.
+</pre><img src="img/Needle_04.png" class="figure" alt="">
 
 The winner seems to be the region on the right. From here the right thing to do is call a bivariate optimization routine. In basic Matlab the simplest one is the direct search code `<a href="http://www.mathworks.co.uk/help/matlab/ref/fminsearch.html">fminsearch</a>`. This requires the input to be a single vector, so we'll need a wrapper:
 
@@ -88,7 +88,7 @@ end</pre>Here goes.
 
 <pre class="mcode-input">opts = optimset('tolx',1e-14,'display','off');
 guess = [.41, -0.2];
-tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre><pre class="mcode-output">Elapsed time is 8.202848 seconds.
+tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre><pre class="mcode-output">Elapsed time is 11.171517 seconds.
 </pre>So it would seem that to 10 digits or more, the minimal height is around
 
 <pre class="mcode-input">yval</pre><pre class="mcode-output">yval =
@@ -97,6 +97,6 @@ tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre><pre class="m
 
 <pre class="mcode-input">plotneedle(xvec(1),xvec(2)), hold on
 axis equal, axis([-2 2 -.4 1.2])
-plot(xvec(1),yval,'.k',MS,12), grid on</pre><img src="img/Needle_05.png" alt="">
+plot(xvec(1),yval,'.k',MS,12), grid on</pre><img src="img/Needle_05.png" class="figure" alt="">
 
 <pre class="mcode-input">end</pre>

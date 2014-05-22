@@ -14,7 +14,7 @@ MS = 'MarkerSize'; ms = 18;
 dom = [-3 3];
 f = chebfun('x.^3-3*x.^2+2', dom);
 plot(f, LW, lw), hold on
-plot(dom, [0 0], 'k'), hold off</pre><img src="img/NewtonRaphson_01.png" alt="">
+plot(dom, [0 0], 'k'), hold off</pre><img src="img/NewtonRaphson_01.png" class="figure" alt="">
 
 Here are the roots.
 
@@ -51,7 +51,7 @@ end
 hold off
 root1 = xnew</pre><pre class="mcode-output">root1 =
   -0.732050807568878
-</pre><img src="img/NewtonRaphson_02.png" alt="">
+</pre><img src="img/NewtonRaphson_02.png" class="figure" alt="">
 
 In the above plot, the solid black dots are the successive approximations of the root, while the circles are their projections on the curve, from which the Newton's method locates the next approximation along the tangent (black dash-dot lines). The following table tells us with no surprise that Newton's method is quadratically convergent.
 

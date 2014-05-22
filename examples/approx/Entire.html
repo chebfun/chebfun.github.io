@@ -83,7 +83,7 @@ for k = 1:numel(rr)
 end
 hold off, axis equal, box on</pre>
 
-<p><img src="img/Entire_01.png" alt=""></p>
+<p><img src="img/Entire_01.png" class="figure" alt=""></p>
 <p>Suppose we have a function f that is analytic on [-1,1] and that can be analytically continued to the closed r-ellipse for some r &gt; 1. Then [1, Chap. 8], the infinity-norm error arising from interpolating f by a polynomial in n+1 Chebyshev points is</p>
 <pre class="mcode">              max| f - p_n | &lt;= 4 M / ( r^n (r-1) ) ,</pre>
 
@@ -129,7 +129,7 @@ text(8.02,3350, sprintf('N = %3i',NN(6)))
 hold off, xlabel('\rho')
 shg, grid on, ylim([0 3.5e3]), box on</pre>
 
-<p><img src="img/Entire_02.png" alt=""></p>
+<p><img src="img/Entire_02.png" class="figure" alt=""></p>
 <p>How do these estimates for the length of the polynomial interpolant compare with Chebfun lengths resulting from Chebfun's adaptive construction process?</p>
 <pre class="mcode-input">est = ceil(estimates);
 fprintf('            function        estimate   chebfun length \n')

@@ -22,7 +22,7 @@ title(sprintf('m=%d  n=%d  d=%3.1f',m,n,0),FS,12)
 y = sin(n*t+pi/2);
 subplot(1,2,2), plot(x,y,LW,lw)
 title(sprintf('m=%d  n=%d  d=%3.1f',m,n,0.5),FS,12)
-axis([-1 1 -1 1]), axis square off</pre><img src="img/Lissajous_01.png" alt="">
+axis([-1 1 -1 1]), axis square off</pre><img src="img/Lissajous_01.png" class="figure" alt="">
 
 As usual with 2D computations, it's convenient to use complex arithmetic, defining
 
@@ -41,7 +41,7 @@ for np = 1:6
   plot(lissajous(m,n,d),LW,lw,'color',colors(np,:))
   axis([-1 1 -1 1]), axis square off
   title(sprintf('m=%d  n=%d  d=%5.3f',m,n,d),FS,10)
-end</pre><img src="img/Lissajous_02.png" alt="">
+end</pre><img src="img/Lissajous_02.png" class="figure" alt="">
 
 Just for fun, let's draw a cube in which each face is a different Lissajous figure:
 
@@ -52,5 +52,5 @@ f = lissajous(7,16,2/3);
 plot3(-1+0*t,real(f),imag(f),'b')
 f = lissajous(13,17,0);
 plot3(real(f),-1+0*t,imag(f),'color',[0 .8 0])
-axis equal off</pre><img src="img/Lissajous_03.png" alt="">
+axis equal off</pre><img src="img/Lissajous_03.png" class="figure" alt="">
 

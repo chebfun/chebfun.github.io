@@ -17,7 +17,7 @@ The Chebfun example "The Rosenbrock function in 2D optimization" shows how Chebf
 x = linspace(-2,2); y = linspace(-1.25,1.25);
 [xx,yy] = meshgrid(x,y); ff = f(xx,yy);
 figure, contour(x,y,ff,30,LW,1.2), colorbar
-axis([-2 2 -1.25 1.25]), hold on</pre><img src="img/DixonSzego_01.png" alt="">
+axis([-2 2 -1.25 1.25]), hold on</pre><img src="img/DixonSzego_01.png" class="figure" alt="">
 
 Here is Chebfun code taken from opt/Rosenbrock.m to find the minimum and plot the point where it is attained. (The minimum is actually achieved at two points, because of symmetry, but Chebfun does not detect this.)
 
@@ -35,8 +35,8 @@ minf =
   -1.031628453489866
 miny =
    0.712656403020741
-Elapsed time is 3.640794 seconds.
-</pre><img src="img/DixonSzego_02.png" alt="">
+Elapsed time is 4.015643 seconds.
+</pre><img src="img/DixonSzego_02.png" class="figure" alt="">
 
 
 
@@ -51,12 +51,12 @@ toc</pre><pre class="mcode-output">minf =
   -1.031628453489877
 minx =
    0.089842001708778  -0.712656396556268
-Elapsed time is 1.775154 seconds.
+Elapsed time is 1.827085 seconds.
 </pre>And here is a plot.  Chebfun2 has made an arbitrary choice between the two equal global minima.
 
 <pre class="mcode-input">hold off
 contour(F,30,LW,1.2), colorbar, axis([-2 2 -1.25 1.25])
-hold on, plot(minx(1),minx(2),'.k',MS,20)</pre><img src="img/DixonSzego_03.png" alt="">
+hold on, plot(minx(1),minx(2),'.k',MS,20)</pre><img src="img/DixonSzego_03.png" class="figure" alt="">
 
 Reference:
 

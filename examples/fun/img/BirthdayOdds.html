@@ -18,7 +18,7 @@ pk = @(k) 1-exp(a-sum(log(1:(365-k)))-k.*log(365));</pre>We then computed the pr
 <pre class="mcode-input">set(0,'DefaultLineLineWidth',2)
 for i = 1:N, p(i) = pk(i); end
 plot(1:N,p,'.b'), axis([0 365 -.1 1.1]), hold on
-xlabel('Size of the party'), ylabel('Probability of finding at least one pair')</pre><img src="img/BirthdayOdds_01.png" alt="">
+xlabel('Size of the party'), ylabel('Probability of finding at least one pair')</pre><img src="img/BirthdayOdds_01.png" class="figure" alt="">
 
 The plot looked nice on our graphical calculators and we were intrigued. ``Let's make a chebfun out of it!", Pafnuty said. ``But for that we will have to evaluate $p$ at non-integer values."
 
@@ -31,7 +31,7 @@ The plot looked nice on our graphical calculators and we were intrigued. ``Let's
 end</pre>We were now ready to make a chebfun.
 
 <pre class="mcode-input">p = chebfun(@(n) matchProb(n), [1 365],'vectorise');
-plot(p), hold off</pre><img src="img/BirthdayOdds_02.png" alt="">
+plot(p), hold off</pre><img src="img/BirthdayOdds_02.png" class="figure" alt="">
 
 We then computed the number of people needed for a 50-50 chance of finding two people with the same birthday. Surprisingly the answer was:
 

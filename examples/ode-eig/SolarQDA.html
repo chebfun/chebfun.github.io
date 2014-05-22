@@ -94,7 +94,7 @@ U = chebfun(vals,x);
 plot(U,LW,lw), ylabel('potential')
 xlim(x([1 end]))</pre>
 
-<p><img src="img/SolarQDA_01.png" alt=""></p>
+<p><img src="img/SolarQDA_01.png" class="figure" alt=""></p>
 <p>The effective mass is also piecewise constant, so we go through the same motions.</p>
 <pre class="mcode-input">vals = [repmat(m,1,numwell) m(1)];
 vals = mat2cell(vals,1,ones(1,2*numwell+1));  % convert to cell
@@ -113,13 +113,13 @@ subplot(2,1,2)
 plot(Psi,LW,lw), ylabel('wavefunction'), xlim(x([1 end]))</pre>
 
 <pre class="mcode-output">energies =
-   0.237600942577974
-   0.241689420347187
-   0.246929983907824
-   0.251332910863009
+   0.237600942577988
+   0.241689420351800
+   0.246929983910270
+   0.251332910863171
 </pre>
 
-<p><img src="img/SolarQDA_02.png" alt=""></p>
+<p><img src="img/SolarQDA_02.png" class="figure" alt=""></p>
 <p>If we look at probability, we find that the first four modes extend significantly over all wells. This is "delocalization" or quantum tunnelling, and it means the device can conduct electricity.</p>
 <pre class="mcode-input">clf
 semilogy(Psi.^2,LW,lw), ylabel('probability'),
@@ -130,7 +130,7 @@ Warning: Negative data ignored
 Warning: Negative data ignored 
 </pre>
 
-<p><img src="img/SolarQDA_03.png" alt=""></p>
+<p><img src="img/SolarQDA_03.png" class="figure" alt=""></p>
 <p>In practice, though, the potential wells cannot be fabricated identically. A brief experiment shows that the delocalization deteriorates even with small fluctuations in the well depths. Here we perturb by 2% variance.</p>
 <pre class="mcode-input">vals = [repmat([depth 0],1,numwell) depth];  % [ 0 -depth 0 ... -depth 0 ]
 
@@ -148,16 +148,16 @@ semilogy(Psi.^2,LW,lw), ylabel('probability'),
 axis( [x([2 end-1]) 1e-3 1e-0]  )</pre>
 
 <pre class="mcode-output">energies =
-   0.203815714650785
-   0.232140581682812
-   0.241302649589173
-   0.252997582185139
+   0.203815714644833
+   0.232140581678280
+   0.241302649586224
+   0.252997582174507
 Warning: Negative data ignored 
 Warning: Negative data ignored 
 Warning: Negative data ignored 
 </pre>
 
-<p><img src="img/SolarQDA_04.png" alt=""></p>
+<p><img src="img/SolarQDA_04.png" class="figure" alt=""></p>
 <p>References: [1] W. M. Reid, T. Driscoll, and M. F. Doty, "Forming delocalized intermediate states with realistic quantum dots." J. Appl. Phys. 111, 056102 (2012). <a href="http://dx.doi.org/10.1063/1.3691113">http://dx.doi.org/10.1063/1.3691113</a></p>
             </div>
         </div>

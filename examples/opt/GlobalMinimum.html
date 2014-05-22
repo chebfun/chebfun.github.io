@@ -81,7 +81,7 @@ x = linspace(-1,1);
 surf(xx, yy, f(xx,yy)),
 title('The complicated function', 'FontSize', 16)</pre>
 
-<p><img src="img/GlobalMinimum_01.png" alt=""></p>
+<p><img src="img/GlobalMinimum_01.png" class="figure" alt=""></p>
 <p>Since the term $(x^2+y^2)/4$ grows away from $(0,0)$ while the other terms remain bounded, it can be shown that the global minimum occurs in $[-1,1]^2$ [2].</p>
 <p>The function is complicated and oscillatory, but of rank $4$, as can be seen by rearranging its terms and using the identity $\sin(a+b) = \sin(a)\cos(b) + \cos(a)\sin(b)$.</p>
 <pre class="mcode-input">g = chebfun2(f);
@@ -112,18 +112,18 @@ t = toc(s);
 
 fprintf('Total time taken = %1.4fs\n',t)</pre>
 
-<pre class="mcode-output">Total time taken = 0.6483s
+<pre class="mcode-output">Total time taken = 0.7947s
 </pre>
 
 <p>Here is the plot of the minimum in a contour plot:</p>
 <pre class="mcode-input">contour(g), hold on, plot(X(1), X(2), 'k.', 'markersize', 20), hold off</pre>
 
-<p><img src="img/GlobalMinimum_02.png" alt=""></p>
+<p><img src="img/GlobalMinimum_02.png" class="figure" alt=""></p>
 <p>To see that the computed point is the global minimum we make the following plot:</p>
 <pre class="mcode-input">plot(g), hold on, plot3(X(1),X(2),Y,'k.','markersize',40)
 zlim([-10 10]), view(-24.5,4)</pre>
 
-<p><img src="img/GlobalMinimum_03.png" alt=""></p>
+<p><img src="img/GlobalMinimum_03.png" class="figure" alt=""></p>
 <h3 id="references">References</h3>
 <p>[1] Lloyd N. Trefethen, A 100-Dollar, 100-Digit Challenge, SIAM News, 35 (2002).</p>
 <p>[2] Folkmar Bornemann, Dirk Laurie, Stan Wagon and Joerg Waldvogel, The SIAM 100-Digit Challenge: A Study in High-Accuracy Numerical Computing, SIAM, 2004.</p>

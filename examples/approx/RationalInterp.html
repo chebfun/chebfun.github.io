@@ -86,7 +86,7 @@ for j = 1:2
   text(-.8,2.3,['ep = ' num2str(ep)],FS,12)
 end</pre>
 
-<p><img src="img/RationalInterp_01.png" alt=""></p>
+<p><img src="img/RationalInterp_01.png" class="figure" alt=""></p>
 <p>We see that in this particular case, the interpolant could hardly be considered to be an good approximation over the interval $[-1,1]$. It has a pole at $x=1/3$ that gets weaker as $\varepsilon$ decreases to zero (the residue is $4\varepsilon/3$), but never goes away so long as $\varepsilon$ is nonzero. One can think of this as a nearly-cancelling pole-zero pair: the nearby zero is at $1/(3-4\varepsilon))$.</p>
 <p>So we see that rational interpolation can be tricky!  "Spurious" pole-zero pairs of rational approximations may appear in unexpected places, leading to approximants that lack the properties one might like. This happens in exact arithmetic, and it happens even more often in finite-precision arithmetic, where rounding errors may generate additional pole-zero pairs that shouldn't be there in principle.</p>
 <p>Chebfun has a command <code>ratinterp</code> for computing rational interpolants, which uses Chebyshev points by default but can also be applied with arbitrary points.  We could have generated the above pictures with the commands <code>fj = [1+ep 1 1+2*ep]; [p,q] = ratinterp(fj,1,1); r = p./q;</code></p>
@@ -123,7 +123,7 @@ hold off, plot(p./q,'m',LW,1.6), hold on
 xx = chebpts(16); plot(xx,f(xx),'.k',MS,16)
 title(['Type (3,3) least-squares approximant to cos(e^x) in 16 Chebyshev points'])</pre>
 
-<p><img src="img/RationalInterp_02.png" alt=""></p>
+<p><img src="img/RationalInterp_02.png" class="figure" alt=""></p>
 <p>For our final example, suppose we want the interpolant of type $(8,8)$ to $\exp(x)$ in $17$ Chebyshev points.  A computation with <code>ratinterp</code> is very successful, as shown by the first plot below.  However, this success is a tribute to the robustness features of <code>ratinterp</code> when called in its default mode. By default, <code>ratinterp</code> uses an approximation procedure that is more robust than pure interpolation, based on the singular value decomposition, which often manages to eliminate spurious poles introduced by rounding errors. We can turn off this robustness by repeating the computation with a tolerance of $0$ rather than the default $10^{-14}$, and that is what is done in the second panel of the plot.  The plot looks the same! In fact it isn't though; there's a spurious pole-zero pair that has gone undected.  We can see it like this:</p>
 <pre class="mcode-input">f = exp(x);
 [p,q] = ratinterp(f,8,8);
@@ -134,7 +134,7 @@ tol = 0;
 subplot(2,1,2), plot(p./q,LW,1.6), hold on
 xx = chebpts(17); plot(xx,exp(xx),'.k',MS,16)</pre>
 
-<p><img src="img/RationalInterp_03.png" alt=""></p>
+<p><img src="img/RationalInterp_03.png" class="figure" alt=""></p>
 <pre class="mcode-input">format long
 spurious_zeros = roots(p)
 spurious_poles = roots(q)

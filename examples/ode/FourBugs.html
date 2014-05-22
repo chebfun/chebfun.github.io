@@ -88,7 +88,7 @@ text(-.93,.5,'3',FS,12), text(-1,-.43,'4',FS,12)
 axis tight equal off
 title('The "Four bugs on a rectangle" problem', FS, 14)</pre>
 
-<p><img src="img/FourBugs_01.png" alt=""></p>
+<p><img src="img/FourBugs_01.png" class="figure" alt=""></p>
 <h3 id="the-system-of-odes">The system of ODEs</h3>
 <p>For notational and computational convenience, we will place the bugs on the corners of a $2\times1$ rectangle centered at the origin in the complex plane. By symmetry, bugs 1 and 3 will follow the same path rotated $180^{\circ}$, and so will 2 and 4. Thus the bugs will always form a parallelogram centered at the origin as they converge.</p>
 <p>The system of ODEs that describes the motion of the bugs is derived as follows. We denote the position of bug $k$ as $z_k$ and the lengths of the sides of the parallelogram they form as $\ell_1$ and $\ell_2$. We let $\theta$ denote the internal angle formed by $z_2$ and its neighbors and $\phi$ the orientation of the system, equal to $\arg(z_2 - z_1)$. Now a system of ODEs governing the dance of the bugs may be written down [1]:</p>
@@ -128,7 +128,7 @@ plot(bugs, LW, 2), hold on
 plot(xx, yy, 'k.', MS, 18), axis equal off
 title('The dance of four bugs on a rectangle', FS, 14)</pre>
 
-<p><img src="img/FourBugs_02.png" alt=""></p>
+<p><img src="img/FourBugs_02.png" class="figure" alt=""></p>
 <p>As explained above, the bugs always form a parallelogram as they converge. What is less obvious is how the parallelogram transforms as the bugs near the origin. Here are some level sets of the bugs' approach.</p>
 <pre class="mcode-input">figure(2), hold on
 for t = linspace(-1.5, -.01, 7),
@@ -137,7 +137,7 @@ end
 ylim([-.55 .55])
 title('The dance of four bugs on a rectangle, with level sets', FS, 14)</pre>
 
-<p><img src="img/FourBugs_03.png" alt=""></p>
+<p><img src="img/FourBugs_03.png" class="figure" alt=""></p>
 <p>We can verify in Chebfun that the perimeter of the bugs' parallelogram decreases at the constant rate 4.</p>
 <pre class="mcode-input">figure(3)
 subplot(2,1,1)
@@ -149,7 +149,7 @@ subplot(2,1,2)
     ylim([-7 0])
     title('Rate of change of parallelogram perimeter', FS, 14)</pre>
 
-<p><img src="img/FourBugs_04.png" alt=""></p>
+<p><img src="img/FourBugs_04.png" class="figure" alt=""></p>
 <h3 id="computing-critical-times">Computing critical times</h3>
 <p>The exposition in [1] also includes discussion of critical times at which the bugs form special shapes. In particular, at each $t\in t_\mathrm{rect}$ the bugs form a rectangle, and at each $t\in t_\mathrm{rhomb}$ the bugs form a rhombus. (The bugs form these shapes infinitely many times, but after the first few steps of their dance, the spatial scale has shrunk so much that we cannot hope to compute exact time values on a computer using this method.) Here is one way to find the first two times in $t_\mathrm{rect}$ using Chebfun. We can construct a chebfun to test the orthogonality of the parallelogram at any point in time. The roots of that function will then correspond to the times at which the bugs form a rectangle.</p>
 <pre class="mcode-input">F_rect = chebfun(@(t) theta(t)-pi/2, interval);
@@ -199,7 +199,7 @@ subplot(2,2,4), hold on
     axis equal, zoom(52), axis off
     title(['rhombus, t = ' num2str(tt(4),10)], FS, 12)</pre>
 
-<p><img src="img/FourBugs_05.png" alt=""></p>
+<p><img src="img/FourBugs_05.png" class="figure" alt=""></p>
 <p>References:</p>
 <p>[1] S. J. Chapman, James Lottes, and Lloyd N. Trefethen.     "Four bugs on a rectangle." Proceedings of the Royal Society A:     467, no. 2127 (2011): 881-896.</p>
             </div>

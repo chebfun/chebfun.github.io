@@ -87,7 +87,7 @@ c2 = chebfun(@(y) sin(exp(1i*pi*y))*exp(1i*pi/3),[-1 1]);  % red curve
 plot(c1,'b-',LW,lw), hold on, plot(c2,'r-',LW,lw),
 xlabel('Re',FS,fs), ylabel('Im',FS,fs), grid on, axis equal</pre>
 
-<p><img src="img/BivariateRoots_01.png" alt=""></p>
+<p><img src="img/BivariateRoots_01.png" class="figure" alt=""></p>
 <p>The goal is to find the four intersections of the red and blue curves. To use the Bezoutian approach, we first approximate the curves by complex valued chebfuns. To keep the computation of a manageable size we need to set the maximum degree $n$ to a few dozen, as the complexity of what follows is $O(n^6)$.</p>
 <pre class="mcode-input">n = 25;
 u1 = chebfun(real(c1),n); v1 = chebfun(imag(c1),n);
@@ -149,12 +149,12 @@ errors = abs(c2(y)-c1(x))</pre>
 <pre class="mcode-output">errors =
    1.0e-04 *
   Columns 1 through 3
-   0.034925098616973   0.145821048303069   0.444399974676835
+   0.034889049865551   0.145869599264038   0.444387692424041
   Column 4
-   0.145861116513781
+   0.145858086843255
 </pre>
 
-<p><img src="img/BivariateRoots_02.png" alt=""></p>
+<p><img src="img/BivariateRoots_02.png" class="figure" alt=""></p>
 <p>References:</p>
 <p>[1]  D. S. Bernstein, Matrix Mathematics: Theory, Facts, and Formulas, Princeton University Press, 2nd edition, 2009.</p>
 <p>[2]  D. A. Bini and A. Marco. Computing curve intersection by means of simultaneous iterations. Numerical Algorithms, 43(2):151-175, 2006.</p>

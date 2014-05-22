@@ -93,7 +93,7 @@
 removable = chebfun2(f, 1.5*pi*[-1 1 -1 1]);
 plot(removable)</pre>
 
-<p><img src="img/Singularities_01.png" alt=""></p>
+<p><img src="img/Singularities_01.png" class="figure" alt=""></p>
 <p>Indeed, the phase portrait of $f$ looks clean around the origin, and there is no singularity after all. The points $\pm\pi$ stand out in the plot, but these are zeros, not singularities, of $f$. In a phase portrait the difference is that the colors of zeros and poles wind in opposite directions.</p>
 <h3 id="poles">Poles</h3>
 <p>Contrary to removable singularities, we can read off singularities of the form $z^{-n}$ from a phase portrait. In order for Chebfun2 to handle the poles, we will "smash" the function a la Nick Trefethen's earlier example "Phase portraits for functions with poles" -- that is, we will plot a smooth function with the same phase as the one we're interested in.</p>
@@ -107,7 +107,7 @@ end</pre>
 poles = chebfun2(@(z) smash(g(z)), 2*[-1 1 -1 1]);
 plot(poles)</pre>
 
-<p><img src="img/Singularities_02.png" alt=""></p>
+<p><img src="img/Singularities_02.png" class="figure" alt=""></p>
 <p>The order of each pole is equal to the number of times each color appears on a small loop winding once around the pole. At $z = 1$, each color appears once, indicating that $z = 1$ is a simple pole of $f$. On the other hand, at $z = -1$, each color appears three times, indicating that $z = -1$ is a pole of order 3. In this example, each $e^{i \pi k/2}$ is a pole of order $k+1$ for $k = 0,1,2,3$.</p>
 <h3 id="an-essential-singularity">An essential singularity</h3>
 <p>The function $h(z) = \mathrm{e}^{-1/z}$ has an essential singularity at the origin. As mentioned above, this means that its Laurent expansion at $z=0$ has infinitely many negative terms. In particular, $$ h(z) = \sum_{k=-\infty}^0 \frac{(-z)^k}{(-k)!}. $$ This complicated singularity cannot be captured in full by Chebfun2, but we can peek at it from the side by first slightly squashing the complex plane with the transformation $z \mapsto z^{0.9}$.</p>
@@ -115,7 +115,7 @@ plot(poles)</pre>
 essential = chebfun2(h1, .5*[0 1 -.5 .5]);
 plot(essential)</pre>
 
-<p><img src="img/Singularities_03.png" alt=""></p>
+<p><img src="img/Singularities_03.png" class="figure" alt=""></p>
 <p>The essential singularity can be thought of as a pole of order infinity. Winding around at an infinitesimal distance from the origin, each color appears infinitely many times, a fact that is implied by the following famous theorem.</p>
 <p>$\mathrm{\bf Big~Picard~Theorem~(1879).}$ Suppose $z_0 \in U \subset {\bf C}$ and $f : U \backslash {z_0} \to {\bf C}$ is an analytic function with an essential singularity at $z_0$. Then $f$ takes on every complex value, with at most one exception, in any neighborhood of $z_0$.</p>
 <p>References:</p>

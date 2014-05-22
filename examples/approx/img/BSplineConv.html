@@ -16,7 +16,7 @@ MS = 'markersize'; ms = 12;
 hold on, plot(pts,B0(pts,'left'),'.k',MS,ms)
 plot(pts,B0(pts,'right'),'.k',MS,ms)
 FS = 'fontsize'; fs = 12;
-title('B-spline of order 0',FS,fs)</pre><img src="img/BSplineConv_01.png" alt="">
+title('B-spline of order 0',FS,fs)</pre><img src="img/BSplineConv_01.png" class="figure" alt="">
 
 If we convolve B0 with itself, we get a hat function:
 
@@ -24,7 +24,7 @@ If we convolve B0 with itself, we get a hat function:
 hold off, plot(B1,LW,lw), axis(ax), grid on
 pts = [pts-.5 max(pts)+.5];
 hold on, plot(pts,B1(pts),'.k',MS,ms)
-title('B-spline of order 1',FS,fs)</pre><img src="img/BSplineConv_02.png" alt="">
+title('B-spline of order 1',FS,fs)</pre><img src="img/BSplineConv_02.png" class="figure" alt="">
 
 Convolving this result with B0 gives us a $C^1$ function, piecewise parabolic:
 
@@ -32,7 +32,7 @@ Convolving this result with B0 gives us a $C^1$ function, piecewise parabolic:
 hold off, plot(B2,LW,lw), axis(ax), grid on
 pts = [pts-.5 max(pts)+.5];
 hold on, plot(pts,B2(pts),'.k',MS,ms)
-title('B-spline of order 2',FS,fs)</pre><img src="img/BSplineConv_03.png" alt="">
+title('B-spline of order 2',FS,fs)</pre><img src="img/BSplineConv_03.png" class="figure" alt="">
 
 As the titles of the plots indicate, these functions are known as B-splines.  In our notation the B-spline $B_n$ is a $C^{n-1}$ piecewise polynomial of degree $n$ with support $[-(n+1)/2,(n+1)/2]$ and breakpoints uniformly spaced with separation 1 this interval. The B-splines form a good basis for numerical computation with splines. Here is B3:
 
@@ -40,7 +40,7 @@ As the titles of the plots indicate, these functions are known as B-splines.  In
 hold off, plot(B3,LW,lw), axis(ax), grid on
 pts = [pts-.5 max(pts)+.5];
 hold on, plot(pts,B3(pts),'.k',MS,ms)
-title('B-spline of order 3',FS,fs)</pre><img src="img/BSplineConv_04.png" alt="">
+title('B-spline of order 3',FS,fs)</pre><img src="img/BSplineConv_04.png" class="figure" alt="">
 
 And here is B4:
 
@@ -48,7 +48,7 @@ And here is B4:
 hold off, plot(B4,LW,lw), axis(ax), grid on
 pts = [pts-.5 max(pts)+.5];
 hold on, plot(pts,B4(pts),'.k',MS,ms)
-title('B-spline of order 4',FS,fs)</pre><img src="img/BSplineConv_05.png" alt="">
+title('B-spline of order 4',FS,fs)</pre><img src="img/BSplineConv_05.png" class="figure" alt="">
 
 B-splines were introduced by Schoenberg and became a standard method for numerical computation following the work of de Boor [1] and Cox [2] in 1972.  In general there is no need for the breakpoints to be uniformly spaced.  With uniformly spaced points as in our example, however, the shape approaches a Gaussian as $n\to\infty$.  One could derive this fact by noting that in Fourier space, each convolution is a multiplication by the Fourier transform of $B_0$, namely a sinc function.  This is the same computation that arises in the proof of the Central Limit Theorem, and in fact, the B-splines have a probabilistic interpretation: if $B_0$ represents a random variable with uniform distribution on the interval $[-1/2,1/2]$ then $B_1$ is the distribution for the sum of two independent samples from $B_0$, $B_2$ is the distribution for the sum of three samples from $B_0$, and so on.
 

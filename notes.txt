@@ -41,3 +41,56 @@ TO DO:
         - maybe include the class diagram:
           http://www.gliffy.com/go/publish/image/4249553/L.png
     - 404 error should be a SCRIBBLE rendering
+
+----
+
+examples
+    - ode/fourbugs zoom problem
+    - roots/whitecurves ugliness
+    - UniformExercises pictures ?
+
+failures:
+
+geom/RoundingCorners
+    Error using bndfun/restrict (line 32)
+    Not a valid interval.
+    Error in bndfun/conv (line 110)
+    g_restricted = restrict(g, doms);
+    Error in chebfun/conv (line 80)
+            hjk = conv(f.funs{j}, g.funs{k});  
+    Error in chebfun/conv (line 70)
+        h = conv(g, f);
+    Error in RoundingCorners (line 26)
+    f2 = conv(f,g);
+
+ode/NonstandardBCs
+    Error using chebop/parsebc (line 38)
+    Number of inputs to BCs do not match operator.
+    Error in chebop/set.bc (line 246)
+                    N.bc = parseBC(N, val);
+    Error in NonstandardBCs (line 44)
+    N.bc = @(x,u) sum(u);
+
+ode/DawsonIntegral
+    Error using chebop/parsebc (line 38)
+    Number of inputs to BCs do not match operator.
+    Error in chebop/set.bc (line 246)
+                    N.bc = parseBC(N, val);
+    Error in DawsonIntegral (line 24)
+    L.bc = @(x,f) f(0);                 % interior point condition
+
+complex/PhasePortraits
+    Error using .^
+    Matrix dimensions must agree.
+    Error in @(z)sum(z.^(0:9))
+
+    Error in chebfun2/constructor>@(x,y)op(x+1i*y) (line 97)
+        op = @(x, y) op( x + 1i*y );
+    Error in chebfun2/sampleTest (line 22)
+    vOp = feval(op, xeval, yeval);
+    Error in chebfun2/constructor (line 306)
+            pass = g.sampleTest(op, tol);
+    Error in chebfun2 (line 57)
+                f = constructor(f, varargin{:});
+    Error in PhasePortraits (line 38)
+    g = chebfun2(@(z) sum(z.^(0:9)),d./2,'vectorise');

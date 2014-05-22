@@ -81,7 +81,7 @@ fprintf('Condition no. for Chebyshev polynomials: %8.3f\n',cond(A))</pre>
 <pre class="mcode-output">Condition no. for Chebyshev polynomials:    4.006
 </pre>
 
-<p><img src="img/CondNos_01.png" alt=""></p>
+<p><img src="img/CondNos_01.png" class="figure" alt=""></p>
 <p>Legendre polynomials are not much different:</p>
 <pre class="mcode-input">A = legpoly(0:N);
 plot(A)
@@ -90,7 +90,7 @@ fprintf('Condition no. for Legendre polynomials: %8.3f\n',cond(A))</pre>
 <pre class="mcode-output">Condition no. for Legendre polynomials:    4.796
 </pre>
 
-<p><img src="img/CondNos_02.png" alt=""></p>
+<p><img src="img/CondNos_02.png" class="figure" alt=""></p>
 <p>Here are the Legendre polynomials normalized by having unit norm rather than by taking the value $1$ at $x=1$.  Since the functions are orthonormal, the condition number is $1$.</p>
 <pre class="mcode-input">A = legpoly(0:N,'norm');
 plot(A)
@@ -99,7 +99,7 @@ fprintf('Condition no. for normalized Legendre polynomials: %8.3f\n',cond(A))</p
 <pre class="mcode-output">Condition no. for normalized Legendre polynomials:    1.000
 </pre>
 
-<p><img src="img/CondNos_03.png" alt=""></p>
+<p><img src="img/CondNos_03.png" class="figure" alt=""></p>
 <p>All of these condition numbers are fine for numerical work. Monomials, by contrast, are exponentially ill-conditioned:</p>
 <pre class="mcode-input">x = chebfun('x');
 A = [1 x];
@@ -112,7 +112,7 @@ fprintf('Condition no. for monomials: %8.3f\n',cond(A))</pre>
 <pre class="mcode-output">Condition no. for monomials: 7244.534
 </pre>
 
-<p><img src="img/CondNos_04.png" alt=""></p>
+<p><img src="img/CondNos_04.png" class="figure" alt=""></p>
 <p>Now what exactly do these condition numbers mean?  Here is an explanation following Chapter 4 of [2].  $A$ is a "quasimatrix", a matrix with $12$ "columns" that are not vectors but functions of the variable $x$ on $[-1,1]$.  This quasimatrix represents a mapping from the space $R^{12}$ of vectors of dimension $12$ into the $12$-dimensional subspace of degree $11$ polynomials in $L^2([-1,1])$, the infinite-dimensional space of square-integrable functions defined on $[-1,1]$.  Now suppose we consider the unit ball in $R^{12}$, that is, the set of all $12$-vectors whose $2$-norm is $&lt;1$.  The quasimatrix $A$ maps this ball into an $12$-dimensional hyperellipsoid, a kind of $12$-dimensional pancake. The condition number $\mbox{cond}(A)$ is equal to the ratio of the largest dimension of the pancake to the smallest.  When the columns of $A$ are monomials, the pancake is very flat indeed.</p>
 <p>References:</p>
 <p>[1] L. N. Trefethen, Householder triangularization of a quasimatrix, IMA Journal of Numerical Analysis 30 (2010), 887-897.</p>

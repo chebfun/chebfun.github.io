@@ -83,19 +83,19 @@ title('A complicated function',FS,14)</pre>
    529
 </pre>
 
-<p><img src="img/ExtremeExtrema_01.png" alt=""></p>
+<p><img src="img/ExtremeExtrema_01.png" class="figure" alt=""></p>
 <p>Here's its absolute value:</p>
 <pre class="mcode-input">g = abs(f);
 plot(g,'m','numpts',10000)
 title('Absolute value',FS,14)</pre>
 
-<p><img src="img/ExtremeExtrema_02.png" alt=""></p>
+<p><img src="img/ExtremeExtrema_02.png" class="figure" alt=""></p>
 <p>Here's the minimum of that function and x/8:</p>
 <pre class="mcode-input">h = min(g,x/8);
 plot(h,'numpts',10000)
 title('Minimum with x/8',FS,14)</pre>
 
-<p><img src="img/ExtremeExtrema_03.png" alt=""></p>
+<p><img src="img/ExtremeExtrema_03.png" class="figure" alt=""></p>
 <p>We can find the maximum over the interval [0,5] like this:</p>
 <pre class="mcode-input">[maxval,maxpos] = max(h{0,5})
 hold on, plot(maxpos,maxval,'.r','markersize',40)
@@ -107,21 +107,21 @@ maxpos =
    4.164759283173292
 </pre>
 
-<p><img src="img/ExtremeExtrema_04.png" alt=""></p>
+<p><img src="img/ExtremeExtrema_04.png" class="figure" alt=""></p>
 <p>Let's add all the local extrema to the plot:</p>
 <pre class="mcode-input">hp = diff(h);
 extrema = roots(hp);
 plot(extrema,h(extrema),'.k','markersize',6)
 title('Local extrema',FS,14)</pre>
 
-<p><img src="img/ExtremeExtrema_05.png" alt=""></p>
+<p><img src="img/ExtremeExtrema_05.png" class="figure" alt=""></p>
 <p>These computations showcase the fact that Chebfun optimization is global -- whether in the sense of finding a global extremum, or in the sense of globally finding all the local extrema.</p>
 <p>They also showcase the treatment of discontinuities. To find extrema, Chebfun looks for zeros of the derivative. In some cases those are points where the derivative is continuous and passes through zero. In others, like the leftmost black dot in the plot above, they are points where the derivative jumps from positive to negative or vice versa.</p>
 <p>Here is the time for this whole sequence of computations:</p>
 <pre class="mcode-input">Total_time = toc</pre>
 
 <pre class="mcode-output">Total_time =
-  29.540320963999999
+  46.348998979000001
 </pre>
             </div>
         </div>

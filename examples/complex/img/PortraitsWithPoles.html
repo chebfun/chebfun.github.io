@@ -14,7 +14,7 @@ Here is a phase portrait [1] of the function $f(z) = z^2(z^3-1) $ on the square 
 <pre class="mcode-input">ff = @(z) z.^2.*(z.^3-1);
 d = 1.5*[-1 1 -1 1];
 f = chebfun2(ff,d);
-plot(f), axis(d), axis square on</pre><img src="img/PortraitsWithPoles_01.png" alt="">
+plot(f), axis(d), axis square on</pre><img src="img/PortraitsWithPoles_01.png" class="figure" alt="">
 
 
 
@@ -30,13 +30,13 @@ end</pre>It works!  Notice that in the middle, yellow is clockwise of red rather
 
 <pre class="mcode-input">ff = @(z) z.^(-2).*(z.^3-1);
 g = chebfun2(@(z) smash(ff(z)),d);
-plot(g), axis(d), axis square on</pre><img src="img/PortraitsWithPoles_02.png" alt="">
+plot(g), axis(d), axis square on</pre><img src="img/PortraitsWithPoles_02.png" class="figure" alt="">
 
 For another example, here is $\tan((3+3i)z)$.  Compare Figure 3.20 of [1].
 
 <pre class="mcode-input">hh = @(z) tan((3+3i)*z);
 h = chebfun2(@(z) smash(hh(z)),d);
-plot(h), axis(d), axis square on</pre><img src="img/PortraitsWithPoles_03.png" alt="">
+plot(h), axis(d), axis square on</pre><img src="img/PortraitsWithPoles_03.png" class="figure" alt="">
 
 These experiments are promising.  In fact, I am not sure how robust the technique is; some careful exploration may be needed, and one might want to loosen the Chebfun2 convergence criterion, since the aim here is only to draw a plot in any case.  Also, the "smash" process as I've defined it isn't scale-invariant; instead of 1 in the denominator, there should be a number representing a typical magnitude of $f$.
 

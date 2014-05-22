@@ -82,7 +82,7 @@ x = linspace(-2,2); y = linspace(-1.25,1.25);
 figure, contour(x,y,ff,30,LW,1.2), colorbar
 axis([-2 2 -1.25 1.25]), hold on</pre>
 
-<p><img src="img/DixonSzego_01.png" alt=""></p>
+<p><img src="img/DixonSzego_01.png" class="figure" alt=""></p>
 <p>Here is Chebfun code taken from opt/Rosenbrock.m to find the minimum and plot the point where it is attained. (The minimum is actually achieved at two points, because of symmetry, but Chebfun does not detect this.)</p>
 <pre class="mcode-input">tic
 fminx0 = @(x0) min(chebfun(@(y) f(x0,y),[-1.25 1.25]));
@@ -100,10 +100,10 @@ minf =
   -1.031628453489866
 miny =
    0.712656403020741
-Elapsed time is 3.640794 seconds.
+Elapsed time is 4.015643 seconds.
 </pre>
 
-<p><img src="img/DixonSzego_02.png" alt=""></p>
+<p><img src="img/DixonSzego_02.png" class="figure" alt=""></p>
 <h3 id="2-chebfun2-solution">2. Chebfun2 solution</h3>
 <p>The above discussion was state-of-the-art Chebfun in 2010, but later it became more convenient and faster to solve such a problem with Chebfun2, as shown in the Chebfun example "The Rosenbrock function in 2D optimization (revisited)".  Let us do likewise for this Dixon-Szego example. We can simply write</p>
 <pre class="mcode-input">tic
@@ -115,7 +115,7 @@ toc</pre>
   -1.031628453489877
 minx =
    0.089842001708778  -0.712656396556268
-Elapsed time is 1.775154 seconds.
+Elapsed time is 1.827085 seconds.
 </pre>
 
 <p>And here is a plot.  Chebfun2 has made an arbitrary choice between the two equal global minima.</p>
@@ -123,7 +123,7 @@ Elapsed time is 1.775154 seconds.
 contour(F,30,LW,1.2), colorbar, axis([-2 2 -1.25 1.25])
 hold on, plot(minx(1),minx(2),'.k',MS,20)</pre>
 
-<p><img src="img/DixonSzego_03.png" alt=""></p>
+<p><img src="img/DixonSzego_03.png" class="figure" alt=""></p>
 <p>Reference:</p>
 <p>[1] L. C. W. Dixon and G. P. Szego, The global optimization problem: an introduction, in L. C. W. Dixon and G. P. Szego (eds.), Towards Global Optimisation 2, North-Holland, Amsterdam 1978, pp. 1-15.</p>
             </div>

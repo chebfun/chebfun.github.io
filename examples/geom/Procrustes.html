@@ -84,7 +84,7 @@ g = exp(1i*pi/3)*(1+cos(t)+1.5i*sin(t)+ .125*(1+1.5i)*sin(3*t).^2); %pebble
 plot(f,'r','LineWidth',2), hold on, axis equal, plot(g,'k','LineWidth',2)
 title('Frisbee and pebble','FontSize',14), hold off</pre>
 
-<p><img src="img/Procrustes_01.png" alt=""></p>
+<p><img src="img/Procrustes_01.png" class="figure" alt=""></p>
 <p>Two shapes are equivalent if one can be obtained from the other by translating, scaling and rotating. Before comparison we thus:</p>
 <ol>
 <li>
@@ -137,7 +137,7 @@ end
 
 [f,g] = ShapeAnalysis(f,g);</pre>
 
-<p><img src="img/Procrustes_02.png" alt=""></p>
+<p><img src="img/Procrustes_02.png" class="figure" alt=""></p>
 <p>To calculate the Procrustes distance in the discrete case we would measure the error between the two shapes at a finite number of reference points and compute the vector 2-norm. In Chebfun we calculate the continuous analogue:</p>
 <pre class="mcode-input">norm(f-g)</pre>
 
@@ -158,11 +158,11 @@ g = exp(-1i*pi/3)*(1+cos(2*pi-t)-1.5i*sin(2*pi-t)+.125*(1-1.5i)*sin(3*(2*pi-t)).
 plot(f,'r','LineWidth',2), hold on, axis equal, plot(g,'k','LineWidth',2)
 title('Pebble and its reflection','FontSize',14), hold off</pre>
 
-<p><img src="img/Procrustes_03.png" alt=""></p>
+<p><img src="img/Procrustes_03.png" class="figure" alt=""></p>
 <p>Here is how the pebble and its reflection compare after each stage of translating, scaling and rotating.</p>
 <pre class="mcode-input">[f,g] = ShapeAnalysis(f,g);</pre>
 
-<p><img src="img/Procrustes_04.png" alt=""></p>
+<p><img src="img/Procrustes_04.png" class="figure" alt=""></p>
 <p>Now we calculate the continuous Procrustes distance.</p>
 <pre class="mcode-input">norm(f-g)</pre>
 

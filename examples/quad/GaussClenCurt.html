@@ -79,7 +79,7 @@ LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
 figure, plot(fc,LW,1.2)
 title('Function f',FS,16)</pre>
 
-<p><img src="img/GaussClenCurt_01.png" alt=""></p>
+<p><img src="img/GaussClenCurt_01.png" class="figure" alt=""></p>
 <p>In Chebfun you would normally compute the integral like this:</p>
 <pre class="mcode-input">format long
 Ichebfun = sum(fc)</pre>
@@ -125,10 +125,10 @@ ylim([1e-18 1])
 xlabel('Npts',FS,12), ylabel('Error',FS,12)
 title('Gauss quadrature convergence',FS,16), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.415016 seconds.
+<pre class="mcode-output">Elapsed time is 0.353070 seconds.
 </pre>
 
-<p><img src="img/GaussClenCurt_02.png" alt=""></p>
+<p><img src="img/GaussClenCurt_02.png" class="figure" alt=""></p>
 <p>Let's add another curve to the plot for Clenshaw-Curtis:</p>
 <pre class="mcode-input">hold on, tic, err = [];
 for Npts = NN
@@ -140,10 +140,10 @@ semilogy(NN,err,'.-r',LW,1,MS,16)
 title('Gauss and Clenshaw-Curtis',FS,16)
 legend('Gauss','Clenshaw-Curtis','location','southwest'), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.506061 seconds.
+<pre class="mcode-output">Elapsed time is 0.819970 seconds.
 </pre>
 
-<p><img src="img/GaussClenCurt_03.png" alt=""></p>
+<p><img src="img/GaussClenCurt_03.png" class="figure" alt=""></p>
 <p>Clenshaw-Curtis quadrature also converges geometrically for analytic functions ([1], Theorem 19.3). In some circumstances Gauss converges up to twice as fast as C-C, with respect to Npts, but as this example suggests, the two formulas are often closer than that.  The computer time is often faster with C-C. For details of the comparison, see [2], [4], and Chapter 19 of [3].</p>
 <p>References:</p>
 <p>[1] N. Hale and A. Townsend, Fast and accurate computation of Gauss-Legendre and Gauss-Jacobi quadrature nodes and weights, SIAM Journal on Scientific Computing, 35 (2013), A652-A672.</p>

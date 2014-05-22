@@ -24,7 +24,7 @@ p = remez(f,m-1); err = f-p;
 subplot(2,2,3), plot(err,'r',LW,1.2)
 grid on, title('f - p',FS,fs)
 subplot(2,2,4), plot(err{.8,1},'r',LW,1.6)
-grid on, title('closeup',FS,fs), toc</pre><pre class="mcode-output">Elapsed time is 5.691665 seconds.
+grid on, title('closeup',FS,fs), toc</pre><pre class="mcode-output">Elapsed time is 1.443711 seconds.
 </pre><img src="img/WigglyApprox_01.png" class="figure" alt="">
 
 Here are `f(200,220)` and its best approximation of degree $199$:
@@ -39,6 +39,6 @@ p = remez(f,m-1); err = f-p;
 subplot(2,2,3), plot(err,'r',LW,1)
 grid on, title('f - p',FS,fs)
 subplot(2,2,4), plot(err{.995,1},'r',LW,1.6)
-grid on, title('closeup',FS,fs), xlim([.995 1]), toc</pre><pre class="mcode-output">Elapsed time is 1.266138 seconds.
+grid on, title('closeup',FS,fs), xlim([.995 1]), toc</pre><pre class="mcode-output">Elapsed time is 1.101582 seconds.
 </pre><img src="img/WigglyApprox_02.png" class="figure" alt="">
 

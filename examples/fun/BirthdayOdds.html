@@ -88,7 +88,7 @@ for i = 1:N, p(i) = pk(i); end
 plot(1:N,p,'.b'), axis([0 365 -.1 1.1]), hold on
 xlabel('Size of the party'), ylabel('Probability of finding at least one pair')</pre>
 
-<p><img src="img/BirthdayOdds_01.png" alt=""></p>
+<p><img src="img/BirthdayOdds_01.png" class="figure" alt=""></p>
 <p>The plot looked nice on our graphical calculators and we were intrigued. <code>Let's make a chebfun out of it!", Pafnuty said.</code>But for that we will have to evaluate $p$ at non-integer values."</p>
 <pre class="mcode-input">function prob = matchProb(n)
     nr = floor(n);
@@ -102,7 +102,7 @@ end</pre>
 <pre class="mcode-input">p = chebfun(@(n) matchProb(n), [1 365],'vectorise');
 plot(p), hold off</pre>
 
-<p><img src="img/BirthdayOdds_02.png" alt=""></p>
+<p><img src="img/BirthdayOdds_02.png" class="figure" alt=""></p>
 <p>We then computed the number of people needed for a 50-50 chance of finding two people with the same birthday. Surprisingly the answer was:</p>
 <pre class="mcode-input">ceil(roots(p-.5))</pre>
 

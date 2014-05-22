@@ -51,7 +51,7 @@ plot(u(0,1:3), 'ok', 'MarkerFaceColor','k','MarkerSize',7)
 quiver(real([u(0,1),u(0,2),u(0,3)]),imag([u(0,1),u(0,2),u(0,3)]),...
     real([u(0,4),u(0,5),u(0,6)]),imag([u(0,4),u(0,5),u(0,6)]),...
     0.4, 'k','linewidth',2);
-hold off</pre><img src="img/ThreeBodyProblem_01.png" alt="">
+hold off</pre><img src="img/ThreeBodyProblem_01.png" class="figure" alt="">
 
 Such types of solutions to the $n$-body problem, where the particles follow periodic paths, have since been called choreographies.
 
@@ -117,7 +117,7 @@ axis equal, grid on
 chebellipseplot(v)
 title('Poles, Zeros of Rational Interpolant and Bernstein Ellipse For v');
 plot([0,4*pi]+eps*1i,'-r')
-hold off</pre><img src="img/ThreeBodyProblem_02.png" alt="">
+hold off</pre><img src="img/ThreeBodyProblem_02.png" class="figure" alt="">
 
 `chebellipseplot(v)` plots the Chebfun ellipse associated with $v$. This ellipse is an estimate, based on the decay of the Chebyshev coefficients of $v$, of the largest ellipse with foci $-1$ and $1$ in which the underlying function approximated by $v$ is analytic. The poles appear around the edge of this ellipse, which explains why we missed those poles at the edges of the interval -- those zeros are too far out from the ellipse.
 
@@ -138,7 +138,7 @@ for j = 1:4
 
     title(sprintf('Configuration At t=%dpi/3', c(j)))
     hold off
-end</pre><img src="img/ThreeBodyProblem_03.png" alt="">
+end</pre><img src="img/ThreeBodyProblem_03.png" class="figure" alt="">
 
 
 
@@ -152,7 +152,7 @@ plot(roots(q,'complex'),'o','markersize',4,'color','b','markerfacecolor','b')
 plot(roots(p,'complex'), 'ok', 'markersize',5)
 axis equal, grid on
 chebellipseplot(v)
-title('Without Robustness')</pre><img src="img/ThreeBodyProblem_04.png" alt="">
+title('Without Robustness')</pre><img src="img/ThreeBodyProblem_04.png" class="figure" alt="">
 
 This is a demonstration of the phenomenon of spurious poles or "Froissart doublets" -- each pole is paired (almost) with a zero in the numerator. Robust `ratinterp` removes such poles with an implementation based on the singular value decomposition.
 

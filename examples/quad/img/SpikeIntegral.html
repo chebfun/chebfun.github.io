@@ -15,12 +15,12 @@ We create a Chebfun representation and plot the function, increasing `'minsample
 <pre class="mcode-input">ff = chebfun(f,[0 1], 'splitting','on','minsamples',129);
 LW = 'linewidth';
 plot(ff,'b',LW,1.6,'numpts',1e4), grid on
-title('Spike function','FontSize',14)</pre><img src="img/SpikeIntegral_01.png" alt="">
+title('Spike function','FontSize',14)</pre><img src="img/SpikeIntegral_01.png" class="figure" alt="">
 
 Here is a confirmation that even the narrowest spike is well resolved:
 
 <pre class="mcode-input">semilogy(ff,'b','interval',[.795,.805],LW,1.6), grid on
-title('Zoom, on semilogy axes','FontSize',14)</pre><img src="img/SpikeIntegral_02.png" alt="">
+title('Zoom, on semilogy axes','FontSize',14)</pre><img src="img/SpikeIntegral_02.png" class="figure" alt="">
 
 Now we compute the integral.  In order to estimate the time for this computation, we create the chebfun again without plotting it.
 
@@ -30,7 +30,7 @@ sum(ff)</pre><pre class="mcode-output">ans =
    0.211717021214835
 </pre>Time for creating this chebfun and integrating it:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 0.451306 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 0.429474 seconds.
 </pre>References:
 
 [1] D. K. Kahaner, "Comparison of numerical quadrature formulas", in J. R. Rice, ed., _Mathematical Software_, Academic Press, 1971, 229-259.

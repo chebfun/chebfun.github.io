@@ -24,15 +24,15 @@ for n = 0:4
    hold off, plot(err,LW,2), ylim(1.2*maxval*[-1 1]), grid on
    hold on, plot(maxpos,err(maxpos),'.r','markersize',24)
    title(['n = ' int2str(n)  '    error = ' num2str(maxval)],FS,14), snapnow
-end</pre><img src="img/GreedyInterp_01.png" alt="">
+end</pre><img src="img/GreedyInterp_01.png" class="figure" alt="">
 
-<img src="img/GreedyInterp_02.png" alt="">
+<img src="img/GreedyInterp_02.png" class="figure" alt="">
 
-<img src="img/GreedyInterp_03.png" alt="">
+<img src="img/GreedyInterp_03.png" class="figure" alt="">
 
-<img src="img/GreedyInterp_04.png" alt="">
+<img src="img/GreedyInterp_04.png" class="figure" alt="">
 
-<img src="img/GreedyInterp_05.png" alt="">
+<img src="img/GreedyInterp_05.png" class="figure" alt="">
 
 Let's continue to n = 8, 16, 32, 64, 128:
 
@@ -46,27 +46,27 @@ Let's continue to n = 8, 16, 32, 64, 128:
      hold on, plot(maxpos,err(maxpos),'.r','markersize',24)
      title(['n = ' int2str(n)  '    error = ' num2str(maxval)],FS,14), snapnow
    end
-end</pre><img src="img/GreedyInterp_06.png" alt="">
+end</pre><img src="img/GreedyInterp_06.png" class="figure" alt="">
 
-<img src="img/GreedyInterp_07.png" alt="">
+<img src="img/GreedyInterp_07.png" class="figure" alt="">
 
-<img src="img/GreedyInterp_08.png" alt="">
+<img src="img/GreedyInterp_08.png" class="figure" alt="">
 
-<img src="img/GreedyInterp_09.png" alt="">
+<img src="img/GreedyInterp_09.png" class="figure" alt="">
 
-<img src="img/GreedyInterp_10.png" alt="">
+<img src="img/GreedyInterp_10.png" class="figure" alt="">
 
 The greedy algorithm has chosen interpolation points that cluster near the boundary.  Here they are in black, compared with Chebyshev points in red:
 
 <pre class="mcode-input">hold off, plot(sort(s),'.k',MS,12)
 scheb = chebpts(length(s));
 hold on, plot(scheb,'or',MS,6)
-ylim(1.02*[-1 1])</pre><img src="img/GreedyInterp_11.png" alt="">
+ylim(1.02*[-1 1])</pre><img src="img/GreedyInterp_11.png" class="figure" alt="">
 
 Here is a comparison of the Lebesgue function of the greedy points, again compared with Chebyshev points in red:
 
 <pre class="mcode-input">hold off, semilogy(lebesgue(s),'k',LW,1.4)
-hold on, semilogy(lebesgue(scheb),'r',LW,1.4)</pre><img src="img/GreedyInterp_12.png" alt="">
+hold on, semilogy(lebesgue(scheb),'r',LW,1.4)</pre><img src="img/GreedyInterp_12.png" class="figure" alt="">
 
 The flavor of this kind of algorithm is reminiscent of the theory of Leja points [1,2], though the details are different since Leja points are determined just by the domain of approximation whereas here we are adaptively working with the function f itself. For an explanation related to potential theory of why effective interpolation grids tend to cluster near boundaries, see Chapter 12 of [3].
 

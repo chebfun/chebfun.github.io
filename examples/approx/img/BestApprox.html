@@ -12,7 +12,7 @@ f = abs(x-0.5);
 [p,err] = remez(f,10);
 LW = 'linewidth'; FS = 'fontsize'; fs = 14;
 figure, plot(f,'b',p,'r',LW,1.6)
-title('Function and best polynomial approximation',FS,fs)</pre><img src="img/BestApprox_01.png" alt="">
+title('Function and best polynomial approximation',FS,fs)</pre><img src="img/BestApprox_01.png" class="figure" alt="">
 
 Here is the error curve, with 12 points of equioscillation:
 
@@ -20,7 +20,7 @@ Here is the error curve, with 12 points of equioscillation:
 plot([-1 1],err*[1 1],'--k',LW,1)
 plot([-1 1],-err*[1 1],'--k',LW,1)
 ylim([-.05 .05])
-title('Degree 10 polynomial error curve',FS,fs)</pre><img src="img/BestApprox_02.png" alt="">
+title('Degree 10 polynomial error curve',FS,fs)</pre><img src="img/BestApprox_02.png" class="figure" alt="">
 
 In Chebfun Version 3, REMEZ could only compute polynomial approximations [1], but Version 4 introduced some capabilities with rational approximations too.  For example, here is the error curve for type (5,5) best rational approximation of the same function f, plotted on the same scale.  Note that there are again 12 points of equioscillation, but this time, they are more closely clustered near the singularity.
 
@@ -31,7 +31,7 @@ plot([-1 1],-err*[1 1],'--k',LW,1)
 ylim([-.05 .05])
 title('Type (5,5) rational error curve',FS,fs)</pre><pre class="mcode-output">Warning: Remez algorithm did not converge after 20 iterations to the tolerance
 1.1e-14. 
-</pre><img src="img/BestApprox_03.png" alt="">
+</pre><img src="img/BestApprox_03.png" class="figure" alt="">
 
 For an introduction to the theory of these approximations, see Chapters 10 and 24 of [3].
 

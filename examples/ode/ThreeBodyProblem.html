@@ -105,7 +105,7 @@ quiver(real([u(0,1),u(0,2),u(0,3)]),imag([u(0,1),u(0,2),u(0,3)]),...
     0.4, 'k','linewidth',2);
 hold off</pre>
 
-<p><img src="img/ThreeBodyProblem_01.png" alt=""></p>
+<p><img src="img/ThreeBodyProblem_01.png" class="figure" alt=""></p>
 <p>Such types of solutions to the $n$-body problem, where the particles follow periodic paths, have since been called choreographies.</p>
 <h3 id="computing-the-complex-singularities">Computing The Complex Singularities</h3>
 <p>Let us consider the chebfun representing the third particle, whose initial value appears on the left in the above plot. This is a complex valued chebfun with domain $[0, 4\pi]$ (2 periods).</p>
@@ -177,7 +177,7 @@ title('Poles, Zeros of Rational Interpolant and Bernstein Ellipse For v');
 plot([0,4*pi]+eps*1i,'-r')
 hold off</pre>
 
-<p><img src="img/ThreeBodyProblem_02.png" alt=""></p>
+<p><img src="img/ThreeBodyProblem_02.png" class="figure" alt=""></p>
 <p><code>chebellipseplot(v)</code> plots the Chebfun ellipse associated with $v$. This ellipse is an estimate, based on the decay of the Chebyshev coefficients of $v$, of the largest ellipse with foci $-1$ and $1$ in which the underlying function approximated by $v$ is analytic. The poles appear around the edge of this ellipse, which explains why we missed those poles at the edges of the interval -- those zeros are too far out from the ellipse.</p>
 <p>Let us plot the configuration of the particles at time $t = (\pi/3)[1,2,4,5]$, the real parts of the poles of our solution. The black particle is particle 3, which has a complex singularity just off the real line at these times.</p>
 <pre class="mcode-input">c = [1,2,4,5];
@@ -197,7 +197,7 @@ for j = 1:4
     hold off
 end</pre>
 
-<p><img src="img/ThreeBodyProblem_03.png" alt=""></p>
+<p><img src="img/ThreeBodyProblem_03.png" class="figure" alt=""></p>
 <h3 id="without-robustness">Without Robustness</h3>
 <p>Now let us do exactly the same with robustness switched off (tol=0):</p>
 <pre class="mcode-input">[p,q,rh,mu,nu,poles,res] = ratinterp(v,157,156, [], [], 0);
@@ -208,7 +208,7 @@ axis equal, grid on
 chebellipseplot(v)
 title('Without Robustness')</pre>
 
-<p><img src="img/ThreeBodyProblem_04.png" alt=""></p>
+<p><img src="img/ThreeBodyProblem_04.png" class="figure" alt=""></p>
 <p>This is a demonstration of the phenomenon of spurious poles or "Froissart doublets" -- each pole is paired (almost) with a zero in the numerator. Robust <code>ratinterp</code> removes such poles with an implementation based on the singular value decomposition.</p>
 <h3 id="references">References</h3>
 <p>[1] Private communication with Divakar Viswanath, July 2011</p>

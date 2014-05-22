@@ -10,7 +10,7 @@ meta: "(Chebfun example stats/Histogram.m)"
 <pre class="mcode-input">x = chebfun('x',[0,10]);
 f = x/3 + cos(2*x) + .5*sin(x.^2) + .2*sin(27*x);
 LW = 'linewidth';
-plot(f,LW,1), hold on</pre><img src="img/Histogram_01.png" alt="">
+plot(f,LW,1), hold on</pre><img src="img/Histogram_01.png" class="figure" alt="">
 
 and we have some bins defined by bin edges, like these:
 
@@ -28,7 +28,7 @@ and we have some bins defined by bin edges, like these:
 end</pre>If we apply the function to our data, we get a histogram represented as a piecewise constant chebfun:
 
 <pre class="mcode-input">h = hist(f,edges);
-plot(h,'r',LW,2)</pre><img src="img/Histogram_02.png" alt="">
+plot(h,'r',LW,2)</pre><img src="img/Histogram_02.png" class="figure" alt="">
 
 What if we wanted to start from data points rather than a function? Chebfun would allow us to do this with delta functions, like this:
 
@@ -42,7 +42,7 @@ plot(xpts,0*xpts,'.k','markersize',10)
 edges = 0:.5:10;
 h = hist(f2,edges);
 hold on, plot(h,'r',LW,2)
-ylim([-1,max(h)+1])</pre><img src="img/Histogram_03.png" alt="">
+ylim([-1,max(h)+1])</pre><img src="img/Histogram_03.png" class="figure" alt="">
 
 This is an extremely inefficient way to work with data, but it illustrates some of the ways in which chebfuns can be manipulated.
 

@@ -75,7 +75,7 @@
 <pre class="mcode-input">plot(chebpoly(1:30),'b-')
 hold on</pre>
 
-<p><img src="img/WhiteCurves_01.png" alt=""></p>
+<p><img src="img/WhiteCurves_01.png" class="figure" alt=""></p>
 <p>The white curves are regions in the graph with exceptionally many intersection points of Chebyshev polynomials. Ortiz and Rivlin show that if 0 &lt; m &lt;= n and T_m(x) = T_n(x) = y, then</p>
 <pre class="mcode">  (1 - T_{n-m}(x)) * (T_2(y) - T_{n-m}(x)) = 0.</pre>
 
@@ -90,7 +90,7 @@ for j = 1:4,        % j = n-m
 end
 ylim([-1 1])</pre>
 
-<p><img src="img/WhiteCurves_02.png" alt=""></p>
+<p><img src="img/WhiteCurves_02.png" class="figure" alt=""></p>
 <p>Ortiz and Rivlin also noted that the phenomenon of white curves appears for other orthogonal polynomials as well. For example, let's take the Legendre polynomials and plot them with some appropriate reweighting:</p>
 <pre class="mcode-input">figure
 x = chebfun('x');
@@ -102,7 +102,7 @@ for j = 1:30,
 end
 ylim([-1 1])</pre>
 
-<p><img src="img/WhiteCurves_03.png" alt=""></p>
+<p><img src="img/WhiteCurves_03.png" class="figure" alt=""></p>
 <p>It is easy to compute the points (x,y) satisfying L_2(y) = L_j(x) just as before. They have no particular meaning in this case, but they appear as a nice pattern:</p>
 <pre class="mcode-input">figure
 L_2 = legpoly(2);
@@ -114,7 +114,7 @@ for j = 1:4,        % j = n-m
     end
 end</pre>
 
-<p><img src="img/WhiteCurves_04.png" alt=""></p>
+<p><img src="img/WhiteCurves_04.png" class="figure" alt=""></p>
 <p>References:</p>
 <p>[1] E. L. Ortiz and T. J. Rivlin, Another look at the Chebyshev polynomials, American Mathematical Monthly 90 (1983), 3-10.</p>
             </div>
