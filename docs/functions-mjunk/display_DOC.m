@@ -1,2 +1,0 @@
-%% TODO: Document this file.
-%
