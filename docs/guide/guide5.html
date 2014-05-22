@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Chebfun Guide 5: Complex Chebfuns</h1>
-                <h2>Lloyd N. Trefethen, November 2009, last revision May 2014</h2>
+                <h2>Lloyd N. Trefethen, November 2009, latest revision May 2014</h2>
             </div>
         </div>
     </div>
@@ -266,7 +266,7 @@ I = sum(f.*diff(z))
 Iexact = 4i*pi*log(pi/2)</pre>
 
 <pre class="mcode-output">I =
-  0.000000000000005 + 5.674755637702225i
+ -0.000000000000008 + 5.674755637702201i
 Iexact =
   0.000000000000000 + 5.674755637702224i
 </pre>
@@ -313,7 +313,7 @@ N = sum((diff(f)./f))/(2i*pi)</pre>
 N = (anglef(end)-anglef(0))/(2*pi)</pre>
 
 <pre class="mcode-output">N =
-   2.999999999999858
+   3.000000000000004
 </pre>
 
 <p>Variations on this idea enable one to locate zeros and poles as well as count them.  For example, we can locate a single zero with the formula</p>

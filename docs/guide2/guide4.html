@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CHEBFUN2 GUIDE 4: VECTOR CALCULUS &raquo; Chebfun</title>
+    <title>Chebfun2 Guide 4: Vector Calculus &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,7 +60,7 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>CHEBFUN2 GUIDE 4: VECTOR CALCULUS</h1>
+                <h1>Chebfun2 Guide 4: Vector Calculus</h1>
                 <h2>Alex Townsend, March 2013, last updated May 2014</h2>
             </div>
         </div>
@@ -117,7 +117,7 @@ vertical scale =   1
 <pre class="mcode-input">plaw = abs((2*norm(F)^2 + 2*norm(G)^2) - (norm(F+G)^2 + norm(F-G)^2));
 fprintf('Parallelogram law holds with error = %10.5e\n',plaw)</pre>
 
-<pre class="mcode-output">Parallelogram law holds with error = 3.55271e-15
+<pre class="mcode-output">Parallelogram law holds with error = 1.77636e-15
 </pre>
 
 <p>The dot product combines two vector functions into a scalar function. If the dot product of two chebfun2v objects takes the value zero at some (x,y) then the vector valued functions are orthogonal at (x,y).  For example, the following code segment determines a curve along which two vector-valued functions are orthogonal:</p>
@@ -170,7 +170,7 @@ zlim([0 4]), hold off</pre>
 <pre class="mcode-input">norm(curl(gradient(f)))</pre>
 
 <pre class="mcode-output">ans =
-     7.270211884645106e-15
+     7.977965127313766e-15
 </pre>
 
 <p>The divergence of a chebfun2v is defined as follows.</p>
@@ -186,7 +186,7 @@ zlim([0 4]), hold off</pre>
 <pre class="mcode-input">norm(laplacian(f) - divergence(gradient(f)))</pre>
 
 <pre class="mcode-output">ans =
-     2.271614469525527e-14
+     3.250510747372032e-14
 </pre>
 
 <h2 id="44-line-integrals">4.4 Line integrals</h2>
@@ -214,7 +214,7 @@ v = integral(F,C);ends = f(cos(10),sin(10))-f(0,0); % line integral
 abs(v-ends)                                         % gradient theorem</pre>
 
 <pre class="mcode-output">ans =
-     4.440892098500626e-16
+     4.884981308350689e-15
 </pre>
 
 <h2 id="45-phase-diagram">4.5 Phase diagram</h2>

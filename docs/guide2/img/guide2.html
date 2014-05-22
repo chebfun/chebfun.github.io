@@ -14,16 +14,16 @@ We have already seen the `sum2` command, which returns the definite double integ
 sum(f)</pre><pre class="mcode-output">ans = 
    chebfun row (1 smooth piece)
        interval       length   endpoint values  
-[       0,    0.79]       37         0     0.13 
-Epslevel = 8.354003e-15.  Vscale = 2.155752e+00.
+[       0,    0.79]       35         0     0.13 
+Epslevel = 8.354003e-15.  Vscale = 2.172798e+00.
 </pre>A chebfun is returned because the result depends on $x$ and hence, is a function of one variable.  Similarly, we can integrate over the $x$ variable, and we plot the result.
 
 <pre class="mcode-input">LW = 'linewidth';
 sum(f,2), plot(sum(f,2),LW,1.6)</pre><pre class="mcode-output">ans = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,       3]       37         0    0.033 
-Epslevel = 7.345480e-15.  Vscale = 5.643746e-01.
+[       0,       3]       35         0    0.033 
+Epslevel = 7.345480e-15.  Vscale = 5.688372e-01.
 </pre><img src="img/guide2_01.png" class="figure" alt="">
 
 A closer look reveals that `sum(f)` returns a row chebfun while `sum(f,2)` returns a column chebfun. This distinction is a reminder that `sum(f)` is a function of $x$ while `sum(f,2)` is a function of $y$. If we integrate over $y$ and then $x$ the result is the double integral of $f$.
@@ -42,9 +42,9 @@ fprintf('QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum(sum(chebfun2(F))); t = toc;
 fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum2(chebfun2(F)); t = toc;
-fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.2126 secs
-CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.0835 secs
-CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0431 secs
+fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.2237 secs
+CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.0597 secs
+CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0338 secs
 </pre>Chebfun2 is not designed specifically for numerical quadrature (or more properly, "cubature"), and careful comparisons with existing software have not been carried out. Low rank function approximations have been previously used for numerical quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman &amp; Geddes 2005].
 
 
@@ -55,7 +55,7 @@ The $L^2$-norm of a function $f(x,y)$ can be computed as the square root of the 
 
 <pre class="mcode-input">f = chebfun2( 'exp(-(x.^2 + y.^2 +4*x.*y))' );
 norm(f), sqrt(sum2(f.^2))</pre><pre class="mcode-output">ans =
-   2.819481057146935
+   2.819481057146933
 ans =
    2.819481057146935
 </pre>Here is another example. This time we compute the norms of $f(x,y)$, $\cos(f(x,y))$, and $f(x,y)^5$.
@@ -64,7 +64,7 @@ ans =
 norm(f), norm( cos(f) ), norm( f.^5 )</pre><pre class="mcode-output">ans =
    0.462652919760561
 ans =
-   1.950850368197070
+   1.950850368197068
 ans =
    0.060896016071932
 </pre>Just as `sum2` performs double integration, `mean2` computes the average value of $f(x,y)$ over both variables:
@@ -123,7 +123,7 @@ The command `cumsum2` computes the double indefinite integral, which is a functi
 contour(cumsum2(f),'numpts',400), axis equal
 title('Contours of cumsum2(f)'), axis([-1 1 -1 1])
 norm( cumsum(cumsum(f),2) - cumsum2(f) )</pre><pre class="mcode-output">ans =
-     4.933290175093255e-16
+     4.148359286312975e-16
 </pre><img src="img/guide2_04.png" class="figure" alt="">
 
 
@@ -188,9 +188,9 @@ In MATLAB the `diff` command calculates finite differences of a matrix along its
 u = real(f); v = imag(f);           % real and imaginary parts
 norm(diff(u) - (-diff(v,1,2)))
 norm(diff(u,1,2) - diff(v))         % Do the Cauchy-Riemann eqns hold?</pre><pre class="mcode-output">ans =
-     1.338374214376637e-14
+     1.342091664543589e-14
 ans =
-     2.474692330575973e-14
+     2.479149752257456e-14
 </pre>
 
 # 2.7 Integration in three variables
@@ -205,8 +205,8 @@ I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5])); % integrate out x,y
 tic, I = sum(chebfun(@(z) I(z),[1 2],'vectorize')); t = toc;
 fprintf(' Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
 tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;         % compare with MATLAB
-fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output"> Chebfun2:  I = -0.48056569408898  time = 1.992 secs
-Integral3:  I = -0.48056569417568  time = 0.600 secs
+fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output"> Chebfun2:  I = -0.48056569408898  time = 2.076 secs
+Integral3:  I = -0.48056569417568  time = 0.818 secs
 </pre>
 
 # 2.9 References

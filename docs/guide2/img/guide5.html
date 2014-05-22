@@ -1,5 +1,5 @@
 ---
-title: "CHEBFUN2 GUIDE 5: 2D SURFACES IN 3D SPACE"
+title: "Chebfun2 Guide 5: 2D Surfaces in 3D Space"
 layout: guide-chapter
 authordate: "Alex Townsend, March 2013, last updated May 2014"
 ---
@@ -67,7 +67,7 @@ where $div(G)=1$. Instead of integrating over the 3D volume, which is currently 
 <pre class="mcode-input">G = F./3;  % full 3D divergence of G is 1 because F = [x;y;z].
 integral2(dot(G,normal(F)))
 exact = 2*pi^2*r1*r2.^2</pre><pre class="mcode-output">ans =
-   2.193245422464302
+   2.193245422464301
 exact =
    2.193245422464302
 </pre>Chebfun2v objects with three components come with a warning. Chebfun2 works with functions of two real variables and therefore, operations such as curl and divergence (in 2D) have little physical meaning to the represented 3D surface.  The reason we can compute the volume of the torus (above) is because we are using the divergence theorem and circumventing the 3D divergence.

@@ -1,7 +1,7 @@
 ---
 title: "Chebfun Guide 5: Complex Chebfuns"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, November 2009, last revision May 2014"
+authordate: "Lloyd N. Trefethen, November 2009, latest revision May 2014"
 ---
 
 
@@ -189,7 +189,7 @@ The integral of $f(z) = \log(z)\tanh(z)$ around this contour will be equal to $2
 <pre class="mcode-input">f = log(z).*tanh(z);
 I = sum(f.*diff(z))
 Iexact = 4i*pi*log(pi/2)</pre><pre class="mcode-output">I =
-  0.000000000000005 + 5.674755637702225i
+ -0.000000000000008 + 5.674755637702201i
 Iexact =
   0.000000000000000 + 5.674755637702224i
 </pre>
@@ -232,7 +232,7 @@ N = sum((diff(f)./f))/(2i*pi)</pre><pre class="mcode-output">N =
 
 <pre class="mcode-input">anglef = unwrap(angle(f));
 N = (anglef(end)-anglef(0))/(2*pi)</pre><pre class="mcode-output">N =
-   2.999999999999858
+   3.000000000000004
 </pre>Variations on this idea enable one to locate zeros and poles as well as count them.  For example, we can locate a single zero with the formula
 
 $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$

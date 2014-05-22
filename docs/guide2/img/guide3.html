@@ -82,8 +82,8 @@ If both the global maximum and minimum are required, it is roughly twice as fast
 <pre class="mcode-input">tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t=toc;
 fprintf('min2 and max2 separately = %5.3fs\n',t)
 tic; [Y X] = minandmax2(f); t=toc;
-fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 1.086s
-minandmax2 command = 0.513s
+fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 1.070s
+minandmax2 command = 0.525s
 </pre>For high accuracy the commands MIN2, MAX2, and MINANDMAX2 require the Optimisation Toolbox in MATLAB.
 
 

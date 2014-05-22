@@ -64,14 +64,14 @@ Evaluation at a point:
 
 <pre class="mcode-input">x = 2*rand - 1; y = 2*rand - 1;
 f(x,y)</pre><pre class="mcode-output">ans =
-   0.992883104904753
+   0.976146363997604
 </pre>Evaluation along the line $y = \pi/6$:
 
 <pre class="mcode-input">f(:,pi/6)</pre><pre class="mcode-output">ans = 
    chebfun row (1 smooth piece)
        interval       length   endpoint values  
-[      -1,       1]       13      0.87     0.87 
-Epslevel = 8.096942e-15.  Vscale = 1.
+[      -1,       1]       11      0.87     0.87 
+Epslevel = 8.096942e-15.  Vscale = 1.000000e+00.
 </pre>There are plenty of other questions that may be of interest.  For instance, what are the zero contours of $f(x,y) - .95$?
 
 <pre class="mcode-input">r = roots(f-.95);
@@ -153,22 +153,25 @@ So far, in this chapter, chebfun2 objects have been constructed explicitly via a
 y = chebfun2(@(x,y) y, [-2 3 -4 4]);
 
 f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
-contour(f), axis square</pre><pre class="mcode-output">Error using chebfun2/singleSignTest
-Too many output arguments.
-Error in chebfun2/rdivide (line 37)
-       [bol, wzero] = singleSignTest( g );  
-Error in guide1 (line 134)
-f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );</pre>
+contour(f), axis square</pre><img src="img/guide1_05.png" class="figure" alt="">
+
+
 
 # 1.7 Analytic functions
 
 An analytic function $f(z)$ can be thought of as a complex valued function of two real variables, $f(x,y) = f(x+iy)$. If the Chebfun2 constructor is given an anonymous function with one argument, it assumes that argument is a complex variable. For instance,
 
 <pre class="mcode-input">f = chebfun2(@(z) sin(z));
-f(1+1i), sin(1+1i)</pre>These functions can be visualised by using a technique known as phase portrait plots. Given a complex number $z = re^{i\theta}$, the phase $e^{i\theta}$ can be represented by a colour. We follow Wegert's colour recommendations [Wegert 2012], using red for a phase $i$, then yellow, green, blue, and violet as the phase moves clockwise around the unit circle. For example,
+f(1+1i), sin(1+1i)</pre><pre class="mcode-output">ans =
+  1.298457581415977 + 0.634963914784735i
+ans =
+  1.298457581415977 + 0.634963914784736i
+</pre>These functions can be visualised by using a technique known as phase portrait plots. Given a complex number $z = re^{i\theta}$, the phase $e^{i\theta}$ can be represented by a colour. We follow Wegert's colour recommendations [Wegert 2012], using red for a phase $i$, then yellow, green, blue, and violet as the phase moves clockwise around the unit circle. For example,
 
 <pre class="mcode-input">f = chebfun2(@(z) sin(z)-sinh(z),2*pi*[-1 1 -1 1]);
-plot(f)</pre>Many properties of analytic functions can be visualised by these types of plots [Wegert 2012], such as the location of zeros and their multiplicities. Can you work out the multiplicity of the root at z=0 from this plot?
+plot(f)</pre><img src="img/guide1_06.png" class="figure" alt="">
+
+Many properties of analytic functions can be visualised by these types of plots [Wegert 2012], such as the location of zeros and their multiplicities. Can you work out the multiplicity of the root at z=0 from this plot?
 
 At present, since Chebfun2 only represents smooth functions, a trick is required to draw pictures like these for functions with poles [Trefethen 2013]. For functions with branch points or essential singularities, it is currently not possible in Chebfun2 to draw phase plots.
 

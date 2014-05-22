@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CHEBFUN GUIDE 7: LINEAR DIFFERENTIAL OPERATORS AND EQUATIONS &raquo; Chebfun</title>
+    <title>Chebfun Guide 7: Linear Differential Operators and Equations &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,7 +60,7 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>CHEBFUN GUIDE 7: LINEAR DIFFERENTIAL OPERATORS AND EQUATIONS</h1>
+                <h1>Chebfun Guide 7: Linear Differential Operators and Equations</h1>
                 <h2>Tobin A. Driscoll, November 2009, last revised May 2014</h2>
             </div>
         </div>
@@ -181,7 +181,7 @@ u = L\1; plot(u,LW,1.6), grid on</pre>
 <pre class="mcode-input">norm(L(u)-1)</pre>
 
 <pre class="mcode-output">ans =
-     1.286350424252826e-10
+     1.874867818288817e-10
 </pre>
 
 <p>Let's change the right-hand boundary condition to $u'=0$ and see how this changes the solution:</p>
@@ -202,6 +202,13 @@ norm(u-v)</pre>
 <pre class="mcode-input">L.bc = 'periodic';
 u = L\1;
 hold off, plot(u,LW,1.6), grid on</pre>
+
+<pre class="mcode-output">Warning: Matrix is not square! 
+Warning: Matrix is not square! 
+Warning: Matrix is not square! 
+Warning: Matrix is not square! 
+Warning: Matrix is not square! 
+</pre>
 
 <p><img src="img/guide7_04.png" class="figure" alt=""></p>
 <p>A command like <code>L.bc=100</code> imposes the corresponding Dirichlet condition at both ends of the domain:</p>
@@ -234,12 +241,12 @@ diag(D)
 clf, plot(V(:,1:4)), ylim([-1 1])</pre>
 
 <pre class="mcode-output">ans =
- -35.999999999995978
- -25.000000000001450
- -16.000000000004270
-  -8.999999999999810
-  -3.999999999998529
-  -0.999999999998903
+ -35.999999999998245
+ -25.000000000000096
+ -16.000000000000124
+  -8.999999999999247
+  -4.000000000000396
+  -1.000000000000149
 </pre>
 
 <p><img src="img/guide7_08.png" class="figure" alt=""></p>
@@ -269,7 +276,7 @@ clf, plot(lam,'r.',MS,16), grid on, axis equal
 spectral_abscissa = max(real(lam))</pre>
 
 <pre class="mcode-output">spectral_abscissa =
-    -8.168642385002104e-05
+    -7.819242044073125e-05
 </pre>
 
 <p><img src="img/guide7_10.png" class="figure" alt=""></p>
@@ -309,9 +316,9 @@ u = chebop(@(x,u) diff(u,2)+u,[-10,10],cos(10),cos(10))\0;
 toc
 error = u(5) - cos(5)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.214524 seconds.
+<pre class="mcode-output">Elapsed time is 0.195011 seconds.
 error =
-    -2.225997164373439e-14
+    -2.220446049250313e-14
 </pre>
 
 <p>We can switch to ultraspherical mode and run the same experiment again like this:</p>
@@ -323,7 +330,7 @@ error = u(5) - cos(5)
 cheboppref.setDefaults('factory')
    % reset to standard mode</pre>
 
-<pre class="mcode-output">Elapsed time is 2.758076 seconds.
+<pre class="mcode-output">Elapsed time is 2.177767 seconds.
 error =
     -8.326672684688674e-16
 </pre>
@@ -365,23 +372,23 @@ end
 clf, plot(u)</pre>
 
 <pre class="mcode-output">nrmdu =
-   0.260668532007020
+   0.260668532007021
 nrmdu =
-   0.164126069559938
+   0.164126069559937
 nrmdu =
-   0.098900892365441
+   0.098900892365440
 nrmdu =
    0.053787171683937
 nrmdu =
-   0.021518152858435
+   0.021518152858434
 nrmdu =
    0.003586696693251
 nrmdu =
-     8.951602488903772e-05
+     8.951602488781532e-05
 nrmdu =
-     5.357404806007761e-08
+     5.357404933989052e-08
 nrmdu =
-     1.920823911475825e-14
+     1.999947431629954e-14
 </pre>
 
 <p><img src="img/guide7_14.png" class="figure" alt=""></p>
