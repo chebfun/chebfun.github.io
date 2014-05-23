@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Least-squares approximation in Chebfun &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Least-squares approximation in Chebfun</h1>
+                <h2>Alex Townsend, 16th October 2013</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">LW = 'linewidth'; lw = 1.6;
+MS = 'markersize';
+FS = 'Fontsize'; fs = 16;</pre>
+
+<h3 id="least-squares-approximation">Least-squares approximation</h3>
+<p>If $f:[-1,1]\rightarrow R$ is an $L^2$-integrable function, then its least-squares or best $L^2$ approximation of degree $n$ is the polynomial $p_n$ of degree at most $n$ such that</p>
+<p>$$ \| f - p_n \|_2 = \mbox{minimum}. $$</p>
+<p>A good introduction to $L^2$ approximations can be found in [2]. The <code>polyfit</code> command in Chebfun returns the best $L^2$ approximation of a given degree to a chebfun:</p>
+<pre class="mcode-input">help chebfun/polyfit</pre>
+
+<pre class="mcode-output"> POLYFIT   Fit polynomial to a CHEBFUN.
+    F = POLYFIT(Y, N) returns a CHEBFUN F corresponding to the polynomial of
+    degree N that fits the CHEBFUN Y in the least-squares sense.
+
+    If Y is a global polynomial of degree n then this code has an O(n (log n)^2)
+    complexity. If Y is piecewise polynomial then it has an O(n^2) complexity.
+
+    F = POLYFIT(X, Y, N, D), where D is a DOMAIN object, returns a CHEBFUN F on
+    the domain D which corresponds to the polynomial of degree N that fits the
+    data (X, Y) in the least-squares sense. X should be a real-valued column
+    vector and Y should be a matrix with size(Y,1) = size(X,1).
+
+    Note CHEBFUN/POLYFIT does not not support more than one output argument in
+    the way that MATLAB/POLYFIT does.
+
+  See also INTERP1.
+
+</pre>
+
+<p>The coefficients of $p_n$ in the Legendre basis can be computed by truncating the Legendre expansion for $f$ after $n+1$ terms. For example,</p>
+<pre class="mcode-input">n = 5; x = chebfun('x');
+f = abs(x);
+P = legpoly(0:n,[-1,1],'norm');         % Legendre-Vandermonde matrix
+cleg = P'*f;                            % compute Legendre coefficients
+pn = P*cleg;                            % Form chebfun of best L^2 approximation
+plot(f,LW,lw), hold on, plot(pn,'r',LW,lw)
+title('Best L^2 approximation to |x| of degree 5','fontsize',16), hold off</pre>
+
+<p><img src="img/BestL2Approximation_01.png" class="figure" alt=""></p>
+<p>This approach works well, but requires $O(n^2)$ operations to compute the Legendre coefficients with a relatively large constant. This was the algorithm using in Chebfun's <code>polyfit</code> command for many years, but was changed last week.</p>
+<h3 id="polyfit-using-fast-chebyshev-legendre-transform"><code>polyfit</code> using fast Chebyshev-Legendre transform</h3>
+<p>Recently, the command <code>cheb2leg</code> was added in Chebfun, which converts a vector of Chebyshev coefficients (of the first kind) to Legendre coefficients in $O(n(\log n)^2/\log\log n)$ operations [1,3]. The command <code>leg2cheb</code> is its inverse. To compute the Legendre expansion of a function (accurate to machine precision) we can first compute its Chebyshev expansion and then use <code>cheb2leg</code>. Chebfun already computes the Chebyshev expansion of a function that is accurate to machine precision. Therefore, here is another way to compute the best approximation of a smooth function via <code>cheb2leg</code>:</p>
+<pre class="mcode-input">n = 10;
+f = 1./(1+25*x.^2);                  % Runge function
+ccheb = get(f,'coeffs');             % get the Chebyshev coefficients of f
+cleg = chebtech.cheb2leg(ccheb{:});  % convert Cheb coeffs of f to Leg coeffs
+cleg = cleg(end-n:end);              % truncate
+ccheb = chebtech.leg2cheb(cleg);     % convert them back to form a chebfun
+pn = chebfun(ccheb,'coeffs');        % form a chebfun
+plot(f,LW,lw), hold on, plot(pn,'r',LW,lw)
+title('Best L^2 approx to Runge function of degree 10',FS,14), hold off</pre>
+
+<p><img src="img/BestL2Approximation_02.png" class="figure" alt=""></p>
+<p>This is the algorithm that is used in Chebfun's <code>polyfit</code>, as of today. So we can obtain the same result from the code:</p>
+<pre class="mcode-input">n = 10;
+f = 1./(1+25*x.^2);                  % Runge function
+pn = polyfit(f,n);
+plot(f,LW,lw), hold on, plot(pn,'r',LW,lw)
+title('Best L^2 approx to Runge function of degree 10',FS,14), hold off</pre>
+
+<p><img src="img/BestL2Approximation_03.png" class="figure" alt=""></p>
+<h3 id="high-degree-best-l2-approximation-for-smooth-functions">High-degree best $L^2$ approximation for smooth functions</h3>
+<p>The fast algorithms now employed by <code>polyfit</code> enable us to compute very high degree $L^2$ approximations.</p>
+<pre class="mcode-input">n = 1e4;
+f = 1./(1+1e6*x.^2);                 % Runge function
+s = tic; pn = polyfit(f,n); t = toc(s);
+fprintf('L^2 error is %1.3e\n',norm(f - pn))
+fprintf('L^2 approximation of degree %u in t = %1.3f\n',n,t)</pre>
+
+<pre class="mcode-output">L^2 error is 1.797e-06
+L^2 approximation of degree 10000 in t = 1.340
+</pre>
+
+<h3 id="piecewise-smooth-functions">Piecewise smooth functions</h3>
+<p>Computing the Legendre coefficients for piecewise smooth functions is a little trickier. The Legendre coefficients are computed by quadrature rules and then a chebfun object is constructed via Chebyshev coefficients computed using the cheb2leg command. The algorithm for piecewise smooth function requires $O(n^2)$ operations, but the implicit constant is much smaller. Here is the best $L^2$-approximation to the piecewise smooth absolute value function.</p>
+<pre class="mcode-input">f = abs(x);
+nn = 10.^(0:3);
+j=1;
+for n = nn
+    pn = polyfit(f, n);
+    err(j) = norm(f - pn);
+    j = j+1;
+end
+
+loglog(nn, err,'k.-',LW,lw,MS,24), hold on
+loglog(nn,nn.^(-3/2),'k--',LW,lw)
+legend('|| |x| - p_n ||_2','n^{-3/2}')
+xlabel('n',FS,fs), ylabel('|| |x| - p_n ||_2',FS,fs)
+title('Convergence of || |x| - p_n ||_2',FS,fs)</pre>
+
+<p><img src="img/BestL2Approximation_04.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<p>[1] N. Hale and A. Townsend, A fast, simple, and stable Chebyshev-Legendre transform using an asymptotic formula, <em>SIAM Journal on Scientific Computing</em>, 32 (2014), A148-A167.</p>
+<p>[2] M. Powell, <em>Approximation Theory and Methods</em>, Cambridge University Press, 1981.</p>
+<p>[3] A. Townsend and N. Hale, A fast Chebyshev-Legendre transform, Chebfun Example, August 2013.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

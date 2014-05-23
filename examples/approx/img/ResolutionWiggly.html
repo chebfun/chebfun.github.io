@@ -1,0 +1,71 @@
+---
+title: "Resolution of wiggly functions"
+layout: example
+authordate: "Nick Hale and Nick Trefethen, 28th October 2013"
+meta: "(Chebfun example approx/ResolutionWiggly.m) [Tags: #interpolation, #best approximation, #least squares, #POLYFIT, #REMEZ]"
+---
+
+One of the Chebfun team's favorite functions is this one,
+
+<pre class="mcode-input">d = [0 14]; format compact
+f = chebfun(@(x) sin(x).^2 + sin(x.^2), d);
+LW = 'linewidth'; lw = 1.2;
+hold off, plot(f, LW, lw, LW, lw), ylim([ - 2.5 2.5])</pre><img src="img/ResolutionWiggly_01.png" class="figure" alt="">
+
+The degree of $f$ is of moderate size:
+
+<pre class="mcode-input">np = length(f)</pre><pre class="mcode-output">np =
+   196
+</pre>It's interesting to see what happens when we compute approximations to $f$ of an intermediate degree. Let us arbitrarily choose the degree to be about half that of $f$:
+
+<pre class="mcode-input">nphalf = round(np/2)</pre><pre class="mcode-output">nphalf =
+    98
+</pre>Here is what happens with interpolation:
+
+<pre class="mcode-input">pinterp = chebfun(f, d, nphalf);
+hold on, plot(pinterp, 'r', LW, lw), ylim([ - 2.5 2.5])
+title('f and interpolant of half the degree')</pre><img src="img/ResolutionWiggly_02.png" class="figure" alt="">
+
+It's clear from this figure that we have pretty good approximation on the left, where $f$ has low wave numbers, and not so good on the right.  A plot of the error confirms this:
+
+<pre class="mcode-input">hold off, plot(f - pinterp, 'k', LW, lw)
+title('error of interpolant of half the degree')</pre><img src="img/ResolutionWiggly_03.png" class="figure" alt="">
+
+Note that near the right-hand boundary the approximation improves again, reflecting the fundamental phenomenon that polynomials have power approximation power near the endpoints of an interval than in the middle, as discussed in Chapter 22 of [1].
+
+What will happen if we change the method of interpolation? For a start, here is what happens if we change from interpolation to least-squares:
+
+<pre class="mcode-input">pleastsq = polyfit(f, nphalf - 1);
+plot(f, 'b', pleastsq, 'r', LW, lw), ylim([ - 2.5 2.5])
+title('f and least - squares approximant of half the degree')</pre><img src="img/ResolutionWiggly_04.png" class="figure" alt="">
+
+Qualitatively, the behavior is similar on the left half of the interval, but it is very different on the right half, where the least - squares approximant, unlike the interpolant, roughly tracks the low-wave - number signal. A plot of the error shows that its amplitude has approximately cut in half.
+
+<pre class="mcode-input">hold off, plot(f - pleastsq, 'k', LW, lw), ylim([ - 2.5 2.5])
+title('error of least - squares approximant of half the degree')</pre><img src="img/ResolutionWiggly_05.png" class="figure" alt="">
+
+Finally, here is what happens with best minimax approximation. Now we have beautifully smooth tracking of the low-wave-number signal on the right, but no accuracy at all on the left.
+
+<pre class="mcode-input">pbest = remez(f, nphalf - 1, 'maxiter', 100);
+plot(f, 'b', pbest, 'r', LW, lw), ylim([ - 2.5 2.5])
+title('f and best approximant of half the degree')</pre><pre class="mcode-output">Warning: Remez algorithm did not converge after 100 iterations to the tolerance
+9.419e-13. 
+</pre><img src="img/ResolutionWiggly_06.png" class="figure" alt="">
+
+The error curve shows its familiar equioscillatory behavior -- with smaller maximum than the other methods, but no ability to take advantage of regions where the function is simpler.
+
+<pre class="mcode-input">hold off, plot(f - pbest, 'k', LW, lw), ylim([ - 2.5 2.5])
+title('error of best approximant of half the degree')</pre><img src="img/ResolutionWiggly_07.png" class="figure" alt="">
+
+In summary, here is what we have observed:
+
+_Interpolation_: good for low wave numbers and near boundaries, meaningless for high wave numbers.
+
+_Least-squares_: good for low wave numbers and near boundaries, tracks the low-wave-number signal at high wave numbers.
+
+_Minimax_: tracks the low-wave-number signal at high wave numbers, meaningless for low wave numbers.
+
+Reference:
+
+[1] L. N. Trefethen, Approximation Theory and Approximation Practice, SIAM, 2013.
+

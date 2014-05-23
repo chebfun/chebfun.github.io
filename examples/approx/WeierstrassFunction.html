@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A pathological function of Weierstrass &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>A pathological function of Weierstrass</h1>
+                <h2>Hrothgar, 29th October 2013</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; format compact</pre>
+
+<p>In the late nineteenth century, Karl Weierstrass rocked the analysis community when he constructed an example of a function that is everywhere continuous but nowhere differentiable. His now eponymous function, also one of the first appearances of fractal geometry, is defined as the sum $$ \sum_{k=0}^{\infty} a^k \cos(b^k \pi x), $$ where $0 &lt; a &lt; 1$ and $b$ is a positive odd integer with $ab &lt; 1 + \frac32 \pi$. Since its publication, Weierstrass' work has been generalized in many directions.</p>
+<p>Chebfun is designed for work with functions with a bit of smoothness, but in this example we will see how Chebfun fares against a pathological function lying on the edge of discontinuity.</p>
+<p>Let us consider the Weierstrass-type function $$ F(x) = \sum_{k=0}^{\infty} 2^{-k} \cos\left( \frac{\pi}{2} 4^k x \right) $$ on the interval $[-1, 1]$. With its default parameter settings, Chebfun resolves the first eight iterates to machine precision, but not the ninth.</p>
+<pre class="mcode-input">f_k = @(k) @(x) 2^-k * cos(pi/2*x*4^k);
+F{1} = chebfun(f_k(0));
+for k = 1:8,
+    F{k+1} = F{k} + chebfun(f_k(k));
+end</pre>
+
+<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+</pre>
+
+<p>Here is what the unresolved ninth iterate looks like.</p>
+<pre class="mcode-input">plot(F{9}, 'k-', LW, 1)
+title('A pathological function of Weierstrass', FS, 16)</pre>
+
+<p><img src="img/WeierstrassFunction_01.png" class="figure" alt=""></p>
+<p>We must zoom in 400 times to see that Chebfun is in fact plotting a smooth function.</p>
+<pre class="mcode-input">plot(F{9}, 'k-', 'interval', [0 0.005], LW, 1)
+title('Close-up of Weierstrass approximant', FS, 16)</pre>
+
+<p><img src="img/WeierstrassFunction_02.png" class="figure" alt=""></p>
+<p>The function $F(x)$ is not differentiable, but it is integrable. For this particular Weierstrass function, the exact value of the integral can be found easily. We begin with</p>
+<p>$$ \int_{-1}^{1} F(x)\mathrm{d}x = \int_{-1}^{1}
+\sum_{k=0}^{\infty} f_k(x) \mathrm{d}x = \int_{-1}^{1} \sum_{k=0}^{\infty}
+2^{-k} \cos\left( \frac{\pi}{2}4^k x \right) \mathrm{d}x. $$</p>
+<p>Because $\int \sum |f_k| &lt; \infty$, we can move the integral inside the sum and evaluate each term as</p>
+<p>$$ \sum_{k=0}^{\infty} \int_{-1}^{1} 2^{-k} \cos\left(
+\frac{\pi}{2}4^k x \right) \mathrm{d}x = \sum_{k=0}^{\infty} \frac{1}{8^k}
+\frac{4}{\pi} \sin\left( \frac{\pi}{2} 4^k \right). $$</p>
+<p>However, $\sin( \frac{\pi}{2} 4^k ) = 0$ for all $k &gt; 0$, so the sum is equal to its first term, $\frac{4}{\pi}$.</p>
+<p>Let's check our answer against Chebfun's.</p>
+<pre class="mcode-input">error = sum(F{9}) - 4/pi</pre>
+
+<pre class="mcode-output">error =
+     3.330669073875470e-15
+</pre>
+
+<p>A more difficult problem is to find the global minimum of $F(x)$ on the interval $[-1, 1]$. Even if it were possible to differentiate $F$ to find where $F'(x) = 0$, we would discover infinitely many local extrema. Of course, Chebfun's representation of $F$ is a polynomial approximant, so we can locate the roots of the derivative for any iterate. As we may expect, performance rapidly gets worse as we take more terms.</p>
+<pre class="mcode-input">tt = []; xx = []; mm = [];
+for k = 1:2:7
+    tic
+    kk = (k+1)/2;
+    [mm(kk), xx(kk)] = min(F{k});
+    tt(kk) = toc;
+end
+str = [sprintf('%2s %11s %16s %19s\n', 'k', 'x_min', 'F_k(x_min)', 'computation time') ...
+       repmat('-',1,52) sprintf('\n') ...
+       sprintf('%2d %12.7f %+15.7f %11.2f sec\n', [(2:2:8); xx; mm; tt])];
+disp(str)</pre>
+
+<pre class="mcode-output"> k       x_min       F_k(x_min)    computation time
+----------------------------------------------------
+ 2   -1.0000000      +0.0000000        0.08 sec
+ 4   -0.6196232      -0.0504416        0.05 sec
+ 6    0.6010220      -0.1761766        0.06 sec
+ 8   -0.6000610      -0.2098447        1.85 sec
+
+</pre>
+
+<p>Chebfun is slowly converging to the actual solution given by $F_{min} = \sin(\frac{\pi}{5}) - \cos(\frac{\pi}{5}) = -0.2212317420...$ at the points $x = \pm \frac35$. Chebfun's difficulty is not with accurately locating the minima: the <code>x_min</code> iterates are geometrically converging to the correct solution as they should. The problem is that the iterates' global minima so slowly converge to the global minimum of $F$ while Chebfun must deal with polynomials of geometrically increasing degree.</p>
+<p>References:</p>
+<p>[1] K. Weierstrass, <em>Abhandlungen aus der Functionenlehre</em>. J. Springer, 1886.</p>
+<p>[2] G. H. Hardy, "Weierstrass's non-differentiable function." <em>Transactions of the American Mathematical Society</em>, 17, no. 3 (1916), 301-325.</p>
+<p>[3] L. N. Trefethen, Approximation theory and approximation practice. SIAM, 2013.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

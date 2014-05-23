@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Resolution of wiggly functions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Resolution of wiggly functions</h1>
+                <h2>Nick Hale and Nick Trefethen, 28th October 2013</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>One of the Chebfun team's favorite functions is this one,</p>
+<pre class="mcode-input">d = [0 14]; format compact
+f = chebfun(@(x) sin(x).^2 + sin(x.^2), d);
+LW = 'linewidth'; lw = 1.2;
+hold off, plot(f, LW, lw, LW, lw), ylim([ - 2.5 2.5])</pre>
+
+<p><img src="img/ResolutionWiggly_01.png" class="figure" alt=""></p>
+<p>The degree of $f$ is of moderate size:</p>
+<pre class="mcode-input">np = length(f)</pre>
+
+<pre class="mcode-output">np =
+   196
+</pre>
+
+<p>It's interesting to see what happens when we compute approximations to $f$ of an intermediate degree. Let us arbitrarily choose the degree to be about half that of $f$:</p>
+<pre class="mcode-input">nphalf = round(np/2)</pre>
+
+<pre class="mcode-output">nphalf =
+    98
+</pre>
+
+<p>Here is what happens with interpolation:</p>
+<pre class="mcode-input">pinterp = chebfun(f, d, nphalf);
+hold on, plot(pinterp, 'r', LW, lw), ylim([ - 2.5 2.5])
+title('f and interpolant of half the degree')</pre>
+
+<p><img src="img/ResolutionWiggly_02.png" class="figure" alt=""></p>
+<p>It's clear from this figure that we have pretty good approximation on the left, where $f$ has low wave numbers, and not so good on the right.  A plot of the error confirms this:</p>
+<pre class="mcode-input">hold off, plot(f - pinterp, 'k', LW, lw)
+title('error of interpolant of half the degree')</pre>
+
+<p><img src="img/ResolutionWiggly_03.png" class="figure" alt=""></p>
+<p>Note that near the right-hand boundary the approximation improves again, reflecting the fundamental phenomenon that polynomials have power approximation power near the endpoints of an interval than in the middle, as discussed in Chapter 22 of [1].</p>
+<p>What will happen if we change the method of interpolation? For a start, here is what happens if we change from interpolation to least-squares:</p>
+<pre class="mcode-input">pleastsq = polyfit(f, nphalf - 1);
+plot(f, 'b', pleastsq, 'r', LW, lw), ylim([ - 2.5 2.5])
+title('f and least - squares approximant of half the degree')</pre>
+
+<p><img src="img/ResolutionWiggly_04.png" class="figure" alt=""></p>
+<p>Qualitatively, the behavior is similar on the left half of the interval, but it is very different on the right half, where the least - squares approximant, unlike the interpolant, roughly tracks the low-wave - number signal. A plot of the error shows that its amplitude has approximately cut in half.</p>
+<pre class="mcode-input">hold off, plot(f - pleastsq, 'k', LW, lw), ylim([ - 2.5 2.5])
+title('error of least - squares approximant of half the degree')</pre>
+
+<p><img src="img/ResolutionWiggly_05.png" class="figure" alt=""></p>
+<p>Finally, here is what happens with best minimax approximation. Now we have beautifully smooth tracking of the low-wave-number signal on the right, but no accuracy at all on the left.</p>
+<pre class="mcode-input">pbest = remez(f, nphalf - 1, 'maxiter', 100);
+plot(f, 'b', pbest, 'r', LW, lw), ylim([ - 2.5 2.5])
+title('f and best approximant of half the degree')</pre>
+
+<pre class="mcode-output">Warning: Remez algorithm did not converge after 100 iterations to the tolerance
+9.419e-13. 
+</pre>
+
+<p><img src="img/ResolutionWiggly_06.png" class="figure" alt=""></p>
+<p>The error curve shows its familiar equioscillatory behavior -- with smaller maximum than the other methods, but no ability to take advantage of regions where the function is simpler.</p>
+<pre class="mcode-input">hold off, plot(f - pbest, 'k', LW, lw), ylim([ - 2.5 2.5])
+title('error of best approximant of half the degree')</pre>
+
+<p><img src="img/ResolutionWiggly_07.png" class="figure" alt=""></p>
+<p>In summary, here is what we have observed:</p>
+<p><em>Interpolation</em>: good for low wave numbers and near boundaries, meaningless for high wave numbers.</p>
+<p><em>Least-squares</em>: good for low wave numbers and near boundaries, tracks the low-wave-number signal at high wave numbers.</p>
+<p><em>Minimax</em>: tracks the low-wave-number signal at high wave numbers, meaningless for low wave numbers.</p>
+<p>Reference:</p>
+<p>[1] L. N. Trefethen, Approximation Theory and Approximation Practice, SIAM, 2013.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

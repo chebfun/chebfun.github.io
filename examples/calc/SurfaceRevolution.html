@@ -71,7 +71,8 @@
     <div class="row">
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <pre class="mcode-input">x = chebfun('x');
+                <p>A surface of revolution can be created by rotating a planar generator curve around an axis lying in the same plane as the curve. Chebfun has a command <code>cylinder</code> for such calculations, which takes a chebfun as input and produces a Chebfun2 as output. A classical example is the unit sphere, which can be obtained by rotating $\sqrt{1-x^2}$ defined on $[-1,1]$ around the $x$-axis. Here we have to rotate $\sqrt{1.0001-x^2}$ because Chebfun2 cannot represent functions with square root singularities.</p>
+<pre class="mcode-input">x = chebfun('x');
 f = sqrt(1.0001-x.^2);
 plot(f,'linewidth',1.6), axis equal
 snapnow

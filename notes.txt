@@ -22,7 +22,6 @@ TO DO:
     - add forum
     - add twitter?
     - news section
-    - examples category galleries
     - prettify function reference
     - css cleanup
     - reflinks everywhere
@@ -41,6 +40,9 @@ TO DO:
         - maybe include the class diagram:
           http://www.gliffy.com/go/publish/image/4249553/L.png
     - 404 error should be a SCRIBBLE rendering
+
+DONE:
+    - examples category galleries
 
 ----
 
