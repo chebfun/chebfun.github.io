@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Spectral radius of the SOR iteration matrix</h1>
-                <h2>Nick Trefethen, 16th October 2012</h2>
+                <h2>Nick Trefethen, October 2012</h2>
             </div>
         </div>
     </div>
@@ -93,11 +93,11 @@ A = toeplitz([2 -1 zeros(1,N-3)])</pre>
 D = diag(diag(A));
 U = triu(A,1);</pre>
 
-<p>From the beginning of the computer era, people studied solution of matrix problems with this kind of matrix by the method of <em>successive overrelaxation</em> or <em>SOR</em>.  Here $\omega\in [1,2]$ is the overrelaxation parameter, and we iterate with the matrix defined like this: $$ G = M^{-1} N, \qquad M = D + \omega L, \quad N = (1-\omega)D- \omega U. $$ In Matlab, that's</p>
+<p>From the beginning of the computer era, people studied solution of matrix problems with this kind of matrix by the method of <em>successive overrelaxation</em> or <em>SOR</em>.  Here $\omega\in [1,2]$ is the overrelaxation parameter, and we iterate with the matrix defined like this: $$ G = M^{-1} N, \qquad M = D + \omega L, \quad N = (1-\omega)D- \omega U. $$ In MATLAB, that's</p>
 <pre class="mcode-input">G = @(om) (D+om*L)\((1-om)*D-om*U);
 rho = @(om) max(abs(eig(G(om))));</pre>
 
-<p>Analysis of the SOR iteration was carried out by Frankel [1] and generalized by Young [4]; see also [3].  Details are given in innumerable books, such as Golub and Van Loan [2]. Supposing we didn't know the theory, Chebfun would give us an elegant way to draw the famous optimal-omega curve:</p>
+<p>Analysis of the SOR iteration was carried out by Frankel [1] and generalized by Young [4]; see also [3].  Details are given in innumerable books, such as Golub and Van Loan [2]. Supposing we didn't know the theory, Chebfun would give us an elegant way to draw the famous optimal-$\omega$ curve:</p>
 <pre class="mcode-input">f = chebfun(rho,[1 2],'splitting','on','vectorize');
 plot(f,'linewidth',2), grid on
 xlabel('\omega','fontsize',16)

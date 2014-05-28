@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Phase Portraits for Functions with Poles &raquo; Chebfun</title>
+    <title>Phase portraits for functions with poles &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,8 +60,8 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Phase Portraits for Functions with Poles</h1>
-                <h2>Nick Trefethen, 4th March 2013</h2>
+                <h1>Phase portraits for functions with poles</h1>
+                <h2>Nick Trefethen, March 2013</h2>
             </div>
         </div>
     </div>
@@ -101,7 +101,7 @@ h = chebfun2(@(z) smash(hh(z)),d);
 plot(h), axis(d), axis square on</pre>
 
 <p><img src="img/PortraitsWithPoles_03.png" class="figure" alt=""></p>
-<p>These experiments are promising.  In fact, I am not sure how robust the technique is; some careful exploration may be needed, and one might want to loosen the Chebfun2 convergence criterion, since the aim here is only to draw a plot in any case.  Also, the "smash" process as I've defined it isn't scale-invariant; instead of 1 in the denominator, there should be a number representing a typical magnitude of $f$.</p>
+<p>These experiments are promising.  In fact, I am not sure how robust the technique is; some careful exploration may be needed, and one might want to loosen the Chebfun2 convergence criterion, since the aim here is only to draw a plot in any case.  Also, the "smash" process as I've defined it isn't scale-invariant; instead of $1$ in the denominator, there should be a number representing a typical magnitude of $f$.</p>
 <p>Perhaps it is worth emphasizing that although it is appealing to be able to use Chebfun2 to draw phase portraits for a wider range of functions than one might have imagined, ultimately there is no good reason for the phase portraitist to use Chebfun2.  A phase portrait is just a pixel-by-pixel image; it gets no benefit from the global high-accuracy representations of Chebfun2.</p>
 <h3 id="references">References</h3>
 <p>[1] E. Wegert, Visual Complex Functions: An Introduction with Phase Portraits, Birkhauser/Springer, Basel, 2012.</p>

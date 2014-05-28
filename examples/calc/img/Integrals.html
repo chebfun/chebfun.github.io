@@ -1,7 +1,7 @@
 ---
-title: "Definite and Indefinite Integrals"
+title: "Definite and indefinite integrals"
 layout: example
-authordate: "Nick Trefethen, 23rd October 2012"
+authordate: "Nick Trefethen, October 2012"
 meta: "(Chebfun example calc/Integrals.m) [Tags: #integral, #SUM, #CUMSUM]"
 ---
 
@@ -15,7 +15,7 @@ plot(f,LW,lw), ylim(2.5*[-1 1])</pre><img src="img/Integrals_01.png" class="figu
 The Chebfun command `sum` returns the definite integral over the prescribed interval, which is just a number:
 
 <pre class="mcode-input">format long, sum(f)</pre><pre class="mcode-output">ans =
-  -1.150444078461248
+  -1.150444078461246
 </pre>You can also calculate the definite interval over a subinterval by giving two additional arguments, like this:
 
 <pre class="mcode-input">sum(f,3,4)</pre><pre class="mcode-output">ans =

@@ -22,7 +22,7 @@ Two shapes are equivalent if one can be obtained from the other by translating, 
 
 1. Translate the shapes so they have mean zero.
 
-2. Scale so the shapes have Root Mean Squared Distance (RMSD) to the origin of 1.
+2. Scale so the shapes have Root Mean Squared Distance (RMSD) to the    origin of $1$.
 
 3. Rotate to align major axis.
 
@@ -67,15 +67,15 @@ end
 
 [f,g] = ShapeAnalysis(f,g);</pre><img src="img/Procrustes_02.png" class="figure" alt="">
 
-To calculate the Procrustes distance in the discrete case we would measure the error between the two shapes at a finite number of reference points and compute the vector 2-norm. In Chebfun we calculate the continuous analogue:
+To calculate the Procrustes distance in the discrete case we would measure the error between the two shapes at a finite number of reference points and compute the vector $2$-norm. In Chebfun we calculate the continuous analogue:
 
 <pre class="mcode-input">norm(f-g)</pre><pre class="mcode-output">ans =
-   0.072347575424999
+   0.072347575424997
 </pre>
 
 ## A little warning
 
-In the discrete version of Procrustes shape analysis statisticians choose reference points on the two shapes (to compare).  They then work out the difference between corresponding reference points.  The error computed depends on this correspondence.  A different correspondence gives a different error.   In the continuous case this correspondence becomes the parameterisation. A different parameterisation of the two curves gives a different error. This continuous version of Procrustes (as implemented in this example) is therefore more of an 'eyeball' check than a robust statistical analysis.
+In the discrete version of Procrustes shape analysis statisticians choose reference points on the two shapes (to compare).  They then work out the difference between corresponding reference points.  The error computed depends on this correspondence.  A different correspondence gives a different error.  In the continuous case this correspondence becomes the parameterisation. A different parameterisation of the two curves gives a different error. This continuous version of Procrustes (as implemented in this example) is therefore more of an 'eyeball' check than a robust statistical analysis.
 
 
 
@@ -99,7 +99,7 @@ Here is how the pebble and its reflection compare after each stage of translatin
 Now we calculate the continuous Procrustes distance.
 
 <pre class="mcode-input">norm(f-g)</pre><pre class="mcode-output">ans =
-   0.097593759012233
+   0.097593759012231
 </pre>Comparing this result to the Procrustes distance of the pebble and a frisbee shows that the pebble is closer in shape to a frisbee than to its own reflection!
 
 <pre class="mcode-input">end</pre>

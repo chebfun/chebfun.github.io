@@ -1,11 +1,11 @@
 ---
-title: "Encryption of a message with SCRIBBLE"
+title: "Encryption of a message with `scribble`"
 layout: example
-authordate: "Nick Trefethen, 10th April 2012"
+authordate: "Nick Trefethen, April 2012"
 meta: "(Chebfun example fun/Encryption.m) [Tags: #encryption, #message]"
 ---
 
-`scribble` produces piecewise linear complex chebfuns whose plots look like words, like this:
+The `scribble` command produces piecewise linear complex chebfuns whose plots look like words, like this:
 
 <pre class="mcode-input">message = scribble('This is the message');
 LW = 'linewidth'; lw = 2;
@@ -21,7 +21,7 @@ Now if we plot the sum of the two, we get nonsense:
 <pre class="mcode-input">encrypted = message + key;
 plot(encrypted, 'm', LW, lw), axis equal</pre><img src="img/Encryption_03.png" class="figure" alt="">
 
-So we've invented a new encryption scheme!  For of course the original message can be recovered by subtracting off that key:
+So we've invented a new encryption scheme! For of course the original message can be recovered by subtracting off that key:
 
 <pre class="mcode-input">message2 = encrypted - key;
 plot(message2, LW, lw), axis equal</pre><img src="img/Encryption_04.png" class="figure" alt="">

@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Pretty functions approximated by Chebfun2</h1>
-                <h2>Alex Townsend, 4th March 2013</h2>
+                <h2>Alex Townsend, March 2013</h2>
             </div>
         </div>
     </div>
@@ -93,7 +93,7 @@ subplot(2,3,5), contour(F5,'numpts',n), plot(F5,'.k',MS,ms), axis(d)
 subplot(2,3,6), contour(F6,'numpts',n), plot(F6,'.k',MS,ms), axis(d)</pre>
 
 <p><img src="img/PrettyFunctions_01.png" class="figure" alt=""></p>
-<h3 id="plot"><code>plot</code></h3>
+<h3 id="the-plot-command">The <code>plot</code> command</h3>
 <p>The <code>plot</code> command can be used to visualise the surface of a chebfun2. The height of the surface above $(x,y)$ is equal to the value of $f(x,y)$. Here are four examples.</p>
 <pre class="mcode-input">C=1000; g1=@(x,y) tanh(C*x)/tanh(C).*tanh(C*y)/tanh(C); G1 = chebfun2(g1);
 g2 = @(x,y) 1./(1+200*((x-.3).^2.*(y+.5).^2));          G2 = chebfun2(g2);
@@ -106,7 +106,7 @@ subplot(2,2,3), plot(G3), zlim([-1 3])
 subplot(2,2,4), plot(G4), zlim([-1 3])</pre>
 
 <p><img src="img/PrettyFunctions_02.png" class="figure" alt=""></p>
-<h3 id="waterfall"><code>waterfall</code></h3>
+<h3 id="the-waterfall-command">The <code>waterfall</code> command</h3>
 <p>The <code>waterfall</code> command displays the lines on which the function was sampled in order to form the chebfun2 approximant. The positions of the lines were calculated by the adaptive construction process. Here are Franke's function and the lines on which it was sampled to form an approximation.</p>
 <pre class="mcode-input">h = @(x,y) .75*exp(-((9*x-2).^2 + (9*y-2).^2)/4) + ...
            .75*exp(-((9*x+1).^2)/49 - (9*y+1)/10) + ...

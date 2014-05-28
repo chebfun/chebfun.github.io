@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Eigenvalues of the Fox-Li integral operator</h1>
-                <h2>Toby Driscoll and Nick Trefethen, 7 October 2010</h2>
+                <h2>Toby Driscoll and Nick Trefethen, October 2010</h2>
             </div>
         </div>
     </div>
@@ -80,10 +80,10 @@
 K = @(x,s) exp(-1i*F*(x-s).^2 );               % kernel
 L = sqrt(1i*F/pi) * chebop(@(u) fred(K,u));    % Fredholm integral operator</pre>
 
-<p>Computing the $80$ eigenvalues of largest complex magnitude requires just a call to <code>eigs</code> with the 'lm' option:</p>
+<p>Computing the $80$ eigenvalues of largest complex magnitude requires just a call to <code>eigs</code> with the <code>'lm'</code> option:</p>
 <pre class="mcode-input">tic, lam = eigs(L,80,'lm'); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 21.912919 seconds.
+<pre class="mcode-output">Elapsed time is 16.835042 seconds.
 </pre>
 
 <p>Finally, a beautiful pattern emerges when we plot the results:</p>

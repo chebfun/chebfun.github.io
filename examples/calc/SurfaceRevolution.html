@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Surfaces of revolution</h1>
-                <h2>Georges Klein, 4th March 2013</h2>
+                <h2>Georges Klein, March 2013</h2>
             </div>
         </div>
     </div>
@@ -98,7 +98,8 @@ surf(zzstr,flipud(yy),xx)</pre>
 <pre class="mcode-input">x = chebfun('x', [0 2*pi]);
 f = sqrt(4 + 2*sin(2*x));
 [xx, yy, zz] = cylinder(f);
-surf(xx,yy,zz)</pre>
+surf(xx,yy,zz)
+zlim([0 8])</pre>
 
 <p><img src="img/SurfaceRevolution_05.png" class="figure" alt=""></p>
 <p>The volume of this object can be computed as</p>
@@ -118,7 +119,7 @@ error =
 <pre class="mcode-input">A = 2*pi*sum(f.*sqrt(1 + abs(diff(f)).^2))</pre>
 
 <pre class="mcode-output">A =
-  95.016245402719022
+  95.016245402718539
 </pre>
 
 <p>The coordinates of the center of gravity are $x_G=0$, $y_G=0$, and</p>
@@ -127,10 +128,11 @@ error =
 hold on
 colormap hsv, alpha(.1)
 plot3(0,0,zG,'.r','MarkerSize',40)
+zlim([0 8])
 hold off</pre>
 
 <pre class="mcode-output">zG =
-   2.891592653589793
+   2.891592653589792
 </pre>
 
 <p><img src="img/SurfaceRevolution_06.png" class="figure" alt=""></p>

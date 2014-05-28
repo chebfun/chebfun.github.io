@@ -71,19 +71,39 @@
     <div class="row">
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>A well-known problem in approximation theory is, how well can exp(x) be approximated in the infinity norm on the infinite interval (-infty,0] by rational functions of type (n,n)? To three places, the first few approximation errors are these:</p>
-<p>Type (0,0):  error = 0.500
-Type (1,1):  error = 0.0668
-Type (2,2):  error = 0.00736
-Type (3,3):  error = 0.000799
-Type (4,4):  error = 0.0000865
-Type (5,5):  error = 0.00000934
-Type (6,6):  error = 0.000001008
-Type (7,7):  error = 0.0000001087
-Type (8,8):  error = 0.00000001172As n increases to infinity, it is known that the asymptotic behavior is</p>
-<pre class="mcode">  error ~ 2 C^(-n-1/2),</pre>
-
-<p>where C is a number known as Halphen's constant with the following approximate numerical value:</p>
+                <p>A well-known problem in approximation theory is, how well can $e^x$ be approximated in the infinity norm on the infinite interval $(-\infty,0]$ by rational functions of type $(n,n)$? To three places, the first few approximation errors are these:</p>
+<ul>
+<li>
+<p>Type $(0,0)$:  error = $0.500$</p>
+</li>
+<li>
+<p>Type $(1,1)$:  error = $0.0668$</p>
+</li>
+<li>
+<p>Type $(2,2)$:  error = $0.00736$</p>
+</li>
+<li>
+<p>Type $(3,3)$:  error = $0.000799$</p>
+</li>
+<li>
+<p>Type $(4,4)$:  error = $0.0000865$</p>
+</li>
+<li>
+<p>Type $(5,5)$:  error = $0.00000934$</p>
+</li>
+<li>
+<p>Type $(6,6)$:  error = $0.000001008$</p>
+</li>
+<li>
+<p>Type $(7,7)$:  error = $0.0000001087$</p>
+</li>
+<li>
+<p>Type $(8,8)$:  error = $0.00000001172$</p>
+</li>
+</ul>
+<p>As $n$ increases to infinity, it is known that the asymptotic behavior is</p>
+<p>$$ \mathrm{error} \sim 2 C^{-n-1/2}, $$</p>
+<p>where $C$ is a number known as Halphen's constant with the following approximate numerical value:</p>
 <pre class="mcode-input">halphen_const = 9.289025491920818918755449435951</pre>
 
 <pre class="mcode-output">halphen_const =
@@ -91,7 +111,7 @@ Type (8,8):  error = 0.00000001172As n increases to infinity, it is known that t
 </pre>
 
 <p>This result comes from a sequence of contributions between 1969 and 2002 by, among others, Cody, Meinardus and Varga; Newman; Trefethen and Gutknecht; Carpenter, Ruttan and Varga; Magnus; Gonchar and Rakhmanov; and Aptekarev.  For a discussion, see Chapter 25 of [3].</p>
-<p>Here is a plot showing that the asymptotic behavior matches the actual errors very closely even for small n:</p>
+<p>Here is a plot showing that the asymptotic behavior matches the actual errors very closely even for small $n$:</p>
 <pre class="mcode-input">LW = 'linewidth'; MS = 'markersize'; FS = 'fontsize';
 n = 0:10;
 err = [.5 .0668 7.36e-3 7.99e-4 8.65e-5 9.35e-6 ...
@@ -102,10 +122,9 @@ hold on, semilogy(n,err,'.k',MS,18), grid on
 xlabel('n',FS,14), ylabel('error',FS,14)</pre>
 
 <p><img src="img/Halphen_01.png" class="figure" alt=""></p>
-<p>One way to characterize Halphen's constant mathematically is that it is the inverse of the unique positive value of s where the function</p>
-<pre class="mcode">  SUM from k=1 to infty of  ks^n/(1-(-s)^n)</pre>
-
-<p>takes the value 1/8.  This is an easy computation for Chebfun:</p>
+<p>One way to characterize Halphen's constant mathematically is that it is the inverse of the unique positive value of $s$ where the function</p>
+<p>$$ \sum_{k=1}^\infty  \frac{k s^n}{1-(-s)^n} $$</p>
+<p>takes the value $1/8$.  This is an easy computation for Chebfun:</p>
 <pre class="mcode-input">s = chebfun('s',[1/12,1/6]);
 f = 0*s; k = 0; normsk = 999;
 while normsk &gt; 1e-16

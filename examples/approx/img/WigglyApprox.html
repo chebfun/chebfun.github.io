@@ -9,7 +9,7 @@ Ken Lord, whose doctoral supervisor was the Chebyshev technology wizard Charles 
 
 $$ f(x) = T_m(x) + T_{m+1}(x) + \cdots + T_n(x), $$
 
-where $T_k$ is the Chebyshev polynomial of degree $k$, as challenging functions for minimax approximation by polynomials of lower order.  We can construct such functions in a single Chebfun command:
+where $T_k$ is the Chebyshev polynomial of degree $k$, as challenging functions for minimax approximation by polynomials of lower order. We can construct such functions in a single Chebfun command:
 
 <pre class="mcode-input">fmn = @(m,n) sum(chebpoly(m:n),2);</pre>For example, here we plot `f(30,40)` and its best approximation of degree $29$:
 
@@ -24,7 +24,7 @@ p = remez(f,m-1); err = f-p;
 subplot(2,2,3), plot(err,'r',LW,1.2)
 grid on, title('f - p',FS,fs)
 subplot(2,2,4), plot(err{.8,1},'r',LW,1.6)
-grid on, title('closeup',FS,fs), toc</pre><pre class="mcode-output">Elapsed time is 1.443711 seconds.
+grid on, title('closeup',FS,fs), toc</pre><pre class="mcode-output">Elapsed time is 2.664128 seconds.
 </pre><img src="img/WigglyApprox_01.png" class="figure" alt="">
 
 Here are `f(200,220)` and its best approximation of degree $199$:
@@ -39,6 +39,6 @@ p = remez(f,m-1); err = f-p;
 subplot(2,2,3), plot(err,'r',LW,1)
 grid on, title('f - p',FS,fs)
 subplot(2,2,4), plot(err{.995,1},'r',LW,1.6)
-grid on, title('closeup',FS,fs), xlim([.995 1]), toc</pre><pre class="mcode-output">Elapsed time is 1.101582 seconds.
+grid on, title('closeup',FS,fs), xlim([.995 1]), toc</pre><pre class="mcode-output">Elapsed time is 1.015422 seconds.
 </pre><img src="img/WigglyApprox_02.png" class="figure" alt="">
 

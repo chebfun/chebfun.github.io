@@ -73,7 +73,7 @@
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>Ken Lord, whose doctoral supervisor was the Chebyshev technology wizard Charles Clenshaw, has explored functions of the form</p>
 <p>$$ f(x) = T_m(x) + T_{m+1}(x) + \cdots + T_n(x), $$</p>
-<p>where $T_k$ is the Chebyshev polynomial of degree $k$, as challenging functions for minimax approximation by polynomials of lower order.  We can construct such functions in a single Chebfun command:</p>
+<p>where $T_k$ is the Chebyshev polynomial of degree $k$, as challenging functions for minimax approximation by polynomials of lower order. We can construct such functions in a single Chebfun command:</p>
 <pre class="mcode-input">fmn = @(m,n) sum(chebpoly(m:n),2);</pre>
 
 <p>For example, here we plot <code>f(30,40)</code> and its best approximation of degree $29$:</p>
@@ -90,7 +90,7 @@ grid on, title('f - p',FS,fs)
 subplot(2,2,4), plot(err{.8,1},'r',LW,1.6)
 grid on, title('closeup',FS,fs), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.443711 seconds.
+<pre class="mcode-output">Elapsed time is 2.664128 seconds.
 </pre>
 
 <p><img src="img/WigglyApprox_01.png" class="figure" alt=""></p>
@@ -107,7 +107,7 @@ grid on, title('f - p',FS,fs)
 subplot(2,2,4), plot(err{.995,1},'r',LW,1.6)
 grid on, title('closeup',FS,fs), xlim([.995 1]), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.101582 seconds.
+<pre class="mcode-output">Elapsed time is 1.015422 seconds.
 </pre>
 
 <p><img src="img/WigglyApprox_02.png" class="figure" alt=""></p>

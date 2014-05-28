@@ -1,7 +1,7 @@
 ---
 title: "Least-squares approximation in Chebfun"
 layout: example
-authordate: "Alex Townsend, 16th October 2013"
+authordate: "Alex Townsend, October 2013"
 meta: "(Chebfun example approx/BestL2Approximation.m) [Tags: #least squares]"
 ---
 
@@ -55,9 +55,9 @@ Recently, the command `cheb2leg` was added in Chebfun, which converts a vector o
 <pre class="mcode-input">n = 10;
 f = 1./(1+25*x.^2);                  % Runge function
 ccheb = get(f,'coeffs');             % get the Chebyshev coefficients of f
-cleg = chebtech.cheb2leg(ccheb{:});  % convert Cheb coeffs of f to Leg coeffs
+cleg = cheb2leg(ccheb{:});           % convert Cheb coeffs of f to Leg coeffs
 cleg = cleg(end-n:end);              % truncate
-ccheb = chebtech.leg2cheb(cleg);     % convert them back to form a chebfun
+ccheb = leg2cheb(cleg);              % convert them back to form a chebfun
 pn = chebfun(ccheb,'coeffs');        % form a chebfun
 plot(f,LW,lw), hold on, plot(pn,'r',LW,lw)
 title('Best L^2 approx to Runge function of degree 10',FS,14), hold off</pre><img src="img/BestL2Approximation_02.png" class="figure" alt="">
@@ -81,12 +81,12 @@ f = 1./(1+1e6*x.^2);                 % Runge function
 s = tic; pn = polyfit(f,n); t = toc(s);
 fprintf('L^2 error is %1.3e\n',norm(f - pn))
 fprintf('L^2 approximation of degree %u in t = %1.3f\n',n,t)</pre><pre class="mcode-output">L^2 error is 1.797e-06
-L^2 approximation of degree 10000 in t = 1.340
+L^2 approximation of degree 10000 in t = 1.211
 </pre>
 
 ## Piecewise smooth functions
 
-Computing the Legendre coefficients for piecewise smooth functions is a little trickier. The Legendre coefficients are computed by quadrature rules and then a chebfun object is constructed via Chebyshev coefficients computed using the cheb2leg command. The algorithm for piecewise smooth function requires $O(n^2)$ operations, but the implicit constant is much smaller. Here is the best $L^2$-approximation to the piecewise smooth absolute value function.
+Computing the Legendre coefficients for piecewise smooth functions is a little trickier. The Legendre coefficients are computed by quadrature rules and then a chebfun object is constructed via Chebyshev coefficients computed using the `cheb2leg` command. The algorithm for piecewise smooth function requires $O(n^2)$ operations, but the implicit constant is much smaller. Here is the best $L^2$-approximation to the piecewise smooth absolute value function.
 
 <pre class="mcode-input">f = abs(x);
 nn = 10.^(0:3);

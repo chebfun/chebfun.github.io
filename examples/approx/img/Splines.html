@@ -1,7 +1,7 @@
 ---
 title: "Splines"
 layout: example
-authordate: "Nick Trefethen, 26th February 2013"
+authordate: "Nick Trefethen, February 2013"
 meta: "(Chebfun example approx/Splines.m) [Tags: #spline, #splitting]"
 ---
 
@@ -31,11 +31,11 @@ end</pre><img src="img/Splines_03.png" class="figure" alt="">
 
 Note that in the final image, there is no discontinuity at $x=1$ or $x=9$. This is because by default, MATLAB imposes the "not-a-knot condition" to use up the 2 available free parameters of an interpolating piecewise cubic with two continuous derivatives.
 
-One of Chebfun's features is its ability to locate discontinuities automatically in `splitting on' mode.  To illustrate this, suppose we construct a new chebfun `s2` by sampling `s` with splitting on. The accuracy is very good:
+One of Chebfun's features is its ability to locate discontinuities automatically in `splitting on` mode.  To illustrate this, suppose we construct a new chebfun `s2` by sampling `s` with splitting on. The accuracy is very good:
 
 <pre class="mcode-input">s2 = chebfun(@(x) s(x),[0 10],'splitting','on');
 norm(s-s2,inf)</pre><pre class="mcode-output">ans =
-     2.502627847613169e-14
+     2.366625414159292e-14
 </pre>Here are the breakpoints of the automatically constructed function `s2`. Note that $x=1$ and $x=9$ are missing, again because of the not-a-knot condition.
 
 <pre class="mcode-input">format long
@@ -49,7 +49,7 @@ s2.ends'</pre><pre class="mcode-output">ans =
    7.000034650319003
    8.000005924523812
   10.000000000000000
-</pre>It is interesting that breakpoints near $2,3,\dots,8$ match these values not to $15$ or $16$ digits but to about the cube root of that precision. This does not reflect poor performance of the splitting algorithm, but just the fact that the function being sampled has two continuous derivatives.  If it had only one continuous derivative, we'd get $8$ digits of accuracy, and if only the function itself were continuous, we'd expect $15$ or $16$ digits.  When not even the function is continuous, Chebfun captures discontinuities down to the very last bit.  For information about edge detection in Chebfun, see [1].
+</pre>It is interesting that breakpoints near $2,3,\dots,8$ match these values not to $15$ or $16$ digits but to about the cube root of that precision. This does not reflect poor performance of the splitting algorithm, but just the fact that the function being sampled has two continuous derivatives.  If it had only one continuous derivative, we'd get $8$ digits of accuracy, and if only the function itself were continuous, we'd expect $15$ or $16$ digits. When not even the function is continuous, Chebfun captures discontinuities down to the very last bit.  For information about edge detection in Chebfun, see [1].
 
 
 

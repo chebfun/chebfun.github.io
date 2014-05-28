@@ -13,13 +13,13 @@ for all $j\ne k$. If we normalise so that $\langle P_j, P_j \rangle = 1$, the po
 
 Chebfun has commands built-in for some of the standard orthogonal polynomials. Here is a table of the polynomial, the weight function, the standard domain $[a,b]$, and the Chebfun routine name.
 
-<pre class="mcode">    Name       |       w(x)     |   domain   | Chebfun routine
--------------------------------------------------------------------
-   Legendre    |        1       |   [-1 1]   | legpoly(N)
-Chebyshev(1st) |  1/sqrt(1-x^2) |   [-1 1]   | chebpoly(N)
-Chebyshev(2nd) |   sqrt(1-x^2)  |   [-1 1]   | chebpoly(N,2)
-   Laguerre    |     exp(-x)    |   [0 inf]  | lagpoly(N)
-   Hermite     |    exp(-x^2)   | [-inf inf] | hermpoly(N)</pre>For each of these examples, there are readily derived recurrence relations which allow fast computation of the polynomials, and Chebfun exploits these. However, sometimes we wish to construct orthogonal polynomials with non-standard weight functions, and orthogonalisation via the Gram-Schmidt process is one method of doing so.
+<pre class="mcode">    Name       |      w(x)      |   domain   | Chebfun routine
+----------------------------------------------------------------
+   Legendre    |        1       |   [-1 1]   |  legpoly(N)
+Chebyshev(1st) |  1/sqrt(1-x^2) |   [-1 1]   |  chebpoly(N)
+Chebyshev(2nd) |   sqrt(1-x^2)  |   [-1 1]   |  chebpoly(N,2)
+   Laguerre    |     exp(-x)    |   [0 inf]  |  lagpoly(N)
+   Hermite     |    exp(-x^2)   | [-inf inf] |  hermpoly(N)</pre>For each of these examples, there are readily derived recurrence relations which allow fast computation of the polynomials, and Chebfun exploits these. However, sometimes we wish to construct orthogonal polynomials with non-standard weight functions, and orthogonalisation via the Gram-Schmidt process is one method of doing so.
 
 The process (sometimes referred to as the *Stieltjes process*) iteratively constructs the next degree polynomial by removing the components in the directions of the previous ones. The formula is
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Encryption of a message with SCRIBBLE &raquo; Chebfun</title>
+    <title>Encryption of a message with `scribble` &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,8 +60,8 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Encryption of a message with SCRIBBLE</h1>
-                <h2>Nick Trefethen, 10th April 2012</h2>
+                <h1>Encryption of a message with `scribble`</h1>
+                <h2>Nick Trefethen, April 2012</h2>
             </div>
         </div>
     </div>
@@ -71,7 +71,7 @@
     <div class="row">
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p><code>scribble</code> produces piecewise linear complex chebfuns whose plots look like words, like this:</p>
+                <p>The <code>scribble</code> command produces piecewise linear complex chebfuns whose plots look like words, like this:</p>
 <pre class="mcode-input">message = scribble('This is the message');
 LW = 'linewidth'; lw = 2;
 plot(message, LW, lw), axis equal</pre>
@@ -87,7 +87,7 @@ plot(key, 'r', LW, lw), axis equal</pre>
 plot(encrypted, 'm', LW, lw), axis equal</pre>
 
 <p><img src="img/Encryption_03.png" class="figure" alt=""></p>
-<p>So we've invented a new encryption scheme!  For of course the original message can be recovered by subtracting off that key:</p>
+<p>So we've invented a new encryption scheme! For of course the original message can be recovered by subtracting off that key:</p>
 <pre class="mcode-input">message2 = encrypted - key;
 plot(message2, LW, lw), axis equal</pre>
 

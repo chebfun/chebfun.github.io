@@ -1,7 +1,7 @@
 ---
-title: "Phase Portraits"
+title: "Phase portraits"
 layout: example
-authordate: "Alex Townsend, 4th March 2013"
+authordate: "Alex Townsend, March 2013"
 meta: "(Chebfun2 example complex/PhasePortraits.m) [Tags: #phase portraits, #Chebfun2]"
 ---
 
@@ -9,7 +9,7 @@ meta: "(Chebfun2 example complex/PhasePortraits.m) [Tags: #phase portraits, #Che
 
 ## Phase portraits for complex functions
 
-Phase portraits are a technique for visualising complex valued functions of a single complex variable. They rely on the visual encoding of complex numbers: if $z = re^{it}$ then the rainbow colours represent the phase of z. Red indicates a phase of 0 and the rainbow goes through red, yellow, green, blue, violet as the phase increases. By default, Chebfun2 produces a phase portrait when asked to plot a chebfun2 object that is complex. For example,
+Phase portraits are a technique for visualising complex valued functions of a single complex variable. They rely on the visual encoding of complex numbers: if $z = re^{it}$ then the rainbow colours represent the phase of $z$. Red indicates a phase of $0$ and the rainbow goes through red, yellow, green, blue, violet as the phase increases. By default, Chebfun2 produces a phase portrait when asked to plot a chebfun2 object that is complex. For example,
 
 <pre class="mcode-input">FS = 'FontSize'; fs = 14; d = pi*[-1 1 -1 1];
 f = chebfun2(@(z) sin(z),d);
@@ -45,7 +45,7 @@ Error in chebfun2/constructor&gt;@(x,y)op(x+1i*y) (line 97)
     op = @(x, y) op( x + 1i*y );
 Error in chebfun2/sampleTest (line 22)
 vOp = feval(op, xeval, yeval);
-Error in chebfun2/constructor (line 306)
+Error in chebfun2/constructor (line 307)
         pass = g.sampleTest(op, tol);
 Error in chebfun2 (line 57)
             f = constructor(f, varargin{:});

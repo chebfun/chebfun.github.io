@@ -71,7 +71,7 @@
     <div class="row">
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>The ellipse we use is the one used by Poisson in his paper of 1827 [1], with semiaxis lengths 0.5/pi and 0.4/pi. We know thanks to M. Poisson that the perimeter is (*) 0.902779927</p>
+                <p>The ellipse we use is the one used by Poisson in his paper of 1827 [1], with semiaxis lengths $0.5/\pi$ and $0.4/\pi$. We know thanks to M. Poisson that the perimeter is $0.902779927$ [*].</p>
 <pre class="mcode-input">exact = 0.90277992777219;</pre>
 
 <p>We now attempt to recompute this value using Chebfun.</p>
@@ -86,7 +86,7 @@ arc_length = norm(sqrt(diff(x).^2+diff(y).^2),1)</pre>
 </pre>
 
 <p><img src="img/Ellipse_01.png" class="figure" alt=""></p>
-<p>(*) Confusingly Poisson reported this number with a misprint in the 2nd place!</p>
+<p>[*] Confusingly Poisson reported this number with a misprint in the 2nd place!</p>
 <pre class="mcode">       "la valeur approchee de I sera I = 0,9927799272"</pre>
 
 <p>References</p>

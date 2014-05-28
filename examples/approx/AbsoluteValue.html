@@ -74,7 +74,7 @@
                 <p>Peter Lax mentioned to me recently an example that no doubt various people have thought about over the years.  Suppose we think of $x^2$ as a given number and we try to find its square root by solving the equation</p>
 <p>$$ r^2 = x^2 $$</p>
 <p>for $r$ using Newton's method beginning from the guess $r=1$. The successive iterates are given by the formula</p>
-<p>$$  r := (r^2+x^2)/2r .  $$</p>
+<p>$$ r := (r^2+x^2)/2r . $$</p>
 <p>After $k$ steps we have a rational function of type $(2^k,2^k)$, and these functions will approach the function $|x|$.</p>
 <p>Let's see the iteration in action:</p>
 <pre class="mcode-input">x = chebfun('x');

@@ -1,7 +1,7 @@
 ---
 title: "Approximations and oscillation of error"
 layout: example
-authordate: "Mohsin Javed, 22nd October 2013"
+authordate: "Mohsin Javed, October 2013"
 meta: "(Chebfun example approx/OscError.m) [Tags: #bestapproximation, #l2approximation, #interpolation, #POLYFIT]"
 ---
 
@@ -20,7 +20,7 @@ title( 'Function to be approximated', FS, fs), hold on</pre><img src="img/OscErr
 
 ## Best Approximation in $\infty$-Norm
 
-The existence and uniqueness of the the best minimax approximation of $f$ in the space of polynomials of degree up to $n$ is well known. The best degree $n$ approximation is characterized by the equioscillation of the error between at least $n+2$ extrema. The error consequently changes sign at least $n+1$ times [1]. Let us suppose we want to find the degree $n$ best approximation of this function. Chebfun's $\verb|remez|$ command can be used to find this polynomial:
+The existence and uniqueness of the the best minimax approximation of $f$ in the space of polynomials of degree up to $n$ is well known. The best degree $n$ approximation is characterized by the equioscillation of the error between at least $n+2$ extrema. The error consequently changes sign at least $n+1$ times [1]. Let us suppose we want to find the degree $n$ best approximation of this function. Chebfun's `remez` command can be used to find this polynomial:
 
 <pre class="mcode-input">n = 4;
 p = remez(f, n);
@@ -41,7 +41,7 @@ We can see that the error equioscillates $n+2$ times with $n+1$ sign changes.
 
 ## Best Weighted $L_2$ Approximation
 
-It is also interesting to note that the error curve of the best weighted $L_2$ approximation of a continuous function by a degree $n$ polynomial has the same oscillation property. The error curve is guaranteed to change sign at least $n+1$ times [2], however, in this case, the error curve does not generally equioscillate. For the same function, we now construct a degree $n$ approximation by Chebyshev polynomials. This can be done in Chebfun using the 'trunc' option, since best $L_2$ approximations are simply given by truncated Fourier series (a Chebyshev-Fourier series in this case):
+It is also interesting to note that the error curve of the best weighted $L_2$ approximation of a continuous function by a degree $n$ polynomial has the same oscillation property. The error curve is guaranteed to change sign at least $n+1$ times [2], however, in this case, the error curve does not generally equioscillate. For the same function, we now construct a degree $n$ approximation by Chebyshev polynomials. This can be done in Chebfun using the `'trunc'` option, since best $L_2$ approximations are simply given by truncated Fourier series (a Chebyshev-Fourier series in this case):
 
 <pre class="mcode-input">fn = chebfun( @(x) f(x), 'trunc', n + 1);
 h2 = plot(f - fn, 'k', LW, lw);</pre><img src="img/OscError_04.png" class="figure" alt="">
@@ -50,7 +50,7 @@ h2 = plot(f - fn, 'k', LW, lw);</pre><img src="img/OscError_04.png" class="figur
 
 ## Best $L_2$ Approximation
 
-We can also think of approximating the same function using Legendre polynomials. In this case, we can use Chebfun's $\verb|polyfit|$ command to generate the best $L_2$ approximating polynomial. This is just the truncated Fourier-Legendre series expansion of the function $f$. The error curve again behaves as expected:
+We can also think of approximating the same function using Legendre polynomials. In this case, we can use Chebfun's `polyfit` command to generate the best $L_2$ approximating polynomial. This is just the truncated Fourier-Legendre series expansion of the function $f$. The error curve again behaves as expected:
 
 <pre class="mcode-input">pLn = polyfit(f, n);
 h3 = plot(f - pLn, 'b', LW, lw);</pre><img src="img/OscError_05.png" class="figure" alt="">

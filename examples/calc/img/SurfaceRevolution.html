@@ -1,7 +1,7 @@
 ---
 title: "Surfaces of revolution"
 layout: example
-authordate: "Georges Klein, 4th March 2013"
+authordate: "Georges Klein, March 2013"
 meta: "(Chebfun example calc/SurfaceRevolution.m) [Tags: #calculus, #surface of revolution, #CYLINDER]"
 ---
 
@@ -35,7 +35,8 @@ Let us create yet another surface and study some of its properties within Chebfu
 <pre class="mcode-input">x = chebfun('x', [0 2*pi]);
 f = sqrt(4 + 2*sin(2*x));
 [xx, yy, zz] = cylinder(f);
-surf(xx,yy,zz)</pre><img src="img/SurfaceRevolution_05.png" class="figure" alt="">
+surf(xx,yy,zz)
+zlim([0 8])</pre><img src="img/SurfaceRevolution_05.png" class="figure" alt="">
 
 The volume of this object can be computed as
 
@@ -53,7 +54,7 @@ error =
 $$ A = 2\pi \int_a^b f(x)\sqrt{1+|f'(x)|^2}\, \mathrm{d}x. $$
 
 <pre class="mcode-input">A = 2*pi*sum(f.*sqrt(1 + abs(diff(f)).^2))</pre><pre class="mcode-output">A =
-  95.016245402719022
+  95.016245402718539
 </pre>The coordinates of the center of gravity are $x_G=0$, $y_G=0$, and
 
 $$ z_G = \frac{\pi}{V} \int_a^b x f^2(x)\, \mathrm{d}x. $$
@@ -62,8 +63,9 @@ $$ z_G = \frac{\pi}{V} \int_a^b x f^2(x)\, \mathrm{d}x. $$
 hold on
 colormap hsv, alpha(.1)
 plot3(0,0,zG,'.r','MarkerSize',40)
+zlim([0 8])
 hold off</pre><pre class="mcode-output">zG =
-   2.891592653589793
+   2.891592653589792
 </pre><img src="img/SurfaceRevolution_06.png" class="figure" alt="">
 
 Finally we compute the moment of inertia, assuming that the object is homogeneous with density $1$,

@@ -1,7 +1,7 @@
 ---
 title: "Eigenvalues of the Fox-Li integral operator"
 layout: example
-authordate: "Toby Driscoll and Nick Trefethen, 7 October 2010"
+authordate: "Toby Driscoll and Nick Trefethen, October 2010"
 meta: "(Chebfun example integro/FoxLi.m) [Tags: #eigenvalues, #fredholm, #FRED]"
 ---
 
@@ -17,9 +17,9 @@ To create the operator in Chebfun, we define the kernel and use the `fred` funct
 
 <pre class="mcode-input">F = 64*pi;                                     % Fresnel number
 K = @(x,s) exp(-1i*F*(x-s).^2 );               % kernel
-L = sqrt(1i*F/pi) * chebop(@(u) fred(K,u));    % Fredholm integral operator</pre>Computing the $80$ eigenvalues of largest complex magnitude requires just a call to `eigs` with the 'lm' option:
+L = sqrt(1i*F/pi) * chebop(@(u) fred(K,u));    % Fredholm integral operator</pre>Computing the $80$ eigenvalues of largest complex magnitude requires just a call to `eigs` with the `'lm'` option:
 
-<pre class="mcode-input">tic, lam = eigs(L,80,'lm'); toc</pre><pre class="mcode-output">Elapsed time is 21.912919 seconds.
+<pre class="mcode-input">tic, lam = eigs(L,80,'lm'); toc</pre><pre class="mcode-output">Elapsed time is 16.835042 seconds.
 </pre>Finally, a beautiful pattern emerges when we plot the results:
 
 <pre class="mcode-input">x = chebfun('x');

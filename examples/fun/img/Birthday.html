@@ -5,14 +5,14 @@ authordate: "Nick Trefethen, September 2010"
 meta: "(Chebfun example fun/Birthday.m) [Tags: #complex, #gift]"
 ---
 
-Chebfun's SCRIBBLE command was introduced for entertainment, but it turns out to be surprisingly useful also illustrating complex variables.  Suppose for example it is Chebyshev's birthday and you want to send him a card:
+Chebfun's `scribble` command was introduced for entertainment, but it turns out to be surprisingly useful also illustrating complex variables. Suppose for example it is Chebyshev's birthday and you want to send him a card:
 
 <pre class="mcode-input">s = scribble('Happy Birthday Pafnuty!');
 LW = 'linewidth'; lw = 1.8;
 plot(s,'-',LW,lw)
 xlim([-1.1 1.1]), axis equal, grid on</pre><img src="img/Birthday_01.png" class="figure" alt="">
 
-This chebfun s is a a piecewise linear complex funtion of a real variable, as we can see by writing it without the semicolon:
+This chebfun `s` is a a piecewise linear complex funtion of a real variable, as we can see by writing it without the semicolon:
 
 <pre class="mcode-input">s</pre><pre class="mcode-output">s = 
    chebfun column (89 smooth pieces)
@@ -107,15 +107,15 @@ This chebfun s is a a piecewise linear complex funtion of a real variable, as we
 [    0.96,    0.98]        2    complex values 
 [    0.98,       1]        2    complex values 
 Epslevel = 7.882764e-16.  Vscale = 1.003774e+00.  Total length = 178.
-</pre>Since s is a chebfun, we can apply functions to it. For example, here is exp(s):
+</pre>Since `s` is a chebfun, we can apply functions to it. For example, here is `exp(s)`:
 
 <pre class="mcode-input">plot(exp(s),'b',LW,lw), axis equal, grid on</pre><img src="img/Birthday_02.png" class="figure" alt="">
 
-Here is exp(3i*s):
+Here is `exp(3i*s)`:
 
 <pre class="mcode-input">plot(exp(3i*s),'m',LW,lw), axis equal, grid on</pre><img src="img/Birthday_03.png" class="figure" alt="">
 
-Playing around with different functions is a good way to learn about complex variables, and a good way to make greeting cards.  Here are a couple more with axes turned off for greater beauty.
+Playing around with different functions is a good way to learn about complex variables, and a good way to make greeting cards. Here are a couple more with axes turned off for greater beauty.
 
 <pre class="mcode-input">plot(exp((1+1i)*s),'g',LW,lw), axis equal, axis off
 snapnow

@@ -1,5 +1,5 @@
 ---
-title: "ANGLE, UNWRAP, and branches of complex chebfuns"
+title: "`angle`, `unwrap`, and branches of complex chebfuns"
 layout: example
 authordate: "Nick Trefethen, May 2011"
 meta: "(Chebfun example complex/Arguments.m) [Tags: #complex, #ANGLE, #UNWRAP]"
@@ -26,7 +26,7 @@ And here is its angle:
 <pre class="mcode-input">plot(angle(f),'m',LW,lw)
 xlabel t, ylabel angle(f(t))</pre><img src="img/Arguments_02.png" class="figure" alt="">
 
-Often one would prefer to define a continuous argument, and for this purpose MATLAB has the command `unwrap`.  For example:
+Often one would prefer to define a continuous argument, and for this purpose MATLAB has the command `unwrap`. For example:
 
 <pre class="mcode-input">unwrap(angle([-1 -1-.01i]))</pre><pre class="mcode-output">ans =
    3.141592653589793   3.151592320276458
@@ -35,7 +35,7 @@ Often one would prefer to define a continuous argument, and for this purpose MAT
 <pre class="mcode-input">plot(unwrap(angle(f)),'m',LW,lw), ylim([-1 21])
 xlabel t, ylabel argument</pre><img src="img/Arguments_03.png" class="figure" alt="">
 
-An important area of application of these commands is to functions in the complex plane, where keeping track of branch cuts is often a headache.  For example, suppose we want to take the square root of that function $f$.  The result is not very useful. (For the moment we have to construct the function again with 'splitting on' to make this experiment work, though in principle Chebfun should be clever enough to introduce a breakpoint without splitting on.)
+An important area of application of these commands is to functions in the complex plane, where keeping track of branch cuts is often a headache. For example, suppose we want to take the square root of that function $f$. The result is not very useful. (For the moment we have to construct the function again with `splitting on` to make this experiment work, though in principle Chebfun should be clever enough to introduce a breakpoint without splitting on.)
 
 <pre class="mcode-input">g = chebfun('sqrt(t.*exp(1i*t))',[1 20],'splitting','on');
 plot(g,LW,lw), axis(5*[-1 1 -1 1]), axis square

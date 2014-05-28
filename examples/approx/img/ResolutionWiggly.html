@@ -1,7 +1,7 @@
 ---
 title: "Resolution of wiggly functions"
 layout: example
-authordate: "Nick Hale and Nick Trefethen, 28th October 2013"
+authordate: "Nick Hale and Nick Trefethen, October 2013"
 meta: "(Chebfun example approx/ResolutionWiggly.m) [Tags: #interpolation, #best approximation, #least squares, #POLYFIT, #REMEZ]"
 ---
 
@@ -39,7 +39,7 @@ What will happen if we change the method of interpolation? For a start, here is 
 plot(f, 'b', pleastsq, 'r', LW, lw), ylim([ - 2.5 2.5])
 title('f and least - squares approximant of half the degree')</pre><img src="img/ResolutionWiggly_04.png" class="figure" alt="">
 
-Qualitatively, the behavior is similar on the left half of the interval, but it is very different on the right half, where the least - squares approximant, unlike the interpolant, roughly tracks the low-wave - number signal. A plot of the error shows that its amplitude has approximately cut in half.
+Qualitatively, the behavior is similar on the left half of the interval, but it is very different on the right half, where the least-squares approximant, unlike the interpolant, roughly tracks the low-wave-number signal. A plot of the error shows that its amplitude has approximately cut in half.
 
 <pre class="mcode-input">hold off, plot(f - pleastsq, 'k', LW, lw), ylim([ - 2.5 2.5])
 title('error of least - squares approximant of half the degree')</pre><img src="img/ResolutionWiggly_05.png" class="figure" alt="">

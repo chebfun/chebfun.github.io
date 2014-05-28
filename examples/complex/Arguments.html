@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ANGLE, UNWRAP, and branches of complex chebfuns &raquo; Chebfun</title>
+    <title>`angle`, `unwrap`, and branches of complex chebfuns &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,7 +60,7 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>ANGLE, UNWRAP, and branches of complex chebfuns</h1>
+                <h1>`angle`, `unwrap`, and branches of complex chebfuns</h1>
                 <h2>Nick Trefethen, May 2011</h2>
             </div>
         </div>
@@ -103,7 +103,7 @@ title('f(t) in complex plane',FS,fs)</pre>
 xlabel t, ylabel angle(f(t))</pre>
 
 <p><img src="img/Arguments_02.png" class="figure" alt=""></p>
-<p>Often one would prefer to define a continuous argument, and for this purpose MATLAB has the command <code>unwrap</code>.  For example:</p>
+<p>Often one would prefer to define a continuous argument, and for this purpose MATLAB has the command <code>unwrap</code>. For example:</p>
 <pre class="mcode-input">unwrap(angle([-1 -1-.01i]))</pre>
 
 <pre class="mcode-output">ans =
@@ -115,7 +115,7 @@ xlabel t, ylabel angle(f(t))</pre>
 xlabel t, ylabel argument</pre>
 
 <p><img src="img/Arguments_03.png" class="figure" alt=""></p>
-<p>An important area of application of these commands is to functions in the complex plane, where keeping track of branch cuts is often a headache.  For example, suppose we want to take the square root of that function $f$.  The result is not very useful. (For the moment we have to construct the function again with 'splitting on' to make this experiment work, though in principle Chebfun should be clever enough to introduce a breakpoint without splitting on.)</p>
+<p>An important area of application of these commands is to functions in the complex plane, where keeping track of branch cuts is often a headache. For example, suppose we want to take the square root of that function $f$. The result is not very useful. (For the moment we have to construct the function again with <code>splitting on</code> to make this experiment work, though in principle Chebfun should be clever enough to introduce a breakpoint without splitting on.)</p>
 <pre class="mcode-input">g = chebfun('sqrt(t.*exp(1i*t))',[1 20],'splitting','on');
 plot(g,LW,lw), axis(5*[-1 1 -1 1]), axis square
 title('sqrt(f(t)) in complex plane',FS,fs)</pre>

@@ -51,6 +51,16 @@ examples
     - roots/whitecurves ugliness
     - UniformExercises pictures ?
 
+to keep titles from getting cut off, maybe try:
+    set(0, 'DefaultActivePositionProperty', 'OuterPosition')
+    set(gca,'LooseInset',get(gca,'TightInset'))
+
+approx/ScalingAndSquaring has a mathjax/markdown issue
+
+movie in geom/Ellipses?
+
+----
+
 failures:
 
 geom/RoundingCorners

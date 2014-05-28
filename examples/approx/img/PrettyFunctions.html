@@ -1,7 +1,7 @@
 ---
 title: "Pretty functions approximated by Chebfun2"
 layout: example
-authordate: "Alex Townsend, 4th March 2013"
+authordate: "Alex Townsend, March 2013"
 meta: "(Chebfun2 example approx/PrettyFunctions.m) [Tags: #CONTOUR, #PLOT, #PLOT3, #SURF, #SURFC, #MESH, #WATERFALL]"
 ---
 
@@ -36,7 +36,7 @@ subplot(2,3,6), contour(F6,'numpts',n), plot(F6,'.k',MS,ms), axis(d)</pre><img s
 
 
 
-## `plot`
+## The `plot` command
 
 The `plot` command can be used to visualise the surface of a chebfun2. The height of the surface above $(x,y)$ is equal to the value of $f(x,y)$. Here are four examples.
 
@@ -52,7 +52,7 @@ subplot(2,2,4), plot(G4), zlim([-1 3])</pre><img src="img/PrettyFunctions_02.png
 
 
 
-## `waterfall`
+## The `waterfall` command
 
 The `waterfall` command displays the lines on which the function was sampled in order to form the chebfun2 approximant. The positions of the lines were calculated by the adaptive construction process. Here are Franke's function and the lines on which it was sampled to form an approximation.
 
