@@ -24,7 +24,7 @@ TO DO:
     - news section
     - prettify function reference
     - css cleanup
-    - reflinks everywhere
+    - reflinks everywhere (maybe)
     - add content
         - add videos page (in docs?)
         - add sponsors to about page:
@@ -40,6 +40,7 @@ TO DO:
         - maybe include the class diagram:
           http://www.gliffy.com/go/publish/image/4249553/L.png
     - 404 error should be a SCRIBBLE rendering
+    - markdown in example titles (specifically for code)
 
 DONE:
     - examples category galleries
