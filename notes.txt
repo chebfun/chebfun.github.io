@@ -24,6 +24,7 @@ TO DO:
     - news section
     - prettify function reference
     - css cleanup
+        - blockquotes in examples (e.g. ode/ResonantVandal)
     - reflinks everywhere (maybe)
     - add content
         - add videos page (in docs?)
