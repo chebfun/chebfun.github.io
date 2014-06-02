@@ -48,7 +48,6 @@ DONE:
 ----
 
 examples
-    - ode/fourbugs zoom problem
     - roots/whitecurves ugliness
     - UniformExercises pictures ?
 

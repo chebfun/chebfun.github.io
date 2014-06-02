@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Nonstandard 'boundary' conditions</h1>
-                <h2>Asgeir Birkisson, 18th October 2011</h2>
+                <h2>Asgeir Birkisson, October 2011</h2>
             </div>
         </div>
     </div>
@@ -77,34 +77,33 @@
 <p>This example describes how to solve problems of this kind. All the ODEs here are linear, but the approach extends to nonlinear problems too.</p>
 <h3 id="example-1-mean-zero-solution">Example 1: Mean zero solution</h3>
 <p>In this example, we solve the ODE</p>
-<p>$$ u" + x^2 u = 1 $$</p>
+<p>$$ u'' + x^2 u = 1 $$</p>
 <p>on the domain $[-1,1]$ subject to the conditions</p>
 <p>$$ u(-1) = 1; \quad \mbox{The average of $u$ over $[-1,1]$ is $0$} $$</p>
 <p>An equivalent way to state the second condition is that the definite integral of the solution over the domain must be zero.</p>
 <p>As usual, we start by creating a chebop:</p>
 <pre class="mcode-input">N = chebop(@(x,u) diff(u,2)+x.^2.*u);</pre>
 
-<p>Since the first condition is applied on the left endpoint of the domain, we use the .lbc field of the chebop:</p>
+<p>Since the first condition is applied on the left endpoint of the domain, we use the <code>.lbc</code> field of the chebop:</p>
 <pre class="mcode-input">N.lbc = 1;</pre>
 
-<p>However, the second condition applies on the function over the whole domain. We use the field .bc to enforce the condition</p>
+<p>However, the second condition applies on the function over the whole domain. We use the field <code>.bc</code> to enforce the condition</p>
 <pre class="mcode-input">N.bc = @(x,u) sum(u);</pre>
 
-<pre class="mcode-output">Error using chebop/parsebc (line 38)
-Number of inputs to BCs do not match operator.
-Error in chebop/set.bc (line 246)
-                N.bc = parseBC(N, val);
-Error in NonstandardBCs (line 44)
-N.bc = @(x,u) sum(u);</pre>
-
-<p>Note that here N.bc is an anonymous function. Chebfun interprets this to be a condition that applies on the solution over the interior of the domain (compared to, e.g., N.bc = 1 or N.bc = 'dirichlet', which automatically get transformed into conditions on both boundaries). Further, note that the anonymous function can take x, the independent variable on the domain as an argument, allowing you to introduce weighting functions in problems.</p>
+<p>Note that here N.bc is an anonymous function. Chebfun interprets this to be a condition that applies on the solution over the interior of the domain (compared to, e.g., <code>N.bc = 1</code> or <code>N.bc = 'dirichlet'</code>, which automatically get transformed into conditions on both boundaries). Further, note that the anonymous function can take <code>x</code>, the independent variable on the domain as an argument, allowing you to introduce weighting functions in problems.</p>
 <p>We now solve the problem in the regular way using backslash and plot the solution:</p>
 <pre class="mcode-input">u = N\1; plot(u,LW,1.6), grid on</pre>
 
+<p><img src="img/NonstandardBCs_01.png" class="figure" alt=""></p>
 <p>We confirm that we've solved the problem by calculating the residual of the differential equation and both the conditions:</p>
 <pre class="mcode-input">disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 disp(['Residual of interior condition:    ', num2str(abs(sum(u)))])</pre>
+
+<pre class="mcode-output">Residual of differential equation: 3.9683e-12
+Residual of left BC:               2.2204e-16
+Residual of interior condition:    2.0521e-17
+</pre>
 
 <p>We could also require the mean of $u$ to take another value, e.g. $1$, via</p>
 <pre class="mcode-input">N.bc = @(x,u) mean(u)-1;</pre>
@@ -113,19 +112,28 @@ disp(['Residual of interior condition:    ', num2str(abs(sum(u)))])</pre>
 <pre class="mcode-input">u = N\1;
 disp(['Residual of Interior condition: ', num2str(abs(mean(u)-1))])</pre>
 
+<pre class="mcode-output">Residual of Interior condition: 2.2204e-16
+</pre>
+
 <p>Finally, we could also introduce some weighting, for example, we could look for a solution which is orthogonal to $\sin(4\pi x)$:</p>
 <pre class="mcode-input">N.bc = @(x,u) sum(sin(4*pi*x).*u);
 u = N\1; plot(u,LW,1.6), grid on</pre>
 
+<p><img src="img/NonstandardBCs_02.png" class="figure" alt=""></p>
 <p>Again, we obtained an accurate solution (to evaluate the interior point condition, we need to create a chebfun for $x$):</p>
 <pre class="mcode-input">disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ',  num2str(abs(u(-1)-1))])
 x = chebfun('x');
 disp(['Residual of interior condition:    ', num2str(abs(sum(sin(4*pi*x).*u)))])</pre>
 
+<pre class="mcode-output">Residual of differential equation: 7.1621e-13
+Residual of left BC:               4.4409e-16
+Residual of interior condition:    0
+</pre>
+
 <h3 id="example-2-interior-point-conditions">Example 2: Interior point conditions</h3>
 <p>We now wish to solve the same ODE as above:</p>
-<p>$$ u" + x^2 u = 1 $$</p>
+<p>$$ u'' + x^2 u = 1 $$</p>
 <p>on the domain $[-1,1]$, but in addition to a left boundary condition</p>
 <p>$$  u(-1) = 1 $$</p>
 <p>we now have the interior point condition</p>
@@ -139,6 +147,12 @@ disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 disp(['Residual of interior condition:    ', num2str(abs(u(0)-.5))])</pre>
 
+<pre class="mcode-output">Residual of differential equation: 2.0369e-12
+Residual of left BC:               1.1102e-16
+Residual of interior condition:    2.2204e-16
+</pre>
+
+<p><img src="img/NonstandardBCs_03.png" class="figure" alt=""></p>
 <p>If we want to impose conditions on the derivative, such as</p>
 <p>$$ u'(0) = 1, $$</p>
 <p>we need to use a little trick in order to be able to evaluate the derivative at an interior point. MATLAB doesn't allow the stacked parentheses we would need for something like <code>@(x,u) diff(u)(0)</code>, so instead this is achived using the <code>feval</code> method:</p>
@@ -147,11 +161,17 @@ disp(['Residual of interior condition:    ', num2str(abs(u(0)-.5))])</pre>
 <p>We solve the problem</p>
 <pre class="mcode-input">u = N\1; plot(u,LW,1.6), grid on</pre>
 
+<p><img src="img/NonstandardBCs_04.png" class="figure" alt=""></p>
 <p>and confirm that we obtain an accurate solution</p>
 <pre class="mcode-input">disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 up = diff(u);
 disp(['Residual of interior condition:    ', num2str(abs(up(0)-1))])</pre>
+
+<pre class="mcode-output">Residual of differential equation: 3.1325e-12
+Residual of left BC:               5.5511e-16
+Residual of interior condition:    1.2879e-14
+</pre>
             </div>
         </div>
     </div>

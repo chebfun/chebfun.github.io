@@ -19,19 +19,9 @@ MathJax.Hub.Config({
         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
         processEscapes: true,
         skipTags: ["script","noscript","style","textarea","pre","code"]
-    // },
-    // TeX: {
-    //     Macros: {
-    //         dif: ["\\frac{d{#1}}{d{#2}}", 2],
-    //         pdif: ["\\frac{\\partial{#1}}{\\partial{#2}}", 2],
-    //         Tr: "\\mathop{\\rm Tr}\\limits",
-    //         real: "\\mathop{\\rm Re}\\nolimits",
-    //         imag: "\\mathop{\\rm Im}\\nolimits",
-    //         Res: "\\mathop{\\rm Res}\\limits",
-    //         sign: "\\mathop{\\rm sgn}\\nolimits",
-    //         i: "{\\rm i}"
-    //     },
-    //     equationNumbers: {autoNumber: "AMS"}
+    },
+    TeX: {
+        equationNumbers: {autoNumber: "AMS"}
     }
 });
 

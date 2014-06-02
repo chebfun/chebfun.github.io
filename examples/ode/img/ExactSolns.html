@@ -5,7 +5,7 @@ authordate: "Nick Trefethen, December 2010"
 meta: "(Chebfun example ode/ExactSolns.m) [Tags: #nonlinearODE]"
 ---
 
-Chapter 1 of the textbook by Bender and Orszag [1] contains an intense review of a number of methods for solving ODEs exactly.  Here are some examples illustrating techniques presented in that chapter.   In each case we solve an ODE with Chebfun and compare with the exact solution. For simplicity we pose all the equations on the domain $[1,2]$:
+Chapter 1 of the textbook by Bender and Orszag [1] contains an intense review of a number of methods for solving ODEs exactly.  Here are some examples illustrating techniques presented in that chapter.  In each case we solve an ODE with Chebfun and compare with the exact solution. For simplicity we pose all the equations on the domain $[1,2]$:
 
 <pre class="mcode-input">d = [1 2];
 x = chebfun('x',d);
@@ -32,7 +32,7 @@ for some constant $C$.  For the given boundary condition the constant is $C=1$, 
 <pre class="mcode-input">N.op = @(y) x.*diff(y) - y.^2 + 2*y;
 N.lbc = 0;
 y = N\1;
-err = norm(y-exact,inf);</pre>Here is a plot of the solution, using '.-' to show the grid needed to resolve the solution.
+err = norm(y-exact,inf);</pre>Here is a plot of the solution, using `'.-'` to show the grid needed to resolve the solution.
 
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
 plot(y,'.-',LW,1,MS,18), grid on

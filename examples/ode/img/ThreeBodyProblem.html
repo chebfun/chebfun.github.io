@@ -1,7 +1,7 @@
 ---
 title: "Three body problem complex singularities"
 layout: example
-authordate: "Marcus Webb, 23rd August 2011"
+authordate: "Marcus Webb, August 2011"
 meta: "(Chebfun example ode/ThreeBodyProblem.m) [Tags: #nonlinearODE, #ODEsystem, #astrophysics, #rational]"
 ---
 
@@ -13,11 +13,11 @@ This example is motivated by a correspondence with Divakar Viswanath, University
 
 The three body problem is a system of ODEs modelling three particles of prescribed masses $m_1$, $m_2$, $m_3$ under mutual gravitation in two or three dimensions. We will consider the two dimensional case, so that we can use complex arithmetic to solve it in Chebfun.
 
-$$ u'' = m_2(v-u)/|v-u|^3 + m_3(w-u)/|w-u|^3, $$
+$$ u'' = \frac{m_2(v-u)}{|v-u|^3} + \frac{m_3(w-u)}{|w-u|^3}, $$
 
-$$ v'' = m_1(u-v)/|u-v|^3 + m_3(w-v)/|w-v|^3,  $$
+$$ v'' = \frac{m_1(u-v)}{|u-v|^3} + \frac{m_3(w-v)}{|w-v|^3}, $$
 
-$$ w'' = m_1(u-w)/|u-w|^3 + m_2(v-w)/|v-w|^3 $$
+$$ w'' = \frac{m_1(u-w)}{|u-w|^3} + \frac{m_2(v-w)}{|v-w|^3} $$
 
 subject to initial conditions.
 
@@ -81,7 +81,7 @@ nu =
 </pre>We can see that the robustness of the algorithm reduces the degree of the denominator drastically. We still have a good error estimate on the real interval:
 
 <pre class="mcode-input">max(abs(rh(linspace(0,4*pi,100)) - v(linspace(0,4*pi,100))))</pre><pre class="mcode-output">ans =
-     4.858068805487592e-10
+     4.857852405291055e-10
 </pre>
 
 ## Analysis of Singularities
@@ -89,25 +89,25 @@ nu =
 The poles calculated above are as follows.
 
 <pre class="mcode-input">poles</pre><pre class="mcode-output">poles =
-  2.092587686213578 - 0.539634471615090i
-  2.912589957029101 + 1.939023253869926i
-  4.188725760006724 - 0.551336346983070i
-  5.233710460924881 + 0.551707304060593i
-  7.332660397667739 + 0.551707305431723i
-  8.377644933160614 - 0.551336404577644i
-  9.653777391645017 + 1.938986381249687i
- 10.473782676271801 - 0.539634946757678i
-</pre>A straightforward analysis considering the symmetries of the system (communicated to me by Viswanath) shows that if the solution that $v$ is approximating has any complex singularities, the real parts may only take the values $(\pi/3)[1,2,4,5]~ (\mbox{mod}2\pi)$.
+  2.092587877358921 - 0.539634193302825i
+  2.912598685191316 + 1.939005723982471i
+  4.188725912975051 - 0.551336407479808i
+  5.233710423473792 + 0.551707401808514i
+  7.332660260488846 + 0.551707250048496i
+  8.377644844195080 - 0.551336357855684i
+  9.653787333617759 + 1.939008596013644i
+ 10.473782750539081 - 0.539634603132285i
+</pre>A straightforward analysis considering the symmetries of the system (communicated to me by Viswanath) shows that if the solution that $v$ is approximating has any complex singularities, the real parts may only take the values $(\pi/3)[1,2,4,5]~(\mbox{mod}\ 2\pi)$.
 
 <pre class="mcode-input">real(poles)*3/pi</pre><pre class="mcode-output">ans =
-   1.998274044684738
-   2.781318533165955
-   3.999938459768557
-   4.997825343407740
-   7.002174889818023
-   8.000061615487697
-   9.218678348334532
-  10.001725714793507
+   1.998274227215095
+   2.781326867946919
+   3.999938605842549
+   4.997825307644586
+   7.002174758821829
+   8.000061530531870
+   9.218687842219166
+  10.001725785713536
 </pre>We have found poles with real parts approximately $(\pi/3)[2,4,5,7,8,10]$, which agrees with the analysis. We do appear to have missed one singularity at $\pi/3$ and $11\pi/3$, but it is typical to expect only the singularities near the centre of the interval to be found. We have also found two additional poles.  A plot shows that these are further fromthe real line.
 
 <pre class="mcode-input">plot(roots(q,'all'),'o','markersize',4,'color','b','markerfacecolor','b')
@@ -144,7 +144,7 @@ end</pre><img src="img/ThreeBodyProblem_03.png" class="figure" alt="">
 
 ## Without Robustness
 
-Now let us do exactly the same with robustness switched off (tol=0):
+Now let us do exactly the same with robustness switched off ($\mathrm{tol}=0$):
 
 <pre class="mcode-input">[p,q,rh,mu,nu,poles,res] = ratinterp(v,157,156, [], [], 0);
 clf, plot([0,4*pi]+eps*1i,'-r'), hold on
@@ -162,11 +162,11 @@ This is a demonstration of the phenomenon of spurious poles or "Froissart double
 
 [1] Private communication with Divakar Viswanath, July 2011
 
-[2] A. Chenciner and R. Montgomery. A remarkable periodic solution of the three-body problem in the case of equal masses. _Annals of Mathematics- Second Series_, 152(3):881&acirc;&#128;&#147;902, 2000.
+[2] A. Chenciner and R. Montgomery. A remarkable periodic solution of the three-body problem in the case of equal masses. _Annals of Mathematics- Second Series_, 152(3):881-902, 2000.
 
-[3] P. Gonnet, R. Pach&Atilde;&sup3;n, and L.N. Trefethen. Robust rational interpolation and least-squares. _Electronic Transactions on Numerical Analysis_, 38:146&acirc;&#128;&#147;167, 2011.
+[3] P. Gonnet, R. Pach&Atilde;&sup3;n, and L.N. Trefethen. Robust rational interpolation and least-squares. _Electronic Transactions on Numerical Analysis_, 38:146-167, 2011.
 
 [4] Nick Trefethen. Rational interpolation, Robust and non-robust <a href="http://www2.maths.ox.ac.uk/chebfun/examples/approx/html/RationalInterp.shtml">http://www2.maths.ox.ac.uk/chebfun/examples/approx/html/RationalInterp.shtml</a>
 
-[5] Wikipedia article: 'http://en.wikipedia.org/wiki/Three_body_problem'
+[5] Wikipedia article: <a href="http://en.wikipedia.org/wiki/Three_body_problem">http://en.wikipedia.org/wiki/Three_body_problem</a>
 

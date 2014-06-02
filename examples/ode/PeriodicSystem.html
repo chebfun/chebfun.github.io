@@ -87,7 +87,7 @@ u = A\f;</pre>
 plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');</pre>
 
 <p><img src="img/PeriodicSystem_01.png" class="figure" alt=""></p>
-<p>For this problem, the solution can actually be computed analytically.  How close were we?</p>
+<p>For this problem, the solution can actually be computed analytically. How close were we?</p>
 <pre class="mcode-input">exact = [cos(x+3*pi/4) cos(x+pi/4)]/sqrt(2);
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre>
 

@@ -126,12 +126,7 @@ meta: "<xsl:value-of select="normalize-space($exMeta)"/>"
 <xsl:template match="b">*<xsl:apply-templates/>*</xsl:template>
 <xsl:template match="tt">`<xsl:apply-templates/>`</xsl:template>
 <xsl:template match="i">_<xsl:apply-templates/>_</xsl:template>
-<xsl:template match="a">
-<a>
-<xsl:attribute name="href"><xsl:value-of select="@href"/></xsl:attribute>
-<xsl:apply-templates/>
-</a>
-</xsl:template>
+<xsl:template match="a">&lt;<xsl:apply-templates/>&gt;</xsl:template>
 
 <!-- Code input and output -->
 

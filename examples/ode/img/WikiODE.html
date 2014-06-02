@@ -5,11 +5,7 @@ authordate: "Mark Richardson, September 2010"
 meta: "(Chebfun example ode/WikiODE.m) [Tags: #linearODE, #wikipedia]"
 ---
 
-Here, we solve three simple linear problems considered in the Wikipedia article on ODEs:
-
-<a href="http://en.wikipedia.org/wiki/Linear_differential_equation">http://en.wikipedia.org/wiki/Linear_differential_equation</a>
-
-The problems are solved in the order they appear in the article, with boundary conditions imposed to make the solutions unique.
+Here, we solve three simple linear problems considered in the Wikipedia article on ODEs: <blockquote> <http://en.wikipedia.org/wiki/Linear_differential_equation> </blockquote> The problems are solved in the order they appear in the article, with boundary conditions imposed to make the solutions unique.
 
 
 
@@ -45,8 +41,7 @@ N.rbc = exp(2)*cos(1);</pre>Define the linear operator.
 
 ## Problem 2: Simple harmonic oscillator
 
-$$ L(y) = y'' + \pi^2 y = 0,  \qquad
-y(-1) = -1, ~~ y'(1) = -\pi. $$
+$$ L(y) = y'' + \pi^2 y = 0,  \qquad y(-1) = -1, ~~ y'(1) = -\pi. $$
 
 <pre class="mcode-input">d = [-1 1];
 x = chebfun('x',d);

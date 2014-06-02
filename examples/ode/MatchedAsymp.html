@@ -92,14 +92,14 @@ for j = 1:4
 end
 toc</pre>
 
-<pre class="mcode-output">Elapsed time is 6.307003 seconds.
+<pre class="mcode-output">Elapsed time is 6.906986 seconds.
 </pre>
 
 <p><img src="img/MatchedAsymp_01.png" class="figure" alt=""></p>
 <p>It is clear almost at a glance what form the solution is taking as $\varepsilon \to 0$. Away from $\pm 1$, the $\varepsilon y''$ term is negligible and the solution is approximately that of the rest of the equation,</p>
 <p>$$ y_{\mbox{interior}} = {1\over 2-x^2}. $$</p>
 <p>Near $\pm 1$, on the other hand, $\varepsilon y''$ becomes significant as the solution quickly bends down to meet the boundary condition.</p>
-<p>In matched asymptotics the solution away from the boundary layers is called the <em>outer solution</em>.  Here we have two boundary layers, each of which has an <em>inner solution</em>. To analyze the right boundary layer, for example, we make the approximation $x=1$.  This gives a constant coefficient second-order equation, with an exponentially growing solution $\exp(x\varepsilon^{-1/2} )$ and an exponentially decaying solution $\exp(-x\varepsilon^{-1/2})$. One of our two free parameters is used up by the fact that only the first of these is appropriate at the right boundary.  The other parameter is used to satisfy the boundary condition, giving</p>
+<p>In matched asymptotics the solution away from the boundary layers is called the <em>outer solution</em>.  Here we have two boundary layers, each of which has an <em>inner solution</em>. To analyze the right boundary layer, for example, we make the approximation $x=1$.  This gives a constant coefficient second- order equation, with an exponentially growing solution $\exp(x\varepsilon^{-1/2} )$ and an exponentially decaying solution $\exp(-x\varepsilon^{-1/2})$. One of our two free parameters is used up by the fact that only the first of these is appropriate at the right boundary. The other parameter is used to satisfy the boundary condition, giving</p>
 <p>$$ y_{\mbox{right}} = 1 - \exp(\varepsilon^{-1/2}(x-1)). $$</p>
 <p>Similarly at the left boundary we have</p>
 <p>$$ y_{\mbox{left}} = 1 - \exp(\varepsilon^{-1/2}(-x-1)). $$</p>

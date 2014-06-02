@@ -71,7 +71,7 @@
     <div class="row">
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Chapter 1 of the textbook by Bender and Orszag [1] contains an intense review of a number of methods for solving ODEs exactly.  Here are some examples illustrating techniques presented in that chapter.   In each case we solve an ODE with Chebfun and compare with the exact solution. For simplicity we pose all the equations on the domain $[1,2]$:</p>
+                <p>Chapter 1 of the textbook by Bender and Orszag [1] contains an intense review of a number of methods for solving ODEs exactly.  Here are some examples illustrating techniques presented in that chapter.  In each case we solve an ODE with Chebfun and compare with the exact solution. For simplicity we pose all the equations on the domain $[1,2]$:</p>
 <pre class="mcode-input">d = [1 2];
 x = chebfun('x',d);
 N = chebop(d);</pre>
@@ -92,7 +92,7 @@ N.lbc = 0;
 y = N\1;
 err = norm(y-exact,inf);</pre>
 
-<p>Here is a plot of the solution, using '.-' to show the grid needed to resolve the solution.</p>
+<p>Here is a plot of the solution, using <code>'.-'</code> to show the grid needed to resolve the solution.</p>
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
 plot(y,'.-',LW,1,MS,18), grid on
 title(sprintf('xy'' = y^2-2y+1     Error = %6.2e',err),FS,14)</pre>

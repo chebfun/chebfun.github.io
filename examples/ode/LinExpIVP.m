@@ -1,14 +1,14 @@
-%% Linear EXP initial-value problem
-% Tom Maerz, 05 October 2010
+%% Linear `exp` initial-value problem
+% Tom Maerz, October 2010
 
 %%
 % (Chebfun example ode/LinExpIVP.m)
 % [Tags: #linearODE, #IVP]
 
 %%
-% This is an elementary example to illustrate how
-% one might use Chebfun to solve a very simple ODE initial-value problem.
-% We take the scalar test problem
+% This is an elementary example to illustrate how one might use Chebfun to
+% solve a very simple ODE initial-value problem. We take the scalar test
+% problem
 %
 % $$ u' - \lambda u = 0  ,~~~    u(0) = 1,~  \lambda = -10000 $$
 %
