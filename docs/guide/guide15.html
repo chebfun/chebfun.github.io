@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>15. Chebfun2: 2D Surfaces in 3D Space &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>15. Chebfun2: 2D Surfaces in 3D Space</h1>
+                <h2>Alex Townsend, March 2013, last updated May 2014</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <h2 id="51-representing-parametric-surfaces">5.1 Representing parametric surfaces</h2>
+<p>In Chapter 4, we explored chebfun2v objects with two components, but Chebfun2 can also work with functions with three components, i.e., functions from a rectangle in $R^2$ into $R^3$. For example, we can represent the unit sphere via spherical coordinates as follows:</p>
+<pre class="mcode-input">th = chebfun2(@(th,phi) th, [0 pi 0 2*pi]);
+phi = chebfun2(@(th,phi) phi, [0 pi 0 2*pi]);
+
+x = sin(th).*cos(phi);
+y = sin(th).*sin(phi);
+z = cos(th);
+
+F = [x;y;z];
+surf(F), camlight, axis equal</pre>
+
+<p><img src="img/guide15_01.png" class="figure" alt=""></p>
+<p>Above, we have formed a chebfun2v with three components by vertical concatenation of chebfun2 objects. However, for familiar surfaces such as cylinders, spheres, and ellipsoids Chebfun2 has overloads of the commands <code>cylinder</code>, <code>sphere</code>, and <code>ellipsoid</code> to generate these surfaces more easily. For example, a cylinder of radius $1$ and height $5$ can be constructed like this:</p>
+<pre class="mcode-input">h = 5;
+r = chebfun(@(th) 1+0*th,[0 h]);
+F = cylinder(r);
+surf(F), camlight</pre>
+
+<p><img src="img/guide15_02.png" class="figure" alt=""></p>
+<p>An important class of parametric surfaces are surfaces of revolution, which are formed by revolving a curve in the left half plane about the $z$-axis. The <code>cylinder</code> command can be used to generate surfaces of revolution. For example:</p>
+<pre class="mcode-input">f = chebfun(@(t) (sin(pi*t)+1.1).*t.*(t-10),[0 5]);
+F = cylinder(f);
+surf(F), camlight</pre>
+
+<p><img src="img/guide15_03.png" class="figure" alt=""></p>
+<p>Here as another example is a torus with a gap in it.</p>
+<pre class="mcode-input">x = chebfun2(@(x,y) x); y = chebfun2(@(x,y) y);
+theta = 0.9*pi*x; phi = pi*y;
+F = [-(1+.3*cos(phi)).*sin(theta);
+      (1+.3*cos(phi)).*cos(theta);
+      .3*sin(phi)];
+surf(F), axis equal, camlight</pre>
+
+<p><img src="img/guide15_04.png" class="figure" alt=""></p>
+<h2 id="52-surface-normals-and-the-divergence-theorem">5.2 Surface normals and the divergence theorem</h2>
+<p>Given a chebfun2v representing a surface, the normal can be computed by the Chebfun2 <code>normal</code> command.  Here are the normal vectors of another torus:</p>
+<pre class="mcode-input">r1 = 1; r2 = 1/3;   % inner and outer radius
+d = [0 2*pi 0 2*pi];
+u = chebfun2(@(u,v) u,d);
+v = chebfun2(@(u,v) v,d);
+F = [-(r1+r2*cos(v)).*sin(u); (r1+r2*cos(v)).*cos(u); r2*sin(v)];  % torus
+
+surf(F), camlight, hold on
+quiver3(F(1),F(2),F(3),normal(F, 'unit'),'numpts',10)
+axis equal, hold off</pre>
+
+<p><img src="img/guide15_05.png" class="figure" alt=""></p>
+<p>Once we have the surface normal vectors we can compute, for instance, the volume of the torus by applying the divergence theorem:</p>
+<p>$$ \int\int_V\int div(G) dV = \int_S\int G\cdot d\mathbf{S}, $$</p>
+<p>where $div(G)=1$. Instead of integrating over the 3D volume, which is currently not possible in Chebfun2, we integrate over the 2D surface:</p>
+<pre class="mcode-input">G = F./3;  % full 3D divergence of G is 1 because F = [x;y;z].
+integral2(dot(G,normal(F)))
+exact = 2*pi^2*r1*r2.^2</pre>
+
+<pre class="mcode-output">ans =
+   2.193245422464302
+exact =
+   2.193245422464302
+</pre>
+
+<p>Chebfun2v objects with three components come with a warning. Chebfun2 works with functions of two real variables and therefore, operations such as curl and divergence (in 2D) have little physical meaning to the represented 3D surface.  The reason we can compute the volume of the torus (above) is because we are using the divergence theorem and circumventing the 3D divergence.</p>
+<p>To finish this section we represent the Klein Bagel. The solid black line shows the parameterisation seam and is displayed with the syntax <code>surf(F,'-')</code>. See [Platte 2013] for more on parameterised surfaces.</p>
+<pre class="mcode-input">u = chebfun2(@(u,v) u, [0 2*pi 0 2*pi]);
+v = chebfun2(@(u,v) v, [0 2*pi 0 2*pi]);
+x=(3+cos(u/2).*sin(v)-sin(u/2).*sin(2*v)).*cos(u);
+y=(3+cos(u/2).*sin(v)-sin(u/2).*sin(2*v)).*sin(u);
+z=sin(u/2).*sin(v)+cos(u/2).*sin(2*v);
+surf([x;y;z],'-k','FaceAlpha',.6), camlight left, colormap(hot)
+axis tight equal off</pre>
+
+<p><img src="img/guide15_06.png" class="figure" alt=""></p>
+<h2 id="53-references">5.3 References</h2>
+<p>[Platte 2013] R. Platte, Parameterizable surfaces, Chebfun2 Example: <a href="http://www2.maths.ox.ac.uk/chebfun/examples/geom/html/ParametricSurfaces.shtml">http://www2.maths.ox.ac.uk/chebfun/examples/geom/html/ParametricSurfaces.shtml</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

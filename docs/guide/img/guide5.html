@@ -1,5 +1,5 @@
 ---
-title: "Chebfun Guide 5: Complex Chebfuns"
+title: "5. Complex Chebfuns"
 layout: guide-chapter
 authordate: "Lloyd N. Trefethen, November 2009, latest revision May 2014"
 ---
@@ -43,11 +43,11 @@ subplot(1,2,2), plot(exp(h)), axis equal</pre><img src="img/guide5_05.png" class
 Such plots make pretty pictures, but as always with Chebfun, the underlying operations involve precise mathematics carried out to many digits of accuracy.  For example, the integral of `g` is $-\pi i/10$,
 
 <pre class="mcode-input">sum(g)</pre><pre class="mcode-output">ans =
- -0.000000000000002 - 0.314159265358979i
+  0.000000000000000 - 0.314159265358979i
 </pre>and the integral of `h` is zero:
 
 <pre class="mcode-input">sum(h)</pre><pre class="mcode-output">ans =
-     -6.999851837738844e-16 + 1.291664876099699e-16i
+      1.719627766156472e-16 - 1.522474749680446e-16i
 </pre>Piecewise smooth complex chebfuns are also possible. For example, the following starts from a chebfun `z` defined as $(1+0.5i)s$ for $s$ on the interval $[0,1]$ and $1+0.5i-2(s-1)$ for $s$ on the interval $[1,2]$.
 
 <pre class="mcode-input">z = chebfun({@(s) (1+.5i)*s, @(s) 1+.5i-2*(s-1)},[0 1 2]);
@@ -64,7 +64,7 @@ Actually, this way of constructing a piecewise chebfun is rather clumsy. An easi
 
 # 5.2 Analytic functions and conformal maps
 
-A function is *analytic* if it is differentiable in the complex sense, or equivalently, if it has a convergent Taylor series near each point. Analytic functions do interesting things in the complex plane. In particular, away from points where the derivative is zero, they are *conformal maps*, which means that though they may scale and rotate an infinitesimal region, they preserve angles between intersecting curves.
+A function is *analytic* if it is differentiable in the complex sense, or equivalently, if it has a convergent Taylor series near each point in its domain of definition. Analytic functions do interesting things in the complex plane. In particular, away from points where the derivative is zero, they are *conformal maps*, which means that though they may scale and rotate an infinitesimal region, they preserve angles between intersecting curves.
 
 For example, suppose we define `R` to be a chebfun corresponding to the four sides of a rectangle and we define `X` to be another chebfun corresponding to a cross inside `R`.
 
@@ -91,7 +91,7 @@ We can take the same idea further and construct a grid in the complex plane, eac
     S = [S d+1i*x 1i*d+x];      % add 2 more lines to the collection
   end
   clf,
-  % subplot(1,2,1), plot(S), axis equal</pre><img src="img/guide5_09.png" class="figure" alt="">
+  subplot(1,2,1), plot(S), axis equal</pre><img src="img/guide5_09.png" class="figure" alt="">
 
 Here are the exponential and tangent of the grid:
 
@@ -101,12 +101,12 @@ Here are the exponential and tangent of the grid:
 Here is a sequence that puts all three images together on a single scale:
 
 <pre class="mcode-input">  clf
-% plot(S), hold on
-% plot(1.6+exp(S))
-% plot(6.6+tan(S))
-% axis equal, axis off</pre><img src="img/guide5_11.png" class="figure" alt="">
+  plot(S), hold on
+  plot(1.6+exp(S))
+  plot(6.6+tan(S))
+  axis equal, axis off</pre><img src="img/guide5_11.png" class="figure" alt="">
 
-A particularly interesting set of conformal maps are the *Moebius transformations*, the rational functions of the form $(az+b)/(cz+d)$ for constants $a,b,c,d$.  For example, here is a square and its image under the map $w = 1/(1+z)$, and the image of the image under the same map, and the image of the image of the image.  We also plot the limit point given by the equation $z = 1/(1+z)$, i.e., $z = (sqrt(5)-1)/2$.
+A particularly interesting set of conformal maps are the *Moebius transformations*, the rational functions of the form $(az+b)/(cz+d)$ for constants $a,b,c,d$.  For example, here is a square and its image under the map $w = 1/(1+z)$, and the image of the image under the same map, and the image of the image of the image.  We also plot the limit point given by the equation $z = 1/(1+z)$, i.e., $z = (\sqrt{5}-1)/2$.
 
 <pre class="mcode-input">moebius = @(z) 1./(1+z);
 s = chebfun(@(s) s,[0 1]);
@@ -158,7 +158,7 @@ According to *Cauchy's theorem*, the integral of an analytic function around a c
 <pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi]);
 f = exp(z)./z.^3;
 I = sum(f.*diff(z))/(2i*pi)</pre><pre class="mcode-output">I =
-  0.500000000000000 - 0.000000000000000i
+  0.500000000000000 + 0.000000000000000i
 </pre>Notice that we have just computed the degree $2$ Taylor coefficient of $\exp(z)$.
 
 When Chebfun integrates around a circular contour like this, it does not normally take advantage of the fact that the integrand is periodic. That would be Fourier analysis as opposed to Chebyshev analysis, and a "Fourtech" approach would be more efficient for such problems [Davis 1959].  (This can be achieved by calling the Chebfun constructor with the `periodic` flag; an example will be added.) Chebyshev analysis is more flexible, however, since it does not require periodicity, and the loss in efficiency is only about a factor of $\pi/2$ [Hale &amp; Trefethen 2008].
@@ -168,15 +168,15 @@ The contour does not have to have radius $1$, or be centered at the origin:
 <pre class="mcode-input">z = chebfun('1+2*exp(1i*s)',[0 2*pi]);
 f = exp(z)./z.^3;
 I2 = sum(f.*diff(z))/(2i*pi)</pre><pre class="mcode-output">I2 =
-  0.500000000000000 - 0.000000000000000i
+  0.500000000000000 + 0.000000000000000i
 </pre>Nor does the contour have to be smooth. Here let us compute the same result by integration over a square:
 
 <pre class="mcode-input">s = chebfun('s',[-1 1]);
 z = join(1+1i*s, 1i-s, -1-1i*s, -1i+s);
 f = exp(z)./z.^3;
 I3 = sum(f.*diff(z))/(2i*pi)</pre><pre class="mcode-output">I3 =
-   0.500000000000000
-</pre>In Chebfun one can also construct more interesting contours of the kind that appear in complex variables texts.  Here is an example:
+  0.500000000000000 + 0.000000000000000i
+</pre>In Chebfun one can also construct more interesting contours of the kind that appear in complex variables texts.  Here is an example involving a "keyhole" contour:
 
 <pre class="mcode-input">  c = [-2+.05i, -.2+.05i, -.2-.05i, -2-.05i];    % 4 corners
   s = chebfun('s',[0 1]);
@@ -189,7 +189,7 @@ The integral of $f(z) = \log(z)\tanh(z)$ around this contour will be equal to $2
 <pre class="mcode-input">f = log(z).*tanh(z);
 I = sum(f.*diff(z))
 Iexact = 4i*pi*log(pi/2)</pre><pre class="mcode-output">I =
- -0.000000000000008 + 5.674755637702201i
+  0.000000000000033 + 5.674755637702230i
 Iexact =
   0.000000000000000 + 5.674755637702224i
 </pre>
@@ -203,7 +203,7 @@ z = chebfun('5*exp(1i*s)',[0 2*pi]);
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 exact = 5/66</pre><pre class="mcode-output">B10 =
-  0.075757575757576 + 0.000000000000001i
+  0.075757575757581 - 0.000000000000004i
 exact =
    0.075757575757576
 </pre>Notice that we have taken $z$ to be a circle of radius $5$. If the radius is $1$, the accuracy is a good deal lower:
@@ -211,28 +211,28 @@ exact =
 <pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi]);
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)</pre><pre class="mcode-output">B10 =
-  0.075757575601521 - 0.000000000169988i
+  0.075757575487634 - 0.000000000093852i
 </pre>This problem of numerical instability would arise no matter how one calculated the integral over the unit circle; it is not the fault of Chebfun.  For a study of how to pick the optimal radius, see [Bornemann 2009].
 
 Another use of Cauchy integrals is to count zeros or poles of functions in specified regions.  According to the *principle of the argument*, the number of zeros minus the number of poles of $f$ in a region is
 
-$$ N = {1\over 2\pi i} \int { f'(z) dz \over f(z)} $$
+$$ N = {1\over 2\pi i} \int { f'(z) \over f(z)} dz, $$
 
 where the integral is taken over the boundary.  Since $f' = df/dz = (df/ds)(ds/dz)$, we can rewrite this as
 
-$$ N = {1\over 2\pi i} \int {df\over f ds} ds. $$
+$$ N = {1\over 2\pi i} \int {1\over f} {df\over ds} ds. $$
 
 For example, the function $f(z) = \sin(z)^3 + \cos(z)^3$ clearly has no poles; how many zeros does it have in the disk about $0$ of radius $2$? The following calculation shows that the answer is $3$:
 
 <pre class="mcode-input">z = chebfun('2*exp(1i*s)',[0 2*pi]);
 f = sin(z).^3 + cos(z).^3;
 N = sum((diff(f)./f))/(2i*pi)</pre><pre class="mcode-output">N =
-  3.000000000000001 - 0.000000000000001i
+  2.999999999999997 + 0.000000000000001i
 </pre>What is really going on here is a calculation of the change of the argument of $f$ as the boundary is traversed.  Another way to find that number is with the Chebfun overloads of the Matlab commands `angle` and `unwrap`:
 
 <pre class="mcode-input">anglef = unwrap(angle(f));
 N = (anglef(end)-anglef(0))/(2*pi)</pre><pre class="mcode-output">N =
-   3.000000000000004
+   2.999999999999998
 </pre>Variations on this idea enable one to locate zeros and poles as well as count them.  For example, we can locate a single zero with the formula
 
 $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$
@@ -242,7 +242,7 @@ $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$
 <pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi]);
 f = sin(z).^3 + cos(z).^3;
 r = sum(z.*(diff(f)./f))/(2i*pi)</pre><pre class="mcode-output">r =
- -0.785398163397448 + 0.000000000000000i
+ -0.785398163397449 + 0.000000000000000i
 </pre>We can check the result by a more ordinary Chebfun calculation:
 
 <pre class="mcode-input">x = chebfun('x');
@@ -277,13 +277,15 @@ ans =
 
 Does putting a box around enhance the image? (We do this by adding a second column of a Chebfun quasimatrix -- see Chapter 6.)
 
-<pre class="mcode-input">%L = f.ends(end);
-%s = chebfun(@(x) 2*x+2,[-1 -0.5]);
-%box = join(-1.1-.05i+2.2*s,1.1-.05i+.22i*s,1.1+.17i-2.2*s,-1.1+.17i-.22i*s);
-%f = [f box];
-%plot(f,LW,lw), xlim(1.2*[-1 1]), axis equal</pre><pre class="mcode-input">clf, plot(exp((1+.2i)*f),LW,lw), axis equal, axis off</pre><img src="img/guide5_17.png" class="figure" alt="">
+<pre class="mcode-input">L = f.ends(end);
+s = chebfun(@(x) 2*x+2,[-1 -0.5]);
+box = join(-1.1-.05i+2.2*s,1.1-.05i+.22i*s,1.1+.17i-2.2*s,-1.1+.17i-.22i*s);
+f = [f box];
+plot(f,LW,lw), xlim(1.2*[-1 1]), axis equal</pre><img src="img/guide5_17.png" class="figure" alt="">
 
-<pre class="mcode-input">plot(tan(f),LW,lw), axis equal, axis off</pre><img src="img/guide5_18.png" class="figure" alt="">
+<pre class="mcode-input">clf, plot(exp((1+.2i)*f),LW,lw), axis equal, axis off</pre><img src="img/guide5_18.png" class="figure" alt="">
+
+<pre class="mcode-input">plot(tan(f),LW,lw), axis equal, axis off</pre><img src="img/guide5_19.png" class="figure" alt="">
 
 Next May 16, you might wish to write a greeting card for Pafnuty Lvovich Chebyshev, accurate as always to 15 digits:
 
@@ -294,7 +296,7 @@ clf, plot(g(f),'r',LW,lw), axis equal, axis off
 circle = 1.12*chebfun(@(x) exp(2i*pi*x/L),[0 L]);
 ellipse = 1.2*(circle + 1./circle)/2 + 1i*mean(imag(f));
 hold on, plot(g(ellipse),'b',LW,lw)
-axis auto equal off</pre><img src="img/guide5_19.png" class="figure" alt="">
+axis auto equal off</pre><img src="img/guide5_20.png" class="figure" alt="">
 
 You can find an example "Birthday cards and analytic function" in the Complex Variables section of the Chebfun Examples collection, and further related explorations in the Geometry section.
 
@@ -302,7 +304,7 @@ You can find an example "Birthday cards and analytic function" in the Complex Va
 
 # 5.6  References
 
-[Austin, Kravanja &amp; Trefethen 2013] A. P. Austin, P. Kravanja and L. N. Trefethen, "Numerical algorithms based on analytic function values at roots of unity," _SIAM Journal on Numerical Analysis_, to appear.
+[Austin, Kravanja &amp; Trefethen 2013] A. P. Austin, P. Kravanja and L. N. Trefethen, "Numerical algorithms based on analytic function values at roots of unity", _SIAM Journal on Numerical Analysis_, to appear.
 
 [Bornemann 2009] F. Bornemann, "Accuracy and stability of computing high-order derivatives of analytic functions by Cauchy integrals", _Foundations of Computational Mathematics_, 11 (2011), 1-63.
 

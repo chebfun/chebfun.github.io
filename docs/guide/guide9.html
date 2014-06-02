@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Chebfun Guide 9: Infinite Intervals, Infinite Function Values, and Singularities &raquo; Chebfun</title>
+    <title>9. Infinite Intervals, Infinite Function Values, and Singularities &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,7 +60,7 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Chebfun Guide 9: Infinite Intervals, Infinite Function Values, and Singularities</h1>
+                <h1>9. Infinite Intervals, Infinite Function Values, and Singularities</h1>
                 <h2>Lloyd N. Trefethen, November 2009, latest revision May 2014</h2>
             </div>
         </div>
@@ -89,7 +89,7 @@ sumg = sum(g)
 plot(g,'r',LW,1.6)</pre>
 
 <pre class="mcode-output">sumg =
-   2.266534507696985
+   2.266534507739543
 </pre>
 
 <p><img src="img/guide9_02.png" class="figure" alt=""></p>
@@ -99,13 +99,13 @@ r = roots(f-g)
 plot(r,f(r),'.k',MS,18)</pre>
 
 <pre class="mcode-output">r =
-   0.027639744894514
-   0.265714132607451
-   0.706922132176979
+   0.027639744894515
+   0.265714132607450
+   0.706922132176980
    0.862331877000826
-   1.297442594652157
+   1.297442594652156
    1.594466987072374
-   1.781855556974647
+   1.781855556974646
 </pre>
 
 <p><img src="img/guide9_03.png" class="figure" alt=""></p>
@@ -116,7 +116,7 @@ clf, plot(g,LW,1.6)
 [minval,minpos] = min(g)</pre>
 
 <pre class="mcode-output">minval =
-     0
+    -1.110223024625157e-16
 minpos =
    1.346573590279973
 </pre>
@@ -138,7 +138,7 @@ normh = norm(h)</pre>
 sumg = sum(g)</pre>
 
 <pre class="mcode-output">sumg =
-   0.999999999816705
+   0.999999999893763
 </pre>
 
 <p>The cumsum operator applied to this integrand gives us the error function, which matches the MATLAB <code>erf</code> function reasonably well:</p>
@@ -149,22 +149,22 @@ for n = 1:6, disp([erf(n) errorfun(n)]), end</pre>
 <pre class="mcode-output">errorfun = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,     Inf]       86         0        1 
-Epslevel = 5.118466e-15.  Vscale = 1.000000e+00.
+[       0,     Inf]       90         0        1 
+Epslevel = 1.886954e-15.  Vscale = 1.000000e+00.
           erf               errorfun
-   0.842700792949715   0.842700792948317
-   0.995322265018953   0.995322265016248
-   0.999977909503001   0.999977909499064
-   0.999999984582742   0.999999984577627
-   0.999999999998463   0.999999999992247
-   1.000000000000000   0.999999999992738
+   0.842700792949715   0.842700792948945
+   0.995322265018953   0.995322265017454
+   0.999977909503001   0.999977909500819
+   0.999999984582742   0.999999984579917
+   0.999999999998463   0.999999999995022
+   1.000000000000000   0.999999999995979
 </pre>
 
 <p>One should be cautious in evaluating integrals over infinite intervals, however, for as mentioned in Section 1.5, the accuracy is sometimes disappointing, especially for functions that do not decay very quickly:</p>
 <pre class="mcode-input">sum(chebfun('(1/pi)./(1+s.^2)',[-inf inf]))</pre>
 
 <pre class="mcode-output">ans =
-   1.000000000007687
+   1.000000000010316
 </pre>
 
 <p>Here's an example of a function whose wiggles decay to slowly to be fully resolved:</p>
@@ -299,12 +299,12 @@ sumf = sum(f)</pre>
    chebfun column (4 smooth pieces)
        interval       length   endpoint values   endpoint exponents
 [       0,     3.1]       19         0        0         [0.5      0.5]  
-[     3.1,     6.3]       19         0        0         [0.5      0.5]  
-[     6.3,     9.4]       19         0        0         [0.5      0.5]  
-[     9.4,      13]       19         0        0         [0.5      0.5]  
-Epslevel = 1.408355e-15.  Vscale = 1.000000e+00.  Total length = 76.
+[     3.1,     6.3]       25         0        0         [0.5      0.5]  
+[     6.3,     9.4]       17         0        0         [0.5      0.5]  
+[     9.4,      13]       17         0        0         [0.5      0.5]  
+Epslevel = 1.408355e-15.  Vscale = 1.000000e+00.  Total length = 78.
 sumf =
-   9.585121877884728
+   9.585121877884726
 </pre>
 
 <p><img src="img/guide9_14.png" class="figure" alt=""></p>
@@ -314,7 +314,7 @@ sumf =
 <pre class="mcode-output">f = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values   endpoint exponents
-[      -1,       1]      125      -Inf      Inf         [-2.7      -3.1]  
+[      -1,       1]      122      -Inf      Inf         [-2.7      -3.1]  
 Epslevel = 1.409895e-15.  Vscale = 1.000000e+00.
 </pre>
 

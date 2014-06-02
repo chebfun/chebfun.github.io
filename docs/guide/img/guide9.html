@@ -1,5 +1,5 @@
 ---
-title: "Chebfun Guide 9: Infinite Intervals, Infinite Function Values, and Singularities"
+title: "9. Infinite Intervals, Infinite Function Values, and Singularities"
 layout: guide-chapter
 authordate: "Lloyd N. Trefethen, November 2009, latest revision May 2014"
 ---
@@ -24,7 +24,7 @@ Next we plot another function and integrate it from $0$ to $\infty$:
 <pre class="mcode-input">g = chebfun('1./(gamma(x+1))',[0 inf]);
 sumg = sum(g)
 plot(g,'r',LW,1.6)</pre><pre class="mcode-output">sumg =
-   2.266534507696985
+   2.266534507739543
 </pre><img src="img/guide9_02.png" class="figure" alt="">
 
 Where do $f$ and $g$ intersect?  We can find out using `roots`:
@@ -32,13 +32,13 @@ Where do $f$ and $g$ intersect?  We can find out using `roots`:
 <pre class="mcode-input">plot(f,'b',g,'r',LW,1.2), hold on
 r = roots(f-g)
 plot(r,f(r),'.k',MS,18)</pre><pre class="mcode-output">r =
-   0.027639744894514
-   0.265714132607451
-   0.706922132176979
+   0.027639744894515
+   0.265714132607450
+   0.706922132176980
    0.862331877000826
-   1.297442594652157
+   1.297442594652156
    1.594466987072374
-   1.781855556974647
+   1.781855556974646
 </pre><img src="img/guide9_03.png" class="figure" alt="">
 
 Here's an example on $(-\infty,\infty)$ with a calculation of the location and value of the minimum:
@@ -47,7 +47,7 @@ Here's an example on $(-\infty,\infty)$ with a calculation of the location and v
 g = abs(g-1/3);
 clf, plot(g,LW,1.6)
 [minval,minpos] = min(g)</pre><pre class="mcode-output">minval =
-     0
+    -1.110223024625157e-16
 minpos =
    1.346573590279973
 </pre><img src="img/guide9_04.png" class="figure" alt="">
@@ -65,7 +65,7 @@ Chebfun provides a convenient tool for the numerical evaluation of integrals ove
 
 <pre class="mcode-input">g = chebfun('(2/sqrt(pi))*exp(-x.^2)',[0 inf]);
 sumg = sum(g)</pre><pre class="mcode-output">sumg =
-   0.999999999816705
+   0.999999999893763
 </pre>The cumsum operator applied to this integrand gives us the error function, which matches the MATLAB `erf` function reasonably well:
 
 <pre class="mcode-input">errorfun = cumsum(g)
@@ -73,19 +73,19 @@ disp('          erf               errorfun')
 for n = 1:6, disp([erf(n) errorfun(n)]), end</pre><pre class="mcode-output">errorfun = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,     Inf]       86         0        1 
-Epslevel = 5.118466e-15.  Vscale = 1.000000e+00.
+[       0,     Inf]       90         0        1 
+Epslevel = 1.886954e-15.  Vscale = 1.000000e+00.
           erf               errorfun
-   0.842700792949715   0.842700792948317
-   0.995322265018953   0.995322265016248
-   0.999977909503001   0.999977909499064
-   0.999999984582742   0.999999984577627
-   0.999999999998463   0.999999999992247
-   1.000000000000000   0.999999999992738
+   0.842700792949715   0.842700792948945
+   0.995322265018953   0.995322265017454
+   0.999977909503001   0.999977909500819
+   0.999999984582742   0.999999984579917
+   0.999999999998463   0.999999999995022
+   1.000000000000000   0.999999999995979
 </pre>One should be cautious in evaluating integrals over infinite intervals, however, for as mentioned in Section 1.5, the accuracy is sometimes disappointing, especially for functions that do not decay very quickly:
 
 <pre class="mcode-input">sum(chebfun('(1/pi)./(1+s.^2)',[-inf inf]))</pre><pre class="mcode-output">ans =
-   1.000000000007687
+   1.000000000010316
 </pre>Here's an example of a function whose wiggles decay to slowly to be fully resolved:
 
 <pre class="mcode-input">sinc = chebfun('sin(pi*x)./(pi*x)',[-inf inf]);
@@ -206,12 +206,12 @@ sumf = sum(f)</pre><pre class="mcode-output">f =
    chebfun column (4 smooth pieces)
        interval       length   endpoint values   endpoint exponents
 [       0,     3.1]       19         0        0         [0.5      0.5]  
-[     3.1,     6.3]       19         0        0         [0.5      0.5]  
-[     6.3,     9.4]       19         0        0         [0.5      0.5]  
-[     9.4,      13]       19         0        0         [0.5      0.5]  
-Epslevel = 1.408355e-15.  Vscale = 1.000000e+00.  Total length = 76.
+[     3.1,     6.3]       25         0        0         [0.5      0.5]  
+[     6.3,     9.4]       17         0        0         [0.5      0.5]  
+[     9.4,      13]       17         0        0         [0.5      0.5]  
+Epslevel = 1.408355e-15.  Vscale = 1.000000e+00.  Total length = 78.
 sumf =
-   9.585121877884728
+   9.585121877884726
 </pre><img src="img/guide9_14.png" class="figure" alt="">
 
 If you have a function that blows up but you don't know the nature of the singularities, even whether they are poles or not, Chebfun will try to figure them out automatically if you run in `'blowup 2'` mode.  Here's an example
@@ -219,7 +219,7 @@ If you have a function that blows up but you don't know the nature of the singul
 <pre class="mcode-input">f = chebfun('x.*(1+x).^(-exp(1)).*(1-x).^(-pi)','blowup',2)</pre><pre class="mcode-output">f = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values   endpoint exponents
-[      -1,       1]      125      -Inf      Inf         [-2.7      -3.1]  
+[      -1,       1]      122      -Inf      Inf         [-2.7      -3.1]  
 Epslevel = 1.409895e-15.  Vscale = 1.000000e+00.
 </pre>Notice that the `'exps'` field shows values close to $-e$ and $-\pi$, as is confirmed by looking at the numbers to higher precision:
 

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>12. Chebfun2: Integration and Differentiation &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>12. Chebfun2: Integration and Differentiation</h1>
+                <h2>Alex Townsend, March 2013, last updated May 2014</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <h2 id="21-sum-and-sum2">2.1 <code>sum</code> and <code>sum2</code></h2>
+<p>We have already seen the <code>sum2</code> command, which returns the definite double integral of a chebfun2 over its domain of definition. The sum command is a little different and integrates with respect to one variable at a time. For instance, the following commands integrate over the $y$ variable:</p>
+<pre class="mcode-input">f = chebfun2(@(x,y) sin(10*x.*y),[0 pi/4 0 3]);
+sum(f)</pre>
+
+<pre class="mcode-output">ans = 
+   chebfun row (1 smooth piece)
+       interval       length   endpoint values  
+[       0,    0.79]       35         0     0.13 
+Epslevel = 8.354003e-15.  Vscale = 2.172798e+00.
+</pre>
+
+<p>A chebfun is returned because the result depends on $x$ and hence, is a function of one variable.  Similarly, we can integrate over the $x$ variable, and we plot the result.</p>
+<pre class="mcode-input">LW = 'linewidth';
+sum(f,2), plot(sum(f,2),LW,1.6)</pre>
+
+<pre class="mcode-output">ans = 
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[       0,       3]       35         0    0.033 
+Epslevel = 7.345480e-15.  Vscale = 5.688372e-01.
+</pre>
+
+<p><img src="img/guide12_01.png" class="figure" alt=""></p>
+<p>A closer look reveals that <code>sum(f)</code> returns a row chebfun while <code>sum(f,2)</code> returns a column chebfun. This distinction is a reminder that <code>sum(f)</code> is a function of $x$ while <code>sum(f,2)</code> is a function of $y$. If we integrate over $y$ and then $x$ the result is the double integral of $f$.</p>
+<pre class="mcode-input">sum2(f)
+sum(sum(f))</pre>
+
+<pre class="mcode-output">ans =
+   0.377914013520379
+ans =
+   0.377914013520379
+</pre>
+
+<p>It is interesting to compare the execution times involved for computing the double integral by different commands.  Chebfun2 does very well for smooth functions. Here we see an example in which it is faster than the MATLAB <code>quad2d</code> command.</p>
+<pre class="mcode-input">F = @(x,y) exp(-(x.^2 + y.^2 + cos(4*x.*y)));
+tol = 3e-14;
+tic, I = quad2d(F,-1,1,-1,1,'AbsTol',tol); t = toc;
+fprintf('QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
+tic, I = sum(sum(chebfun2(F))); t = toc;
+fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
+tic, I = sum2(chebfun2(F)); t = toc;
+fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
+
+<pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.1409 secs
+CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.0586 secs
+CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0300 secs
+</pre>
+
+<p>Chebfun2 is not designed specifically for numerical quadrature (or more properly, "cubature"), and careful comparisons with existing software have not been carried out. Low rank function approximations have been previously used for numerical quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman &amp; Geddes 2005].</p>
+<h2 id="22-normmean-and-mean2">2.2 <code>norm',</code>mean', and <code>mean2</code></h2>
+<p>The $L^2$-norm of a function $f(x,y)$ can be computed as the square root of the double integral of $f^2$. In Chebfun2 the command <code>norm(f)</code>, without any additional arguments, computes this quantity. For example,</p>
+<pre class="mcode-input">f = chebfun2( 'exp(-(x.^2 + y.^2 +4*x.*y))' );
+norm(f), sqrt(sum2(f.^2))</pre>
+
+<pre class="mcode-output">ans =
+   2.819481057146934
+ans =
+   2.819481057146935
+</pre>
+
+<p>Here is another example. This time we compute the norms of $f(x,y)$, $\cos(f(x,y))$, and $f(x,y)^5$.</p>
+<pre class="mcode-input">f = chebfun2( @(x,y) exp(-1./( sin(x.*y) + x ).^2) );
+norm(f), norm( cos(f) ), norm( f.^5 )</pre>
+
+<pre class="mcode-output">ans =
+   0.462652919760561
+ans =
+   1.950850368197068
+ans =
+   0.060896016071932
+</pre>
+
+<p>Just as <code>sum2</code> performs double integration, <code>mean2</code> computes the average value of $f(x,y)$ over both variables:</p>
+<pre class="mcode-input">help chebfun2/mean2</pre>
+
+<pre class="mcode-output"> MEAN2   Mean of a CHEBFUN2
+    V = MEAN2(F) returns the mean of a CHEBFUN:
+
+                         d  b
+                        /  /   
+    V = 1/(d-c)/(b-a)   |  |   f(x,y) dx dy 
+                        /  /
+                       c  a
+
+    where the domain of F is [a,b] x [c,d]. 
+
+  See also MEAN, STD2.
+
+</pre>
+
+<p>For example, here is the average value of a 2D Runge function.</p>
+<pre class="mcode-input">runge = chebfun2( @(x,y) 1./( .01 + x.^2 + y.^2 )) ;
+plot(runge)
+mean2(runge)</pre>
+
+<pre class="mcode-output">ans =
+   3.796119578934830
+</pre>
+
+<p><img src="img/guide12_02.png" class="figure" alt=""></p>
+<p>The command <code>mean</code> computes the average along one variable.  The output of <code>mean(f)</code> is a function of one variable represented by a chebfun, and so we can plot it.</p>
+<pre class="mcode-input">plot(mean(runge),LW,1.6)
+title('Mean value of 2D Runge function wrt y')</pre>
+
+<p><img src="img/guide12_03.png" class="figure" alt=""></p>
+<p>If we average over the $y$ variable and then the $x$ variable, we obtain the mean value over the whole domain.</p>
+<pre class="mcode-input">mean(mean(runge))      % compare with mean2(runge)</pre>
+
+<pre class="mcode-output">ans =
+   3.796119578934826
+</pre>
+
+<h2 id="23-cumsum-and-cumsum2">2.3 <code>cumsum</code> and <code>cumsum2</code></h2>
+<p>The command <code>cumsum2</code> computes the double indefinite integral, which is a function of two variables, and returns a chebfun2.</p>
+<pre class="mcode-input">help chebfun2/cumsum2</pre>
+
+<pre class="mcode-output"> CUMSUM2   Double indefinite integral of a CHEBFUN2.
+    F = CUMSUM2(F) returns the double indefinite integral of a CHEBFUN2. That is
+                    y  x
+                   /  /
+    CUMSUM2(F) =  |  |   f(x,y) dx dy   for  (x,y) in [a,b] x [c,d],
+                  /  /
+                 c  a
+
+    where [a,b] x [c,d] is the domain of f.
+
+  See also CUMSUM, SUM, SUM2.
+
+</pre>
+
+<p>On the other hand, <code>cumsum(f)</code> computes the indefinite integral with respect to just one variable, also returning a chebfun2. Again, the indefinite integral in the $y$ variable and then the $x$ variable is the same as the double indefinite integral, as we can check numerically.</p>
+<pre class="mcode-input">f = chebfun2(@(x,y) exp(-(x.^2 + 3*x.*y+y.^2) ));
+contour(cumsum2(f),'numpts',400), axis equal
+title('Contours of cumsum2(f)'), axis([-1 1 -1 1])
+norm( cumsum(cumsum(f),2) - cumsum2(f) )</pre>
+
+<pre class="mcode-output">ans =
+     4.243086805110369e-16
+</pre>
+
+<p><img src="img/guide12_04.png" class="figure" alt=""></p>
+<h2 id="24-complex-encoding">2.4 Complex encoding</h2>
+<p>As is well known, a pair of real scalar functions $f$ and $g$ can be encoded as a complex function $f+ig$. This trick can be useful for simplifying many operations, but at the same time may be confusing. For instance, instead of representing the unit circle with two real-valued functions, we can represent it with one complex-valued function:</p>
+<pre class="mcode-input">c1 = chebfun(@(t) cos(t),[0 2*pi]);          % first real-valued function
+c2 = chebfun(@(t) sin(t),[0 2*pi]);          % second real-valued function
+c = chebfun(@(t) cos(t)+1i*sin(t),[0 2*pi]); % one complex function</pre>
+
+<p>Here are two ways to make a plot of a circle.</p>
+<pre class="mcode-input">subplot(1,2,1), plot(c1,c2,LW,1.6)
+axis equal, title('Two real-valued functions')
+subplot(1,2,2), plot(c,LW,1.6)
+axis equal, title('One complex-valued function')</pre>
+
+<p><img src="img/guide12_05.png" class="figure" alt=""></p>
+<p>This complex encoding trick is used in a number of places in Chebfun2. Specifically, it's used to encode the path of integration for a line integral (see section 2.5, below), to represent zero contours of a chebfun2 (see Chapter 3), and to represent trajectories in vector fields (see Chapter 4).</p>
+<p>We hope users become comfortable with using complex encodings, though they are not required for the majority of Chebfun2 functionality.</p>
+<h2 id="25-integration-along-curves">2.5 Integration along curves</h2>
+<p>Chebfun2 can compute the integral of $f(x,y)$ along a curve $(x(t),y(t))$. It uses the complex encoding trick and encode the curve $(x(t),y(t))$ as a complex valued chebfun $x(t) + iy(t)$. For instance, what is the area under the following curve?</p>
+<pre class="mcode-input">clf
+f = chebfun2(@(x,y) cos(10*x.*y.^2) + exp(-x.^2)); % chebfun2 object
+C = chebfun(@(t) t.*exp(10i*t),[0 1]);             % spiral curve
+plot(f), hold on
+plot3(real(C),imag(C),f(C),'k','linewidth',2)</pre>
+
+<p><img src="img/guide12_06.png" class="figure" alt=""></p>
+<p>We can compute this by restricting $f$ to the curve and then integrating</p>
+<pre class="mcode-input">sum(f(C))</pre>
+
+<pre class="mcode-output">ans =
+   1.613596461872283
+</pre>
+
+<h2 id="26-diff">2.6 <code>diff</code></h2>
+<p>In MATLAB the <code>diff</code> command calculates finite differences of a matrix along its columns (by default) or rows. For a chebfun2 the same syntax represents partial differentiation $\partial f/\partial y$ (by default) or $\partial f/\partial x$. This command has the following syntax:</p>
+<pre class="mcode-input">help chebfun2/diff</pre>
+
+<pre class="mcode-output"> DIFF   Derivative of a CHEBFUN2s.
+    DIFF(F) is the derivative of F along the y direction.
+
+    DIFF(F, N) is the Nth derivative of F in the y direction.
+
+    DIFF(F, N, DIM) is the Nth derivative of F along the dimension DIM.
+      DIM = 1 (default) is the derivative in the y-direction.
+      DIM = 2 is the derivative in the x-direction.
+
+    DIFF(F, [NX NY]) is the partial derivative of NX of F in the first variable,
+    and NY of F in the second derivative. For example, DIFF(F,[1 2]) is
+    d^3F/dxd^2y.
+
+  See also GRADIENT, SUM, PROD.
+
+</pre>
+
+<p>Here we use <code>diff</code> to check that the Cauchy-Riemann equations hold for an analytic function.</p>
+<pre class="mcode-input">f = chebfun2(@(x,y) sin(x+1i*y));   % a holomorphic function
+u = real(f); v = imag(f);           % real and imaginary parts
+norm(diff(u) - (-diff(v,1,2)))
+norm(diff(u,1,2) - diff(v))         % Do the Cauchy-Riemann eqns hold?</pre>
+
+<pre class="mcode-output">ans =
+     1.060890001425453e-14
+ans =
+     2.569762378645553e-14
+</pre>
+
+<h2 id="27-integration-in-three-variables">2.7 Integration in three variables</h2>
+<p>Chebfun2 also works pretty well for integration in three variables. The idea is to integrate over two of the variables using Chebfun2 and the remaining variable using Chebfun. We have selected a tolerance of $10^{-6}$ for this example because the default tolerance in the MATLAB <code>integral3</code> command is also $10^{-6}$.</p>
+<pre class="mcode-input">r = @(x,y,z) sqrt(x.^2 + y.^2 + z.^2);
+t = @(x,y,z) acos(z./r(x,y,z)); p = @(x,y,z) atan(y./x);
+f = @(x,y,z) sin(5*(t(x,y,z) - r(x,y,z))) .* sin(p(x,y,z)).^2;
+
+I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5])); % integrate out x,y
+tic, I = sum(chebfun(@(z) I(z),[1 2],'vectorize')); t = toc;
+fprintf(' Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
+tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;         % compare with MATLAB
+fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
+
+<pre class="mcode-output"> Chebfun2:  I = -0.48056569408898  time = 1.767 secs
+Integral3:  I = -0.48056569417568  time = 0.624 secs
+</pre>
+
+<h2 id="29-references">2.9 References</h2>
+<p>[Carvajal, Chapman &amp; Geddes 2005] O. A. Carvajal, F. W. Chapman and K. O. Geddes, Hybrid symbolic-numeric integration in multiple dimensions via tensor-product series, <em>Proceedings of ISSAC'05</em>, M. Kauers, ed., ACM Press, 2005, pp. 84--91.</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

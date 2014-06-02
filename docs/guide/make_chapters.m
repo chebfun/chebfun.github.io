@@ -7,7 +7,7 @@ function make_chapters(N)
 
 % TODO: make this robust to other people's machines
 %       and figure out the process for updating existing examples.
-pathpath = '/Users/hrothgar/Dropbox/chebfun/guide/chebfun/';
+pathpath = '/Users/hrothgar/Dropbox/chebfun/guide/';
 slug     = 'guide';
 
 % Make each chapter the user has requested
