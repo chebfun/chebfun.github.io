@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Convolution of probability distributions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">
+              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="HREF">SUBTITLE</a></li>
+              </ul>
+            </li>-->
+            <li><a href="/about">About</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/develop">Develop</a></li>
+            <li><a href="/citing">Citing</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class='jumbotron page-header'>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Convolution of probability distributions</h1>
+                <h2>Nick Hale and Alex Townsend, January 2014</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';</pre>
+
+<p>It is well known that the probability distribution of the sum of two or more independent random variables is the convolution of their individual distributions, defined by</p>
+<p>$$ h(x) = \int_{-\infty}^\infty f(t) g(x-t) dt. $$</p>
+<p>Many standard distributions have simple convolutions, and here we investigate some of them before computing the convolution of some more exotic distributions.</p>
+<h3 id="normal-distribution">Normal distribution</h3>
+<p>The normal distribution has the PDF</p>
+<p>$$ f(x; \mu, \sigma) = \frac{1}{\sigma\sqrt{2\pi}}
+e^{-(x-\mu)^2/2\sigma^2}. $$</p>
+<p>Let's make an anonymous function that can compute it:</p>
+<pre class="mcode-input">normalDist = @(x, mu, s) exp(-.5*(x-mu).^2/s^2) / (s*sqrt(2*pi));</pre>
+
+<p>Now let's make two normal distributions with differing parameters, N1 = $N(\mu_1, \sigma_1)$ and N2 = $N(\mu_2, \sigma_2)$. To make things easier, we'll truncate to a finite domain.</p>
+<pre class="mcode-input">dom = [-1.2 1.2];
+x = chebfun('x', dom);
+
+s1 = .1; m1 = .1;
+N1 = normalDist(x, m1, s1);
+
+s2 = .11; m2 = -.3;
+N2 = normalDist(x, m2, s2);</pre>
+
+<p>We can compute the distribution of the sum of two variables drawn from these distributions by convolving <code>N1</code> and <code>N2</code>:</p>
+<pre class="mcode-input">N3 = conv(N1, N2);
+plot(N1, 'b', N2 ,'r', N3, 'k', LW, 1.6), set(gca, FS, 14)
+xlim([-1.5 1.5])</pre>
+
+<p><img src="img/ProbabilityConvolution_01.png" class="figure" alt=""></p>
+<p>One can show (see, for example, [1]) that N3 should be equal to $N(\mu_1+\mu_2, \sigma_1^2+\sigma_2^2)$.  Let us verify this:</p>
+<pre class="mcode-input">N4 = normalDist(x, m1 + m2, sqrt(s1^2 + s2^2));
+norm(N4 - N3{dom(1), dom(2)})</pre>
+
+<pre class="mcode-output">ans =
+     2.218780560394861e-14
+</pre>
+
+<h3 id="gamma-distribution">Gamma distribution</h3>
+<p>We next consider the gamma distribution, which has the PDF</p>
+<p>$$ f(x, k, \theta) = \frac{x^{k-1}e^{-x/\theta}}
+{\theta^k\Gamma(k)}, \quad x\ge0. $$</p>
+<p>As before, let's compute the distribution for the sum of two variables drawn from such distributions by using <code>conv</code>:</p>
+<pre class="mcode-input">gammaDist = @(x, k, t) x.^(k-1).*exp(-x./t) / (t^k*gamma(k));
+
+dom = [0 5];
+x = chebfun('x', dom);
+
+k1 = 2; t = .3;
+G1 = gammaDist(x, k1, t);
+
+k2 = 1;
+G2 = gammaDist(x, k2, t);
+
+G3 = conv(G1, G2);
+plot(G1, 'b', G2 ,'r', G3, 'k', LW, 1.6)
+xlim([0 5])</pre>
+
+<p><img src="img/ProbabilityConvolution_02.png" class="figure" alt=""></p>
+<p>In this instance, we should have</p>
+<p>$$ G(k_1, \theta) + G(k_2, \theta) = G(k_1 + k_2, \theta): $$</p>
+<pre class="mcode-input">G4 = gammaDist(x, k1 + k2, t);
+norm(G4 - G3{dom(1), dom(2)})</pre>
+
+<pre class="mcode-output">ans =
+     3.591111533354398e-14
+</pre>
+
+<h3 id="exponential-distribution">Exponential distribution</h3>
+<p>As our final example of common distributions, let's look at the exponential distribution, which has the PDF</p>
+<p>$$ f(x, \lambda) = \lambda e^{-\lambda x}, \quad x\ge0. $$</p>
+<pre class="mcode-input">dom = [0 40];
+x = chebfun('x', dom);
+expDist = @(x, lam) lam*exp(-lam*x);</pre>
+
+<p>This time we make just a single distribution, $E(0.9)$, which we convolve with itself to give the distribution for the sum of two variables from $E(0.9)$.</p>
+<pre class="mcode-input">lam = .25;
+E = expDist(x, lam);
+
+E2 = conv(E, E);
+plot(E, 'b', E2, 'k', LW, 1.6)
+xlim([0 40])</pre>
+
+<p><img src="img/ProbabilityConvolution_03.png" class="figure" alt=""></p>
+<p>In this instance, the theory tells us we should have a gamma distribution, which indeed we do:</p>
+<pre class="mcode-input">E3 = gammaDist(x, 2, 1/lam);
+norm(E3 - E2{dom(1), dom(2)})</pre>
+
+<pre class="mcode-output">ans =
+     9.008198451375000e-16
+</pre>
+
+<h3 id="exotic-distributions">Exotic distributions</h3>
+<p>Of course, the relationships verified above are available in closed form only for certain special cases. For more exotic distributions the convolution <em>must</em> be computed numerically.</p>
+<p>Let's do this for two `exotic' (and discontinuous) probability distributions, arbitrarily defined by summing a Heaviside function with a number of Gaussians and then normalising.</p>
+<pre class="mcode-input">rng('default')
+x = chebfun('x', [-2 2]);
+F = heaviside(x);
+G = heaviside(.5-x);
+for k = 1:10
+    F = F + normalDist(x, randn, 2*rand);
+    G = G + normalDist(x, randn, 2*rand);
+end
+F = F/sum(F);
+G = G./sum(G);</pre>
+
+<p>Here are the distributions themselves:</p>
+<pre class="mcode-input">plot(F,'b', G, 'r', LW, 1.6)
+xlim([-4 4]);</pre>
+
+<p><img src="img/ProbabilityConvolution_04.png" class="figure" alt=""></p>
+<p>And this is the distribution of the random variable $z=x+y$, where $x$ is drawn from $F$ and $y$ is drawn from $G$:</p>
+<pre class="mcode-input">tic
+h = conv(F, G);
+toc
+hold on, plot(h, 'k', LW, 1.6), hold off</pre>
+
+<pre class="mcode-output">Elapsed time is 1.156664 seconds.
+</pre>
+
+<p><img src="img/ProbabilityConvolution_05.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<p>[1] <a href="http://en.wikipedia.org/wiki/List_of_convolutions_of_probability_distributions">http://en.wikipedia.org/wiki/List_of_convolutions_of_probability_distributions</a></p>
+<p>[2] Nick Hale and Alex Townsend, "Convolution of compactly supported functions", in preparation.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

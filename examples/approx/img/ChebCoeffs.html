@@ -1,0 +1,105 @@
+---
+title: "Chebyshev coefficients"
+layout: example
+authordate: "Nick Trefethen, September 2010"
+meta: "(Chebfun example approx/ChebCoeffs.m) [Tags: #Chebyshev, #coefficients, #CHEBPOLYPLOT]"
+---
+
+Every function defined on $[-1,1]$, so long as it is a little bit smooth (Lipschitz continuity is enough), has an absolutely and uniformly convergent Chebyshev series:
+
+$$ f(x) = a_0 + a_1 T_1(x) + a_2 T_2(x) + \cdots . $$
+
+The same holds on an interval $[a,b]$ with appropriately scaled and shifted Chebyshev polynomials.
+
+For many functions you can compute these coefficients with the command `chebpoly`.  For example, here we compute the Chebyshev coefficients of a cubic polynomial:
+
+<pre class="mcode-input">x = chebfun('x');
+format long
+disp('Cheb coeffs of 99x^2 + x^3:')
+p = 99*x.^2 + x.^3;
+a = chebpoly(p)'</pre><pre class="mcode-output">Cheb coeffs of 99x^2 + x^3:
+a =
+   0.250000000000000
+  49.499999999999986
+   0.750000000000000
+  49.499999999999986
+</pre>Notice that following the usual MATLAB convention, the coefficients appear in order from highest degree to lowest.  Thus it is often more useful to write
+
+<pre class="mcode-input">disp('Cheb coeffs of 99x^2 + x^3:')
+a = chebpoly(p)'; a = a(end:-1:1)</pre><pre class="mcode-output">Cheb coeffs of 99x^2 + x^3:
+a =
+  49.499999999999986
+   0.750000000000000
+  49.499999999999986
+   0.250000000000000
+</pre>Similarly, here are the Chebyshev coefficients down to level $10^{-15}$ of $\exp(x)$:
+
+<pre class="mcode-input">disp('Cheb coeffs of exp(x):')
+a = chebpoly(exp(x))'; a = a(end:-1:1)</pre><pre class="mcode-output">Cheb coeffs of exp(x):
+a =
+   1.266065877752008
+   1.130318207984970
+   0.271495339534077
+   0.044336849848664
+   0.005474240442094
+   0.000542926311914
+   0.000044977322954
+   0.000003198436462
+   0.000000199212481
+   0.000000011036772
+   0.000000000550590
+   0.000000000024980
+   0.000000000001039
+   0.000000000000040
+   0.000000000000001
+</pre>You can plot the absolute values of these numbers on a log scale with `chebpolyplot`:
+
+<pre class="mcode-input">FS = 'fontsize'; MS = 'markersize'; LW = 'linewidth';
+chebpolyplot(exp(x),'.-',LW,1,MS,20), grid on
+xlabel('degree n',FS,14)
+ylabel('|a_n|',FS,14)
+title('Chebyshev coefficients of exp(x)',FS,14)</pre><img src="img/ChebCoeffs_01.png" class="figure" alt="">
+
+Here's a similar plot for a function that needs thousands of terms to be represented to 15 digits.  (Can you explain why it looks like a wide stripe?)
+
+<pre class="mcode-input">chebpolyplot(exp(x)./(1+10000*x.^2)), grid on
+xlabel('degree n',FS,12)
+ylabel('|a_n|',FS,12)
+title('Chebyshev coefficients of exp(x)/(1+10000x^2)',FS,16)</pre><img src="img/ChebCoeffs_02.png" class="figure" alt="">
+
+These methods will work for any function $f$ that's represented by a global polynomial, i.e., a chebfun consisting of one fun.  What about Chebyshev coefficients for functions that are not smooth enough for such a representation?  Here one can use the `trunc` option in the Chebfun constructor. For example, suppose we are interested in the function
+
+<pre class="mcode-input">f = sign(x);
+figure, plot(f,'k',LW,2), ylim([-1.5 1.5])
+title('sign(x)',FS,16)</pre><img src="img/ChebCoeffs_03.png" class="figure" alt="">
+
+If we try to compute all the Chebyshev coefficients, we'll get an error. On the other hand we can compute the first ten of them like this:
+
+<pre class="mcode-input">p = chebfun(f,'trunc',10);
+a = chebpoly(p)'; a = a(end:-1:1)</pre><pre class="mcode-output">a =
+                   0
+   1.273239544735162
+                   0
+  -0.424413181578388
+   0.000000000000000
+   0.254647908947032
+   0.000000000000000
+  -0.181891363533594
+  -0.000000000000000
+   0.141471060526130
+</pre>Here's the degree 9 polynomial obtained by adding up these first terms of the Chebyshev expansion:
+
+<pre class="mcode-input">hold on
+plot(p,'m',LW,2)
+title('sign(x) and truncated Chebyshev series',FS,16)</pre><img src="img/ChebCoeffs_04.png" class="figure" alt="">
+
+This is not the same as the degree 9 polynomial interpolant through 10 Chebyshev points:
+
+<pre class="mcode-input">pinterp = chebfun(f,10);
+plot(pinterp,'--','color',[0 .8 0],LW,2)
+title('Same, also with Chebyshev interpolant',FS,16)</pre><img src="img/ChebCoeffs_05.png" class="figure" alt="">
+
+Reference
+
+[1] L. N. Trefethen, _Approximation Theory and Approximation Practice_, SIAM, 2013.
+

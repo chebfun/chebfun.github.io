@@ -1,0 +1,39 @@
+---
+title: "Wikipedia integro-differential equation example"
+layout: example
+authordate: "Mark Richardson, September 2010"
+meta: "(Chebfun example integro/WikiIntegroDiff.m) [Tags: #linear, #backslash, #wikipedia]"
+---
+
+Here, we solve a first order linear integro-differential equation considered in the Wikipedia article:
+
+<a href="http://en.wikipedia.org/wiki/Integro-differential_equation">http://en.wikipedia.org/wiki/Integro-differential_equation</a>
+
+$$ u'(x) + 2u(x) + 5\int_0^t u(t) dt = 1~ (x\ge 0), ~~
+= 0~ (x&lt;0) $$
+
+with $u(0)=0$.
+
+Begin by defining the domain $d$, chebfun variable $x$ and operator $N$.
+
+<pre class="mcode-input">d = [0 5];
+x = chebfun('x',d);
+N = chebop(d);</pre>The problem has a single Dirichlet boundary condition at $x=0$.
+
+<pre class="mcode-input">N.lbc = 0;</pre>Define the operator using Chebfun's overloaded DIFF and CUMSUM commands.
+
+<pre class="mcode-input">N.op = @(u) diff(u) + 2*u + 5*cumsum(u);</pre>Set the right-hand side of the integro-differential equation.
+
+<pre class="mcode-input">rhs = 1;</pre>Solve the IDE using backslash.
+
+<pre class="mcode-input">u = N\rhs;</pre>Here is the analytic solution:
+
+<pre class="mcode-input">u_exact = 0.5*exp(-x).*sin(2*x);</pre>How close is the computed solution to the true solution?
+
+<pre class="mcode-input">accuracy = norm(u-u_exact)</pre><pre class="mcode-output">accuracy =
+     2.846738156759002e-16
+</pre>Plot the computed solution
+
+<pre class="mcode-input">plot(u,'linewidth',1.6), grid on
+title('Solution of integro-differential equation','fontsize',16)</pre><img src="img/WikiIntegroDiff_01.png" class="figure" alt="">
+
