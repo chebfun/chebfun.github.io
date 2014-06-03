@@ -1,11 +1,11 @@
 ---
 title: "Quadrature convergence rates for differentiable functions"
 layout: example
-authordate: "Nick Trefethen, 13th June 2012"
+authordate: "Nick Trefethen, June 2012"
 meta: "(Chebfun example quad/QuadratureConvergence.m) [Tags: #quadrature]"
 ---
 
-As pointed out first by Folkmar Bornemann, the Gauss and Clenshaw-Curtis quadrature formulas converge at a rate one power of $n$ faster than one might expect.  For example, consider the function $f(x) = |x-.3|$.  Its Chebyshev coefficients decrease at the rate $n^{-2}$:
+As pointed out first by Folkmar Bornemann, the Gauss and Clenshaw-Curtis quadrature formulas converge at a rate one power of $n$ faster than one might expect. For example, consider the function $f(x) = |x-.3|$. Its Chebyshev coefficients decrease at the rate $n^{-2}$:
 
 <pre class="mcode-input">clf
 x = chebfun('x');

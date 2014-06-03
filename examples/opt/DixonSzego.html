@@ -83,7 +83,7 @@ figure, contour(x,y,ff,30,LW,1.2), colorbar
 axis([-2 2 -1.25 1.25]), hold on</pre>
 
 <p><img src="img/DixonSzego_01.png" class="figure" alt=""></p>
-<p>Here is Chebfun code taken from opt/Rosenbrock.m to find the minimum and plot the point where it is attained. (The minimum is actually achieved at two points, because of symmetry, but Chebfun does not detect this.)</p>
+<p>Here is Chebfun code taken from <a href="../opt/Rosenbrock.html">opt/Rosenbrock</a> to find the minimum and plot the point where it is attained. (The minimum is actually achieved at two points, because of symmetry, but Chebfun does not detect this.)</p>
 <pre class="mcode-input">tic
 fminx0 = @(x0) min(chebfun(@(y) f(x0,y),[-1.25 1.25]));
 fminx = chebfun(fminx0,[-2 2],'vectorize','splitting','on');
@@ -95,12 +95,12 @@ plot(minx,miny,'.k',MS,20)</pre>
 <pre class="mcode-output">minf =
   -1.031628453489877
 minx =
-  -0.089842013100320
+  -0.089842013100319
 minf =
-  -1.031628453489866
+  -1.031628453489851
 miny =
    0.712656403020741
-Elapsed time is 4.015643 seconds.
+Elapsed time is 5.634843 seconds.
 </pre>
 
 <p><img src="img/DixonSzego_02.png" class="figure" alt=""></p>
@@ -112,10 +112,10 @@ F = chebfun2(f,[-2,2,-1.25,1.25]);
 toc</pre>
 
 <pre class="mcode-output">minf =
-  -1.031628453489877
+  -1.031628453489876
 minx =
-   0.089842001708778  -0.712656396556268
-Elapsed time is 1.827085 seconds.
+  -0.089842004598083   0.712656394421954
+Elapsed time is 14.075037 seconds.
 </pre>
 
 <p>And here is a plot.  Chebfun2 has made an arbitrary choice between the two equal global minima.</p>

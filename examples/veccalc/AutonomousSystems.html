@@ -72,7 +72,7 @@
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <h3 id="autonomous-systems">Autonomous systems</h3>
-<p>An autonomous system is a system of ordinary differential equations which does not explicitly depend on the independent variable. Such a system can be written in the form $dy/dt(t) = f(y(t))$ where $y(t)$ takes values in $R^n$. In this example we restrict ourselves to $n = 2$ so that we can plot the phase plane (vector field) and trajectory of $y(t)$ given initial conditions using Chebfun2.</p>
+<p>An autonomous system is a system of ordinary differential equations which does not explicitly depend on the independent variable. Such a system can be written in the form $dy(t)/dt = f(y(t))$ where $y(t)$ takes values in $R^n$. In this example we restrict ourselves to $n = 2$ so that we can plot the phase plane (vector field) and trajectory of $y(t)$ given initial conditions using Chebfun2.</p>
 <h3 id="simple-harmonic-oscillator">Simple harmonic oscillator</h3>
 <p>We start by looking at the familiar simple harmonic oscillator.</p>
 <pre class="mcode-input">phasedom = [-1 1 -3 3]; w = 2;                   % phase plane domain
@@ -94,7 +94,7 @@ for ic = .5:.5:3                                 % initial conditions
     [t y] = ode45(F,[0 40],[ic,0]);              % solve autonomous system
     plot(y,'r'), hold on                         % plot trajectory
 end
-quiver(F,'b'), axis equal                 % vector field
+quiver(F,'b'), axis equal                        % vector field
 title('The eye of a nonlinear pendulum',FS,14), hold off</pre>
 
 <p><img src="img/AutonomousSystems_02.png" class="figure" alt=""></p>

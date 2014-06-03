@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>1D subdivision and the average degree reduction</h1>
-                <h2>Alex Townsend, 21st August 2013</h2>
+                <h2>Alex Townsend, August 2013</h2>
             </div>
         </div>
     </div>
@@ -138,7 +138,7 @@ m = m'</pre>
 <pre class="mcode-input">f = chebfun(@(x) abs(prod(x-linspace(-1,1,10)).^3),'vectorise');
 compute_tau(f, 2)</pre>
 
-<pre class="mcode-output">tau = 0.70778</pre>
+<pre class="mcode-output">tau = 0.70773</pre>
 
 <h3 id="conclusion">Conclusion</h3>
 <p>The average degree reduction parameter $\tau$ can take almost any value between $0$ and $1$. For functions that are equally difficult throughout the whole interval, $\tau$ is close to $1/2$. For functions that are difficult, local $\tau$ is often small. Therefore, one would expect that Chebfun's rootfinding algorithm would be more efficient at finding the roots of functions that have a small $\tau$.  However, this is not the case, as the following two examples (of roughly the same size) show:</p>
@@ -146,29 +146,28 @@ compute_tau(f, 2)</pre>
 f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
 tic, roots(f); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.561272 seconds.
+<pre class="mcode-output">Elapsed time is 0.637570 seconds.
 </pre>
 
 <pre class="mcode-input">c = -1.0001;
 f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
 tic, roots(f); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.134759 seconds.
+<pre class="mcode-output">Elapsed time is 1.000923 seconds.
 </pre>
 
 <p>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.</p>
-<pre class="mcode-input">end
-
-function compute_tau(f, N)
+<p>Here are the functions used above to compute $\tau$ and plot the subdivision diagrams.</p>
+<pre class="mcode-input">function compute_tau(f, N)
 % COMPUTE_TAU estimate the average degree reduction parameter
     d = [-1 1]; len = length(chebfun(f,d));
     newends = d(1) + (0:N)./N*(d(2)-d(1));
     newlen = length(chebfun(f, newends))/N;
     tau = (newlen/len).^(1/log2(N));
     fprintf('tau = %1.5f',tau)
-end
+end</pre>
 
-function subdivisionDiagram(f, levels)
+<pre class="mcode-input">function subdivisionDiagram(f, levels)
 % SUBDIVISIONDIAGRAM draw a diagram to show subdivision and polynomial
 % degrees.
 g = chebfun(f);
@@ -189,6 +188,8 @@ set(gca,'ytick',[])
 set(gca,'yticklabel',[])
 hold off
 end</pre>
+
+<pre class="mcode-input">end</pre>
 
 <h3 id="references">References</h3>
 <p>[1] Z. Battels and L. N. Trefethen, An extension of MATLAB to continuous functions and operators, <em>SIAM Journal on Scientific Computing</em>, 25 (2004), pp.1743-1770.</p>

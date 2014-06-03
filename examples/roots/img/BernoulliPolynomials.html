@@ -5,9 +5,9 @@ authordate: "Stefan Guettel, February 2012"
 meta: "(Chebfun example roots/BernoulliPolynomials.m) [Tags: #Bernoulli, #Reimann, #ROOTS]"
 ---
 
-If there is another class of polynomials that is as fascinating and important  to mathematics as orthogonal polynomials, then these are probably the Bernoulli polynomials $B_j(x)$. These polynomials appear in the most varied areas of mathematics, and have a variety of applications. In this example we have cited from the excellent Wikipedia articles [1] and [2], and a talk of Karl Dilcher [3].
+If there is another class of polynomials that is as fascinating and important to mathematics as orthogonal polynomials, then these are probably the Bernoulli polynomials $B_j(x)$. These polynomials appear in the most varied areas of mathematics, and have a variety of applications. In this example we have cited from the excellent Wikipedia articles [1] and [2], and a talk of Karl Dilcher [3].
 
-Bernoulli polynomials are typically defined on the interval $[0,1]$. They can be generated recursively by integrating and adding a constant such that the definite integral equals zero. Let us build a quasimatrix whose $(j+1)$ st column is $B_j(x)$, and plot the first 13 polynomials:
+Bernoulli polynomials are typically defined on the interval $[0,1]$. They can be generated recursively by integrating and adding a constant such that the definite integral equals zero. Let us build a quasimatrix whose $(j+1)$th column is $B_j(x)$, and plot the first 13 polynomials:
 
 <pre class="mcode-input">LW = 'linewidth'; lw = 1.6; format short
 x = chebfun('x',[0,1]);
@@ -26,26 +26,23 @@ The function values $B_j(0)$ are called _Bernoulli numbers_. Here are the first 
     1.0000   -0.5000    0.1667         0   -0.0333         0    0.0238
   Columns 8 through 14
          0   -0.0333         0    0.0758         0   -0.2531         0
-</pre>These numbers turn out to be the Taylor coefficients of $z/(\exp(z)-1)$. Moreover, they are related to certain values of the famous Riemann zeta function at integer arguments. In fact, the unresolved Riemann Hypothesis has an alternative reformulation due to Marcel Riesz (1916) in terms of Bernoulli numbers! Matlab doesn't come with a `zeta` function, but if you have one available (see [4], for example), you can verify that the function values $f(j), j = 0,\dots,13$, coincide with the above Bernoulli numbers (for $j=1$ the sign is switched) with code like this:
+</pre>These numbers turn out to be the Taylor coefficients of $z/(e^z-1)$. Moreover, they are related to certain values of the famous Riemann zeta function at integer arguments. In fact, the unresolved Riemann Hypothesis has an alternative reformulation due to Marcel Riesz (1916) in terms of Bernoulli numbers! MATLAB doesn't come with a `zeta` function, but if you have one available (see [4], for example), you can verify that the function values $f(j), j = 0,\dots,13$, coincide with the above Bernoulli numbers (for $j=1$ the sign is switched) with code like this:
 
-<pre class="mcode">  f = chebfun(@(x) -x.*zeta(1-x),[0,13]);
-  plot(f,LW,lw); hold on
-  j = 0:13;
-  f(j)
-  plot(j,f(j),'ro',LW,lw);
-  axis([0,13,-.4,1.1]);</pre>Note that (except for $j=1$) every second Bernoulli number is zero. These correspond to the trivial zeros of the Riemann zeta function. Using the above function $f$ (and a generalization involving the so-called Hurwitz zeta function), one can define Bernoulli numbers (and polynomials) of non-integer index.
+<pre class="mcode">f = chebfun(@(x) -x.*zeta(1-x),[0,13]);
+plot(f,LW,lw); hold on
+j = 0:13;
+f(j)
+plot(j,f(j),'ro',LW,lw);
+axis([0,13,-.4,1.1]);</pre>Note that (except for $j=1$) every second Bernoulli number is zero. These correspond to the trivial zeros of the Riemann zeta function. Using the above function $f$ (and a generalization involving the so-called Hurwitz zeta function), one can define Bernoulli numbers (and polynomials) of non-integer index.
 
 Bernoulli polynomials have the property that the number of (distinct) roots in the interval $[0,1]$ is at most $3$. We can easily verify this assertion numerically:
 
 <pre class="mcode-input">for j = 1:100,
     nrRoots(1,j) = length(roots(B(:,j)));
 end
-nrRoots(1:14)
+nrRoots(1:12)
 fprintf('The maximal number of roots is %d.\n',max(nrRoots))</pre><pre class="mcode-output">ans =
-  Columns 1 through 13
-     0     1     2     3     2     3     2     3     2     3     2     3     2
-  Column 14
-     3
+     0     1     2     3     2     3     2     3     2     3     2     3
 The maximal number of roots is 3.
 </pre>The multiplicity and location of complex roots has been of interest to mathematicians for a long time. It is known that all roots of the Bernoulli polynomials are distinct (Brillhart 1969, Dilcher 2008). It is also known that there exists a parabolic region above and below the interval $[0,1]$ which is free of roots (Dilcher 1983/88):
 
@@ -79,11 +76,11 @@ axis([0,100,1e-16,1])</pre><img src="img/BernoulliPolynomials_04.png" class="fig
 
 The last property we like to mention and visualize here is the behavior of extrema of Bernoulli polynomials on $[0,1]$. D. H. Lehmer (1940) showed that the $j$ th degree Bernoulli polynomial is bounded by
 
-$$ 2j! /(2\pi)^j $$
+$$ \frac{2j!}{(2\pi)^{\,j}} $$
 
-for $j&gt;1$, except when $j= 2(\hbox{mod}4)$, in which case the bound becomes
+for $j&gt;1$, except when $j = 2~(\hbox{mod}~4)$, in which case the bound becomes
 
-$$ 2*\zeta(j) j! /(2\pi)^j, $$
+$$ \frac{2 j! \zeta(j)}{(2\pi)^{\,j}}, $$
 
 again with the Riemann zeta function.
 
@@ -104,11 +101,11 @@ This bound looks quite sharp, and in fact, if one were to remove the $\zeta(j)$ 
 
 References:
 
-[1] Wikipedia article on Bernoulli polynomials as of 08/01/2012, <a href="http://en.wikipedia.org/wiki/Bernoulli_polynomials">http://en.wikipedia.org/wiki/Bernoulli_polynomials</a>
+[1] Wikipedia article on Bernoulli polynomials as of 08/01/2012, <http://en.wikipedia.org/wiki/Bernoulli_polynomials>
 
-[2] Wikipedia article on Bernoulli numbers as of 08/01/2012, <a href="http://en.wikipedia.org/wiki/Bernoulli_numbers">http://en.wikipedia.org/wiki/Bernoulli_numbers</a>
+[2] Wikipedia article on Bernoulli numbers as of 08/01/2012, <http://en.wikipedia.org/wiki/Bernoulli_numbers>
 
-[3] K. Dilcher, On Multiple Zeros of Bernoulli Polynomials, Talk at the 2011 "Special Functions in the 21st Century" conference in Washington, <a href="http://math.nist.gov/~DLozier/SF21/SF21slides/Dilcher.pdf">http://math.nist.gov/~DLozier/SF21/SF21slides/Dilcher.pdf</a>
+[3] K. Dilcher, On Multiple Zeros of Bernoulli Polynomials, Talk at the 2011 "Special Functions in the 21st Century" conference in Washington, <http://math.nist.gov/~DLozier/SF21/SF21slides/Dilcher.pdf>
 
-[4] Paul Godfrey, Special Functions math library, <a href="http://www.mathworks.com/matlabcentral/fileexchange/978">http://www.mathworks.com/matlabcentral/fileexchange/978</a>
+[4] Paul Godfrey, Special Functions math library, <http://www.mathworks.com/matlabcentral/fileexchange/978>
 

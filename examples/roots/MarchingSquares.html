@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Marching Squares for Bivariate Rootfinding &raquo; Chebfun</title>
+    <title>Marching squares for bivariate rootfinding &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,8 +60,8 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Marching Squares for Bivariate Rootfinding</h1>
-                <h2>Alex Townsend, 4th March 2013</h2>
+                <h1>Marching squares for bivariate rootfinding</h1>
+                <h2>Alex Townsend, March 2013</h2>
             </div>
         </div>
     </div>
@@ -72,12 +72,18 @@
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <p>In Chebfun2 we would like to be able to find the roots of a bivariate polynomial system.  That is, find $(x,y)$ such that</p>
-<p>$$ F(x,y) =  ( f(x,y), g(x,y) ) = 0. $$</p>
-<p>A suggestion by John Boyd of the University of Michigan for finding the zeros of a system of polynomials goes by the name of Marching Triangles [5]. This works by determining the zero contours of $f$ and $g$ separately, and to achieve this the algorithm subdivides the domain many small triangles.  On each triangle it approximates $f$ (or $g$) by a piecewise linear polynomial, and there are two possible cases:</p>
-<p>(1) The values of the function at the vertices are all of the same sign.</p>
-<p>(2) One function value is of a different sign to the others.</p>
+<p>$$ F(x,y) =  ( f(x,y),\ g(x,y) ) = 0. $$</p>
+<p>A suggestion by John Boyd of the University of Michigan for finding the zeros of a system of polynomials goes by the name of Marching Triangles [5]. This works by determining the zero contours of $f$ and $g$ separately, and to achieve this the algorithm subdivides the domain many small triangles. On each triangle it approximates $f$ (or $g$) by a piecewise linear polynomial, and there are two possible cases:</p>
+<ol>
+<li>
+<p>The values of the function at the vertices are all of the same sign.</p>
+</li>
+<li>
+<p>One function value is of a different sign to the others.</p>
+</li>
+</ol>
 <p>If (1) holds then the triangle is marked as not containing a zero contour. If (2) holds, then a linear polynomial $p(x) = ax + by + c$ is formed which interpolates the three vertices and the zero contour of $f$ in that triangle is approximated by the zero line of $p(x)$.  Further subdivision is taken in triangles which are deemed to contain a zero contour.</p>
-<p>The MATLAB command <code>contourc</code> uses Marching Squares [4], a similar technique but subdividing with squares instead of triangles. This algorithm is employed by <code>contour</code>, <code>contours</code> and <code>contourf</code> and implemented in <code>contourc</code>. One of the Chebfun Examples is based on the <code>contourc</code> command [1].</p>
+<p>The MATLAB command <code>contourc</code> uses Marching Squares [4], a similar technique using subdivision with squares instead of triangles. This algorithm is employed by <code>contour</code>, <code>contours</code> and <code>contourf</code> and implemented in <code>contourc</code>. One of the Chebfun Examples is based on the <code>contourc</code> command [1].</p>
 <p>The Chebfun2 <code>roots</code> command uses the MATLAB <code>contourc</code> command to find the zero contours of a single function $f(x,y)$.</p>
 <h3 id="zero-contours">Zero contours</h3>
 <p>Let's solve a problem from [2] of finding the solution to $f(x,y) = g(x,y) = 0$:</p>
@@ -97,9 +103,9 @@ plot(roots(g),'r',LW,lw), hold on, plot(roots(f),'g',LW,lw)</pre>
 plot(r(:,1),r(:,2),'.k',MS,20), hold off</pre>
 
 <p><img src="img/MarchingSquares_02.png" class="figure" alt=""></p>
-<p>(Note: The <code>roots</code> command in Chebfun2 uses two different algorithms, one based on a hidden variable resultant method and the other on Marching Squares. The 'ms' flag ensures that the Marching Squares algorithm is employed. For more information type <code>help chebfun2v/roots.m</code>.)</p>
+<p>(Note: The <code>roots</code> command in Chebfun2 uses two different algorithms, one based on a hidden variable resultant method and the other on Marching Squares. The <code>'ms'</code> flag ensures that the Marching Squares algorithm is employed. For more information type <code>help chebfun2v/roots.m</code>.)</p>
 <h3 id="trotts-curve">Trott's curve</h3>
-<p>Trott's curve an important curve in algebraic geometry.  Here we use the command <code>roots(f,g)</code> to compute the intersections between this curve and the zero contours of $f(x,y) = y-x^6$.</p>
+<p>Trott's curve an important curve in algebraic geometry. Here we use the command <code>roots(f,g)</code> to compute the intersections between this curve and the zero contours of $f(x,y) = y-x^6$.</p>
 <pre class="mcode-input">trott = @(x,y) 144*(x.^4+y.^4)-225*(x.^2+y.^2) + 350*x.^2.*y.^2+81;
 f = chebfun2(trott);
 g = chebfun2(@(x,y) y-x.^6);

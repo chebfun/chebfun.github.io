@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>2D subdivision and the average degree reduction</h1>
-                <h2>Alex Townsend, 21st August 2013</h2>
+                <h2>Alex Townsend, August 2013</h2>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
 <h3 id="the-average-degree-reduction-parameter">The average degree reduction parameter</h3>
 <p>The parameter $\tau$ measures the average reduction in polynomial degrees of $f(x,y)$. That is, if a polynomial of degree $n$ (in the $x$- and $y$-variable) is required to approximate $f(x,y)$ on $[-1,1]\times[-1,1]$ then the average degree required to approximate $f$ on $[-1,r]\times[-1,s]$ (and the other subdomains) is $\tau n$, where $r$ and $s$ are two small arbitrary constants. Throughout this Example we take symmetric functions, i.e., $f(x,y) = f(y,x)$ since then the degree reduction is identical in the $x$ and $y$ direction, which considerably simplifies the discussion. The average degree reduction parameter was introduced in [1].</p>
 <h3 id="rank-one-functions">Rank one functions</h3>
-<p>A function $f(x,y)$ is of rank $1$ if it can can be written as a product of univariate functions, i.e., $f(x,y) = h(x)k(y)$. Since in this example we are considering only symmetric functions we have $f(x,y) = h(x)h(y)$. For rank $1$ functions the average degree reduction parameter is typically about $1/2$ because under subdivision the degree reduction is directly determined by the degree reduction in $h(x)$. The average degree reduction parameter for univariate functions is discussed in [2].  For example,</p>
+<p>A function $f(x,y)$ is of rank $1$ if it can can be written as a product of univariate functions, i.e., $f(x,y) = h(x)k(y)$. Since in this example we are considering only symmetric functions we have $f(x,y) = h(x)h(y)$. For rank $1$ functions the average degree reduction parameter is typically about $1/2$ because under subdivision the degree reduction is directly determined by the degree reduction in $h(x)$. The average degree reduction parameter for univariate functions is discussed in [2]. For example,</p>
 <pre class="mcode-input">M = 2000;
 f = @(x,y) sin(M*x).*sin(M*y);
 compute_tau(f, 2)          % Expected to be approximately 1/2</pre>
@@ -101,7 +101,7 @@ compute_tau(f, 2)          % Expected to be approximately 1/sqrt(2) = 0.707</pre
 
 <pre class="mcode-output">Tau = 0.90299</pre>
 
-<p>The average tau parameter can be explained since all the oscillations of $f$ occur along diagonals, i.e., $y=-x$ (rather than in the coordinate directions). Two subdivisions, one in the $x$ and one in the $y$ direction are required to halve the length of the diagonal lines and hence, $\tau^2 \approx 1/2$ and $\tau = 1/\sqrt{2}$.</p>
+<p>The average $\tau$ parameter can be explained since all the oscillations of $f$ occur along diagonals, i.e., $y=-x$ (rather than in the coordinate directions). Two subdivisions, one in the $x$ and one in the $y$ direction are required to halve the length of the diagonal lines and hence, $\tau^2 \approx 1/2$ and $\tau = 1/\sqrt{2}$.</p>
 <p>Here is a diagram that shows the numerical degrees after each level of subdivision:</p>
 <pre class="mcode-input">clf, subdivisionDiagram(f)</pre>
 
@@ -144,9 +144,7 @@ m.'</pre>
 
 <h3 id="conclusion">Conclusion</h3>
 <p>Subdivision is an important technique for rootfinding to reduce the complexity of a rootfinding algorithm. Subdivision is most effective when the average degree reduction parameter is small (such as for rank one functions). Typically, we observe the $\tau$ parameter is approximately $1/\sqrt{2} = 0.707$ for bivariate functions.</p>
-<pre class="mcode-input">end
-
-function compute_tau(f, N)
+<pre class="mcode-input">function compute_tau(f, N)
 % COMPUTE_TAU estimate the average degree reduction parameter
 g = chebfun2(f); tol = 1e-14;
 X = chebpoly2(g);
@@ -165,20 +163,21 @@ end
 avg = tot./(length(x)-1).^2;
 tau = (avg/L).^(1./N);
 fprintf('Tau = %1.5f',tau);
-end
+end</pre>
 
-function subdivisionDiagram(f)
+<pre class="mcode-input">function subdivisionDiagram(f)
 % SUBDIVISIONDIAGRAM draw a diagram to show subdivision and polynomial
 % degrees.
 LW = 'linewidth'; lw = 1;
 FS = 'fontsize';
 tol = 1e-14;
+set(gcf, 'position', [0 0 600 480]), hold on
 for levels = 0:3
     fs = round(14-2.5*levels);
     subplot(2,2,levels+1)
     x = linspace(-1,1,2.^levels+1);
     if levels &gt; 0
-        plot([-1,1],[x;x].','k-',LW,lw), hold on,
+        plot([-1,1],[x;x].','k-',LW,lw),
         plot([x;x].',[-1,1],'k-',LW,lw), axis equal
     end
     plot([-1 1 1 -1 -1],[-1 -1 1 1 -1],'k-',LW,lw), axis equal
@@ -190,9 +189,11 @@ for levels = 0:3
             text(mean(x(j:j+1))-.1,mean(x(k:k+1)),sprintf('%u',len),FS,fs)
         end
     end
-    axis(1.01*[-1,1,-1,1]), axis off
+    axis(1.05*[-1,1,-1,1]), axis off
 end
 end</pre>
+
+<pre class="mcode-input">end</pre>
 
 <h3 id="references">References</h3>
 <p>[1] Y. Nakatsukasa, V. Noferini, and A. Townsend, Computing the common zeros of two bivariate functions via Bezout resultants, <em>Numerische Mathematik</em>, to appear.</p>

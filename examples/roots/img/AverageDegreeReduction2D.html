@@ -1,7 +1,7 @@
 ---
 title: "2D subdivision and the average degree reduction"
 layout: example
-authordate: "Alex Townsend, 21st August 2013"
+authordate: "Alex Townsend, August 2013"
 meta: "(Chebfun2 Example roots/AverageDegreeReduction2D.m) [Tags: #roots, #Chebfun2, #subdivision]"
 ---
 
@@ -25,7 +25,7 @@ The parameter $\tau$ measures the average reduction in polynomial degrees of $f(
 
 ## Rank one functions
 
-A function $f(x,y)$ is of rank $1$ if it can can be written as a product of univariate functions, i.e., $f(x,y) = h(x)k(y)$. Since in this example we are considering only symmetric functions we have $f(x,y) = h(x)h(y)$. For rank $1$ functions the average degree reduction parameter is typically about $1/2$ because under subdivision the degree reduction is directly determined by the degree reduction in $h(x)$. The average degree reduction parameter for univariate functions is discussed in [2].  For example,
+A function $f(x,y)$ is of rank $1$ if it can can be written as a product of univariate functions, i.e., $f(x,y) = h(x)k(y)$. Since in this example we are considering only symmetric functions we have $f(x,y) = h(x)h(y)$. For rank $1$ functions the average degree reduction parameter is typically about $1/2$ because under subdivision the degree reduction is directly determined by the degree reduction in $h(x)$. The average degree reduction parameter for univariate functions is discussed in [2]. For example,
 
 <pre class="mcode-input">M = 2000;
 f = @(x,y) sin(M*x).*sin(M*y);
@@ -45,7 +45,7 @@ A function $f(x,y)$ on $[-1,1]\times[-1,1]$ is defined as Toeplitz if there is a
 
 <pre class="mcode-input">M = 20;
 f = @(x,y) sin(M*(x-y));
-compute_tau(f, 2)          % Expected to be approximately 1/sqrt(2) = 0.707</pre><pre class="mcode-output">Tau = 0.90299</pre>The average tau parameter can be explained since all the oscillations of $f$ occur along diagonals, i.e., $y=-x$ (rather than in the coordinate directions). Two subdivisions, one in the $x$ and one in the $y$ direction are required to halve the length of the diagonal lines and hence, $\tau^2 \approx 1/2$ and $\tau = 1/\sqrt{2}$.
+compute_tau(f, 2)          % Expected to be approximately 1/sqrt(2) = 0.707</pre><pre class="mcode-output">Tau = 0.90299</pre>The average $\tau$ parameter can be explained since all the oscillations of $f$ occur along diagonals, i.e., $y=-x$ (rather than in the coordinate directions). Two subdivisions, one in the $x$ and one in the $y$ direction are required to halve the length of the diagonal lines and hence, $\tau^2 \approx 1/2$ and $\tau = 1/\sqrt{2}$.
 
 Here is a diagram that shows the numerical degrees after each level of subdivision:
 
@@ -91,9 +91,7 @@ m.'</pre><pre class="mcode-output">ans =
 
 Subdivision is an important technique for rootfinding to reduce the complexity of a rootfinding algorithm. Subdivision is most effective when the average degree reduction parameter is small (such as for rank one functions). Typically, we observe the $\tau$ parameter is approximately $1/\sqrt{2} = 0.707$ for bivariate functions.
 
-<pre class="mcode-input">end
-
-function compute_tau(f, N)
+<pre class="mcode-input">function compute_tau(f, N)
 % COMPUTE_TAU estimate the average degree reduction parameter
 g = chebfun2(f); tol = 1e-14;
 X = chebpoly2(g);
@@ -112,20 +110,19 @@ end
 avg = tot./(length(x)-1).^2;
 tau = (avg/L).^(1./N);
 fprintf('Tau = %1.5f',tau);
-end
-
-function subdivisionDiagram(f)
+end</pre><pre class="mcode-input">function subdivisionDiagram(f)
 % SUBDIVISIONDIAGRAM draw a diagram to show subdivision and polynomial
 % degrees.
 LW = 'linewidth'; lw = 1;
 FS = 'fontsize';
 tol = 1e-14;
+set(gcf, 'position', [0 0 600 480]), hold on
 for levels = 0:3
     fs = round(14-2.5*levels);
     subplot(2,2,levels+1)
     x = linspace(-1,1,2.^levels+1);
     if levels &gt; 0
-        plot([-1,1],[x;x].','k-',LW,lw), hold on,
+        plot([-1,1],[x;x].','k-',LW,lw),
         plot([x;x].',[-1,1],'k-',LW,lw), axis equal
     end
     plot([-1 1 1 -1 -1],[-1 -1 1 1 -1],'k-',LW,lw), axis equal
@@ -137,9 +134,9 @@ for levels = 0:3
             text(mean(x(j:j+1))-.1,mean(x(k:k+1)),sprintf('%u',len),FS,fs)
         end
     end
-    axis(1.01*[-1,1,-1,1]), axis off
+    axis(1.05*[-1,1,-1,1]), axis off
 end
-end</pre>
+end</pre><pre class="mcode-input">end</pre>
 
 ## References
 

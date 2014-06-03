@@ -74,7 +74,7 @@
                 <pre class="mcode-input">function Drum</pre>
 
 <p>The axisymmetric harmonic vibrations of a circular drum can be described by the ODE</p>
-<p>$$  u"(r) + r^{-1} u'(r) = -\omega^2 u(r),~~   u'(0)=1, u(1)=0, $$</p>
+<p>$$  u''(r) + r^{-1} u'(r) = -\omega^2 u(r),~~   u'(0)=1, u(1)=0, $$</p>
 <p>where $r$ is the radial coordinate and $\omega$ is the frequency of vibration. Only discrete positive values of $\omega$ are possible, corresponding to the eigenvalues of the differential equation.</p>
 <p>We multiply the ODE through by $r$ to avoid a potential division by zero. This creates a generalized problem in the form $Au = \lambda Bu$.</p>
 <pre class="mcode-input">r = chebfun('r',[0,1]);
@@ -91,20 +91,20 @@ V = V(:,ii');
 err = omega - sort(roots( besselj(0,chebfun('r',[0 20])) ))</pre>
 
 <pre class="mcode-output">omega =
-   2.404825557947611
-   5.520078110503308
-   8.653727912945092
-  11.791534439019637
-  14.930917708488668
-  18.071063967909428
+   2.404825557945834
+   5.520078110505139
+   8.653727912947318
+  11.791534439019804
+  14.930917708488476
+  18.071063967909421
 err =
    1.0e-09 *
-   0.251850540422538
-   0.217003304214813
-   0.034070524179697
-   0.005364597654989
-   0.000884625706021
-  -0.001495692458775
+   0.250053311390275
+   0.218834728116235
+   0.036301628369984
+   0.005526246127374
+   0.000692779167366
+  -0.001502797886133
 </pre>
 
 <p>We also get the eigenfunctions, which gives a way to visualize deflections of the drums for pure frequencies.</p>
@@ -116,7 +116,7 @@ for k = 1:4,
 end</pre>
 
 <p><img src="img/Drum_01.png" class="figure" alt=""></p>
-<p>If the drum instead has a variable density given by $\rho(r)$, the right-hand side of the original ODE becomes $-\omega^2\rho u$. In general, the connection to Bessel functions is broken, but we will not miss a beat using eigs.</p>
+<p>If the drum instead has a variable density given by $\rho(r)$, the right- hand side of the original ODE becomes $-\omega^2\rho u$. In general, the connection to Bessel functions is broken, but we will not miss a beat using <code>eigs</code>.</p>
 <p>Constant density gives $\omega_2/\omega_1 = 2.2954$. Let's design a density so that $\omega_2/\omega_1 = 2$, a perfect octave. We will search among density functions of the form</p>
 <p>$$ \rho(r) = 1 - a\sin(\pi r). $$</p>
 <p>Here is a function that returns the ratio for any $a$.</p>
@@ -136,7 +136,7 @@ clf, plot(ratfun), title('Eigenvalue ratio'), xlabel('a')
 set(gca,'xtick',[0.5,astar,1],'ytick',[2],'xgrid','on','ygrid','on')</pre>
 
 <pre class="mcode-output">astar =
-   0.812158808548659
+   0.812158808547826
 </pre>
 
 <p><img src="img/Drum_02.png" class="figure" alt=""></p>
@@ -149,7 +149,7 @@ shading interp, lighting phong, title('Second mode')
 colormap copper</pre>
 
 <pre class="mcode-output">residual =
-    -7.192024753521764e-13
+    -1.867173082814588e-12
 </pre>
 
 <p><img src="img/Drum_03.png" class="figure" alt=""></p>

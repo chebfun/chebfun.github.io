@@ -71,12 +71,12 @@
     <div class="row">
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>We demonstrate the adaptive capabilities of Chebfun by integrating the 'spike function'</p>
+                <p>We demonstrate the adaptive capabilities of Chebfun by integrating the "spike function"</p>
 <pre class="mcode-input">f = @(x) sech(10*(x-0.2)).^2 + sech(100*(x-0.4)).^4 + ...
          sech(1000*(x-0.6)).^6 + sech(1000*(x-0.8)).^8;</pre>
 
-<p>(which appears as F21F in [1]) over $[0 1]$.</p>
-<p>We create a Chebfun representation and plot the function, increasing <code>'minsamples'</code> so that the spikes are not missed by an overly coarse initial sample:</p>
+<p>(which appears as F21F in [1]) over $[0, 1]$.</p>
+<p>We create a Chebfun representation and plot the function, increasing <code>minsamples</code> so that the spikes are not missed by an overly coarse initial sample:</p>
 <pre class="mcode-input">ff = chebfun(f,[0 1], 'splitting','on','minsamples',129);
 LW = 'linewidth';
 plot(ff,'b',LW,1.6,'numpts',1e4), grid on
@@ -100,7 +100,7 @@ sum(ff)</pre>
 <p>Time for creating this chebfun and integrating it:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.429474 seconds.
+<pre class="mcode-output">Elapsed time is 0.471764 seconds.
 </pre>
 
 <p>References:</p>

@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Mercer's theorem and the Karhunen-Loeve expansion</h1>
-                <h2>Toby Driscoll, 20th December 2011</h2>
+                <h2>Toby Driscoll, December 2011</h2>
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@
 
 <p>Mercer's theorem is a continuous analog of the singular-value or eigenvalue decomposition of a symmetric positive definite matrix. One of its main applications is to find convenient ways to express stochastic processes, via the Karhunen-Loeve expansion [1].</p>
 <h3 id="mercers-theorem">Mercer's theorem</h3>
-<p>Suppose $K(s,t)$ is a symmetric ($K(t,s)=K(s,t)$), continuous, and nonnegative definite kernel function on $[a,b]\times [a,b]$. Mercer's theorem asserts that there is an orthonormal set of eigenfunctions $\psi_j(x)$ and eigenvalues $\lambda_j$ such that</p>
+<p>Suppose $K(s,t)$ is a symmetric (that is, $K(t,s)=K(s,t)$), continuous, and nonnegative definite kernel function on $[a,b]\times [a,b]$. Mercer's theorem asserts that there is an orthonormal set of eigenfunctions $\psi_j(x)$ and eigenvalues $\lambda_j$ such that</p>
 <p>$$ K(s,t) = \sum_j^\infty \lambda_j \psi_j(s) \psi_j(t), $$</p>
 <p>where the values and functions satisfy the integral eigenvalue equation</p>
 <p>$$ \lambda_j \psi_j(s) = \int_a^b K(s,t) \psi_j(t). $$</p>
@@ -95,17 +95,17 @@ xlabel('x')
 ylabel('\Psi(x)')</pre>
 
 <p><img src="img/MercerKarhunenLoeve_01.png" class="figure" alt=""></p>
-<p>The eigenfunctions returned by eigs are orthonormal.</p>
+<p>The eigenfunctions returned by <code>eigs</code> are orthonormal.</p>
 <pre class="mcode-input">format short
 Psi(:,1:6)'*Psi(:,1:6)</pre>
 
 <pre class="mcode-output">ans =
-    1.0000    0.0000    0.0000   -0.0000    0.0000    0.0000
-   -0.0000    1.0000   -0.0000    0.0000    0.0000   -0.0000
+    1.0000   -0.0000    0.0000   -0.0000    0.0000   -0.0000
+    0.0000    1.0000   -0.0000    0.0000    0.0000   -0.0000
     0.0000   -0.0000    1.0000   -0.0000   -0.0000    0.0000
-    0.0000    0.0000   -0.0000    1.0000   -0.0000    0.0000
-    0.0000    0.0000   -0.0000   -0.0000    1.0000    0.0000
-    0.0000   -0.0000    0.0000    0.0000    0.0000    1.0000
+   -0.0000    0.0000    0.0000    1.0000   -0.0000    0.0000
+    0.0000    0.0000   -0.0000    0.0000    1.0000    0.0000
+   -0.0000   -0.0000    0.0000    0.0000   -0.0000    1.0000
 </pre>
 
 <p>The truncation of the Mercer sum does lead to an underestimate of the values of the kernel $K(s,t)$. For our example, we should get $K(s,s)=1$, but we get noticeably less.</p>

@@ -1,7 +1,7 @@
 ---
 title: "Speed and Accuracy of Chebfun `roots`"
 layout: example
-authordate: "Jared Aurentz and Nick Trefethen, 21st May 2014"
+authordate: "Jared Aurentz and Nick Trefethen, May 2014"
 meta: "(Chebfun example roots/RootsSpeed.m) [Tags: #colleaguematrix, #ROOTS]"
 ---
 
@@ -22,12 +22,12 @@ Let us do a test of the speed and accuracy of the Chebfun algorithm for computin
 <pre class="mcode-input">r = roots(f);
 tic, r = roots(f);</pre>Here is the time elapsed:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 0.548553 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 0.629168 seconds.
 </pre>Here is the maximum error:
 
 <pre class="mcode-input">norm(r-exact,inf)</pre><pre class="mcode-output">ans =
      4.440892098500626e-16
-</pre>This number is twice machine epsilon, which looks very good.  (However, you couldn't ask for a better conditioned problem than this one, since the derivative of $f$ at each root is large.)
+</pre>This number is twice machine epsilon, which looks very good. (However, you couldn't ask for a better conditioned problem than this one, since the derivative of $f$ at each root is large.)
 
 For fun we plot $f$ and its roots over a short interval:
 
@@ -45,12 +45,12 @@ hold on, plot(r,f(r),'.r','markersize',18), hold off</pre><img src="img/RootsSpe
 <pre class="mcode-input">for ntest = [250 500 1000]
     c = randn(ntest,1);
     tic, roots(c); toc
-end</pre><pre class="mcode-output">Elapsed time is 0.164447 seconds.
-Elapsed time is 0.368998 seconds.
-Elapsed time is 1.884050 seconds.
+end</pre><pre class="mcode-output">Elapsed time is 0.156718 seconds.
+Elapsed time is 0.398310 seconds.
+Elapsed time is 2.260732 seconds.
 </pre>It is clear from this experiment that calling Matlab `roots` for a polynomial of degree as large as our chebfun `f` would be very slow.
 
-However, $O(n^2)$ algorithms for this problem have been available for quite a while, though they are not built into MATLAB. A key person in this effort over the years has been Dario Bini of the University of Pisa.  See for example [Bini et al. 2010].  This group also offers Fortran software.  Another notable contribution is [Chandrasekaran et al. 2007].
+However, $O(n^2)$ algorithms for this problem have been available for quite a while, though they are not built into MATLAB. A key person in this effort over the years has been Dario Bini of the University of Pisa.  See for example [Bini et al. 2010].  This group also offers Fortran software. Another notable contribution is [Chandrasekaran et al. 2007].
 
 The first author of this example, in collaboration with David Watkins and others, has been developing alternative $O(n^2)$ algorithms for the companion matrix eigenvalue problem [Aurentz et al. 2014].
 

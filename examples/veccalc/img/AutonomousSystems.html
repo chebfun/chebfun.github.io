@@ -9,7 +9,7 @@ meta: "(Chebfun2 example veccalc/AutonomousSystems.m) [Tags: #Duffing oscillator
 
 ## Autonomous systems
 
-An autonomous system is a system of ordinary differential equations which does not explicitly depend on the independent variable. Such a system can be written in the form $dy/dt(t) = f(y(t))$ where $y(t)$ takes values in $R^n$. In this example we restrict ourselves to $n = 2$ so that we can plot the phase plane (vector field) and trajectory of $y(t)$ given initial conditions using Chebfun2.
+An autonomous system is a system of ordinary differential equations which does not explicitly depend on the independent variable. Such a system can be written in the form $dy(t)/dt = f(y(t))$ where $y(t)$ takes values in $R^n$. In this example we restrict ourselves to $n = 2$ so that we can plot the phase plane (vector field) and trajectory of $y(t)$ given initial conditions using Chebfun2.
 
 
 
@@ -40,7 +40,7 @@ for ic = .5:.5:3                                 % initial conditions
     [t y] = ode45(F,[0 40],[ic,0]);              % solve autonomous system
     plot(y,'r'), hold on                         % plot trajectory
 end
-quiver(F,'b'), axis equal                 % vector field
+quiver(F,'b'), axis equal                        % vector field
 title('The eye of a nonlinear pendulum',FS,14), hold off</pre><img src="img/AutonomousSystems_02.png" class="figure" alt="">
 
 

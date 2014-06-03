@@ -1,11 +1,11 @@
 ---
 title: "Computing common roots of two bivariate functions"
 layout: example
-authordate: "Yuji Nakatsukasa, Vanni Noferini, and Alex Townsend, 6th February 2013"
+authordate: "Yuji Nakatsukasa, Vanni Noferini, and Alex Townsend, February 2013"
 meta: "(Chebfun example roots/BivariateRoots.m) [Tags: #bivariate polynomials, #curve intersections, #ROOTS]"
 ---
 
-<pre class="mcode-input">function BivariateRoots()</pre><pre class="mcode-input">LW = 'LineWidth'; lw = 2; MS = 'MarkerSize'; FS = 'FontSize'; fs = 16;</pre>Suppose $f(x,y)$ and $g(x,y)$ are bivariate polynomials and we are interested in finding the common roots $(x_\ast,y_\ast)$ for which $f(x_\ast,y_\ast)=g(x_\ast,y_\ast)=0$. This problem arises for example when locating the critical points of a surface $z = h(x,y)$ since the critical points satisfy $$(f(x,y)=)\ \frac{\partial z}{\partial x} = 0 ,\quad (g(x,y)=)\ \frac{\partial z}{\partial y}= 0. $$
+<pre class="mcode-input">function BivariateRoots()</pre><pre class="mcode-input">LW = 'LineWidth'; lw = 2; MS = 'MarkerSize'; FS = 'FontSize'; fs = 16;</pre>Suppose $f(x,y)$ and $g(x,y)$ are bivariate polynomials and we are interested in finding the common roots $(x_\ast,y_\ast)$ for which $f(x_\ast,y_\ast)=g(x_\ast,y_\ast)=0$. This problem arises for example when locating the critical points of a surface $z = h(x,y)$ since the critical points satisfy $$ f(x,y) = \frac{\partial z}{\partial x} = 0 , \quad g(x,y) = \frac{\partial z}{\partial y}= 0. $$
 
 One way to do this [2, 3] is to form the Bezout matrix. Given two polynomials $f(x)$ and $g(x)$, the Bezoutian is defined as the bivariate polynomial $$ B(x,z) = \frac{f(x)g(z)-g(x)f(z)}{x-z}. $$ It is often helpful to expand $B(x,z)$ into a bivariate Chebyshev expansion [3], $$ B(x,y) = \sum_{i,j} a_{i,j}T_{i-1}(x)T_{j-1}(y), $$ where $T_i(x)$ is the ith Chebyshev polynomial (other polynomial bases can be used). The matrix $A = (a_{ij})$ is called the (generalised) Bezout matrix because it is generated from the Bezoutian.
 
@@ -15,7 +15,7 @@ Let's illustrate bivariate rootfinding with an example. Suppose we want to find 
 
 $$ f(x,y) = u_1(x) - u_2(y),\quad  g(x,y) = v_1(x) - v_2(y). $$
 
-(The curves we selected were obtained by modifying curves from Example complex/RoucheTheorem.m)
+(The curves we selected were obtained by modifying curves from Example [complex/RoucheTheorem](../complex/RoucheTheorem.html)).
 
 <pre class="mcode-input">c1 = chebfun(@(x) sin(exp(1i*pi*x))*exp(-1i*pi/4),[-1 1]); % blue curve
 c2 = chebfun(@(y) sin(exp(1i*pi*y))*exp(1i*pi/3),[-1 1]);  % red curve
@@ -50,7 +50,7 @@ for i = 1:n
     end
 end
 
-% A may have many zero coefficients, remove them
+% $A$ may have many zero coefficients, so remove them
 nrmA = norm(A(:,:,end),'fro');
 for ii=1:size(A,3)
     if norm(A(:,:,ii),'fro')/nrmA&gt;1e-20,    break;    end
@@ -61,14 +61,14 @@ The standard way to solve a polynomial eigenvalue problem is via linearization f
 
 A popular linearization is the colleague form (a generalization of the colleague matrix).
 
-The code DLP.m gives block symmetric linearizations, and we will use this. This forms a generalized eigenvalue problem $\lambda X+Y$ whose eigenvalues match those of $B(y)$.
+The code `DLP.m` gives block symmetric linearizations, and we will use this. This forms a generalized eigenvalue problem $\lambda X+Y$ whose eigenvalues match those of $B(y)$.
 
 <pre class="mcode-input">ns =size(A); AA = reshape(A,ns(1),ns(2)*ns(3));
 
 n = ns(1); v = randn(n,1);
 a = [ones(n-1,1); 2]/2; b = zeros(n,1); c = ones(n,1)/2;
 [X,Y] = DLP(AA,v,a,b,c);
-[V,yvals] = eig(Y,-X); % solve generalized eigenvalue problem</pre>The computed matrix `yvals` contains the $y$-values corresponding to the intersecting points, that is $(u2(yval),v2(yval))$. To get the $x$-values, we use the important but not so well known fact that if the Bezoutian has a null space, then it is of the Vandermonde form $[T_{n-1}(x),\ldots, T_2(x),T_1(x),T_0(x)]^T$. We extract the 'correct' computed roots by finding the solution in the region of interest $x,y\in [-1,1]$.
+[V,yvals] = eig(Y,-X); % solve generalized eigenvalue problem</pre>The computed matrix `yvals` contains the $y$-values corresponding to the intersecting points, that is `[u2(yval), v2(yval)]`. To get the $x$-values, we use the important but not so well known fact that if the Bezoutian has a null space, then it is of the Vandermonde form $[T_{n-1}(x),\ldots, T_2(x),T_1(x),T_0(x)]^T$. We extract the "correct" computed roots by finding the solution in the region of interest $x,y\in [-1,1]$.
 
 <pre class="mcode-input">y = diag(yvals)';
 x = V(end-1,:)./V(end,:);
@@ -81,9 +81,9 @@ y = y(imag(y)==0 &amp; abs(y)&lt;1 &amp; abs(t)&lt;1);</pre>Let's plot the compu
 errors = abs(c2(y)-c1(x))</pre><pre class="mcode-output">errors =
    1.0e-04 *
   Columns 1 through 3
-   0.034889049865551   0.145869599264038   0.444387692424041
+   0.034912637342312   0.145862470479662   0.444437778682963
   Column 4
-   0.145858086843255
+   0.145859280900419
 </pre><img src="img/BivariateRoots_02.png" class="figure" alt="">
 
 References:

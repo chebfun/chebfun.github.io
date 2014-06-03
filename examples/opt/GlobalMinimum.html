@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>The global minimum of a complicated function</h1>
-                <h2>Alex Townsend, 4th March 2013</h2>
+                <h2>Alex Townsend, March 2013</h2>
             </div>
         </div>
     </div>
@@ -90,7 +90,7 @@ fprintf('Rank of function = %u\n', rank(g))</pre>
 <pre class="mcode-output">Rank of function = 4
 </pre>
 
-<p>For details about what we mean by the rank of a function see [3].   The minimum was found in [2] to 10,000 digits, and here are the first 16:</p>
+<p>For details about what we mean by the rank of a function see [3]. The minimum was found in [2] to 10,000 digits, and here are the first 16:</p>
 <pre class="mcode-input">exact = -3.306868647475237;  % minimum.</pre>
 
 <p>We can compute this minimum using Chebfun2. The minimum is correct to 13 digits.</p>
@@ -98,8 +98,8 @@ fprintf('Rank of function = %u\n', rank(g))</pre>
 
 fprintf('Error in Chebfun2 minimum = %1.4e\n', abs(Y(1) -exact))</pre>
 
-<pre class="mcode-output">Computed global minimum = -3.3068686474747921
-Error in Chebfun2 minimum = 4.4498e-13
+<pre class="mcode-output">Computed global minimum = -3.3068686474747913
+Error in Chebfun2 minimum = 4.4587e-13
 </pre>
 
 <p>Here is the full four-line code and how long it takes:</p>
@@ -112,7 +112,7 @@ t = toc(s);
 
 fprintf('Total time taken = %1.4fs\n',t)</pre>
 
-<pre class="mcode-output">Total time taken = 0.7947s
+<pre class="mcode-output">Total time taken = 0.7012s
 </pre>
 
 <p>Here is the plot of the minimum in a contour plot:</p>

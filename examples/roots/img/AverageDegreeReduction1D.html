@@ -1,7 +1,7 @@
 ---
 title: "1D subdivision and the average degree reduction"
 layout: example
-authordate: "Alex Townsend, 21st August 2013"
+authordate: "Alex Townsend, August 2013"
 meta: "(Chebfun Example: roots/AverageDegreeReduction1D.m) [Tags: #roots, #subdivision]"
 ---
 
@@ -79,7 +79,7 @@ m = m'</pre><pre class="mcode-output">m =
 Some functions have values of $\tau$ larger than $1/2$, at least for the first few subdivisions. These functions tend to be difficult at many points on the interval. For example,
 
 <pre class="mcode-input">f = chebfun(@(x) abs(prod(x-linspace(-1,1,10)).^3),'vectorise');
-compute_tau(f, 2)</pre><pre class="mcode-output">tau = 0.70778</pre>
+compute_tau(f, 2)</pre><pre class="mcode-output">tau = 0.70773</pre>
 
 ## Conclusion
 
@@ -87,24 +87,22 @@ The average degree reduction parameter $\tau$ can take almost any value between 
 
 <pre class="mcode-input">M = 2000;
 f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.561272 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.637570 seconds.
 </pre><pre class="mcode-input">c = -1.0001;
 f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 1.134759 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 1.000923 seconds.
 </pre>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.
 
-<pre class="mcode-input">end
+Here are the functions used above to compute $\tau$ and plot the subdivision diagrams.
 
-function compute_tau(f, N)
+<pre class="mcode-input">function compute_tau(f, N)
 % COMPUTE_TAU estimate the average degree reduction parameter
     d = [-1 1]; len = length(chebfun(f,d));
     newends = d(1) + (0:N)./N*(d(2)-d(1));
     newlen = length(chebfun(f, newends))/N;
     tau = (newlen/len).^(1/log2(N));
     fprintf('tau = %1.5f',tau)
-end
-
-function subdivisionDiagram(f, levels)
+end</pre><pre class="mcode-input">function subdivisionDiagram(f, levels)
 % SUBDIVISIONDIAGRAM draw a diagram to show subdivision and polynomial
 % degrees.
 g = chebfun(f);
@@ -124,7 +122,7 @@ end
 set(gca,'ytick',[])
 set(gca,'yticklabel',[])
 hold off
-end</pre>
+end</pre><pre class="mcode-input">end</pre>
 
 ## References
 

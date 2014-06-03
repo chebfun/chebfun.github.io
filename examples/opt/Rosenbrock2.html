@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>The Rosenbrock function in 2D optimisation (revisited)</h1>
-                <h2>Nick Hale, 4th March 2013</h2>
+                <h2>Nick Hale, March 2013</h2>
             </div>
         </div>
     </div>
@@ -83,9 +83,9 @@ MS = 'MarkerSize'; ms = 20;</pre>
 [minf, minx] = min2(F)</pre>
 
 <pre class="mcode-output">minf =
-     9.904965736495797e-12
+     1.091393642127514e-11
 minx =
-   0.999996842514662   0.999993680114496
+   0.999996684946674   0.999993360274207
 </pre>
 
 <p>We can plot the function and the computed minimum like this:</p>
@@ -94,7 +94,7 @@ hold on, plot(minx(1), minx(2), '.k', MS, ms), hold off</pre>
 
 <p><img src="img/Rosenbrock2_01.png" class="figure" alt=""></p>
 <h3 id="2-a-function-with-several-local-minima">2. A function with several local minima</h3>
-<p>The example [2] explained how Chebfun computed these results: by taking maxima along 1D slices, and then taking the maximum of these results. For functions with multiple local minima, like the one below, this meant the 'splitting' 'on' flag needed to be set.</p>
+<p>The example [2] explained how Chebfun computed these results: by taking maxima along 1D slices, and then taking the maximum of these results. For functions with multiple local minima, like the one below, this meant the <code>splitting on</code> flag needed to be set.</p>
 <pre class="mcode-input">f = @(x,y) exp(x-2*x.^2-y.^2).*sin(6*(x + y + x.*y.^2));</pre>
 
 <p>Chebfun2 uses a different algorithm for locating maxima and minima, and so splitting is not required in this case.  The following computation is much faster than before.</p>
@@ -106,8 +106,8 @@ toc</pre>
 <pre class="mcode-output">minf =
   -0.969232500643146
 minx =
-   0.395759624697258   0.331573982761955
-Elapsed time is 0.641800 seconds.
+   0.395759632251660   0.331573976807090
+Elapsed time is 0.333936 seconds.
 </pre>
 
 <p>Here is a plot, again with the computed global minimum.</p>
@@ -116,28 +116,28 @@ plot(minx(1), minx(2), '.k', MS, ms)</pre>
 
 <p><img src="img/Rosenbrock2_02.png" class="figure" alt=""></p>
 <p>In fact, since Chebfun2 is really working with a 2D representation, we can investigate more deeply.</p>
-<p>For example we can compute all the stationary points of f and add these to our contour plot:</p>
+<p>For example we can compute all the stationary points of $f$ and add these to our contour plot:</p>
 <pre class="mcode-input">tp = roots(grad(F))
 plot(tp(:,1), tp(:,2), 'ko', MS, 12, LW, 2)</pre>
 
 <pre class="mcode-output">tp =
-  -0.254107550759546  -0.842267634382812
-  -0.112229538510291  -0.603133543918111
-   0.067365721534435  -0.317601643415147
-   0.253778760811317   0.007586184707221
-   0.395759627601428   0.331573987886848
-   0.504693529063457   0.601204260241061
-   0.595308872488305   0.817030764537117
-   0.672904440396071   0.994413300108201
+  -0.254107550759548  -0.842267634382810
+  -0.112229538510290  -0.603133543918113
+   0.067365721534436  -0.317601643415148
+   0.253778760811318   0.007586184707220
+   0.395759627601432   0.331573987886845
+   0.504693529063450   0.601204260241067
+   0.595308872488306   0.817030764537116
+   0.672904440396062   0.994413300108208
 </pre>
 
 <p><img src="img/Rosenbrock2_03.png" class="figure" alt=""></p>
-<p>We can make chebfuns of the zero level curves of F:</p>
+<p>We can make chebfuns of the zero level curves of $F$:</p>
 <pre class="mcode-input">g = roots(F);
 plot(g, 'k', LW, 2), shg</pre>
 
 <p><img src="img/Rosenbrock2_04.png" class="figure" alt=""></p>
-<p>Or we can even make chebfuns of the .5 level curves of F:</p>
+<p>Or we can even make chebfuns of the $.5$ level curves of $F$:</p>
 <pre class="mcode-input">g = roots(F - .5);
 plot(g, 'r', LW, 2), shg</pre>
 

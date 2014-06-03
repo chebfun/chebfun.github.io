@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Needle on a corrugated surface</h1>
-                <h2>Nick Trefethen and Hrothgar, 11th December 2013</h2>
+                <h2>Nick Trefethen and Hrothgar, December 2013</h2>
             </div>
         </div>
     </div>
@@ -92,7 +92,7 @@ close all, plot(h,LW,1), axis equal, axis([-4 4 -.4 2])</pre>
 <pre class="mcode-input">function y = minfun(x,theta)
 r = .5*cos(theta); hx = h{x-r,x+r};
 needle = chebfun(@(s) tan(theta)*(s-x),[x-r x+r]);
-y = max(hx-needle);
+y = max(hx - needle);
 end</pre>
 
 <p>And here is a function for plotting a particular configuration:</p>
@@ -104,27 +104,28 @@ hold off, plot(h,'b',needle,'k',LW,1)
 axis equal, axis([-4 4 -.4 2])
 end</pre>
 
-<p>For example, here are needle positions for $(x,\theta) = (-.6, -0.2)$ and $(x,\theta) = (1.7, 1)$.</p>
+<p>For example, here are needle positions for $(x,\theta) = (-.6, -.2)$ and $(x,\theta) = (1.7, 1)$.</p>
 <pre class="mcode-input">subplot(2,1,1)
-plotneedle(-0.6,-0.2), title('needle with (x,theta) = (-.6, -0.2)',FS,14)
+plotneedle(-0.6,-0.2), title('needle with (x,theta) = (-0.6, -0.2)',FS,14)
 subplot(2,1,2)
 plotneedle(1.7,1), title('needle with (x,theta) = (1.7, 1)',FS,14)</pre>
 
 <p><img src="img/Needle_02.png" class="figure" alt=""></p>
 <p>Now we just have to minimize over $x$ and $\theta$. Let's first do that over a wide range.</p>
 <pre class="mcode-input">npts = 25;
-tic, x = linspace(-2,2,npts);
-theta = linspace(-1.5,1.5,npts);
+tic, x = linspace(-2,2,npts); theta = linspace(-1.5,1.5,npts);
 [xx,thth] = meshgrid(x,theta); yy = 0*xx;
 for k = 1:length(x)
   for j = 1:length(theta)
-    yy(j,k) = minfun(xx(j,k),thth(j,k));
+    yy(j,k) = minfun(xx(j,k), thth(j,k));
   end
 end
-close, contour(x,theta,yy,80), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
+xxp = linspace(-2,2,100); ttp = linspace(-1.5,1.5,100)';
+yyp = interp2(xx,thth,yy,xxp,ttp,'cubic');
+close, contour(xxp,ttp,yyp,80), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 23.348271 seconds.
+<pre class="mcode-output">Elapsed time is 17.993513 seconds.
 </pre>
 
 <p><img src="img/Needle_03.png" class="figure" alt=""></p>
@@ -134,20 +135,22 @@ colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre>
 [xx,thth] = meshgrid(x,theta); yy = 0*xx;
 for k = 1:length(x)
   for j = 1:length(theta)
-    yy(j,k) = minfun(xx(j,k),thth(j,k));
+    yy(j,k) = minfun(xx(j,k), thth(j,k));
   end
 end
+xxp = linspace(-0.8,0.6,100); ttp = linspace(-0.5,0,100)';
+yyp = interp2(xx,thth,yy,xxp,ttp,'cubic');
 levels = 0.06:.003:0.12;
-contour(x,theta,yy,levels), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
+close, contour(xxp,ttp,yyp,levels), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 title(['min value on grid: ' num2str(min(min(yy)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 21.893861 seconds.
+<pre class="mcode-output">Elapsed time is 18.503951 seconds.
 </pre>
 
 <p><img src="img/Needle_04.png" class="figure" alt=""></p>
-<p>The winner seems to be the region on the right. From here the right thing to do is call a bivariate optimization routine. In basic Matlab the simplest one is the direct search code <code>&lt;a href="http://www.mathworks.co.uk/help/matlab/ref/fminsearch.html"&gt;fminsearch&lt;/a&gt;</code>. This requires the input to be a single vector, so we'll need a wrapper:</p>
+<p>The winner seems to be the region on the right. From here the right thing to do is call a bivariate optimization routine. In basic Matlab the simplest one is the direct search code <href='http://www.mathworks.co.uk/help/matlab/ref/fminsearch.html'&gt;fminsearch&lt;/a>. This requires the input to be a single vector, so we'll need a wrapper:</p>
 <pre class="mcode-input">function y = minfunwrapper(xvec)
-y = minfun(xvec(1),xvec(2));
+y = minfun(xvec(1), xvec(2));
 end</pre>
 
 <p>Here goes.</p>
@@ -155,7 +158,7 @@ end</pre>
 guess = [.41, -0.2];
 tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 11.171517 seconds.
+<pre class="mcode-output">Elapsed time is 7.303371 seconds.
 </pre>
 
 <p>So it would seem that to 10 digits or more, the minimal height is around</p>

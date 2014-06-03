@@ -1,7 +1,7 @@
 ---
 title: "Mercer's theorem and the Karhunen-Loeve expansion"
 layout: example
-authordate: "Toby Driscoll, 20th December 2011"
+authordate: "Toby Driscoll, December 2011"
 meta: "(Chebfun example stats/MercerKarhunenLoeve.m) [Tags: #EIGS]"
 ---
 
@@ -11,7 +11,7 @@ meta: "(Chebfun example stats/MercerKarhunenLoeve.m) [Tags: #EIGS]"
 
 ## Mercer's theorem
 
-Suppose $K(s,t)$ is a symmetric ($K(t,s)=K(s,t)$), continuous, and nonnegative definite kernel function on $[a,b]\times [a,b]$. Mercer's theorem asserts that there is an orthonormal set of eigenfunctions $\psi_j(x)$ and eigenvalues $\lambda_j$ such that
+Suppose $K(s,t)$ is a symmetric (that is, $K(t,s)=K(s,t)$), continuous, and nonnegative definite kernel function on $[a,b]\times [a,b]$. Mercer's theorem asserts that there is an orthonormal set of eigenfunctions $\psi_j(x)$ and eigenvalues $\lambda_j$ such that
 
 $$ K(s,t) = \sum_j^\infty \lambda_j \psi_j(s) \psi_j(t), $$
 
@@ -32,16 +32,16 @@ title('First four Mercer eigenfunctions')
 xlabel('x')
 ylabel('\Psi(x)')</pre><img src="img/MercerKarhunenLoeve_01.png" class="figure" alt="">
 
-The eigenfunctions returned by eigs are orthonormal.
+The eigenfunctions returned by `eigs` are orthonormal.
 
 <pre class="mcode-input">format short
 Psi(:,1:6)'*Psi(:,1:6)</pre><pre class="mcode-output">ans =
-    1.0000    0.0000    0.0000   -0.0000    0.0000    0.0000
-   -0.0000    1.0000   -0.0000    0.0000    0.0000   -0.0000
+    1.0000   -0.0000    0.0000   -0.0000    0.0000   -0.0000
+    0.0000    1.0000   -0.0000    0.0000    0.0000   -0.0000
     0.0000   -0.0000    1.0000   -0.0000   -0.0000    0.0000
-    0.0000    0.0000   -0.0000    1.0000   -0.0000    0.0000
-    0.0000    0.0000   -0.0000   -0.0000    1.0000    0.0000
-    0.0000   -0.0000    0.0000    0.0000    0.0000    1.0000
+   -0.0000    0.0000    0.0000    1.0000   -0.0000    0.0000
+    0.0000    0.0000   -0.0000    0.0000    1.0000    0.0000
+   -0.0000   -0.0000    0.0000    0.0000   -0.0000    1.0000
 </pre>The truncation of the Mercer sum does lead to an underestimate of the values of the kernel $K(s,t)$. For our example, we should get $K(s,s)=1$, but we get noticeably less.
 
 <pre class="mcode-input">Psi(0,:)*diag(lambda)*Psi(0,:)'

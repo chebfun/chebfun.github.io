@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Newton's Method &raquo; Chebfun</title>
+    <title>Newton's method &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,8 +60,8 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Newton's Method</h1>
-                <h2>Kuan Xu, 24th October 2012</h2>
+                <h1>Newton's method</h1>
+                <h2>Kuan Xu, October 2012</h2>
             </div>
         </div>
     </div>
@@ -71,7 +71,7 @@
     <div class="row">
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Newton's method, as the most fundamental root-finding algorithm, usually appears no later than Chapter 2 in most numerical analysis textbooks. It uses the first two terms of the Taylor series of a function $f(x)$ in the vicinity of a suspected root to find successively better approximations to the root, using the formula $$ x^{(k+1)} = x^{(k)} - {f(x^{(k)})\over f'(x^{(k)})}. $$</p>
+                <p>Newton's method, as the most fundamental root-finding algorithm, usually appears no later than Chapter 2 in most numerical analysis textbooks. It uses the first two terms of the Taylor series of a function $f(x)$ in the vicinity of a suspected root to find successively better approximations to the root, using the formula $$ x^{(k+1)} = x^{(k)} - \frac{f(x^{(k)})}{f'(x^{(k)})}. $$</p>
 <p>Let's consider $f(x) = x^3-3x^2+2$, which has several roots, as we see in the next plot.</p>
 <pre class="mcode-input">LW = 'linewidth'; lw = 2;
 MS = 'MarkerSize'; ms = 18;
@@ -85,9 +85,9 @@ plot(dom, [0 0], 'k'), hold off</pre>
 <pre class="mcode-input">roots(f)</pre>
 
 <pre class="mcode-output">ans =
-  -0.732050807568881
-   1.000000000000003
-   2.732050807568879
+  -0.732050807568878
+   1.000000000000004
+   2.732050807568877
 </pre>
 
 <p>If we try to locate the leftmost root by Newton's method, we need to pick an initial guess, for example $-3$.</p>
@@ -119,7 +119,7 @@ hold off
 root1 = xnew</pre>
 
 <pre class="mcode-output">root1 =
-  -0.732050807568878
+  -0.732050807568876
 </pre>
 
 <p><img src="img/NewtonRaphson_02.png" class="figure" alt=""></p>
@@ -166,15 +166,15 @@ for i = 1:n
 end</pre>
 
 <pre class="mcode-output">root2 =
-   1.000000000000000
+   1.000000000000002
 iterations     Logarithm of the step size
     1                -0.69314718
     2                -2.19722458
     3                -6.98471632
-    4               -21.35961479
+    4               -21.35961353
 </pre>
 
-<p>But now, this time we are evidently achieving cubic convergence! Is there something wrong? No, this makes perfect sense, if you notice that $f^{''}(1) = 0$ in this example.</p>
+<p>But now, this time we are evidently achieving cubic convergence! Is there something wrong? No, for it is to be expected if you notice that $f''(1) = 0$ in this example.</p>
             </div>
         </div>
     </div>

@@ -5,13 +5,13 @@ authordate: "Nick Trefethen, November 2010"
 meta: "(Chebfun Example ode-eig/DoubleWell.m) [Tags: #eigenvalues, #piecewise, #quantum]"
 ---
 
-A well-known problem in quantum mechanics is the calculation of eigenstates of a potential with the shape of a 'double well'. Specifically, consider a potential function $V(x)$ defined on $[-1,1]$ by
+A well-known problem in quantum mechanics is the calculation of eigenstates of a potential with the shape of a "double well". Specifically, consider a potential function $V(x)$ defined on $[-1,1]$ by
 
 $$ V(x) = 1.5, ~ x \in [-.2,.3], $$
 
 and zero otherwise. We seek eigenmodes of the steady-state Schroedinger equation associated with this potential, specifically, functions $u(x)$ satisfying
 
-$$ -0.007u"(x) + V(x)u(x) = \lambda u(x),~~  u(-1) = u(1) = 0 $$
+$$ -0.007u''(x) + V(x)u(x) = \lambda u(x),~~  u(-1) = u(1) = 0 $$
 
 for some constant $\lambda$.
 
@@ -31,19 +31,19 @@ L.op = @(x,u) -0.007*diff(u,2) + V.*u;
 L.bc = 0;
 neigs = 12;
 [EV,D] = eigs(L,neigs);
-disp(diag(D)), toc</pre><pre class="mcode-output">   0.091480998228459
-   0.116757122004944
-   0.363909308600682
-   0.463167687390869
-   0.808941736699545
-   1.021145960787408
-   1.390812031497602
-   1.652575851344556
-   1.871230031213184
-   2.174488704535125
-   2.533176594994531
-   2.924094539795625
-Elapsed time is 4.199188 seconds.
+disp(diag(D)), toc</pre><pre class="mcode-output">   0.091480998228437
+   0.116757122003731
+   0.363909308596665
+   0.463167687390074
+   0.808941736698391
+   1.021145960783026
+   1.390812031497082
+   1.652575851344439
+   1.871230031208035
+   2.174488704531266
+   2.533176594992714
+   2.924094539796116
+Elapsed time is 8.483750 seconds.
 </pre>Physicists like to plot the eigenmodes shifted up by an amount equal to the eigenvalue:
 
 <pre class="mcode-input">colors = [1 0 0; 0 .8 0; .9 .9 0; 0 0 1; 1 0 1; 0 .8 1];
@@ -63,17 +63,17 @@ quantumstates(V)</pre><pre class="mcode-output">x =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [      -3,       3]        2        -3        3 
-Epslevel = 6.492624e-16.  Vscale = 3.
+Epslevel = 6.492624e-16.  Vscale = 3.000000e+00.
 ans =
-   0.519275627857341
-   0.568122999843685
-   0.857289324404892
-   0.936834938834831
-   1.137321404216773
-   1.238731857341034
-   1.395322337063534
-   1.505801742485317
-   1.638922632408573
-   1.750303602923997
+   0.519275627857416
+   0.568122999843643
+   0.857289324404975
+   0.936834938834818
+   1.137321404216796
+   1.238731857341000
+   1.395322337063561
+   1.505801742485282
+   1.638922632408591
+   1.750303602923950
 </pre><img src="img/DoubleWell_03.png" class="figure" alt="">
 

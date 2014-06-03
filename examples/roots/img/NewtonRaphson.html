@@ -1,11 +1,11 @@
 ---
-title: "Newton's Method"
+title: "Newton's method"
 layout: example
-authordate: "Kuan Xu, 24th October 2012"
+authordate: "Kuan Xu, October 2012"
 meta: "(Chebfun example roots/NewtonRaphson.m) [Tags: #Newton, #ROOTS]"
 ---
 
-Newton's method, as the most fundamental root-finding algorithm, usually appears no later than Chapter 2 in most numerical analysis textbooks. It uses the first two terms of the Taylor series of a function $f(x)$ in the vicinity of a suspected root to find successively better approximations to the root, using the formula $$ x^{(k+1)} = x^{(k)} - {f(x^{(k)})\over f'(x^{(k)})}. $$
+Newton's method, as the most fundamental root-finding algorithm, usually appears no later than Chapter 2 in most numerical analysis textbooks. It uses the first two terms of the Taylor series of a function $f(x)$ in the vicinity of a suspected root to find successively better approximations to the root, using the formula $$ x^{(k+1)} = x^{(k)} - \frac{f(x^{(k)})}{f'(x^{(k)})}. $$
 
 Let's consider $f(x) = x^3-3x^2+2$, which has several roots, as we see in the next plot.
 
@@ -19,9 +19,9 @@ plot(dom, [0 0], 'k'), hold off</pre><img src="img/NewtonRaphson_01.png" class="
 Here are the roots.
 
 <pre class="mcode-input">roots(f)</pre><pre class="mcode-output">ans =
-  -0.732050807568881
-   1.000000000000003
-   2.732050807568879
+  -0.732050807568878
+   1.000000000000004
+   2.732050807568877
 </pre>If we try to locate the leftmost root by Newton's method, we need to pick an initial guess, for example $-3$.
 
 <pre class="mcode-input">fprime = diff(f);
@@ -50,7 +50,7 @@ while(d &gt; tol)
 end
 hold off
 root1 = xnew</pre><pre class="mcode-output">root1 =
-  -0.732050807568878
+  -0.732050807568876
 </pre><img src="img/NewtonRaphson_02.png" class="figure" alt="">
 
 In the above plot, the solid black dots are the successive approximations of the root, while the circles are their projections on the curve, from which the Newton's method locates the next approximation along the tangent (black dash-dot lines). The following table tells us with no surprise that Newton's method is quadratically convergent.
@@ -92,11 +92,11 @@ disp('iterations     Logarithm of the step size')
 for i = 1:n
     fprintf('%5d  %25.8f\n', i, LogRes(i))
 end</pre><pre class="mcode-output">root2 =
-   1.000000000000000
+   1.000000000000002
 iterations     Logarithm of the step size
     1                -0.69314718
     2                -2.19722458
     3                -6.98471632
-    4               -21.35961479
-</pre>But now, this time we are evidently achieving cubic convergence! Is there something wrong? No, this makes perfect sense, if you notice that $f^{''}(1) = 0$ in this example.
+    4               -21.35961353
+</pre>But now, this time we are evidently achieving cubic convergence! Is there something wrong? No, for it is to be expected if you notice that $f''(1) = 0$ in this example.
 

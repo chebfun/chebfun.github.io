@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Constrained Optimization in Chebfun &raquo; Chebfun</title>
+    <title>Constrained optimization in chebfun &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,8 +60,8 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Constrained Optimization in Chebfun</h1>
-                <h2>Alex Townsend, 16th January 2014</h2>
+                <h1>Constrained optimization in chebfun</h1>
+                <h2>Alex Townsend, January 2014</h2>
             </div>
         </div>
     </div>
@@ -73,13 +73,12 @@
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
                 <pre class="mcode-input">function ConstrainedOptimization</pre>
 
-<pre class="mcode-input">LW = 'linewidth'; lw = 2; FS = 'fontsize'; fs = 16; MS = 'markersize'; ms = 20;</pre>
+<pre class="mcode-input">LW = 'linewidth'; lw = 1.6;
+FS = 'fontsize'; fs = 14;
+MS = 'markersize'; ms = 20;</pre>
 
 <h3 id="one-dimensional-constrained-optimization">One-dimensional constrained optimization</h3>
-<p>By virtue of Chebfun's capabilities with global rootfinding and global optimization, some constrained optimization is possible. For example, for $x\in[0,10]$, solve</p>
-<pre class="mcode">$$\max( \sin(x)^2 + \sin(x^2) ) \quad \text{s.t.}\quad
-\lfloor x\rfloor = \text{prime}.$$</pre>
-
+<p>By virtue of Chebfun's capabilities with global rootfinding and global optimization, some constrained optimization is possible. For example, for $x\in[0,10]$, we can solve $$ \max( \sin(x)^2 + \sin(x^2) ), \quad \quad \lfloor x \rfloor = \mbox{prime}. $$</p>
 <pre class="mcode-input">x = chebfun('x', [0 10]);
 objective = chebfun( @(x) sin(x).^2 + sin(x.^2), [0 10] );
 constrain = 0*x;
@@ -89,44 +88,45 @@ for j = 1:length(p)
 end
 g = objective.*constrain;
 [mx, loc] = max( g );
-plot(g), hold on, plot(loc, mx, 'r.', MS, ms), hold off
-title(sprintf('constrained maximum = %1.3f', mx), FS, fs), set(gca, FS, fs)</pre>
+plot(g,LW,lw), hold on, plot(loc, mx, 'r.', MS, ms), hold off
+title(sprintf('constrained maximum = %1.3f',mx),FS,fs), set(gca,FS,fs)
+ylim([-2 3]);</pre>
 
 <p><img src="img/ConstrainedOptimization_01.png" class="figure" alt=""></p>
 <p>Here, to deal with the simple constraint on the independent variable a characteristic function was constructed and multiplied with the objective function.</p>
 <h3 id="another-constraint">Another constraint</h3>
-<p>A similar thing can be done with other constraints. For example, consider, for $x\in[0,10]$,</p>
-<p>$$ \min(\sin(x)^2+\sin(x^2)) \quad \text{s.t.} \quad |\sin(10x)|&lt;1/2.$$</p>
-<pre class="mcode-error">Unable to interpret LaTeX string "$$ \min(\sin(x)^2+\sin(x^2)) \quad \text{s.t.} \quad |\sin(10x)|&lt;1/2.$$"</pre>
-
+<p>A similar thing can be done with other constraints. For example, for $x\in[0,10]$, consider</p>
+<p>$$ \min(\sin(x)^2+\sin(x^2)), \quad \quad |\sin(10x)|&lt;1/2. $$</p>
+<p>We can proceed like this:</p>
 <pre class="mcode-input">x = chebfun('x', [0 10]);
 objective = chebfun( @(x) sin(x).^2 + sin(x.^2), [0 10] );
 constrain = (abs(sin(10*x)) &lt; 1/2);
 g = objective.*constrain;
 [mx, loc] = max( g );
-plot(g), hold on, plot(loc, mx, 'r.', MS, ms), hold off
-title(sprintf('constrained maximum = %1.3f', mx),FS,fs), set(gca,FS,fs)</pre>
+plot(g,LW,lw), hold on, plot(loc,mx,'r.',MS,ms), hold off
+title(sprintf('constrained maximum = %1.3f', mx),FS,fs), set(gca,FS,fs)
+ylim([-2 3]);</pre>
 
 <p><img src="img/ConstrainedOptimization_02.png" class="figure" alt=""></p>
 <h3 id="two-dimensional-constrained-optimization">Two-dimensional constrained optimization</h3>
 <p>Chebfun2 also has capabilities for global rootfinding and optimization and hence, also some constrained optimization. For example, consider maximizing</p>
-<p>$$\cos((x-1/10)y)^2 + x \sin(3x+y)$$</p>
-<p>over the following heart-shaped region:</p>
+<p>$$ \cos((x-1/10)y)^2 + x \sin(3x+y) $$</p>
+<p>over this heart-shaped region:</p>
 <pre class="mcode-input">t = chebfun('t',[0,2*pi]);
 x = 2*sin(t); y = 2*cos(t)-(1/2)*cos(2*t)-(1/4)*cos(3*t)-(1/8)*cos(4*t);
 constrain = x + 1i*y;
-plot( constrain, 'k-', LW, lw), axis equal, title('Constraint', FS, fs)</pre>
+plot(constrain,'k-',LW,lw), axis equal, title('Constraint',FS,fs)
+axis([-3 3 -3 3])</pre>
 
 <p><img src="img/ConstrainedOptimization_03.png" class="figure" alt=""></p>
 <p>Here is a contour plot of the objective function:</p>
 <pre class="mcode-input">objective = chebfun2(@(x,y) cos((x-.1).*y).^2 + x.*sin(3*x+y), [-3 3 -3 3]);
-
 contour(objective, LW, lw), axis equal, hold on
 plot( constrain, 'k-', LW, lw), set(gca, FS, fs)
 axis([-3 3 -3 3])</pre>
 
 <p><img src="img/ConstrainedOptimization_04.png" class="figure" alt=""></p>
-<p>We can solve this by first finding all the local extrema of the objective function, restricting to those that lie inside the heart-shaped region, and then picking the maximum:</p>
+<p>We can solve this by first finding all the local extrema of the objective function, restricting to those that lie inside the heart, and then picking the maximum:</p>
 <pre class="mcode-input">r = roots( grad( objective ) );
 idx = inpolygon(r(:,1), r(:,2), constrain );
 r = r(idx,:);
@@ -136,7 +136,7 @@ max_boundary = max(objective(constrain));
 max_overall = max(max_inside, max_boundary)</pre>
 
 <p><img src="img/ConstrainedOptimization_05.png" class="figure" alt=""></p>
-<p>The maximum occurs inside the heart-shaped region. Let's plot it:</p>
+<p>The maximum occurs inside the heart. Let's plot it:</p>
 <pre class="mcode-input">[ignored, loc] = max(objective(r(:,1), r(:,2)));
 plot( r(loc,1), r(loc,2), 'r.', MS, 40)
 title(sprintf('Overall maximum = %1.3f', max_overall), FS, fs)</pre>
@@ -147,7 +147,7 @@ title(sprintf('Overall maximum = %1.3f', max_overall), FS, fs)</pre>
 <pre class="mcode-input">end</pre>
 
 <h3 id="inpolygon">Inpolygon</h3>
-<p>The script below is an overload of the INPOLYGON command in MATLAB. Functionality may be added into a new release of Chebfun, in which case this script will be removed.</p>
+<p>The script below is an overload of the <code>inpolygon</code> command in MATLAB. Functionality may be added into a new release of Chebfun, in which case this script will be removed.</p>
 <pre class="mcode-input">function [in,on] = inpolygon(x,y,p)
 %INPOLYGON True for points inside or on a region with chebfun boundary.
 %   IN = INPOLYGON(X, Y, P) returns a matrix IN the size of X and Y. IN(j,k) = 1
@@ -170,7 +170,7 @@ for k = 1:numel(p.funs{:})
     if ( length(p.funs{k}) &gt; 2 ), pgon = 0; break; end
 end
 
-% If it is a polygon use MATLAB inbuilt INPOLYGON command.
+% If it is a polygon use MATLAB inbuilt `inpolygon` command.
 if ( pgon )
     [in, on] = inpolygon( x, y, real(p.values{:}), imag(p.values{:}) );
     return

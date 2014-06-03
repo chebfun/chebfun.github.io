@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Uniform Distribution -- Exercises from a Textbook &raquo; Chebfun</title>
+    <title>Exercises from a textbook: Uniform distribution &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -60,8 +60,8 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Uniform Distribution -- Exercises from a Textbook</h1>
-                <h2>Jie Gao, 5th July 2013</h2>
+                <h1>Exercises from a textbook: Uniform distribution</h1>
+                <h2>Jie Gao, July 2013</h2>
             </div>
         </div>
     </div>
@@ -75,7 +75,8 @@
 <p>Probability and statistics textbooks contain many exercise problems concerning various probability distributions.  In this Example we use Chebfun to solve two problems involving the uniform distribution from the textbook [1]. The domain is a finite interval. Other similar Examples look at problems from the same book involving the normal, beta, exponential, gamma, Rayleigh, and Maxwell distributions.</p>
 <p>Like most textbooks, [1] emphasizes problems that can be solved on paper and don't need numerical tools such as Chebfun. As soon as one varies the problem a little, however, numerical solutions often become necessary. Thus first we solve the problems as written, and then we show an application.</p>
 <h3 id="2-problem-1c-page-124">2. Problem 1(c), page 124</h3>
-<p><em>If $X$ is uniformly distributed over $(1,2)$, find $z$ such that $P[X&gt;z+\mu_x]=1/4$.</em></p>
+<blockquote> If $X$ is uniformly distributed over $(1,2)$, find $z$ such that $P[X&gt;z+\mu_x]=1/4$. </blockquote>
+
 <p>We first define the probability density function (PDF) of $X$ as follows:</p>
 <pre class="mcode-input">f = chebfun(@(x) 1/(2-1)+0*x, [1 2]);</pre>
 
@@ -113,14 +114,15 @@ hold on, plot(f,'k',LW,2), grid on</pre>
 
 <p><img src="img/UniformExercises_01.png" class="figure" alt=""></p>
 <h3 id="3-problem-1m-page-124">3. Problem 1(m), page 124</h3>
-<p><em>Suppose $X$ is a continuous random variable with uniform distribution having mean $1$ and variance $4/3$. What is $P[X&lt;0]$?</em></p>
+<blockquote> Suppose $X$ is a continuous random variable with uniform distribution having mean $1$ and variance $4/3$. What is $P[X&lt;0]$? </blockquote>
+
 <p>The probability density function (PDF) of the uniform distribution can be defined like this: $f = 1/(b-a)$ for $x \in (a,b)$.</p>
 <p>Then the mean is $(a+b)/2$ and the variance is $(b-a)^2/12$. We want to solve for $a$ and $b$ given the stated conditions on the mean and variance.</p>
 <p>One approach would be to use Chebfun2. We can do that like this:</p>
 <pre class="mcode-input">mean = 1;
 var  = 4/3;</pre>
 
-<p>Let us assume that the roots are within a square of side length 10 centered at the origin</p>
+<p>Let us assume that the roots are within a square of side length $10$ centered at the origin</p>
 <pre class="mcode-input">f = chebfun2( @(a,b) (a+b)/2 - mean, [-5,5,-5,5] );
 g = chebfun2( @(a,b) (b-a).^2/12 - var,  [-5,5,-5,5] );</pre>
 
@@ -128,7 +130,7 @@ g = chebfun2( @(a,b) (b-a).^2/12 - var,  [-5,5,-5,5] );</pre>
 <pre class="mcode-input">r = roots( f, g )</pre>
 
 <pre class="mcode-output">r =
-  -1.000000000000001   3.000000000000000
+  -1.000000000000000   3.000000000000000
    3.000000000000000  -1.000000000000000
 </pre>
 
@@ -139,7 +141,7 @@ b = max(r(2,:))</pre>
 <pre class="mcode-output">a =
   -1.000000000000000
 b =
-     3
+   3.000000000000000
 </pre>
 
 <p>Now we have the PDF of $X$ as follows:</p>
@@ -175,8 +177,8 @@ hold on, plot(f,'k',LW,1.6), grid on</pre>
 aa = roots(g)</pre>
 
 <pre class="mcode-output">aa =
-  -0.999999999999999
-   2.999999999999999
+  -1.000000000000000
+   2.999999999999998
 </pre>
 
 <p>As before, we can see $a = -1$ and $b = 3$ are the correct choices.</p>
@@ -184,9 +186,9 @@ aa = roots(g)</pre>
 b = aa(2)</pre>
 
 <pre class="mcode-output">a =
-  -0.999999999999999
+    -1
 b =
-   2.999999999999999
+   2.999999999999998
 </pre>
 
 <p>Let us plot $f$ on the interval $[-5,5]$, the two roots $a$ and $b$:</p>
@@ -207,23 +209,25 @@ grid on</pre>
 <pre class="mcode-input">ab = roots(meanab-1, varab-4/3)</pre>
 
 <pre class="mcode-output">ab =
-  -0.999999999999999   3.000000000000001
-   3.000000000000000  -0.999999999999999
+  -0.999999999999998   3.000000000000003
+   2.999999999999998  -0.999999999999996
 </pre>
 
-<p>As there are two pairs of $a$ and $b$ listed in `ab, we need to identify the correct pair:</p>
+<p>As there are two pairs of $a$ and $b$ listed in <code>ab</code>, we need to identify the correct pair:</p>
 <pre class="mcode-input">a = ab(1, 2)
 b = ab(1, 1)</pre>
 
 <pre class="mcode-output">a =
-   3.000000000000001
+   3.000000000000003
 b =
-  -0.999999999999999
+  -0.999999999999998
 </pre>
 
 <h3 id="4-application-adapted-from-example-12-page-107">4. Application adapted from Example 12, page 107</h3>
-<p>In a lottery draw, we let a participant spin a wheel and allow it to come to rest. The wheel is partitioned into ordered sectors: red ($5^\circ$), cyan ($15^\circ$), yellow ($35^\circ$), green ($50^\circ$), white ($65^\circ$), blue ($80^\circ$), black ($110^\circ$). Each color represents a prize. When the wheel comes to rest, a fixed arrow on the circumference points to a color. The participant then receives the prize that the corresponding color stands for. We can see that the point on the circumference of the wheel that is located opposite the fixed arrow could be considered as the value of a random variable $X$ that is uniformly distributed over the circumference of the wheel.</p>
-<p><em>(Q1) What is the probability of a participant receiving a prize represented by red or cyan?</em></p>
+<blockquote> In a lottery draw, we let a participant spin a wheel and allow it to come to rest. The wheel is partitioned into ordered sectors: red ($5^\circ$), cyan ($15^\circ$), yellow ($35^\circ$), green ($50^\circ$), white ($65^\circ$), blue ($80^\circ$), black ($110^\circ$). Each color represents a prize. When the wheel comes to rest, a fixed arrow on the circumference points to a color. The participant then receives the prize that the corresponding color stands for. We can see that the point on the circumference of the wheel that is located opposite the fixed arrow could be considered as the value of a random variable $X$ that is uniformly distributed over the circumference of the wheel. </blockquote>
+
+<blockquote> (Q1) What is the probability of a participant receiving a prize represented by red or cyan? </blockquote>
+
 <p>The PDF of $X$ can be defined like this:</p>
 <pre class="mcode-input">f = chebfun(@(x) 1/(360-0)+0*x, [0 360]);</pre>
 
@@ -262,7 +266,8 @@ hold on, h = area(f{0, 20}); set(h,FC,[0.7 0 0.6]),
 xlim([0 360])</pre>
 
 <p><img src="img/UniformExercises_05.png" class="figure" alt=""></p>
-<p><em>(Q2) We now know that the arrow will not point to the blue region when the wheel comes to rest. Under this condition, what is the probability that it will point to neither black nor yellow?</em></p>
+<blockquote> (Q2) We now know that the arrow will not point to the blue region when the wheel comes to rest. Under this condition, what is the probability that it will point to neither black nor yellow? </blockquote>
+
 <p>Because $X$ is uniformly distributed, the probability of the arrow not pointing to the blue region is:</p>
 <pre class="mcode-input">pnb = 1-fint(80)</pre>
 

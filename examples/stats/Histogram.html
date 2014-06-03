@@ -83,7 +83,7 @@ plot(f,LW,1), hold on</pre>
 <p>and we have some bins defined by bin edges, like these:</p>
 <pre class="mcode-input">edges = 0:10;</pre>
 
-<p>and we want to 'bin' f into these bins.  Here is a "histogram" function that will do something along these lines.  In each bin, the value it stores is the total integral of f in that interval.</p>
+<p>and we want to "bin" $f$ into these bins.  Here is a <code>histogram</code> function that will do something along these lines.  In each bin, the value it stores is the total integral of $f$ in that interval.</p>
 <pre class="mcode-input">function h = hist(f,edges)
     nbins = length(edges)-1;
     data = zeros(nbins,1);
@@ -115,7 +115,7 @@ ylim([-1,max(h)+1])</pre>
 
 <p><img src="img/Histogram_03.png" class="figure" alt=""></p>
 <p>This is an extremely inefficient way to work with data, but it illustrates some of the ways in which chebfuns can be manipulated.</p>
-<p>Perhaps an overload of Matlab's HIST command should be included in Chebfun?  Such an overload would certainly not use delta functions internally, and it would require some careful thinking about appropriate definitions.</p>
+<p>Perhaps an overload of Matlab's <code>hist</code> command should be included in Chebfun? Such an overload would certainly not use delta functions internally, and it would require some careful thinking about appropriate definitions.</p>
 <pre class="mcode-input">end</pre>
             </div>
         </div>

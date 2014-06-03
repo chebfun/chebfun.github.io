@@ -22,7 +22,7 @@ e^{-(x-\mu)^2/2\sigma^2}. $$
 
 Let's make an anonymous function that can compute it:
 
-<pre class="mcode-input">normalDist = @(x, mu, s) exp(-.5*(x-mu).^2/s^2) / (s*sqrt(2*pi));</pre>Now let's make two normal distributions with differing parameters, N1 = $N(\mu_1, \sigma_1)$ and N2 = $N(\mu_2, \sigma_2)$. To make things easier, we'll truncate to a finite domain.
+<pre class="mcode-input">normalDist = @(x, mu, s) exp(-.5*(x-mu).^2/s^2) / (s*sqrt(2*pi));</pre>Now let's make two normal distributions with differing parameters, `N1` as $N(\mu_1, \sigma_1)$ and `N2` as $N(\mu_2, \sigma_2)$. To make things easier, we'll truncate to a finite domain.
 
 <pre class="mcode-input">dom = [-1.2 1.2];
 x = chebfun('x', dom);
@@ -37,7 +37,7 @@ N2 = normalDist(x, m2, s2);</pre>We can compute the distribution of the sum of t
 plot(N1, 'b', N2 ,'r', N3, 'k', LW, 1.6), set(gca, FS, 14)
 xlim([-1.5 1.5])</pre><img src="img/ProbabilityConvolution_01.png" class="figure" alt="">
 
-One can show (see, for example, [1]) that N3 should be equal to $N(\mu_1+\mu_2, \sigma_1^2+\sigma_2^2)$.  Let us verify this:
+One can show (see, for example, [1]) that `N3` should be equal to $N(\mu_1+\mu_2, \sigma_1^2+\sigma_2^2)$. Let us verify this:
 
 <pre class="mcode-input">N4 = normalDist(x, m1 + m2, sqrt(s1^2 + s2^2));
 norm(N4 - N3{dom(1), dom(2)})</pre><pre class="mcode-output">ans =
@@ -105,7 +105,7 @@ norm(E3 - E2{dom(1), dom(2)})</pre><pre class="mcode-output">ans =
 
 Of course, the relationships verified above are available in closed form only for certain special cases. For more exotic distributions the convolution _must_ be computed numerically.
 
-Let's do this for two `exotic' (and discontinuous) probability distributions, arbitrarily defined by summing a Heaviside function with a number of Gaussians and then normalising.
+Let's do this for two exotic (and discontinuous) probability distributions, arbitrarily defined by summing a Heaviside function with a number of Gaussians and then normalising.
 
 <pre class="mcode-input">rng('default')
 x = chebfun('x', [-2 2]);
@@ -126,14 +126,14 @@ And this is the distribution of the random variable $z=x+y$, where $x$ is drawn 
 <pre class="mcode-input">tic
 h = conv(F, G);
 toc
-hold on, plot(h, 'k', LW, 1.6), hold off</pre><pre class="mcode-output">Elapsed time is 1.156664 seconds.
+hold on, plot(h, 'k', LW, 1.6), hold off</pre><pre class="mcode-output">Elapsed time is 1.279932 seconds.
 </pre><img src="img/ProbabilityConvolution_05.png" class="figure" alt="">
 
 
 
 ## References
 
-[1] <a href="http://en.wikipedia.org/wiki/List_of_convolutions_of_probability_distributions">http://en.wikipedia.org/wiki/List_of_convolutions_of_probability_distributions</a>
+[1] <http://en.wikipedia.org/wiki/List_of_convolutions_of_probability_distributions>
 
 [2] Nick Hale and Alex Townsend, "Convolution of compactly supported functions", in preparation.
 

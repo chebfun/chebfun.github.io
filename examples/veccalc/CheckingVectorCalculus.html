@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Checking vector calculus</h1>
-                <h2>Alex Townsend, 4th March 2013</h2>
+                <h2>Alex Townsend, March 2013</h2>
             </div>
         </div>
     </div>
@@ -85,11 +85,11 @@ G = chebfun2v(@(x,y)x+y,@(x,y)1+x+y);
 abs((2*norm(F)^2 + 2*norm(G)^2) - (norm(F+G)^2 + norm(F-G)^2))</pre>
 
 <pre class="mcode-output">ans =
-     3.552713678800501e-14
+     2.131628207280301e-14
 </pre>
 
 <h3 id="the-gradient-theorem">The gradient theorem</h3>
-<p>The gradient of a chebfun2 is represented by a chebfun2v and is a vector that points in the direction of steepest ascent of $f$. The gradient theorem says that the integral of $grad(f)$ over a curve only depends on the values of $f$ at the endpoints of that curve. We can check this numerically by using the Chebfun2v command integral. This command computes the line integral of a vector valued function. Here we check one example to confirm that the gradient theorem holds:</p>
+<p>The gradient of a chebfun2 is represented by a chebfun2v and is a vector that points in the direction of steepest ascent of $f$. The gradient theorem says that the integral of $\mathrm{grad}(f)$ over a curve only depends on the values of $f$ at the endpoints of that curve. We can check this numerically by using the Chebfun2v command integral. This command computes the line integral of a vector valued function. Here we check one example to confirm that the gradient theorem holds:</p>
 <pre class="mcode-input">f = chebfun2(@(x,y)sin(2*x)+x.*y.^2);        % chebfun2 object
 F = grad(f);                                 % gradient (chebfun2v)
 C = chebfun(@(t) t.*exp(100i*t),[0 pi/10]);  % spiral curve
@@ -97,15 +97,15 @@ v = integral(F,C); ends = f(pi/10,0)-f(0,0); % line integral
 abs(v-ends)                                  % gradient theorem</pre>
 
 <pre class="mcode-output">ans =
-     3.330669073875470e-16
+     2.220446049250313e-16
 </pre>
 
 <h3 id="curl-of-the-gradient">Curl of the gradient</h3>
-<p>If the chebfun2v $F$ describes a vector velocity field of fluid flow, then $curl(F)$ is a scalar function equal to twice the angular speed of a particle in the flow at each point. A particle moving in a gradient field has zero angular speed and hence, $curl(grad(f))=0$, a well known identity that can also be checked numerically.  For example,</p>
+<p>If the chebfun2v $F$ describes a vector velocity field of fluid flow, then $\mathrm{curl}(F)$ is a scalar function equal to twice the angular speed of a particle in the flow at each point. A particle moving in a gradient field has zero angular speed and hence, $\mathrm{curl}(\mathrm{grad}(f))=0$, a well known identity that can also be checked numerically. For example,</p>
 <pre class="mcode-input">norm(curl(grad(f)))</pre>
 
 <pre class="mcode-output">ans =
-     1.868795656255077e-15
+     1.841714593426618e-15
 </pre>
 
 <h3 id="more-information">More information</h3>

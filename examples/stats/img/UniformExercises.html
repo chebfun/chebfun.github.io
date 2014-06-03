@@ -1,7 +1,7 @@
 ---
-title: "Uniform Distribution -- Exercises from a Textbook"
+title: "Exercises from a textbook: Uniform distribution"
 layout: example
-authordate: "Jie Gao, 5th July 2013"
+authordate: "Jie Gao, July 2013"
 meta: "(Chebfun example stats/UniformExercises.m) [Tags: #Uniform distribution, #probability, #mean, #variance]"
 ---
 
@@ -17,7 +17,7 @@ Like most textbooks, [1] emphasizes problems that can be solved on paper and don
 
 ## 2. Problem 1(c), page 124
 
-_If $X$ is uniformly distributed over $(1,2)$, find $z$ such that $P[X&gt;z+\mu_x]=1/4$._
+<blockquote> If $X$ is uniformly distributed over $(1,2)$, find $z$ such that $P[X&gt;z+\mu_x]=1/4$. </blockquote>
 
 We first define the probability density function (PDF) of $X$ as follows:
 
@@ -49,7 +49,7 @@ hold on, plot(f,'k',LW,2), grid on</pre><img src="img/UniformExercises_01.png" c
 
 ## 3. Problem 1(m), page 124
 
-_Suppose $X$ is a continuous random variable with uniform distribution having mean $1$ and variance $4/3$. What is $P[X&lt;0]$?_
+<blockquote> Suppose $X$ is a continuous random variable with uniform distribution having mean $1$ and variance $4/3$. What is $P[X&lt;0]$? </blockquote>
 
 The probability density function (PDF) of the uniform distribution can be defined like this: $f = 1/(b-a)$ for $x \in (a,b)$.
 
@@ -58,13 +58,13 @@ Then the mean is $(a+b)/2$ and the variance is $(b-a)^2/12$. We want to solve fo
 One approach would be to use Chebfun2. We can do that like this:
 
 <pre class="mcode-input">mean = 1;
-var  = 4/3;</pre>Let us assume that the roots are within a square of side length 10 centered at the origin
+var  = 4/3;</pre>Let us assume that the roots are within a square of side length $10$ centered at the origin
 
 <pre class="mcode-input">f = chebfun2( @(a,b) (a+b)/2 - mean, [-5,5,-5,5] );
 g = chebfun2( @(a,b) (b-a).^2/12 - var,  [-5,5,-5,5] );</pre>The common roots of $f$ and $g$ are the points where the mean and the variance attain the desired values.
 
 <pre class="mcode-input">r = roots( f, g )</pre><pre class="mcode-output">r =
-  -1.000000000000001   3.000000000000000
+  -1.000000000000000   3.000000000000000
    3.000000000000000  -1.000000000000000
 </pre>We then get two pairs of values for $a$ and $b$. Since $a &lt; b$, we can easily make the right choice of the $(a,b)$ pair and discard the other one. As we can see $a = -1$ and $b = 3$ are the correct choices.
 
@@ -72,7 +72,7 @@ g = chebfun2( @(a,b) (b-a).^2/12 - var,  [-5,5,-5,5] );</pre>The common roots of
 b = max(r(2,:))</pre><pre class="mcode-output">a =
   -1.000000000000000
 b =
-     3
+   3.000000000000000
 </pre>Now we have the PDF of $X$ as follows:
 
 <pre class="mcode-input">f = chebfun(@(x)0*x + 1/(b-a),[a, b]);</pre>The cumulative density function (CDF) is the indefinite integral of $f$:
@@ -98,15 +98,15 @@ We express $b$ in terms of $a$ according to $mean = (a+b)/2 = 1$:
 
 <pre class="mcode-input">g = chebfun(@(a) (b(a)-a).^2/12 -4/3, [-5,5]);
 aa = roots(g)</pre><pre class="mcode-output">aa =
-  -0.999999999999999
-   2.999999999999999
+  -1.000000000000000
+   2.999999999999998
 </pre>As before, we can see $a = -1$ and $b = 3$ are the correct choices.
 
 <pre class="mcode-input">a = aa(1)
 b = aa(2)</pre><pre class="mcode-output">a =
-  -0.999999999999999
+    -1
 b =
-   2.999999999999999
+   2.999999999999998
 </pre>Let us plot $f$ on the interval $[-5,5]$, the two roots $a$ and $b$:
 
 <pre class="mcode-input">hold off, plot(g, LW, 2),
@@ -123,22 +123,22 @@ Let us define the mean of the distribution like this:
 <pre class="mcode-input">varab = chebfun2(@(a, b) (b-a).^2/12, [-5, 5, -5, 5]);</pre>We can solve for $a$ and $b$ simultaneously as follows:
 
 <pre class="mcode-input">ab = roots(meanab-1, varab-4/3)</pre><pre class="mcode-output">ab =
-  -0.999999999999999   3.000000000000001
-   3.000000000000000  -0.999999999999999
-</pre>As there are two pairs of $a$ and $b$ listed in `ab, we need to identify the correct pair:
+  -0.999999999999998   3.000000000000003
+   2.999999999999998  -0.999999999999996
+</pre>As there are two pairs of $a$ and $b$ listed in `ab`, we need to identify the correct pair:
 
 <pre class="mcode-input">a = ab(1, 2)
 b = ab(1, 1)</pre><pre class="mcode-output">a =
-   3.000000000000001
+   3.000000000000003
 b =
-  -0.999999999999999
+  -0.999999999999998
 </pre>
 
 ## 4. Application adapted from Example 12, page 107
 
-In a lottery draw, we let a participant spin a wheel and allow it to come to rest. The wheel is partitioned into ordered sectors: red ($5^\circ$), cyan ($15^\circ$), yellow ($35^\circ$), green ($50^\circ$), white ($65^\circ$), blue ($80^\circ$), black ($110^\circ$). Each color represents a prize. When the wheel comes to rest, a fixed arrow on the circumference points to a color. The participant then receives the prize that the corresponding color stands for. We can see that the point on the circumference of the wheel that is located opposite the fixed arrow could be considered as the value of a random variable $X$ that is uniformly distributed over the circumference of the wheel.
+<blockquote> In a lottery draw, we let a participant spin a wheel and allow it to come to rest. The wheel is partitioned into ordered sectors: red ($5^\circ$), cyan ($15^\circ$), yellow ($35^\circ$), green ($50^\circ$), white ($65^\circ$), blue ($80^\circ$), black ($110^\circ$). Each color represents a prize. When the wheel comes to rest, a fixed arrow on the circumference points to a color. The participant then receives the prize that the corresponding color stands for. We can see that the point on the circumference of the wheel that is located opposite the fixed arrow could be considered as the value of a random variable $X$ that is uniformly distributed over the circumference of the wheel. </blockquote>
 
-_(Q1) What is the probability of a participant receiving a prize represented by red or cyan?_
+<blockquote> (Q1) What is the probability of a participant receiving a prize represented by red or cyan? </blockquote>
 
 The PDF of $X$ can be defined like this:
 
@@ -170,7 +170,7 @@ The CDF of $X$ is thus:
 hold on, h = area(f{0, 20}); set(h,FC,[0.7 0 0.6]),
 xlim([0 360])</pre><img src="img/UniformExercises_05.png" class="figure" alt="">
 
-_(Q2) We now know that the arrow will not point to the blue region when the wheel comes to rest. Under this condition, what is the probability that it will point to neither black nor yellow?_
+<blockquote> (Q2) We now know that the arrow will not point to the blue region when the wheel comes to rest. Under this condition, what is the probability that it will point to neither black nor yellow? </blockquote>
 
 Because $X$ is uniformly distributed, the probability of the arrow not pointing to the blue region is:
 
