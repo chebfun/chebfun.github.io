@@ -11,30 +11,23 @@ inside bootswatch folder, do
 
 ----
 
-Ugliness of a plot -- compare:
-    http://localhost:8000/examples/roots/WhiteCurves.html
-    http://www2.maths.ox.ac.uk/chebfun/examples/roots/html/WhiteCurves.shtml
-
-----
-
 TO DO:
-    - figure out hosting
     - add forum
     - add twitter?
-    - news section
     - prettify function reference
     - css cleanup
         - blockquotes in examples (e.g. ode/ResonantVandal)
-    - reflinks everywhere (maybe)
+        - news section
+    - add links everywhere necessary
+        - guide has lots
     - add content
-        - add videos page (in docs?)
         - add sponsors to about page:
             EPSRC, ERC, MathWorks, and OCCAM
         - update faq, including collapsibleness and style
         - update history
         - update support -- only one help@chebfun.org
-          ask for feedback!!!
-        - update develop, citing -> publications, etc, etc.
+        - ask for feedback!!!
+        - update develop, etc, etc.
         - add more simple examples on the homepage
         - add prominent 'download' link on homepage
         - fix the white-on-black issue from LNT
@@ -42,15 +35,14 @@ TO DO:
           http://www.gliffy.com/go/publish/image/4249553/L.png
     - 404 error should be a SCRIBBLE rendering
     - markdown in example titles (specifically for code)
+    - make example figures & guide figures export_fig-style
 
 DONE:
     - examples category galleries
+    - add news section
+    - add videos page (in docs?)
 
 ----
-
-examples
-    - roots/whitecurves ugliness
-    - UniformExercises pictures ?
 
 to keep titles from getting cut off, maybe try:
     set(0, 'DefaultActivePositionProperty', 'OuterPosition')
