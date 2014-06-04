@@ -1,4 +1,4 @@
-%% Halphen's constant for approximation of $e^x$
+%% Halphen's constant for approximation of `exp(x)`
 % Nick Trefethen, May 2011
 
 %%
