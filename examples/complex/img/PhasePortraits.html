@@ -37,25 +37,16 @@ We find these plots addictive to draw. Here are two of our favourites:
 plot(f), title('cos(z^2)',FS,fs)</pre><img src="img/PhasePortraits_02.png" class="figure" alt="">
 
 <pre class="mcode-input">g = chebfun2(@(z) sum(z.^(0:9)),d./2,'vectorise');
-plot(g), title('Nearly the ten roots of unity',FS,fs)</pre><pre class="mcode-output">Error using .^
-Matrix dimensions must agree.
-Error in @(z)sum(z.^(0:9))
+plot(g), title('Nearly the ten roots of unity',FS,fs)</pre><img src="img/PhasePortraits_03.png" class="figure" alt="">
 
-Error in chebfun2/constructor&gt;@(x,y)op(x+1i*y) (line 97)
-    op = @(x, y) op( x + 1i*y );
-Error in chebfun2/sampleTest (line 22)
-vOp = feval(op, xeval, yeval);
-Error in chebfun2/constructor (line 307)
-        pass = g.sampleTest(op, tol);
-Error in chebfun2 (line 57)
-            f = constructor(f, varargin{:});
-Error in PhasePortraits (line 38)
-g = chebfun2(@(z) sum(z.^(0:9)),d./2,'vectorise');</pre>
+
 
 ## And one more... just for fun
 
 <pre class="mcode-input">f = chebfun2(@(z) sin(z)-sinh(z),2*d);
-plot(f), title('Phase portrait plot for sin(z)-sinh(z)',FS,fs)</pre>
+plot(f), title('Phase portrait plot for sin(z)-sinh(z)',FS,fs)</pre><img src="img/PhasePortraits_04.png" class="figure" alt="">
+
+
 
 ## Poles and other singularities
 

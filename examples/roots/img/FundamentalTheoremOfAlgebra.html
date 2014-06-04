@@ -50,7 +50,7 @@ xlabel('Re',FS,fs), ylabel('Im',FS,fs)
 legend('[0,1]','Computed roots','Chebfun ellipse')
 title(sprintf('Degree %u with %u roots\n',length(f)-1,length(r)),FS,fs), hold off</pre><img src="img/FundamentalTheoremOfAlgebra_02.png" class="figure" alt="">
 
-More startling, we get fewer roots if we supply the 'all' flag:
+More startling, we get fewer roots if we supply the `'all'` flag:
 
 <pre class="mcode-input">rreal = roots(f); rall = roots(f,'all');
 fprintf('No. of real roots = %u\n',length(rreal));

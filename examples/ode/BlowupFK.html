@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Phase portraits &raquo; Chebfun</title>
+    <title>Blowup equation (Frank-Kamenetskii) &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -62,8 +62,8 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Phase portraits</h1>
-                <h2>Alex Townsend, March 2013</h2>
+                <h1>Blowup equation (Frank-Kamenetskii)</h1>
+                <h2>Nick Trefethen, September 2010</h2>
             </div>
         </div>
     </div>
@@ -73,36 +73,35 @@
     <div class="row">
         <div class="content example-content">
             <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <h3 id="phase-portraits-for-complex-functions">Phase portraits for complex functions</h3>
-<p>Phase portraits are a technique for visualising complex valued functions of a single complex variable. They rely on the visual encoding of complex numbers: if $z = re^{it}$ then the rainbow colours represent the phase of $z$. Red indicates a phase of $0$ and the rainbow goes through red, yellow, green, blue, violet as the phase increases. By default, Chebfun2 produces a phase portrait when asked to plot a chebfun2 object that is complex. For example,</p>
-<pre class="mcode-input">FS = 'FontSize'; fs = 14; d = pi*[-1 1 -1 1];
-f = chebfun2(@(z) sin(z),d);
-plot(f), title('Phase portrait for sin(z)',FS,fs);</pre>
+                <p>The Frank-Kamenetskii or "spontaneous combustion" equation is the PDE du/dt = d2u/dx2 + Aexp(u).  On the interval [-1,1] with zero initial and boundary conditions, solutions to this equation blow up to infinity in finite time if A is bigger than about 0.878.  For smaller A, solutions converge to a steady state.</p>
+<p>Here we compute some of these steady-state solutions, which are solutions of the ODE boundary value problem u"+A*exp(u)=0, u(-1)=u(1)=0.</p>
+<pre class="mcode-input">N = chebop([-1 1]);
+N.bc = 'dirichlet';
+FS = 'fontsize'; figure
+for A = [.2 .4 .6 .8 .87]
+  N.op = @(u) diff(u,2) + A*exp(u);
+  u = N\0;
+  plot(u,'linewidth',2), grid on, hold on
+  text(-.1,max(u)+.04,['A = ' num2str(A)],FS,14)
+end
+axis([-1 1 0 1.2])
+title('Frank-Kamenetskii blowup equation',FS,16)</pre>
 
-<p><img src="img/PhasePortraits_01.png" class="figure" alt=""></p>
-<h3 id="one-complex-variable-two-real-variables">One complex variable, two real variables</h3>
-<p>A complex valued function $f(z)$ of one complex variable can be thought of as a complex valued function of two variables. This is what is going on in the example above.</p>
-<h3 id="uniqueness">Uniqueness</h3>
-<p>If two complex valued analytic functions $f(z)$ and $g(z)$ have the same phase portrait, then there is a real positive constant c such that $f(z) = cg(z)$. Therefore, one can tell a huge amount about a function $f(z)$ just by considering its phase portrait [1].</p>
-<h3 id="some-more-pretty-plots">Some more pretty plots</h3>
-<p>We find these plots addictive to draw. Here are two of our favourites:</p>
-<pre class="mcode-input">f = chebfun2(@(z) cos(z.^2), d);
-plot(f), title('cos(z^2)',FS,fs)</pre>
+<pre class="mcode-output">Error using chebfunpref
+The class 'chebfunpref' contains a parse error or cannot be found on MATLAB's search path, possibly shadowed by another file with the same name.
+Error in chebfun&gt;parseInputs (line 550)
+        pref = chebfunpref();
+Error in chebfun (line 148)
+            [op, dom, pref] = parseInputs(varargin{:});
+Error in chebop/solvebvp (line 87)
+    zeroFun = chebfun(0, dom);
+Error in chebop/mldivide (line 13)
+[varargout{1:nargout}] = solvebvp(varargin{:});
+Error in BlowupFK (line 26)
+  u = N\0;</pre>
 
-<p><img src="img/PhasePortraits_02.png" class="figure" alt=""></p>
-<pre class="mcode-input">g = chebfun2(@(z) sum(z.^(0:9)),d./2,'vectorise');
-plot(g), title('Nearly the ten roots of unity',FS,fs)</pre>
-
-<p><img src="img/PhasePortraits_03.png" class="figure" alt=""></p>
-<h3 id="and-one-more-just-for-fun">And one more... just for fun</h3>
-<pre class="mcode-input">f = chebfun2(@(z) sin(z)-sinh(z),2*d);
-plot(f), title('Phase portrait plot for sin(z)-sinh(z)',FS,fs)</pre>
-
-<p><img src="img/PhasePortraits_04.png" class="figure" alt=""></p>
-<h3 id="poles-and-other-singularities">Poles and other singularities</h3>
-<p>As illustrated copiously in [1], the power of phase portraits is most fully realised when they are applied to functions with poles or other singularities. Unfortunately, at present Chebfun2 cannot represent such functions. See, however, the Chebfun example "Phase portraits for functions with poles".</p>
-<h3 id="references">References</h3>
-<p>[1] E. Wegert, Visual Complex Functions: An Introduction with Phase Portraits, Birkhauser/Springer, Basel, 2012.</p>
+<p>Reference:</p>
+<p>H. Fujita, On the nonlinear equations Del u + exp(u) = 0 and dv/dt = Del v + exp(v), Bulletin of the American Mathematical Society 75 (1969), 132-135.</p>
             </div>
         </div>
     </div>
