@@ -77,8 +77,9 @@
 <p>$$ 2u''' + u u'' = 0, \qquad u(0) = u'(0) = 0,\ u'(\infty) = 1 $$</p>
 <p>on the domain $x \in [0, \infty]$. The solution is a smooth monotonically increasing function that rapidly decays to a linear polynomial away from the origin.</p>
 <p>This problem was first considered by its namesake Heinrich Blasius in 1908 but has received much attention from Weyl, von Neumann, Boyd, and others since. Why? One of the reasons is that it is one of the simplest examples of a nonlinear problem with a boundary layer. Another reason it has remained a problem of interest is that the Blasius function, being smooth and monotonic, seems that it must have a simple analytic representation. Yet over a century of effort has not produced one.</p>
-<p>In order to solve the Blasius problem in Chebfun we'll need to truncate the domain to something suitable, say $[0, 10]$. We can set up the chebop and solve the differential equation with only a few lines of code. For this example we can get away with quite a strict error tolerance.</p>
-<pre class="mcode-input">dom = [0, 10];
+<p>In order to solve the Blasius problem in Chebfun we'll need to truncate the domain to something suitable, say $[0, 10]$. We can set up the chebop and solve the differential equation with only a few lines of code.</p>
+<pre class="mcode-input">cheboppref.setDefaults('errTol', 1e-15);
+dom = [0, 10];
 op  = @(u) 2*diff(u,3) + u.*diff(u,2);
 bc  = @(x,u) [u(0); feval(diff(u),0); feval(diff(u),dom(2))-1];
 N   = chebop(op, dom, bc);
@@ -88,8 +89,8 @@ u   = simplify(u) % FIXME: This should not be necessary!</pre>
 <pre class="mcode-output">u = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,      10]       30         0      8.3 
-Epslevel = 1.327945e-12.  Vscale = 8.279212e+00.
+[       0,      10]       37         0      8.3 
+Epslevel = 1.770029e-15.  Vscale = 8.279212e+00.
 </pre>
 
 <p>Here is what the solution looks like.</p>
@@ -102,12 +103,12 @@ title('The Blasius function')</pre>
 bc_residuals = bc(0,u)     % Residuals of boundary conditions</pre>
 
 <pre class="mcode-output">op_residual =
-     3.566483663681493e-07
+     3.975729794373284e-09
 bc_residuals =
-   1.0e-09 *
+   1.0e-11 *
                    0
-  -0.536355626579166
-  -0.215039097639647
+  -0.190492066565184
+  -0.345745654328766
 </pre>
 
 <p>One quantity of interest is the second derivative of the solution $u$ at the origin. The exact value to sixteen decimal places is supplied by Boyd [1]. Let's test Chebfun's accuracy for this quantity.</p>
@@ -116,7 +117,7 @@ a_computed = feval(diff(u,2), 0);
 a_exact - a_computed</pre>
 
 <pre class="mcode-output">ans =
-    -3.459917463644047e-08
+    -1.139139005346124e-09
 </pre>
 
 <p>This is about what we should expect, keeping in mind that the default error tolerance of Chebfun's differential equation solver is $10^{-10}$.</p>
@@ -130,7 +131,7 @@ b_computed = feval(u-x, dom(2));
 b_exact - b_computed</pre>
 
 <pre class="mcode-output">ans =
-    -1.859479281662857e-08
+    -1.859337883658441e-08
 </pre>
 
 <p>A special property of the Blasius function is that its power series representation only includes every third term, that is,</p>
@@ -141,12 +142,12 @@ b_exact - b_computed</pre>
 coeffs(end:-1:end-5)'</pre>
 
 <pre class="mcode-output">ans =
-   0.000000000004151
-  -0.000000000536355
-   0.166028685407185
-  -0.000000209647717
-   0.000001391042067
-  -0.000465111688466
+   0.000000000000010
+  -0.000000000001904
+   0.166028668677168
+  -0.000000001173783
+   0.000000009600227
+  -0.000459472789051
 </pre>
 
 <p>The nonzero coefficients in the power series expansion alternate in sign, which suggests that convergence is limited by a singularity on the negative $x$-axis. Indeed this is the case, and the singularity's location is known to be approximately $x_0 = -5.6900380545$. We can see the singularity in Chebfun by extending the domain of the chebop to somewhere near $x_0$ (although the resulting function is not fully accurate, as Chebfun warns).</p>
@@ -155,14 +156,13 @@ v = N2\0
 hold off, plot(v, 'k-'), xlim([-5.7 10])
 title('A singularity of the Blasius function')</pre>
 
-<pre class="mcode-output">Warning: Newton iteration failed.
-Please try supplying a better initial guess via the .init field
-of the chebop. 
+<pre class="mcode-output">Warning: Newton iteration failed. Maximum number of iterations exceeded.
+See help cheboppref for how to increase the number of steps allowed. 
 v = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[    -5.6,      10]      211        67      8.3 
-Epslevel = 2.973359e-11.  Vscale = 6.662327e+01.
+[    -5.6,      10]      512        67      8.3 
+Epslevel = 6.023389e-15.  Vscale = 6.672809e+01.
 </pre>
 
 <p><img src="img/Blasius_03.png" class="figure" alt=""></p>

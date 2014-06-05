@@ -26,9 +26,9 @@
 %%
 % In order to solve the Blasius problem in Chebfun we'll need to truncate the
 % domain to something suitable, say $[0, 10]$. We can set up the chebop and
-% solve the differential equation with only a few lines of code. For this
-% example we can get away with quite a strict error tolerance.
+% solve the differential equation with only a few lines of code.
 
+cheboppref.setDefaults('errTol', 1e-15);
 dom = [0, 10];
 op  = @(u) 2*diff(u,3) + u.*diff(u,2);
 bc  = @(x,u) [u(0); feval(diff(u),0); feval(diff(u),dom(2))-1];
