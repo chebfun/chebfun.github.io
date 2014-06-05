@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Blowup equation (Frank-Kamenetskii) &raquo; Chebfun</title>
+    <title>Temp &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -62,43 +62,24 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Blowup equation (Frank-Kamenetskii)</h1>
-                <h2>Nick Trefethen, September 2010</h2>
+                <h1>Examples &raquo; Temp</h1>
             </div>
         </div>
     </div>
 </div>
-
 <div class="container">
     <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>The Frank-Kamenetskii or "spontaneous combustion" equation is the PDE</p>
-<p>$$ {\partial u\over \partial t} =
-{\partial^2u\over \partial x^2} + A\exp(u). $$</p>
-<p>On the interval $[-1,1]$ with zero initial and boundary conditions, solutions to this equation blow up to infinity in finite time if $A$ is bigger than about $0.878$.  For smaller $A$, solutions converge to a steady state.</p>
-<p>Here we compute some of these steady-state solutions, which are solutions of the ODE boundary value problem</p>
-<p>$$ u''+A\exp(u)=0,\qquad  u(-1)=u(1)=0. $$</p>
-<pre class="mcode-input">N = chebop([-1 1]);
-N.bc = 'dirichlet';
-FS = 'fontsize';
-for A = [.2 .4 .6 .8 .87]
-  N.op = @(u) diff(u,2) + A*exp(u);
-  u = N\0;
-  plot(u,'linewidth',2), grid on, hold on
-  text(-.1,max(u)+.04,['A = ' num2str(A)],FS,14)
-end
-axis([-1 1 0 1.2])
-title('Frank-Kamenetskii blowup equation',FS,14)</pre>
-
-<p><img src="img/BlowupFK_01.png" class="figure" alt=""></p>
-<p>Reference:</p>
-<p>H. Fujita, On the nonlinear equations $\Delta u + \exp(u) = 0$ and $dv/dt = \Delta v + \exp(v)$, <em>Bulletin of the American Mathematical Society</em>, 75 (1969), 132-135.</p>
-            </div>
+        <div class="col-md-12" role="main">
+            <div class='row'><a href='/examples/temp/Blasius.html'>
+                <div class='col-md-12 well gallery-item left'>
+                <img src='/examples/temp/img/Blasius_01.png' />
+                <h3>Blasius function</h3>
+                <h4>Hrothgar, June 2014</h4>
+                <h4 class='tags'><a href='#' class='tag'>#chebop</a>, <a href='#' class='tag'>#ode</a></h4>
+                </div></a></div>            </ol>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
