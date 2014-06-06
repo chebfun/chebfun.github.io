@@ -68,7 +68,8 @@ set(0, 'defaultaxeslinewidth',  0.5);
 set(0, 'defaultaxesfontsize',   13);
 set(0, 'defaultlinelinewidth',  1.6);
 set(0, 'defaultpatchlinewidth', 1.6);
-set(0, 'defaultlinemarkersize', 15); 
+set(0, 'defaultlinemarkersize', 15);
+set(0, 'defaultfigurecolor',    'w');
 format compact
 format long
 warning('off', 'MATLAB:gui:latexsup:UnableToInterpretLaTeXString');
