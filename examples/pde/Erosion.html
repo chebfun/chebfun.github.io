@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Partial differential equations &raquo; Chebfun</title>
+    <title>Heat equation via `expm` &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -62,24 +62,60 @@
     <div class='container'>
         <div class="row">
             <div class="col-md-12">
-                <h1>Examples &raquo; Partial differential equations</h1>
+                <h1>Heat equation via `expm`</h1>
+                <h2>Nick Trefethen, October 2010</h2>
             </div>
         </div>
     </div>
 </div>
+
 <div class="container">
     <div class="row">
-        <div class="col-md-12" role="main">
-            <div class='row'><a href='/examples/pde/Erosion.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/pde/img/Erosion_01.png' />
-                <h3>Heat equation via `expm`</h3>
-                <h4>Nick Trefethen, October 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#erosion</a>, <a href='#' class='tag'>#expm</a>, <a href='#' class='tag'>#heatequation</a>, <a href='#' class='tag'>#linearpde</a></h4>
-                </div></a></div>            </ol>
+        <div class="content example-content">
+            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
+                <p>A well-known PDE problem is the heat equation initial boundary-value problem posed for $x\in [a, b]$ and $t&gt;0$,</p>
+<p>$$ u_t = u_{xx}, ~~~~  u(x, 0) = u_0(x) $$</p>
+<p>with suitable boundary conditions. We can regard this as a time-dependent linear process</p>
+<p>$$ u_t = Lu $$</p>
+<p>where $L$ is the operator $d^2/dx^2$ on $[a, b]$ with the same boundary conditions.  The solution is</p>
+<p>$$ u(t) = \exp(tL) u(0). $$</p>
+<p>In Chebfun we can implement this idea using the <code>expm</code> command to compute the operator exponential. Here is an example with Neumann boundary conditions on the interval $[0, 6]$. We start with quite an irregular initial function.</p>
+<pre class="mcode-input">d = [0, 6];
+u = chebfun(@(x) sign((-1).^floor(x.^1.5)), d, 'splitting', 'on');
+LW = 'linewidth'; lw = 2; FS = 'fontsize'; fs = 16;
+clf, plot(u, LW, lw), grid on
+title(sprintf('t = %4.2f     length = %d', 0, length(u)), FS, fs)
+ax = [0 6 -1.2 1.2]; axis(ax)</pre>
+
+<p><img src="img/Erosion_01.png" class="figure" alt=""></p>
+<p>Here's the solution at $t = 0.01$.  Notice that the narrower spikes have lost more amplitude than the wider ones.</p>
+<pre class="mcode-input">L = chebop(d);            % operator on domain [0, 6]
+L.op = @(u) diff(u, 2);   % 2nd-derivative operator
+L.lbc = @(u) diff(u);     % Neumann BC at left
+L.rbc = @(u) diff(u);     % Neumann BC at right
+dt = 0.01;
+u = expm(L, dt, u);       % exponential of the operator
+plot(u, LW, lw), axis(ax), grid on
+title(sprintf('t = %4.2f     length = %d', 0.01, length(u)), FS, fs)</pre>
+
+<p><img src="img/Erosion_02.png" class="figure" alt=""></p>
+<p>Here is the solution at $t = 0.02$. The rightmost maximum has extra amplitude, since it effectively corresponded to a wider initial spike thanks to the Neumann boundary condition.</p>
+<pre class="mcode-input">u = expm(L, dt, u);
+plot(u, LW, lw), axis(ax), grid on
+title(sprintf('t = %4.2f     length = %d', 0.02, length(u)), FS, fs)</pre>
+
+<p><img src="img/Erosion_03.png" class="figure" alt=""></p>
+<p>At $t=0.1$, there is not much of the original structure left.  The length of the chebfun has also been reduced.</p>
+<pre class="mcode-input">u = expm(L, 8*dt, u);
+plot(u, LW, lw), axis(ax), grid on
+title(sprintf('t = %4.2f     length = %d', 0.1, length(u)), FS, fs)</pre>
+
+<p><img src="img/Erosion_04.png" class="figure" alt=""></p>
+            </div>
         </div>
     </div>
 </div>
+
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
