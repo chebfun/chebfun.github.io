@@ -59,22 +59,22 @@ function mypublish(varargin)
 
 close all
 evalin('base','clear all');
-% chebfunpref('factory'), cheboppref('factory')
+chebfunpref.setDefaults('factory'), cheboppref.setDefaults('factory')
 
 % The Example Formats. This is not a separate file because this script shifts
 % directories, and we don't want a copy of the file in each category directory.
 set(0, 'defaultfigureposition', [0 0 600 270]);
-set(0, 'defaultaxeslinewidth',  0.9);
-set(0, 'defaultaxesfontsize',   12);
-set(0, 'defaultlinelinewidth',  1.5);
-set(0, 'defaultpatchlinewidth', 1.5);
+set(0, 'defaultaxeslinewidth',  0.5);
+set(0, 'defaultaxesfontsize',   13);
+set(0, 'defaultlinelinewidth',  1.6);
+set(0, 'defaultpatchlinewidth', 1.6);
 set(0, 'defaultlinemarkersize', 15); 
 format compact
 format long
 warning('off', 'MATLAB:gui:latexsup:UnableToInterpretLaTeXString');
 warning('off', 'MATLAB:gui:latexsup:UnsupportedFont');
 
-publish(varargin{:});
+chebexample_publish(varargin{:});
 close all
 
 return
