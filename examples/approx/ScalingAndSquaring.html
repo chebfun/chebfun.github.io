@@ -4,10 +4,12 @@
     <title>Rational approximation to the exponential in a complex region &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Rational approximation to the exponential in a complex region</h1>
-                <h2>Yuji Nakatsukasa and Stefan Guettel, July 2012</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Rational approximation to the exponential in a complex region</h1>
+<h2>Yuji Nakatsukasa and Stefan Guettel, July 2012<span><a href='/examples/approx/ScalingAndSquaring.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/approx/ScalingAndSquaring.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Approximation of the exponential function has many applications, some of which are described in other Chebfun examples. Here we consider approximating $e^z$ via a rational function in a region in the complex plane, in the context of computing the matrix exponential $e^A$ via the scaling and squaring method, the most commonly used method for this purpose, cf. chapter 10 of [2]. Constructions of rational approximations to $e^z$ on a real interval are described in [3].</p>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Approximation of the exponential function has many applications, some of which are described in other Chebfun examples. Here we consider approximating $e^z$ via a rational function in a region in the complex plane, in the context of computing the matrix exponential $e^A$ via the scaling and squaring method, the most commonly used method for this purpose, cf. chapter 10 of [2]. Constructions of rational approximations to $e^z$ on a real interval are described in [3].</p>
 <p>In brief, the scaling and squaring method is based on a type $(2^sm,2^sm)$ rational approximation to the exponential in a region in the complex plane that contains the eigenvalues of $A$, where $s$ and $m$ are suitably chosen integer parameters. It first computes $e^A$ by first choosing an integer $s$ such that $A/2^s$ has norm of order $1$, then taking a rational (normally type $(m,m)$ Pade) approximation $r(z)$ to $e^z$ where $m$ is chosen so that $e^{A/2^s}\approx r(A/2^s)$.  Then we compute $e^A\approx (r(A/2^s))^{2^s}$ via repeated squaring of the matrix.</p>
 <p>(Note that the letter e in the name Pade should have an accent aigu, but we dispense with this in a Chebfun Example to avoid trouble in some web browsers.)</p>
 <p>Suppose $A$ is diagonalizable and $A=X\mbox{diag}(\lambda_i)X^{-1}$. Then this method approximates</p>
@@ -81,8 +66,8 @@
 <p>by</p>
 <p>$$ Y:=X\mbox{diag}((r(\lambda_i/2^s))^{2^s})X^{-1}\approx e^A, $$</p>
 <p>and the error satisfies</p>
-<p>$$ \|e^A - Y\|<em _cal_D="{\cal
-D" z_in="z\in">2 \leq \kappa_2(X)\max</em>}\left|(r(z/2^s))^{2^s}-e^{z}\right|, $$</p>
+<p>$$ \|e^A - Y\|_2 \leq \kappa_2(X)\max_{z\in {\cal
+D}}\left|(r(z/2^s))^{2^s}-e^{z}\right|, $$</p>
 <p>where $\cal{D}$ is a region in the complex plane that contains the eigenvalues of $A$, and $\kappa_2(X)=\|X\|_2 \|X^{-1}\|_2$ is the 2-norm condition number of the eigenvectors. The term $\max_i\left|(r(\lambda_i/2^s))^{2^s}-e^{\lambda_i}\right|$ represents the exact error if $A$ is a normal matrix: the term $\kappa_2(X)$ can have nontrivial effects on the method for nonnormal $A$, but this is outside the scope of this example.  Below we investigate the error $\left|(r(z/2^s))^{2^s}-e^{z}\right|$ where $z$ takes points in the complex plane.  If this is small in the whole region $\cal D$, then $Y$ is a good approximation to $e^A$.</p>
 <p>The type $(k,m)$ Pade approximant of the exponential is explicitly known to be $r(z)=p_{k,m}(z)/q_{k,m}(z)$, where</p>
 <p>$$ p_{k,m}(z)=\sum_{j=0}^{k}\frac{(k+m-j)!k!}{(k+m)!(k-j)!}\frac{z^j}{j!},
@@ -113,23 +98,29 @@ colorbar</pre>
 \max_{z\in {\cal
     D}}\left|(r(z/2^s))^{2^s}-e^{z}\right|/e^{\max_i{\mbox{Re}(\lambda_i)}}.$$</p>
 <p>Since the denominator is constant (when $z$ varies in $\cal D$), this means the absolute error is indeed the appropriate metric of error in the $e^A$ context.  The implication is that $e^A$ is well-approximated by $Y$ if the eigenvalues of $A$ lie inside the dark-blue region in the first plot.</p>
-<p>References:</p>
-<p>[1] P. Gonnet, S. Guettel, and L. N. Trefethen: Robust Pade approximation via SVD. <em>SIAM Review</em>, 55 (2013), 101-117.</p>
-<p>[2] N. J. Higham. <em>Functions of Matrices: Theory and Computation</em>. SIAM, Philadelphia, 2008.</p>
-<p>[3] L. N. Trefethen, J. A. C. Weideman, and T. Schmelzer: Talbot quadratures and rational approximations. <em>BIT Numerical Mathematics</em>, 46 (2006), pp. 653-670.</p>
-            </div>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>P. Gonnet, S. Guettel, and L. N. Trefethen: Robust Pade approximation    via SVD. <em>SIAM Review</em>, 55 (2013), 101-117.</p>
+</li>
+<li>
+<p>N. J. Higham. <em>Functions of Matrices: Theory and Computation</em>. SIAM,    Philadelphia, 2008.</p>
+</li>
+<li>
+<p>L. N. Trefethen, J. A. C. Weideman, and T. Schmelzer: Talbot    quadratures and rational approximations. <em>BIT Numerical    Mathematics</em>, 46 (2006), pp. 653-670.</p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

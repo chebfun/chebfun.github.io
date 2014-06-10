@@ -4,10 +4,12 @@
     <title>The mystery of Bernoulli polynomials &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>The mystery of Bernoulli polynomials</h1>
-                <h2>Stefan Guettel, February 2012</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The mystery of Bernoulli polynomials</h1>
+<h2>Stefan Guettel, February 2012<span><a href='/examples/roots/BernoulliPolynomials.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/roots/BernoulliPolynomials.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>If there is another class of polynomials that is as fascinating and important to mathematics as orthogonal polynomials, then these are probably the Bernoulli polynomials $B_j(x)$. These polynomials appear in the most varied areas of mathematics, and have a variety of applications. In this example we have cited from the excellent Wikipedia articles [1] and [2], and a talk of Karl Dilcher [3].</p>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>If there is another class of polynomials that is as fascinating and important to mathematics as orthogonal polynomials, then these are probably the Bernoulli polynomials $B_j(x)$. These polynomials appear in the most varied areas of mathematics, and have a variety of applications. In this example we have cited from the excellent Wikipedia articles [1] and [2], and a talk of Karl Dilcher [3].</p>
 <p>Bernoulli polynomials are typically defined on the interval $[0,1]$. They can be generated recursively by integrating and adding a constant such that the definite integral equals zero. Let us build a quasimatrix whose $(j+1)$th column is $B_j(x)$, and plot the first 13 polynomials:</p>
 <pre class="mcode-input">LW = 'linewidth'; lw = 1.6; format short
 x = chebfun('x',[0,1]);
@@ -167,24 +152,32 @@ axis([0,100,1e-5,1e80])</pre>
 
 <p><img src="img/BernoulliPolynomials_05.png" class="figure" alt=""></p>
 <p>This bound looks quite sharp, and in fact, if one were to remove the $\zeta(j)$ factor from the bound, then it would be invalid every 4th index.</p>
-<p>References:</p>
-<p>[1] Wikipedia article on Bernoulli polynomials as of 08/01/2012, <a href="http://en.wikipedia.org/wiki/Bernoulli_polynomials">http://en.wikipedia.org/wiki/Bernoulli_polynomials</a></p>
-<p>[2] Wikipedia article on Bernoulli numbers as of 08/01/2012, <a href="http://en.wikipedia.org/wiki/Bernoulli_numbers">http://en.wikipedia.org/wiki/Bernoulli_numbers</a></p>
-<p>[3] K. Dilcher, On Multiple Zeros of Bernoulli Polynomials, Talk at the 2011 "Special Functions in the 21st Century" conference in Washington, <a href="http://math.nist.gov/~DLozier/SF21/SF21slides/Dilcher.pdf">http://math.nist.gov/~DLozier/SF21/SF21slides/Dilcher.pdf</a></p>
-<p>[4] Paul Godfrey, Special Functions math library, <a href="http://www.mathworks.com/matlabcentral/fileexchange/978">http://www.mathworks.com/matlabcentral/fileexchange/978</a></p>
-            </div>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>Wikipedia article on Bernoulli polynomials as of 08/01/2012,    <a href="http://en.wikipedia.org/wiki/Bernoulli_polynomials">http://en.wikipedia.org/wiki/Bernoulli_polynomials</a></p>
+</li>
+<li>
+<p>Wikipedia article on Bernoulli numbers as of 08/01/2012,    <a href="http://en.wikipedia.org/wiki/Bernoulli_numbers">http://en.wikipedia.org/wiki/Bernoulli_numbers</a></p>
+</li>
+<li>
+<p>K. Dilcher, On Multiple Zeros of Bernoulli Polynomials, Talk at the 2011    "Special Functions in the 21st Century" conference in Washington,    <a href="http://math.nist.gov/~DLozier/SF21/SF21slides/Dilcher.pdf">http://math.nist.gov/~DLozier/SF21/SF21slides/Dilcher.pdf</a></p>
+</li>
+<li>
+<p>Paul Godfrey, Special Functions math library,    <a href="http://www.mathworks.com/matlabcentral/fileexchange/978">http://www.mathworks.com/matlabcentral/fileexchange/978</a></p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

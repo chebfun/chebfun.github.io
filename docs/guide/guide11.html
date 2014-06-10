@@ -4,10 +4,12 @@
     <title>11. Chebfun2: Getting Started &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,50 +31,41 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>11. Chebfun2: Getting Started</h1>
-                <h2>Alex Townsend, March 2013, last updated May 2014</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<span class='chapter_number'>11</span>
+<h1>Chebfun2: Getting Started</h1>
+<h2>Alex Townsend, March 2013, last updated May 2014<span>
+    
+        <a href='/docs/guide/guide10.html'
+>previous</a><span class='sep-sm
+'>&middot;</span><a href='../guide'>index</a><span class='sep-sm
+'>&middot;</span><a href='/docs/guide/guide12.html'
+>next</a></span></h2>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <h2 id="11-what-is-a-chebfun2">1.1  What is a chebfun2?</h2>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<h2 id="11-what-is-a-chebfun2">1.1  What is a chebfun2?</h2>
 <p>A chebfun2 is a function of two variables defined on a rectangle $[a,b]\times[c,d]$. The syntax for chebfun2 objects is similar to the syntax for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands overloaded. For instance, <code>trace(f)</code> returns the sum of the diagonal entries when $f$ is a matrix and the integral of $f(x,x)$ when $f$ is a chebfun2.</p>
 <p>Chebfun2 builds on Chebfun's univariate representations and algorithms. It is the first extension of Chebfun to functions of two variables.  Algorithmic details are given in [Townsend &amp; Trefethen 2013b].</p>
 <p>The implementation of Chebfun2 exploits the observation that many functions of two variables can be well approximable by low rank approximants. A rank $1$ function is of the form $u(y)v(x)$, and a rank $k$ function can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.</p>
@@ -251,8 +244,7 @@ plot(f)</pre>
 <p>[Townsend &amp; Trefethen 2013] A. Townsend and L. N. Trefethen, Gaussian elimination as an iterative algorithm, <em>SIAM News</em>, March 2013.</p>
 <p>[Townsend &amp; Trefethen 2013b] A. Townsend and L. N. Trefethen, An extension of Chebfun to two dimensions, <em>SIAM Journal on Scientific Computing</em>, 35 (2013), C495-C518.</p>
 <p>[Trefethen 2013] L. N. Trefethen, Phase Portraits for functions with poles, <a href="http://www2.maths.ox.ac.uk/chebfun/examples/complex/html/PortraitsWithPoles.shtml">http://www2.maths.ox.ac.uk/chebfun/examples/complex/html/PortraitsWithPoles.shtml</a></p>
-<p>[Wegert 2012] E. Wegert, <em>Visual Complex Functions: An Introduction with Phase Portraits</em>, Birkhauser/Springer, 2012</p>
-            </div>
+<p>[Wegert 2012] E. Wegert, <em>Visual Complex Functions: An Introduction with Phase Portraits</em>, Birkhauser/Springer, 2012</p></div>
         </div>
     </div>
 </div>
@@ -262,8 +254,8 @@ plot(f)</pre>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

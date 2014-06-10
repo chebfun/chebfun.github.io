@@ -13,14 +13,12 @@ plot(f,'linewidth',1.6), axis equal
 snapnow
 cylinder(f), axis equal</pre><img src="img/SurfaceRevolution_01.png" class="figure" alt="">
 
-<img src="img/SurfaceRevolution_02.png" class="figure" alt="">
-
 An even simpler example is a cone, which is constructed by rotating a linear polynomial around an axis.
 
 In the `cylinder` command, the input chebfun defines the radius along the unit height of the cylinder. Omitting output arguments causes the cylinder to be displayed with a `surf` command and no outputs to be returned. For the cone example, we can proceed as follows:
 
 <pre class="mcode-input">f = chebfun(@(x) -3*x + 3);
-cylinder(f)</pre><img src="img/SurfaceRevolution_03.png" class="figure" alt="">
+cylinder(f)</pre><img src="img/SurfaceRevolution_02.png" class="figure" alt="">
 
 By default the surface of revolution has height $1$ and is displayed as if the generator curve was rotated around the $z$-axis. We can get the $(x,y,z)$-coordinates, stretch the $z$-coordinates to match the interval of definition of the generator chebfun, and rearrange the coordinates so that the generator chebfun is rotated around the $x$-axis:
 
@@ -28,7 +26,7 @@ By default the surface of revolution has height $1$ and is displayed as if the g
 ends = f.ends;
 [xx, yy, zz] = cylinder(f);
 zzstr = diff(ends)*zz + ends(1);
-surf(zzstr,flipud(yy),xx)</pre><img src="img/SurfaceRevolution_04.png" class="figure" alt="">
+surf(zzstr,flipud(yy),xx)</pre><img src="img/SurfaceRevolution_03.png" class="figure" alt="">
 
 Let us create yet another surface and study some of its properties within Chebfun.
 
@@ -36,7 +34,7 @@ Let us create yet another surface and study some of its properties within Chebfu
 f = sqrt(4 + 2*sin(2*x));
 [xx, yy, zz] = cylinder(f);
 surf(xx,yy,zz)
-zlim([0 8])</pre><img src="img/SurfaceRevolution_05.png" class="figure" alt="">
+zlim([0 8])</pre><img src="img/SurfaceRevolution_04.png" class="figure" alt="">
 
 The volume of this object can be computed as
 
@@ -54,7 +52,7 @@ error =
 $$ A = 2\pi \int_a^b f(x)\sqrt{1+|f'(x)|^2}\, \mathrm{d}x. $$
 
 <pre class="mcode-input">A = 2*pi*sum(f.*sqrt(1 + abs(diff(f)).^2))</pre><pre class="mcode-output">A =
-  95.016245402718539
+  95.016245402718411
 </pre>The coordinates of the center of gravity are $x_G=0$, $y_G=0$, and
 
 $$ z_G = \frac{\pi}{V} \int_a^b x f^2(x)\, \mathrm{d}x. $$
@@ -66,7 +64,7 @@ plot3(0,0,zG,'.r','MarkerSize',40)
 zlim([0 8])
 hold off</pre><pre class="mcode-output">zG =
    2.891592653589792
-</pre><img src="img/SurfaceRevolution_06.png" class="figure" alt="">
+</pre><img src="img/SurfaceRevolution_05.png" class="figure" alt="">
 
 Finally we compute the moment of inertia, assuming that the object is homogeneous with density $1$,
 
@@ -88,5 +86,5 @@ view(0,10)
 theta = (0:12)/12*2*pi;
 plot3(cos(theta),sin(theta),.01*ones(size(theta)),'g.')
 plot3(fls(.4)/2*cos(theta),fls(.4)/2*sin(theta),.17*ones(size(theta)),'r.')
-plot3(fls(.4)/2*cos(theta),fls(.4)/2*sin(theta),-.17*ones(size(theta)),'y.')</pre><img src="img/SurfaceRevolution_07.png" class="figure" alt="">
+plot3(fls(.4)/2*cos(theta),fls(.4)/2*sin(theta),-.17*ones(size(theta)),'y.')</pre><img src="img/SurfaceRevolution_06.png" class="figure" alt="">
 

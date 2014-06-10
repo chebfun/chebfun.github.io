@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Chebfun: Numerical computing with functions &raquo; Chebfun</title>
+    <title>Numerical computing with functions &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,42 +31,54 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class="jumbotron">
-    <div class="container text-center">
+
+<a href="//github.com/chebfun/chebfun"><img style="position: absolute; top: 50px; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+<div class="page-wrapper homepage">
+
+    <div class='page-header'>
+        <h1>Chebfun<span class='sep'>&mdash;</span><span>numerical computing with functions</span></h1>
+    </div>
+
+    <div class="container main">
         <div class="row">
-            <div class="col-md-12">
-                <h1>Chebfun<span>numerical computing with functions</span></h1>
-                <div class="flexslider billboard">
-                  <ul class="slides">
+            <div class='description'>
+                <div class='col-sm-9'>
+                    <p>Chebfun is an open-source MATLAB package for computing
+                    with functions to 15-digit accuracy. Most Chebfun commands
+                    are overloads of familiar MATLAB commands &mdash; for
+                    example <code>sum(f)</code> computes an integral,
+                    <code>roots(f)</code> finds zeros, and <code>u =
+                    L\f</code> solves a differential equation.</p>
+                </div>
+                <div class='col-sm-3'>
+                    <div class="btn-group-vertical">
+                    <button class='btn btn-lg btn-success btn-download'>Download</button>
+                    <button class='btn btn-lg btn-primary btn-browsesource'>Browse source</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden flexslider billboard">
+          <ul class="slides">
 <li>
 <div class='row'>
 <div class='col-md-6 codewrap'><div class='code'>
@@ -100,62 +114,51 @@ plot(u)
 </div></div>
 <div class='col-md-6 image'><img src='demo2.png' style='margin-top: 40px' /></div>
 </div>
-</li>                  </ul>
-                </div>
-                <h4 class='description'>Chebfun is an open-source MATLAB
-                package for computing with functions to 15-digit accuracy.
-                Most Chebfun commands are overloads of familiar MATLAB
-                commands &mdash; for example <code>sum(f)</code> computes an
-                integral, <code>roots(f)</code> finds zeros, and <code>u =
-                L\f</code> solves a differential equation.</h4>
+</li>          </ul>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12" role="main">
+                <div class="row widgets">
+  <div class="col col-sm-6 col-md-3">
+    <a class="widget" href="docs/guide">
+      <h3>Get started &raquo;<span class="glyphicon glyphicon-off" style='float:right'></span></h3>
+      <p>Browse the Chebfun Guide, an in-depth introduction to Chebfun's capabilities.</p>
+    </a>
+  </div>
+  <div class="col col-sm-6 col-md-3">
+    <a class="widget" href="download">
+      <h3>Download &raquo;<span class="glyphicon glyphicon-download" style='float:right'></span></h3>
+      <p>Chebfun runs in standard Matlab with no toolboxes required. You'll be up and running in seconds.</p>
+    </a>
+  </div>
+  <div class="col col-sm-6 col-md-3">
+    <a class="widget" href="examples">
+      <h3>View Examples &raquo;<span class="glyphicon glyphicon-th" style='float:right'></span></h3>
+      <p>The gallery contains hundreds of examples of Chebfun's mathematical applications.</p>
+    </a>
+  </div>
+  <div class="col col-sm-6 col-md-3">
+    <a class="widget" href="develop">
+      <h3></span>Contribute &raquo;<span class="glyphicon glyphicon-wrench" style='float:right'></span></h3>
+      <p>Chebfun is open-source and hosted on Github. We're always looking for new developers.</p>
+    </a>
+  </div>
+</div>
             </div>
         </div>
     </div>
+
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12" role="main">
-            <div class="row widgets">
-  <div class="col-sm-6 col-md-3">
-    <div class="widget">
-      <h3>Get started<span class="glyphicon glyphicon-off" style='float:right'></span></h3>
-      <p>Browse the Chebfun Guide, an in-depth introduction to Chebfun's capabilities.</p>
-      <p><a href="docs/guide" class="btn btn-primary full-width" role="button">Read the Chebfun Guide&nbsp;&nbsp;&raquo;</a></p>
-    </div>
-  </div>
-  <div class="col-sm-6 col-md-3">
-    <div class="widget">
-      <h3>Download<span class="glyphicon glyphicon-download" style='float:right'></span></h3>
-      <p>Chebfun runs in standard Matlab. You'll be up and running in seconds.</p>
-      <p><a href="download" class="btn btn-primary full-width" role="button">Download Chebfun v5&nbsp;&nbsp;&raquo;</a></p>
-    </div>
-  </div>
-  <div class="col-sm-6 col-md-3">
-    <div class="widget">
-      <h3>View Examples<span class="glyphicon glyphicon-th" style='float:right'></span></h3>
-      <p>The gallery contains hundreds of examples of Chebfun's mathematical applications.</p>
-      <p><a href="examples" class="btn btn-primary full-width" role="button">Browse the Examples&nbsp;&nbsp;&raquo;</a></p>
-    </div>
-  </div>
-  <div class="col-sm-6 col-md-3">
-    <div class="widget">
-      <h3></span>Contribute<span class="glyphicon glyphicon-wrench" style='float:right'></span></h3>
-      <p>Chebfun is open-source and hosted on Github. We're always looking for new developers.</p>
-      <p><a href="develop" class="btn btn-primary full-width" role="button">Get involved &raquo;</a></p>
-    </div>
-  </div>
-</div>
-        </div>
-    </div>
-</div>
+
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

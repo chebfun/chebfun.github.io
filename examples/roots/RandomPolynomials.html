@@ -4,10 +4,12 @@
     <title>Roots of random polynomials &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Roots of random polynomials</h1>
-                <h2>Nick Trefethen, November 2011</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Roots of random polynomials</h1>
+<h2>Nick Trefethen, November 2011<span><a href='/examples/roots/RandomPolynomials.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/roots/RandomPolynomials.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>If $p(z) = a_0 + a_1 z + \cdots + a_n z^n$ is a polynomial with random coefficients, its roots tend to lie near the unit circle [1,2]. To be specific, suppose $a_0,\ldots,a_{n-1}$ are independent real numbers from the standard normal distribution, with $a_n=1$. Here are typical pictures for $n = 50$ and $n = 200$, based on the MATLAB <code>roots</code> command. Incidentally, such computations are numerically stable [4]; the well-known difficulties of polynomial rootfinding pertain mainly to problems with roots away from the unit circle and coefficients far from random.</p>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>If $p(z) = a_0 + a_1 z + \cdots + a_n z^n$ is a polynomial with random coefficients, its roots tend to lie near the unit circle [1,2]. To be specific, suppose $a_0,\ldots,a_{n-1}$ are independent real numbers from the standard normal distribution, with $a_n=1$. Here are typical pictures for $n = 50$ and $n = 200$, based on the MATLAB <code>roots</code> command. Incidentally, such computations are numerically stable [4]; the well-known difficulties of polynomial rootfinding pertain mainly to problems with roots away from the unit circle and coefficients far from random.</p>
 <pre class="mcode-input">nn = [50 200];
 MS = 'markersize'; FS = 'fontsize'; ms = 12; fs = 12;
 for j = 1:2
@@ -115,24 +100,32 @@ end</pre>
 end</pre>
 
 <p><img src="img/RandomPolynomials_03.png" class="figure" alt=""></p>
-<p>References:</p>
-<p>[1] J. Hammersley, The zeros of a random polynomial, Proceedings of the Third Berkeley Symposium on Mathematical Statistics and Probability, 1954-1955, U. California Press, 1956, pp. 89-111.</p>
-<p>[2] L. A. Shepp and R. J. Vanderbei, The complex zeros of random polynomials, Transactions of the American Mathematical Society 347 (1995), 4365-4384.</p>
-<p>[3] B. Shiffman and S. Zelditch, Equilibrium distribution of zeros of random polynomials, International Mathematical Research Notices, 2003, pp. 25-49.</p>
-<p>[4] K.-C. Toh and L. N. Trefethen, Pseudozeros of polynomials and pseudospectra of companion matrices, Numerische Mathematik, 68 (1994), 403-425.</p>
-            </div>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>J. Hammersley, The zeros of a random polynomial, Proceedings of the Third    Berkeley Symposium on Mathematical Statistics and Probability, 1954-1955,    U. California Press, 1956, pp. 89-111.</p>
+</li>
+<li>
+<p>L. A. Shepp and R. J. Vanderbei, The complex zeros of random polynomials,    Transactions of the American Mathematical Society 347 (1995), 4365-4384.</p>
+</li>
+<li>
+<p>B. Shiffman and S. Zelditch, Equilibrium distribution of zeros of random    polynomials, International Mathematical Research Notices, 2003, pp.    25-49.</p>
+</li>
+<li>
+<p>K.-C. Toh and L. N. Trefethen, Pseudozeros of polynomials and    pseudospectra of companion matrices, Numerische Mathematik, 68 (1994),    403-425.</p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

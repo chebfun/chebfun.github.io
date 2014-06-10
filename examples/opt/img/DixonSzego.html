@@ -35,7 +35,7 @@ minf =
   -1.031628453489851
 miny =
    0.712656403020741
-Elapsed time is 5.634843 seconds.
+Elapsed time is 3.365940 seconds.
 </pre><img src="img/DixonSzego_02.png" class="figure" alt="">
 
 
@@ -51,14 +51,16 @@ toc</pre><pre class="mcode-output">minf =
   -1.031628453489876
 minx =
   -0.089842004598083   0.712656394421954
-Elapsed time is 14.075037 seconds.
+Elapsed time is 1.568778 seconds.
 </pre>And here is a plot.  Chebfun2 has made an arbitrary choice between the two equal global minima.
 
 <pre class="mcode-input">hold off
 contour(F,30,LW,1.2), colorbar, axis([-2 2 -1.25 1.25])
 hold on, plot(minx(1),minx(2),'.k',MS,20)</pre><img src="img/DixonSzego_03.png" class="figure" alt="">
 
-Reference:
 
-[1] L. C. W. Dixon and G. P. Szego, The global optimization problem: an introduction, in L. C. W. Dixon and G. P. Szego (eds.), Towards Global Optimisation 2, North-Holland, Amsterdam 1978, pp. 1-15.
+
+## References
+
+1. L. C. W. Dixon and G. P. Szego, The global optimization problem: an    introduction, in L. C. W. Dixon and G. P. Szego (eds.), Towards Global    Optimisation 2, North- Holland, Amsterdam 1978, pp. 1-15.
 

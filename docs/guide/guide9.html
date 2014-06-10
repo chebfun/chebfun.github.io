@@ -4,10 +4,12 @@
     <title>9. Infinite Intervals, Infinite Function Values, and Singularities &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,50 +31,41 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>9. Infinite Intervals, Infinite Function Values, and Singularities</h1>
-                <h2>Lloyd N. Trefethen, November 2009, latest revision May 2014</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<span class='chapter_number'>9</span>
+<h1>Infinite Intervals, Infinite Function Values, and Singularities</h1>
+<h2>Lloyd N. Trefethen, November 2009, latest revision May 2014<span>
+    
+        <a href='/docs/guide/guide7.html'
+>previous</a><span class='sep-sm
+'>&middot;</span><a href='../guide'>index</a><span class='sep-sm
+'>&middot;</span><a href='/docs/guide/guide10.html'
+>next</a></span></h2>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>This chapter presents some features of Chebfun that are less robust than what is described in the first eight chapters.  With classic bounded chebfuns on a bounded interval $[a,b]$, you can do amazingly complicated things often without encountering any difficulties. Now we are going to let the intervals and the functions diverge to infinity -- but please lower your expectations!  These features are not always as accurate or reliable.</p>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<p>This chapter presents some features of Chebfun that are less robust than what is described in the first eight chapters.  With classic bounded chebfuns on a bounded interval $[a,b]$, you can do amazingly complicated things often without encountering any difficulties. Now we are going to let the intervals and the functions diverge to infinity -- but please lower your expectations!  These features are not always as accurate or reliable.</p>
 <h2 id="91-infinite-intervals">9.1 Infinite intervals</h2>
 <p>If a function converges reasonably rapidly to a constant at $\infty$, you can define a corresponding chebfun.  Here are a couple of examples on $[0,\infty]$.  First we plot a function and find its maximum:</p>
 <pre class="mcode-input">f = chebfun('0.75 + sin(10*x)./exp(x)',[0 inf]);
@@ -332,8 +325,7 @@ Epslevel = 1.409895e-15.  Vscale = 1.000000e+00.
 <p>Chebfun version 4 offered an alternative "<code>singmap</code>" approach to singularities based on mappings of the $x$ variable.   This is no longer available in version 5.</p>
 <h2 id="95-references">9.5 References</h2>
 <p>[Boyd 2001] J. P. Boyd, <em>Chebyshev and Fourier Spectral Methods</em>, 2nd ed., Dover, 2001.</p>
-<p>[Richardson 2009] M. Richardson, <em>Approximating Divergent Functions in the Chebfun System</em>, thesis, MSc in Mathematical Modelling and Scientific Computing, Oxford University, 2009.</p>
-            </div>
+<p>[Richardson 2009] M. Richardson, <em>Approximating Divergent Functions in the Chebfun System</em>, thesis, MSc in Mathematical Modelling and Scientific Computing, Oxford University, 2009.</p></div>
         </div>
     </div>
 </div>
@@ -343,8 +335,8 @@ Epslevel = 1.409895e-15.  Vscale = 1.000000e+00.
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

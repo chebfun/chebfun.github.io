@@ -4,10 +4,12 @@
     <title>6. Quasimatrices and Least-Squares &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,50 +31,41 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>6. Quasimatrices and Least-Squares</h1>
-                <h2>Lloyd N. Trefethen, November 2009, latest revision May 2014</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<span class='chapter_number'>6</span>
+<h1>Quasimatrices and Least-Squares</h1>
+<h2>Lloyd N. Trefethen, November 2009, latest revision May 2014<span>
+    
+        <a href='/docs/guide/guide5.html'
+>previous</a><span class='sep-sm
+'>&middot;</span><a href='../guide'>index</a><span class='sep-sm
+'>&middot;</span><a href='/docs/guide/guide7.html'
+>next</a></span></h2>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <h2 id="61-quasimatrices-and-spy">6.1  Quasimatrices and <code>spy</code></h2>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<h2 id="61-quasimatrices-and-spy">6.1  Quasimatrices and <code>spy</code></h2>
 <p>A chebfun can have more than one column, or if it is transposed, it can have more than one row.  In these cases we get a <em>quasimatrix</em>, a "matrix" in which one of the dimensions is discrete as usual but the other is continuous.  Our default choice will be that of an " $\infty\times n$ " quasimatrix consisting of $n$ columns, each of which is a chebfun.  When it is important to specify the orientation we use the term <em>column quasimatrix</em> or <em>row quasimatrix</em>.</p>
 <p>Here for example is the quasimatrix consisting of the first six powers of $x$ on the interval $[-1,1]$.  The command <code>size</code> can be used to identify the continuous dimension, and to find the numbers of rows or columns:</p>
 <pre class="mcode-input">  x = chebfun('x');
@@ -413,8 +406,7 @@ Epslevel = 1.658305e-15.  Vscale = 1.425588e+00.
 <p>[de Boor 1991] C. de Boor, "An alternative approach to (the teaching of) rank, basis, and dimension", <em>Linear Algebra and its Applications</em>, 146 (1991), 221-229.</p>
 <p>[Stewart 1998] G. W. Stewart, <em>Afternotes Goes to Graduate School: Lectures on Advanced Numerical Analysis</em>, SIAM, 1998.</p>
 <p>[Trefethen 2008] L. N. Trefethen, "Householder triangularization of a quasimatrix", <em>IMA Journal of Numerical Analysis</em>, 30 (2010), 887-897.</p>
-<p>[Trefethen &amp; Bau 1997] L. N. Trefethen and D. Bau, III, <em>Numerical Linear Algebra</em>, SIAM, 1997.</p>
-            </div>
+<p>[Trefethen &amp; Bau 1997] L. N. Trefethen and D. Bau, III, <em>Numerical Linear Algebra</em>, SIAM, 1997.</p></div>
         </div>
     </div>
 </div>
@@ -424,8 +416,8 @@ Epslevel = 1.658305e-15.  Vscale = 1.425588e+00.
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

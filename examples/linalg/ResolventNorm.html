@@ -4,10 +4,12 @@
     <title>Resolvent norm on the imaginary axis &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Resolvent norm on the imaginary axis</h1>
-                <h2>Nick Trefethen, May 2011</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Resolvent norm on the imaginary axis</h1>
+<h2>Nick Trefethen, May 2011<span><a href='/examples/linalg/ResolventNorm.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/linalg/ResolventNorm.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>If $A$ is a square matrix, the resolvent of $A$ for a particular complex number $z$ is the matrix $(zI-A)^{-1}$.  The $2$-norm of the resolvent is a quantity of interest in many applications.  For example, if $\|(zI-A)^{-1}\| = 1/\varepsilon$ for some quantity $\varepsilon$, then there is a matrix $E$ with norm $\|E\| = \varepsilon$ such that $z$ is an eigenvalue of $A+E$.  This is the starting point of the theory of pseudospectra [1].</p>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>If $A$ is a square matrix, the resolvent of $A$ for a particular complex number $z$ is the matrix $(zI-A)^{-1}$.  The $2$-norm of the resolvent is a quantity of interest in many applications.  For example, if $\|(zI-A)^{-1}\| = 1/\varepsilon$ for some quantity $\varepsilon$, then there is a matrix $E$ with norm $\|E\| = \varepsilon$ such that $z$ is an eigenvalue of $A+E$.  This is the starting point of the theory of pseudospectra [1].</p>
 <p>In particular, suppose all the eigenvalues of $A$ are in the left half of the complex plane, so that $A$ is stable in the sense that all solutions of the differential equation $\frac{du}{dt} = Au$ decay to zero as $t \to \infty$.  How small a perturbation matrix $E$ might make $A$ unstable? The answer is $\|E\| = \varepsilon$, where $1/\varepsilon$ is the maximum of $\|(zI-A)^{-1}\|$ as $z$ ranges over the imaginary axis. Therefore in a number of fields such as control theory, there is special interest in the values taken by the norm of the resolvent on the imaginary axis.</p>
 <p>Let's compute this function with Chebfun.  As an example we take the matrix</p>
 <pre class="mcode-input">A = [-1 3 5 2; -3 -2 4 6; -5 -4 -2 1; -2 -6 -1 3]</pre>
@@ -109,7 +94,7 @@ plot(f,LW,1.6), grid on</pre>
 maxf = max(f)</pre>
 
 <pre class="mcode-output">maxf =
-   6.227545522966329
+   6.227545522966328
 </pre>
 
 <p>and the distance to instability is the reciprocal of this quantity,</p>
@@ -157,29 +142,22 @@ for j = 1:12
     axis([-10 10 0 8]), drawnow
 end</pre>
 
-<pre class="mcode-output">Warning: Using 'seed' to set RANDN's internal state causes RAND, RANDI, and
-RANDN to use legacy random number generators.  This syntax will be removed in a
-future release.  See &lt;a href="matlab:helpview([docroot
-'\techdoc\math\math.map'],'update_random_number_generator')"&gt;Updating Your
-Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax. 
-</pre>
-
 <p><img src="img/ResolventNorm_03.png" class="figure" alt=""></p>
-<p>References:</p>
-<p>[1] L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of Nonnormal Matrices and Operators, Princeton U. Press, 2005.</p>
-            </div>
+<h3 id="references">References</h3>
+<ol>
+<li>L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of    Nonnormal Matrices and Operators, Princeton U. Press, 2005.</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

@@ -4,10 +4,12 @@
     <title>10. Nonlinear ODEs and Chebgui &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,50 +31,41 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>10. Nonlinear ODEs and Chebgui</h1>
-                <h2>Lloyd N. Trefethen, November 2009, revised February 2011</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<span class='chapter_number'>10</span>
+<h1>Nonlinear ODEs and Chebgui</h1>
+<h2>Lloyd N. Trefethen, November 2009, revised February 2011<span>
+    
+        <a href='/docs/guide/guide9.html'
+>previous</a><span class='sep-sm
+'>&middot;</span><a href='../guide'>index</a><span class='sep-sm
+'>&middot;</span><a href='/docs/guide/guide11.html'
+>next</a></span></h2>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Chapter 7 described the chebop capability for solving linear ODEs (ordinary differential equations) by a backslash command. We will now describe extensions of chebops to the nonlinear case, as well as other methods for nonlinear ODEs:</p>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<p>Chapter 7 described the chebop capability for solving linear ODEs (ordinary differential equations) by a backslash command. We will now describe extensions of chebops to the nonlinear case, as well as other methods for nonlinear ODEs:</p>
 <p>Initial-value problems:  ODE45, ODE113, ODE15SBoundary-value problems: BVP4C, BVP5CBoth kinds of problems via chebops:  nonlinear backslash ( = SOLVEBVP)In this chapter we outline the use of these methods; for fuller details, see the "help" documentation and especially the online Chebfun Examples.  The last of the methods listed, nonlinear backslash or SOLVEBVP, represents a "pure Chebfun" approach in which Newton's method is applied on chebfuns, with the necessary derivative operators calculated by Chebfun's built-in capabilities of Automatic Differentiation (AD).  This is the main Chebfun method recommended for solving boundary-value problems.</p>
 <p>We use the abbreviations IVP for initial-value problem and BVP for boundary-value problem, as well as BC for boundary condition.</p>
 <p>For time-dependent PDEs, see PDE15S, described in Chapter 11.</p>
@@ -362,8 +355,7 @@ chebgui</pre>
 <h2 id="106-references">10.6 References</h2>
 <p>[Bender &amp; Orszag 1978] C. M. Bender and S. A. Orszag, Advanced Mathematical Methods for Scientists and Engineers, McGraw-Hill, 1978.</p>
 <p>[Birkisson &amp; Driscoll 2011] A. Birkisson and T. A. Driscoll, Automatic Frechet differentiation for the numerical solution of boundary-value problems, ACM Transactions on Mathematical Software, to appear.</p>
-<p>[Shampine &amp; Reichelt 1997] L. F. Shampine and M. W. Reichelt, "The Matlab ODE suite", SIAM Journal on Scientific Computing 18 (1997), 1-12.</p>
-            </div>
+<p>[Shampine &amp; Reichelt 1997] L. F. Shampine and M. W. Reichelt, "The Matlab ODE suite", SIAM Journal on Scientific Computing 18 (1997), 1-12.</p></div>
         </div>
     </div>
 </div>
@@ -373,8 +365,8 @@ chebgui</pre>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

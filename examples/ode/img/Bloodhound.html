@@ -7,7 +7,7 @@ meta: "(Chebfun example ode/Bloodhound.m) [Tags: #nonlinearODE, #piecewise]"
 
 This script solves the equation of motion for the acceleration phase of the BLOODHOUND supersonic car using Chebfun.
 
-The car is powered by a jet engine and a rocket and aims to reach a speed in excess of 1000 mph. More details on the project can be found at the website <a href="http://www.bloodhoundssc.com/">http://www.bloodhoundssc.com/</a>.
+The car is powered by a jet engine and a rocket and aims to reach a speed in excess of 1000 mph. More details on the project can be found at the website <http://www.bloodhoundssc.com/>.
 
 Mathematically, the problem takes the form of an initial value ODE
 
@@ -57,7 +57,9 @@ $$ m \frac{dv}{dt} + \frac{dm}{dt} v = \mathrm{thrust} - \mathrm{drag}. $$
 <pre class="mcode-input">N.init = chebfun(@(t) t, dom);</pre>Solve the problem using backslash.
 
 <pre class="mcode-input">u = N\rhs;
-u_mph = u/0.44704; % convert to mph for plotting</pre>Find where the solution is equal to 1000 mph.
+u_mph = u/0.44704; % convert to mph for plotting</pre><pre class="mcode-output">Warning: Newton iteration failed. Maximum number of iterations exceeded.
+See help cheboppref for how to increase the number of steps allowed. 
+</pre>Find where the solution is equal to 1000 mph.
 
 <pre class="mcode-input">t1000 = find(u == 447); % number of seconds when we hit 1000 mph</pre>Plot the solution.
 

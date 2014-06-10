@@ -4,10 +4,12 @@
     <title>Stability regions of ODE formulas &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Stability regions of ODE formulas</h1>
-                <h2>Nick Trefethen, February 2011</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Stability regions of ODE formulas</h1>
+<h2>Nick Trefethen, February 2011<span><a href='/examples/ode/Regions.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode/Regions.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Stability regions are a standard tool in the analysis of numerical formulas for ODE initial-value problems. Given a formula -- 2nd-order Adams-Bashforth, say, or 3rd-order backward differentiation -- the stability region is the region of the complex $\lambda \Delta t$-plane where the associated scalar constant-coefficient recurrence relation is stable. Here $\Delta t$ is the time step and $\lambda$ is the parameter in the scalar constant-coefficient linear model problem $du/dt = \lambda u$.</p>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Stability regions are a standard tool in the analysis of numerical formulas for ODE initial-value problems. Given a formula -- 2nd-order Adams-Bashforth, say, or 3rd-order backward differentiation -- the stability region is the region of the complex $\lambda \Delta t$-plane where the associated scalar constant-coefficient recurrence relation is stable. Here $\Delta t$ is the time step and $\lambda$ is the parameter in the scalar constant-coefficient linear model problem $du/dt = \lambda u$.</p>
 <p>Small stability regions indicate that you might need very small time steps. This is particularly an issue with stiff ODEs, containing a variety of time scales.  For stiff problems one wants large or unbounded stability regions, and backward differentiation formulas have this property.</p>
 <p>We can plot boundaries of some stability regions rather nicely with Chebfun. First we define some colors, and a region of the complex plane to work in.</p>
 <pre class="mcode-input">C = 'color'; c = {'b','r','g','m','y','c'};
@@ -127,21 +112,21 @@ title('Backward differentiation orders 1-6 (exteriors of curves)',FS,16)</pre>
 title('Backward differentiation close-up',FS,16)</pre>
 
 <p><img src="img/Regions_04.png" class="figure" alt=""></p>
-<p>References:</p>
-<p>E. Hairer and G. Wanner, <em>Solving Ordinary Differential Equations II: Stiff and Differential-Algebraic Problems</em>, Springer, 1996.</p>
-            </div>
+<h3 id="references">References</h3>
+<ol>
+<li>E. Hairer and G. Wanner, <em>Solving Ordinary Differential Equations II:    Stiff and Differential-Algebraic Problems</em>, Springer, 1996.</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

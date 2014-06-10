@@ -26,8 +26,8 @@ Epslevel = 2.184670e-15.  Vscale = 7.386013e+00.
 y = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,     6.3]       54         0        0 
-Epslevel = 2.026051e-15.  Vscale = 7.919024e+00.
+[       0,     6.3]       52         0        0 
+Epslevel = 2.031307e-15.  Vscale = 8.
 </pre>With the following formula we can compute the area enclosed by the curve $(x,y)$:
 
 <pre class="mcode-input">format long
@@ -47,7 +47,7 @@ Because this curve is a perturbed unit circle, with every perturbation occurring
 
 <pre class="mcode-input">A = sum(real(z).*diff(imag(z)));
 [ A ; pi ]</pre><pre class="mcode-output">ans =
-   3.141592653589793
+   3.141592653589794
    3.141592653589793
 </pre>We can compute and plot the centroid (or center of mass) of this region as follows:
 

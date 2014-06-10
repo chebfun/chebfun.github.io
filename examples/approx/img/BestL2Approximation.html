@@ -81,7 +81,7 @@ f = 1./(1+1e6*x.^2);                 % Runge function
 s = tic; pn = polyfit(f,n); t = toc(s);
 fprintf('L^2 error is %1.3e\n',norm(f - pn))
 fprintf('L^2 approximation of degree %u in t = %1.3f\n',n,t)</pre><pre class="mcode-output">L^2 error is 1.797e-06
-L^2 approximation of degree 10000 in t = 1.211
+L^2 approximation of degree 10000 in t = 1.081
 </pre>
 
 ## Piecewise smooth functions
@@ -107,9 +107,9 @@ title('Convergence of || |x| - p_n ||_2',FS,fs)</pre><img src="img/BestL2Approxi
 
 ## References
 
-[1] N. Hale and A. Townsend, A fast, simple, and stable Chebyshev-Legendre transform using an asymptotic formula, _SIAM Journal on Scientific Computing_, 32 (2014), A148-A167.
+1. N. Hale and A. Townsend, A fast, simple, and stable Chebyshev-Legendre    transform using an asymptotic formula, _SIAM Journal on Scientific    Computing_, 32 (2014), A148-A167.
 
-[2] M. Powell, _Approximation Theory and Methods_, Cambridge University Press, 1981.
+2. M. Powell, _Approximation Theory and Methods_, Cambridge University    Press, 1981.
 
-[3] A. Townsend and N. Hale, A fast Chebyshev-Legendre transform, Chebfun Example, August 2013.
+3. A. Townsend and N. Hale, A fast Chebyshev-Legendre transform, Chebfun    Example, August 2013.
 

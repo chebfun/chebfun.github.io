@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Frequently Asked Questions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/publications">Publications</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+        <h1><a href='/docs/index.html'>Documentation</a><span class='sep'>&raquo;</span>Frequently Asked Questions</h1></div>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<p>If you have a Chebfun-related question that doesn't appear on this list, please ask us at <a href="mailto:help@chebfun.org">discuss@chebfun.org</a>.</p>
+<hr />
+<ol>
+<li>
+<p><em>How do I get Chebfun?</em> <br/>
+  Go to the [download][/download] section, download Chebfun (less than 2MB), put it in
+  your Matlab path (the easiest way to do this is probably using the command
+  "<a href="http://www.mathworks.com/help/t
+  echdoc/ref/pathtool.html">pathtool</a>"), and you're ready to go. We
+  recommend running "chebtest" first to get the package warmed up (i.e. loaded
+  into your machine's cache) and to make sure it is running properly.</p>
+</li>
+<li>
+<p><em>What version of Matlab do I need?</em> <br/>
+  Chebfun is compatable with [Matlab][matlab] Versions 7.4 (R2007a) and higher.</p>
+</li>
+<li>
+<p><em>How do I learn Chebfun?</em> <br/>
+  Take a look at the [gallery of examples][/examples] or the
+  [Chebfun Guide][guide], or just type <code>x = chebfun('x')</code> and
+  start playing with commands like these:
+  <br/><code>f = exp(x).*sin(20*x)</code>
+  <br/><code>plot(f)</code>
+  <br/><code>roots(f)</code>
+  <br/><code>max(f)</code>
+  <br/><code>g = exp(f)</code>
+  <br/><code>h = abs(f)</code>
+  <br/><code>j = round(g)</code>
+  <br/><code>k = max(g,h)</code></p>
+</li>
+<li>
+<p><em>What about 2D or 3D?</em> <br/>
+  We have a project called [Chebfun2], led by <a
+  href="https://www.maths.ox.ac.uk/people/profiles/alex.townsend/">Alex
+  Townsend</a>, that extends Chebfun-like computations to functions defined on
+  rectangles. We believe this is comparable to the power and speed of Chebfun
+  in 1D for many cases. We are considering a Chebfun in 3D.</p>
+</li>
+<li>
+<p><em>Why is Chebfun based on [Matlab][matlab] rather than a non-commercial platform like C, Python, or Octave?</em> <br/>
+  The Chebfun concept comes straight from Matlab &mdash; it's all about
+  overloading Matlab commands for functions instead of vectors.  And certainly
+  most of our users at present are people who already use Matlab, who can get
+  start using Chebfun the minute they see it.  At the same time, we recognize
+  that other platforms for Chebfun may be worth exploring.</p>
+</li>
+<li>
+<p><em>How do I get involved?</em> <br/>
+  We are always glad to receive comments at <a
+  href="mailto:discuss@chebfun.org">discuss@chebfun.org</a>, and we usually
+  respond quickly to questions.  We are especially eager to receive drafts of
+  proposed new [Examples] for inclusion in our collection! Furthermore, since
+  the release of V4.0 in March 2011, Chebfun has been an <a
+  href="http://en.wikipedia.org/wiki/Open-source_software ">open-source</a>
+  project. If you're interested in helping to develop Chebfun, please take a
+  look at the [Developer Zone][/develop].</p>
+</li>
+<li>
+<p><em>What is a chebfun?</em> <br/>
+  A chebfun is a Matlab object that behaves syntactically like a Matlab vector
+  and mathematically like a function of a real variable defined on an interval
+  $[a,b]$.
+  See [Chapter 1][guide/chap1] of the [Chebfun Guide][guide].</p>
+</li>
+<li>
+<p><em>What is a fun?</em> <br/>
+  A chebfun consists of one or more pieces, each of which is represented by a
+  polynomial interpolant in Chebyshev points. Each of these pieces is called a
+  fun.</p>
+</li>
+<li>
+<p><em>What is a chebop?</em> <br/>
+  A chebop is an object in the Chebfun system that behaves like a linear or
+  nonlinear operator acting on chebfuns. For example, if <code>f</code> is a chebfun
+  corresponding to <code>sin(x)</code> on the interval <code>[a,b]</code> and <code>L</code> is a chebop
+  corresponding to the differentiation operator on <code>[a,b]</code>, then <code>L(f)</code> is a
+  chebfun corresponding to <code>cos(x)</code> on <code>[a,b]</code>. See [Chapter 7][guide/chap7]
+  and [Chapter 10][guide/chap10] of the [Chebfun Guide][guide].</p>
+</li>
+<li>
+<p><em>What's the difference between Chebfun and chebfun?</em> <br/>
+  Chebfun with a capital <em>C</em> is the name of the project, and of the software
+  system, whereas chebfun with a lower-case <em>c</em> is the name for an object in
+  this system (namely a function defined on an interval).</p>
+</li>
+<li>
+<p><em>What's the difference between <code>sin(chebfun('x'))</code> and <code>chebfun('sin(x)')</code>?</em> <br/>
+  Any call of <code>chebfun(f)</code> evaluates <code>f</code> numerically at many points in order
+  to determine an accurate polynomial representation of it. Once a chebfun is
+  created, functions like <code>sin()</code> can be applied to it to create a functional
+  composition, which is then given a polynomial representation. Most of the
+  time, you would not expect much of a difference between starting with
+  polynomials and composing, or finding a polynomial directly for the composed
+  expression. However, because the underlying methods are numerical rather
+  than symbolic, the two techniques are not identical. An extreme example
+  would be <code>sin(x).*exp(-x)</code> if <code>x</code> is a chebfun defined on the interval
+  <code>[0,Inf]</code>. This fails because the first step is to represent <code>sin(x)</code> by a
+  mapped polynomial on an infinite domain, which is impossible. Yet
+  <code>chebfun('sin(x).*exp(-x)')</code> would be fine on the same domain, because the
+  only polynomial representation requested is for a function that decays
+  rapidly.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

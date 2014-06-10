@@ -38,7 +38,7 @@ s0 = sum(diff(f)./f)/(2i*pi)</pre><pre class="mcode-output">s0 =
 
 <pre class="mcode-input">s1 = sum(z.*diff(f)./f)/(2i*pi)
 s2 = sum(z.^2.*diff(f)./f)/(2i*pi)</pre><pre class="mcode-output">s1 =
-     -1.349795868219112e-20 - 5.851812433486243e-17i
+     -7.309658667828022e-22 - 4.741361830149524e-17i
 s2 =
  -0.499999999999999 + 0.000000000000000i
 </pre>corresponding to roots at $\pm 0.5i$. We can find these numbers systematically by noting that the monic polynomial $p(z)$ with these roots has coefficients $c_0 = (s_1^2-s_2)/2$, $c_1=-s_1$, $c_2=1$. So here is a calculation of the two roots in the unit disk of $\cosh(\pi z)$:
@@ -64,7 +64,7 @@ end</pre>Here is an example:
 roots3(ff)</pre><pre class="mcode-output">ans =
   0.000000000000001 + 0.499999999999999i
   0.000000000000000 - 0.499999999999998i
-  0.299999999999998 - 0.000000000000000i
+  0.299999999999997 - 0.000000000000000i
 </pre>Here is another:
 
 <pre class="mcode-input">ff = @(z) (z.^3-1/8).*exp((-1-2i)*z);
@@ -72,13 +72,15 @@ roots3(ff)</pre><pre class="mcode-output">ans =
   0.500000000000001 - 0.000000000000001i
  -0.250000000000001 - 0.433012701892219i
  -0.249999999999999 + 0.433012701892220i
-</pre><pre class="mcode-input">end</pre>References
+</pre><pre class="mcode-input">end</pre>
 
-[1] A. P. Austin, P. Kravanja and L. N. Trefethen, Numerical algorithms based on analytic function values at roots of unity, SIAM Journal on Numerical Analysis, to appear.
+## References
 
-[2] L. M. Delves and J. N. Lyness, A numerical method for lcoating the zeros of an analytic function, Mathematics of Computation 21 (1967), 543-560.
+1. A. P. Austin, P. Kravanja and L. N. Trefethen, Numerical algorithms based    on analytic function values at roots of unity, SIAM Journal on Numerical    Analysis, to appear.
 
-[3] D. Jackson, Roots and singular points of analytic functions, Annals of Matheamtics 19 (1917), 142-151.
+2. L. M. Delves and J. N. Lyness, A numerical method for lcoating the zeros    of an analytic function, Mathematics of Computation 21 (1967), 543-560.
 
-[4] J. E. McCune, Exact inversion of dispersion relations, Physics of Fluids 9 (1966), 2082-2084.
+3. D. Jackson, Roots and singular points of analytic functions, Annals of    Matheamtics 19 (1917), 142-151.
+
+4. J. E. McCune, Exact inversion of dispersion relations, Physics of Fluids    9 (1966), 2082-2084.
 

@@ -4,10 +4,12 @@
     <title>Does a chebfun of degree `n` have `n` roots? &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Does a chebfun of degree `n` have `n` roots?</h1>
-                <h2>Alex Townsend, October 2013</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Does a chebfun of degree `n` have `n` roots?</h1>
+<h2>Alex Townsend, October 2013<span><a href='/examples/roots/FundamentalTheoremOfAlgebra.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/roots/FundamentalTheoremOfAlgebra.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <pre class="mcode-input">LW = 'linewidth'; lw = 2;
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">LW = 'linewidth'; lw = 2;
 MS = 'markersize'; ms = 20;
 FS = 'fontsize'; fs = 16;</pre>
 
@@ -125,7 +110,7 @@ No. of complex (and real) roots = 72
 <pre class="mcode-input">norm(f(r))</pre>
 
 <pre class="mcode-output">ans =
-     1.644550366863614e-47
+     6.798168502188732e-48
 </pre>
 
 <p>Alternatively, when we supply the <code>'all'</code> flag an eigenvalue problem is constructed (without subdivision) and extra solutions are never introduced in practice.</p>
@@ -134,22 +119,28 @@ No. of complex (and real) roots = 72
 <h3 id="acknowledgements">Acknowledgements</h3>
 <p>I'm grateful to Yuji Nakatsukasa and Vanni Noferini for showing me that the <code>roots</code> command returned more solutions than expected for the Wilkinson polynomial of degree $71$.</p>
 <h3 id="references">References</h3>
-<p>[1] Z. Battles and L. N. Trefethen, An extension of MATLAB to continuous functions and operators, <em>SIAM Journal on Scientific Computing</em>, 25 (2004), pp. 1743-1770.</p>
-<p>[2] J. P. Boyd, Computing zeros on a real interval through Chebyshev expansion and polynomial rootfinding, <em>SIAM Journal on Numerical Analysis</em>, 40 (2002), pp. 1666-1682.</p>
-<p>[3] L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>, SIAM, 2013.</p>
-            </div>
+<ol>
+<li>
+<p>Z. Battles and L. N. Trefethen, An extension of MATLAB to continuous    functions and operators, <em>SIAM Journal on Scientific Computing</em>, 25    (2004), pp. 1743-1770.</p>
+</li>
+<li>
+<p>J. P. Boyd, Computing zeros on a real interval through Chebyshev    expansion and polynomial rootfinding, <em>SIAM Journal on Numerical    Analysis</em>, 40 (2002), pp. 1666-1682.</p>
+</li>
+<li>
+<p>L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>, SIAM,    2013.</p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

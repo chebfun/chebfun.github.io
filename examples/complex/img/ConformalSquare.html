@@ -23,10 +23,10 @@ One cannot choose the prevertices arbitrarily in general, as they are nonlinearl
 w = cumsum( fprime(z) )</pre><pre class="mcode-output">w = 
    chebfun column (3 smooth pieces)
        interval       length   endpoint values  
-[       0,    0.57]       20    complex values 
-[    0.57,    0.92]       32    complex values 
+[       0,    0.57]       21    complex values 
+[    0.57,    0.92]       33    complex values 
 [    0.92,       1]    65537    complex values 
-Epslevel = 1.007318e-12.  Vscale = 1.311029e+00.  Total length = 65589.
+Epslevel = 4.027532e-11.  Vscale = 1.311029e+00.  Total length = 65591.
 </pre>In fact, the resulting expression is essentially real.
 
 <pre class="mcode-input">zcirc = exp(1i*chebfun('t',[0 2*pi]));
@@ -80,11 +80,13 @@ result may not be accurate.
 
 For more on Schwarz-Christoffel mapping, see [1]. For general-purpose SC mapping software, refer to [2] and [3].
 
-References:
 
-[1] T. A. Driscoll and L. N. Trefethen, Schwarz-Christoffel Mapping, Cambridge U. Press, 2002.
 
-[2] T. A. Driscoll, <a href="http://dx.doi.org/10.1145/1067967.1067971">Algorithm 843: Improvements to the Schwarz-Christoffel Toolbox for MATLAB</a>, ACM Transactions on Mathematical Software 31 (2005), 239-251.
+## References
 
-[3] T. A. Driscoll, Schwarz-Christoffel Mapping Toolbox for MATLAB. <a href="http://www.math.udel.edu/~driscoll/SC">http://www.math.udel.edu/~driscoll/SC</a>
+1. T. A. Driscoll and L. N. Trefethen, Schwarz-Christoffel Mapping,    Cambridge U. Press, 2002.
+
+2. T. A. Driscoll, <Algorithm    843: Improvements to the Schwarz-Christoffel Toolbox for MATLAB>, ACM Transactions on Mathematical Software 31 (2005), 239-251.
+
+3. T. A. Driscoll, Schwarz-Christoffel Mapping Toolbox for MATLAB.    <http://www.math.udel.edu/~driscoll/SC>
 

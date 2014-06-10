@@ -5,9 +5,7 @@ authordate: "Mark Richardson, September 2010"
 meta: "(Chebfun example integro/WikiIntegroDiff.m) [Tags: #linear, #backslash, #wikipedia]"
 ---
 
-Here, we solve a first order linear integro-differential equation considered in the Wikipedia article:
-
-<a href="http://en.wikipedia.org/wiki/Integro-differential_equation">http://en.wikipedia.org/wiki/Integro-differential_equation</a>
+Here, we solve a first order linear integro-differential equation considered in the Wikipedia article [1]:
 
 $$ u'(x) + 2u(x) + 5\int_0^t u(t) dt = 1~ (x\ge 0), ~~
 = 0~ (x&lt;0) $$
@@ -36,4 +34,10 @@ N = chebop(d);</pre>The problem has a single Dirichlet boundary condition at $x=
 
 <pre class="mcode-input">plot(u,'linewidth',1.6), grid on
 title('Solution of integro-differential equation','fontsize',16)</pre><img src="img/WikiIntegroDiff_01.png" class="figure" alt="">
+
+
+
+## References
+
+1. <http://en.wikipedia.org/wiki/Integro-differential_equation>
 

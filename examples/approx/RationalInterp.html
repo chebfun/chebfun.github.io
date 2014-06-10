@@ -4,10 +4,12 @@
     <title>Rational interpolation, robust and non-robust &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Rational interpolation, robust and non-robust</h1>
-                <h2>Nick Trefethen, August 2011</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Rational interpolation, robust and non-robust</h1>
+<h2>Nick Trefethen, August 2011<span><a href='/examples/approx/RationalInterp.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/approx/RationalInterp.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>A rational function is a quotient of two polynomials. Many numerical algorithms make use of rational interpolants and approximants, including well-known methods for acceleration of convergence of sequences and series like the Aitken delta-squared formula and the epsilon and eta algorithms [2].</p>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>A rational function is a quotient of two polynomials. Many numerical algorithms make use of rational interpolants and approximants, including well-known methods for acceleration of convergence of sequences and series like the Aitken delta-squared formula and the epsilon and eta algorithms [2].</p>
 <p>In Chebfun, since functions are defined on intervals, a natural form of rational interpolation involves sample points in an interval.  In particular, if $f$ is a function defined on $[a,b]$ and $m$ and $n$ are nonnegative integers, then one may ask for a rational function of type $(m,n)$ that interpolates $f$ at the $N+1$ Chebyshev points in $[a,b]$, where $N = m+n$.  By "type $(m,n)$", we mean representable as a quotient $p(x)/q(x)$ with $p$ of degree at most $m$ and $q$ of degree at most $n$. If $N&gt;m+n$, then the problem is overdetermined one may still ask for a rational approximant to $f$ but now based on some kind of least-squares fit.</p>
 <p>Here are three examples taken from Chapter 26 of [4]; some of our wording is also copied from there. The first is a problem that can be solved analytically. Suppose we seek a type $(1,1)$ rational function $r$ with $r(-1)=1+\varepsilon$, $r(0)=1$, and $r(1)=1+2\varepsilon$, where $\varepsilon$ is a parameter. The exact solution is</p>
 <pre class="mcode-input">x = chebfun('x');
@@ -146,15 +131,15 @@ spurious_poles = roots(q)
 separation = spurious_poles - spurious_zeros</pre>
 
 <pre class="mcode-output">spurious_zeros =
-  -0.829522425143443
-  -0.121490404961475
+  -0.705459037729232
+   0.374674000421539
 spurious_poles =
-  -0.829522425143444
-  -0.121490404961475
+  -0.705459037729232
+   0.374674000421538
 separation =
    1.0e-15 *
-  -0.888178419700125
-   0.333066907387547
+                   0
+  -0.666133814775094
 </pre>
 
 <p>The computation of the first panel, by contrast, had no spurious poles. To achieve this, <code>ratinterp</code> actually returned an approximation of type less than the allowed $(8,8)$, as we can see like this:</p>
@@ -175,24 +160,32 @@ spurious_poles =
 </pre>
 
 <p>The interpolation algorithm of <code>ratinterp</code>, and the code itself, originate with [3].  The generalization to least-squares approximations and robust approximants comes from [1], though that paper discusses just roots of unity on the unit circle, not Chebyshev points in $[-1,1]$.</p>
-<p>References</p>
-<p>[1] P. Gonnet, R. Pachon and L. N. Trefethen, Robust rational interpolation and least-squares, <em>Electronic Transactions of Numerical Analysis</em>, 38 (2011), 146-167.</p>
-<p>[2] <em>Journal of Computational and Applied Mathematics</em> special issue on interpolation and extrapolation, volume 122, numbers 1-2, October 2000.</p>
-<p>[3] R. Pachon, P. Gonnet and J. van Deun, Fast and stable rational interpolation in roots of unity and Chebyshev points, <em>SIAM Journal on Numerical Analysis</em>, 50 (2012), 1713-1734.</p>
-<p>[4] L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>, SIAM, 2013.</p>
-            </div>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>P. Gonnet, R. Pachon and L. N. Trefethen, Robust rational    interpolation and least-squares, <em>Electronic Transactions of Numerical    Analysis</em>, 38 (2011), 146-167.</p>
+</li>
+<li>
+<p><em>Journal of Computational and Applied Mathematics</em>    special issue on interpolation and extrapolation, volume 122,    numbers 1-2, October 2000.</p>
+</li>
+<li>
+<p>R. Pachon, P. Gonnet and J. van Deun, Fast and stable rational    interpolation in roots of unity and Chebyshev points,    <em>SIAM Journal on Numerical Analysis</em>, 50 (2012), 1713-1734.</p>
+</li>
+<li>
+<p>L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>,    SIAM, 2013.</p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

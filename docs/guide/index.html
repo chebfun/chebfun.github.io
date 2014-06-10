@@ -4,10 +4,12 @@
     <title>Chebfun Guide &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,63 +31,163 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
- 
-                <h1>Chebfun Guide</h1>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+        <h1><a href='/docs/index.html'>Documentation</a><span class='sep'>&raquo;</span>Chebfun Guide</h1></div>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+
+
+
+<ol class='guide slats'><li>
+    <a href='/docs/guide/guide1.html'>
+        <img src='/docs/guide/img/guide1_01.png' />
+        <span>1</span>
+        <h3>Getting Started with Chebfun</h3>
+        <p>Lloyd N. Trefethen, October 2009, latest revision May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide2.html'>
+        <img src='/docs/guide/img/guide2_01.png' />
+        <span>2</span>
+        <h3>Integration and Differentiation</h3>
+        <p>Lloyd N. Trefethen, November 2009, latest revision May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide3.html'>
+        <img src='/docs/guide/img/guide3_01.png' />
+        <span>3</span>
+        <h3>Rootfinding and Minima and Maxima</h3>
+        <p>Lloyd N. Trefethen, October 2009, latest revision May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide4.html'>
+        <img src='/docs/guide/img/guide4_01.png' />
+        <span>4</span>
+        <h3>Chebfun and Approximation Theory</h3>
+        <p>Lloyd N. Trefethen, November 2009, latest revision May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide5.html'>
+        <img src='/docs/guide/img/guide5_01.png' />
+        <span>5</span>
+        <h3>Complex Chebfuns</h3>
+        <p>Lloyd N. Trefethen, November 2009, latest revision May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide6.html'>
+        <img src='/docs/guide/img/guide6_01.png' />
+        <span>6</span>
+        <h3>Quasimatrices and Least-Squares</h3>
+        <p>Lloyd N. Trefethen, November 2009, latest revision May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide7.html'>
+        <img src='/docs/guide/img/guide7_01.png' />
+        <span>7</span>
+        <h3>Linear Differential Operators and Equations</h3>
+        <p>Tobin A. Driscoll, November 2009, last revised May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide9.html'>
+        <img src='/docs/guide/img/guide9_01.png' />
+        <span>9</span>
+        <h3>Infinite Intervals, Infinite Function Values, and Singularities</h3>
+        <p>Lloyd N. Trefethen, November 2009, latest revision May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide10.html'>
+        <img src='/docs/guide/img/guide10_01.png' />
+        <span>10</span>
+        <h3>Nonlinear ODEs and Chebgui</h3>
+        <p>Lloyd N. Trefethen, November 2009, revised February 2011
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide11.html'>
+        <img src='/docs/guide/img/guide11_01.png' />
+        <span>11</span>
+        <h3>Chebfun2: Getting Started</h3>
+        <p>Alex Townsend, March 2013, last updated May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide12.html'>
+        <img src='/docs/guide/img/guide12_01.png' />
+        <span>12</span>
+        <h3>Chebfun2: Integration and Differentiation</h3>
+        <p>Alex Townsend, March 2013, last updated May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide13.html'>
+        <img src='/docs/guide/img/guide13_01.png' />
+        <span>13</span>
+        <h3>Chebfun2: Rootfinding and Optimisation</h3>
+        <p>Alex Townsend, March 2013, last updated May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide14.html'>
+        <img src='/docs/guide/img/guide14_01.png' />
+        <span>14</span>
+        <h3>Chebfun2: Vector Calculus</h3>
+        <p>Alex Townsend, March 2013, last updated May 2014
+        </p>
+    </a>
+</li>
+<li>
+    <a href='/docs/guide/guide15.html'>
+        <img src='/docs/guide/img/guide15_01.png' />
+        <span>15</span>
+        <h3>Chebfun2: 2D Surfaces in 3D Space</h3>
+        <p>Alex Townsend, March 2013, last updated May 2014
+        </p>
+    </a>
+</li>
+</ol>
+
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12" role="main">
-            
-            <h4><a href="/docs/guide/guide1.html">1. Getting Started with Chebfun</a></h4>
-            <h4><a href="/docs/guide/guide2.html">2. Integration and Differentiation</a></h4>
-            <h4><a href="/docs/guide/guide3.html">3. Rootfinding and Minima and Maxima</a></h4>
-            <h4><a href="/docs/guide/guide4.html">4. Chebfun and Approximation Theory</a></h4>
-            <h4><a href="/docs/guide/guide5.html">5. Complex Chebfuns</a></h4>
-            <h4><a href="/docs/guide/guide6.html">6. Quasimatrices and Least-Squares</a></h4>
-            <h4><a href="/docs/guide/guide7.html">7. Linear Differential Operators and Equations</a></h4>
-            <h4><a href="/docs/guide/guide9.html">9. Infinite Intervals, Infinite Function Values, and Singularities</a></h4>
-            <h4><a href="/docs/guide/guide10.html">10. Nonlinear ODEs and Chebgui</a></h4>
-            <h4><a href="/docs/guide/guide11.html">11. Chebfun2: Getting Started</a></h4>
-            <h4><a href="/docs/guide/guide12.html">12. Chebfun2: Integration and Differentiation</a></h4>
-            <h4><a href="/docs/guide/guide13.html">13. Chebfun2: Rootfinding and Optimisation</a></h4>
-            <h4><a href="/docs/guide/guide14.html">14. Chebfun2: Vector Calculus</a></h4>
-            <h4><a href="/docs/guide/guide15.html">15. Chebfun2: 2D Surfaces in 3D Space</a></h4>
         </div>
     </div>
 </div>
@@ -95,8 +197,8 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

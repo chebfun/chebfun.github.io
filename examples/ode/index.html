@@ -4,10 +4,12 @@
     <title>Ordinary differential equations &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,168 +31,233 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Examples &raquo; Ordinary differential equations</h1>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Ordinary differential equations</h1>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12" role="main">
-            <div class='row'><a href='/examples/ode/AdvDiffJump.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/AdvDiffJump_01.png' />
-                <h3>Advection-diffusion equation with a jump</h3>
-                <h4>Nick Trefethen, November 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#advectiondiffusion</a>, <a href='#' class='tag'>#linearode</a>, <a href='#' class='tag'>#piecewise</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/Bloodhound.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/Bloodhound_01.png' />
-                <h3>BLOODHOUND supersonic car</h3>
-                <h4>Tanya Morton, January 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#nonlinearode</a>, <a href='#' class='tag'>#piecewise</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/BlowupFK.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/BlowupFK_01.png' />
-                <h3>Blowup equation (Frank-Kamenetskii)</h3>
-                <h4>Nick Trefethen, September 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#blowup</a>, <a href='#' class='tag'>#nonlinearode</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/Carrier.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/Carrier_01.png' />
-                <h3>Carrier equation</h3>
-                <h4>Asgeir Birkisson, October 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#nonlinearode</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/DawsonIntegral.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/DawsonIntegral_01.png' />
-                <h3>Dawson's integral</h3>
-                <h4>Kuan Xu, October 2012</h4>
-                <h4 class='tags'><a href='#' class='tag'>#dawson</a>, <a href='#' class='tag'>#linearode</a>, <a href='#' class='tag'>#special function</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/ExactSolns.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/ExactSolns_01.png' />
-                <h3>Exact solutions of nonlinear ODEs from Bender and Orszag</h3>
-                <h4>Nick Trefethen, December 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#nonlinearode</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/FourBugs.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/FourBugs_01.png' />
-                <h3>Four bugs on a rectangle</h3>
-                <h4>Hrothgar, November 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#nonlinearode</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/LeeGreengardODEs.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/LeeGreengardODEs_01.png' />
-                <h3>Lee and Greengard ODE examples</h3>
-                <h4>Nick Trefethen, June 2012</h4>
-                <h4 class='tags'><a href='#' class='tag'>#boundarylayer</a>, <a href='#' class='tag'>#linearode</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/LinearIVP.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/LinearIVP_01.png' />
-                <h3>Linear sine/cosine initial-value problem</h3>
-                <h4>Nick Trefethen and Tom Maerz, September 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#ivp</a>, <a href='#' class='tag'>#linearode</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/LinExpIVP.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/LinExpIVP_01.png' />
-                <h3>Linear `exp` initial-value problem</h3>
-                <h4>Tom Maerz, October 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#ivp</a>, <a href='#' class='tag'>#linearode</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/Logistic.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/Logistic_01.png' />
-                <h3>Logistic map and chaos</h3>
-                <h4>Nick Trefethen, July 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#chaos</a>, <a href='#' class='tag'>#logistic</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/LorenzAttractor.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/LorenzAttractor_01.png' />
-                <h3>Lorenz Attractor in the complex plane using `ratinterp`</h3>
-                <h4>Marcus Webb, March 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#analytic continuation</a>, <a href='#' class='tag'>#autonomous</a>, <a href='#' class='tag'>#dynamical systems</a>, <a href='#' class='tag'>#lorenz</a>, <a href='#' class='tag'>#poles</a>, <a href='#' class='tag'>#ratinterp</a>, <a href='#' class='tag'>#rational function</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/MatchedAsymp.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/MatchedAsymp_01.png' />
-                <h3>Matched asymptotics and boundary layers</h3>
-                <h4>Nick Trefethen, December 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#asymptotics</a>, <a href='#' class='tag'>#linearode</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/NonstandardBCs.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/NonstandardBCs_01.png' />
-                <h3>Nonstandard 'boundary' conditions</h3>
-                <h4>Asgeir Birkisson, October 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#exoticbcs</a>, <a href='#' class='tag'>#linearode</a>, <a href='#' class='tag'>#nonstandard</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/Orbits.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/Orbits_01.png' />
-                <h3>Orbiting around fixed stars</h3>
-                <h4>Nick Trefethen, November 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#astrophysics</a>, <a href='#' class='tag'>#ivp</a>, <a href='#' class='tag'>#nonlinearode</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/PeriodicSystem.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/PeriodicSystem_01.png' />
-                <h3>A periodic ODE system</h3>
-                <h4>Nick Hale, November 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#linearode</a>, <a href='#' class='tag'>#odesystem</a>, <a href='#' class='tag'>#periodic</a>, <a href='#' class='tag'>#piecewise</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/Regions.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/Regions_01.png' />
-                <h3>Stability regions of ODE formulas</h3>
-                <h4>Nick Trefethen, February 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#stabilityregions</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/ResonantVandal.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/ResonantVandal_01.png' />
-                <h3>Resonance exploited by Carrier and Pearson's vandal</h3>
-                <h4>Nick Trefethen, August 2012</h4>
-                <h4 class='tags'><a href='#' class='tag'>#carrierpearson</a>, <a href='#' class='tag'>#linearode</a>, <a href='#' class='tag'>#resonance</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/ThreeBodyProblem.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/ThreeBodyProblem_01.png' />
-                <h3>Three body problem complex singularities</h3>
-                <h4>Marcus Webb, August 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#astrophysics</a>, <a href='#' class='tag'>#nonlinearode</a>, <a href='#' class='tag'>#odesystem</a>, <a href='#' class='tag'>#rational</a></h4>
-                </div></a></div><div class='row'><a href='/examples/ode/WikiODE.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/ode/img/WikiODE_01.png' />
-                <h3>Wikipedia ODE examples</h3>
-                <h4>Mark Richardson, September 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#linearode</a>, <a href='#' class='tag'>#wikipedia</a></h4>
-                </div></a></div>            </ol>
+
+    <div class="container">
+<div class="row main noleftpadding">
+            <div class="col-sm-4 noleftpadding">    <ul class='sidenav'>
+        <li><a href="/examples/approx/index.html">Approximation (25)</a></li>
+        <li><a href="/examples/calc/index.html">Calculus (6)</a></li>
+        <li><a href="/examples/complex/index.html">Complex variables (7)</a></li>
+        <li><a href="/examples/fun/index.html">Fun stuff! (3)</a></li>
+        <li><a href="/examples/geom/index.html">Geometry (6)</a></li>
+        <li><a href="/examples/integro/index.html">Integral equations (2)</a></li>
+        <li><a href="/examples/linalg/index.html">Linear algebra (9)</a></li>
+        <li class='active'><a href="/examples/ode/index.html">Ordinary differential equations (20)</a></li>
+        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems (6)</a></li>
+        <li><a href="/examples/opt/index.html">Optimization (8)</a></li>
+        <li><a href="/examples/pde/index.html">Partial differential equations (1)</a></li>
+        <li><a href="/examples/quad/index.html">Quadrature (3)</a></li>
+        <li><a href="/examples/roots/index.html">Rootfinding (14)</a></li>
+        <li><a href="/examples/stats/index.html">Probability and statistics (6)</a></li>
+        <li><a href="/examples/veccalc/index.html">Vector calculus (2)</a></li>
+    </ul>
+</div>
+            <div id='content' class="col-sm-8" role="main">    
+    <ol class='examples slats'>
+    <li>
+        <a href='/examples/ode/AdvDiffJump.html'>
+            <img src='/examples/ode/img/AdvDiffJump_01.png' />
+            <h3>Advection-diffusion equation with a jump</h3>
+            <p>Nick Trefethen, November 2010
+                <span class='tags'><span href='#' class='tag'>#advectiondiffusion</span>, <span href='#' class='tag'>#linearode</span>, <span href='#' class='tag'>#piecewise</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/Bloodhound.html'>
+            <img src='/examples/ode/img/Bloodhound_01.png' />
+            <h3>BLOODHOUND supersonic car</h3>
+            <p>Tanya Morton, January 2013
+                <span class='tags'><span href='#' class='tag'>#nonlinearode</span>, <span href='#' class='tag'>#piecewise</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/BlowupFK.html'>
+            <img src='/examples/ode/img/BlowupFK_01.png' />
+            <h3>Blowup equation (Frank-Kamenetskii)</h3>
+            <p>Nick Trefethen, September 2010
+                <span class='tags'><span href='#' class='tag'>#blowup</span>, <span href='#' class='tag'>#nonlinearode</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/Carrier.html'>
+            <img src='/examples/ode/img/Carrier_01.png' />
+            <h3>Carrier equation</h3>
+            <p>Asgeir Birkisson, October 2010
+                <span class='tags'><span href='#' class='tag'>#nonlinearode</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/DawsonIntegral.html'>
+            <img src='/examples/ode/img/DawsonIntegral_01.png' />
+            <h3>Dawson's integral</h3>
+            <p>Kuan Xu, October 2012
+                <span class='tags'><span href='#' class='tag'>#dawson</span>, <span href='#' class='tag'>#linearode</span>, <span href='#' class='tag'>#special function</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/ExactSolns.html'>
+            <img src='/examples/ode/img/ExactSolns_01.png' />
+            <h3>Exact solutions of nonlinear ODEs from Bender and Orszag</h3>
+            <p>Nick Trefethen, December 2010
+                <span class='tags'><span href='#' class='tag'>#nonlinearode</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/FourBugs.html'>
+            <img src='/examples/ode/img/FourBugs_01.png' />
+            <h3>Four bugs on a rectangle</h3>
+            <p>Hrothgar, November 2013
+                <span class='tags'><span href='#' class='tag'>#nonlinearode</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/LeeGreengardODEs.html'>
+            <img src='/examples/ode/img/LeeGreengardODEs_01.png' />
+            <h3>Lee and Greengard ODE examples</h3>
+            <p>Nick Trefethen, June 2012
+                <span class='tags'><span href='#' class='tag'>#boundarylayer</span>, <span href='#' class='tag'>#linearode</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/LinearIVP.html'>
+            <img src='/examples/ode/img/LinearIVP_01.png' />
+            <h3>Linear sine/cosine initial-value problem</h3>
+            <p>Nick Trefethen and Tom Maerz, September 2010
+                <span class='tags'><span href='#' class='tag'>#ivp</span>, <span href='#' class='tag'>#linearode</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/LinExpIVP.html'>
+            <img src='/examples/ode/img/LinExpIVP_01.png' />
+            <h3>Linear `exp` initial-value problem</h3>
+            <p>Tom Maerz, October 2010
+                <span class='tags'><span href='#' class='tag'>#ivp</span>, <span href='#' class='tag'>#linearode</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/Logistic.html'>
+            <img src='/examples/ode/img/Logistic_01.png' />
+            <h3>Logistic map and chaos</h3>
+            <p>Nick Trefethen, July 2013
+                <span class='tags'><span href='#' class='tag'>#chaos</span>, <span href='#' class='tag'>#logistic</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/LorenzAttractor.html'>
+            <img src='/examples/ode/img/LorenzAttractor_01.png' />
+            <h3>Lorenz Attractor in the complex plane using `ratinterp`</h3>
+            <p>Marcus Webb, March 2013
+                <span class='tags'><span href='#' class='tag'>#analytic continuation</span>, <span href='#' class='tag'>#autonomous</span>, <span href='#' class='tag'>#dynamical systems</span>, <span href='#' class='tag'>#lorenz</span>, <span href='#' class='tag'>#poles</span>, <span href='#' class='tag'>#ratinterp</span>, <span href='#' class='tag'>#rational function</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/MatchedAsymp.html'>
+            <img src='/examples/ode/img/MatchedAsymp_01.png' />
+            <h3>Matched asymptotics and boundary layers</h3>
+            <p>Nick Trefethen, December 2010
+                <span class='tags'><span href='#' class='tag'>#asymptotics</span>, <span href='#' class='tag'>#linearode</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/NonstandardBCs.html'>
+            <img src='/examples/ode/img/NonstandardBCs_01.png' />
+            <h3>Nonstandard 'boundary' conditions</h3>
+            <p>Asgeir Birkisson, October 2011
+                <span class='tags'><span href='#' class='tag'>#exoticbcs</span>, <span href='#' class='tag'>#linearode</span>, <span href='#' class='tag'>#nonstandard</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/Orbits.html'>
+            <img src='/examples/ode/img/Orbits_01.png' />
+            <h3>Orbiting around fixed stars</h3>
+            <p>Nick Trefethen, November 2011
+                <span class='tags'><span href='#' class='tag'>#astrophysics</span>, <span href='#' class='tag'>#ivp</span>, <span href='#' class='tag'>#nonlinearode</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/PeriodicSystem.html'>
+            <img src='/examples/ode/img/PeriodicSystem_01.png' />
+            <h3>A periodic ODE system</h3>
+            <p>Nick Hale, November 2010
+                <span class='tags'><span href='#' class='tag'>#linearode</span>, <span href='#' class='tag'>#odesystem</span>, <span href='#' class='tag'>#periodic</span>, <span href='#' class='tag'>#piecewise</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/Regions.html'>
+            <img src='/examples/ode/img/Regions_01.png' />
+            <h3>Stability regions of ODE formulas</h3>
+            <p>Nick Trefethen, February 2011
+                <span class='tags'><span href='#' class='tag'>#stabilityregions</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/ResonantVandal.html'>
+            <img src='/examples/ode/img/ResonantVandal_01.png' />
+            <h3>Resonance exploited by Carrier and Pearson's vandal</h3>
+            <p>Nick Trefethen, August 2012
+                <span class='tags'><span href='#' class='tag'>#carrierpearson</span>, <span href='#' class='tag'>#linearode</span>, <span href='#' class='tag'>#resonance</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/ThreeBodyProblem.html'>
+            <img src='/examples/ode/img/ThreeBodyProblem_01.png' />
+            <h3>Three body problem complex singularities</h3>
+            <p>Marcus Webb, August 2011
+                <span class='tags'><span href='#' class='tag'>#astrophysics</span>, <span href='#' class='tag'>#nonlinearode</span>, <span href='#' class='tag'>#odesystem</span>, <span href='#' class='tag'>#rational</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/ode/WikiODE.html'>
+            <img src='/examples/ode/img/WikiODE_01.png' />
+            <h3>Wikipedia ODE examples</h3>
+            <p>Mark Richardson, September 2010
+                <span class='tags'><span href='#' class='tag'>#linearode</span>, <span href='#' class='tag'>#wikipedia</span></span>
+            </p>
+        </a>
+    </li>
+    </ol>
+</div>
         </div>
     </div>
 </div>
@@ -200,8 +267,8 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

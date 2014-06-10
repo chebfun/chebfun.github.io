@@ -4,10 +4,12 @@
     <title>Quadrature &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,66 +31,80 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Examples &raquo; Quadrature</h1>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Quadrature</h1>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12" role="main">
-            <div class='row'><a href='/examples/quad/GaussClenCurt.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/quad/img/GaussClenCurt_01.png' />
-                <h3>Gauss and Clenshaw-Curtis quadrature</h3>
-                <h4>Nick Trefethen, September 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#chebpts</a>, <a href='#' class='tag'>#clenshaw_curtis</a>, <a href='#' class='tag'>#gauss_quadrature</a>, <a href='#' class='tag'>#legpts</a>, <a href='#' class='tag'>#quadrature</a></h4>
-                </div></a></div><div class='row'><a href='/examples/quad/QuadratureConvergence.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/quad/img/QuadratureConvergence_01.png' />
-                <h3>Quadrature convergence rates for differentiable functions</h3>
-                <h4>Nick Trefethen, June 2012</h4>
-                <h4 class='tags'><a href='#' class='tag'>#quadrature</a></h4>
-                </div></a></div><div class='row'><a href='/examples/quad/SpikeIntegral.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/quad/img/SpikeIntegral_01.png' />
-                <h3>Spike integral</h3>
-                <h4>Nick Hale, October 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#quadrature</a>, <a href='#' class='tag'>#spike</a></h4>
-                </div></a></div>            </ol>
+
+    <div class="container">
+<div class="row main noleftpadding">
+            <div class="col-sm-4 noleftpadding">    <ul class='sidenav'>
+        <li><a href="/examples/approx/index.html">Approximation (25)</a></li>
+        <li><a href="/examples/calc/index.html">Calculus (6)</a></li>
+        <li><a href="/examples/complex/index.html">Complex variables (7)</a></li>
+        <li><a href="/examples/fun/index.html">Fun stuff! (3)</a></li>
+        <li><a href="/examples/geom/index.html">Geometry (6)</a></li>
+        <li><a href="/examples/integro/index.html">Integral equations (2)</a></li>
+        <li><a href="/examples/linalg/index.html">Linear algebra (9)</a></li>
+        <li><a href="/examples/ode/index.html">Ordinary differential equations (20)</a></li>
+        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems (6)</a></li>
+        <li><a href="/examples/opt/index.html">Optimization (8)</a></li>
+        <li><a href="/examples/pde/index.html">Partial differential equations (1)</a></li>
+        <li class='active'><a href="/examples/quad/index.html">Quadrature (3)</a></li>
+        <li><a href="/examples/roots/index.html">Rootfinding (14)</a></li>
+        <li><a href="/examples/stats/index.html">Probability and statistics (6)</a></li>
+        <li><a href="/examples/veccalc/index.html">Vector calculus (2)</a></li>
+    </ul>
+</div>
+            <div id='content' class="col-sm-8" role="main">    
+    <ol class='examples slats'>
+    <li>
+        <a href='/examples/quad/GaussClenCurt.html'>
+            <img src='/examples/quad/img/GaussClenCurt_01.png' />
+            <h3>Gauss and Clenshaw-Curtis quadrature</h3>
+            <p>Nick Trefethen, September 2010
+                <span class='tags'><span href='#' class='tag'>#chebpts</span>, <span href='#' class='tag'>#clenshaw_curtis</span>, <span href='#' class='tag'>#gauss_quadrature</span>, <span href='#' class='tag'>#legpts</span>, <span href='#' class='tag'>#quadrature</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/quad/QuadratureConvergence.html'>
+            <img src='/examples/quad/img/QuadratureConvergence_01.png' />
+            <h3>Quadrature convergence rates for differentiable functions</h3>
+            <p>Nick Trefethen, June 2012
+                <span class='tags'><span href='#' class='tag'>#quadrature</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/quad/SpikeIntegral.html'>
+            <img src='/examples/quad/img/SpikeIntegral_01.png' />
+            <h3>Spike integral</h3>
+            <p>Nick Hale, October 2010
+                <span class='tags'><span href='#' class='tag'>#quadrature</span>, <span href='#' class='tag'>#spike</span></span>
+            </p>
+        </a>
+    </li>
+    </ol>
+</div>
         </div>
     </div>
 </div>
@@ -98,8 +114,8 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

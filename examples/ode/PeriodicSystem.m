@@ -33,8 +33,8 @@ exact = [cos(x+3*pi/4) cos(x+pi/4)]/sqrt(2);
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])
 
 %%
-% We show this also works for piecewise problems by artificially introducing a
-% breakpoint at the origin.
+% We show this also works for piecewise problems by artificially
+% introducing a breakpoint at the origin.
 
 A.domain = [-pi,0,pi];
 u = A\f;

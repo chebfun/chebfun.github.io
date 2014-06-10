@@ -79,15 +79,15 @@ xx = chebpts(17); plot(xx,exp(xx),'.k',MS,16)</pre><img src="img/RationalInterp_
 spurious_zeros = roots(p)
 spurious_poles = roots(q)
 separation = spurious_poles - spurious_zeros</pre><pre class="mcode-output">spurious_zeros =
-  -0.829522425143443
-  -0.121490404961475
+  -0.705459037729232
+   0.374674000421539
 spurious_poles =
-  -0.829522425143444
-  -0.121490404961475
+  -0.705459037729232
+   0.374674000421538
 separation =
    1.0e-15 *
-  -0.888178419700125
-   0.333066907387547
+                   0
+  -0.666133814775094
 </pre>The computation of the first panel, by contrast, had no spurious poles. To achieve this, `ratinterp` actually returned an approximation of type less than the allowed $(8,8)$, as we can see like this:
 
 <pre class="mcode-input">[p,q,rh,mu,nu] = ratinterp(f,8,8);
@@ -104,13 +104,15 @@ spurious_poles =
    Empty matrix: 0-by-1
 </pre>The interpolation algorithm of `ratinterp`, and the code itself, originate with [3].  The generalization to least-squares approximations and robust approximants comes from [1], though that paper discusses just roots of unity on the unit circle, not Chebyshev points in $[-1,1]$.
 
-References
 
-[1] P. Gonnet, R. Pachon and L. N. Trefethen, Robust rational interpolation and least-squares, _Electronic Transactions of Numerical Analysis_, 38 (2011), 146-167.
 
-[2] _Journal of Computational and Applied Mathematics_ special issue on interpolation and extrapolation, volume 122, numbers 1-2, October 2000.
+## References
 
-[3] R. Pachon, P. Gonnet and J. van Deun, Fast and stable rational interpolation in roots of unity and Chebyshev points, _SIAM Journal on Numerical Analysis_, 50 (2012), 1713-1734.
+1. P. Gonnet, R. Pachon and L. N. Trefethen, Robust rational    interpolation and least-squares, _Electronic Transactions of Numerical    Analysis_, 38 (2011), 146-167.
 
-[4] L. N. Trefethen, _Approximation Theory and Approximation Practice_, SIAM, 2013.
+2. _Journal of Computational and Applied Mathematics_    special issue on interpolation and extrapolation, volume 122,    numbers 1-2, October 2000.
+
+3. R. Pachon, P. Gonnet and J. van Deun, Fast and stable rational    interpolation in roots of unity and Chebyshev points,    _SIAM Journal on Numerical Analysis_, 50 (2012), 1713-1734.
+
+4. L. N. Trefethen, _Approximation Theory and Approximation Practice_,    SIAM, 2013.
 

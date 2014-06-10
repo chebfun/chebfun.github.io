@@ -4,10 +4,12 @@
     <title>Speed and Accuracy of Chebfun `roots` &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Speed and Accuracy of Chebfun `roots`</h1>
-                <h2>Jared Aurentz and Nick Trefethen, May 2014</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Speed and Accuracy of Chebfun `roots`</h1>
+<h2>Jared Aurentz and Nick Trefethen, May 2014<span><a href='/examples/roots/RootsSpeed.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/roots/RootsSpeed.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <h3 id="1-what-chebfun-does">1. What Chebfun does</h3>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-what-chebfun-does">1. What Chebfun does</h3>
 <p>Let us do a test of the speed and accuracy of the Chebfun algorithm for computing roots.  We'll pick a function whose roots we know:</p>
 <pre class="mcode-input">f = chebfun(@(x) exp(x).*sin(1000*pi*x));</pre>
 
@@ -94,7 +79,7 @@ tic, r = roots(f);</pre>
 <p>Here is the time elapsed:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.629168 seconds.
+<pre class="mcode-output">Elapsed time is 0.536234 seconds.
 </pre>
 
 <p>Here is the maximum error:</p>
@@ -104,7 +89,7 @@ tic, r = roots(f);</pre>
      4.440892098500626e-16
 </pre>
 
-<p>This number is twice machine epsilon, which looks very good. (However, you couldn't ask for a better conditioned problem than this one, since the derivative of $f$ at each root is large.)</p>
+<p>This number is twice machine epsilon, which looks very good. (Admittedly, you couldn't ask for a better conditioned problem than this one, since the derivative of $f$ at each root is large.)</p>
 <p>For fun we plot $f$ and its roots over a short interval:</p>
 <pre class="mcode-input">d = [-0.0105,0.0105];
 plot(f,'interval',d,'linewidth',1.6)
@@ -119,37 +104,49 @@ hold on, plot(r,f(r),'.r','markersize',18), hold off</pre>
     tic, roots(c); toc
 end</pre>
 
-<pre class="mcode-output">Elapsed time is 0.156718 seconds.
-Elapsed time is 0.398310 seconds.
-Elapsed time is 2.260732 seconds.
+<pre class="mcode-output">Elapsed time is 0.095171 seconds.
+Elapsed time is 0.338576 seconds.
+Elapsed time is 1.836516 seconds.
 </pre>
 
 <p>It is clear from this experiment that calling Matlab <code>roots</code> for a polynomial of degree as large as our chebfun <code>f</code> would be very slow.</p>
-<p>However, $O(n^2)$ algorithms for this problem have been available for quite a while, though they are not built into MATLAB. A key person in this effort over the years has been Dario Bini of the University of Pisa.  See for example [Bini et al. 2010].  This group also offers Fortran software. Another notable contribution is [Chandrasekaran et al. 2007].</p>
-<p>The first author of this example, in collaboration with David Watkins and others, has been developing alternative $O(n^2)$ algorithms for the companion matrix eigenvalue problem [Aurentz et al. 2014].</p>
-<p>All this is for the companion matrix eigenvalue problem, which corresponds to polynomial rootfinding in the monomial basis, a problem that makes sense when your roots are on or near the unit circle.  What about the Chebfun context of roots on or near $[-1,1]$?  Here the analogous matrix structure is a so-called <em>colleague matrix</em>, dating to Specht and Good around 1960; see Chapter 18 of [Trefethen 2013].  What can be done in this case?</p>
-<p>First of all we note what Chebfun currently does: following an idea of Boyd [Boyd 2002], it subdivides the interval when necessary.  This is how a superficially $O(n^3)$ algorithm is brought down to $O(n^2)$, enabling the good performance seen above.  Note that intervals are different from circles: if you split an interval in half, you get two intervals, but if you split a circle in half, you don't get two circles.  Therefore this recursion trick is not available in the monomial case.</p>
-<p>But what about an $O(n^2)$ <em>linear algebra</em> solution to the problem, rather than relying on splitting of intervals? Here too there has been progress [Eidelman et al. 2008], and we hope to have work of our own to report before long. An interesting project for the future will be to see whether Chebfun rootfinding can be improved by the use of $O(n^2)$ linear algebra algorithms rather than interval subdivision, while holding to Chebfun's principle of doing everything in MATLAB without relying on Mex files to link to Fortran or C.</p>
+<p>However, $O(n^2)$ algorithms for this problem have been available for quite a while, though they are not built into MATLAB. A key person in this effort over the years has been Dario Bini of the University of Pisa.  See for example [2].  This group also offers Fortran software. Another notable contribution is [4].</p>
+<p>The first author of this example, in collaboration with David Watkins and others, has been developing alternative $O(n^2)$ algorithms for the companion matrix eigenvalue problem [1].</p>
+<p>All this is for the companion matrix eigenvalue problem, which corresponds to polynomial rootfinding in the monomial basis, a problem that makes sense when your roots are on or near the unit circle.  What about the Chebfun context of roots on or near $[-1,1]$?  Here the analogous matrix structure is a so-called <em>colleague matrix</em>, dating to Specht and Good around 1960; see Chapter 18 of [6].  What can be done in this case?</p>
+<p>First of all we note what Chebfun currently does: following an idea of Boyd [3], it subdivides the interval when necessary.  This is how a superficially $O(n^3)$ algorithm is brought down to $O(n^2)$, enabling the good performance seen above.  Note that intervals are different from circles: if you split an interval in half, you get two intervals, but if you split a circle in half, you don't get two circles.  Therefore this recursion trick is not available in the monomial case.</p>
+<p>But what about an $O(n^2)$ <em>linear algebra</em> solution to the problem, rather than relying on splitting of intervals? Here too there has been progress [5], and we hope to have work of our own to report before long. An interesting project for the future will be to see whether Chebfun rootfinding can be improved by the use of $O(n^2)$ linear algebra algorithms rather than interval subdivision, while holding to Chebfun's principle of doing everything in MATLAB without relying on Mex files to link to Fortran or C.</p>
 <h3 id="references">References</h3>
-<p>[Aurentz et al. 2014] J. Aurentz, T. Mach, R. Vandebril and D. S. Watkins, to appear.</p>
-<p>[Bini et al. 2010] D. A. Bini, P. Boito, Y. Eidelman, L. Gemignani, and I. Gohberg, A fast implicit QR eigenvalue algorithm for companion matrices, <em>Linear Algebra and its Applications</em>, 432 (2010), 2006-2031.</p>
-<p>[Boyd 2002] J. P. Boyd, Computing zeros on a real interval through Chebyshev expansion and polynomial rootfinding, <em>SIAM Journal on Numerical Analysis</em>, 40 (2002), 1666-1682.</p>
-<p>[Chandrasekaran et al. 2007] S. Chandrasekaran, M. Gu, J. Xia and J. Zhu, A fast QR algorithm for companion matrices, <em>Operator Theory: Advances and Applications</em>, 179 (2007), 111-143.</p>
-<p>[Eidelman et al. 2008] Y. Eidelman, L. Gemignani, and I. Gohberg, Efficient eigenvalue computation for quasiseparable Hermitian matrices under low rank perturbations, <em>Numerical Algorithms</em>, 47 (2008), 253-273.</p>
-<p>[Trefethen 2013] L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>, SIAM, 2013.</p>
-            </div>
+<ol>
+<li>
+<p>J. Aurentz, T. Mach, R. Vandebril and D. S. Watkins, to appear.</p>
+</li>
+<li>
+<p>D. A. Bini, P. Boito, Y. Eidelman, L. Gemignani, and    I. Gohberg, A fast implicit QR eigenvalue algorithm for companion    matrices, <em>Linear Algebra and its Applications</em>, 432 (2010),    2006-2031.</p>
+</li>
+<li>
+<p>J. P. Boyd, Computing zeros on a real interval through Chebyshev    expansion and polynomial rootfinding, <em>SIAM Journal on Numerical    Analysis</em>, 40 (2002), 1666-1682.</p>
+</li>
+<li>
+<p>S. Chandrasekaran, M. Gu, J. Xia and J. Zhu, A fast QR algorithm for    companion matrices, <em>Operator Theory: Advances and Applications</em>, 179    (2007), 111-143.</p>
+</li>
+<li>
+<p>Y. Eidelman, L. Gemignani, and I. Gohberg, Efficient eigenvalue computation for quasiseparable Hermitian    matrices under low rank perturbations, <em>Numerical Algorithms</em>, 47 (2008),    253-273.</p>
+</li>
+<li>
+<p>L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>, SIAM,    2013.</p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

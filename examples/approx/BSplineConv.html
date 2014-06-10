@@ -4,10 +4,12 @@
     <title>B-splines and convolution &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>B-splines and convolution</h1>
-                <h2>Nick Trefethen, July 2012</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>B-splines and convolution</h1>
+<h2>Nick Trefethen, July 2012<span><a href='/examples/approx/BSplineConv.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/approx/BSplineConv.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <pre class="mcode-input">LW = 'linewidth'; lw = 1.6;
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">LW = 'linewidth'; lw = 1.6;
 MS = 'markersize'; ms = 12;
 FS = 'fontsize'; fs = 12;</pre>
 
@@ -121,22 +106,26 @@ title('B-spline of order 4',FS,fs)</pre>
 
 <p><img src="img/BSplineConv_05.png" class="figure" alt=""></p>
 <p>B-splines were introduced by Schoenberg and became a standard method for numerical computation following the work of de Boor [1] and Cox [2] in 1972.  In general there is no need for the breakpoints to be uniformly spaced.  With uniformly spaced points as in our example, however, the shape approaches a Gaussian as $n\to\infty$.  One could derive this fact by noting that in Fourier space, each convolution is a multiplication by the Fourier transform of $B_0$, namely a sinc function.  This is the same computation that arises in the proof of the Central Limit Theorem, and in fact, the B-splines have a probabilistic interpretation: if $B_0$ represents a random variable with uniform distribution on the interval $[-1/2,1/2]$ then $B_1$ is the distribution for the sum of two independent samples from $B_0$, $B_2$ is the distribution for the sum of three samples from $B_0$, and so on.</p>
-<p>References:</p>
-<p>[1] C. de Boor, On calculating with B-splines, Journal of Approximation Theory 6 (1972), 50-62.</p>
-<p>[2] M. Cox, The numerical evaluation of B-splines, Journal of the Institute of Mathematics and its Applications 10 (1972), 134-149.</p>
-            </div>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>C. de Boor, On calculating with B-splines, Journal of Approximation    Theory 6 (1972), 50-62.</p>
+</li>
+<li>
+<p>M. Cox, The numerical evaluation of B-splines, Journal of the    Institute of Mathematics and its Applications 10 (1972), 134-149.</p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

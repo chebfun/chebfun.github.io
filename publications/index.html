@@ -4,10 +4,12 @@
     <title>Publications &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,157 +31,133 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
- 
-                <h1>Publications</h1>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12" role="main">
-            <p>To cite Chebfun in a publication, we recommend the following:</p>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+        <h1><a href='/about/index.html'>About</a><span class='sep'>&raquo;</span>Publications</h1></div>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<p>To cite Chebfun in a publication, we recommend the following:</p>
 <blockquote>
 <p>The Chebfun Team, <em>Chebfun Version 5</em>, 2014, http://www.chebfun.org/.</p>
 </blockquote>
 <p>Below is a list of Chebfun-related papers written by members of the Chebfun
-Team. For convenience, [a BibTeX file is available][file-chebfun.bib]. If you
-use Chebfun in a book, paper, website, or other project,
-[we'd love to hear about it][/support]!</p>
-<h4 id="bibliography">Bibliography</h4>
-<ul>
-<li>
-<p>Battles and Trefethen, <a href="chebfun_paper.pdf" target="_blank">An
+Team. For convenience, <a href="../chebfun.bib">a BibTeX file is available</a>. If you
+use Chebfun in a book, paper, website, or other project, <a href="../support">we'd love to hear
+about it</a>!</p>
+<div class='row'>
+<div class='col-sm-6'>
+  <h3>Bibliography</h3>
+  <ul>
+
+<li>Battles and Trefethen, <a href="chebfun_paper.pdf" target="_blank">An
   extension of Matlab to continuous functions and operators</a> <em>SIAM J. Sci.
-  Comp.</em> 2004</p>
-</li>
-<li>
-<p>Trefethen, <a href="trefethen_functions.pdf" target="_blank">Computing
+  Comp.</em> 2004</li>
+
+<li>Trefethen, <a href="trefethen_functions.pdf" target="_blank">Computing
   numerically with functions instead of numbers</a> <em>Math. in Comp. Sci.</em>
-  2007</p>
-</li>
-<li>
-<p>Driscoll, Bornemann and Trefethen, <a href="driscoll_born_tref.pdf"
+  2007</li>
+
+<li>Driscoll, Bornemann and Trefethen, <a href="driscoll_born_tref.pdf"
   target="_blank">The chebop system for automatic solution of differential
-  equations</a> <em>BIT Numer. Math.</em> 2008</p>
-</li>
-<li>
-<p>Pach&#243;n and Trefethen, <a href="remez.pdf" target="_blank">Barycentric-
+  equations</a> <em>BIT Numer. Math.</em> 2008</li>
+
+<li>Pach&#243;n and Trefethen, <a href="remez.pdf" target="_blank">Barycentric-
   Remez algorithms for best polynomial approximation in the chebfun system</a>
-  <em>BIT Numer. Math.</em> 2009</p>
-</li>
-<li>
-<p>Driscoll, <a href="driscoll2010.pdf" target="_blank">Automatic spectral
-  collocation for integral, integro-differential, and integrally reformulated
-  differential equations</a> <em>J. Comp. Phys.</em> 2010</p>
-</li>
-<li>
-<p>Pach&#243;n, Platte and Trefethen, <a href="pachon_et_al_submitted.pdf"
-  target="_blank">Piecewise smooth chebfuns</a> <em>IMA J. Numer. Anal.</em> 2010</p>
-</li>
-<li>
-<p>Platte and Trefethen, <a href="platte_trefethen.pdf"
+  <em>BIT Numer. Math.</em> 2009</li>
+
+<li>Driscoll, <a href="driscoll2010.pdf" target="_blank">Automatic spectral
+collocation for integral, integro-differential, and integrally reformulated
+differential equations</a> <em>J. Comp. Phys.</em> 2010</li>
+
+<li>Pach&#243;n, Platte and Trefethen, <a href="pachon_et_al_submitted.pdf"
+  target="_blank">Piecewise smooth chebfuns</a> <em>IMA J. Numer. Anal.</em> 2010</li>
+
+<li>Platte and Trefethen, <a href="platte_trefethen.pdf"
   target="_blank">Chebfun: a new kind of numerical computing</a> <em>ECMI 2008
-  Proceedings</em> 2010</p>
-</li>
-<li>
-<p>Trefethen, <a href="trefethen_householder.pdf" target="_blank">Householder
-  triangularization of a quasimatrix</a> <em>IMA J. Numer. Anal.</em> 2010</p>
-</li>
-<li>
-<p>Van Deun and Trefethen, <a
+  Proceedings</em> 2010</li>
+
+<li>Trefethen, <a href="trefethen_householder.pdf" target="_blank">Householder
+  triangularization of a quasimatrix</a> <em>IMA J. Numer. Anal.</em> 2010</li>
+
+<li>Van Deun and Trefethen, <a
   href="http://eprints.maths.ox.ac.uk/926/1/NA-10-03.pdf" target="_blank">A
   robust implementation of the Carath&#233;odory-Fej&#233;r method</a> <em>BIT
-  Numer. Math.</em> 2011</p>
-</li>
-<li>
-<p>Birkisson and Driscoll, Frechet diﬀerentiation for the numerical solution of
-  boundary-value problems <em>ACM Trans. Math. Softw.</em> 2012</p>
-</li>
-<li>
-<p>Hale and Trefethen, <a href="hale_trefethen_Feb142012.pdf"
+  Numer. Math.</em> 2011</li>
+
+<li>Birkisson and Driscoll, Frechet diﬀerentiation for the numerical solution of
+  boundary-value problems <em>ACM Trans. Math. Softw.</em> 2012</li>
+
+<li>Hale and Trefethen, <a href="hale_trefethen_Feb142012.pdf"
   target="_blank">Chebfun and numerical quadrature</a> <em>Science in China</em>
-  2012</p>
-</li>
-<li>
-<p>Hale and Townsend, <a href="HaleTownsend2013a.pdf" target="_blank">Fast and
+  2012</li>
+
+<li>Hale and Townsend, <a href="HaleTownsend2013a.pdf" target="_blank">Fast and
   accurate computation of Gauss–Legendre and Gauss–Jacobi quadrature nodes and
-  weights</a>, <em>SIAM J. Sci. Comput.</em> 2013</p>
-</li>
-<li>
-<p>Hale and Townsend, <a href="HaleTownsend2013b_PREPRINT.pdf"
+  weights</a>, <em>SIAM J. Sci. Comput.</em> 2013</li>
+
+<li>Hale and Townsend, <a href="HaleTownsend2013b_PREPRINT.pdf"
   target="_blank">A fast, simple, and stable Chebyshev–Legendre transform
-  using an asymptotic formula</a>, <em>To appear in SISC</em> 2013</p>
-</li>
-<li>
-<p>Nakatsukasa, Noferini, and Townsend, <a href="biroots.pdf"
+  using an asymptotic formula</a>, <em>To appear in SISC</em> 2013</li>
+
+<li>Nakatsukasa, Noferini, and Townsend, <a href="biroots.pdf"
   target="_blank">Computing the common zeros of two bivariate functions via
-  Bezout resultants</a>, <em>Submitted</em></p>
-</li>
-<li>
-<p>Townsend and Trefethen, <a href="Chebfun2paper.pdf" target="_blank">An
-  extension of Chebfun to two dimensions</a> <em>SIAM J. Sci. Comput.</em> 2013</p>
-</li>
-<li>
-<p>Townsend and Trefethen, <a href="townsend_trefethen2014.pdf"
+  Bezout resultants</a>, <em>Submitted</em></li>
+
+<li>Townsend and Trefethen, <a href="Chebfun2paper.pdf" target="_blank">An
+  extension of Chebfun to two dimensions</a> <em>SIAM J. Sci. Comput.</em> 2013</li>
+
+<li>Townsend and Trefethen, <a href="townsend_trefethen2014.pdf"
   target="_blank">Continuous analogues of matrix factorizations</a>
-  <em>Submitted Feb 2014</em></p>
-</li>
-<li>
-<p>Hale and Townsend, <a href="HaleTownsend2014_PREPRINT.pdf"
+  <em>Submitted Feb 2014</em></li>
+
+<li>Hale and Townsend, <a href="HaleTownsend2014_PREPRINT.pdf"
   target="_blank">An algorithm for the convolution of Legendre series</a>,
-  <em>Submitted Feb 2014</em></p>
-</li>
-</ul>
-<h4 id="one-page-summaries">One-page summaries</h4>
-<ul>
-<li>
-<p>Trefethen, <a href="trefethen_imana.pdf" target="_blank">Chebfun and
-  Chebop</a> <em>IMAJNA Newsletter</em>, 2008</p>
-</li>
-<li>
-<p>Trefethen, <a href="trefethen_newsletter.pdf" target="_blank">Approximation
-  theory and practice</a> <em>Oxford Maths. Inst. Newsletter</em>, 2009</p>
-</li>
-</ul>
-<h4 id="books">Books</h4>
-<ul>
+  <em>Submitted Feb 2014</em></li>
+
+  </ul>
+</div>
+
+<div class='col-sm-6'>
+  <h3>One-page summaries</h3>
+  <ul>
+
+<li>Trefethen, <a href="trefethen_imana.pdf" target="_blank">Chebfun and
+  Chebop</a> <em>IMAJNA Newsletter</em>, 2008</li>
+
+<li>Trefethen, <a href="trefethen_newsletter.pdf" target="_blank">Approximation
+  theory and practice</a> <em>Oxford Maths. Inst. Newsletter</em>, 2009</li>
+
+  </ul>
+  <h3>Books</h3>
+  <ul>
+
 <li>Trefethen, <a href="/chebfun/ATAP/" target="_blank">Approximation Theory and
   Aproximation Practice</a> <em>SIAM</em>, 2013</li>
-</ul>
+
+  </ul>
+</div>
+
+</div></div>
         </div>
     </div>
 </div>
@@ -189,8 +167,8 @@ use Chebfun in a book, paper, website, or other project,
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

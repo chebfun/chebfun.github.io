@@ -4,10 +4,12 @@
     <title>Needle on a corrugated surface &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,56 +31,36 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Needle on a corrugated surface</h1>
-                <h2>Nick Trefethen and Hrothgar, December 2013</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Needle on a corrugated surface</h1>
+<h2>Nick Trefethen and Hrothgar, December 2013<span><a href='/examples/opt/Needle.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/opt/Needle.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <pre class="mcode-input">function needle()</pre>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">function needle()</pre>
 
-<p>The final problem for Oxford's Numerical Analysis Problem Solving Squad this year was the following:</p>
-<p>A needle of length $1$ rests on a surface defined by the height function</p>
-<p>$$ h(x) = 0.1 x^2 + 0.1\sin(6x) + 0.03\sin(12x). $$</p>
-<p>What is the lowest possible height of the centre of the needle?</p>
+<p>The final problem for Oxford's Numerical Analysis Problem Solving Squad this year was the following: <blockquote> A needle of length $1$ rests on a surface defined by the height function $$ h(x) = 0.1 x^2 + 0.1\sin(6x) + 0.03\sin(12x). $$ What is the lowest possible height of the centre of the needle? </blockquote></p>
 <p>Let's begin with a picture:</p>
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
 s = chebfun('s',[-4 4]);
@@ -127,7 +109,7 @@ yyp = interp2(xx,thth,yy,xxp,ttp,'cubic');
 close, contour(xxp,ttp,yyp,80), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 17.993513 seconds.
+<pre class="mcode-output">Elapsed time is 17.617749 seconds.
 </pre>
 
 <p><img src="img/Needle_03.png" class="figure" alt=""></p>
@@ -146,7 +128,7 @@ levels = 0.06:.003:0.12;
 close, contour(xxp,ttp,yyp,levels), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 title(['min value on grid: ' num2str(min(min(yy)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 18.503951 seconds.
+<pre class="mcode-output">Elapsed time is 16.932624 seconds.
 </pre>
 
 <p><img src="img/Needle_04.png" class="figure" alt=""></p>
@@ -160,7 +142,7 @@ end</pre>
 guess = [.41, -0.2];
 tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 7.303371 seconds.
+<pre class="mcode-output">Elapsed time is 7.493476 seconds.
 </pre>
 
 <p>So it would seem that to 10 digits or more, the minimal height is around</p>
@@ -176,20 +158,18 @@ axis equal, axis([-2 2 -.4 1.2])
 plot(xvec(1),yval,'.k',MS,12), grid on</pre>
 
 <p><img src="img/Needle_05.png" class="figure" alt=""></p>
-<pre class="mcode-input">end</pre>
-            </div>
+<pre class="mcode-input">end</pre></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

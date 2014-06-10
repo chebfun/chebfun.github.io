@@ -31,7 +31,7 @@ f = chebfun(@(x) ff(x,mu,sigma), [-inf,inf]);</pre>The cumulative density functi
 
 <pre class="mcode-input">format long
 p = fint(3)-fint(1)</pre><pre class="mcode-output">p =
-   0.682689492137107
+   0.682689492137108
 </pre>Let's plot $f$ and the region $|X-2|&lt;1$:
 
 <pre class="mcode-input">hold off, h = area(f{1,3});
@@ -52,14 +52,16 @@ f = f/sum(f);</pre>We can compute the probability as before:
 
 <pre class="mcode-input">fint = cumsum(f);
 p = fint(3)-fint(1)</pre><pre class="mcode-output">p =
-   0.718570707736159
+   0.718570707468990
 </pre>And here is a plot, with a new color for variety:
 
 <pre class="mcode-input">hold off, h = area(f{1,3});
 set(h,'FaceColor',[0.9 0.3 0.4]), axis auto
 hold on, plot(f,'k',LW,1.6,'interval',[-1 6]), grid on</pre><img src="img/NormalExercises_02.png" class="figure" alt="">
 
-Reference:
 
-[1] A. M. Mood, F. A. Graybill, and D. Boes, Introduction to the Theory of Statistics, McGraw-Hill, 1974.
+
+## References
+
+1. A. M. Mood, F. A. Graybill, and D. Boes, Introduction to the Theory of    Statistics, McGraw-Hill, 1974.
 

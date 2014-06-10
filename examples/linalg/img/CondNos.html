@@ -42,9 +42,11 @@ fprintf('Condition no. for monomials: %8.3f\n',cond(A))</pre><pre class="mcode-o
 
 Now what exactly do these condition numbers mean?  Here is an explanation following Chapter 4 of [2].  $A$ is a "quasimatrix", a matrix with $12$ "columns" that are not vectors but functions of the variable $x$ on $[-1,1]$.  This quasimatrix represents a mapping from the space $R^{12}$ of vectors of dimension $12$ into the $12$-dimensional subspace of degree $11$ polynomials in $L^2([-1,1])$, the infinite-dimensional space of square-integrable functions defined on $[-1,1]$.  Now suppose we consider the unit ball in $R^{12}$, that is, the set of all $12$-vectors whose $2$-norm is $&lt;1$.  The quasimatrix $A$ maps this ball into an $12$-dimensional hyperellipsoid, a kind of $12$-dimensional pancake. The condition number $\mbox{cond}(A)$ is equal to the ratio of the largest dimension of the pancake to the smallest.  When the columns of $A$ are monomials, the pancake is very flat indeed.
 
-References:
 
-[1] L. N. Trefethen, Householder triangularization of a quasimatrix, IMA Journal of Numerical Analysis 30 (2010), 887-897.
 
-[2] L. N. Trefethen and D. Bau, III, Numerical Linear Algebra, SIAM, 1997.
+## References
+
+1. L. N. Trefethen, Householder triangularization of a quasimatrix, IMA    Journal of Numerical Analysis 30 (2010), 887-897.
+
+2. L. N. Trefethen and D. Bau, III, Numerical Linear Algebra, SIAM, 1997.
 

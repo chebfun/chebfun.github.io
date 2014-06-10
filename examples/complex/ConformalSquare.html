@@ -4,10 +4,12 @@
     <title>Conformal map to a square &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Conformal map to a square</h1>
-                <h2>Toby Driscoll, January 2013</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Conformal map to a square</h1>
+<h2>Toby Driscoll, January 2013<span><a href='/examples/complex/ConformalSquare.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/complex/ConformalSquare.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>An analytic function creates a conformal map between regions of the complex plane. These maps distort lengths but exactly preserve all angles. These maps turn out to be useful in some classical physics applications, most notably those using the 2D Laplace equation.</p>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>An analytic function creates a conformal map between regions of the complex plane. These maps distort lengths but exactly preserve all angles. These maps turn out to be useful in some classical physics applications, most notably those using the 2D Laplace equation.</p>
 <p>While analytic functions, and hence conformal maps, are hardly rare, finding the conformal map between two given regions is an old and interesting problem. A major breakthrough was discovered in the 1860's simultaneously by Schwarz and Christoffel and is known now as the Schwarz-Christoffel formula.</p>
 <p>Let $f(z)$ be the map from the interior of the unit disk to the interior of a region bounded by a polygon with $n$ vertices. Then $$ f'(z) = c \prod_{k=1}^n \left(1-\frac{z}{z_k}\right)^{\alpha_k-1}. $$</p>
 <p>In this formula, the points $z_1,\ldots,z_n$ are the inverse images of the vertices (or <em>prevertices</em>) of the polygon, and the interior angles of the polygon are given by $\pi\alpha_1,\ldots,\pi\alpha_n$.</p>
@@ -90,10 +75,10 @@ w = cumsum( fprime(z) )</pre>
 <pre class="mcode-output">w = 
    chebfun column (3 smooth pieces)
        interval       length   endpoint values  
-[       0,    0.57]       20    complex values 
-[    0.57,    0.92]       32    complex values 
+[       0,    0.57]       21    complex values 
+[    0.57,    0.92]       33    complex values 
 [    0.92,       1]    65537    complex values 
-Epslevel = 1.007318e-12.  Vscale = 1.311029e+00.  Total length = 65589.
+Epslevel = 4.027532e-11.  Vscale = 1.311029e+00.  Total length = 65591.
 </pre>
 
 <p>In fact, the resulting expression is essentially real.</p>
@@ -148,23 +133,29 @@ result may not be accurate.
 
 <p><img src="img/ConformalSquare_05.png" class="figure" alt=""></p>
 <p>For more on Schwarz-Christoffel mapping, see [1]. For general-purpose SC mapping software, refer to [2] and [3].</p>
-<p>References:</p>
-<p>[1] T. A. Driscoll and L. N. Trefethen, Schwarz-Christoffel Mapping, Cambridge U. Press, 2002.</p>
-<p>[2] T. A. Driscoll, <a href="http://dx.doi.org/10.1145/1067967.1067971">Algorithm 843: Improvements to the Schwarz-Christoffel Toolbox for MATLAB</a>, ACM Transactions on Mathematical Software 31 (2005), 239-251.</p>
-<p>[3] T. A. Driscoll, Schwarz-Christoffel Mapping Toolbox for MATLAB. <a href="http://www.math.udel.edu/~driscoll/SC">http://www.math.udel.edu/~driscoll/SC</a></p>
-            </div>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>T. A. Driscoll and L. N. Trefethen, Schwarz-Christoffel Mapping,    Cambridge U. Press, 2002.</p>
+</li>
+<li>
+<p>T. A. Driscoll, <Algorithm    843: Improvements to the Schwarz-Christoffel Toolbox for MATLAB>, ACM Transactions on Mathematical Software 31 (2005), 239-251.</p>
+</li>
+<li>
+<p>T. A. Driscoll, Schwarz-Christoffel Mapping Toolbox for MATLAB.    <a href="http://www.math.udel.edu/~driscoll/SC">http://www.math.udel.edu/~driscoll/SC</a></p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

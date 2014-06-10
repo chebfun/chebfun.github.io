@@ -35,25 +35,25 @@ One of Chebfun's features is its ability to locate discontinuities automatically
 
 <pre class="mcode-input">s2 = chebfun(@(x) s(x),[0 10],'splitting','on');
 norm(s-s2,inf)</pre><pre class="mcode-output">ans =
-     2.366625414159292e-14
+     1.521005536677857e-14
 </pre>Here are the breakpoints of the automatically constructed function `s2`. Note that $x=1$ and $x=9$ are missing, again because of the not-a-knot condition.
 
 <pre class="mcode-input">format long
 s2.ends'</pre><pre class="mcode-output">ans =
                    0
-   2.000025815690638
-   3.000002863898938
-   4.000004611623547
-   4.999992108442615
-   6.000001107150206
-   7.000034650319003
-   8.000005924523812
+   2.000005725229792
+   3.000001600230374
+   3.999987057475273
+   5.000008153981277
+   5.999990910674561
+   6.999997431114807
+   8.000021289834358
   10.000000000000000
 </pre>It is interesting that breakpoints near $2,3,\dots,8$ match these values not to $15$ or $16$ digits but to about the cube root of that precision. This does not reflect poor performance of the splitting algorithm, but just the fact that the function being sampled has two continuous derivatives.  If it had only one continuous derivative, we'd get $8$ digits of accuracy, and if only the function itself were continuous, we'd expect $15$ or $16$ digits. When not even the function is continuous, Chebfun captures discontinuities down to the very last bit.  For information about edge detection in Chebfun, see [1].
 
 
 
-## Reference
+## References
 
-[1] R. Pachon, R. B. Platte, and L. N. Trefethen, Piecewise-smooth chebfuns, _IMA Journal of Numerical Analysis_, 30 (2010), 898-916.
+1. R. Pachon, R. B. Platte, and L. N. Trefethen, Piecewise-smooth chebfuns,    _IMA Journal of Numerical Analysis_, 30 (2010), 898-916.
 

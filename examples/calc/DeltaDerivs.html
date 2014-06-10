@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Delta functions and derivatives &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/publications">Publications</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Delta functions and derivatives</h1>
+<h2>Nick Trefethen, August 2012<span><a href='/examples/calc/DeltaDerivs.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/calc/DeltaDerivs.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Here is a sine wave on the interval $[0,20]$ to which have been added a sequence of Dirac delta functions of random amplitudes, with a constant function then subtracted to make the mean zero:</p>
+<pre class="mcode-input">x = chebfun('x',[0 20]);
+f = 0.5*sin(x);
+rng(3)
+for j = 1:19
+  f = f + randn*dirac(x-j);
+end
+f = f - mean(f);
+LW = 'linewidth'; lw = 1.6; FS = 'fontsize'; fs = 12;
+plot(f,LW,1.6)
+title('f:  a sine wave plus a sequence of delta impulses',FS,fs)</pre>
+
+<p><img src="img/DeltaDerivs_01.png" class="figure" alt=""></p>
+<p>Can you explain each of these numbers?</p>
+<pre class="mcode-input">max(f)</pre>
+
+<pre class="mcode-output">ans =
+   Inf
+</pre>
+
+<pre class="mcode-input">min(f)</pre>
+
+<pre class="mcode-output">ans =
+  -Inf
+</pre>
+
+<pre class="mcode-input">sum(f)</pre>
+
+<pre class="mcode-output">ans =
+    -4.440892098500626e-16
+</pre>
+
+<pre class="mcode-input">norm(f,1)</pre>
+
+<pre class="mcode-output">ans =
+  17.151699883096875
+</pre>
+
+<pre class="mcode-input">norm(f,2)</pre>
+
+<pre class="mcode-output">ans =
+   Inf
+</pre>
+
+<pre class="mcode-input">norm(f,inf)</pre>
+
+<pre class="mcode-output">ans =
+   Inf
+</pre>
+
+<p>If we integrate $f$ with <code>cumsum</code>, each delta function becomes a jump. The value at the left is $0$ because <code>cumsum</code> always does that, and the value at the right is $0$ because $f$ has zero mean.</p>
+<pre class="mcode-input">g = cumsum(f);
+plot(g,'r',LW,1.6)
+title('The integral of f',FS,fs)</pre>
+
+<p><img src="img/DeltaDerivs_02.png" class="figure" alt=""></p>
+<p>If we integrate a second time, we get a continuous function, that is, a function of class $C^0$:</p>
+<pre class="mcode-input">h = cumsum(g);
+plot(h,LW,1.6,'color',[0 .7 0])
+title('The second integral of f',FS,fs)</pre>
+
+<p><img src="img/DeltaDerivs_03.png" class="figure" alt=""></p>
+<p>Our eye is good at detecting this degree of non-smoothness.  One final integration gives a $C^1$ function whose lack of smoothness is not so obvious:</p>
+<pre class="mcode-input">q = cumsum(h);
+plot(q,LW,1.6,'color',[1 .5 0])
+title('The third integral of f',FS,fs)</pre>
+
+<p><img src="img/DeltaDerivs_04.png" class="figure" alt=""></p>
+<p>Taking the third derivative of this last function brings us back where we started:</p>
+<pre class="mcode-input">f2 = diff(q,3);
+plot(f2,LW,1.6)
+title('f again, obtained via a third derivative')</pre>
+
+<p><img src="img/DeltaDerivs_05.png" class="figure" alt=""></p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

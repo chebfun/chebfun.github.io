@@ -4,10 +4,12 @@
     <title>Three body problem complex singularities &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Three body problem complex singularities</h1>
-                <h2>Marcus Webb, August 2011</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Three body problem complex singularities</h1>
+<h2>Marcus Webb, August 2011<span><a href='/examples/ode/ThreeBodyProblem.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode/ThreeBodyProblem.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>This example is motivated by a correspondence with Divakar Viswanath, University of Michigan.</p>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>This example is motivated by a correspondence with Divakar Viswanath, University of Michigan.</p>
 <h3 id="introduction">Introduction</h3>
 <p>The three body problem is a system of ODEs modelling three particles of prescribed masses $m_1$, $m_2$, $m_3$ under mutual gravitation in two or three dimensions. We will consider the two dimensional case, so that we can use complex arithmetic to solve it in Chebfun.</p>
 <p>$$ u'' = \frac{m_2(v-u)}{|v-u|^3} + \frac{m_3(w-u)}{|w-u|^3}, $$</p>
@@ -213,24 +198,34 @@ title('Without Robustness')</pre>
 <p><img src="img/ThreeBodyProblem_04.png" class="figure" alt=""></p>
 <p>This is a demonstration of the phenomenon of spurious poles or "Froissart doublets" -- each pole is paired (almost) with a zero in the numerator. Robust <code>ratinterp</code> removes such poles with an implementation based on the singular value decomposition.</p>
 <h3 id="references">References</h3>
-<p>[1] Private communication with Divakar Viswanath, July 2011</p>
-<p>[2] A. Chenciner and R. Montgomery. A remarkable periodic solution of the three-body problem in the case of equal masses. <em>Annals of Mathematics- Second Series</em>, 152(3):881-902, 2000.</p>
-<p>[3] P. Gonnet, R. Pach&Atilde;&sup3;n, and L.N. Trefethen. Robust rational interpolation and least-squares. <em>Electronic Transactions on Numerical Analysis</em>, 38:146-167, 2011.</p>
-<p>[4] Nick Trefethen. Rational interpolation, Robust and non-robust <a href="http://www2.maths.ox.ac.uk/chebfun/examples/approx/html/RationalInterp.shtml">http://www2.maths.ox.ac.uk/chebfun/examples/approx/html/RationalInterp.shtml</a></p>
-<p>[5] Wikipedia article: <a href="http://en.wikipedia.org/wiki/Three_body_problem">http://en.wikipedia.org/wiki/Three_body_problem</a></p>
-            </div>
+<ol>
+<li>
+<p>Private communication with Divakar Viswanath, July 2011</p>
+</li>
+<li>
+<p>A. Chenciner and R. Montgomery. A remarkable periodic solution of the    three-body problem in the case of equal masses. <em>Annals of Mathematics-    Second Series</em>, 152(3):881-902, 2000.</p>
+</li>
+<li>
+<p>P. Gonnet, R. Pach&Atilde;&sup3;n, and L.N. Trefethen. Robust rational interpolation    and least-squares. <em>Electronic Transactions on Numerical Analysis</em>,    38:146-167, 2011.</p>
+</li>
+<li>
+<p>Chebfun Example <a href="../approx/RationalInterp.html">approx/RationalInterp</a></p>
+</li>
+<li>
+<p><a href="http://en.wikipedia.org/wiki/Three_body_problem">http://en.wikipedia.org/wiki/Three_body_problem</a></p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

@@ -30,21 +30,23 @@ r = roots(f)</pre><pre class="mcode-output">r =
    3.000000000000000
    3.507748705363648
    4.000000000000000
-   6.803886359051247
+   6.803886359051246
 </pre>Notice that the result is 8 numbers, including the poles as well as the roots.  This is because Chebfun's convention is to regard a function as having a root at any point where it crosses between positive and negative values.  If we don't want roots of that kind, we can execute instead
 
 <pre class="mcode-input">r = roots(f,'nojump')</pre><pre class="mcode-output">r =
    1.296089645312119
    2.392275290272984
    3.507748705363648
-   6.803886359051247
+   6.803886359051246
 </pre>Let us add the roots to the plot.
 
 <pre class="mcode-input">hold on, plot(r,f(r),'.r','markersize',24)</pre><img src="img/SecularRoots_02.png" class="figure" alt="">
 
-References:
 
-[1] J. J. M. Cuppen, A divide and conquer method for the symmetric tridiagonal eigenproblem, Numerische Mathematik 36 (1980/81), 177-195.
 
-[2] L. N. Trefethen and D. Bau, III, Numerical Linear Algebra, SIAM, 1997.
+## References
+
+1. J. J. M. Cuppen, A divide and conquer method for the symmetric    tridiagonal eigenproblem, Numerische Mathematik 36 (1980/81), 177-195.
+
+2. L. N. Trefethen and D. Bau, III, Numerical Linear Algebra, SIAM, 1997.
 

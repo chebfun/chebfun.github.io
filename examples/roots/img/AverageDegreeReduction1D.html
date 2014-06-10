@@ -87,10 +87,10 @@ The average degree reduction parameter $\tau$ can take almost any value between 
 
 <pre class="mcode-input">M = 2000;
 f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.637570 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.629561 seconds.
 </pre><pre class="mcode-input">c = -1.0001;
 f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 1.000923 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 1.127352 seconds.
 </pre>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.
 
 Here are the functions used above to compute $\tau$ and plot the subdivision diagrams.
@@ -126,13 +126,13 @@ end</pre><pre class="mcode-input">end</pre>
 
 ## References
 
-[1] Z. Battels and L. N. Trefethen, An extension of MATLAB to continuous functions and operators, _SIAM Journal on Scientific Computing_, 25 (2004), pp.1743-1770.
+1. Z. Battels and L. N. Trefethen, An extension of MATLAB to continuous    functions and operators, _SIAM Journal on Scientific Computing_, 25    (2004), pp.1743-1770.
 
-[2] J. P. Boyd, Computing zeros on a real interval through Chebyshev expansion and polynomial rootfinding, _SIAM Journal on Numerical Analysis_, 40 (2002), pp. 1666-1682.
+2. J. P. Boyd, Computing zeros on a real interval through Chebyshev    expansion and polynomial rootfinding, _SIAM Journal on Numerical    Analysis_, 40 (2002), pp. 1666-1682.
 
-[3] J. P. Boyd, Finding the zeros of a univariate equation: Proxy rootfinders, Chebyshev interpolation, and the companion matrix, _SIAM Review_, 55 (2013), pp. 375-396.
+3. J. P. Boyd, Finding the zeros of a univariate equation: Proxy    rootfinders, Chebyshev interpolation, and the companion matrix, _SIAM    Review_, 55 (2013), pp. 375-396.
 
-[4] D. Elliott, The evaluation and estimation of the coefficients in the Chebyshev series expansion of a function, _Mathematics of Computation_, 18 (1964), pp. 274-284.
+4. D. Elliott, The evaluation and estimation of the coefficients in the    Chebyshev series expansion of a function, _Mathematics of Computation_,    18 (1964), pp. 274-284.
 
-[5] M. Richardson, Exact Chebyshev expansion coefficients of a function, Chebfun Example, June 2012.
+5. M. Richardson, Exact Chebyshev expansion coefficients of a function,    Chebfun Example, June 2012.
 

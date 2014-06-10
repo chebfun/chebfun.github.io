@@ -36,7 +36,7 @@ The maximum of $f$ is this,
 
 <pre class="mcode-input">format long
 maxf = max(f)</pre><pre class="mcode-output">maxf =
-   6.227545522966329
+   6.227545522966328
 </pre>and the distance to instability is the reciprocal of this quantity,
 
 <pre class="mcode-input">dist_sing = 1/maxf</pre><pre class="mcode-output">dist_sing =
@@ -74,14 +74,11 @@ for j = 1:12
     subplot(4,3,j)
     plot(normfun(A),LW,1)
     axis([-10 10 0 8]), drawnow
-end</pre><pre class="mcode-output">Warning: Using 'seed' to set RANDN's internal state causes RAND, RANDI, and
-RANDN to use legacy random number generators.  This syntax will be removed in a
-future release.  See &lt;a href="matlab:helpview([docroot
-'\techdoc\math\math.map'],'update_random_number_generator')"&gt;Updating Your
-Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax. 
-</pre><img src="img/ResolventNorm_03.png" class="figure" alt="">
+end</pre><img src="img/ResolventNorm_03.png" class="figure" alt="">
 
-References:
 
-[1] L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of Nonnormal Matrices and Operators, Princeton U. Press, 2005.
+
+## References
+
+1. L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of    Nonnormal Matrices and Operators, Princeton U. Press, 2005.
 

@@ -56,7 +56,7 @@ compute_tau(f, 2)          % Expected to be approximately 1/2
 % each subdivision (in the $x$ or $y$ direction) halves the numerical degree
 % of the polynomial interpolant and $\tau \approx 1/2$.
 
-%% 
+%%
 % Here is a diagram that shows the numerical degrees after each level of
 % subdivision:
 
@@ -77,24 +77,24 @@ M = 20;
 f = @(x,y) sin(M*(x-y));
 compute_tau(f, 2)          % Expected to be approximately 1/sqrt(2) = 0.707
 
-%% 
+%%
 % The average $\tau$ parameter can be explained since all the oscillations of
 % $f$ occur along diagonals, i.e., $y=-x$ (rather than in the coordinate
 % directions). Two subdivisions, one in the $x$ and one in the $y$ direction
 % are required to halve the length of the diagonal lines and hence, $\tau^2
 % \approx 1/2$ and $\tau = 1/\sqrt{2}$.
 
-%% 
+%%
 % Here is a diagram that shows the numerical degrees after each level of
 % subdivision:
 
 clf, subdivisionDiagram(f)
 
-%% 
+%%
 % It can be seen that the numerical degree reduces by a factor of
 % approximately $1/\sqrt{2}$ on each subdivision:
 
-[m,n]=length(chebfun2(f)); 
+[m,n]=length(chebfun2(f));
 max(m,n)./2.^(0:.5:1.5)
 
 %% Symmetric Cauchy function
@@ -110,10 +110,10 @@ max(m,n)./2.^(0:.5:1.5)
 % levels are taken subdivision helps less. For example,
 
 a = 1; b = 100;
-f = @(x,y) 1./((b-a)/2*((x+1)+(y+1))+2*a);  %f = 1/(x+y) on [a,b]x[a,b]     
+f = @(x,y) 1./((b-a)/2*((x+1)+(y+1))+2*a);  %f = 1/(x+y) on [a,b]x[a,b]
 clf, subdivisionDiagram(f)
 
-%% 
+%%
 % Using Elliott's method we have an exact formula for the numerical degree of
 % $f$, for example, the numerical degree in the bottom-left subdomain should
 % be the following:
@@ -161,7 +161,7 @@ function subdivisionDiagram(f)
 % SUBDIVISIONDIAGRAM draw a diagram to show subdivision and polynomial
 % degrees.
 LW = 'linewidth'; lw = 1;
-FS = 'fontsize'; 
+FS = 'fontsize';
 tol = 1e-14;
 set(gcf, 'position', [0 0 600 480]), hold on
 for levels = 0:3
@@ -189,15 +189,13 @@ end
 end
 
 %% References
-%%
-% [1] Y. Nakatsukasa, V. Noferini, and A. Townsend, Computing the common zeros
-% of two bivariate functions via Bezout resultants, 
-% _Numerische Mathematik_, to appear.
 %
-% [2] A. Townsend, 1D Subdivision and the average degree reduction, Chebfun
-% Example, May 2013.
+% 1. Y. Nakatsukasa, V. Noferini, and A. Townsend, Computing the common zeros
+%    of two bivariate functions via Bezout resultants, _Numerische
+%    Mathematik_, to appear.
 %
-% [3] A. Townsend and L. N. Trefethen, An extension of Chebfun to two
-% dimensions, _SIAM Journal on Scientific Computing_, 35
-% (2013), C495-C518.
-
+% 2. A. Townsend, 1D Subdivision and the average degree reduction, Chebfun
+%    Example, May 2013.
+%
+% 3. A. Townsend and L. N. Trefethen, An extension of Chebfun to two
+%    dimensions, _SIAM Journal on Scientific Computing_, 35 (2013), C495-C518.

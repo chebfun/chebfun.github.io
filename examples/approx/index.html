@@ -4,10 +4,12 @@
     <title>Approximation &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,198 +31,278 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Examples &raquo; Approximation</h1>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Approximation</h1>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12" role="main">
-            <div class='row'><a href='/examples/approx/AbsoluteValue.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/AbsoluteValue_01.png' />
-                <h3>Absolute value approximations by rationals</h3>
-                <h4>Nick Trefethen, May 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#abs</a>, <a href='#' class='tag'>#newton</a>, <a href='#' class='tag'>#rational</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/BernsteinPolys.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/BernsteinPolys_01.png' />
-                <h3>Bernstein polynomials</h3>
-                <h4>Nick Trefethen, May 2012</h4>
-                <h4 class='tags'><a href='#' class='tag'>#bernstein</a>, <a href='#' class='tag'>#binomial</a>, <a href='#' class='tag'>#gibbs</a>, <a href='#' class='tag'>#weierstrass</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/BestApprox.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/BestApprox_01.png' />
-                <h3>Best approximation with the `remez` command</h3>
-                <h4>Nick Trefethen, September 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#bestapproximation</a>, <a href='#' class='tag'>#caratheodory</a>, <a href='#' class='tag'>#pachon</a>, <a href='#' class='tag'>#rational</a>, <a href='#' class='tag'>#remez</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/BestL2Approximation.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/BestL2Approximation_01.png' />
-                <h3>Least-squares approximation in Chebfun</h3>
-                <h4>Alex Townsend, October 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#least squares</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/BSplineConv.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/BSplineConv_01.png' />
-                <h3>B-splines and convolution</h3>
-                <h4>Nick Trefethen, July 2012</h4>
-                <h4 class='tags'><a href='#' class='tag'>#bspline</a>, <a href='#' class='tag'>#conv</a>, <a href='#' class='tag'>#convolution</a>, <a href='#' class='tag'>#probability</a>, <a href='#' class='tag'>#spline</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/BumpFunction.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/BumpFunction_01.png' />
-                <h3>Adding together bump functions</h3>
-                <h4>Alex Townsend, March 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#bump</a>, <a href='#' class='tag'>#chebfun2</a>, <a href='#' class='tag'>#gaussian</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/ChebCoeffs.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/ChebCoeffs_01.png' />
-                <h3>Chebyshev coefficients</h3>
-                <h4>Nick Trefethen, September 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#chebpolyplot</a>, <a href='#' class='tag'>#chebyshev</a>, <a href='#' class='tag'>#coefficients</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/ChebPolysHigham.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/ChebPolysHigham_01.png' />
-                <h3>Chebyshev polynomials as plotted by Higham and Higham</h3>
-                <h4>Nick Trefethen, December 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#chebpoly</a>, <a href='#' class='tag'>#chebyshevpolynomial</a>, <a href='#' class='tag'>#higham</a>, <a href='#' class='tag'>#plot3</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/Convergence.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/Convergence_01.png' />
-                <h3>Convergence rates for functions of fractional smoothness</h3>
-                <h4>Alex Townsend, October 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#abs</a>, <a href='#' class='tag'>#discontinuity</a>, <a href='#' class='tag'>#fractional</a>, <a href='#' class='tag'>#gibbsphenomenon</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/Entire.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/Entire_01.png' />
-                <h3>Chebyshev interpolation of oscillatory entire functions</h3>
-                <h4>Mark Richardson, October 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#ellipse</a>, <a href='#' class='tag'>#entire</a>, <a href='#' class='tag'>#interpolation</a>, <a href='#' class='tag'>#resolution</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/ExactChebCoeffs.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/ExactChebCoeffs_01.png' />
-                <h3>Exact Chebyshev expansion coefficients of a function</h3>
-                <h4>Mark Richardson, June 2012</h4>
-                <h4 class='tags'><a href='#' class='tag'>#chebyshevcoefficients</a>, <a href='#' class='tag'>#residue</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/FastChebyshevLegendreTransform.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/FastChebyshevLegendreTransform_01.png' />
-                <h3>A fast Chebyshev-Legendre transform</h3>
-                <h4>Alex Townsend and Nick Hale, August 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#cheb2leg</a>, <a href='#' class='tag'>#chebyshev</a>, <a href='#' class='tag'>#coefficients</a>, <a href='#' class='tag'>#fast transform</a>, <a href='#' class='tag'>#fft</a>, <a href='#' class='tag'>#leg2cheb</a>, <a href='#' class='tag'>#legendre</a>, <a href='#' class='tag'>#legpts</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/FiltersCF.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/FiltersCF_01.png' />
-                <h3>Digital filters via CF approximation</h3>
-                <h4>Nick Trefethen, April 2014</h4>
-                <h4 class='tags'><a href='#' class='tag'>#caratheodory-fejer</a>, <a href='#' class='tag'>#cf</a>, <a href='#' class='tag'>#filter</a>, <a href='#' class='tag'>#remez</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/GreedyInterp.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/GreedyInterp_01.png' />
-                <h3>A greedy algorithm for choosing interpolation points</h3>
-                <h4>Nick Trefethen, November 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#chebyshevpoints</a>, <a href='#' class='tag'>#greedy</a>, <a href='#' class='tag'>#interpolation</a>, <a href='#' class='tag'>#leja</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/Halphen.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/Halphen_01.png' />
-                <h3>Halphen's constant for approximation of `exp(x)`</h3>
-                <h4>Nick Trefethen, May 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#9.28903</a>, <a href='#' class='tag'>#exponential</a>, <a href='#' class='tag'>#halphen</a>, <a href='#' class='tag'>#rational</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/LebesgueConst.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/LebesgueConst_01.png' />
-                <h3>Lebesgue functions and Lebesgue constants</h3>
-                <h4>Nick Trefethen, November 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#lebesgue</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/OrthPolys.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/OrthPolys_01.png' />
-                <h3>Orthogonal polynomials via the Gram-Schmidt process</h3>
-                <h4>Nick Hale, June 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#chebpoly</a>, <a href='#' class='tag'>#gramschmidt</a>, <a href='#' class='tag'>#hermpoly</a>, <a href='#' class='tag'>#lagpoly</a>, <a href='#' class='tag'>#legpoly</a>, <a href='#' class='tag'>#orthogonal</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/OscError.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/OscError_01.png' />
-                <h3>Approximations and oscillation of error</h3>
-                <h4>Mohsin Javed, October 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#bestapproximation</a>, <a href='#' class='tag'>#interpolation</a>, <a href='#' class='tag'>#l2approximation</a>, <a href='#' class='tag'>#polyfit</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/PrettyFunctions.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/PrettyFunctions_01.png' />
-                <h3>Pretty functions approximated by Chebfun2</h3>
-                <h4>Alex Townsend, March 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#contour</a>, <a href='#' class='tag'>#mesh</a>, <a href='#' class='tag'>#plot</a>, <a href='#' class='tag'>#plot3</a>, <a href='#' class='tag'>#surf</a>, <a href='#' class='tag'>#surfc</a>, <a href='#' class='tag'>#waterfall</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/RationalInterp.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/RationalInterp_01.png' />
-                <h3>Rational interpolation, robust and non-robust</h3>
-                <h4>Nick Trefethen, August 2011</h4>
-                <h4 class='tags'><a href='#' class='tag'>#interpolation</a>, <a href='#' class='tag'>#least-squares</a>, <a href='#' class='tag'>#ratinterp</a>, <a href='#' class='tag'>#rational</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/ResolutionWiggly.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/ResolutionWiggly_01.png' />
-                <h3>Resolution of wiggly functions</h3>
-                <h4>Nick Hale and Nick Trefethen, October 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#best approximation</a>, <a href='#' class='tag'>#interpolation</a>, <a href='#' class='tag'>#least squares</a>, <a href='#' class='tag'>#polyfit</a>, <a href='#' class='tag'>#remez</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/ScalingAndSquaring.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/ScalingAndSquaring_01.png' />
-                <h3>Rational approximation to the exponential in a complex region</h3>
-                <h4>Yuji Nakatsukasa and Stefan Guettel, July 2012</h4>
-                <h4 class='tags'><a href='#' class='tag'>#exponential</a>, <a href='#' class='tag'>#padeapprox</a>, <a href='#' class='tag'>#rational</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/Splines.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/Splines_01.png' />
-                <h3>Splines</h3>
-                <h4>Nick Trefethen, February 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#spline</a>, <a href='#' class='tag'>#splitting</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/WeierstrassFunction.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/WeierstrassFunction_01.png' />
-                <h3>A pathological function of Weierstrass</h3>
-                <h4>Hrothgar, October 2013</h4>
-                <h4 class='tags'><a href='#' class='tag'>#approximation</a>, <a href='#' class='tag'>#infinite series</a>, <a href='#' class='tag'>#weierstrass</a></h4>
-                </div></a></div><div class='row'><a href='/examples/approx/WigglyApprox.html'>
-                <div class='col-md-12 well gallery-item left'>
-                <img src='/examples/approx/img/WigglyApprox_01.png' />
-                <h3>A wiggly function and its best approximations</h3>
-                <h4>Ricardo Pachon and Nick Trefethen, November 2010</h4>
-                <h4 class='tags'><a href='#' class='tag'>#best</a>, <a href='#' class='tag'>#chebpoly</a>, <a href='#' class='tag'>#remez</a></h4>
-                </div></a></div>            </ol>
+
+    <div class="container">
+<div class="row main noleftpadding">
+            <div class="col-sm-4 noleftpadding">    <ul class='sidenav'>
+        <li class='active'><a href="/examples/approx/index.html">Approximation (25)</a></li>
+        <li><a href="/examples/calc/index.html">Calculus (6)</a></li>
+        <li><a href="/examples/complex/index.html">Complex variables (7)</a></li>
+        <li><a href="/examples/fun/index.html">Fun stuff! (3)</a></li>
+        <li><a href="/examples/geom/index.html">Geometry (6)</a></li>
+        <li><a href="/examples/integro/index.html">Integral equations (2)</a></li>
+        <li><a href="/examples/linalg/index.html">Linear algebra (9)</a></li>
+        <li><a href="/examples/ode/index.html">Ordinary differential equations (20)</a></li>
+        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems (6)</a></li>
+        <li><a href="/examples/opt/index.html">Optimization (8)</a></li>
+        <li><a href="/examples/pde/index.html">Partial differential equations (1)</a></li>
+        <li><a href="/examples/quad/index.html">Quadrature (3)</a></li>
+        <li><a href="/examples/roots/index.html">Rootfinding (14)</a></li>
+        <li><a href="/examples/stats/index.html">Probability and statistics (6)</a></li>
+        <li><a href="/examples/veccalc/index.html">Vector calculus (2)</a></li>
+    </ul>
+</div>
+            <div id='content' class="col-sm-8" role="main">    
+    <ol class='examples slats'>
+    <li>
+        <a href='/examples/approx/AbsoluteValue.html'>
+            <img src='/examples/approx/img/AbsoluteValue_01.png' />
+            <h3>Absolute value approximations by rationals</h3>
+            <p>Nick Trefethen, May 2011
+                <span class='tags'><span href='#' class='tag'>#abs</span>, <span href='#' class='tag'>#newton</span>, <span href='#' class='tag'>#rational</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/BernsteinPolys.html'>
+            <img src='/examples/approx/img/BernsteinPolys_01.png' />
+            <h3>Bernstein polynomials</h3>
+            <p>Nick Trefethen, May 2012
+                <span class='tags'><span href='#' class='tag'>#bernstein</span>, <span href='#' class='tag'>#binomial</span>, <span href='#' class='tag'>#gibbs</span>, <span href='#' class='tag'>#weierstrass</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/BestApprox.html'>
+            <img src='/examples/approx/img/BestApprox_01.png' />
+            <h3>Best approximation with the `remez` command</h3>
+            <p>Nick Trefethen, September 2010
+                <span class='tags'><span href='#' class='tag'>#bestapproximation</span>, <span href='#' class='tag'>#caratheodory</span>, <span href='#' class='tag'>#pachon</span>, <span href='#' class='tag'>#rational</span>, <span href='#' class='tag'>#remez</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/BestL2Approximation.html'>
+            <img src='/examples/approx/img/BestL2Approximation_01.png' />
+            <h3>Least-squares approximation in Chebfun</h3>
+            <p>Alex Townsend, October 2013
+                <span class='tags'><span href='#' class='tag'>#least squares</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/BSplineConv.html'>
+            <img src='/examples/approx/img/BSplineConv_01.png' />
+            <h3>B-splines and convolution</h3>
+            <p>Nick Trefethen, July 2012
+                <span class='tags'><span href='#' class='tag'>#bspline</span>, <span href='#' class='tag'>#conv</span>, <span href='#' class='tag'>#convolution</span>, <span href='#' class='tag'>#probability</span>, <span href='#' class='tag'>#spline</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/BumpFunction.html'>
+            <img src='/examples/approx/img/BumpFunction_01.png' />
+            <h3>Adding together bump functions</h3>
+            <p>Alex Townsend, March 2013
+                <span class='tags'><span href='#' class='tag'>#bump</span>, <span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#gaussian</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/ChebCoeffs.html'>
+            <img src='/examples/approx/img/ChebCoeffs_01.png' />
+            <h3>Chebyshev coefficients</h3>
+            <p>Nick Trefethen, September 2010
+                <span class='tags'><span href='#' class='tag'>#chebpolyplot</span>, <span href='#' class='tag'>#chebyshev</span>, <span href='#' class='tag'>#coefficients</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/ChebPolysHigham.html'>
+            <img src='/examples/approx/img/ChebPolysHigham_01.png' />
+            <h3>Chebyshev polynomials as plotted by Higham and Higham</h3>
+            <p>Nick Trefethen, December 2011
+                <span class='tags'><span href='#' class='tag'>#chebpoly</span>, <span href='#' class='tag'>#chebyshevpolynomial</span>, <span href='#' class='tag'>#higham</span>, <span href='#' class='tag'>#plot3</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/Convergence.html'>
+            <img src='/examples/approx/img/Convergence_01.png' />
+            <h3>Convergence rates for functions of fractional smoothness</h3>
+            <p>Alex Townsend, October 2010
+                <span class='tags'><span href='#' class='tag'>#abs</span>, <span href='#' class='tag'>#discontinuity</span>, <span href='#' class='tag'>#fractional</span>, <span href='#' class='tag'>#gibbsphenomenon</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/Entire.html'>
+            <img src='/examples/approx/img/Entire_01.png' />
+            <h3>Chebyshev interpolation of oscillatory entire functions</h3>
+            <p>Mark Richardson, October 2011
+                <span class='tags'><span href='#' class='tag'>#ellipse</span>, <span href='#' class='tag'>#entire</span>, <span href='#' class='tag'>#interpolation</span>, <span href='#' class='tag'>#resolution</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/ExactChebCoeffs.html'>
+            <img src='/examples/approx/img/ExactChebCoeffs_01.png' />
+            <h3>Exact Chebyshev expansion coefficients of a function</h3>
+            <p>Mark Richardson, June 2012
+                <span class='tags'><span href='#' class='tag'>#chebyshevcoefficients</span>, <span href='#' class='tag'>#residue</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/FastChebyshevLegendreTransform.html'>
+            <img src='/examples/approx/img/FastChebyshevLegendreTransform_01.png' />
+            <h3>A fast Chebyshev-Legendre transform</h3>
+            <p>Alex Townsend and Nick Hale, August 2013
+                <span class='tags'><span href='#' class='tag'>#cheb2leg</span>, <span href='#' class='tag'>#chebyshev</span>, <span href='#' class='tag'>#coefficients</span>, <span href='#' class='tag'>#fast transform</span>, <span href='#' class='tag'>#fft</span>, <span href='#' class='tag'>#leg2cheb</span>, <span href='#' class='tag'>#legendre</span>, <span href='#' class='tag'>#legpts</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/FiltersCF.html'>
+            <img src='/examples/approx/img/FiltersCF_01.png' />
+            <h3>Digital filters via CF approximation</h3>
+            <p>Nick Trefethen, April 2014
+                <span class='tags'><span href='#' class='tag'>#caratheodory-fejer</span>, <span href='#' class='tag'>#cf</span>, <span href='#' class='tag'>#filter</span>, <span href='#' class='tag'>#remez</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/GreedyInterp.html'>
+            <img src='/examples/approx/img/GreedyInterp_01.png' />
+            <h3>A greedy algorithm for choosing interpolation points</h3>
+            <p>Nick Trefethen, November 2011
+                <span class='tags'><span href='#' class='tag'>#chebyshevpoints</span>, <span href='#' class='tag'>#greedy</span>, <span href='#' class='tag'>#interpolation</span>, <span href='#' class='tag'>#leja</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/Halphen.html'>
+            <img src='/examples/approx/img/Halphen_01.png' />
+            <h3>Halphen's constant for approximation of `exp(x)`</h3>
+            <p>Nick Trefethen, May 2011
+                <span class='tags'><span href='#' class='tag'>#9.28903</span>, <span href='#' class='tag'>#exponential</span>, <span href='#' class='tag'>#halphen</span>, <span href='#' class='tag'>#rational</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/LebesgueConst.html'>
+            <img src='/examples/approx/img/LebesgueConst_01.png' />
+            <h3>Lebesgue functions and Lebesgue constants</h3>
+            <p>Nick Trefethen, November 2010
+                <span class='tags'><span href='#' class='tag'>#lebesgue</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/OrthPolys.html'>
+            <img src='/examples/approx/img/OrthPolys_01.png' />
+            <h3>Orthogonal polynomials via the Gram-Schmidt process</h3>
+            <p>Nick Hale, June 2011
+                <span class='tags'><span href='#' class='tag'>#chebpoly</span>, <span href='#' class='tag'>#gramschmidt</span>, <span href='#' class='tag'>#hermpoly</span>, <span href='#' class='tag'>#lagpoly</span>, <span href='#' class='tag'>#legpoly</span>, <span href='#' class='tag'>#orthogonal</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/OscError.html'>
+            <img src='/examples/approx/img/OscError_01.png' />
+            <h3>Approximations and oscillation of error</h3>
+            <p>Mohsin Javed, October 2013
+                <span class='tags'><span href='#' class='tag'>#bestapproximation</span>, <span href='#' class='tag'>#interpolation</span>, <span href='#' class='tag'>#l2approximation</span>, <span href='#' class='tag'>#polyfit</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/PrettyFunctions.html'>
+            <img src='/examples/approx/img/PrettyFunctions_01.png' />
+            <h3>Pretty functions approximated by Chebfun2</h3>
+            <p>Alex Townsend, March 2013
+                <span class='tags'><span href='#' class='tag'>#contour</span>, <span href='#' class='tag'>#mesh</span>, <span href='#' class='tag'>#plot</span>, <span href='#' class='tag'>#plot3</span>, <span href='#' class='tag'>#surf</span>, <span href='#' class='tag'>#surfc</span>, <span href='#' class='tag'>#waterfall</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/RationalInterp.html'>
+            <img src='/examples/approx/img/RationalInterp_01.png' />
+            <h3>Rational interpolation, robust and non-robust</h3>
+            <p>Nick Trefethen, August 2011
+                <span class='tags'><span href='#' class='tag'>#interpolation</span>, <span href='#' class='tag'>#least-squares</span>, <span href='#' class='tag'>#ratinterp</span>, <span href='#' class='tag'>#rational</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/ResolutionWiggly.html'>
+            <img src='/examples/approx/img/ResolutionWiggly_01.png' />
+            <h3>Resolution of wiggly functions</h3>
+            <p>Nick Hale and Nick Trefethen, October 2013
+                <span class='tags'><span href='#' class='tag'>#best approximation</span>, <span href='#' class='tag'>#interpolation</span>, <span href='#' class='tag'>#least squares</span>, <span href='#' class='tag'>#polyfit</span>, <span href='#' class='tag'>#remez</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/ScalingAndSquaring.html'>
+            <img src='/examples/approx/img/ScalingAndSquaring_01.png' />
+            <h3>Rational approximation to the exponential in a complex region</h3>
+            <p>Yuji Nakatsukasa and Stefan Guettel, July 2012
+                <span class='tags'><span href='#' class='tag'>#exponential</span>, <span href='#' class='tag'>#padeapprox</span>, <span href='#' class='tag'>#rational</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/Splines.html'>
+            <img src='/examples/approx/img/Splines_01.png' />
+            <h3>Splines</h3>
+            <p>Nick Trefethen, February 2013
+                <span class='tags'><span href='#' class='tag'>#spline</span>, <span href='#' class='tag'>#splitting</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/WeierstrassFunction.html'>
+            <img src='/examples/approx/img/WeierstrassFunction_01.png' />
+            <h3>A pathological function of Weierstrass</h3>
+            <p>Hrothgar, October 2013
+                <span class='tags'><span href='#' class='tag'>#approximation</span>, <span href='#' class='tag'>#infinite series</span>, <span href='#' class='tag'>#weierstrass</span></span>
+            </p>
+        </a>
+    </li>
+    <li>
+        <a href='/examples/approx/WigglyApprox.html'>
+            <img src='/examples/approx/img/WigglyApprox_01.png' />
+            <h3>A wiggly function and its best approximations</h3>
+            <p>Ricardo Pachon and Nick Trefethen, November 2010
+                <span class='tags'><span href='#' class='tag'>#best</span>, <span href='#' class='tag'>#chebpoly</span>, <span href='#' class='tag'>#remez</span></span>
+            </p>
+        </a>
+    </li>
+    </ol>
+</div>
         </div>
     </div>
 </div>
@@ -230,8 +312,8 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>

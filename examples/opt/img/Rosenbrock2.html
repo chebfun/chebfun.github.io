@@ -39,7 +39,7 @@ toc</pre><pre class="mcode-output">minf =
   -0.969232500643146
 minx =
    0.395759632251660   0.331573976807090
-Elapsed time is 0.333936 seconds.
+Elapsed time is 0.286578 seconds.
 </pre>Here is a plot, again with the computed global minimum.
 
 <pre class="mcode-input">contour(F,30, LW, lw), colorbar, hold on
@@ -71,9 +71,11 @@ Or we can even make chebfuns of the $.5$ level curves of $F$:
 <pre class="mcode-input">g = roots(F - .5);
 plot(g, 'r', LW, 2), shg</pre><img src="img/Rosenbrock2_05.png" class="figure" alt="">
 
-References:
 
-[1] H. H. Rosenbrock, "An automatic method for finding the greatest or least value of a function", Computer Journal, 3 (1960), 175-184.
 
-[2] <http://www.chebfun.org/examples/opt/html/Rosenbrock.shtml>
+## References
+
+1. H. H. Rosenbrock, "An automatic method for finding the greatest or least    value of a function", Computer Journal, 3 (1960), 175-184.
+
+2. Chebfun Example [opt/Rosenbrock](../opt/Rosenbrock.html)
 

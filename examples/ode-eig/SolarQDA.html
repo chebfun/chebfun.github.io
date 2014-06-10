@@ -4,10 +4,12 @@
     <title>Model of a quantum dot array for solar energy &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
     <!-- Bootstrap -->
-    <link href="/css/bootstrap-custom.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/site.css" rel="stylesheet"><!--  media="screen" -->
-    <link href="/css/syntax.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
     <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
 
@@ -29,51 +31,34 @@
   <body>
     <!-- Fixed navbar -->
     <div id='navbar' class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+      <div class="container nav">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/"><img src='/images/logo.png' /></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <!--<li class="dropdown">
-              <a href="HREF" class="dropdown-toggle" data-toggle="dropdown">TITLE <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="HREF">SUBTITLE</a></li>
-              </ul>
-            </li>-->
             <li><a href="/about">About</a></li>
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/examples">Examples</a></li>
-            <li><a href="/develop">Develop</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<div class='jumbotron page-header'>
-    <div class='container'>
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Model of a quantum dot array for solar energy</h1>
-                <h2>Toby Driscoll, May 2011</h2>
-            </div>
-        </div>
-    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Model of a quantum dot array for solar energy</h1>
+<h2>Toby Driscoll, May 2011<span><a href='/examples/ode-eig/SolarQDA.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-eig/SolarQDA.m'>view on Github</a></span></h2>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="content example-content">
-            <div class="col-md-12" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>Researchers at the University of Delaware are exploring the use of quantum dot arrays (QDA) to capture solar energy. One simplified model of a QDA is as a 1D Schroedinger eigenvalue problem. The governing equation is</p>
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Researchers at the University of Delaware are exploring the use of quantum dot arrays (QDA) to capture solar energy. One simplified model of a QDA is as a 1D Schroedinger eigenvalue problem. The governing equation is</p>
 <p>$$ -\frac{\hbar^2}{2m} \psi'' + U(x) \psi = E \psi, $$</p>
 <p>where $\psi(x)$ is the wavefunction, $\hbar$ is Planck's constant divided by $2\pi$, $m$ is an effective mass, $E$ is an allowed energy, and $U(x)$ is a potential with wells representing the quantum dots. We will take $\psi=0$ far from the wells to supply boundary conditions.</p>
 <p>Here are some dimensional parameters corresponding to physical experiments. Space is measured in nanometers and energy is in electron volts.</p>
@@ -126,6 +111,11 @@ plot(Psi,LW,lw), ylabel('wavefunction'), xlim(x([1 end]))</pre>
 semilogy(Psi.^2,LW,lw), ylabel('probability'),
 axis( [x([2 end-1]) 1e-3 1e-1]  )</pre>
 
+<pre class="mcode-output">Warning: Negative data ignored 
+Warning: Negative data ignored 
+Warning: Negative data ignored 
+</pre>
+
 <p><img src="img/SolarQDA_03.png" class="figure" alt=""></p>
 <p>In practice, though, the potential wells cannot be fabricated identically. A brief experiment shows that the delocalization deteriorates even with small fluctuations in the well depths. Here we perturb by 2% variance.</p>
 <pre class="mcode-input">vals = [repmat([depth 0],1,numwell) depth];  % [ 0 -depth 0 ... -depth 0 ]
@@ -135,6 +125,13 @@ vals(2:2:end) = vals(2:2:end) + 0.017*randn(1,numwell);
 
 vals = mat2cell(vals,1,ones(1,2*numwell+1));  % convert to cell
 U = chebfun(vals,x);</pre>
+
+<pre class="mcode-output">Warning: Using 'state' to set RANDN's internal state causes RAND, RANDI, and
+RANDN to use legacy random number generators.  This syntax will be removed in a
+future release.  See &lt;a href="matlab:helpview([docroot
+'\techdoc\math\math.map'],'update_random_number_generator')"&gt;Updating Your
+Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax. 
+</pre>
 
 <p>Now we find that the wavefunctions extend significantly over just one or two wells.</p>
 <pre class="mcode-input">N.op = @(psi) -hbar^2./(2*emass).*diff(psi,2) + U.*psi;
@@ -148,23 +145,27 @@ axis( [x([2 end-1]) 1e-3 1e-0]  )</pre>
    0.232140581678280
    0.241302649586224
    0.252997582174507
+Warning: Negative data ignored 
+Warning: Negative data ignored 
+Warning: Negative data ignored 
 </pre>
 
 <p><img src="img/SolarQDA_04.png" class="figure" alt=""></p>
-<p>References: [1] W. M. Reid, T. Driscoll, and M. F. Doty, "Forming delocalized intermediate states with realistic quantum dots." J. Appl. Phys. 111, 056102 (2012). <a href="http://dx.doi.org/10.1063/1.3691113">http://dx.doi.org/10.1063/1.3691113</a></p>
-            </div>
+<h3 id="references">References</h3>
+<ol>
+<li>W. M. Reid, T. Driscoll, and M. F. Doty, "Forming delocalized    intermediate states with realistic quantum dots." J. Appl. Phys. 111,    056102 (2012). <a href="http://dx.doi.org/10.1063/1.3691113">http://dx.doi.org/10.1063/1.3691113</a></li>
+</ol></div>
         </div>
     </div>
 </div>
-
     <div class="footer">
         <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
