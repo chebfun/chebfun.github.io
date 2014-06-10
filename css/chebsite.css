@@ -351,7 +351,6 @@ blockquote {
   padding: 0 15px;
   font-size: inherit;
   border-left: 4px solid #686868;
-  font-style: italic;
 }
 
 .mcode-error {
@@ -387,6 +386,18 @@ blockquote {
     position: absolute;
     left: -2em;
 }
+
+/* news-related
+--------------------------------------------------------------------------- */
+.read-more {
+  margin-left: .8em;
+  display: inline-block;
+  float: right;
+  color: #2790ae;
+}
+  a:hover .read-more {
+    text-decoration: underline;
+  }
 
 
 /* thumbnail gallery (for about/people.html)
