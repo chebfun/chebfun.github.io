@@ -1,14 +1,14 @@
 ---
 title: "9. Infinite Intervals, Infinite Function Values, and Singularities"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, November 2009, latest revision May 2014"
+authordate: "Lloyd N. Trefethen, November 2009, latest revision June 2014"
 ---
 
 This chapter presents some features of Chebfun that are less robust than what is described in the first eight chapters.  With classic bounded chebfuns on a bounded interval $[a,b]$, you can do amazingly complicated things often without encountering any difficulties. Now we are going to let the intervals and the functions diverge to infinity -- but please lower your expectations!  These features are not always as accurate or reliable.
 
 
 
-# 9.1 Infinite intervals
+## 9.1 Infinite intervals
 
 If a function converges reasonably rapidly to a constant at $\infty$, you can define a corresponding chebfun.  Here are a couple of examples on $[0,\infty]$.  First we plot a function and find its maximum:
 
@@ -73,19 +73,19 @@ disp('          erf               errorfun')
 for n = 1:6, disp([erf(n) errorfun(n)]), end</pre><pre class="mcode-output">errorfun = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,     Inf]       90         0        1 
-Epslevel = 1.886954e-15.  Vscale = 1.000000e+00.
+[       0,     Inf]       99         0        1 
+Epslevel = 2.220446e-16.  Vscale = 1.000000e+00.
           erf               errorfun
-   0.842700792949715   0.842700792948945
-   0.995322265018953   0.995322265017454
-   0.999977909503001   0.999977909500819
-   0.999999984582742   0.999999984579917
-   0.999999999998463   0.999999999995022
-   1.000000000000000   0.999999999995979
+   0.842700792949715   0.842700792948944
+   0.995322265018953   0.995322265017458
+   0.999977909503001   0.999977909500824
+   0.999999984582742   0.999999984579919
+   0.999999999998463   0.999999999995027
+   1.000000000000000   0.999999999995982
 </pre>One should be cautious in evaluating integrals over infinite intervals, however, for as mentioned in Section 1.5, the accuracy is sometimes disappointing, especially for functions that do not decay very quickly:
 
 <pre class="mcode-input">sum(chebfun('(1/pi)./(1+s.^2)',[-inf inf]))</pre><pre class="mcode-output">ans =
-   1.000000000010316
+   1.000000000010317
 </pre>Here's an example of a function whose wiggles decay to slowly to be fully resolved:
 
 <pre class="mcode-input">sinc = chebfun('sin(pi*x)./(pi*x)',[-inf inf]);
@@ -98,7 +98,7 @@ The use of mappings to simplify an unbounded domain to a bounded one is an idea 
 
 
 
-# 9.2 Poles
+## 9.2 Poles
 
 Chebfun can handle certain "vertical" as well as "horizontal" infinities -- especially, functions that blow up according to an integer power, i.e., with a pole.  If you know the nature of the blowup, it is a good idea to specify it using the `'exps'` flag. For example, here's a function with a pole at $0$.  We use `'exps'` to tell the constructor that the function looks like $x^{-1}$ at the left endpoint and $x^0$ (i.e., smooth) at the right endpoint.
 
@@ -136,7 +136,7 @@ plot(f,LW,1.6), ylim([-30 30])</pre><img src="img/guide9_11.png" class="figure" 
 
 
 
-# 9.3  Singularities other than poles
+## 9.3  Singularities other than poles
 
 Less reliable but also sometimes useful is the possibility of working with functions with algebraic singularities that are not poles. Here's a function with inverse square root singularities at each end:
 
@@ -172,29 +172,27 @@ f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [       0,       2]    65537         0      3.8 
-Epslevel = 1.704024e-12.  Vscale = 3.844231e+00.
+Epslevel = 6.814598e-11.  Vscale = 3.844231e+00.
 </pre>We could turn splitting on and resolve the function by many pieces, as illustrated in Section 8.3:
 
 <pre class="mcode-input">f = chebfun(ff,d,'splitting','on')</pre><pre class="mcode-output">f = 
-   chebfun column (8 smooth pieces)
+   chebfun column (6 smooth pieces)
        interval       length   endpoint values  
-[       0,   2e-12]       16         0  1.4e-06 
-[   2e-12,   2e-10]       30   1.4e-06  1.4e-05 
+[       0,   2e-10]       43         0  1.4e-05 
 [   2e-10,   2e-08]       62   1.4e-05  0.00014 
 [   2e-08,   2e-06]       91   0.00014   0.0014 
 [   2e-06,  0.0002]      111    0.0014    0.014 
 [  0.0002,    0.02]      122     0.014     0.14 
-[    0.02,       1]       98      0.14      1.7 
-[       1,       2]       18       1.7      3.8 
-Epslevel = 4.572597e-10.  Vscale = 3.844231e+00.  Total length = 548.
+[    0.02,       2]       84      0.14      3.8 
+Epslevel = 4.572597e-10.  Vscale = 3.844231e+00.  Total length = 513.
 </pre>A much better representation, however, is constructed if we tell Chebfun about the singularity at $x=0$:
 
 <pre class="mcode-input">f = chebfun(ff,d,'exps',[.5 0])
 plot(f,LW,1.6)</pre><pre class="mcode-output">f = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values   endpoint exponents
-[       0,       2]       13         0      3.8         [0.5      0]  
-Epslevel = 6.492624e-16.  Vscale = 2.718282e+00.
+[       0,       2]       12         0      3.8         [0.5      0]  
+Epslevel = 1.000000e-14.  Vscale = 2.718282e+00.
 </pre><img src="img/guide9_13.png" class="figure" alt="">
 
 Under certain circumstances Chebfun will introduce singularities like this of its own accord.  For example, just as `abs(f)` introduces breakpoints at roots of `f`, `sqrt(abs(f))` introduces breakpoints and also singularities at such roots:
@@ -219,8 +217,8 @@ If you have a function that blows up but you don't know the nature of the singul
 <pre class="mcode-input">f = chebfun('x.*(1+x).^(-exp(1)).*(1-x).^(-pi)','blowup',2)</pre><pre class="mcode-output">f = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values   endpoint exponents
-[      -1,       1]      122      -Inf      Inf         [-2.7      -3.1]  
-Epslevel = 1.409895e-15.  Vscale = 1.000000e+00.
+[      -1,       1]       30      -Inf      Inf         [-2.7      -3.1]  
+Epslevel = 1.000000e-14.  Vscale = 1.000000e+00.
 </pre>Notice that the `'exps'` field shows values close to $-e$ and $-\pi$, as is confirmed by looking at the numbers to higher precision:
 
 <pre class="mcode-input">f.funs{1}.onefun.exponents</pre><pre class="mcode-output">ans =
@@ -229,13 +227,13 @@ Epslevel = 1.409895e-15.  Vscale = 1.000000e+00.
 
 
 
-# 9.4 Another approach to singularities
+## 9.4 Another approach to singularities
 
 Chebfun version 4 offered an alternative "`singmap`" approach to singularities based on mappings of the $x$ variable.   This is no longer available in version 5.
 
 
 
-# 9.5 References
+## 9.5 References
 
 [Boyd 2001] J. P. Boyd, _Chebyshev and Fourier Spectral Methods_, 2nd ed., Dover, 2001.
 

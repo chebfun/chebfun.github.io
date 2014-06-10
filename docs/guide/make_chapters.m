@@ -49,12 +49,8 @@ function mypublish(varargin)
 
 close all
 evalin('base','clear all');
-% chebfunpref('factory'), cheboppref('factory')
 guideFormats;
-warning('off', 'MATLAB:gui:latexsup:UnableToInterpretLaTeXString');
-warning('off', 'MATLAB:gui:latexsup:UnsupportedFont');
-publish(varargin{:});
-% chebfunpref('factory'), cheboppref('factory')
+chebexample_publish(varargin{:});
 close all
 
 return

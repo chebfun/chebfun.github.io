@@ -1,12 +1,12 @@
 ---
 title: "4. Chebfun and Approximation Theory"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, November 2009, latest revision May 2014"
+authordate: "Lloyd N. Trefethen, November 2009, latest revision June 2014"
 ---
 
 
 
-# 4.1  Chebyshev series and interpolants
+## 4.1  Chebyshev series and interpolants
 
 Chebfun is founded on the mathematical subject of approximation theory, and in particular, on Chebyshev series and interpolants. Conversely, it provides a simple environment in which to demonstrate these approximants and other approximation ideas.
 
@@ -62,7 +62,7 @@ Each coefficient $c_k$ will converge to $a_k$ as $N\to\infty$ (apart from the ef
 
 
 
-# 4.2 `chebpoly` and `poly`
+## 4.2 `chebpoly` and `poly`
 
 We have just seen that the command `chebpoly(N)` returns a chebfun corresponding to the Chebyshev polynomial $T_N$.  Conversely, if `f` is a chebfun, then `chebpoly(f)` is the vector of its Chebyshev coefficients. (This use of `chebpoly` is scheduled to be replaced soon by a distinct command `chebcoeffs`.) For example, here are the Chebyshev coefficients of $x^3$:
 
@@ -126,7 +126,7 @@ disp([cchebfun ctaylor])</pre><pre class="mcode-output">        chebfun         
 
 
 
-# 4.3 `chebfun(...,N)` and the Gibbs phenomenon
+## 4.3 `chebfun(...,N)` and the Gibbs phenomenon
 
 We can examine the approximation qualities of Chebyshev interpolants by means of a command of the form `chebfun(...,N)`.  When an integer $N$ is specified in this manner, it indicates that a Chebyshev interpolant is to be constructed of precisely length $N$ rather than by the usual adaptive process.
 
@@ -180,7 +180,7 @@ end</pre><pre class="mcode-output">   16     1.27816423
 
 
 
-# 4.4 Smoothness and rate of convergence
+## 4.4 Smoothness and rate of convergence
 
 The central dogma of approximation theory is this: the smoother the function, the faster the convergence as $N\to\infty$. What this means for Chebfun is that so long as a function is twice continuously differentiable, it can usually be approximated to machine precision for a workable value of $N$, even without subdivision of the interval.
 
@@ -266,7 +266,7 @@ This time the convergence is equally clean but quite different in nature. Now th
 
 
 
-# 4.5 Five theorems
+## 4.5 Five theorems
 
 The mathematics of Chebfun can be captured in five theorems about interpolants in Chebyshev points.  The first three can be found in [Battles &amp; Trefethen 2004], and all are discussed in [Trefethen 2013]. Let $f$ be a continuous function on $[-1,1]$, and let $p$ denote its interpolant in $N$ Chebyshev points and $p^*$ its best degree $N$ approximation with respect to the maximum norm $\|\cdot\|$.
 
@@ -303,7 +303,7 @@ This stability result may seem surprising when one notes that for $x$ close to $
 
 
 
-# 4.6  Best approximations and the Remez algorithm
+## 4.6  Best approximations and the Remez algorithm
 
 For practical computations, it is rarely worth the trouble to compute a best (minimax) approximation rather than simply a Chebyshev interpolant. Nevertheless best approximations are a beautiful and well-established idea, and it is certainly interesting to be able to compute them. Chebfun makes this possible with the command `remez`, named after Evgeny Remez, who devised the standard algorithm for computing these approximations in 1934. This capability is due to Ricardo Pachon; see [Pachon &amp; Trefethen 2009].
 
@@ -346,7 +346,7 @@ plot([-1 1],lam*[1 1],'--k'), plot([-1 1],-lam*[1 1],'--k')</pre><img src="img/g
 
 
 
-# 4.7  The Runge phenomenon
+## 4.7  The Runge phenomenon
 
 Chebfun is based on polynomial interpolants in Chebyshev points, not equispaced points.   It has been known for over a century that the latter choice is disastrous, even for interpolation of smooth functions [Runge 1901].  One should never use equispaced polynomial interpolants for practical work (unless you will only need the result near the center of the interval of interpolation), but like best approximations, they are certainly interesting.
 
@@ -369,14 +369,13 @@ Approximation experts will know that one of the tools used in analyzing effects 
 
 For $40$ points it is much worse:
 
-<pre class="mcode-input">semilogy(lebesgue(linspace(-1,1,40)))</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
-</pre><img src="img/guide4_17.png" class="figure" alt="">
+<pre class="mcode-input">semilogy(lebesgue(linspace(-1,1,40)))</pre><img src="img/guide4_17.png" class="figure" alt="">
 
 As the degree increases, polynomial interpolants in equispaced points diverge exponentially, and no other method of approximation based on equispaced data can completely get around this problem [Platte, Trefethen &amp; Kuijlaars 2011].
 
 
 
-# 4.8  Rational approximations
+## 4.8  Rational approximations
 
 Chebfun contains four different programs, at present, for computing rational approximants to a function $f$.  We say that a rational function is of type $(m,n)$ if it can be written as a quotient of one polynomial of degree at most $m$ and another of degree at most $n$.
 
@@ -411,7 +410,7 @@ Mathematically, $f$ has poles in the complex plane at $\pm i$, $\pm 3i$, $\pm 5i
 r = p./q;
 norm(f-r)
 plot(f-r,'m')</pre><pre class="mcode-output">ans =
-     3.501058026767235e-07
+     3.501057932933577e-07
 </pre><img src="img/guide4_20.png" class="figure" alt="">
 
 Again the poles are not bad:
@@ -441,7 +440,7 @@ And the poles:
 
 
 
-# 4.9  References
+## 4.9  References
 
 [Baker and Graves-Morris 1996] G. A. Baker, Jr. and P. Graves-Morris, _Pade Approximants_, 2nd ed., Cambridge U. Press, 1996.
 

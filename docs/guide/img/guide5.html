@@ -1,12 +1,12 @@
 ---
 title: "5. Complex Chebfuns"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, November 2009, latest revision May 2014"
+authordate: "Lloyd N. Trefethen, November 2009, latest revision June 2014"
 ---
 
 
 
-# 5.1  Complex functions of a real variable
+## 5.1  Complex functions of a real variable
 
 One of the attractive features of Matlab is that it handles complex arithmetic well. For example, here are $20$ points on the upper half of the unit circle in the complex plane:
 
@@ -62,7 +62,7 @@ Actually, this way of constructing a piecewise chebfun is rather clumsy. An easi
      1.281975124255709e-16
 </pre>
 
-# 5.2 Analytic functions and conformal maps
+## 5.2 Analytic functions and conformal maps
 
 A function is *analytic* if it is differentiable in the complex sense, or equivalently, if it has a convergent Taylor series near each point in its domain of definition. Analytic functions do interesting things in the complex plane. In particular, away from points where the derivative is zero, they are *conformal maps*, which means that though they may scale and rotate an infinitesimal region, they preserve angles between intersecting curves.
 
@@ -132,7 +132,7 @@ axis off</pre><img src="img/guide5_13.png" class="figure" alt="">
 
 
 
-# 5.3 Contour integrals
+## 5.3 Contour integrals
 
 If $s$ is a real parameter and $z(s)$ is a complex function of $s$, then we can define a contour integral in the complex plane like this:
 
@@ -189,12 +189,12 @@ The integral of $f(z) = \log(z)\tanh(z)$ around this contour will be equal to $2
 <pre class="mcode-input">f = log(z).*tanh(z);
 I = sum(f.*diff(z))
 Iexact = 4i*pi*log(pi/2)</pre><pre class="mcode-output">I =
-  0.000000000000033 + 5.674755637702230i
+  0.000000000000006 + 5.674755637702223i
 Iexact =
   0.000000000000000 + 5.674755637702224i
 </pre>
 
-# 5.4 Cauchy integrals and locating zeros and poles
+## 5.4 Cauchy integrals and locating zeros and poles
 
 Here are some further examples of computations with Cauchy integrals. The Bernoulli number $B_k$ is $k!$ times the kth Taylor coefficient of $z/((exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.
 
@@ -211,7 +211,7 @@ exact =
 <pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi]);
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)</pre><pre class="mcode-output">B10 =
-  0.075757575487634 - 0.000000000093852i
+  0.075757575477882 - 0.000000000093791i
 </pre>This problem of numerical instability would arise no matter how one calculated the integral over the unit circle; it is not the fault of Chebfun.  For a study of how to pick the optimal radius, see [Bornemann 2009].
 
 Another use of Cauchy integrals is to count zeros or poles of functions in specified regions.  According to the *principle of the argument*, the number of zeros minus the number of poles of $f$ in a region is
@@ -253,7 +253,7 @@ r = roots(f)</pre><pre class="mcode-output">r =
 
 
 
-# 5.5 Alphabet soup
+## 5.5 Alphabet soup
 
 The Chebfun command `scribble` returns a piecewise linear complex chebfun corresponding to a word spelled out in capital letters.  For example:
 
@@ -302,7 +302,7 @@ You can find an example "Birthday cards and analytic function" in the Complex Va
 
 
 
-# 5.6  References
+## 5.6  References
 
 [Austin, Kravanja &amp; Trefethen 2013] A. P. Austin, P. Kravanja and L. N. Trefethen, "Numerical algorithms based on analytic function values at roots of unity", _SIAM Journal on Numerical Analysis_, to appear.
 

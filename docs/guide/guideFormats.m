@@ -10,28 +10,37 @@ if ( nargin == 0 )
     % Change to the ATAP settings.
 
     % evalin('caller', 'clear all')
-    % close all
+    close all
+    chebfunpref.setDefaults('factory');
+    cheboppref.setDefaults('factory');
     set(0, 'defaultfigureposition', [0 0 600 270]);
-    set(0, 'defaultaxeslinewidth',  0.9);
-    set(0, 'defaultaxesfontsize',   12);
-    set(0, 'defaultlinelinewidth',  1.5);
-    set(0, 'defaultpatchlinewidth', 1.5);
-    set(0, 'defaultlinemarkersize', 15); 
+    set(0, 'defaultaxeslinewidth',  0.5);
+    set(0, 'defaultaxesfontsize',   13);
+    set(0, 'defaultlinelinewidth',  1.6);
+    set(0, 'defaultpatchlinewidth', 1.6);
+    set(0, 'defaultlinemarkersize', 6);
+    set(0, 'defaultfigurecolor',    'none');
+    set(0, 'defaultaxescolor',      'none');
+
     format compact
     format long
-    % chebpref.setDefaults('factory');
+    warning('off', 'MATLAB:gui:latexsup:UnableToInterpretLaTeXString');
+    warning('off', 'MATLAB:gui:latexsup:UnsupportedFont');
     
 elseif ( any(strcmpi(flag, {'reset', 'factory'})) )
     % Revert to MATLAB factory values.
 
-    % close all
+    close all
     set(0, 'defaultfigureposition', 'factory');
     set(0, 'defaultaxeslinewidth',  'factory');
     set(0, 'defaultaxesfontsize',   'factory');
     set(0, 'defaultlinelinewidth',  'factory');
     set(0, 'defaultpatchlinewidth', 'factory');
     set(0, 'defaultlinemarkersize', 'factory');
-    % chebpref.setDefaults('factory');
+    set(0, 'defaultfigurecolor',    'factory');
+    set(0, 'defaultaxescolor',      'factory');
+    chebfunpref.setDefaults('factory');
+    cheboppref.setDefaults('factory');
     
 end
 

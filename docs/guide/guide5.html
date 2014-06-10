@@ -53,7 +53,7 @@
     <div class='page-header'>
 <span class='chapter_number'>5</span>
 <h1>Complex Chebfuns</h1>
-<h2>Lloyd N. Trefethen, November 2009, latest revision May 2014<span>
+<h2>Lloyd N. Trefethen, November 2009, latest revision June 2014<span>
     
         <a href='/docs/guide/guide4.html'
 >previous</a><span class='sep-sm
@@ -65,7 +65,7 @@
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<h2 id="51-complex-functions-of-a-real-variable">5.1  Complex functions of a real variable</h2>
+<h3 id="51-complex-functions-of-a-real-variable">5.1  Complex functions of a real variable</h3>
 <p>One of the attractive features of Matlab is that it handles complex arithmetic well. For example, here are $20$ points on the upper half of the unit circle in the complex plane:</p>
 <pre class="mcode-input">s = linspace(0,pi,20);
 f = exp(1i*s);
@@ -129,7 +129,7 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on</pre>
      1.281975124255709e-16
 </pre>
 
-<h2 id="52-analytic-functions-and-conformal-maps">5.2 Analytic functions and conformal maps</h2>
+<h3 id="52-analytic-functions-and-conformal-maps">5.2 Analytic functions and conformal maps</h3>
 <p>A function is <em>analytic</em> if it is differentiable in the complex sense, or equivalently, if it has a convergent Taylor series near each point in its domain of definition. Analytic functions do interesting things in the complex plane. In particular, away from points where the derivative is zero, they are <em>conformal maps</em>, which means that though they may scale and rotate an infinitesimal region, they preserve angles between intersecting curves.</p>
 <p>For example, suppose we define <code>R</code> to be a chebfun corresponding to the four sides of a rectangle and we define <code>X</code> to be another chebfun corresponding to a cross inside <code>R</code>.</p>
 <pre class="mcode-input">s = chebfun('s',[0 1]);
@@ -195,7 +195,7 @@ plot((sqrt(5)-1)/2,0,'.k','markersize',4)
 axis off</pre>
 
 <p><img src="img/guide5_13.png" class="figure" alt=""></p>
-<h2 id="53-contour-integrals">5.3 Contour integrals</h2>
+<h3 id="53-contour-integrals">5.3 Contour integrals</h3>
 <p>If $s$ is a real parameter and $z(s)$ is a complex function of $s$, then we can define a contour integral in the complex plane like this:</p>
 <p>$$ \int f(z(s)) z'(s) ds . $$</p>
 <p>The contour in question is the curve described by $z(s)$ as $s$ varies over its range.</p>
@@ -261,12 +261,12 @@ I = sum(f.*diff(z))
 Iexact = 4i*pi*log(pi/2)</pre>
 
 <pre class="mcode-output">I =
-  0.000000000000033 + 5.674755637702230i
+  0.000000000000006 + 5.674755637702223i
 Iexact =
   0.000000000000000 + 5.674755637702224i
 </pre>
 
-<h2 id="54-cauchy-integrals-and-locating-zeros-and-poles">5.4 Cauchy integrals and locating zeros and poles</h2>
+<h3 id="54-cauchy-integrals-and-locating-zeros-and-poles">5.4 Cauchy integrals and locating zeros and poles</h3>
 <p>Here are some further examples of computations with Cauchy integrals. The Bernoulli number $B_k$ is $k!$ times the kth Taylor coefficient of $z/((exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.</p>
 <pre class="mcode-input">k = 10;
 z = chebfun('5*exp(1i*s)',[0 2*pi]);
@@ -286,7 +286,7 @@ f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)</pre>
 
 <pre class="mcode-output">B10 =
-  0.075757575487634 - 0.000000000093852i
+  0.075757575477882 - 0.000000000093791i
 </pre>
 
 <p>This problem of numerical instability would arise no matter how one calculated the integral over the unit circle; it is not the fault of Chebfun.  For a study of how to pick the optimal radius, see [Bornemann 2009].</p>
@@ -332,7 +332,7 @@ r = roots(f)</pre>
 </pre>
 
 <p>To find multiple zeros via Cauchy integrals, and for many other generalizations of the ideas in this chapter, see [Austin, Kravanja &amp; Trefethen 2013].</p>
-<h2 id="55-alphabet-soup">5.5 Alphabet soup</h2>
+<h3 id="55-alphabet-soup">5.5 Alphabet soup</h3>
 <p>The Chebfun command <code>scribble</code> returns a piecewise linear complex chebfun corresponding to a word spelled out in capital letters.  For example:</p>
 <pre class="mcode-input">f = scribble('Oxford University');
 LW = 'linewidth'; lw = 2;
@@ -385,7 +385,7 @@ axis auto equal off</pre>
 
 <p><img src="img/guide5_20.png" class="figure" alt=""></p>
 <p>You can find an example "Birthday cards and analytic function" in the Complex Variables section of the Chebfun Examples collection, and further related explorations in the Geometry section.</p>
-<h2 id="56-references">5.6  References</h2>
+<h3 id="56-references">5.6  References</h3>
 <p>[Austin, Kravanja &amp; Trefethen 2013] A. P. Austin, P. Kravanja and L. N. Trefethen, "Numerical algorithms based on analytic function values at roots of unity", <em>SIAM Journal on Numerical Analysis</em>, to appear.</p>
 <p>[Bornemann 2009] F. Bornemann, "Accuracy and stability of computing high-order derivatives of analytic functions by Cauchy integrals", <em>Foundations of Computational Mathematics</em>, 11 (2011), 1-63.</p>
 <p>[Davis 1959] P. J. Davis, "On the numerical integration of periodic analytic functions", in R. E. Langer, ed., <em>On Numerical Integration</em>, Math. Res. Ctr., U. of Wisconsin, 1959, pp. 45-59.</p>

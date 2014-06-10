@@ -53,7 +53,7 @@
     <div class='page-header'>
 <span class='chapter_number'>6</span>
 <h1>Quasimatrices and Least-Squares</h1>
-<h2>Lloyd N. Trefethen, November 2009, latest revision May 2014<span>
+<h2>Lloyd N. Trefethen, November 2009, latest revision June 2014<span>
     
         <a href='/docs/guide/guide5.html'
 >previous</a><span class='sep-sm
@@ -65,7 +65,7 @@
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<h2 id="61-quasimatrices-and-spy">6.1  Quasimatrices and <code>spy</code></h2>
+<h3 id="61-quasimatrices-and-spy">6.1  Quasimatrices and <code>spy</code></h3>
 <p>A chebfun can have more than one column, or if it is transposed, it can have more than one row.  In these cases we get a <em>quasimatrix</em>, a "matrix" in which one of the dimensions is discrete as usual but the other is continuous.  Our default choice will be that of an " $\infty\times n$ " quasimatrix consisting of $n$ columns, each of which is a chebfun.  When it is important to specify the orientation we use the term <em>column quasimatrix</em> or <em>row quasimatrix</em>.</p>
 <p>Here for example is the quasimatrix consisting of the first six powers of $x$ on the interval $[-1,1]$.  The command <code>size</code> can be used to identify the continuous dimension, and to find the numbers of rows or columns:</p>
 <pre class="mcode-input">  x = chebfun('x');
@@ -123,7 +123,7 @@ ans =
   subplot(1,2,2), spy(A'), title('A''')</pre>
 
 <p><img src="img/guide6_02.png" class="figure" alt=""></p>
-<h2 id="62-backslash-and-least-squares">6.2 Backslash and least-squares</h2>
+<h3 id="62-backslash-and-least-squares">6.2 Backslash and least-squares</h3>
 <p>In Matlab, the command <code>c = A\b</code> computes the solution to the system of equations $Ac = b$ if $A$ is a square matrix, whereas if $A$ is rectangular, with more rows than columns, it computes the least squares solution, the vector $c$ that minimizes $\|Ac-b\|$.  A quasimatrix is always rectangular, and <code>\</code> has accordingly been overloaded to carry out the appropriate continuous least-squares computation. (The actual Matlab command that handles backslash is called mldivide.)</p>
 <p>For example, continuing with the same chebfun <code>x</code> and quasimatrix <code>A</code> as above, consider the following sequence:</p>
 <pre class="mcode-input">  f = exp(x).*sin(6*x);
@@ -171,7 +171,7 @@ ans =
 </pre>
 
 <p><img src="img/guide6_05.png" class="figure" alt=""></p>
-<h2 id="63-qr-factorization">6.3 QR factorization</h2>
+<h3 id="63-qr-factorization">6.3 QR factorization</h3>
 <p>Matrix least-squares problems are ordinarily solved by QR factorization, and in the quasimatrix case, they are solved by quasimatrix QR factorization. This is the technology underlying the backslash operator described in the last section.</p>
 <p>A quasimatrix QR factorization takes this form:</p>
 <p>$$ A = QR, $$</p>
@@ -215,7 +215,7 @@ ans =
   plot(Q2,LW,1.6)</pre>
 
 <p><img src="img/guide6_09.png" class="figure" alt=""></p>
-<h2 id="64-svd-norm-cond">6.4 <code>svd</code>, <code>norm</code>, <code>cond</code></h2>
+<h3 id="64-svd-norm-cond">6.4 <code>svd</code>, <code>norm</code>, <code>cond</code></h3>
 <p>An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in particular, $A$ maps the unit ball in $R^n$ to a hyperellipsoid of dimension $\le n$ in $R^m$. The (reduced, skinny, condensed,...) <em>SVD</em> or <em>singular value decomposition</em> exhibits this map by providing a factorization $AV = US$ or equivalently $A = USV^<em>$, where $U$ is $m\times n$ with orthonormal columns, $S$ is diagonal with nonincreasing nonnegative diagonal entries known as the </em>singular values<em>, and $V$ is $n\times n$ and orthogonal. $A$ maps $v_j$, the $j$ th column of $V$ or the $j$ th </em>right singular vector<em>, to $s_j$ times $u_j$, the $j$ th column of $U$ or the $j$ th </em>left singular vector*, which is the vector defining the $j$ th largest semiaxis of the hyperellipsoid.  See Chapters 4 and 5 of [Trefethen &amp; Bau 1997].</p>
 <p>If A is an $\infty \times n$ quasimatrix, everything is analogous:</p>
 <p>$$ A = USV', \qquad  A: \infty \times n,~~
@@ -334,7 +334,7 @@ U: \infty \times n, ~~  S: n \times n, ~~  V:  n \times n. $$</p>
 </pre>
 
 <p>Chebyshev polynomials form an excellent basis for expansions on $[-1,1]$, a fact that is at the heart of Chebfun.</p>
-<h2 id="65-other-norms">6.5 Other norms</h2>
+<h3 id="65-other-norms">6.5 Other norms</h3>
 <p>The definition $\|A\| = \max_x \|Ax\|/\|x\|$ makes sense in other norms besides the $2$-norm, and the particularly important alternatives are the $1$-norm and the $\infty$-norm.  The 1-norm of a column quasimatrix is the "maximum column sum", i.e., the maximum of the 1-norms of its columns.   In the case of our quasimatrix $A$, the maximum is attained by the first column, which has norm $2$:</p>
 <pre class="mcode-input">  norm(A,1)</pre>
 
@@ -357,7 +357,7 @@ U: \infty \times n, ~~  S: n \times n, ~~  V:  n \times n. $$</p>
    1.938148951041007
 </pre>
 
-<h2 id="66-rank-null-orth-pinv">6.6 <code>rank</code>, <code>null</code>, <code>orth</code>, <code>pinv</code></h2>
+<h3 id="66-rank-null-orth-pinv">6.6 <code>rank</code>, <code>null</code>, <code>orth</code>, <code>pinv</code></h3>
 <p>Chebfun also contains overloads for some further Matlab operations related to orthogonal matrix factorizations. Perhaps the most useful of these is <code>rank(A)</code>, which computes the singular values of $A$ and makes a judgement as to how many of them are significantly different from zero.  For example, with $x$ still defined as before, here is an example showing that the functions $1,$ $\sin(x)^2$, and $\cos(x)^2$ are linearly dependent:</p>
 <pre class="mcode-input">  B = [1 sin(x).^2 cos(x).^2];
   rank(B)</pre>
@@ -382,11 +382,11 @@ U: \infty \times n, ~~  S: n \times n, ~~  V:  n \times n. $$</p>
    chebfun column1 (1 smooth piece)
        interval       length   endpoint values  
 [      -1,       1]       17      0.61     0.61 
-Epslevel = 3.096694e-15.  Vscale = 7.634146e-01.
+Epslevel = 2.340672e-16.  Vscale = 7.634146e-01.
    chebfun column2 (1 smooth piece)
        interval       length   endpoint values  
 [      -1,       1]       17      -1.4     -1.4 
-Epslevel = 1.658305e-15.  Vscale = 1.425588e+00.
+Epslevel = 1.555489e-15.  Vscale = 1.425588e+00.
 (P.S. I am an array-valued CHEBFUN!)
 </pre>
 
@@ -397,9 +397,9 @@ Epslevel = 1.658305e-15.  Vscale = 1.425588e+00.
   subplot(1,3,3), spy(pinv(A)), title pinv(A)</pre>
 
 <p><img src="img/guide6_12.png" class="figure" alt=""></p>
-<h2 id="67-array-valued-chebfuns-vs-arrays-of-chebfuns">6.7 Array-valued chebfuns vs. arrays of chebfuns</h2>
+<h3 id="67-array-valued-chebfuns-vs-arrays-of-chebfuns">6.7 Array-valued chebfuns vs. arrays of chebfuns</h3>
 <p>In Chebfun, quasimatrices are actually implemented in two different ways.  When its columns are smooth functions, a quasimatrix is normally represented as an <em>array-valued chebfun</em>. If a quasimatrix has singularities, or breakpoints that differ from one column to another, it is represented in a different fashion as an <em>array of chebfuns</em>.  This representation is more flexible, though slower for some operations. In principle, users should never see the difference.</p>
-<h2 id="68-references">6.8  References</h2>
+<h3 id="68-references">6.8  References</h3>
 <p>[Abramowitz &amp; Stegun 1972] M. A. Abramowitz and I. A. Stegun, eds., <em>Handbook of Mathematical Functions with Formulas, Graphs, and Mathematical Tables</em>, 9th printing, Dover, 1972.</p>
 <p>[Battles 2006] Z. Battles, <em>Numerical Linear Algebra for Continuous Functions</em>, DPhil thesis, Oxford University Computing Laboratory, 2006.</p>
 <p>[Battles &amp; Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension of Matlab to continuous functions and operators", <em>SIAM Journal on Scientific Computing</em>, 25 (2004), 1743-1770.</p>

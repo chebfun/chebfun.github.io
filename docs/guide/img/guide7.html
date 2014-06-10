@@ -1,18 +1,18 @@
 ---
 title: "7. Linear Differential Operators and Equations"
 layout: guide-chapter
-authordate: "Tobin A. Driscoll, November 2009, last revised May 2014"
+authordate: "Tobin A. Driscoll, November 2009, latest revision June 2014"
 ---
 
 
 
-# 7.1  Introduction
+## 7.1  Introduction
 
 Chebfun has powerful capabilities for solving ordinary differential equations as well as partial differential equations involving one space and one time variable. The present chapter is devoted to chebops, the fundamental Chebfun tools for solving differential (or integral) equations.  In particular we focus here on the linear case.  We shall see that one can solve a linear two-point boundary value problem to high accuracy by a single backslash command.  Nonlinear extensions are described in Section 7.9 and in Chapter 10, and for PDEs, try `help pde15s`.
 
 
 
-# 7.2  About linear chebops
+## 7.2  About linear chebops
 
 A chebop represents a differential or integral operator that acts on chebfuns. This chapter focusses on the linear case, though from a user's point of view, linear and nonlinear problems are quite similar. One thing that makes linear operators special is that `eigs` and `expm` can be applied to them, as we shall describe in Sections 7.5 and 7.6.
 
@@ -22,7 +22,7 @@ The linear part of the chebop package was conceived at Oxford by Bornemann, Dris
 
 
 
-# 7.3 Chebop syntax
+## 7.3 Chebop syntax
 
 A chebop has a domain, an operator, and sometimes boundary conditions. For example, here is the chebop corresponding to the second-derivative operator on $[-1,1]$:
 
@@ -49,12 +49,13 @@ L.rbc = @(u) diff(u)-1;</pre>We can see a summary of L by typing the name withou
 <pre class="mcode-input">L</pre><pre class="mcode-output">L = 
   chebop with properties:
 
-    domain: [-1 1]
-        op: @(x,u)diff(u,2)
-       lbc: @(u)u
-       rbc: @(u)diff(u)-1
-        bc: []
-      init: []
+     domain: [-1 1]
+         op: @(x,u)diff(u,2)
+        lbc: @(u)u
+        rbc: @(u)diff(u)-1
+         bc: []
+       init: []
+    numVars: []
 </pre>Boundary conditions are needed for solving differential equations, but they have no effect when a chebop is simply applied to a chebfun. Thus, despite the boundary conditions just specified, `L*u` gives the same answer as before:
 
 <pre class="mcode-input">norm(L*u,inf)</pre><pre class="mcode-output">ans =
@@ -73,28 +74,30 @@ Chebops can be specified in various ways, including all in a single line.  For e
 <pre class="mcode-input">L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1])</pre><pre class="mcode-output">L = 
   chebop with properties:
 
-    domain: [-1 1]
-        op: @(x,u)diff(u)+diff(u,2)
-       lbc: []
-       rbc: []
-        bc: []
-      init: []
+     domain: [-1 1]
+         op: @(x,u)diff(u)+diff(u,2)
+        lbc: []
+        rbc: []
+         bc: []
+       init: []
+    numVars: []
 </pre>Or we could include boundary conditions:
 
 <pre class="mcode-input">L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1],@(u) 0,@(u) diff(u))</pre><pre class="mcode-output">L = 
   chebop with properties:
 
-    domain: [-1 1]
-        op: @(x,u)diff(u)+diff(u,2)
-       lbc: @(u)0
-       rbc: @(u)diff(u)
-        bc: []
-      init: []
+     domain: [-1 1]
+         op: @(x,u)diff(u)+diff(u,2)
+        lbc: @(u)0
+        rbc: @(u)diff(u)
+         bc: []
+       init: []
+    numVars: []
 </pre>For operators applying to more than one variable (needed for solving systems of differential equations), see Section 7.8.
 
 
 
-# 7.4 Solving differential and integral equations
+## 7.4 Solving differential and integral equations
 
 In MATLAB, if `A` is a square matrix and `b` is a vector, then the command `x=A\b` solves the linear system of equations $Ax=b$.  Similarly in Chebfun, if `L` is a differential operator and `f` is a Chebfun, then `u=L\f` solves the differential equation $L(u)=f$.  More generally `L` might be an integral or integro-differential operator.  (Of course, just as you can solve $Ax=b$ only if $A$ is nonsingular, you can solve $L(u)=f$ only if the problem is well-posed.)
 
@@ -149,7 +152,7 @@ Further examples of Chebfun solutions of differential equations with discontinuo
 
 
 
-# 7.5 Eigenvalue problems -- `eigs`
+## 7.5 Eigenvalue problems -- `eigs`
 
 In MATLAB, `eig` finds all the eigenvalues of a matrix whereas `eigs` finds some of them.  A differential or integral operator normally has infinitely many eigenvalues, so one could not expect an analog of `eig` for chebops.  `eigs`, however, has been overloaded.  Just like MATLAB `eigs`, Chebfun `eigs` finds 6 eigenvalues by default, together with eigenfunctions if requested.  (For details see [Driscoll, Bornemann &amp; Trefethen 2008].) Here is an example involving sine waves.
 
@@ -197,7 +200,7 @@ spectral_abscissa = max(real(lam))</pre><pre class="mcode-output">spectral_absci
 
 
 
-# 7.6 Exponential of a linear operator -- `expm`
+## 7.6 Exponential of a linear operator -- `expm`
 
 In MATLAB, `expm` computes the exponential of a matrix, and this command has been overloaded in Chebfun to compute the exponential of a linear operator.  If $L$ is a linear operator and $E(t) = \exp(tL)$, then the partial differential equation $u_t = Lu$ has solution $u(t) = E(t)u(0)$. Thus by taking $L$ to be the 2nd derivative operator, for example, we can use `expm` to solve the heat equation $u_t = u_{xx}$:
 
@@ -226,7 +229,7 @@ end</pre><img src="img/guide7_12.png" class="figure" alt="">
 
 
 
-# 7.7 Algorithms: rectangular collocation vs. ultraspherical
+## 7.7 Algorithms: rectangular collocation vs. ultraspherical
 
 Let us say a word about how Chebfun carries out these computations.  Until Chebfun version 5, the methods involved were all Chebyshev spectral methods on automatically chosen grids.  The general ideas are presented in [Trefethen 2000], [Driscoll, Bornemann &amp; Trefethen 2008], and [Driscoll 2010], but Chebfun actually uses modifications of these methods to be described in [Driscoll &amp; Hale 2014] involving a novel mix of Chebyshev grids of the first and second kinds.  These *rectangular collocation* or *Driscoll-Hale* spectral discretizations start from the idea that a differential operator is discretized as a rectangular matrix that maps from one grid to another with fewer points.  The matrix is then made square again by the incorporation of boundary conditions. When a differential equation is solved in Chebfun, the problem is solved on a sequence of grids of size $33, 65, \dots$ until convergence is achieved in the usual Chebfun sense defined by decay of Chebyshev expansion coefficients.
 
@@ -239,7 +242,7 @@ This problem of ill-conditioning was one of the motivations for the development 
 <pre class="mcode-input">tic
 u = chebop(@(x,u) diff(u,2)+u,[-10,10],cos(10),cos(10))\0;
 toc
-error = u(5) - cos(5)</pre><pre class="mcode-output">Elapsed time is 0.352476 seconds.
+error = u(5) - cos(5)</pre><pre class="mcode-output">Elapsed time is 0.221557 seconds.
 error =
     -2.214894934127187e-14
 </pre>We can switch to ultraspherical mode and run the same experiment again like this:
@@ -250,12 +253,12 @@ u = chebop(@(x,u) diff(u,2)+u,[-10,10],cos(10),cos(10))\0;
 toc
 error = u(5) - cos(5)
 cheboppref.setDefaults('factory')
-   % reset to standard mode</pre><pre class="mcode-output">Elapsed time is 7.615118 seconds.
+   % reset to standard mode</pre><pre class="mcode-output">Elapsed time is 9.106725 seconds.
 error =
     -8.326672684688674e-16
 </pre>
 
-# 7.8 Block operators and systems of equations
+## 7.8 Block operators and systems of equations
 
 Some problems involve several variables coupled together. In Chebfun, these are treated with the use of quasimatrices, that is, chebfuns with several columns.
 
@@ -281,7 +284,7 @@ The operator in this eigenvalue problem has a simpler structure than before: spy
 
 
 
-# 7.9 Nonlinear equations by Newton iteration
+## 7.9 Nonlinear equations by Newton iteration
 
 As mentioned at the beginning of this chapter, nonlinear differential equations are discussed in Chapter 10.  As an indication of some of the possibilities, however, we now illustrate how a sequence of linear problems may be useful in solving nonlinear problems. For example, the nonlinear BVP
 
@@ -308,17 +311,17 @@ nrmdu =
 nrmdu =
    0.098900892365439
 nrmdu =
-   0.053787171683935
+   0.053787171683936
 nrmdu =
-   0.021518152858432
+   0.021518152858433
 nrmdu =
-   0.003586696693251
+   0.003586696693250
 nrmdu =
-     8.951602488845356e-05
+     8.951602488795156e-05
 nrmdu =
-     5.357404770744402e-08
+     5.357404798935517e-08
 nrmdu =
-     1.921975430478400e-14
+     2.006236788549520e-14
 </pre><img src="img/guide7_14.png" class="figure" alt="">
 
 Note the beautifully fast convergence, as one expects with Newton's method. The chebop J defined in the *while* loop is a Jacobian operator (=Frechet derivative), which we have constructed explicitly by differentiating the nonlinear operator defining the ODE.  In Section 10.4 we shall see that this whole Newton iteration can be automated by use of Chebfun's "nonlinear backslash" capability, which utilizes automatic differentiation to construct the Frechet derivative automatically. In fact, all you need to type is N = chebop(-1,1); N.op = @(x,u) 0.001*diff(u,2) - u.^3; N.lbc = 1; N.rbc = -1; v = N\0;
@@ -327,7 +330,7 @@ The result is the same as before to many digits of accuracy: norm(u-v)
 
 
 
-# 7.10 BVP Systems with Unknown Parameters
+## 7.10 BVP Systems with Unknown Parameters
 
 It is sometimes the case that ODEs or systems of ODEs contain unknown parameter values which must be computed for as part of the solution. An example of this is MATLAB's built-in MAT4BVP example. These parameters can always be included in system as unknowns with zero derivatives, but this can be computationally inefficient. Chebfun allows the option of explicit treatment of the parameters. Often the dependence of the solution on these parameters is nonlinear (such as in the case below), and this discussion might better have been left to Chapter 10, but since, from the user perspective, there is little difference in this case, we include it here.
 
@@ -339,7 +342,7 @@ Unfortunately, this functionality is not yet available for eigenvalue problems.
 
 
 
-# 7.11 References
+## 7.11 References
 
 [Birkisson 2014] A. Birkisson, D. Phil. thesis, University of Oxford, 2014.
 

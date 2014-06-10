@@ -1,12 +1,12 @@
 ---
 title: "1. Getting Started with Chebfun"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, October 2009, latest revision May 2014"
+authordate: "Lloyd N. Trefethen, October 2009, latest revision June 2014"
 ---
 
 
 
-# 1.1  What is a chebfun?
+## 1.1  What is a chebfun?
 
 A chebfun is a function of one variable defined on an interval $[a,b]$. The syntax for chebfuns is almost exactly the same as the usual MATLAB syntax for vectors, with the familiar MATLAB commands for vectors overloaded in natural ways. Thus, for example, whereas `sum(f)` returns the sum of the entries when `f` is a vector, it returns a definite integral when `f` is a chebfun.
 
@@ -24,7 +24,7 @@ This Guide is based on Chebfun Version 5, released in 2014.  Chebfun is availabl
 
 
 
-# 1.2  Constructing simple chebfuns
+## 1.2  Constructing simple chebfuns
 
 The `chebfun` command constructs a chebfun from a specification such as a string or an anonymous function.  If you don't specify an interval, then the default interval $[-1,1]$ is used. For example, the following command makes a chebfun corresponding to $\cos(20x)$ on $[-1,1]$ and plots it.
 
@@ -75,17 +75,17 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
 
 <pre class="mcode-input">  format long
   x = 100*rand(3,1)</pre><pre class="mcode-output">x =
-  67.582219916981614
-  12.822336945445556
-  16.762809348854013
+  79.519990113706314
+  18.687260455437858
+  48.976439578823104
 </pre>Let's compare the chebfun to the true Bessel function at these points:
 
 <pre class="mcode-input">  exact = besselj(0,x);
   error = g(x) - exact;
   [g(x) exact error]</pre><pre class="mcode-output">ans =
-  -0.066104566681153  -0.066104566681152  -0.000000000000000
-   0.191140973448475   0.191140973448476  -0.000000000000001
-  -0.188187380231500  -0.188187380231499  -0.000000000000000
+  -0.087809411555498  -0.087809411555498  -0.000000000000001
+   0.106686224963283   0.106686224963282   0.000000000000001
+  -0.055277230381860  -0.055277230381861   0.000000000000000
 </pre>If you want to know the first 5 zeros of the Bessel function, here they are:
 
 <pre class="mcode-input">  r = roots(g); r = r(1:5)</pre><pre class="mcode-output">r =
@@ -114,7 +114,7 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
 
 
 
-# 1.3  Operations on chebfuns
+## 1.3  Operations on chebfuns
 
 There are more than 200 commands that can be applied to a chebfun.  For a list of many of them you can type `methods`:
 
@@ -229,7 +229,7 @@ In the next part of this tour we shall explore many of these commands systematic
 
 
 
-# 1.4  Piecewise smooth chebfuns
+## 1.4  Piecewise smooth chebfuns
 
 Many functions of interest are not smooth but piecewise smooth.  In this case a chebfun may consist of a concatenation of smooth pieces, each with its own polynomial representation.  Each of the smooth pieces is called a "fun".  This enhancement of Chebfun was developed initially by Ricardo Pachon during 2006-2007, then also by Rodrigo Platte starting in 2007 [Pachon, Platte and Trefethen 2009]. Essentially funs are the "classic chebfuns" for smooth functions on $[-1,1]$ originally implemented by Zachary Battles in Chebfun Version 1.
 
@@ -334,7 +334,7 @@ As always, h may look complicated to a human, but to Chebfun it is just a functi
 [ 2.9e+03,   3e+03]       86        -1     0.71 
 [   3e+03, 3.1e+03]       85      0.71        0 
 Epslevel = 3.487391e-13.  Vscale = 1.000000e+00.  Total length = 2748.
-Elapsed time is 1.296255 seconds.
+Elapsed time is 1.090609 seconds.
 </pre>In this case it is more efficient -- and more interesting mathematically -- to omit the splitting and construct one global chebfun:
 
 <pre class="mcode-input">  tic, f2 = chebfun('sin(x)',[0 1000*pi]), toc</pre><pre class="mcode-output">f2 = 
@@ -342,10 +342,10 @@ Elapsed time is 1.296255 seconds.
        interval       length   endpoint values  
 [       0, 3.1e+03]     1684         0        0 
 Epslevel = 3.487867e-13.  Vscale = 9.999862e-01.
-Elapsed time is 0.027260 seconds.
+Elapsed time is 0.033877 seconds.
 </pre>
 
-# 1.5  Infinite intervals and infinite function values
+## 1.5  Infinite intervals and infinite function values
 
 A major change from Chebfun Version 2 to Version 3 was the generalization of chebfuns to allow certain functions on infinite intervals or which diverge to infinity; the initial credit for these innovations belongs to Nick Hale, Rodrigo Platte, and Mark Richardson. For example, here is a function on the whole real axis,
 
@@ -356,7 +356,7 @@ and here is its integral:
 
 <pre class="mcode-input">  sum(f)</pre><pre class="mcode-output">Warning: Result may not be accurate as the function decays slowly at infinity. 
 ans =
-   7.089817937131567
+   7.089817937131579
 </pre>Here's the integral of a function on [1,inf]:
 
 <pre class="mcode-input">  sum(chebfun('1./x.^4',[1 inf]))</pre><pre class="mcode-output">ans =
@@ -376,7 +376,7 @@ In this case the integral comes out just right:
 
 
 
-# 1.6  Rows, columns, and quasimatrices
+## 1.6  Rows, columns, and quasimatrices
 
 MATLAB doesn't only deal with column vectors: there are also row vectors and matrices.  The same is true of Chebfun. The chebfuns shown so far have all been in column orientation, which is the default, but one can also take the transpose, compute inner products, and so on:
 
@@ -416,13 +416,13 @@ Epslevel = 1.298525e-15.  Vscale = 1.000000e+00.
 
 
 
-# 1.7  How this Guide is produced
+## 1.7  How this Guide is produced
 
 This guide is produced in MATLAB using the `publish` command with a style sheet somewhat different from the usual; the output of `publish` is then processed by Markdown. To publish a chapter for yourself, make sure the chebfun guide directory is in your path and then type, for example, `open(publish('guide1'))`.  The formatting may not be exactly right but it should certainly be intelligible.
 
 
 
-# 1.8  References
+## 1.8  References
 
 [Battles &amp; Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension of MATLAB to continuous functions and operators", _SIAM Journal on Scientific Computing_ 25 (2004), 1743-1770.
 

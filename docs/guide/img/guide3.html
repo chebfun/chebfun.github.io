@@ -1,12 +1,12 @@
 ---
 title: "3. Rootfinding and Minima and Maxima"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, October 2009, latest revision May 2014"
+authordate: "Lloyd N. Trefethen, October 2009, latest revision June 2014"
 ---
 
 
 
-# 3.1 `roots`
+## 3.1 `roots`
 
 Chebfun comes with a global rootfinding capability -- the ability to find all the zeros of a function in its region of definition.  For example, here is a polynomial with two roots in $[-1,1]$:
 
@@ -50,7 +50,7 @@ Here for example are the three roots of Ai and Bi closest to 0:
   tic, r = roots(f); toc
   r</pre><pre class="mcode-output">lengthf =
     44
-Elapsed time is 0.005823 seconds.
+Elapsed time is 0.006051 seconds.
 r =
                    0
    1.000000000000005
@@ -70,7 +70,7 @@ r =
   tic, r = roots(f); toc
   fprintf('%22.14f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
    214
-Elapsed time is 0.066921 seconds.
+Elapsed time is 0.072203 seconds.
      96.00000000000000
      97.00000000000000
      98.00000000000001
@@ -83,7 +83,7 @@ Elapsed time is 0.066921 seconds.
   tic, r = roots(f); toc
   fprintf('%22.13f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
         1684
-Elapsed time is 0.180836 seconds.
+Elapsed time is 0.275146 seconds.
      996.0000000000000
      996.9999999999999
      998.0000000000000
@@ -115,7 +115,7 @@ If one prefers only the "genuine" roots, omitting those at jumps, they can be co
 
 
 
-# 3.2 min, max, abs, sign, round, floor, ceil
+## 3.2 min, max, abs, sign, round, floor, ceil
 
 Rootfinding is more central to Chebfun than one might at first imagine, because a number of commands, when applied to smooth chebfuns, must produce non-smooth results, and it is rootfinding that tells us where to put the discontinuities. For example, the "abs" command introduces breakpoints wherever the argument goes through zero.  Here we see that `x` consists of a single piece, whereas `abs(x)` consists of two pieces.
 
@@ -150,7 +150,7 @@ g =
 [      -1,   -0.63]        1       0.6      0.6 
 [   -0.63,    0.63]        3       0.6      0.6 
 [    0.63,       1]        1       0.6      0.6 
-Epslevel = 1.015636e-15.  Vscale = 1.  Total length = 5.
+Epslevel = 2.664535e-16.  Vscale = 1.  Total length = 5.
 </pre><img src="img/guide3_07.png" class="figure" alt="">
 
 The function `sign` also introduces breaks, as illustrated in the last section. The commands `round`, `floor`, and `ceil` behave like this too. For example, here is $\exp(x)$ rounded to nearest multiples of $0.5$:
@@ -163,7 +163,7 @@ The function `sign` also introduces breaks, as illustrated in the last section. 
 
 
 
-# 3.3 Local extrema
+## 3.3 Local extrema
 
 Local extrema of smooth functions can be located by finding zeros of the derivative.  For example, here is a variant of the Airy function again, with all its extrema in its range of definition located and plotted.
 
@@ -200,23 +200,27 @@ Or we could do it implicitly with `local`,
 <pre class="mcode-input">  [maxval,maxpos] = min(h,'local')
   plot(maxpos,maxval,'.k',MS,24)</pre><pre class="mcode-output">maxval =
    0.363476521730995
-  -0.410835468002941
-  -0.506554704820397
+  -0.410835468002950
+  -0.506554704820389
+   0.257807200650400
+   0.848004324296444
   -0.324870829559028
-  -1.882251804443046
-  -2.705787848740111
+  -1.882251804443044
+  -2.705787848740124
 maxpos =
   -1.000000000000000
-  -0.889007218654499
+  -0.889007218654500
   -0.679567708415180
+  -0.538855701053878
+   0.438177223602422
    0.622477687626771
    0.804389189016844
-   0.995948373499379
+   0.995948373499375
 </pre><img src="img/guide3_13.png" class="figure" alt="">
 
 
 
-# 3.4 Global extrema: max and min
+## 3.4 Global extrema: max and min
 
 If `min` or `max` is applied to a single chebfun, it returns its global minimum or maximum.  For example:
 
@@ -268,7 +272,7 @@ extremepositions =
   14.234791972306914
 </pre>
 
-# 3.5 norm(f,1) and norm(f,inf)
+## 3.5 norm(f,1) and norm(f,inf)
 
 The default, $2$-norm form of the `norm` command was considered in Section 2.2. In standard MATLAB one can also compute $1$-, $\infty$-, and Frobenius norms with `norm(f,1)`, `norm(f,inf)`, and `norm(f,'fro')`.  These have been overloaded in Chebfun, and in the first two cases, rootfinding is part of the implementation.  (The $2$- and Frobenius norms are equal for a single chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm `norm(f,1)` is the integral of the absolute value, and Chebfun computes this by adding up segments between zeros, at which $|f(x)|$ will typically have a discontinuous slope. The $\infty$-norm is computed from the formula $\|f\|_\infty = \max(\max(f),-\min(f))$.
 
@@ -282,7 +286,7 @@ ans =
    7.999999999999985
 </pre>
 
-# 3.6 Roots in the complex plane
+## 3.6 Roots in the complex plane
 
 Chebfuns live on real intervals, and the funs from which they are made live on real subintervals.  But a polynomial representing a fun may have roots outside the interval of definition, which may be complex. Sometimes we may want to get our hands on these roots, and the `roots` command makes this possible in various ways through the flags `'all'`, `'complex'`, and `'norecursion'`.
 
@@ -334,9 +338,9 @@ One must expect complex roots of chebfuns to lose accuracy as one moves away fro
 
 <pre class="mcode-input">  f = exp(exp(x)).*(x-0.1i).*(x-.3i).*(x-.6i).*(x-1i);
   roots(f,'complex')</pre><pre class="mcode-output">ans =
- -0.000000000001425 + 0.099999999998534i
-  0.000000000847258 + 0.300000000626126i
- -0.000001498846851 + 0.599999264022741i
+ -0.000000000001424 + 0.099999999998721i
+  0.000000000821187 + 0.300000000582508i
+ -0.000001475913970 + 0.599999262065463i
 </pre>Notice that the first three imaginary roots are located with about $11$, $8$, and $5$ digits of accuracy, while the fourth does not appear in the list at all.
 
 Here is a more complicated example:
@@ -363,7 +367,7 @@ ans =
 
 
 
-# 3.7 References
+## 3.7 References
 
 [Battles 2006] Z. Battles, _Numerical Linear Algebra for Continuous Functions_, DPhil thesis, Oxford University Computing Laboratory, 2006.
 

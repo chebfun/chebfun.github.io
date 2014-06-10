@@ -1,14 +1,14 @@
 ---
 title: "15. Chebfun2: 2D Surfaces in 3D Space"
 layout: guide-chapter
-authordate: "Alex Townsend, March 2013, last updated May 2014"
+authordate: "Alex Townsend, March 2013, latest revision June 2014"
 ---
 
 
 
-# 5.1 Representing parametric surfaces
+## 15.1 Representing parametric surfaces
 
-In Chapter 4, we explored chebfun2v objects with two components, but Chebfun2 can also work with functions with three components, i.e., functions from a rectangle in $R^2$ into $R^3$. For example, we can represent the unit sphere via spherical coordinates as follows:
+In Chapter 14, we explored chebfun2v objects with two components, but Chebfun2 can also work with functions with three components, i.e., functions from a rectangle in $R^2$ into $R^3$. For example, we can represent the unit sphere via spherical coordinates as follows:
 
 <pre class="mcode-input">th = chebfun2(@(th,phi) th, [0 pi 0 2*pi]);
 phi = chebfun2(@(th,phi) phi, [0 pi 0 2*pi]);
@@ -44,7 +44,7 @@ surf(F), axis equal, camlight</pre><img src="img/guide15_04.png" class="figure" 
 
 
 
-# 5.2 Surface normals and the divergence theorem
+## 15.2 Surface normals and the divergence theorem
 
 Given a chebfun2v representing a surface, the normal can be computed by the Chebfun2 `normal` command.  Here are the normal vectors of another torus:
 
@@ -55,7 +55,7 @@ v = chebfun2(@(u,v) v,d);
 F = [-(r1+r2*cos(v)).*sin(u); (r1+r2*cos(v)).*cos(u); r2*sin(v)];  % torus
 
 surf(F), camlight, hold on
-quiver3(F(1),F(2),F(3),normal(F, 'unit'),'numpts',10)
+quiver3(F(1),F(2),F(3),normal(F,'unit'),'numpts',10)
 axis equal, hold off</pre><img src="img/guide15_05.png" class="figure" alt="">
 
 Once we have the surface normal vectors we can compute, for instance, the volume of the torus by applying the divergence theorem:
@@ -84,7 +84,7 @@ axis tight equal off</pre><img src="img/guide15_06.png" class="figure" alt="">
 
 
 
-# 5.3 References
+## 15.3 References
 
 [Platte 2013] R. Platte, Parameterizable surfaces, Chebfun2 Example: <a href="http://www2.maths.ox.ac.uk/chebfun/examples/geom/html/ParametricSurfaces.shtml">http://www2.maths.ox.ac.uk/chebfun/examples/geom/html/ParametricSurfaces.shtml</a>
 
