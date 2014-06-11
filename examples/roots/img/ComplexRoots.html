@@ -58,21 +58,29 @@ s2 = sum(z.^2.*diff(f)./f)/(2i*pi);
 s3 = sum(z.^3.*diff(f)./f)/(2i*pi);
 p = [1 -s1 (s1^2-s2)/2 -(s1^3-3*s1*s2+2*s3)/6];
 r = roots(p);
-end</pre>Here is an example:
+end</pre>Here is an example, this time with a phase portrait to visually verify the roots:
 
 <pre class="mcode-input">ff = @(z) cosh(exp(z)).*(z-.3).*(1+4*z.^2);
-roots3(ff)</pre><pre class="mcode-output">ans =
+roots3(ff)
+plot(chebfun2(ff)), hold on
+plot(z, 'k-'), axis equal</pre><pre class="mcode-output">ans =
   0.000000000000001 + 0.499999999999999i
   0.000000000000000 - 0.499999999999998i
   0.299999999999997 - 0.000000000000000i
-</pre>Here is another:
+</pre><img src="img/ComplexRoots_01.png" class="figure" alt="">
+
+Here is another:
 
 <pre class="mcode-input">ff = @(z) (z.^3-1/8).*exp((-1-2i)*z);
-roots3(ff)</pre><pre class="mcode-output">ans =
+roots3(ff)
+plot(chebfun2(ff)), hold on
+plot(z, 'k-'), axis equal</pre><pre class="mcode-output">ans =
   0.500000000000001 - 0.000000000000001i
  -0.250000000000001 - 0.433012701892219i
  -0.249999999999999 + 0.433012701892220i
-</pre><pre class="mcode-input">end</pre>
+</pre><img src="img/ComplexRoots_02.png" class="figure" alt="">
+
+<pre class="mcode-input">end</pre>
 
 ## References
 

@@ -42,7 +42,7 @@
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/publications">Publications</a></li>
+            <li><a href="/examples">Examples</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -76,7 +76,7 @@ abs((2*norm(F)^2 + 2*norm(G)^2) - (norm(F+G)^2 + norm(F-G)^2))</pre>
 </pre>
 
 <h3 id="the-gradient-theorem">The gradient theorem</h3>
-<p>The gradient of a chebfun2 is represented by a chebfun2v and is a vector that points in the direction of steepest ascent of $f$. The gradient theorem says that the integral of $\mathrm{grad}(f)$ over a curve only depends on the values of $f$ at the endpoints of that curve. We can check this numerically by using the Chebfun2v command integral. This command computes the line integral of a vector valued function. Here we check one example to confirm that the gradient theorem holds:</p>
+<p>The gradient of a chebfun2 is represented by a chebfun2v and is a vector that points in the direction of steepest ascent of $f$. The gradient theorem says that the integral of $\mathrm{grad}(f)$ over a curve only depends on the values of $f$ at the endpoints of that curve. We can check this numerically by using the Chebfun2v command <code>integral</code>. This command computes the line integral of a vector valued function. Here we check one example to confirm that the gradient theorem holds:</p>
 <pre class="mcode-input">f = chebfun2(@(x,y)sin(2*x)+x.*y.^2);        % chebfun2 object
 F = grad(f);                                 % gradient (chebfun2v)
 C = chebfun(@(t) t.*exp(100i*t),[0 pi/10]);  % spiral curve
@@ -85,6 +85,21 @@ abs(v-ends)                                  % gradient theorem</pre>
 
 <pre class="mcode-output">ans =
      2.220446049250313e-16
+</pre>
+
+<p>Another consequence of the gradient theorem is that the integral of $\mathrm{grad}(f)$ over any closed curve is zero. For example, here is an exotic closed curve, which we plot superimposed on the vector field $\mathrm{grad}(f)$.</p>
+<pre class="mcode-input">circ = @(p) chebfun(@(x) exp(2i*p*pi*x));
+C = (circ(1) + circ(3)/1.5 + circ(8)/3.5) / 2;
+figure('position', [0 0 600 400])
+quiver(F,0.5,'numpts',12), hold on
+plot(C, 'r'), axis equal off</pre>
+
+<p><img src="img/CheckingVectorCalculus_01.png" class="figure" alt=""></p>
+<p>Its integral should be zero.</p>
+<pre class="mcode-input">v = integral(F,C)</pre>
+
+<pre class="mcode-output">v =
+     0
 </pre>
 
 <h3 id="curl-of-the-gradient">Curl of the gradient</h3>

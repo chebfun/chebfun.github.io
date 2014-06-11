@@ -42,7 +42,7 @@
             <li><a href="/news">News</a></li>
             <li><a href="/download">Download</a></li>
             <li><a href="/docs">Docs</a></li>
-            <li><a href="/publications">Publications</a></li>
+            <li><a href="/examples">Examples</a></li>
             <li><a href="/support">Support</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -121,9 +121,11 @@ p = [1 -s1 (s1^2-s2)/2 -(s1^3-3*s1*s2+2*s3)/6];
 r = roots(p);
 end</pre>
 
-<p>Here is an example:</p>
+<p>Here is an example, this time with a phase portrait to visually verify the roots:</p>
 <pre class="mcode-input">ff = @(z) cosh(exp(z)).*(z-.3).*(1+4*z.^2);
-roots3(ff)</pre>
+roots3(ff)
+plot(chebfun2(ff)), hold on
+plot(z, 'k-'), axis equal</pre>
 
 <pre class="mcode-output">ans =
   0.000000000000001 + 0.499999999999999i
@@ -131,9 +133,12 @@ roots3(ff)</pre>
   0.299999999999997 - 0.000000000000000i
 </pre>
 
+<p><img src="img/ComplexRoots_01.png" class="figure" alt=""></p>
 <p>Here is another:</p>
 <pre class="mcode-input">ff = @(z) (z.^3-1/8).*exp((-1-2i)*z);
-roots3(ff)</pre>
+roots3(ff)
+plot(chebfun2(ff)), hold on
+plot(z, 'k-'), axis equal</pre>
 
 <pre class="mcode-output">ans =
   0.500000000000001 - 0.000000000000001i
@@ -141,6 +146,7 @@ roots3(ff)</pre>
  -0.249999999999999 + 0.433012701892220i
 </pre>
 
+<p><img src="img/ComplexRoots_02.png" class="figure" alt=""></p>
 <pre class="mcode-input">end</pre>
 
 <h3 id="references">References</h3>
