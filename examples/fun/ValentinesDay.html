@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Partial differential equations &raquo; Chebfun</title>
+    <title>Happy Valentines Day! &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -51,42 +51,69 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Partial differential equations</h1>
+<h1>Happy Valentines Day!</h1>
+<h2>Anonymous, February 2012<span><a href='/examples/fun/ValentinesDay.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/fun/ValentinesDay.m'>view on Github</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding">
-            <div class="col-sm-4 noleftpadding">    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (25)</a></li>
-        <li><a href="/examples/calc/index.html">Calculus (6)</a></li>
-        <li><a href="/examples/complex/index.html">Complex variables (7)</a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff! (4)</a></li>
-        <li><a href="/examples/geom/index.html">Geometry (6)</a></li>
-        <li><a href="/examples/integro/index.html">Integral equations (2)</a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra (9)</a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems (6)</a></li>
-        <li><a href="/examples/opt/index.html">Optimization (8)</a></li>
-        <li><a href="/examples/ode/index.html">Ordinary differential equations (20)</a></li>
-        <li class='active'><a href="/examples/pde/index.html">Partial differential equations (1)</a></li>
-        <li><a href="/examples/stats/index.html">Probability and statistics (6)</a></li>
-        <li><a href="/examples/quad/index.html">Quadrature (3)</a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding (15)</a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus (2)</a></li>
-    </ul>
-</div>
-            <div id='content' class="col-sm-8" role="main">    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/pde/Erosion.html'>
-            <div class='thumbwrapper'><img src='/examples/pde/img/Erosion_01.png' /></div>
-            <h3>Heat equation via `expm`</h3>
-            <p>Nick Trefethen, October 2010
-                <span class='tags'><span href='#' class='tag'>#erosion</span>, <span href='#' class='tag'>#expm</span>, <span href='#' class='tag'>#heatequation</span>, <span href='#' class='tag'>#linearpde</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Happy Valentine's Day to all Chebfun users!</p>
+<pre class="mcode-input">t = chebfun('t',[-pi pi]);
+x = 16*sin(t).^3;
+y = 13*cos(t)-5*cos(2*t)-2*cos(3*t)-1*cos(4*t);
+fill(x,y,'.-r'); axis equal
+hold on
+plot(12.5*scribble('Happy Valentine''s Day!'),'k')
+hold off
+axis equal off</pre>
+
+<p><img src="img/ValentinesDay_01.png" class="figure" alt=""></p>
+<p>This 'heart curve' can be found on Wolfram's MathWorld site [1], where its area is computed.  We do the same, and compare the result:</p>
+<pre class="mcode-input">z = x+1i*y;
+A = abs(sum(x.*diff(y)))
+err = A - 180*pi</pre>
+
+<pre class="mcode-output">A =
+     5.654866776461627e+02
+err =
+    -1.136868377216160e-13
+</pre>
+
+<p>Here are some more heart curves that can be found in [1]:</p>
+<p>Heart eqn 1</p>
+<pre class="mcode-input">t = chebfun('t',[-pi pi]);
+r = 1-sin(t);
+[x1 y1] = pol2cart(t,r);
+plot(x1,y1,'.-r')
+axis equal off
+A1 = abs(sum(x1.*diff(y1)))
+err = A1-3*pi/2 % Note, this is A2 on [1]!</pre>
+
+<pre class="mcode-output">A1 =
+   4.712388980384690
+err =
+     0
+</pre>
+
+<p><img src="img/ValentinesDay_02.png" class="figure" alt=""></p>
+<p>Heart eqn 5</p>
+<pre class="mcode-input">t = chebfun('t',[-pi pi]);
+r = 2 - 2*sin(t)+sin(t).*sqrt(abs(cos(t))+.1)./(sin(t)+1.4);
+[x5 y5] = pol2cart(t,r);
+plot(x5,y5,'.-r')
+axis equal off
+A5 = abs(sum(x5.*diff(y5))) % Note, different from [1] was we include .1 in sqrt</pre>
+
+<pre class="mcode-output">A5 =
+  11.645555308722967
+</pre>
+
+<p><img src="img/ValentinesDay_03.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li><a href="http://mathworld.wolfram.com/HeartCurve.html">http://mathworld.wolfram.com/HeartCurve.html</a></li>
+</ol></div>
         </div>
     </div>
 </div>

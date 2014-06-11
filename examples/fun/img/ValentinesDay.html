@@ -1,0 +1,59 @@
+---
+title: "Happy Valentines Day!"
+layout: example
+authordate: "Anonymous, February 2012"
+meta: "(Chebfun example fun/ValentinesDay.m) [Tags: #gift, #heart]"
+---
+
+Happy Valentine's Day to all Chebfun users!
+
+<pre class="mcode-input">t = chebfun('t',[-pi pi]);
+x = 16*sin(t).^3;
+y = 13*cos(t)-5*cos(2*t)-2*cos(3*t)-1*cos(4*t);
+fill(x,y,'.-r'); axis equal
+hold on
+plot(12.5*scribble('Happy Valentine''s Day!'),'k')
+hold off
+axis equal off</pre><img src="img/ValentinesDay_01.png" class="figure" alt="">
+
+This 'heart curve' can be found on Wolfram's MathWorld site [1], where its area is computed.  We do the same, and compare the result:
+
+<pre class="mcode-input">z = x+1i*y;
+A = abs(sum(x.*diff(y)))
+err = A - 180*pi</pre><pre class="mcode-output">A =
+     5.654866776461627e+02
+err =
+    -1.136868377216160e-13
+</pre>Here are some more heart curves that can be found in [1]:
+
+Heart eqn 1
+
+<pre class="mcode-input">t = chebfun('t',[-pi pi]);
+r = 1-sin(t);
+[x1 y1] = pol2cart(t,r);
+plot(x1,y1,'.-r')
+axis equal off
+A1 = abs(sum(x1.*diff(y1)))
+err = A1-3*pi/2 % Note, this is A2 on [1]!</pre><pre class="mcode-output">A1 =
+   4.712388980384690
+err =
+     0
+</pre><img src="img/ValentinesDay_02.png" class="figure" alt="">
+
+Heart eqn 5
+
+<pre class="mcode-input">t = chebfun('t',[-pi pi]);
+r = 2 - 2*sin(t)+sin(t).*sqrt(abs(cos(t))+.1)./(sin(t)+1.4);
+[x5 y5] = pol2cart(t,r);
+plot(x5,y5,'.-r')
+axis equal off
+A5 = abs(sum(x5.*diff(y5))) % Note, different from [1] was we include .1 in sqrt</pre><pre class="mcode-output">A5 =
+  11.645555308722967
+</pre><img src="img/ValentinesDay_03.png" class="figure" alt="">
+
+
+
+## References
+
+1. <http://mathworld.wolfram.com/HeartCurve.html>
+
