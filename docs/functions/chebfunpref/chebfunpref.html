@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>chebfunpref &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1 class='pull-left-15px'><a href='../'>Function reference</a><span class='sep'>&raquo;</span><a href='./'>chebfunpref</a><span class='sep'>/</span>chebfunpref</h1>
+</div>
+
+    <div class="container">
+<div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
+    <ul class='sidenav'>
+    <li><a href="#">chebfun</a></li>
+    <li><a href="#">chebfun2</a></li>
+    <li><a href="#">chebfun2v</a></li>
+    <li><a href="#">chebgui</a></li>
+    <li><a href="#">chebmatrix</a></li>
+    <li><a href="#">chebop</a></li>
+    <li><a href="#">chebfunpref</a></li>
+    <li><a href="#">cheboppref</a></li>
+    <li><a href="#">domain</a></li>
+    <li><a href="#">+utilities</a></li>
+    </ul>
+</div>
+<div id='content' class="col-sm-10" role="main">
+    <h1><a href='./'>chebfunpref</a><span class='sep'>/</span><strong>chebfunpref</strong></h1>
+    <p>Class for managing Chebfun construction-time preferences.</p>
+
+    <!--<h2>Usage</h2>
+    <pre>outPref = chebfunpref(varargin)</pre>-->
+
+    <h3>Documentation</h3>
+    <pre class='help-text'>CHEBFUNPREF is a class for managing Chebfun construction-time preferences
+  such as the construction tolerance, whether or not to perform breakpoint
+  and singularity detection, and the various options that those features
+  require.  These objects can be supplied to the CHEBFUN constructor (as well
+  as the constructors of other classes in the Chebfun system), which will
+  interpret them and adjust the construction process accordingly.
+
+Available Preferences:
+
+  domain                     - Construction domain.
+   [-1, 1]
+
+     This sets the default domain that will be used for CHEBFUN and/or FUN
+     construction if no domain argument is explicitly passed to the
+     constructor.
+
+  enableBreakpointDetection  - Enable/disable breakpoint detection.
+    true
+   [false]
+
+    If true, breakpoints between FUNS may be introduced where a discontinuity
+    in a function or a low-order derivative is detected or if a global
+    representation will be too long.  If false, breakpoints will be
+    introduced only at points where discontinuities are being created (e.g.,
+    by ABS(F) at points where a CHEBFUN F passes through zero).
+
+  breakpointPrefs            - Preferences for breakpoint detection.
+
+     splitMaxLength          - Maximum FUN length.
+      [160]
+
+        This is the maximum length of a single FUN (e.g., the number of
+        Chebyshev points used for FUNs based on Chebyshev polynomial
+        interpolation) allowed by the constructor when breakpoint detection
+        is enabled.
+
+     splitMaxTotalLength     - Maximum total CHEBFUN length.
+      [6000]
+
+        This is the maximum total length of the CHEBFUN (i.e., the sum of the
+        lengths of all the FUNs) allowed by the constructor when breakpoint
+        detection is enabled.
+
+  enableSingularityDetection - Enable/disable singularity detection.
+    true
+   [false]
+
+     If true, the constructor will attempt to detect and factor out
+     singularities, (e.g., points where a function or its derivatives become
+     unbounded). If false, breakpoints will be introduced only at points where
+     singularities are being created, (e.g., by SQRT(F) at points where a
+     CHEBFUN F passes through zero). See SINGFUN for more information.
+
+  enableDeltaFunctions - Enable delta functions.
+    true
+   [false]
+
+     If true, the deltafun class will be invoked to manage any delta 
+     functions present in the object.
+
+  deltaPrefs                 - Preferences for delta functions.
+
+     deltaTol                - Tolerance for magnitude of delta functions.
+      [1e-11]
+
+        This is the tolerance up to which delta functions will be negligible.
+
+     proximityTol            - Minimum distance between delta functions.
+      [1e-11]
+
+        If two delta functions are located closer than this tolerance, they 
+        will be merged.
+
+  scale                      - The vertical scale constructor should use.
+   [0]
+
+     Typically the CHEBFUN constructor will resolve relative to a vertical
+     scale determined by it's own function evaluations. However, in some
+     situations one would like to the resolve relative to a fixed vertical
+     scale. This can be set using this preference.
+
+  singPrefs                  - Preferences for singularity detection.
+
+     exponentTol             - Tolerance for exponents.
+      [1.1*1e-11]
+
+        This is the tolerance up to which the detector will try to resolve
+        the singularity exponents.
+
+     maxPoleOrder            - Maximum pole order.
+      [20]
+
+        Maximum order of the pole that the singularity detector can find.
+
+     defaultSingType         - Type of singularities.
+
+        The default singularity type to be used when singularity detection is
+        enabled and no singType is provided.
+
+  scale                      - The vertical scale the constructor should use.
+   [0]
+
+     Typically the CHEBFUN constructor will resolve relative to a vertical
+     scale determined by it's own function evaluations. However, in some
+     situations one would like to the resolve relative to a fixed vertical
+     scale. This can be set using this preference.
+
+  tech                       - Representation technology.
+   ['chebtech2']
+
+     Sets the underlying representation technology used to construct the FUNs.
+
+  techPrefs                  - Preferences for the tech constructor.
+
+     This is a structure of preferences that will be passed to the constructor
+     for the underlying representation technology.  See, for example,
+     CHEBTECH.TECHPREF for preferences accepted by the default CHEBTECH
+     technology.  Additionally, all techs are required to accept the following
+     preferences:
+
+     eps                     - Construction tolerance.
+      [2^(-52)]
+
+       Specifies the relative tolerance to which the representation should be
+       constructed.
+
+     maxLength               - Maximum representation length.
+      [65537]
+
+       Maximum length of the underlying representation.
+
+     exactLength             - Exact representation length.
+      [NaN]
+
+       Exact length of the underlying representation to be used.  A NaN value
+       indicates that the tech is free to choose the length (up to maxLength),
+       e.g., as the basis of an adaptive construction procedure.
+
+     extrapolate             - Extrapolate endpoint values.
+       true
+      [false]
+
+       If true, the tech should avoid direct evaluation of the function at
+       the interval endpoints and "extrapolate" the values at those points if
+       needed.  It should also extrapolate the values of any points for which
+       the function being sampled returns NaN.
+
+     sampleTest              - Test accuracy at arbitrary point.
+      [true]
+       false
+
+       If true, the tech should check an arbitrary point for accuracy to
+       ensure that behavior hasn't been missed, e.g., due to undersampling.
+
+The default values for any of these preferences may be globally overridden
+using CHEBFUNPREF.SETDEFAULTS(); see the documentation for that function for
+further details.
+
+Constructor inputs:
+  P = CHEBFUNPREF() creates a CHEBFUNPREF object with the default values of
+  the preferences.  For a list of all available preferences, see above.
+
+  P = CHEBFUNPREF(Q), where Q is a MATLAB structure uses the field/value pairs
+  in Q to set the properties of P.  If a field of Q has a name which matches
+  a property of P, the value of that property of P is set to the value
+  associated to that field in Q.  Any fields of Q that are not properties of
+  P are interpreted as preferences for the constructor of the underlying
+  representation technology and are placed in P.TECHPREFS.  The exceptions to
+  this are the fields BREAKPOINTPREFS, SINGPREFS, and TECHPREFS.  If Q has
+  fields with these names, they will be assumed to be MATLAB structures and
+  will be "merged" with the structures of default preferences stored in the
+  properties of the same names in P using CHEBFUNPREF.MERGEPREFS().
+
+  P = CHEBFUNPREF(Q), where Q is a CHEBFUNPREF, sets P to be a copy of Q.
+
+  R = CHEBFUNPREF(P, Q), where P is a CHEBFUNPREF and Q is a MATLAB
+  structure, is similar to CHEBFUNPREF(Q) except that the preferences in P
+  are used as the base set of preferences instead of the currently stored
+  defaults.  The output R will be a CHEBFUNPREF with the preferences of P
+  overridden by the field/value pairs in the structure Q.
+
+  R = CHEBFUNPREF(P, Q), where P and Q are both CHEBFUNPREF objects is
+  similar to the previous syntax.  The output R is a CHEBFUNPREF with the
+  preferences of P overridden by those in Q.  This is equivalent to setting R
+  to be a copy of Q plus any additional TECHPREFS stored in P that were not
+  stored in Q.
+
+Notes:
+  When building a CHEBFUNPREF from a structure using the second calling
+  syntax above, one should take care to ensure that preferences for the
+  underlying representation technology are specified once and only once;
+  e.g., do not simultaneously set Q.MYPREF = 1 and Q.TECHPREFS.MYPREF = 2.
+  The value of P.TECHPREFS.MYPREF that gets set from P = CHEBFUNPREF(Q) in
+  this circumstance is implementation-defined.
+
+Examples:
+  Create a CHEBFUNPREF for building a CHEBFUN based on CHEBTECH (default) with
+  breakpoint detection, a splitting length of 257 (pieces of polynomial degree
+  256, and a custom CHEBTECH refinement function:
+     p.enableBreakpointDetection = true;
+     p.breakpointPrefs.splitLength = 257;
+     p.techPrefs.refinementFunction = @custom;
+     pref = chebfunpref(p);
+
+  Same thing with a slightly shorter syntax:
+     p.enableBreakpointDetection = true;
+     p.breakpointPrefs.splitLength = 257;
+     p.refinementFunction = @custom;
+     pref = chebfunpref(p);
+
+See also CHEBOPPREF.</pre>
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>quiver &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1 class='pull-left-15px'><a href='../'>Function reference</a><span class='sep'>&raquo;</span><a href='./'>chebfun2</a><span class='sep'>/</span>quiver</h1>
+</div>
+
+    <div class="container">
+<div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
+    <ul class='sidenav'>
+    <li><a href="#">chebfun</a></li>
+    <li><a href="#">chebfun2</a></li>
+    <li><a href="#">chebfun2v</a></li>
+    <li><a href="#">chebgui</a></li>
+    <li><a href="#">chebmatrix</a></li>
+    <li><a href="#">chebop</a></li>
+    <li><a href="#">chebfunpref</a></li>
+    <li><a href="#">cheboppref</a></li>
+    <li><a href="#">domain</a></li>
+    <li><a href="#">+utilities</a></li>
+    </ul>
+</div>
+<div id='content' class="col-sm-10" role="main">
+    <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>quiver</strong></h1>
+    <p>Quiver plot of a CHEBFUN2.</p>
+
+    <!--<h2>Usage</h2>
+    <pre>varargout = quiver(rhs1)</pre>-->
+
+    <h3>Documentation</h3>
+    <pre class='help-text'>QUIVER(F, G) plots the vector velocity field of (F,G). QUIVER automatically
+  attempts to scale the arrows to fit within the grid. The arrows start on a
+  uniform grid. This returns the same plot as QUIVER([F ; G]).
+
+  QUIVER(F, G, S) automatically scales the arrows to fit within the grid and
+  then stretches them by S. Use S = 0 to plot the arrows without the automatic
+  scaling. The arrows are on a uniform grid.
+
+  QUIVER(X, Y, F, G, ...) is the same as QUIVER(F, G, ...) except the arrows
+  are on the grid given in X and Y. If X and Y are CHEBFUN2 objects the arrows
+  are on the image of the uniform grid of X and Y.
+
+  QUIVER(...,'numpts',N) plots arrows on a N by N uniform grid.
+
+  QUIVER(...,LINESPEC) uses the plot linestyle specified for the velocity
+  vectors. Any marker in LINESPEC is drawn at the base instead of an arrow on
+  the tip. Use a marker of '.' to specify no marker at all. See PLOT for
+  other possibilities.
+
+  H = QUIVER(...) returns a quivergroup handle.
+
+See also CHEBFUN2V/QUIVER.</pre>
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

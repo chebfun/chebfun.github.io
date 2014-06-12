@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>chebfun &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1 class='pull-left-15px'><a href='../'>Function reference</a><span class='sep'>&raquo;</span>chebfun</h1>
+</div>
+
+    <div class="container">
+<div class="row main noleftpadding"><div class="col-sm-3 noleftpadding">
+    <ul class='sidenav'>
+    <li><a href="#">chebfun</a></li>
+    <li><a href="#">chebfun2</a></li>
+    <li><a href="#">chebfun2v</a></li>
+    <li><a href="#">chebgui</a></li>
+    <li><a href="#">chebmatrix</a></li>
+    <li><a href="#">chebop</a></li>
+    <li><a href="#">chebfunpref</a></li>
+    <li><a href="#">cheboppref</a></li>
+    <li><a href="#">domain</a></li>
+    <li><a href="#">+utilities</a></li>
+    </ul>
+</div>
+<div id='content' class="col-sm-9" role="main">
+    <dl>
+    <a href="abs.html"><dt><strong>abs</strong></dt><dd><span class='function-snippet'>Inverse cosine of a CHEBFUN.</span></dd></a>
+    <a href="acos.html"><dt><strong>acos</strong></dt><dd><span class='function-snippet'>Cosine of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="acosd.html"><dt><strong>acosd</strong></dt><dd><span class='function-snippet'>Inverse hyperbolic cosine of a CHEBFUN.</span></dd></a>
+    <a href="acosh.html"><dt><strong>acosh</strong></dt><dd><span class='function-snippet'>Inverse cotangent of a CHEBFUN.</span></dd></a>
+    <a href="acot.html"><dt><strong>acot</strong></dt><dd><span class='function-snippet'>Inverse cotangent of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="acotd.html"><dt><strong>acotd</strong></dt><dd><span class='function-snippet'>Inverse hyperbolic cotangent of a CHEBFUN.</span></dd></a>
+    <a href="acoth.html"><dt><strong>acoth</strong></dt><dd><span class='function-snippet'>Inverse cosecant of a CHEBFUN.</span></dd></a>
+    <a href="acsc.html"><dt><strong>acsc</strong></dt><dd><span class='function-snippet'>Inverse cosecant of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="acscd.html"><dt><strong>acscd</strong></dt><dd><span class='function-snippet'>Inverse hyperbolic cosecant of a CHEBFUN.</span></dd></a>
+    <a href="acsch.html"><dt><strong>acsch</strong></dt><dd><span class='function-snippet'>Airy function of a CHEBFUN.</span></dd></a>
+    <a href="airy.html"><dt><strong>airy</strong></dt><dd><span class='function-snippet'>True if all values of a CHEBFUN are nonzero.</span></dd></a>
+    <a href="all.html"><dt><strong>all</strong></dt><dd><span class='function-snippet'>CHEBFUN Logical AND</span></dd></a>
+    <a href="and.html"><dt><strong>and</strong></dt><dd><span class='function-snippet'>Chebfun phase angle.</span></dd></a>
+    <a href="angle.html"><dt><strong>angle</strong></dt><dd><span class='function-snippet'>True if any value of a CHEBFUN is nonzero. ANY ignores entries that are</span></dd></a>
+    <a href="any.html"><dt><strong>any</strong></dt><dd><span class='function-snippet'>the length of the arc defined by a CHEBFUN.</span></dd></a>
+    <a href="arcLength.html"><dt><strong>arcLength</strong></dt><dd><span class='function-snippet'>Filled CHEBFUN area plot.</span></dd></a>
+    <a href="area.html"><dt><strong>area</strong></dt><dd><span class='function-snippet'>Inverse secant of a CHEBFUN.</span></dd></a>
+    <a href="asec.html"><dt><strong>asec</strong></dt><dd><span class='function-snippet'>Inverse secant of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="asecd.html"><dt><strong>asecd</strong></dt><dd><span class='function-snippet'>Inverse hyperbolic secant of a CHEBFUN.</span></dd></a>
+    <a href="asech.html"><dt><strong>asech</strong></dt><dd><span class='function-snippet'>Inverse sine of a CHEBFUN.</span></dd></a>
+    <a href="asin.html"><dt><strong>asin</strong></dt><dd><span class='function-snippet'>Inverse sine of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="asind.html"><dt><strong>asind</strong></dt><dd><span class='function-snippet'>Inverse hyperbolic sine of a CHEBFUN.</span></dd></a>
+    <a href="asinh.html"><dt><strong>asinh</strong></dt><dd><span class='function-snippet'>Inverse tangent of a CHEBFUN.</span></dd></a>
+    <a href="atan.html"><dt><strong>atan</strong></dt><dd><span class='function-snippet'>Four quadrant inverse tangent of a CHEBFUN.</span></dd></a>
+    <a href="atan2.html"><dt><strong>atan2</strong></dt><dd><span class='function-snippet'>Four quadrant inverse tangent (in degrees) of a CHEBFUN.</span></dd></a>
+    <a href="atan2d.html"><dt><strong>atan2d</strong></dt><dd><span class='function-snippet'>Inverse tangent of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="atand.html"><dt><strong>atand</strong></dt><dd><span class='function-snippet'>Inverse hyperbolic tangent of a CHEBFUN.</span></dd></a>
+    <a href="atanh.html"><dt><strong>atanh</strong></dt><dd><span class='function-snippet'>Bessel function of third kind (Hankel function) of a CHEBFUN.</span></dd></a>
+    <a href="besselh.html"><dt><strong>besselh</strong></dt><dd><span class='function-snippet'>Modified Bessel function of first kind of a CHEBFUN.</span></dd></a>
+    <a href="besseli.html"><dt><strong>besseli</strong></dt><dd><span class='function-snippet'>Bessel function of first kind of a CHEBFUN.</span></dd></a>
+    <a href="besselj.html"><dt><strong>besselj</strong></dt><dd><span class='function-snippet'>Modified Bessel function of second kind of a CHEBFUN.</span></dd></a>
+    <a href="besselk.html"><dt><strong>besselk</strong></dt><dd><span class='function-snippet'>Bessel function of second kind of a CHEBFUN.</span></dd></a>
+    <a href="bessely.html"><dt><strong>bessely</strong></dt><dd><span class='function-snippet'>Solve boundary value problems for ODEs by collocation with CHEBFUN.</span></dd></a>
+    <a href="bvp4c.html"><dt><strong>bvp4c</strong></dt><dd><span class='function-snippet'>Solve boundary value problems for ODEs by collocation with CHEBFUN.</span></dd></a>
+    <a href="bvp5c.html"><dt><strong>bvp5c</strong></dt><dd><span class='function-snippet'>Concatenation of CHEBFUN objects.</span></dd></a>
+    <a href="cat.html"><dt><strong>cat</strong></dt><dd><span class='function-snippet'>Pointwise ceiling of a CHEBFUN.</span></dd></a>
+    <a href="ceil.html"><dt><strong>ceil</strong></dt><dd><span class='function-snippet'>Caratheodory-Fejer approximation</span></dd></a>
+    <a href="cf.html"><dt><strong>cf</strong></dt><dd><span class='function-snippet'>Convert columns of a quasimatrix or array-valued CHEBFUN to a cell.</span></dd></a>
+    <a href="cheb2cell.html"><dt><strong>cheb2cell</strong></dt><dd><span class='function-snippet'>Convert an array-valued CHEBFUN to a quasimatrix.</span></dd></a>
+    <a href="cheb2quasi.html"><dt><strong>cheb2quasi</strong></dt><dd><span class='function-snippet'>Plot the Bernstein (aka Chebyshev) ellipses.</span></dd></a>
+    <a href="chebellipseplot.html"><dt><strong>chebellipseplot</strong></dt><dd><span class='function-snippet'>of chebfun:</span></dd></a>
+    <a href="chebfun.html"><dt><strong>chebfun</strong></dt><dd><span class='function-snippet'>Chebyshev-Pade approximation.</span></dd></a>
+    <a href="chebpade.html"><dt><strong>chebpade</strong></dt><dd><span class='function-snippet'>Chebyshev polynomial coefficients of a CHEBFUN.</span></dd></a>
+    <a href="chebpoly.html"><dt><strong>chebpoly</strong></dt><dd><span class='function-snippet'>Display Chebyshev coefficients graphically.</span></dd></a>
+    <a href="chebpolyplot.html"><dt><strong>chebpolyplot</strong></dt><dd><span class='function-snippet'>CHEBFUN melody player.</span></dd></a>
+    <a href="chebtune.html"><dt><strong>chebtune</strong></dt><dd><span class='function-snippet'>Two-dimensional comet plot.</span></dd></a>
+    <a href="comet.html"><dt><strong>comet</strong></dt><dd><span class='function-snippet'>Three-dimensional comet plot.</span></dd></a>
+    <a href="comet3.html"><dt><strong>comet3</strong></dt><dd><span class='function-snippet'>Construct complex CHEBFUN from real and imaginary parts.</span></dd></a>
+    <a href="complex.html"><dt><strong>complex</strong></dt><dd><span class='function-snippet'>Composition of CHEBFUN objects.</span></dd></a>
+    <a href="compose.html"><dt><strong>compose</strong></dt><dd><span class='function-snippet'>Condition number of a CHEBFUN.</span></dd></a>
+    <a href="cond.html"><dt><strong>cond</strong></dt><dd><span class='function-snippet'>Complex conjugate of a CHEBFUN.</span></dd></a>
+    <a href="conj.html"><dt><strong>conj</strong></dt><dd><span class='function-snippet'>CHEBFUN constructor.</span></dd></a>
+    <a href="constructor.html"><dt><strong>constructor</strong></dt><dd><span class='function-snippet'>Convolution of CHEBFUN objects.</span></dd></a>
+    <a href="conv.html"><dt><strong>conv</strong></dt><dd><span class='function-snippet'>Cosine of a CHEBFUN.</span></dd></a>
+    <a href="cos.html"><dt><strong>cos</strong></dt><dd><span class='function-snippet'>Cosine of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="cosd.html"><dt><strong>cosd</strong></dt><dd><span class='function-snippet'>Hyperbolic cosine of a CHEBFUN.</span></dd></a>
+    <a href="cosh.html"><dt><strong>cosh</strong></dt><dd><span class='function-snippet'>Cotangent of a CHEBFUN.</span></dd></a>
+    <a href="cot.html"><dt><strong>cot</strong></dt><dd><span class='function-snippet'>Cotangent of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="cotd.html"><dt><strong>cotd</strong></dt><dd><span class='function-snippet'>Hyperbolic cotangent of a CHEBFUN.</span></dd></a>
+    <a href="coth.html"><dt><strong>coth</strong></dt><dd><span class='function-snippet'>Covariance of a CHEBFUN.</span></dd></a>
+    <a href="cov.html"><dt><strong>cov</strong></dt><dd><span class='function-snippet'>Cosecant of a CHEBFUN.</span></dd></a>
+    <a href="csc.html"><dt><strong>csc</strong></dt><dd><span class='function-snippet'>Cosecant of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="cscd.html"><dt><strong>cscd</strong></dt><dd><span class='function-snippet'>Hyperbolic cosecant of a CHEBFUN.</span></dd></a>
+    <a href="csch.html"><dt><strong>csch</strong></dt><dd><span class='function-snippet'>Complex conjugate transpose of a CHEBFUN.</span></dd></a>
+    <a href="ctranspose.html"><dt><strong>ctranspose</strong></dt><dd><span class='function-snippet'>Indefinite product integral.</span></dd></a>
+    <a href="cumprod.html"><dt><strong>cumprod</strong></dt><dd><span class='function-snippet'>Indefinite integral of a CHEBFUN.</span></dd></a>
+    <a href="cumsum.html"><dt><strong>cumsum</strong></dt><dd><span class='function-snippet'>Generate cylinder. Surface revolution of a chebfun to form a chebfun2.</span></dd></a>
+    <a href="cylinder.html"><dt><strong>cylinder</strong></dt><dd><span class='function-snippet'>Differentiation of a CHEBFUN.</span></dd></a>
+    <a href="diff.html"><dt><strong>diff</strong></dt><dd><span class='function-snippet'>Dirac delta function.</span></dd></a>
+    <a href="dirac.html"><dt><strong>dirac</strong></dt><dd><span class='function-snippet'>Display a chebfun object.</span></dd></a>
+    <a href="disp.html"><dt><strong>disp</strong></dt><dd><span class='function-snippet'>2014 by The University of Oxford and The Chebfun Developers.</span></dd></a>
+    <a href="display.html"><dt><strong>display</strong></dt><dd><span class='function-snippet'>Domain of definition of a CHEBFUN.</span></dd></a>
+    <a href="domain.html"><dt><strong>domain</strong></dt><dd><span class='function-snippet'>Jacobi elliptic functions.</span></dd></a>
+    <a href="ellipj.html"><dt><strong>ellipj</strong></dt><dd><span class='function-snippet'>Complete elliptic integral of a CHEBFUN.</span></dd></a>
+    <a href="ellipke.html"><dt><strong>ellipke</strong></dt><dd><span class='function-snippet'>Rightmost point of a CHEBFUN domain (or last row/col of quasimatrix).</span></dd></a>
+    <a href="end.html"><dt><strong>end</strong></dt><dd><span class='function-snippet'>Accuracy estimate of a CHEBFUN object.</span></dd></a>
+    <a href="epslevel.html"><dt><strong>epslevel</strong></dt><dd><span class='function-snippet'>Equality operator for CHEBFUN objects.</span></dd></a>
+    <a href="eq.html"><dt><strong>eq</strong></dt><dd><span class='function-snippet'>Error function of a CHEBFUN.</span></dd></a>
+    <a href="erf.html"><dt><strong>erf</strong></dt><dd><span class='function-snippet'>Complementary error function of a CHEBFUN.</span></dd></a>
+    <a href="erfc.html"><dt><strong>erfc</strong></dt><dd><span class='function-snippet'>Inverse complementary error function of a CHEBFUN.</span></dd></a>
+    <a href="erfcinv.html"><dt><strong>erfcinv</strong></dt><dd><span class='function-snippet'>Scaled complementary error function of a CHEBFUN.</span></dd></a>
+    <a href="erfcx.html"><dt><strong>erfcx</strong></dt><dd><span class='function-snippet'>Inverse error function of a CHEBFUN.</span></dd></a>
+    <a href="erfinv.html"><dt><strong>erfinv</strong></dt><dd><span class='function-snippet'>Exponential of a CHEBFUN.</span></dd></a>
+    <a href="exp.html"><dt><strong>exp</strong></dt><dd><span class='function-snippet'>Compute EXP(F)-1 of a CHEBFUN accurately.</span></dd></a>
+    <a href="expm1.html"><dt><strong>expm1</strong></dt><dd><span class='function-snippet'>Evaluate a CHEBFUN.</span></dd></a>
+    <a href="feval.html"><dt><strong>feval</strong></dt><dd><span class='function-snippet'>Filled 2-D CHEBFUN plots.</span></dd></a>
+    <a href="fill.html"><dt><strong>fill</strong></dt><dd><span class='function-snippet'>Find locations of nonzeros in a CHEBFUN.</span></dd></a>
+    <a href="find.html"><dt><strong>find</strong></dt><dd><span class='function-snippet'>Round a CHEBFUN pointwise toward zero.</span></dd></a>
+    <a href="fix.html"><dt><strong>fix</strong></dt><dd><span class='function-snippet'>Flip/reverse a CHEBFUN.</span></dd></a>
+    <a href="fliplr.html"><dt><strong>fliplr</strong></dt><dd><span class='function-snippet'>Flip/reverse a CHEBFUN.</span></dd></a>
+    <a href="flipud.html"><dt><strong>flipud</strong></dt><dd><span class='function-snippet'>Pointwise floor function of a CHEBFUN.</span></dd></a>
+    <a href="floor.html"><dt><strong>floor</strong></dt><dd><span class='function-snippet'>Fredholm integral operator.</span></dd></a>
+    <a href="fred.html"><dt><strong>fred</strong></dt><dd><span class='function-snippet'>Greater than or equal operator for CHEBFUN objects.</span></dd></a>
+    <a href="ge.html"><dt><strong>ge</strong></dt><dd><span class='function-snippet'>GET method for the CHEBFUN class</span></dd></a>
+    <a href="get.html"><dt><strong>get</strong></dt><dd><span class='function-snippet'>Iterative solution of chebfun operator equations.</span></dd></a>
+    <a href="gmres.html"><dt><strong>gmres</strong></dt><dd><span class='function-snippet'>Greater than operator for CHEBFUN objects.</span></dd></a>
+    <a href="gt.html"><dt><strong>gt</strong></dt><dd><span class='function-snippet'>Heaviside function of a CHEBFUN.</span></dd></a>
+    <a href="heaviside.html"><dt><strong>heaviside</strong></dt><dd><span class='function-snippet'>Horizontal concatenation of CHEBFUN objects.</span></dd></a>
+    <a href="horzcat.html"><dt><strong>horzcat</strong></dt><dd><span class='function-snippet'>Horizontal scale of a CHEBFUN object.</span></dd></a>
+    <a href="hscale.html"><dt><strong>hscale</strong></dt><dd><span class='function-snippet'>Robust computation of the square root of the sum of squares.</span></dd></a>
+    <a href="hypot.html"><dt><strong>hypot</strong></dt><dd><span class='function-snippet'>Complex imaginary part of a CHEBFUN.</span></dd></a>
+    <a href="imag.html"><dt><strong>imag</strong></dt><dd><span class='function-snippet'>Compute the inner product of two CHEBFUN objects.</span></dd></a>
+    <a href="innerProduct.html"><dt><strong>innerProduct</strong></dt><dd><span class='function-snippet'>Evaluate integral of a CHEBFUN.</span></dd></a>
+    <a href="integral.html"><dt><strong>integral</strong></dt><dd><span class='function-snippet'>CHEBFUN polynomial interpolant at any distribution of points.</span></dd></a>
+    <a href="interp1.html"><dt><strong>interp1</strong></dt><dd><span class='function-snippet'>Invert a CHEBFUN.</span></dd></a>
+    <a href="inv.html"><dt><strong>inv</strong></dt><dd><span class='function-snippet'>Test if a CHEBFUN object is built upon DELTAFUN.</span></dd></a>
+    <a href="isdelta.html"><dt><strong>isdelta</strong></dt><dd><span class='function-snippet'>Test for empty CHEBFUN.</span></dd></a>
+    <a href="isempty.html"><dt><strong>isempty</strong></dt><dd><span class='function-snippet'>Equality test for two CHEBFUNs.</span></dd></a>
+    <a href="isequal.html"><dt><strong>isequal</strong></dt><dd><span class='function-snippet'>Test if a CHEBFUN is bounded.</span></dd></a>
+    <a href="isfinite.html"><dt><strong>isfinite</strong></dt><dd><span class='function-snippet'>Test if a CHEBFUN is infinite.</span></dd></a>
+    <a href="isinf.html"><dt><strong>isinf</strong></dt><dd><span class='function-snippet'>Test if a CHEBFUN is NaN.</span></dd></a>
+    <a href="isnan.html"><dt><strong>isnan</strong></dt><dd><span class='function-snippet'>True for real-valued CHEBFUN object.</span></dd></a>
+    <a href="isreal.html"><dt><strong>isreal</strong></dt><dd><span class='function-snippet'>Test if a CHEBFUN object is built upon SINGFUN.</span></dd></a>
+    <a href="issing.html"><dt><strong>issing</strong></dt><dd><span class='function-snippet'>Check if a CHEBFUN is identically zero on its domain.</span></dd></a>
+    <a href="iszero.html"><dt><strong>iszero</strong></dt><dd><span class='function-snippet'>Jacobi polynomial coefficients of a CHEBFUN.</span></dd></a>
+    <a href="jacpoly.html"><dt><strong>jacpoly</strong></dt><dd><span class='function-snippet'>Join together two or more CHEBFUN objects.</span></dd></a>
+    <a href="join.html"><dt><strong>join</strong></dt><dd><span class='function-snippet'>The jump in a CHEBFUN over a breakpoint.</span></dd></a>
+    <a href="jump.html"><dt><strong>jump</strong></dt><dd><span class='function-snippet'>Kronecker/outer product of two chebfuns.</span></dd></a>
+    <a href="kron.html"><dt><strong>kron</strong></dt><dd><span class='function-snippet'>Compute Lagrange basis functions.</span></dd></a>
+    <a href="lagrange.html"><dt><strong>lagrange</strong></dt><dd><span class='function-snippet'>Pointwise CHEBFUN left divide.</span></dd></a>
+    <a href="ldivide.html"><dt><strong>ldivide</strong></dt><dd><span class='function-snippet'>Less than or equal operator for CHEBFUN objects.</span></dd></a>
+    <a href="le.html"><dt><strong>le</strong></dt><dd><span class='function-snippet'>Legendre polynomial coefficients of a CHEBFUN.</span></dd></a>
+    <a href="legpoly.html"><dt><strong>legpoly</strong></dt><dd><span class='function-snippet'>Length of a Chebfun.</span></dd></a>
+    <a href="length.html"><dt><strong>length</strong></dt><dd><span class='function-snippet'>Natural logarithm of a CHEBFUN.</span></dd></a>
+    <a href="log.html"><dt><strong>log</strong></dt><dd><span class='function-snippet'>Base 10 logarithm of a CHEBFUN.</span></dd></a>
+    <a href="log10.html"><dt><strong>log10</strong></dt><dd><span class='function-snippet'>Compute LOG(1+F) of a CHEBFUN F accurately.</span></dd></a>
+    <a href="log1p.html"><dt><strong>log1p</strong></dt><dd><span class='function-snippet'>Base 2 logarithm of a CHEBFUN.</span></dd></a>
+    <a href="log2.html"><dt><strong>log2</strong></dt><dd><span class='function-snippet'>CHEBFUN logical.</span></dd></a>
+    <a href="logical.html"><dt><strong>logical</strong></dt><dd><span class='function-snippet'>log-log scale plot of a CHEBFUN.</span></dd></a>
+    <a href="loglog.html"><dt><strong>loglog</strong></dt><dd><span class='function-snippet'>Less than operator for CHEBFUN objects.</span></dd></a>
+    <a href="lt.html"><dt><strong>lt</strong></dt><dd><span class='function-snippet'>LU factorization of a quasimatrix.</span></dd></a>
+    <a href="lu.html"><dt><strong>lu</strong></dt><dd><span class='function-snippet'>Convert an array-valued CHEBFUN to a cell array of CHEBFUN objects.</span></dd></a>
+    <a href="mat2cell.html"><dt><strong>mat2cell</strong></dt><dd><span class='function-snippet'>Maximum value of a CHEBFUN.</span></dd></a>
+    <a href="max.html"><dt><strong>max</strong></dt><dd><span class='function-snippet'>Average or mean value of a CHEBFUN.</span></dd></a>
+    <a href="mean.html"><dt><strong>mean</strong></dt><dd><span class='function-snippet'>Measure of a CHEBFUN F on an interval.</span></dd></a>
+    <a href="measure.html"><dt><strong>measure</strong></dt><dd><span class='function-snippet'>Remove unnecessary breakpoints in from a CHEBFUN.</span></dd></a>
+    <a href="merge.html"><dt><strong>merge</strong></dt><dd><span class='function-snippet'>Surface mesh plot for array-valued CHEBFUN objects.</span></dd></a>
+    <a href="mesh.html"><dt><strong>mesh</strong></dt><dd><span class='function-snippet'>Minimum values of a CHEBFUN.</span></dd></a>
+    <a href="min.html"><dt><strong>min</strong></dt><dd><span class='function-snippet'>Minimum and maximum values of a CHEBFUN.</span></dd></a>
+    <a href="minandmax.html"><dt><strong>minandmax</strong></dt><dd><span class='function-snippet'>CHEBFUN minus.</span></dd></a>
+    <a href="minus.html"><dt><strong>minus</strong></dt><dd><span class='function-snippet'>Left matrix divide for CHEBFUN objects.</span></dd></a>
+    <a href="mldivide.html"><dt><strong>mldivide</strong></dt><dd><span class='function-snippet'>Modulus after division of two CHEBFUN objects.</span></dd></a>
+    <a href="mod.html"><dt><strong>mod</strong></dt><dd><span class='function-snippet'>Animate columns of a CHEBFUN quasimatrix.</span></dd></a>
+    <a href="movie.html"><dt><strong>movie</strong></dt><dd><span class='function-snippet'>Right matrix divide for CHEBFUN objects.</span></dd></a>
+    <a href="mrdivide.html"><dt><strong>mrdivide</strong></dt><dd><span class='function-snippet'>CHEBFUN multiplication.</span></dd></a>
+    <a href="mtimes.html"><dt><strong>mtimes</strong></dt><dd><span class='function-snippet'>Not equal operator for CHEBFUN objects.</span></dd></a>
+    <a href="ne.html"><dt><strong>ne</strong></dt><dd><span class='function-snippet'>Change of domain of a CHEBFUN.</span></dd></a>
+    <a href="newDomain.html"><dt><strong>newDomain</strong></dt><dd><span class='function-snippet'>Base 2 power of a CHEBFUN.</span></dd></a>
+    <a href="nextpow2.html"><dt><strong>nextpow2</strong></dt><dd><span class='function-snippet'>Norm of a CHEBFUN object.</span></dd></a>
+    <a href="norm.html"><dt><strong>norm</strong></dt><dd><span class='function-snippet'>Normal to a complex-valued CHEBFUN.</span></dd></a>
+    <a href="normal.html"><dt><strong>normal</strong></dt><dd><span class='function-snippet'>2014 by The University of Oxford and The Chebfun Developers.</span></dd></a>
+    <a href="normest.html"><dt><strong>normest</strong></dt><dd><span class='function-snippet'>CHEBFUN logical NOT.</span></dd></a>
+    <a href="not.html"><dt><strong>not</strong></dt><dd><span class='function-snippet'>Null space of an array-valued CHEBFUN.</span></dd></a>
+    <a href="null.html"><dt><strong>null</strong></dt><dd><span class='function-snippet'>Convert an array-valued CHEBFUN into cell array.</span></dd></a>
+    <a href="num2cell.html"><dt><strong>num2cell</strong></dt><dd><span class='function-snippet'>Solve stiff differential equations and DAEs. Output a CHEBFUN.</span></dd></a>
+    <a href="ode113.html"><dt><strong>ode113</strong></dt><dd><span class='function-snippet'>Solve stiff differential equations and DAEs. Output a CHEBFUN.</span></dd></a>
+    <a href="ode15s.html"><dt><strong>ode15s</strong></dt><dd><span class='function-snippet'>Solve stiff differential equations and DAEs. Output a CHEBFUN.</span></dd></a>
+    <a href="ode45.html"><dt><strong>ode45</strong></dt><dd><span class='function-snippet'>CHEBFUN logical OR.</span></dd></a>
+    <a href="or.html"><dt><strong>or</strong></dt><dd><span class='function-snippet'>Array-valued CHEBFUN orthogonalization.</span></dd></a>
+    <a href="orth.html"><dt><strong>orth</strong></dt><dd><span class='function-snippet'>Overlap the domain of two CHEBFUN objects.</span></dd></a>
+    <a href="overlap.html"><dt><strong>overlap</strong></dt><dd><span class='function-snippet'>CHEBFUN Cubic Hermite interpolating polynomial.</span></dd></a>
+    <a href="pchip.html"><dt><strong>pchip</strong></dt><dd><span class='function-snippet'>Solve PDEs using the CHEBFUN system.</span></dd></a>
+    <a href="pde15s.html"><dt><strong>pde15s</strong></dt><dd><span class='function-snippet'>Permute CHEBFUN array dimensions.</span></dd></a>
+    <a href="permute.html"><dt><strong>permute</strong></dt><dd><span class='function-snippet'>Pseudoinverse of a column CHEBFUN.</span></dd></a>
+    <a href="pinv.html"><dt><strong>pinv</strong></dt><dd><span class='function-snippet'>Basic linear plot for CHEBFUN objects.</span></dd></a>
+    <a href="plot.html"><dt><strong>plot</strong></dt><dd><span class='function-snippet'>Plot for CHEBFUN objects in 3-D space.</span></dd></a>
+    <a href="plot3.html"><dt><strong>plot3</strong></dt><dd><span class='function-snippet'>CHEBFUN plus.</span></dd></a>
+    <a href="plus.html"><dt><strong>plus</strong></dt><dd><span class='function-snippet'>Polynomial coefficients of a CHEBFUN.</span></dd></a>
+    <a href="poly.html"><dt><strong>poly</strong></dt><dd><span class='function-snippet'>Fit polynomial to a CHEBFUN.</span></dd></a>
+    <a href="polyfit.html"><dt><strong>polyfit</strong></dt><dd><span class='function-snippet'>Base 2 power of a CHEBFUN.</span></dd></a>
+    <a href="pow2.html"><dt><strong>pow2</strong></dt><dd><span class='function-snippet'>CHEBFUN power.</span></dd></a>
+    <a href="power.html"><dt><strong>power</strong></dt><dd><span class='function-snippet'>Product integral.</span></dd></a>
+    <a href="prod.html"><dt><strong>prod</strong></dt><dd><span class='function-snippet'>QR factorization of an array-valued CHEBFUN.</span></dd></a>
+    <a href="qr.html"><dt><strong>qr</strong></dt><dd><span class='function-snippet'>Compute and plot Schroedinger eigenstates.</span></dd></a>
+    <a href="quantumstates.html"><dt><strong>quantumstates</strong></dt><dd><span class='function-snippet'>Convert a quasimatrix to an array-valued CHEBFUN.</span></dd></a>
+    <a href="quasi2cheb.html"><dt><strong>quasi2cheb</strong></dt><dd><span class='function-snippet'>Range of CHEBFUN.</span></dd></a>
+    <a href="range.html"><dt><strong>range</strong></dt><dd><span class='function-snippet'>Rank of an array-valued CHEBFUN.</span></dd></a>
+    <a href="rank.html"><dt><strong>rank</strong></dt><dd><span class='function-snippet'>Pointwise CHEBFUN right divide.</span></dd></a>
+    <a href="rdivide.html"><dt><strong>rdivide</strong></dt><dd><span class='function-snippet'>Complex real part of a CHEBFUN.</span></dd></a>
+    <a href="real.html"><dt><strong>real</strong></dt><dd><span class='function-snippet'>Real logarthm of a CHEBFUN.</span></dd></a>
+    <a href="reallog.html"><dt><strong>reallog</strong></dt><dd><span class='function-snippet'>Real power of a CHEBFUN.</span></dd></a>
+    <a href="realpow.html"><dt><strong>realpow</strong></dt><dd><span class='function-snippet'>Real square root of a CHEBFUN.</span></dd></a>
+    <a href="realsqrt.html"><dt><strong>realsqrt</strong></dt><dd><span class='function-snippet'>Remainder after division of two CHEBFUN objects.</span></dd></a>
+    <a href="rem.html"><dt><strong>rem</strong></dt><dd><span class='function-snippet'>Best polynomial or rational approximation.</span></dd></a>
+    <a href="remez.html"><dt><strong>remez</strong></dt><dd><span class='function-snippet'>Replicate and tile a CHEBFUN.</span></dd></a>
+    <a href="repmat.html"><dt><strong>repmat</strong></dt><dd><span class='function-snippet'>Partial-fraction expansion (residues).</span></dd></a>
+    <a href="residue.html"><dt><strong>residue</strong></dt><dd><span class='function-snippet'>Restrict a CHEBFUN object to a subinterval.</span></dd></a>
+    <a href="restrict.html"><dt><strong>restrict</strong></dt><dd><span class='function-snippet'>Roots of a CHEBFUN.</span></dd></a>
+    <a href="roots.html"><dt><strong>roots</strong></dt><dd><span class='function-snippet'>Round a CHEBFUN pointwise to nearest integer.</span></dd></a>
+    <a href="round.html"><dt><strong>round</strong></dt><dd><span class='function-snippet'>Secant of a CHEBFUN.</span></dd></a>
+    <a href="sec.html"><dt><strong>sec</strong></dt><dd><span class='function-snippet'>Secant of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="secd.html"><dt><strong>secd</strong></dt><dd><span class='function-snippet'>Hyperbolic secant of a CHEBFUN.</span></dd></a>
+    <a href="sech.html"><dt><strong>sech</strong></dt><dd><span class='function-snippet'>Semi-log scale plot of a CHEBFUN.</span></dd></a>
+    <a href="semilogx.html"><dt><strong>semilogx</strong></dt><dd><span class='function-snippet'>Semi-log scale plot of a CHEBFUN.</span></dd></a>
+    <a href="semilogy.html"><dt><strong>semilogy</strong></dt><dd><span class='function-snippet'>Sign function of a CHEBFUN.</span></dd></a>
+    <a href="sign.html"><dt><strong>sign</strong></dt><dd><span class='function-snippet'>Simplify a CHEBFUN.</span></dd></a>
+    <a href="simplify.html"><dt><strong>simplify</strong></dt><dd><span class='function-snippet'>Sine of a CHEBFUN.</span></dd></a>
+    <a href="sin.html"><dt><strong>sin</strong></dt><dd><span class='function-snippet'>Sinc function of a CHEBFUN.</span></dd></a>
+    <a href="sinc.html"><dt><strong>sinc</strong></dt><dd><span class='function-snippet'>Sine of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="sind.html"><dt><strong>sind</strong></dt><dd><span class='function-snippet'>Hyperbolic sine of a CHEBFUN.</span></dd></a>
+    <a href="sinh.html"><dt><strong>sinh</strong></dt><dd><span class='function-snippet'>Size of a CHEBFUN.</span></dd></a>
+    <a href="size.html"><dt><strong>size</strong></dt><dd><span class='function-snippet'>Play a CHEBFUN as a sound.</span></dd></a>
+    <a href="sound.html"><dt><strong>sound</strong></dt><dd><span class='function-snippet'>CHEBFUN cubic spline data interpolation.</span></dd></a>
+    <a href="spline.html"><dt><strong>spline</strong></dt><dd><span class='function-snippet'>Visualise a CHEBFUN.</span></dd></a>
+    <a href="spy.html"><dt><strong>spy</strong></dt><dd><span class='function-snippet'>Square root of a CHEBFUN.</span></dd></a>
+    <a href="sqrt.html"><dt><strong>sqrt</strong></dt><dd><span class='function-snippet'>Standard deviation of a CHEBFUN.</span></dd></a>
+    <a href="std.html"><dt><strong>std</strong></dt><dd><span class='function-snippet'>Chebfun SUBSASGN.</span></dd></a>
+    <a href="subsasgn.html"><dt><strong>subsasgn</strong></dt><dd><span class='function-snippet'>Angle between subspaces.</span></dd></a>
+    <a href="subspace.html"><dt><strong>subspace</strong></dt><dd><span class='function-snippet'>CHEBFUN subsref.</span></dd></a>
+    <a href="subsref.html"><dt><strong>subsref</strong></dt><dd><span class='function-snippet'>Definite integral of a CHEBFUN.</span></dd></a>
+    <a href="sum.html"><dt><strong>sum</strong></dt><dd><span class='function-snippet'>Surface plot for array-valued CHEBFUN objects.</span></dd></a>
+    <a href="surf.html"><dt><strong>surf</strong></dt><dd><span class='function-snippet'>Surface plot for CHEBFUN objects.</span></dd></a>
+    <a href="surface.html"><dt><strong>surface</strong></dt><dd><span class='function-snippet'>Combination surf/contour plot for CHEBFUN objects.</span></dd></a>
+    <a href="surfc.html"><dt><strong>surfc</strong></dt><dd><span class='function-snippet'>Singular value decomposition of a CHEBFUN.</span></dd></a>
+    <a href="svd.html"><dt><strong>svd</strong></dt><dd><span class='function-snippet'>Tangent of a CHEBFUN.</span></dd></a>
+    <a href="tan.html"><dt><strong>tan</strong></dt><dd><span class='function-snippet'>Tangent of a CHEBFUN, result in degrees.</span></dd></a>
+    <a href="tand.html"><dt><strong>tand</strong></dt><dd><span class='function-snippet'>Hyperbolic tangent of a CHEBFUN.</span></dd></a>
+    <a href="tanh.html"><dt><strong>tanh</strong></dt><dd><span class='function-snippet'>CHEBFUN multiplication.</span></dd></a>
+    <a href="times.html"><dt><strong>times</strong></dt><dd><span class='function-snippet'>CHEBFUN transpose.</span></dd></a>
+    <a href="transpose.html"><dt><strong>transpose</strong></dt><dd><span class='function-snippet'>CHEBFUN unary minus.</span></dd></a>
+    <a href="uminus.html"><dt><strong>uminus</strong></dt><dd><span class='function-snippet'>Unwrap CHEBFUN phase angle.</span></dd></a>
+    <a href="unwrap.html"><dt><strong>unwrap</strong></dt><dd><span class='function-snippet'>CHEBFUN unary plus.</span></dd></a>
+    <a href="uplus.html"><dt><strong>uplus</strong></dt><dd><span class='function-snippet'>Vandermonde array-valued CHEBFUN.</span></dd></a>
+    <a href="vander.html"><dt><strong>vander</strong></dt><dd><span class='function-snippet'>Variance of a CHEBFUN.</span></dd></a>
+    <a href="var.html"><dt><strong>var</strong></dt><dd><span class='function-snippet'>Vertical concatenation of CHEBFUN objects.</span></dd></a>
+    <a href="vertcat.html"><dt><strong>vertcat</strong></dt><dd><span class='function-snippet'>Volterra integral operator.</span></dd></a>
+    <a href="volt.html"><dt><strong>volt</strong></dt><dd><span class='function-snippet'>Vertical scale of a CHEBFUN object.</span></dd></a>
+    <a href="vscale.html"><dt><strong>vscale</strong></dt><dd><span class='function-snippet'>Waterfall plot for CHEBFUN object.</span></dd></a>
+    <a href="waterfall.html"><dt><strong>waterfall</strong></dt><dd><span class='function-snippet'>Provides a succinct answer to almost any Chebfun related question in the</span></dd></a>
+    <a href="why.html"><dt><strong>why</strong></dt><dd><span class='function-snippet'>Logical CHEBFUN EXCLUSIVE OR.</span></dd></a>
+    <a href="xor.html"><dt><strong>xor</strong></dt><dd><span class='function-snippet'></span></dd></a>
+    </dl>
+</div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

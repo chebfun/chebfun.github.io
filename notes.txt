@@ -1,14 +1,3 @@
-
-python _urubu/__main__.py build
-python _urubu/__main__.py serve &
-
-find . -name "*.md" -type f -delete
-
-/Applications/MATLAB_R2013a.app/toolbox/matlab/codetools/private/mxdom2simplehtml.xsl
-/Applications/MATLAB_R2013a.app/toolbox/matlab/codetools/+internal/+matlab/+publish/chebexample_PublishFigures.m
-
-----
-
 TO DO:
     - add forum
     - add twitter?
@@ -43,68 +32,31 @@ DONE:
 
 ----
 
-How to cite examples?
+function reference:
 
-we can hope that no one ever finds out, but if you have an ordered list in
-an example AND no references section, the numbering on the ordered list
-will have brackets like the references should.
+    - Do we care that some of the help texts mention TECHs? e.g.
 
-- movie in geom/Ellipses?
-- bad graphic in approx/WeierstrassFunction
-- color on final plot in geom/Lissajous
-- why does the ellipse have a kink in geom/Ellipses?
-- error related to plotting in linalg/FieldOfValues
-- some examples are still using rand('seed', 1), which messes things up
-- linalg/FieldOfValues is up but not ready
-- calc/DeltaDerivs is up but not ready
-- bad plot in linalg/LevelRepulsion?
-- bad plot in ode/LorenzAttractor
-- bad plots in ode-eig/SolarQDA
+        chebfun/conv
+        chebfun/get
+        resampling
+        chebkind
+        chebfunpref
 
 ----
 
-failures:
+find . -name "*.md" -type f -delete
 
-geom/RoundingCorners
-    Error using bndfun/restrict (line 32)
-    Not a valid interval.
-    Error in bndfun/conv (line 110)
-    g_restricted = restrict(g, doms);
-    Error in chebfun/conv (line 80)
-            hjk = conv(f.funs{j}, g.funs{k});  
-    Error in chebfun/conv (line 70)
-        h = conv(g, f);
-    Error in RoundingCorners (line 26)
-    f2 = conv(f,g);
+/Applications/MATLAB_R2013a.app/toolbox/matlab/codetools/private/mxdom2simplehtml.xsl
+/Applications/MATLAB_R2013a.app/toolbox/matlab/codetools/+internal/+matlab/+publish/chebexample_PublishFigures.m
 
-ode/NonstandardBCs
-    Error using chebop/parsebc (line 38)
-    Number of inputs to BCs do not match operator.
-    Error in chebop/set.bc (line 246)
-                    N.bc = parseBC(N, val);
-    Error in NonstandardBCs (line 44)
-    N.bc = @(x,u) sum(u);
+----
 
-ode/DawsonIntegral
-    Error using chebop/parsebc (line 38)
-    Number of inputs to BCs do not match operator.
-    Error in chebop/set.bc (line 246)
-                    N.bc = parseBC(N, val);
-    Error in DawsonIntegral (line 24)
-    L.bc = @(x,f) f(0);                 % interior point condition
+We can hope that no one ever finds out, but:
 
-complex/PhasePortraits
-    Error using .^
-    Matrix dimensions must agree.
-    Error in @(z)sum(z.^(0:9))
+1. If you have an ordered list in an example AND no references section, the
+   numbering on the ordered list will have brackets like the references
+   should.
 
-    Error in chebfun2/constructor>@(x,y)op(x+1i*y) (line 97)
-        op = @(x, y) op( x + 1i*y );
-    Error in chebfun2/sampleTest (line 22)
-    vOp = feval(op, xeval, yeval);
-    Error in chebfun2/constructor (line 306)
-            pass = g.sampleTest(op, tol);
-    Error in chebfun2 (line 57)
-                f = constructor(f, varargin{:});
-    Error in PhasePortraits (line 38)
-    g = chebfun2(@(z) sum(z.^(0:9)),d./2,'vectorise');
+2. A figure with multiple subpots, one of which has a surface or patch
+   element, but which one is not the last subplot plotted, will render
+   incorrectly (i.e. it will use Painters instead of openGL).
