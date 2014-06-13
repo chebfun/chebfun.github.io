@@ -57,50 +57,65 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>mat2cell</strong></h1>
     <p>Convert an array-valued CHEBFUN to a cell array of CHEBFUN objects.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = mat2cell(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>G = MAT2CELL(F, C) breaks up the array-valued CHEBFUN F into a cell array G
-  of CHEBFUN objects. C is a vector of sizes and must sum to the number of
-  components of F (i.e., the number of columns (rows) of F if F is a column
-  (row) CHEBFUN). The elements of C determine the size of each cell in G so
-  that
-              SIZE(G{I}, 2) == C(I), for I = 1:LENGTH(C)
-  if F is a column CHEBFUN or
-              SIZE(G{I}, 1) == C(I), for I = 1:LENGTH(C)
-  if F is a row CHEBFUN.
-
-  G = MAT2CELL(F) assumes is C a vector with all entries equal to 1 whose
-  length is equal to the number of components of F.
-
-  G = MAT2CELL(F, M, N) is similar to above, but allows three input arguments
-  so as to be consistent with the built-in MAT2CELL function.  If F is a
-  column CHEBFUN, then N takes the role of C above, and M should be the
-  scalar value 1.  If F is a row CHEBFUN, then M takes the role of C above,
-  and N should be the scalar value 1.
-
-Example:
-  f = chebfun(@(x) [sin(x), cos(x), exp(x), x], [0, pi])
-  g = mat2cell(f, 1, [1, 2, 1])
-
-See also NUM2CELL.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">mat2cell</span>   Convert an array-valued CHEBFUN to a cell array of CHEBFUN objects.
+    G = <span class="helptopic">mat2cell</span>(F, C) breaks up the array-valued CHEBFUN F into a cell array G
+    of CHEBFUN objects. C is a vector of sizes and must sum to the number of
+    components of F (i.e., the number of columns (rows) of F if F is a column
+    (row) CHEBFUN). The elements of C determine the size of each cell in G so
+    that
+                SIZE(G{I}, 2) == C(I), for I = 1:LENGTH(C)
+    if F is a column CHEBFUN or
+                SIZE(G{I}, 1) == C(I), for I = 1:LENGTH(C)
+    if F is a row CHEBFUN.
+ 
+    G = <span class="helptopic">mat2cell</span>(F) assumes is C a vector with all entries equal to 1 whose
+    length is equal to the number of components of F.
+ 
+    G = <span class="helptopic">mat2cell</span>(F, M, N) is similar to above, but allows three input arguments
+    so as to be consistent with the built-in <span class="helptopic">mat2cell</span> function.  If F is a
+    column CHEBFUN, then N takes the role of C above, and M should be the
+    scalar value 1.  If F is a row CHEBFUN, then M takes the role of C above,
+    and N should be the scalar value 1.
+ 
+  Example:
+    f = chebfun(@(x) [sin(x), cos(x), exp(x), x], [0, pi])
+    g = mat2cell(f, 1, [1, 2, 1])</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/num2cell.html">num2cell</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

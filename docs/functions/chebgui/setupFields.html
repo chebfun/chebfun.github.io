@@ -57,57 +57,74 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li class='active'><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebgui</a><span class='sep'>/</span><strong>setupFields</strong></h1>
     <p>Convert input from GUI window to format useful for Chebfun.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>[field, allVarString, indVarName, pdeVarNames, pdeflag, eigVarNames, allVarNames] = setupFields(guifile, input, type, allVarString)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>Calling sequence:
-
-  [FIELD, ALLVARSTRING, INDVARNAME, PDEVARNAMES, PDEFLAG,  EIGVARNAMES, ...
-      ALLVARNAMES] = SETUPFIELDS(GUIFILE, INPUT, TYPE, ALLVARSTRING)
-
-Here, the inputs are:
-
-  GUIFILE:        A CHEBGUI object, describing the problem shown in the GUI.
-  INPUT:          The 'String' property of a particular input field of the GUI.
-  TYPE:           The type of the field (differential equation, boundary
-                  conditions or initial guess/condition).
-  ALLVARSTRING:   A strings, containing the name of all variables that appear
-                  in a problem.
-
-The outputs are:
-  FIELD:          A string that can be converted to anonymous function,
-                  describing the INPUT variable.
-  ALLVARSTRING:   A strings, containing the name of all variables that appear
-                  in a problem.
-  INDVARNAME:     A cell-array of strings that contains the name of the
-                  independent variables that appear in the problem. The first
-                  entry corresponds to the time variable, the second to the
-                  potential time variable.
-  PDEVARNAMES:    A cell array of strings that appear on PDE format in INPUT,
-                  i.e. u_t.
-  PDEFLAG:        A vector, whose kth element is equal to 1 of the kth line of
-                  INPUT is of PDE format, e.g. u_t = u'', 0 otherwise.
-  EIGVARNAMES:    A string that indicates how the eigenvalue parameter appears
-                  in the problem, that is, either l, lam or lambda.
-  ALLVARNAMES:    A cell array of string, containing the name of all variables
-                  that appear in a problem.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">setupFields</span>   Convert input from GUI window to format useful for Chebfun.
+ 
+  Calling sequence:
+ 
+    [FIELD, ALLVARSTRING, INDVARNAME, PDEVARNAMES, PDEFLAG,  EIGVARNAMES, ...
+        ALLVARNAMES] = <span class="helptopic">setupFields</span>(GUIFILE, INPUT, TYPE, ALLVARSTRING)
+ 
+  Here, the inputs are:
+ 
+    GUIFILE:        A CHEBGUI object, describing the problem shown in the GUI.
+    INPUT:          The 'String' property of a particular input field of the GUI.
+    TYPE:           The type of the field (differential equation, boundary
+                    conditions or initial guess/condition).
+    ALLVARSTRING:   A strings, containing the name of all variables that appear
+                    in a problem.
+ 
+  The outputs are:
+    FIELD:          A string that can be converted to anonymous function,
+                    describing the INPUT variable.
+    ALLVARSTRING:   A strings, containing the name of all variables that appear
+                    in a problem.
+    INDVARNAME:     A cell-array of strings that contains the name of the
+                    independent variables that appear in the problem. The first
+                    entry corresponds to the time variable, the second to the
+                    potential time variable.
+    PDEVARNAMES:    A cell array of strings that appear on PDE format in INPUT,
+                    i.e. u_t.
+    PDEFLAG:        A vector, whose kth element is equal to 1 of the kth line of
+                    INPUT is of PDE format, e.g. u_t = u'', 0 otherwise.
+    EIGVARNAMES:    A string that indicates how the eigenvalue parameter appears
+                    in the problem, that is, either l, lam or lambda.
+    ALLVARNAMES:    A cell array of string, containing the name of all variables
+                    that appear in a problem.</pre></div><!--after help -->
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

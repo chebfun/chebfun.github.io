@@ -57,40 +57,55 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li class='active'><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebmatrix</a><span class='sep'>/</span><strong>waterfall</strong></h1>
     <p>Waterfall plot for CHEBMATRIX object.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = waterfall(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>WATERFALL(U), or WATERFALL(U, T) where LENGTH(T) = MIN(SIZE(U)), plots a
-  "waterfall" plot of the CHEBMATRIX U. If U cannot be converted to a
-  QUASIMATRIX (i.e., if it contains INFxINF blocks), then an error is thrown.
-
-  WATERFALL(U, T, PROP1, VAL1, PROP2, VAL2, ...) allows additional plotting
-  options. For further details see CHEBFUN/WATERFALL.
-
-  WATERFALL(U, ..., 'EdgeColors', COLS) allows specification of the Edge
-  Colors for each of the rows in U. If COLS is a standard color string (e.g.,
-  'b') or a 1x3 vector, this functions the same as 'EdgeColor'. If COLs is a
-  cell array or a matrix with the same number of rows as U, the kth row of U
-  is plotted in the color COLS{k} or COLS(k,:).
-
-See also PLOT, PLOT3.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">waterfall</span>   Waterfall plot for CHEBMATRIX object.
+    <span class="helptopic">waterfall</span>(U), or <span class="helptopic">waterfall</span>(U, T) where LENGTH(T) = MIN(SIZE(U)), plots a
+    "waterfall" plot of the CHEBMATRIX U. If U cannot be converted to a
+    QUASIMATRIX (i.e., if it contains INFxINF blocks), then an error is thrown.
+ 
+    <span class="helptopic">waterfall</span>(U, T, PROP1, VAL1, PROP2, VAL2, ...) allows additional plotting
+    options. For further details see CHEBFUN/<span class="helptopic">waterfall</span>.
+ 
+    <span class="helptopic">waterfall</span>(U, ..., 'EdgeColors', COLS) allows specification of the Edge
+    Colors for each of the rows in U. If COLS is a standard color string (e.g.,
+    'b') or a 1x3 vector, this functions the same as 'EdgeColor'. If COLs is a
+    cell array or a matrix with the same number of rows as U, the kth row of U
+    is plotted in the color COLS{k} or COLS(k,:).</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebmatrix/plot.html">plot</a>, <a href="../plot3/plot3.html">plot3</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

@@ -57,53 +57,68 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li class='active'><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>domain</a><span class='sep'>/</span><strong>interp1</strong></h1>
     <p>CHEBFUN polynomial interpolant at any distribution of points.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = interp1(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>P = INTERP1(X, Y, D), where X and Y are vectors, returns the CHEBFUN P
-  defined on the domain D([1, end]) corresponding to the polynomial
-  interpolant through the data Y(j) at points X(j).
-
-  If Y is a matrix with more than one column then then Y(:,j) is taken as the
-  value to be matched at X(j) and P is an array-valued CHEBFUN with each
-  column corresponding to the appropriate interpolant.
-
-  EXAMPLE: The following commands plot the interpolant in 11 equispaced points
-  on [-1, 1] through the famous Runge function:
-      d = domain(-1, 1);
-      ff = @(x) 1./(1+25*x.^2);
-      x = linspace(d(1), d(2), 11);
-      p = interp1(x, ff(x), d)
-      f = chebfun(ff, d);
-      plot(f, 'k', p, 'r-'), hold on, plot(x, ff(x), 'r.'), grid on
-
-  P = CHEBFUN.INTERP1(X, Y, METHOD, D) specifies alternate interpolation
-  methods. The default is as described above. (Use an empty matrix [] to
-  specify the default.) Available methods are:
-      'linear'   - linear interpolation
-      'spline'   - piecewise cubic spline interpolation (SPLINE)
-      'pchip'    - shape-preserving piecewise cubic interpolation
-      'cubic'    - same as 'pchip'
-      'poly'     - polynomial interpolation, as described above
-
-See also SPLINE, PCHIP.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">interp1</span>   CHEBFUN polynomial interpolant at any distribution of points.
+    P = <span class="helptopic">interp1</span>(X, Y, D), where X and Y are vectors, returns the CHEBFUN P
+    defined on the domain D([1, end]) corresponding to the polynomial
+    interpolant through the data Y(j) at points X(j).
+ 
+    If Y is a matrix with more than one column then then Y(:,j) is taken as the
+    value to be matched at X(j) and P is an array-valued CHEBFUN with each
+    column corresponding to the appropriate interpolant.
+ 
+    EXAMPLE: The following commands plot the interpolant in 11 equispaced points
+    on [-1, 1] through the famous Runge function:
+        d = domain(-1, 1);
+        ff = @(x) 1./(1+25*x.^2);
+        x = linspace(d(1), d(2), 11);
+        p = interp1(x, ff(x), d)
+        f = chebfun(ff, d);
+        plot(f, 'k', p, 'r-'), hold on, plot(x, ff(x), 'r.'), grid on
+ 
+    P = CHEBFUN.<span class="helptopic">interp1</span>(X, Y, METHOD, D) specifies alternate interpolation
+    methods. The default is as described above. (Use an empty matrix [] to
+    specify the default.) Available methods are:
+        'linear'   - linear interpolation
+        'spline'   - piecewise cubic spline interpolation (SPLINE)
+        'pchip'    - shape-preserving piecewise cubic interpolation
+        'cubic'    - same as 'pchip'
+        'poly'     - polynomial interpolation, as described above</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../spline/spline.html">spline</a>, <a href="../pchip/pchip.html">pchip</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

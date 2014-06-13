@@ -57,50 +57,66 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>chebellipseplot</strong></h1>
     <p>Plot the Bernstein (aka Chebyshev) ellipses.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = chebellipseplot(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>CHEBELLIPSEPLOT(U) plots Bernstein ellipses in the complex plane for each
-piecewise part of U, with foci at points in U.domain and semi-minor and
-major axes summing to rho(k) = C*exp(abs(log(EPS))/N(k)), where C is the
-appropriate scaling for the interval [U.ends(k) U.ends(k+1)] and EPS is the
-EPSLEVEL of U.
-
-CHEBELLIPSEPLOT(U, EPS) allows a user-specified EPS.
-
-CHEBELLIPSEPLOT(U, K) and CHEBELLIPSEPLOT(U, EPS, K) plot ellipses for
-the funs of U indexed by the vector K.
-
-CHEBELLIPSEPLOT(U, ..., S) allows plotting options to be passed. For
-example, for black lines one may write CHEBELLIPSEPLOT(U, 'k-').
-
-CHEBELLIPSEPLOT(U, ..., 'legends', 0) prevents the legends being
-displayed on the plot.
-
-CHEBELLIPSEPLOT(U, ..., 'numpts', N) plots each ellipse using N points.
-
-H = CHEBELLIPSEPLOT(U) returns a handle H to the figure.
-
-Example:
-    u = chebfun({@sin, @cos, @tan, @cot}, [-2, -1, 0, 1, 2]);
-    chebellipseplot(u, sqrt(eps), '--');</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">chebellipseplot</span>   Plot the Bernstein (aka Chebyshev) ellipses.
+    <span class="helptopic">chebellipseplot</span>(U) plots Bernstein ellipses in the complex plane for each
+    piecewise part of U, with foci at points in U.domain and semi-minor and
+    major axes summing to rho(k) = C*exp(abs(log(EPS))/N(k)), where C is the
+    appropriate scaling for the interval [U.ends(k) U.ends(k+1)] and EPS is the
+    EPSLEVEL of U.
+ 
+    <span class="helptopic">chebellipseplot</span>(U, EPS) allows a user-specified EPS.
+ 
+    <span class="helptopic">chebellipseplot</span>(U, K) and <span class="helptopic">chebellipseplot</span>(U, EPS, K) plot ellipses for
+    the funs of U indexed by the vector K.
+ 
+    <span class="helptopic">chebellipseplot</span>(U, ..., S) allows plotting options to be passed. For
+    example, for black lines one may write <span class="helptopic">chebellipseplot</span>(U, 'k-').
+ 
+    <span class="helptopic">chebellipseplot</span>(U, ..., 'legends', 0) prevents the legends being
+    displayed on the plot.
+ 
+    <span class="helptopic">chebellipseplot</span>(U, ..., 'numpts', N) plots each ellipse using N points.
+ 
+    H = <span class="helptopic">chebellipseplot</span>(U) returns a handle H to the figure.
+ 
+    Example:
+        u = chebfun({@sin, @cos, @tan, @cot}, [-2, -1, 0, 1, 2]);
+        chebellipseplot(u, sqrt(eps), '--');</pre></div><!--after help -->
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

@@ -57,35 +57,50 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>kron</strong></h1>
     <p>Kronecker/outer product of two chebfuns.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>out = kron(f, g)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>H = KRON(F,G) where F and G are array-valued CHEBFUN objects constructs a
-  CHEBFUN2.  If size(F) = [Inf, K] and size(G) = [K, Inf] then H is a rank K
-  CHEBFUN2 such that
-      H(x,y) = F(y,1)G(x,1) + ... + F(y,K)G(x,K).
-
-  If size(F) = [K,Inf] and size(G) = [Inf, K] then H is a chebfun2 such that
-      H(x,y) = G(y,1)F(x,1) + ... + G(y,K)F(x,K).
-
-See also KRON.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">kron</span>   Kronecker/outer product of two chebfuns.
+    H = <span class="helptopic">kron</span>(F,G) where F and G are array-valued CHEBFUN objects constructs a
+    CHEBFUN2.  If size(F) = [Inf, K] and size(G) = [K, Inf] then H is a rank K
+    CHEBFUN2 such that
+        H(x,y) = F(y,1)G(x,1) + ... + F(y,K)G(x,K).
+ 
+    If size(F) = [K,Inf] and size(G) = [Inf, K] then H is a chebfun2 such that
+        H(x,y) = G(y,1)F(x,1) + ... + G(y,K)F(x,K).</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../kron/kron.html">kron</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

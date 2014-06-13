@@ -57,51 +57,67 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>besselh</strong></h1>
     <p>Bessel function of third kind (Hankel function) of a CHEBFUN.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = besselh(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>H = BESSELH(NU, K, F), for K = 1 or 2, computes the Hankel function H1_NU(F)
-  or H2_NU(F) of the nonzero CHEBFUN F. If F passes through the origin in its
-  domain, then an error is returned.  The CHEBFUN F may be complex.
-
-  H = BESSELH(NU, F) uses K = 1.
-
-  H = BESSELH(NU, K, F, SCALE) returns a scaled Hankel function specified by
-  SCALE:
-        0 - (default) is the same as BESSELH(NU, K, F)
-        1 - returns the following depending on K
-    H = BESSELH(NU, 1, F, 1) scales H1_NU(F) by exp(-i*F))).
-    H = BESSELH(NU, 2, F, 1) scales H2_NU(F) by exp(+i*F))).
-
-  H = BESSELH(NU, K, F, SCALE, PREF) uses the CHEBFUNPREF object PREF when
-  building the CHEBFUN H.
-
- The relationship between the Hankel and Bessel functions is:
-
-        besselh(nu,1,z) = besselj(nu,z) + 1i*bessely(nu,z)
-        besselh(nu,2,z) = besselj(nu,z) - 1i*bessely(nu,z)
-
-See also AIRY, BESSELI, BESSELJ, BESSELK, BESSELY.
-
-Copyright 2014 by The University of Oxford and The Chebfun Developers.
-See http://www.chebfun.org for Chebfun information.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">besselh</span>   Bessel function of third kind (Hankel function) of a CHEBFUN.
+    H = <span class="helptopic">besselh</span>(NU, K, F), for K = 1 or 2, computes the Hankel function H1_NU(F)
+    or H2_NU(F) of the nonzero CHEBFUN F. If F passes through the origin in its
+    domain, then an error is returned.  The CHEBFUN F may be complex.
+ 
+    H = <span class="helptopic">besselh</span>(NU, F) uses K = 1.
+ 
+    H = <span class="helptopic">besselh</span>(NU, K, F, SCALE) returns a scaled Hankel function specified by
+    SCALE:
+          0 - (default) is the same as <span class="helptopic">besselh</span>(NU, K, F)
+          1 - returns the following depending on K
+      H = <span class="helptopic">besselh</span>(NU, 1, F, 1) scales H1_NU(F) by exp(-i*F))).
+      H = <span class="helptopic">besselh</span>(NU, 2, F, 1) scales H2_NU(F) by exp(+i*F))).
+ 
+    H = <span class="helptopic">besselh</span>(NU, K, F, SCALE, PREF) uses the CHEBFUNPREF object PREF when
+    building the CHEBFUN H.
+ 
+   The relationship between the Hankel and Bessel functions is:
+   
+          besselh(nu,1,z) = besselj(nu,z) + 1i*bessely(nu,z)
+          besselh(nu,2,z) = besselj(nu,z) - 1i*bessely(nu,z)
+ 
+  
+ 
+  Copyright 2014 by The University of Oxford and The Chebfun Developers.
+  See <a href="http://www.chebfun.org">http://www.chebfun.org</a> for Chebfun information.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/airy.html">airy</a>, <a href="../chebfun/besseli.html">besseli</a>, <a href="../chebfun/besselj.html">besselj</a>, <a href="../chebfun/besselk.html">besselk</a>, <a href="../chebfun/bessely.html">bessely</a>.</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

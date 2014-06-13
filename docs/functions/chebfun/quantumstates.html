@@ -57,49 +57,68 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>quantumstates</strong></h1>
     <p>Compute and plot Schroedinger eigenstates.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = quantumstates(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>This program computes and plots eigenvalues lambda and eigenfunctions u
-for the equation Lu = lambda*u, where L is the Schroedinger operator
-defined by Lu(x) = -h^2*u"(u) + V(x)*u(x).  Here h is a small parameter
-and the potential function V is given as a Chebfun. The domain of the
-problem is the domain of V, with boundary conditions u=0 at both ends.
-
-Inputs:
-
-    QUANTUMSTATES(V) plots 10 eigenstates for h=0.1
-    QUANTUMSTATES(V, n) plots n eigenstates for h=0.1
-    QUANTUMSTATES(V, h), h noninteger, plots 10 eigenstates for given h
-    QUANTUMSTATES(V, n, h) plots n eigenstates for given h
-    QUANTUMSTATES(..., 'noplot') produces no plot
-
-Outputs:
-
-    D = QUANTUMSTATES(...) returns a vector D of eigenvalues
-    [U, D] = QUANTUMSTATES(...) returns a quasimatrix U of eigenfunctions
-    and a diagonal matrix of eigenvalues
-
-Examples:
-
-    x = chebfun('x', [-3, 3]);</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">quantumstates</span>    Compute and plot Schroedinger eigenstates.
+    This program computes and plots eigenvalues lambda and eigenfunctions u
+    for the equation Lu = lambda*u, where L is the Schroedinger operator
+    defined by Lu(x) = -h^2*u"(u) + V(x)*u(x).  Here h is a small parameter
+    and the potential function V is given as a Chebfun. The domain of the
+    problem is the domain of V, with boundary conditions u=0 at both ends.
+ 
+    Inputs:
+ 
+        <span class="helptopic">quantumstates</span>(V) plots 10 eigenstates for h=0.1
+        <span class="helptopic">quantumstates</span>(V, n) plots n eigenstates for h=0.1
+        <span class="helptopic">quantumstates</span>(V, h), h noninteger, plots 10 eigenstates for given h
+        <span class="helptopic">quantumstates</span>(V, n, h) plots n eigenstates for given h
+        <span class="helptopic">quantumstates</span>(..., 'noplot') produces no plot
+ 
+    Outputs:
+  
+        D = <span class="helptopic">quantumstates</span>(...) returns a vector D of eigenvalues
+        [U, D] = <span class="helptopic">quantumstates</span>(...) returns a quasimatrix U of eigenfunctions
+        and a diagonal matrix of eigenvalues
+ 
+    Examples:
+ 
+        x = chebfun('x', [-3, 3]);
+        V = x.^2;                 % harmonic oscillator, or
+        V = abs(x);               % absolute value, or
+        V = (x.^2-1).^4;          % double well</pre></div><!--after help -->
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

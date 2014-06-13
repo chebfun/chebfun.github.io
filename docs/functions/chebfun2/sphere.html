@@ -57,47 +57,62 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li class='active'><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>sphere</strong></h1>
     <p>Generate a spherical surface. (Not necessarily a sphere!)</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = sphere(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>SPHERE(R), where R is a CHEBFUN2 on the domain [0, pi] x [0, 2*pi] plots the
-  "sphere" of radius R(th,phi).
-
-  [X, Y, Z]=SPHERE(R) returns X, Y, and Z as CHEBFUN2 objects such that
-  SURF(X,Y,Z) plots a sphere of radius R(th,phi).
-
-  F = SPHERE(R) returns the CHEBFUN2V representing the sphere of radius R.
-  SURF(F) plots a sphere of radius R.
-
-  Omitting output arguments causes the SPHERE command to be displayed with a
-  SURF command and no outputs are returned.
-
-For the unit sphere: 
-  r = chebfun2(@(th, phi) 1+0*th, [0 pi 0 2*pi]);
-  F = sphere( r );   surf( F )
-
-For a sea shell:
-  r = chebfun2(@(th, phi) phi, [0 pi 0 2*pi]);
-  F = sphere( r ); surf( F )
-
-See also CYLINDER, ELLIPSOID.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">sphere</span>   Generate a spherical surface. (Not necessarily a sphere!)
+    <span class="helptopic">sphere</span>(R), where R is a CHEBFUN2 on the domain [0, pi] x [0, 2*pi] plots the
+    "sphere" of radius R(th,phi).
+ 
+    [X, Y, Z]=<span class="helptopic">sphere</span>(R) returns X, Y, and Z as CHEBFUN2 objects such that
+    SURF(X,Y,Z) plots a sphere of radius R(th,phi).
+  
+    F = <span class="helptopic">sphere</span>(R) returns the CHEBFUN2V representing the sphere of radius R.
+    SURF(F) plots a sphere of radius R.
+ 
+    Omitting output arguments causes the <span class="helptopic">sphere</span> command to be displayed with a
+    SURF command and no outputs are returned.
+ 
+  For the unit sphere: 
+    r = chebfun2(@(th, phi) 1+0*th, [0 pi 0 2*pi]);
+    F = sphere( r );   surf( F )
+ 
+  For a sea shell:
+    r = chebfun2(@(th, phi) phi, [0 pi 0 2*pi]);
+    F = sphere( r ); surf( F )</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../cylinder/cylinder.html">cylinder</a>, <a href="../chebfun2/ellipsoid.html">ellipsoid</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

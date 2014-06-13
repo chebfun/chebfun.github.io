@@ -57,41 +57,56 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li class='active'><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebmatrix</a><span class='sep'>/</span><strong>plot</strong></h1>
     <p>Plot for CHEBMATRIX objects.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = plot(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>PLOT(A) plots the CHEBMATRIX object A.
-
-  If A contains only CHEBFUN and DOUBLE objects, A is converted to a
-  QUASIMATRIX, and CHEBFUN/PLOT() is called. In this case PLOT(A, S) allows
-  various line types, plot symbols, and colors to be used, where S is a
-  character string. See CHEBFUN/PLOT() for further details.
-
-  If A contains inf x inf blocks, CHEBMATRIX/SPY() is called. In this case
-  SPY(A, DIM, DISCTYPE) uses the dimension vector DIM and the discretization
-  DISCTYPE for the visualization. See CHEBMATRIX/SPY() for further details.
-
-  H = PLOT(...) will return the figure handle handle from the plot in the case
-  when CHEBFUN/PLOT() is called, but throw an error for CHEBMATRIX/SPY().
-
-See also CHEBFUN/PLOT, CHEMATRIX/SPY.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">plot</span>   Plot for CHEBMATRIX objects.
+    <span class="helptopic">plot</span>(A) plots the CHEBMATRIX object A.
+ 
+    If A contains only CHEBFUN and DOUBLE objects, A is converted to a
+    QUASIMATRIX, and CHEBFUN/<span class="helptopic">plot</span>() is called. In this case <span class="helptopic">plot</span>(A, S) allows
+    various line types, plot symbols, and colors to be used, where S is a
+    character string. See CHEBFUN/<span class="helptopic">plot</span>() for further details.
+ 
+    If A contains inf x inf blocks, CHEBMATRIX/SPY() is called. In this case
+    SPY(A, DIM, DISCTYPE) uses the dimension vector DIM and the discretization
+    DISCTYPE for the visualization. See CHEBMATRIX/SPY() for further details.
+ 
+    H = <span class="helptopic">plot</span>(...) will return the figure handle handle from the plot in the case
+    when CHEBFUN/<span class="helptopic">plot</span>() is called, but throw an error for CHEBMATRIX/SPY().</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/plot.html">chebfun/plot</a>, CHEMATRIX/SPY.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

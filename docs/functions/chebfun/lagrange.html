@@ -57,34 +57,49 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>lagrange</strong></h1>
     <p>Compute Lagrange basis functions.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>f = lagrange(x, varargin)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>F = CHEBFUN.LAGRANGE(X) returns a CHEBFUN object F representing the Lagrange
-  polynomials for the points X(0), ..., X(N). That is, each column of F is a
-  a polynomial of degree N which satisfies F(X,:) = eye(length(X)).
-
-  F = CHEBFUN.LAGRANGE(X, DOM) restricts the result F to the domain DOM. DOM
-  _must_ be passed if X is a scalar.
-
-See also INTERP1, VANDER.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">lagrange</span>   Compute Lagrange basis functions.
+    F = <span class="helptopic">chebfun.lagrange</span>(X) returns a CHEBFUN object F representing the Lagrange
+    polynomials for the points X(0), ..., X(N). That is, each column of F is a
+    a polynomial of degree N which satisfies F(X,:) = eye(length(X)).
+ 
+    F = <span class="helptopic">chebfun.lagrange</span>(X, DOM) restricts the result F to the domain DOM. DOM
+    _must_ be passed if X is a scalar.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun.interp1/chebfun.interp1.html">interp1</a>, <a href="../chebfun/vander.html">vander</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>true</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

@@ -57,49 +57,65 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>conv</strong></h1>
     <p>Convolution of CHEBFUN objects.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = conv(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>H = CONV(F, G) produces the convolution of CHEBFUN objects F and G:
-                  - 
-                 /
-        H(x) =   |    F(t) G(x-t) dt,  x in [a + c, b + d]
-                 /
-                -
-where domain(F) is [a, b] and domain(G) is [c, d]. The integral is taken
-over all t for which the integrand is defined: max(a, x - d) <= t <= min(b,
-x - c).  The breakpoints of H are all pairwise sums of the breakpoints of F
-and G.
-
-If F and G are simple, in the sense that their FUNS are CHEBTECH objects, a
-fast algorithm due to Hale and Townsend is used [1]. Otherwise, the integral
-is computed by brute force. CONV(F, G, 'old') forces the brute force
-approach, even when the fast algorithm may be used.
-
-Note that CONV only supports piecewise-smooth functions on bounded domains.
-
-Example:
-  f = chebfun(1/2); g = f;
-  subplot(2, 2, 1), plot(f)
-  for j = 2:4, g = conv(f, g); subplot(2, 2, j), plot(g), end
-  figure, for j = 1:4, subplot(2,2,j), plot(g), g = diff(g); end</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">conv</span>   Convolution of CHEBFUN objects.
+    H = <span class="helptopic">conv</span>(F, G) produces the convolution of CHEBFUN objects F and G:
+                      - 
+                     /
+            H(x) =   |    F(t) G(x-t) dt,  x in [a + c, b + d]
+                     /
+                    -
+    where domain(F) is [a, b] and domain(G) is [c, d]. The integral is taken
+    over all t for which the integrand is defined: max(a, x - d) &lt;= t &lt;= min(b,
+    x - c).  The breakpoints of H are all pairwise sums of the breakpoints of F
+    and G.
+ 
+    If F and G are simple, in the sense that their FUNS are CHEBTECH objects, a
+    fast algorithm due to Hale and Townsend is used [1]. Otherwise, the integral
+    is computed by brute force. <span class="helptopic">conv</span>(F, G, 'old') forces the brute force
+    approach, even when the fast algorithm may be used.
+ 
+    Note that <span class="helptopic">conv</span> only supports piecewise-smooth functions on bounded domains.
+ 
+    Example:
+      f = chebfun(1/2); g = f;
+      subplot(2, 2, 1), plot(f)
+      for j = 2:4, g = conv(f, g); subplot(2, 2, j), plot(g), end
+      figure, for j = 1:4, subplot(2,2,j), plot(g), g = diff(g); end</pre></div><!--after help -->
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

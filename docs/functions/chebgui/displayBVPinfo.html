@@ -57,42 +57,58 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li class='active'><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebgui</a><span class='sep'>/</span><strong>displayBVPinfo</strong></h1>
     <p>Show information on the CHEBGUI figure when solving BVPs.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>[dummy, displayTimer] = displayBVPinfo(handles, mode, varargin)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>Calling sequence:
-  VARARGOUT = DISPLAYBVPINFO(HANDLES, MODE, VARARGIN)
-where
-  VARARGOUT when MODE = 'INIT':
-      VARARGOUT{1}:   Dummy output, required for consistency with the
-                      chebop/displayInfoInit method.
-      VARARGOUT{2}:   A tic/toc timer.
-  VARARGOUT when MODE = 'ITER':
-      VARARGOUT{1}:   A tic/toc timer.
-      VARARGOUT{2}:   Boolean variable, equal to 1 if the user pressed the
-                      'Stop' button on the GUI. 
-  HANDLES:            The MATLAB handle to the CHEBGUI figure.
-  VARARGIN:           Useful input arguments for showing information, further
-                      described in 'help chebop/displayInfo)
-
-See also: chebop/displayInfo</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">displayBVPinfo</span>   Show information on the CHEBGUI figure when solving BVPs.
+ 
+  Calling sequence:
+    VARARGOUT = <span class="helptopic">displayBVPinfo</span>(HANDLES, MODE, VARARGIN)
+  where
+    VARARGOUT when MODE = 'INIT':
+        VARARGOUT{1}:   Dummy output, required for consistency with the
+                        chebop/displayInfoInit method.
+        VARARGOUT{2}:   A tic/toc timer.
+    VARARGOUT when MODE = 'ITER':
+        VARARGOUT{1}:   A tic/toc timer.
+        VARARGOUT{2}:   Boolean variable, equal to 1 if the user pressed the
+                        'Stop' button on the GUI. 
+    HANDLES:            The MATLAB handle to the CHEBGUI figure.
+    VARARGIN:           Useful input arguments for showing information, further
+                        described in 'help chebop/displayInfo)</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebop/displayInfo.html">chebop/displayInfo</a>
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>true</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

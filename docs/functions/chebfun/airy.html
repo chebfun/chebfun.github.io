@@ -57,40 +57,55 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>airy</strong></h1>
     <p>Airy function of a CHEBFUN.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = airy(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>AIRY(F) returns the Airy function Ai(F) of a CHEBFUN F.
-
-  AIRY(K, F) returns various Airy functions specified by K:
-    0 - (default) is the same as airy(Z)
-    1 - returns the derivative, Ai'(Z)
-    2 - returns the Airy function of the second kind, Bi(Z)
-    3 - returns the derivative, Bi'(Z)
-
-  AIRY(K, F, SCALE) returns a scaled AIRY(K, F) specified by SCALE:
-    0 - (default) is that same as AIRY(K, Z)
-    1 - returns airy(K, F) scaled by EXP(2/3*F.^(3/2)) for K = 0, 1,
-        and scaled by EXP(-ABS(2/3.*REAL(F.^(3/2)))) for K = 2, 3.
-
-See also BESSELJ.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">airy</span>   Airy function of a CHEBFUN.
+    <span class="helptopic">airy</span>(F) returns the Airy function Ai(F) of a CHEBFUN F.
+ 
+    <span class="helptopic">airy</span>(K, F) returns various Airy functions specified by K:
+      0 - (default) is the same as airy(Z)
+      1 - returns the derivative, Ai'(Z)
+      2 - returns the Airy function of the second kind, Bi(Z)
+      3 - returns the derivative, Bi'(Z)
+ 
+    <span class="helptopic">airy</span>(K, F, SCALE) returns a scaled <span class="helptopic">airy</span>(K, F) specified by SCALE:
+      0 - (default) is that same as <span class="helptopic">airy</span>(K, Z)
+      1 - returns airy(K, F) scaled by EXP(2/3*F.^(3/2)) for K = 0, 1,
+          and scaled by EXP(-ABS(2/3.*REAL(F.^(3/2)))) for K = 2, 3.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/besselj.html">besselj</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

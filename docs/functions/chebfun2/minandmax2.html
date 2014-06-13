@@ -57,35 +57,50 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li class='active'><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>minandmax2</strong></h1>
     <p>Find global minimum and maximum of a CHEBFUN2.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = minandmax2(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>Y = minandmax2(F) returns the minimum and maximum value of a CHEBFUN2 over
-  its domain. Y is a vector of length 2 such that Y(1) = min(f(x,y)) and Y(2)
-  = max(f(x,y)).
-
-  [Y, X] = minandmax2(F) also returns the position of the minimum and maximum.
-  That is,
-      F(X(1,1),X(1,2)) = Y(1)     and      F(X(2,1),X(2,2)) = Y(2)
-
-See also MAX2, MIN2, NORM.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">minandmax2</span>   Find global minimum and maximum of a CHEBFUN2.
+    Y = minandmax2(F) returns the minimum and maximum value of a CHEBFUN2 over
+    its domain. Y is a vector of length 2 such that Y(1) = min(f(x,y)) and Y(2)
+    = max(f(x,y)).
+ 
+    [Y, X] = minandmax2(F) also returns the position of the minimum and maximum.
+    That is,
+        F(X(1,1),X(1,2)) = Y(1)     and      F(X(2,1),X(2,2)) = Y(2)</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun2/max2.html">max2</a>, <a href="../chebfun2/min2.html">min2</a>, <a href="../chebfun2/norm.html">norm</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

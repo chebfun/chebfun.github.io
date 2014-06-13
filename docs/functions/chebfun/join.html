@@ -57,39 +57,54 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>join</strong></h1>
     <p>Join together two or more CHEBFUN objects.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = join(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>F = JOIN(F1, F2, ...) joins together the CHEBFUN objects F1, F2, ..., to
-  create a piecewise CHEBFUN F on a larger domain. F1, F2, ... must all have
-  the same transposition state; the output F will have the same transposition
-  state as the inputs. The left endpoint of the domain of F is F1.domain(1),
-  and the remaining points in the domain are determined by the adding on the
-  lengths of the successive subintervals forming the domains of F1, F2, etc.
-  For example, if F1 has domain [-1 -0.5 0] and F2 has domain [1 1.25 2],
-  then the domain of F will be [-1 -0.5 0 0.25 1].
-
-  The number of columns (or rows) in F1, F2, ... must be the same, else an
-  error is thrown.
-
-See also HORZCAT, VERTCAT.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">join</span>   Join together two or more CHEBFUN objects.
+    F = <span class="helptopic">join</span>(F1, F2, ...) joins together the CHEBFUN objects F1, F2, ..., to
+    create a piecewise CHEBFUN F on a larger domain. F1, F2, ... must all have
+    the same transposition state; the output F will have the same transposition
+    state as the inputs. The left endpoint of the domain of F is F1.domain(1),
+    and the remaining points in the domain are determined by the adding on the
+    lengths of the successive subintervals forming the domains of F1, F2, etc.
+    For example, if F1 has domain [-1 -0.5 0] and F2 has domain [1 1.25 2],
+    then the domain of F will be [-1 -0.5 0 0.25 1].
+ 
+    The number of columns (or rows) in F1, F2, ... must be the same, else an
+    error is thrown.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/horzcat.html">horzcat</a>, <a href="../chebfun/vertcat.html">vertcat</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

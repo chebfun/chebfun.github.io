@@ -57,74 +57,90 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li class='active'><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebop</a><span class='sep'>/</span><strong>solvebvp</strong></h1>
     <p>Solve a linear or nonlinear CHEBOP BVP system.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = solvebvp(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>U = SOLVEBVP(N, RHS), where N is a CHEBOP and RHS is a CHEBMATRIX, CHEBFUN
-  or a vector of doubles attempts to solve the BVP
-
-      N(U) = RHS + boundary conditions specified by N
-
-  Observe that U = SOLVEBVP(N, RHS) has the same effect as U = N\RHS, but this
-  method allows greater flexibility than CHEBOP backslash, as described below.
-
-  If successful, the solution returned, U, is a CHEBFUN if N specifies a
-  scalar problem, and a CHEBMATRIX if N specifies a coupled systems of
-  ordinary differential equations. If N specifies a linear operator, the BVP
-  is solved using a spectral or a pseudospectral method. If N specifies a
-  nonlinear operator, damped Newton iteration in function space is performed,
-  where each linear problem arising is solved via a spectral/pseudospectral
-  method.
-
-  U = SOLVEBVP(N, RHS, PREF) is the same as above, using the preferences
-  specified by the CHEBOPPREF variable PREF.
-
-  [U, INFO] = SOLVEBVP(N, RHS, PREF) is the same as above, but also returns
-  the MATLAB struct INFO, which contains useful information about the solution
-  process. The fields of INFO are as follows:
-      ISLINEAR: A vector with four entries containing linearity information
-          for N. More specifically, 
-              ISLINEAR(1) = 1 if N.OP is linear
-              ISLINEAR(2) = 1 if N.LBC is linear
-              ISLINEAR(3) = 1 if N.RBC is linear
-              ISLINEAR(4) = 1 if N.BC is linear
-          Otherwise, the corresponding element of ISLINEAR is equal to 0.
-
-  For linear problems, INFO further contains the field
-      ERROR:    The residual of the differential equation.
-
-  For nonlinear problems, INFO further contains the fields
-      NORMDELTA:  A vector of the norm of the Newton updates.
-      ERROR:      An error estimate for the convergence of the Newton
-                  iteration.
-
-  Note that CHEBOP allows the RHS of coupled system of ODEs to be a scalar,
-  e.g., one can both call
-      N = chebop(@(x, u, v) [diff(u) + v ; u + diff(v)]);
-      N.bc = @(x, u, v) [u(-1) ; v(1)];
-      uv = solvebvp(N, 0);
-  and
-      uv = solvebvp(N, [0; 0]);
-
-See also: CHEBOP, CHEBOP/MLDIVIDE, CHEBOPPREF, CHEBOP/SOLVEBVPLINEAR, 
-  CHEBOP/SOLVEBVPNONLINEAR, LINOP/MLDIVIDE.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">solvebvp</span>  Solve a linear or nonlinear CHEBOP BVP system.
+ 
+    U = <span class="helptopic">solvebvp</span>(N, RHS), where N is a CHEBOP and RHS is a CHEBMATRIX, CHEBFUN
+    or a vector of doubles attempts to solve the BVP
+ 
+        N(U) = RHS + boundary conditions specified by N
+ 
+    Observe that U = <span class="helptopic">solvebvp</span>(N, RHS) has the same effect as U = N\RHS, but this
+    method allows greater flexibility than CHEBOP backslash, as described below.
+ 
+    If successful, the solution returned, U, is a CHEBFUN if N specifies a
+    scalar problem, and a CHEBMATRIX if N specifies a coupled systems of
+    ordinary differential equations. If N specifies a linear operator, the BVP
+    is solved using a spectral or a pseudospectral method. If N specifies a
+    nonlinear operator, damped Newton iteration in function space is performed,
+    where each linear problem arising is solved via a spectral/pseudospectral
+    method.
+ 
+    U = <span class="helptopic">solvebvp</span>(N, RHS, PREF) is the same as above, using the preferences
+    specified by the CHEBOPPREF variable PREF.
+ 
+    [U, INFO] = <span class="helptopic">solvebvp</span>(N, RHS, PREF) is the same as above, but also returns
+    the MATLAB struct INFO, which contains useful information about the solution
+    process. The fields of INFO are as follows:
+        ISLINEAR: A vector with four entries containing linearity information
+            for N. More specifically, 
+                ISLINEAR(1) = 1 if N.OP is linear
+                ISLINEAR(2) = 1 if N.LBC is linear
+                ISLINEAR(3) = 1 if N.RBC is linear
+                ISLINEAR(4) = 1 if N.BC is linear
+            Otherwise, the corresponding element of ISLINEAR is equal to 0.
+    
+    For linear problems, INFO further contains the field
+        ERROR:    The residual of the differential equation.
+ 
+    For nonlinear problems, INFO further contains the fields
+        NORMDELTA:  A vector of the norm of the Newton updates.
+        ERROR:      An error estimate for the convergence of the Newton
+                    iteration.
+ 
+    Note that CHEBOP allows the RHS of coupled system of ODEs to be a scalar,
+    e.g., one can both call
+        N = chebop(@(x, u, v) [diff(u) + v ; u + diff(v)]);
+        N.bc = @(x, u, v) [u(-1) ; v(1)];
+        uv = solvebvp(N, 0);
+    and
+        uv = solvebvp(N, [0; 0]);</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebop/chebop.html">chebop</a>, <a href="../chebop/mldivide.html">chebop/mldivide</a>, <a href="../cheboppref/cheboppref.html">cheboppref</a>, <a href="../chebop/solvebvpLinear.html">chebop/solvebvpLinear</a>, 
+    <a href="../chebop/solvebvpNonlinear.html">chebop/solvebvpNonlinear</a>, <a href="../linop/mldivide.html">linop/mldivide</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

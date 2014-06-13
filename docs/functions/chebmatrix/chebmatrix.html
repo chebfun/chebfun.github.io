@@ -57,57 +57,108 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li class='active'><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebmatrix</a><span class='sep'>/</span><strong>chebmatrix</strong></h1>
-    <p>of chebmatrix:</p>
-
-    <!--<h2>Usage</h2>
-    <pre>A = chebmatrix(data, dom)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>test_chebpolyplot              - This test just ensures that chebmatrix chebpolyplot() does not crash.
-test_flip                      - GBW, 7 May 2014
-test_norm                      - HM, 30 Apr 2014
-test_plot                      - This test just ensures that chebmatrix plot() does not crash.
-test_waterfall                 - Test file for @chebmatrix/waterfall.m.
-
-
-chebmatrix is both a directory and a function.
-
- CHEBMATRIX   Compound matrix for operators, CHEBFUNs, and scalars.
-    A CHEBMATRIX contains blocks that are linear operators, functionals,
+    <p>The chebmatrix constructor.</p>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">chebmatrix</span>   Compound matrix for operators, CHEBFUNs, and scalars.
+    A <span class="helptopic">chebmatrix</span> contains blocks that are linear operators, functionals,
     CHEBFUNs, or scalars. They are used to tie together multiple functions, or
     functions and scalars, as unknowns in a system, and to express linear
     operators on those objects.
-
-    Normally the CHEBMATRIX constructor is not called directly. Instead, one
+ 
+    Normally the <span class="helptopic">chebmatrix</span> constructor is not called directly. Instead, one
     uses the usual [ ] or concatenation commands familiar for matrices. Block
     sizes must be compatible, where function dimensions have size Inf. All
-    functions and operators in a CHEBMATRIX must share compatible domains; i.e.,
-    they should all have the same endpoints. The resulting CHEBMATRIX domain
+    functions and operators in a <span class="helptopic">chebmatrix</span> must share compatible domains; i.e.,
+    they should all have the same endpoints. The resulting <span class="helptopic">chebmatrix</span> domain
     includes all the breakpoints of the constituent blocks.
-
-    CHEBMATRIX object obey the expected arithmetic operations, such as + and *,
+  
+    <span class="helptopic">chebmatrix</span> object obey the expected arithmetic operations, such as + and *,
     if the sizes are appropriate.
-
-    If a CHEBMATRIX contains only CHEBFUNs and doubles, then the CHEBFUN/PLOT
+ 
+    If a <span class="helptopic">chebmatrix</span> contains only CHEBFUNs and doubles, then the CHEBFUN/PLOT
     method converts it to an array-valued chebfun so that plotting. Some methods
-    can be applied directly to the blocks of A and return a CHEBMATRIX. See the
-    documentation of CHEBMATRIX/CELLFUN().
-
-    Examples:</pre>
+    can be applied directly to the blocks of A and return a <span class="helptopic">chebmatrix</span>. See the
+    documentation of <span class="helptopic">chebmatrix</span>/CELLFUN().
+ 
+    Examples:
+      d = [-2, 2];                  % function domain
+      I = operatorBlock.eye(d);     % identity operator
+      D = operatorBlock.diff(d);    % differentiation operator
+      x = chebfun(@(x) x, d);       % the variable x on d
+      M = operatorBlock.mult(x.^2); % multiplication operator
+      S = functionalBlock.sum(d);   % integration functional 
+      E = functionalBlock.eval(d);  % evaluation functional generator
+  
+      u = [ exp(x); pi; sin(x) ];   %  function; scalar; function
+      A = [ I+D, abs(x), M;
+            S, 0, E(2);  
+            D, x.^2, I ];
+ 
+      dA = A.domain                 % includes breakpoint at zero
+      sz = size(A)                  % 3 by 3 block array
+      [Am, An] = blockSizes(A)      % sizes of the blocks
+ 
+      spy(A)                % show the block structures
+      matrix(A, [4 4])      % discretize with 4 points in each subdomain
+      matrix(A*u, [4 4]) 
+ 
+      A21 = A(2, 1);    % get just the (2,1) block
+      A21.domain        % no breakpoint
+      matrix(A21,6)     % Clenshaw-Curtis weights</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../cheboppref/cheboppref.html">cheboppref</a>, <a href="../linop/linop.html">linop</a>, <a href="../chebmatrix/matrix.html">chebmatrix/matrix</a>, <a href="../chebmatrix/spy.html">chebmatrix/spy</a>.
+</div>
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name">chebmatrix</td>
+            <td class="m-help">Compound matrix for operators, CHEBFUNs, and scalars.&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name">blocks</td>
+            <td class="m-help">A cell used to store the components of a CHEBMATRIX internally.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name">diffOrder</td>
+            <td class="m-help">is a dependent property.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name">domain</td>
+            <td class="m-help">of the CHEBMATRIX.&nbsp;</td>
+         </tr>
+      </table>
 
 </div>
         </div>

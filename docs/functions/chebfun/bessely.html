@@ -57,42 +57,58 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>bessely</strong></h1>
     <p>Bessel function of second kind of a CHEBFUN.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = bessely(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>Y = BESSELY(NU, F) computes the Bessel function of the second kind Y_NU(F)
-  of the nonzero CHEBFUN F. The order NU need not be an integer but must be
-  real. The argument F can be complex but must not pass through the origin.
-  The result is real where F is positive.
-
-  Y = BESSELY(NU, F, SCALE) returns a scaled Y_NU(F) specified by SCALE:
-       0 - (default) is the same as BESSELY(NU, F)
-       1 -  scales Y_NU(F) by exp(-abs(imag(F)))
-
-  Y = BESSELY(NU, F, SCALE, PREF) uses the CHEBFUNPREF object PREF when
-  building the CHEBFUN Y.
-
-See also AIRY, BESSELH, BESSELI, BESSELJ, BESSELK.
-
-Copyright 2014 by The University of Oxford and The Chebfun Developers.
-See http://www.chebfun.org for Chebfun information.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">bessely</span>   Bessel function of second kind of a CHEBFUN.
+    Y = <span class="helptopic">bessely</span>(NU, F) computes the Bessel function of the second kind Y_NU(F)
+    of the nonzero CHEBFUN F. The order NU need not be an integer but must be
+    real. The argument F can be complex but must not pass through the origin.
+    The result is real where F is positive.
+ 
+    Y = <span class="helptopic">bessely</span>(NU, F, SCALE) returns a scaled Y_NU(F) specified by SCALE:
+         0 - (default) is the same as <span class="helptopic">bessely</span>(NU, F)
+         1 -  scales Y_NU(F) by exp(-abs(imag(F)))
+ 
+    Y = <span class="helptopic">bessely</span>(NU, F, SCALE, PREF) uses the CHEBFUNPREF object PREF when
+    building the CHEBFUN Y.
+ 
+  
+ 
+  Copyright 2014 by The University of Oxford and The Chebfun Developers.
+  See <a href="http://www.chebfun.org">http://www.chebfun.org</a> for Chebfun information.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/airy.html">airy</a>, <a href="../chebfun/besselh.html">besselh</a>, <a href="../chebfun/besseli.html">besseli</a>, <a href="../chebfun/besselj.html">besselj</a>, <a href="../chebfun/besselk.html">besselk</a>.</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

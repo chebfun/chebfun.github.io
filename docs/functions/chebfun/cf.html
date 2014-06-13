@@ -57,73 +57,88 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>cf</strong></h1>
     <p>Caratheodory-Fejer approximation</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = cf(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>[P, Q, R_HANDLE] = CF(F, M, N) computes a type (M, N) rational CF
-  approximant to CHEBFUN F defined on [a, b], which must consist of just a
-  single FUN. P and Q are CHEBFUNs representing the numerator and denominator
-  polynomials. R_HANDLE is an anonymous function that evaluates P/Q.
-
-  [P, Q, R_HANDLE, S] = CF(F, M, N) also returns S, the associated CF singular
-  value, an approximation to the minimax error.
-
-  [P, Q, R_HANDLE, S] = CF(F, M, N, K) does the same but uses only the K-th
-  partial sum in Chebyshev expansion of F.
-
-  For polynomial CF approximation, use N = 0 or N = [] or only provide two
-  input arguments. If P and S are required, four output arguments must be
-  specified.
-
-  If F is a quasimatrix then so are the outputs P and Q, R_HANDLE is a cell
-  array of function handles and s is a vector.
-
-  Rational CF approximation can be very ill-conditioned for non-smooth
-  functions. If the program detects this, a warning message is given and the
-  results may be wrong.
-
-  CF = Caratheodory-Fejer approximation is a near-best approximation that is
-  often indistinguishable from the true best approximation (which for
-  polynomials can be computed using REMEZ(F, M)), but often much faster to
-  compute.
-
-  Examples:
-
-  Compute a quadratic polynomial CF approximant to exp(x) on [-1, 1]:
-
-    [p, q, r] = cf(chebfun(@exp), 2);
-
-  Compute a type-(4, 4) rational CF approximant to the same function:
-
-    [p, q, r] = cf(chebfun(@exp), 4, 4);
-
-  References:
-
-  [1] M. H. Gutknecht and L. N. Trefethen, "Real polynomial Chebyshev
-      approximation by the Caratheodory-Fejer method", SIAM J. Numer. Anal. 19 
-      (1982), 358-371.
-
-  [2] L. N. Trefethen and M. H. Gutknecht, "The Caratheodory-Fejer method fpr
-      real rational approximation", SIAM J. Numer. Anal. 20 (1983), 420-436.
-
-See also REMEZ.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">cf</span>   Caratheodory-Fejer approximation
+    [P, Q, R_HANDLE] = <span class="helptopic">cf</span>(F, M, N) computes a type (M, N) rational <span class="helptopic">cf</span>
+    approximant to CHEBFUN F defined on [a, b], which must consist of just a
+    single FUN. P and Q are CHEBFUNs representing the numerator and denominator
+    polynomials. R_HANDLE is an anonymous function that evaluates P/Q.
+ 
+    [P, Q, R_HANDLE, S] = <span class="helptopic">cf</span>(F, M, N) also returns S, the associated <span class="helptopic">cf</span> singular
+    value, an approximation to the minimax error.
+ 
+    [P, Q, R_HANDLE, S] = <span class="helptopic">cf</span>(F, M, N, K) does the same but uses only the K-th
+    partial sum in Chebyshev expansion of F.
+ 
+    For polynomial <span class="helptopic">cf</span> approximation, use N = 0 or N = [] or only provide two
+    input arguments. If P and S are required, four output arguments must be
+    specified.
+ 
+    If F is a quasimatrix then so are the outputs P and Q, R_HANDLE is a cell
+    array of function handles and s is a vector.
+ 
+    Rational <span class="helptopic">cf</span> approximation can be very ill-conditioned for non-smooth
+    functions. If the program detects this, a warning message is given and the
+    results may be wrong.
+ 
+    <span class="helptopic">cf</span> = Caratheodory-Fejer approximation is a near-best approximation that is
+    often indistinguishable from the true best approximation (which for
+    polynomials can be computed using REMEZ(F, M)), but often much faster to
+    compute.
+ 
+    Examples:
+ 
+    Compute a quadratic polynomial <span class="helptopic">cf</span> approximant to exp(x) on [-1, 1]:
+ 
+      [p, q, r] = cf(chebfun(@exp), 2);
+ 
+    Compute a type-(4, 4) rational <span class="helptopic">cf</span> approximant to the same function:
+ 
+      [p, q, r] = cf(chebfun(@exp), 4, 4);
+ 
+    References:
+ 
+    [1] M. H. Gutknecht and L. N. Trefethen, "Real polynomial Chebyshev
+        approximation by the Caratheodory-Fejer method", SIAM J. Numer. Anal. 19 
+        (1982), 358-371.
+ 
+    [2] L. N. Trefethen and M. H. Gutknecht, "The Caratheodory-Fejer method fpr
+        real rational approximation", SIAM J. Numer. Anal. 20 (1983), 420-436.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/remez.html">remez</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

@@ -82,7 +82,7 @@ functionTemplate = [
     'return_type: "%s"\n' ...
     'arguments: "%s"\n' ...
     '---\n\n' ...
-    '<pre>%s</pre>\n' ...
+    '%s\n' ...
     ];
 
 indexTemplate = [
@@ -108,6 +108,7 @@ NL     = sprintf('\n');
 toList = @(s) ['- "'  strrep(s, NL, ['"' NL '- "' ]) '"'];
 indent = @(s) ['    ' strrep(s, NL, [NL '    '])];
 escapeSlashes = @(s) strrep(s, '\', '\\');
+escapePercents = @(s) strrep(s, '%', '%%');
 
 for className = classNames
     className = className{1};
@@ -153,11 +154,17 @@ for className = classNames
         f_layout       = 'item';
         f_className    = className;
         f_functionName = functionName;
+        f_helpHtml     = escapeSlashes(escapePercents(help2html(callToHelp)));
         f_helpText     = escapeSlashes(help(callToHelp));
         f_snippet      = getSnippetFrom(f_helpText);
         f_qualifiers   = methodsData(k, 1);
         f_returnType   = methodsData(k, 2);
         f_arguments    = methodsData(k, 4);
+
+        if strcmp(functionName, className)
+            % This function is a constructor.
+            f_snippet = ['The ' className ' constructor.'];
+        end
 
         snippets{k} = f_snippet;
 
@@ -170,7 +177,7 @@ for className = classNames
                      char(f_qualifiers),
                      char(f_returnType),
                      char(f_arguments),
-                     char(f_helpText)
+                     char(f_helpHtml)
                      };
 
         % Finally, do the templating and write the file.

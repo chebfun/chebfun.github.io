@@ -57,93 +57,94 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li class='active'><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>chebfun2</strong></h1>
-    <p>of chebfun2:</p>
-
-    <!--<h2>Usage</h2>
-    <pre>f = chebfun2(varargin)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>test_CLA                       - Try out some basic continuous linear algebra. Mainly checking
-test_abs                       - Test abs. 
-test_battery                   - A large battery of functions. 
-test_cdr                       - Test CDR 
-test_chebpoly2                 - Test chebpoly2 
-test_chebpolyval2              - Check the chebpolyval2 commands in trunk and @chebfun2 folder 
-test_chol                      - Test for Cholesky decomposition of a chebfun2. 
-test_coefficients              - Test to check that Chebfun2 can compute its bivariate tensor Chebyshev 
-test_complex                   - Test complex
-test_composition_operators     - Check that composition operations are working. 
-test_constructor               - This tests the chebfun2 constructor.  
-test_contour                   - Test contour
-test_ctorsyntax                - This tests the Chebfun2 constructor for different syntax.
-test_diag                      - Test diag
-test_diff                      - Check the diff command in Chebfun2
-test_divide                    - Test contour
-test_emptyObjects              - For empty chebfun2 objects, does each command deal with them
-test_feval                     - Test feval
-test_get                       - Test GET.
-test_guide                     - Test Chebfun2 guide commands. This is not exclusive by checks the main 
-test_integralEqns              - Test fred and volt
-test_interpaccuracy            - Test the Chebfun2 constructor with a few functions.
-test_lu                        - Test for LU decomposition of a chebfun2. 
-test_max                       - Test the chebfun2/max command. 
-test_mean                      - Check the commands mean
-test_min                       - Test the chebfun2/min command. 
-test_minus                     - This tests the basic arithmetic operations on chebfun2 objects.
-test_optimization              - Can we do global optimization?
-test_plotting                  - Check that the very basic plotting commands do not crash. 
-test_plus                      - This tests the basic arithmetic operations on chebfun2 objects.
-test_qr                        - Test for QR decomposition of a chebfun2. 
-test_rank                      - Try some pretty functions and ensure k <= min(m,n)
-test_restriction               - This script checks the restriction of a chebfun2 to a smaller domain. 
-test_roots_syntax              - Check the syntax to chebfun2/roots.
-test_scl                       - Check correct vertical scaling. 
-test_sum                       - Test for integration of a fun2 object. 
-test_surf                      - Test surf
-test_times                     - Test contour
-test_transpose                 - Test transpose
-test_uminus                    - This tests the basic arithmetic operations on chebfun2 objects.
-test_uplus                     - This tests the basic arithmetic operations on chebfun2 objects.
-test_vectoriseFlag             - Test the vectorise flag in the constructor. 
-test_vertcat                   - Test vertical concatenation of CHEBFUN2 objects. 
-test_zerofunction              - This test checks that a zero chebfun2 is being treated correctly for
-
-
-chebfun2 is both a directory and a function.
-
-  CHEBFUN2 CHEBFUN2 class for constructing functions on [a,b]x[c,d].
-
+    <p>The chebfun2 constructor.</p>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext -->  <span class="helptopic">chebfun2</span> <span class="helptopic">chebfun2</span> class for constructing functions on [a,b]x[c,d].
+  
     Class for approximating functions defined on finite rectangles. The 
     functions should be smooth.
-
-  CHEBFUN2(F) constructs a CHEBFUN2 object representing the function F on
+ 
+  <span class="helptopic">chebfun2</span>(F) constructs a <span class="helptopic">chebfun2</span> object representing the function F on
   [-1,1]x[-1 1]. F can be a string, e.g., 'sin(x.*y)', a function handle, e.g.,
   @(x,y) x.*y + cos(x), or a matrix of values. For the first two, F should in
   most cases be "vectorized" in the sense that it may be evaluated at a matrix
   of points and returns a matrix output.
-
+ 
   If F is a matrix, A = (a_ij), the numbers aij are used as function values
   at tensor Chebyshev points of the 2nd kind. 
-
-  CHEBFUN2(F, [A B C D]) specifies a rectangle [A B]x[C D] where the 
+ 
+  <span class="helptopic">chebfun2</span>(F, [A B C D]) specifies a rectangle [A B]x[C D] where the 
   function is defined. A, B, C, D must all be finite.
-
-  CHEBFUN2(F, 'coeffs') where F is matrix uses the matrix as coefficients in 
-  a Chebyshev tensor expansion.</pre>
+  
+  <span class="helptopic">chebfun2</span>(F, 'coeffs') where F is matrix uses the matrix as coefficients in 
+  a Chebyshev tensor expansion.
+ 
+  The Chebfun2 software system is based on: 
+ 
+  % A. Townsend and L. N. Trefethen, An extension of Chebfun to two dimensions,
+  SISC, 35 (2013), C495-C518.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/chebfun.html">chebfun</a>, <a href="../chebfun2v/chebfun2v.html">chebfun2v</a>.
+</div>
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name">chebfun2</td>
+            <td class="m-help">The main CHEBFUN2 constructor!&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name">cols</td>
+            <td class="m-help">: column slices used in low rank representation&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name">domain</td>
+            <td class="m-help">: rectangle of CHEBFUN2, default is [-1,1] x [-1,1]&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name">pivotLocations</td>
+            <td class="m-help">: pivot locations used in GE&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name">pivotValues</td>
+            <td class="m-help">: pivot values used in low rank representation&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name">rows</td>
+            <td class="m-help">: rows slices used in low rank representation&nbsp;</td>
+         </tr>
+      </table>
 
 </div>
         </div>

@@ -57,53 +57,69 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>norm</strong></h1>
     <p>Norm of a CHEBFUN object.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = norm(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>For scalar-valued column CHEBFUN objects:
-      NORM(F) = sqrt(integral of abs(F)^2).
-      NORM(F, 2) is the same as NORM(F).
-      NORM(F, 'fro') is also the same as NORM(F).
-      NORM(F, 1) = integral of abs(F).
-      NORM(F, P) = (integral of abs(F)^P)^(1/P).
-      NORM(F, inf) = max(abs(F)).
-      NORM(F, -inf) = min(abs(F)).
-
-  For array-valued column CHEBFUN objects:
-      NORM(F) is the Frobenius norm, sqrt(sum(svd(F).^2)).
-      NORM(F, 'fro') is the same as NORM(F).
-      NORM(F, 1) is the maximum of the 1-norms of the columns of F.
-      NORM(F, 2) is the largest singular value of F.
-      NORM(F, inf) is the maximum of the 1-norms of the rows of F.
-      NORM(F, -inf) is the minimum of the 1-norms of the rows of F.
-      NORM(F, P) is the P-th root of the maximum of the sum of the P-th
-                 powers of the magnitudes of the columns of F.
-
-Furthermore, the +\-inf norms for scalar-valued CHEBFUN objects may also
-return a second output, giving the position where the max/min occurs. For
-array-valued CHEBFUN objects, the 1 norm can return as its 2nd output the
-index of the column with the largest norm, while the inf and -inf norms
-can return as their 2nd output the point in the domain of the CHEBFUN at
-which the norm is attained.
-
-If F is a row CHEBFUN, NORM(F, TYPE) is equal to NORM(F.', TYPE).</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">norm</span>   Norm of a CHEBFUN object.
+    For scalar-valued column CHEBFUN objects:
+        <span class="helptopic">norm</span>(F) = sqrt(integral of abs(F)^2).
+        <span class="helptopic">norm</span>(F, 2) is the same as <span class="helptopic">norm</span>(F).
+        <span class="helptopic">norm</span>(F, 'fro') is also the same as <span class="helptopic">norm</span>(F).
+        <span class="helptopic">norm</span>(F, 1) = integral of abs(F).
+        <span class="helptopic">norm</span>(F, P) = (integral of abs(F)^P)^(1/P).
+        <span class="helptopic">norm</span>(F, inf) = max(abs(F)).
+        <span class="helptopic">norm</span>(F, -inf) = min(abs(F)).
+ 
+    For array-valued column CHEBFUN objects:
+        <span class="helptopic">norm</span>(F) is the Frobenius norm, sqrt(sum(svd(F).^2)).
+        <span class="helptopic">norm</span>(F, 'fro') is the same as <span class="helptopic">norm</span>(F).
+        <span class="helptopic">norm</span>(F, 1) is the maximum of the 1-norms of the columns of F.
+        <span class="helptopic">norm</span>(F, 2) is the largest singular value of F.
+        <span class="helptopic">norm</span>(F, inf) is the maximum of the 1-norms of the rows of F.
+        <span class="helptopic">norm</span>(F, -inf) is the minimum of the 1-norms of the rows of F.
+        <span class="helptopic">norm</span>(F, P) is the P-th root of the maximum of the sum of the P-th
+                   powers of the magnitudes of the columns of F.
+ 
+  Furthermore, the +\-inf norms for scalar-valued CHEBFUN objects may also
+  return a second output, giving the position where the max/min occurs. For
+  array-valued CHEBFUN objects, the 1 norm can return as its 2nd output the
+  index of the column with the largest norm, while the inf and -inf norms
+  can return as their 2nd output the point in the domain of the CHEBFUN at
+  which the norm is attained.
+ 
+  If F is a row CHEBFUN, <span class="helptopic">norm</span>(F, TYPE) is equal to <span class="helptopic">norm</span>(F.', TYPE).</pre></div><!--after help -->
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

@@ -57,64 +57,79 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li class='active'><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebop</a><span class='sep'>/</span><strong>linearize</strong></h1>
     <p>Linearize a CHEBOP.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>[L, res, isLinear, u] = linearize(N, u, x, flag)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>L = LINEARIZE(N) returns a LINOP that corresponds to linearising the CHEBOP
-  N around the zero function on N.DOMAIN. The linop L will both include the
-  linearised differential equation, as well as linearised boundary conditions
-  (from N.LBC and N.RBC) and other constraints (from N.BC).
-
-  L = LINEARIZE(N, U) linearizes the CHEBOP N around the function U. Here, U
-  can either be a CHEBFUN or a CHEBMATRIX. IF U = [] then N is linearized
-  around the zero function, as above.
-
-  L = LINEARIZE(N, U, X) passes the independent variable, X, on N.DOMAIN.
-  If X = [] then LINEARIZE constructs the variable itself internally.
-
-  L = LINEARIZE(N, U, X, FLAG) is useful when we call LINOP(CHEBOP), i.e.,
-  converting a linear CHEBOP to a LINOP. If FLAG = 1, the method will stop
-  execution and return as soon as it encounters a nonlinear field in N. In
-  this case L is returned as an empty LINOP.
-
-  [L, RES] = LINEARIZE(N, ...) also returns RES; to the residual of the
-  differential equation part of N at the function it was linearized. In other
-  words, RES is the result of evaluating N at the zero function if no
-  additional function is passed to LINEARIZE(), or the function U if it is
-  passed. If N.OP is a scalar equation, RES is a CHEBFUN, otherwise it is a
-  CHEBMATRIX.
-
-  [L, RES, ISLINEAR] = LINEARIZE(N, ...) also returns the vector ISLINEAR,
-  with entries as follows:
-      ISLINEAR(1) = 1 if N.OP is linear, 0 otherwise.
-      ISLINEAR(2) = 1 if N.LBC is linear, 0 otherwise.
-      ISLINEAR(3) = 1 if N.RBC is linear, 0 otherwise.
-      ISLINEAR(4) = 1 if N.BC is linear, 0 otherwise.
-
-  [L, RES, ISLINEAR, U] = LINEARIZE(N, ...) also returns CHEBMATRIX U that N
-  was linearized around. This is useful for parameter dependent problem, as
-  LINEARIZE() is where it is discovered that problems are parameter dependent,
-  so the CHEBMATRIX can be made to have to correct collection of CHEBFUN
-  objects and doubles, rather than just CHEBFUNs.
-
-See also LINOP.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">linearize</span>   Linearize a CHEBOP.
+    L = <span class="helptopic">linearize</span>(N) returns a LINOP that corresponds to linearising the CHEBOP
+    N around the zero function on N.DOMAIN. The linop L will both include the
+    linearised differential equation, as well as linearised boundary conditions
+    (from N.LBC and N.RBC) and other constraints (from N.BC).
+ 
+    L = <span class="helptopic">linearize</span>(N, U) linearizes the CHEBOP N around the function U. Here, U
+    can either be a CHEBFUN or a CHEBMATRIX. IF U = [] then N is linearized
+    around the zero function, as above.
+ 
+    L = <span class="helptopic">linearize</span>(N, U, X) passes the independent variable, X, on N.DOMAIN.
+    If X = [] then <span class="helptopic">linearize</span> constructs the variable itself internally.
+ 
+    L = <span class="helptopic">linearize</span>(N, U, X, FLAG) is useful when we call LINOP(CHEBOP), i.e.,
+    converting a linear CHEBOP to a LINOP. If FLAG = 1, the method will stop
+    execution and return as soon as it encounters a nonlinear field in N. In
+    this case L is returned as an empty LINOP.
+ 
+    [L, RES] = <span class="helptopic">linearize</span>(N, ...) also returns RES; to the residual of the
+    differential equation part of N at the function it was linearized. In other
+    words, RES is the result of evaluating N at the zero function if no
+    additional function is passed to <span class="helptopic">linearize</span>(), or the function U if it is
+    passed. If N.OP is a scalar equation, RES is a CHEBFUN, otherwise it is a
+    CHEBMATRIX.
+ 
+    [L, RES, ISLINEAR] = <span class="helptopic">linearize</span>(N, ...) also returns the vector ISLINEAR,
+    with entries as follows:
+        ISLINEAR(1) = 1 if N.OP is linear, 0 otherwise.
+        ISLINEAR(2) = 1 if N.LBC is linear, 0 otherwise.
+        ISLINEAR(3) = 1 if N.RBC is linear, 0 otherwise.
+        ISLINEAR(4) = 1 if N.BC is linear, 0 otherwise.
+ 
+    [L, RES, ISLINEAR, U] = <span class="helptopic">linearize</span>(N, ...) also returns CHEBMATRIX U that N
+    was linearized around. This is useful for parameter dependent problem, as
+    <span class="helptopic">linearize</span>() is where it is discovered that problems are parameter dependent,
+    so the CHEBMATRIX can be made to have to correct collection of CHEBFUN
+    objects and doubles, rather than just CHEBFUNs.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebop/linop.html">linop</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

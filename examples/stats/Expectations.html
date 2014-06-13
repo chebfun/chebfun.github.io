@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple computations with probability distributions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Simple computations with probability distributions</h1>
+<h2>Mark Richardson, May 2011<span><a href='/examples/stats/Expectations.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/stats/Expectations.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>In this example, we use Chebfun to solve some probability distribution problems from [1].</p>
+<h3 id="1-expectation-of-a-random-variable">1. Expectation of a random variable</h3>
+<p>We use Problem 3.4 from p. 86 of [1] to motivate this example.</p>
+<p>Suppose a continuous random variable $X$ has the probability density function</p>
+<p>$$ f(x) = 2e^{-2x},~~  x \ge 0,  \qquad
+f(x) = 0,  ~~    x &lt; 0. $$</p>
+<p>What are: (a) $E(X)$ and (b) $E(X^2)$?</p>
+<p>(a) In order to compute the expectation $E(X)$, we first define a chebfun for $X$.  This can be done over the semi-infinite interval $[0,\infty)$, but the resulting integrals lose a few digits of precision.  Instead, since $\exp(-x)$ decreases so quickly, we take the interval to be $[0,40]$.</p>
+<pre class="mcode-input">x = chebfun('x',[0 40]);</pre>
+
+<p>Next we approximate the density function.</p>
+<pre class="mcode-input">f = 2*exp(-2*x);
+figure('Position',[100 200 520 180])
+LW = 'linewidth'; lw = 1.6;
+plot(f,LW,lw), grid on
+ylim([-0.2 2.2])
+xlabel('x'), ylabel('f(x)','rotation',0)</pre>
+
+<p><img src="img/Expectations_01.png" class="figure" alt=""></p>
+<p>If $f$ is a density function, its integral should be $1$, and we find that this is indeed the case to within rounding errors.</p>
+<pre class="mcode-input">sum(f)</pre>
+
+<pre class="mcode-output">ans =
+   1.000000000000000
+</pre>
+
+<p>The expectation of a continuous random variable is defined as the integral over of $xf(x)$.</p>
+<pre class="mcode-input">xf = x.*f;
+plot(xf,LW,lw), grid on
+ylim([-0.05 0.4])
+xlabel('x'), ylabel(sprintf('x f(x)\n'),'rotation',0)</pre>
+
+<p><img src="img/Expectations_02.png" class="figure" alt=""></p>
+<p>We can use the chebfun command <code>sum</code> to compute this integral The correct answer in this case is $1/2$.</p>
+<pre class="mcode-input">format long
+sum(xf)</pre>
+
+<pre class="mcode-output">ans =
+   0.500000000000006
+</pre>
+
+<p>b) For $E(X^2)$, the answer is again $1/2$ and we compute this in the same way as before.</p>
+<pre class="mcode-input">xxf = x.^2.*f;
+plot(xxf,LW,lw), grid on
+ylim([-0.03 0.31])
+xlabel('x'), ylabel('x^2 f(x)','rotation',0)</pre>
+
+<p><img src="img/Expectations_03.png" class="figure" alt=""></p>
+<pre class="mcode-input">sum(xxf)</pre>
+
+<pre class="mcode-output">ans =
+   0.500000000000144
+</pre>
+
+<h3 id="2-mean-median-and-mode-of-a-probability-distribution">2. Mean, median and mode of a probability distribution</h3>
+<p>This example is motivated by problem 3.33 on p. 94 of [1].</p>
+<p>The probability density function of a continuous random variable $X$ is</p>
+<p>$$ g(x) = 4x(9-x^2)/81, ~~ 0\le x\le 3, $$</p>
+<p>and zero otherwise. Find: a) the mean, b) the median, and c) the mode.</p>
+<p>First, we define an appropriate Chebfun variable and the pdf:</p>
+<pre class="mcode-input">x = chebfun('x',[0 3]);
+g = 4*x.*(9-x.^2)/81;
+plot(g,LW,lw), grid on
+ylim([-0.01 0.61])
+xlabel('x'), ylabel('g(x)','rotation',0)</pre>
+
+<p><img src="img/Expectations_04.png" class="figure" alt=""></p>
+<p>a) Computing the mean is simply a matter of computing the expectation as in the previous question. The exact answer is $1.6$ and this is what we find using Chebfun.</p>
+<pre class="mcode-input">mean = sum(x.*g)</pre>
+
+<pre class="mcode-output">mean =
+   1.600000000000000
+</pre>
+
+<p>b) The median is the value $a$ for which $P(X\le a) = 1/2$. In order to solve this problem we need to work with the cumulative distribution function, which is simply the indefinite integral of the probability density. This can be computed with the chebfun command <code>cumsum</code>.</p>
+<pre class="mcode-input">G = cumsum(g);
+plot(G,LW,lw), grid on
+xlabel('x'), ylabel(sprintf('G(x)\n'),'rotation',0)</pre>
+
+<p><img src="img/Expectations_05.png" class="figure" alt=""></p>
+<p>Note again that as we would expect for any pdf, the integral is $1$. Here is the median $a$:</p>
+<pre class="mcode-input">median = roots(G-0.5)
+median_exact = sqrt(9-9*sqrt(2)/2)</pre>
+
+<pre class="mcode-output">median =
+   1.623588300438591
+median_exact =
+   1.623588300438591
+</pre>
+
+<p>c) For the mode, we are looking for the position of the global maximum of the probability distribution. This is easily computed with the Chebfun command <code>max</code>.</p>
+<pre class="mcode-input">[gmax,mode] = max(g);
+display(mode)</pre>
+
+<pre class="mcode-output">mode =
+   1.732050807568878
+</pre>
+
+<p>Again, this matches the exact result</p>
+<pre class="mcode-input">mode_exact = sqrt(3)</pre>
+
+<pre class="mcode-output">mode_exact =
+   1.732050807568877
+</pre>
+
+<p>Here is a graph showing the three computed values:</p>
+<pre class="mcode-input">plot(g,LW,lw), grid on, hold on
+plot([mean mean],[0 g(mean)],'-r',LW,lw)
+plot([median median],[0 g(median)],'-m',LW,lw)
+plot([mode mode],[0 g(mode)],'-k',LW,lw)
+text(0.2,0.55,sprintf('mean   = %1.2f',mean),'color','r')
+text(1.2,0.55,sprintf('median = %1.2f',median),'color','m')
+text(2.2,0.55,sprintf('mode   = %1.2f',mode),'color','k')
+hold off, ylim([-0.01 0.61])
+xlabel('x'), ylabel('g(x)','rotation',0)</pre>
+
+<p><img src="img/Expectations_06.png" class="figure" alt=""></p>
+<h3 id="reference">Reference</h3>
+<ol>
+<li>M. Spiegel, J. Schiller, and R. Srinivasan, <em>Schaum's Outlines:    Probability and Statistics</em>, 3rd. ed., 2009.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

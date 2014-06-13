@@ -57,40 +57,79 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>movie</strong></h1>
     <p>Animate columns of a CHEBFUN quasimatrix.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = movie(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>MOVIE(F) displays an animation of frames produced by plotting the columns
-of the quasimatrix F in sequence.
-
-MOVIE(F, T) interprets T as a vector of times corresponding to the columns
-of F, and adds a title to each frame showing the time.
-
-MOVIE(F, 'PROP1', VAL1,...) or MOVIE(F, T, 'PROP1', VAL1, ...) uses
-property/value pairs to modify the appearance of the movie. The properties
-understood by MOVIE are:
-
- 'xlim': x-axis limits (defaults to DOMAIN(F))
- 'ylim': y-axis limits (defaults to 'auto' for each frame)
- 'xlabel','ylabel': labels for the axes (defaults to '')
- 'timefmt': format string for the running title (defaults to '' if T is</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">movie</span>   Animate columns of a CHEBFUN quasimatrix.
+    <span class="helptopic">movie</span>(F) displays an animation of frames produced by plotting the columns
+    of the quasimatrix F in sequence.
+ 
+    <span class="helptopic">movie</span>(F, T) interprets T as a vector of times corresponding to the columns
+    of F, and adds a title to each frame showing the time.
+ 
+    <span class="helptopic">movie</span>(F, 'PROP1', VAL1,...) or <span class="helptopic">movie</span>(F, T, 'PROP1', VAL1, ...) uses
+    property/value pairs to modify the appearance of the movie. The properties
+    understood by <span class="helptopic">movie</span> are:
+ 
+     'xlim': x-axis limits (defaults to DOMAIN(F))
+     'ylim': y-axis limits (defaults to 'auto' for each frame)
+     'xlabel','ylabel': labels for the axes (defaults to '')
+     'timefmt': format string for the running title (defaults to '' if T is
+                        not given, 'Time = %#5.3g' otherwise)
+     'pause': time in seconds to pause between frames (defaults to 0)
+     'figure': handle of the movie figure (defaults to gcf)
+ 
+    Any unrecognized property/value pair is passed along to PLOT for each
+    frame, so you can set line colors, widths, etc.
+ 
+    M = <span class="helptopic">movie</span>(F, ...) returns a movie object suitable for the built-in <span class="helptopic">movie</span>
+    or MOVIE2AVI. Each frame captures the figure, not the axes, so use
+    <span class="helptopic">movie</span>(GCF, M) to show the movie object properly in the current figure.
+ 
+  Examples:
+    f = chebfun(); for n = 1:40, f(:,n) = chebfun(@(x) sin(n*pi*x)); end
+    movie(f, 'ylim', [-1.1 1.1], 'linewidth', 2, 'timefmt', 'Frequency = %2i')
+ 
+    f = chebfun(); for n = 1:100, f(:,n) = chebfun(@(x) sin(exp(n/20*x))); end
+    movie(f, (1:100)/20, 'ylim', [-1.1 1.1], 'timefmt', 'sin( exp(%.2f*x) )')
+ 
+    t = -4:0.05:4;  c = 2; s = chebfun();
+    soliton = @(x,t) c/2*sech(sqrt(c)/2*(x-c*t)).^2;
+    for n = 1:length(t), s(:,n) = chebfun(@(x) soliton(x, t(n)), [-3 3]); end
+    movie(s, t, 'ylim', [0 c/2])</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/plot.html">chebfun/plot</a>, <a href="../movie/movie.html">movie</a>, <a href="../movie2avi/movie2avi.html">movie2avi</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

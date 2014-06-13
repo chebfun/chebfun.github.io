@@ -57,43 +57,58 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>chebpoly</strong></h1>
     <p>Chebyshev polynomial coefficients of a CHEBFUN.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = chebpoly(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>A = CHEBPOLY(F, N) returns the first N Chebyshev coefficients of F, i.e.,
-  the row vector such that F = ... + A(1) T_N(x) + ... + A(N) T_1(x) +
-  A(N+1) T_0(x), where T_M(x) denotes the M-th Chebyshev polynomial.
-
-  If F is a smooth CHEBFUN (i.e., with no breakpoints), then CHEBPOLY(F) is
-  equivalent to CHEBPOLY(F, LENGTH(F)).
-
-  If F is array-valued with M columns, then A is an MxN matrix.
-
-  C = CHEBPOLY(F, N, 'kind', 2) returns the vector of coefficients for the
-  Chebyshev expansion of F in 2nd-kind Chebyshev polynomials F = ... + C(1)
-  U_N(x) + ... + C(N) U_1(x) + C(N+1) U_0(x).
-
-  There is also a CHEBPOLY command in the Chebfun trunk directory, which
-  computes the CHEBFUN corresponding to the Chebyshev polynomial T_M(x).
-
-See also LEGPOLY.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">chebpoly</span>   Chebyshev polynomial coefficients of a CHEBFUN.
+    A = <span class="helptopic">chebpoly</span>(F, N) returns the first N Chebyshev coefficients of F, i.e.,
+    the row vector such that F = ... + A(1) T_N(x) + ... + A(N) T_1(x) +
+    A(N+1) T_0(x), where T_M(x) denotes the M-th Chebyshev polynomial.
+ 
+    If F is a smooth CHEBFUN (i.e., with no breakpoints), then <span class="helptopic">chebpoly</span>(F) is
+    equivalent to <span class="helptopic">chebpoly</span>(F, LENGTH(F)).
+  
+    If F is array-valued with M columns, then A is an MxN matrix.
+ 
+    C = <span class="helptopic">chebpoly</span>(F, N, 'kind', 2) returns the vector of coefficients for the
+    Chebyshev expansion of F in 2nd-kind Chebyshev polynomials F = ... + C(1)
+    U_N(x) + ... + C(N) U_1(x) + C(N+1) U_0(x).
+ 
+    There is also a <span class="helptopic">chebpoly</span> command in the Chebfun trunk directory, which
+    computes the CHEBFUN corresponding to the Chebyshev polynomial T_M(x).</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/legpoly.html">legpoly</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

@@ -57,45 +57,60 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li class='active'><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>lu</strong></h1>
     <p>LU factorization of a chebfun2.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = lu(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>[L, U] = LU( F ) returns two quasimatrices L and U of size inf by k and 
-k by inf, respectively, where k is the rank of the chebfun2 F. 
-The quasimatrices L and U are "psychologically" lower and upper triangular.
-L is also unit lower triangular. This is computed by a continuous analogue of
-Gaussian elimination with complete pivoting.
-
-[L, U, P] = lu( F ) returns a k by 2 matrix P, containing the pivoting elements.
-
-[L, U, P, Q] = LU( F ) returns two vectors P and Q containing the x-values and
-y-values of the pivoting elements.
-
-[L, U, P] = LU(F, THRESH) returns the LU factorization of F that removes 
-the tail of pivots below THRESH.
-
-For more information about the factorization: 
-A. Townsend and L. N. Trefethen, Continuous analogues of matrix
-factorizations, submitted, 2014. 
-
-See also CHOL, QR.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">lu</span>   <span class="helptopic">lu</span> factorization of a chebfun2.
+  [L, U] = <span class="helptopic">lu</span>( F ) returns two quasimatrices L and U of size inf by k and 
+  k by inf, respectively, where k is the rank of the chebfun2 F. 
+  The quasimatrices L and U are "psychologically" lower and upper triangular.
+  L is also unit lower triangular. This is computed by a continuous analogue of
+  Gaussian elimination with complete pivoting. 
+ 
+  [L, U, P] = lu( F ) returns a k by 2 matrix P, containing the pivoting elements.
+ 
+  [L, U, P, Q] = <span class="helptopic">lu</span>( F ) returns two vectors P and Q containing the x-values and
+  y-values of the pivoting elements.
+ 
+  [L, U, P] = <span class="helptopic">lu</span>(F, THRESH) returns the <span class="helptopic">lu</span> factorization of F that removes 
+  the tail of pivots below THRESH.
+  
+  For more information about the factorization: 
+  A. Townsend and L. N. Trefethen, Continuous analogues of matrix
+  factorizations, submitted, 2014.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun2/chol.html">chol</a>, <a href="../chebfun2/qr.html">qr</a>. 
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

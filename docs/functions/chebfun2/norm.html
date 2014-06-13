@@ -57,37 +57,53 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li class='active'><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>norm</strong></h1>
     <p>Norm of a CHEBFUN2</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = norm(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>For CHEBFUN2 objects:
-   NORM(F) = sqrt(integral of abs(F)^2).
-   NORM(F, 2) = largest singular value of F.
-   NORM(F,'fro') is the same as NORM(F).
-   NORM(F, 1) = NOT IMPLEMENTED.
-   NORM(F, inf) = global maximum in absolute value.
-   NORM(F, max) = global maximum in absolute value.
-   NORM(F, min) = NOT IMPLEMENTED
-
-Furthermore, the inf norm for CHEBFUN2 objects also returns a second output,
-giving a position where the max occurs.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">norm</span>   Norm of a CHEBFUN2
+  For CHEBFUN2 objects:
+     <span class="helptopic">norm</span>(F) = sqrt(integral of abs(F)^2).
+     <span class="helptopic">norm</span>(F, 2) = largest singular value of F.
+     <span class="helptopic">norm</span>(F,'fro') is the same as <span class="helptopic">norm</span>(F).
+     <span class="helptopic">norm</span>(F, 1) = NOT IMPLEMENTED.
+     <span class="helptopic">norm</span>(F, inf) = global maximum in absolute value.
+     <span class="helptopic">norm</span>(F, max) = global maximum in absolute value.
+     <span class="helptopic">norm</span>(F, min) = NOT IMPLEMENTED
+ 
+  Furthermore, the inf norm for CHEBFUN2 objects also returns a second output,
+  giving a position where the max occurs.</pre></div><!--after help -->
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

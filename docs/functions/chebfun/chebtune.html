@@ -57,35 +57,63 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>chebtune</strong></h1>
     <p>CHEBFUN melody player.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = chebtune(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>CHEBTUNE(F) plays melodies with varying pitch corresponding to the real part
-  of the function values of each CHEBFUN in F. The function value 0 is
-  associated with the tone c'' and the integers below and above correspond to
-  the semi-tones. The melodies are separated in the stereo panorama.
-
-  CHEBTUNE(F, D) plays the melody for D seconds. The default value is D = 2.
-
-Example: CHEBPOLY-phony
-     f = 7*chebpoly(0:2) - 7;</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">chebtune</span>   CHEBFUN melody player.
+    <span class="helptopic">chebtune</span>(F) plays melodies with varying pitch corresponding to the real part
+    of the function values of each CHEBFUN in F. The function value 0 is
+    associated with the tone c'' and the integers below and above correspond to
+    the semi-tones. The melodies are separated in the stereo panorama.
+ 
+    <span class="helptopic">chebtune</span>(F, D) plays the melody for D seconds. The default value is D = 2.
+ 
+  Example: CHEBPOLY-phony
+       f = 7*chebpoly(0:2) - 7;
+       f = [f , f + .2];  % add some chorus
+       chebtune(f, 3);
+ 
+  Example: Police car
+       x = chebfun('x');
+       chebtune([9 + 6*sin(46*x), 7 + 10*sin(4*x)], 5);
+ 
+  Example: Can you hear the shape of a CHEBFUN?
+       f = chebfun(12*rand(6, 1) - 6);
+       chebtune(f, 6);
+       plot(f);</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/sound.html">sound</a>, <a href="../sing/sing.html">sing</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

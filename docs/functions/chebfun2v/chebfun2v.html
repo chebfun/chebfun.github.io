@@ -57,58 +57,77 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li class='active'><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2v</a><span class='sep'>/</span><strong>chebfun2v</strong></h1>
-    <p>of chebfun2v:</p>
-
-    <!--<h2>Usage</h2>
-    <pre>f = chebfun2v(varargin)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>test_arithmetic                - Check the Chebfun2v constructor for simple arithmetic operations.
-test_constructor               - Test the Chebfun2v constructor when performing simple arithmetic
-test_empty                     - For empty chebfun2v objects, does each command deal with them
-test_roots1                    - Check that the marching squares and Bezoutian agree with each other. 
-test_roots2                    - Check that the marching squares and Bezoutian agree with each other. 
-test_roots3                    - Check that the marching squares and Bezoutian agree with each other. 
-test_syntax                    - Check the Chebfun2v constructor for different syntax.
-test_threecomponents           - A chebfun2v test for checking that chebfun2v objects with three 
-test_times                     - Check the Chebfun2v constructor for simple arithmetic operations.
-test_twocomponents             - A chebfun2v test for checking that chebfun2v objects with two
-test_vertcat                   - A chebfun2v test for checking that chebfun2v objects with two
-
-
-chebfun2v is both a directory and a function.
-
-  CHEBFUN2V Class constructor for CHEBFUN2V objects
-
-  CHEBFUN2V(F,G) constructs a CHEBFUN2V with two components from the function handles F
+    <p>The chebfun2v constructor.</p>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext -->  <span class="helptopic">chebfun2v</span> Class constructor for <span class="helptopic">chebfun2v</span> objects
+  
+  <span class="helptopic">chebfun2v</span>(F,G) constructs a <span class="helptopic">chebfun2v</span> with two components from the function handles F
   and G.  F and G can also be CHEBFUN2 objects or any other object that the
   CHEBFUN2 constructor accepts.  Each component is represented as a CHEBFUN2. 
-
-  CHEBFUN2V(F,G,H) constructs a CHEBFUN2V with three components from the
+ 
+  <span class="helptopic">chebfun2v</span>(F,G,H) constructs a <span class="helptopic">chebfun2v</span> with three components from the
   function handles F, G, and H.  F, G, and H can also be CHEBFUN2 objects 
   or any other object that the CHEBFUN2 constructor accepts. 
-
-  CHEBFUN2V(F,G,[A B C D]) constructs a CHEBFUN2V object from F and G 
+ 
+  <span class="helptopic">chebfun2v</span>(F,G,[A B C D]) constructs a <span class="helptopic">chebfun2v</span> object from F and G 
   on the domain [A B] x [C D].
-
-  CHEBFUN2V(F,G,H,[A B C D]) constructs a CHEBFUN2V object from F, G, and 
-  H on the domain [A B] x [C D].
-
-  See also CHEBFUN2.</pre>
+ 
+  <span class="helptopic">chebfun2v</span>(F,G,H,[A B C D]) constructs a <span class="helptopic">chebfun2v</span> object from F, G, and 
+  H on the domain [A B] x [C D].</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun2/chebfun2.html">chebfun2</a>. 
+</div>
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name">chebfun2v</td>
+            <td class="m-help">The main CHEBFUN2V constructor!&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name">components</td>
+            <td class="m-help">Array of CHEBFUN2 objects. &nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name">isTransposed</td>
+            <td class="m-help">transposed?&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name">nComponents</td>
+            <td class="m-help">Number of components&nbsp;</td>
+         </tr>
+      </table>
 
 </div>
         </div>

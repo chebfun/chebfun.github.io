@@ -57,47 +57,62 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li class='active'><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>roots</strong></h1>
     <p>Zero contours of a CHEBFUN2.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = roots(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>R = ROOTS(F), returns the zero contours of F as a quasimatrix of chebfuns.
-  Each column of R is one zero contour. This command only finds contours when
-  there is a change of sign and it can also group intersecting contours in a
-  non-optimal way. Contours are computed to, roughly, four digits of
-  precision. In particular, this command cannot reliably compute isolated real
-  roots of F.
-
-  In the special case when F is of length 1 then the zero contours are found
-  to full precision.
-
-  R = ROOTS(F, G) returns the isolated points of F and G.
-
-  R = ROOTS(F, G, METHOD) the underlying rootfinding algorithm can be
-  supplied. If METHOD = 'ms' or METHOD = 'marchingsquares', then the Marching
-  Squares algorithm is employed. The Marching Squares algorithm is fast but
-  not particularly robust. If METHOD = 'resultant', then a hidden variable
-  resultant method based on Bezout resultants is employed. The Resultant
-  method is slower but far more robust. See the CHEBFUN2V/ROOTS()
-  documentation to see which algorithm is used when no METHOD is passed.
-
-See also CHEBFUN2V/ROOTS.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">roots</span>   Zero contours of a CHEBFUN2.
+    R = <span class="helptopic">roots</span>(F), returns the zero contours of F as a quasimatrix of chebfuns.
+    Each column of R is one zero contour. This command only finds contours when
+    there is a change of sign and it can also group intersecting contours in a
+    non-optimal way. Contours are computed to, roughly, four digits of
+    precision. In particular, this command cannot reliably compute isolated real
+    roots of F.
+ 
+    In the special case when F is of length 1 then the zero contours are found
+    to full precision.
+ 
+    R = <span class="helptopic">roots</span>(F, G) returns the isolated points of F and G.
+ 
+    R = <span class="helptopic">roots</span>(F, G, METHOD) the underlying rootfinding algorithm can be
+    supplied. If METHOD = 'ms' or METHOD = 'marchingsquares', then the Marching
+    Squares algorithm is employed. The Marching Squares algorithm is fast but
+    not particularly robust. If METHOD = 'resultant', then a hidden variable
+    resultant method based on Bezout resultants is employed. The Resultant
+    method is slower but far more robust. See the CHEBFUN2V/<span class="helptopic">roots</span>()
+    documentation to see which algorithm is used when no METHOD is passed.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun2v/roots.html">chebfun2v/roots</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

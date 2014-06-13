@@ -49,6 +49,8 @@ find . -name "*.md" -type f -delete
 /Applications/MATLAB_R2013a.app/toolbox/matlab/codetools/private/mxdom2simplehtml.xsl
 /Applications/MATLAB_R2013a.app/toolbox/matlab/codetools/+internal/+matlab/+publish/chebexample_PublishFigures.m
 
+is both a directory and a function
+
 ----
 
 We can hope that no one ever finds out, but:

@@ -22,10 +22,10 @@ Modified by Hrothgar to create a to-MarkDown custom .xsl.
 <xsl:variable name="exTitle" select="cell[1]/steptitle"/>
 <xsl:variable name="exAuthordate" select="cell[1]/text"/>
 <xsl:variable name="exMeta" select="cell[2]/text"/>---
-title: "<xsl:value-of select="normalize-space($exTitle)"/>"
+title: "<xsl:value-of select="normalize-space($exTitle)" disable-output-escaping="yes"/>"
 layout: example
-authordate: "<xsl:value-of select="normalize-space($exAuthordate)"/>"
-meta: "<xsl:value-of select="normalize-space($exMeta)"/>"
+authordate: "<xsl:value-of select="normalize-space($exAuthordate)" disable-output-escaping="yes"/>"
+meta: "<xsl:value-of select="normalize-space($exMeta)" disable-output-escaping="yes"/>"
 ---
 
 <xsl:variable name="body-cells" select="cell[position()>1]"/>
@@ -85,6 +85,11 @@ meta: "<xsl:value-of select="normalize-space($exMeta)"/>"
 
 
 <!-- HTML Tags in text sections -->
+
+<xsl:template match="html">
+<xsl:value-of select="@text" disable-output-escaping="yes"/>
+</xsl:template>
+
 <xsl:template match="p">
 
 <xsl:apply-templates/>

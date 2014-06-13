@@ -57,56 +57,73 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li class='active'><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2v</a><span class='sep'>/</span><strong>ode45</strong></h1>
     <p>Solve autonomous systems defined by a CHEBFUN2V.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = ode45(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>[T, Y] = ODE45(F,TSPAN,Y0) with TSPAN = [T0 TFINAL] solves the autonomous
-system of ODE y = f(y,y'), y'=g(y,y'), where f and g are the first and second
-components of F, respectively, from time T0 to TFINAL with initial conditions
-Y0. F is a CHEBFUN2V and Y is a complex-valued CHEBFUN representing the
-solution, i.e., Y = y(t) + i*y'(t). To obtain solutions that interpolate at
-T0,T1,...,TFINAL use TSPAN = [T0 T1 ... TFINAL].
-
-[T,Y] = ODE45(F,TSPAN,Y0,OPTIONS) solves as above with default integration
-properties replaced by values in OPTIONS, an argument created with the ODESET
-function. See ODESET for details. However, the 'AbsTol' tolerance is always
-set to machine precision.
-
-[T,Y,TE,YE,IE] = ODE45(F,TSPAN,Y0,OPTIONS) with the 'Events' property in
-OPTIONS set to a function handle EVENTS, solves as above while also finding
-where functions of (T,Y), called event functions, are zero. For each function
-you specify whether the integration is to terminate at a zero and whether the
-direction of the zero crossing matters. These are the three column vectors
-returned by EVENTS: [VALUE,ISTERMINAL,DIRECTION] = EVENTS(T,Y). For the I-th
-event function: VALUE(I) is the value of the function, ISTERMINAL(I)=1 if the
-integration is to terminate at a zero of this event function and 0 otherwise.
-DIRECTION(I)=0 if all zeros are to be computed (the default), +1 if only
-zeros where the event function is increasing, and -1 if only zeros where the
-event function is decreasing. Output TE is a column vector of times at which
-events occur. Rows of YE are the corresponding solutions, and indices in
-vector IE specify which event occurred.
-
-SOL = ODE45(F,TSPAN,Y0,...) returns a structure storing information about
-events. If events were detected, SOL.xe is a row vector of points at which
-events occurred. Columns of SOL.ye are the corresponding solutions, and
-indices in vector SOL.ie specify which event occurred.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext -->  <span class="helptopic">ode45</span>  Solve autonomous systems defined by a CHEBFUN2V.
+ 
+   [T, Y] = <span class="helptopic">ode45</span>(F,TSPAN,Y0) with TSPAN = [T0 TFINAL] solves the autonomous
+   system of ODE y = f(y,y'), y'=g(y,y'), where f and g are the first and second
+   components of F, respectively, from time T0 to TFINAL with initial conditions
+   Y0. F is a CHEBFUN2V and Y is a complex-valued CHEBFUN representing the
+   solution, i.e., Y = y(t) + i*y'(t). To obtain solutions that interpolate at
+   T0,T1,...,TFINAL use TSPAN = [T0 T1 ... TFINAL].
+ 
+   [T,Y] = <span class="helptopic">ode45</span>(F,TSPAN,Y0,OPTIONS) solves as above with default integration
+   properties replaced by values in OPTIONS, an argument created with the ODESET
+   function. See ODESET for details. However, the 'AbsTol' tolerance is always
+   set to machine precision.
+ 
+   [T,Y,TE,YE,IE] = <span class="helptopic">ode45</span>(F,TSPAN,Y0,OPTIONS) with the 'Events' property in
+   OPTIONS set to a function handle EVENTS, solves as above while also finding
+   where functions of (T,Y), called event functions, are zero. For each function
+   you specify whether the integration is to terminate at a zero and whether the
+   direction of the zero crossing matters. These are the three column vectors
+   returned by EVENTS: [VALUE,ISTERMINAL,DIRECTION] = EVENTS(T,Y). For the I-th
+   event function: VALUE(I) is the value of the function, ISTERMINAL(I)=1 if the
+   integration is to terminate at a zero of this event function and 0 otherwise.
+   DIRECTION(I)=0 if all zeros are to be computed (the default), +1 if only
+   zeros where the event function is increasing, and -1 if only zeros where the
+   event function is decreasing. Output TE is a column vector of times at which
+   events occur. Rows of YE are the corresponding solutions, and indices in
+   vector IE specify which event occurred.
+ 
+   SOL = <span class="helptopic">ode45</span>(F,TSPAN,Y0,...) returns a structure storing information about
+   events. If events were detected, SOL.xe is a row vector of points at which
+   events occurred. Columns of SOL.ye are the corresponding solutions, and
+   indices in vector SOL.ie specify which event occurred.</pre></div><!--after help -->
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

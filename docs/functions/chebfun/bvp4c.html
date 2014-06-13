@@ -57,49 +57,64 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li class='active'><a href="../chebfun">chebfun</a></li>
+        <li><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun</a><span class='sep'>/</span><strong>bvp4c</strong></h1>
     <p>Solve boundary value problems for ODEs by collocation with CHEBFUN.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>[y, t] = bvp4c(fun1, fun2, y0, varargin)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>Y = BVP4C(ODEFUN, BCFUN, Y0) applies the standard BVP4C method to solve a
-  boundary-value problem. ODEFUN and BCFUN are as in BVP4C. The Y0 argument is
-  a CHEBFUN that represents the initial guess to the solution Y. Its domain
-  defines the domain of the problem, and the length of the CHEBFUN Y0 is used
-  to set the number of points in an initial equispaced mesh. Note that it is
-  not necessary to call BVPINIT.
-
-  [Y, P] = BVP4C(ODEFUN, BCFUN, Y0, PARAM, OPTS) allows you to specify an
-  initial guess for any additional parameters to be found for the solution,
-  and an options vector to guide the solution. See the built in BVP4C and
-  BVPSET for details. You may specify either extra argument, or both. An
-  additional output is used to return the parameter values found.
-
-  It is possible to take a crude continuation approach by solving for a simple
-  variation of the problem, then using the resulting CHEBFUN as the initial
-  guess for a more difficult version.
-
-Example (using built-in BVP demo functions):
-  y0 = chebfun([0, 0], [0, 4]);
-  y = bvp4c(@twoode, @twobc, y0);
-  plot(y)
-
-See also BVPINTI, BVPSET, BVP5C, ODE113.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">bvp4c</span>   Solve boundary value problems for ODEs by collocation with CHEBFUN.
+    Y = <span class="helptopic">bvp4c</span>(ODEFUN, BCFUN, Y0) applies the standard <span class="helptopic">bvp4c</span> method to solve a
+    boundary-value problem. ODEFUN and BCFUN are as in <span class="helptopic">bvp4c</span>. The Y0 argument is
+    a CHEBFUN that represents the initial guess to the solution Y. Its domain
+    defines the domain of the problem, and the length of the CHEBFUN Y0 is used
+    to set the number of points in an initial equispaced mesh. Note that it is
+    not necessary to call BVPINIT.
+ 
+    [Y, P] = <span class="helptopic">bvp4c</span>(ODEFUN, BCFUN, Y0, PARAM, OPTS) allows you to specify an
+    initial guess for any additional parameters to be found for the solution,
+    and an options vector to guide the solution. See the built in <span class="helptopic">bvp4c</span> and
+    BVPSET for details. You may specify either extra argument, or both. An
+    additional output is used to return the parameter values found.
+ 
+    It is possible to take a crude continuation approach by solving for a simple
+    variation of the problem, then using the resulting CHEBFUN as the initial
+    guess for a more difficult version.
+ 
+  Example (using built-in BVP demo functions):
+    y0 = chebfun([0, 0], [0, 4]);
+    y = bvp4c(@twoode, @twobc, y0);
+    plot(y)</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> BVPINTI, <a href="../bvpset/bvpset.html">bvpset</a>, <a href="../chebfun/bvp5c.html">bvp5c</a>, <a href="../chebfun.ode113/chebfun.ode113.html">ode113</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

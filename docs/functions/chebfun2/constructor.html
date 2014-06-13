@@ -57,48 +57,64 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li class='active'><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>constructor</strong></h1>
     <p>The main CHEBFUN2 constructor.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = constructor(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>This code is when functions of two variables are represented as CHEBFUN2
-objects. A CHEBFUN2 object is a low rank representation and expresses a
-function as a sum of rank-0 or 1 outerproduct of univariate functions.
-
-The algorithm for constructing a CHEBFUN2 comes in two phases:
-
-PHASE 1: The first phase attempts to determine the numerical rank of the
-function by performing Gaussian elimination with complete pivoting on a tensor
-grid of sample values. GE is perform until the pivoting elements fall below
-machine precision.  At the end of this stage we have candidate pivot locations
-and pivot elements.
-
-PHASE 2: The second phase attempts to resolve the corresponding column and row
-slices by sampling along the slices and performing GE on the skeleton.
-Sampling along each slice is increased until the Chebyshev coefficients of the
-slice fall below machine precision.
-
-The algorithm is fully described in:
- A. Townsend and L. N. Trefethen, An extension of Chebfun to two dimensions,
- SISC, 35 (2013), C495-C518.
-
-See also CHEBFUN2.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">constructor</span>   The main CHEBFUN2 constructor.
+ 
+  This code is when functions of two variables are represented as CHEBFUN2
+  objects. A CHEBFUN2 object is a low rank representation and expresses a
+  function as a sum of rank-0 or 1 outerproduct of univariate functions.
+ 
+  The algorithm for constructing a CHEBFUN2 comes in two phases:
+ 
+  PHASE 1: The first phase attempts to determine the numerical rank of the
+  function by performing Gaussian elimination with complete pivoting on a tensor
+  grid of sample values. GE is perform until the pivoting elements fall below
+  machine precision.  At the end of this stage we have candidate pivot locations
+  and pivot elements.
+ 
+  PHASE 2: The second phase attempts to resolve the corresponding column and row
+  slices by sampling along the slices and performing GE on the skeleton.
+  Sampling along each slice is increased until the Chebyshev coefficients of the
+  slice fall below machine precision.
+ 
+  The algorithm is fully described in:
+   A. Townsend and L. N. Trefethen, An extension of Chebfun to two dimensions,
+   SISC, 35 (2013), C495-C518.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun2/chebfun2.html">chebfun2</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>

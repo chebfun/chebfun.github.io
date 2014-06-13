@@ -57,48 +57,63 @@
     <div class="container">
 <div class="row main noleftpadding"><div class="col-sm-2 noleftpadding">
     <ul class='sidenav'>
-    <li><a href="#">chebfun</a></li>
-    <li><a href="#">chebfun2</a></li>
-    <li><a href="#">chebfun2v</a></li>
-    <li><a href="#">chebgui</a></li>
-    <li><a href="#">chebmatrix</a></li>
-    <li><a href="#">chebop</a></li>
-    <li><a href="#">chebfunpref</a></li>
-    <li><a href="#">cheboppref</a></li>
-    <li><a href="#">domain</a></li>
-    <li><a href="#">+utilities</a></li>
+        <li><a href="../chebfun">chebfun</a></li>
+        <li class='active'><a href="../chebfun2">chebfun2</a></li>
+        <li><a href="../chebfun2v">chebfun2v</a></li>
+        <li><a href="../chebfunpref">chebfunpref</a></li>
+        <li><a href="../chebgui">chebgui</a></li>
+        <li><a href="../chebmatrix">chebmatrix</a></li>
+        <li><a href="../chebop">chebop</a></li>
+        <li><a href="../cheboppref">cheboppref</a></li>
+        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
+<!-- 
     <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>quiver</strong></h1>
     <p>Quiver plot of a CHEBFUN2.</p>
-
-    <!--<h2>Usage</h2>
-    <pre>varargout = quiver(rhs1)</pre>-->
-
-    <h3>Documentation</h3>
-    <pre class='help-text'>QUIVER(F, G) plots the vector velocity field of (F,G). QUIVER automatically
-  attempts to scale the arrows to fit within the grid. The arrows start on a
-  uniform grid. This returns the same plot as QUIVER([F ; G]).
-
-  QUIVER(F, G, S) automatically scales the arrows to fit within the grid and
-  then stretches them by S. Use S = 0 to plot the arrows without the automatic
-  scaling. The arrows are on a uniform grid.
-
-  QUIVER(X, Y, F, G, ...) is the same as QUIVER(F, G, ...) except the arrows
-  are on the grid given in X and Y. If X and Y are CHEBFUN2 objects the arrows
-  are on the image of the uniform grid of X and Y.
-
-  QUIVER(...,'numpts',N) plots arrows on a N by N uniform grid.
-
-  QUIVER(...,LINESPEC) uses the plot linestyle specified for the velocity
-  vectors. Any marker in LINESPEC is drawn at the base instead of an arrow on
-  the tip. Use a marker of '.' to specify no marker at all. See PLOT for
-  other possibilities.
-
-  H = QUIVER(...) returns a quivergroup handle.
-
-See also CHEBFUN2V/QUIVER.</pre>
+ -->
+    <div class="sectiontitle">Documentation</div>
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">quiver</span>   Quiver plot of a CHEBFUN2.
+    <span class="helptopic">quiver</span>(F, G) plots the vector velocity field of (F,G). <span class="helptopic">quiver</span> automatically
+    attempts to scale the arrows to fit within the grid. The arrows start on a
+    uniform grid. This returns the same plot as <span class="helptopic">quiver</span>([F ; G]).
+ 
+    <span class="helptopic">quiver</span>(F, G, S) automatically scales the arrows to fit within the grid and
+    then stretches them by S. Use S = 0 to plot the arrows without the automatic
+    scaling. The arrows are on a uniform grid.
+ 
+    <span class="helptopic">quiver</span>(X, Y, F, G, ...) is the same as <span class="helptopic">quiver</span>(F, G, ...) except the arrows
+    are on the grid given in X and Y. If X and Y are CHEBFUN2 objects the arrows
+    are on the image of the uniform grid of X and Y.
+ 
+    <span class="helptopic">quiver</span>(...,'numpts',N) plots arrows on a N by N uniform grid.
+ 
+    <span class="helptopic">quiver</span>(...,LINESPEC) uses the plot linestyle specified for the velocity
+    vectors. Any marker in LINESPEC is drawn at the base instead of an arrow on
+    the tip. Use a marker of '.' to specify no marker at all. See PLOT for
+    other possibilities.
+ 
+    H = <span class="helptopic">quiver</span>(...) returns a quivergroup handle.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun2v/quiver.html">chebfun2v/quiver</a>.
+</div>
+      <!--Method-->
+      <div class="sectiontitle">Method Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Access</td>
+            <td>public</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Static</td>
+            <td>false</td>
+         </tr>
+      </table>
+   </body>
+</html>
 
 </div>
         </div>
