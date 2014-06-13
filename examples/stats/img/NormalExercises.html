@@ -1,5 +1,5 @@
 ---
-title: "Exercises from a textbook: Normal distribution"
+title: "Normal distribution: Exercises from a textbook"
 layout: example
 authordate: "Jie Gao and Nick Trefethen, April 2013"
 meta: "(Chebfun example stats/NormalExercises.m) [Tags: #normaldistribution, #probability]"
@@ -52,7 +52,7 @@ f = f/sum(f);</pre>We can compute the probability as before:
 
 <pre class="mcode-input">fint = cumsum(f);
 p = fint(3)-fint(1)</pre><pre class="mcode-output">p =
-   0.718570707468990
+   0.718570707765167
 </pre>And here is a plot, with a new color for variety:
 
 <pre class="mcode-input">hold off, h = area(f{1,3});
