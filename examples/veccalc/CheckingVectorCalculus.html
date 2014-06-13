@@ -72,7 +72,7 @@ G = chebfun2v(@(x,y)x+y,@(x,y)1+x+y);
 abs((2*norm(F)^2 + 2*norm(G)^2) - (norm(F+G)^2 + norm(F-G)^2))</pre>
 
 <pre class="mcode-output">ans =
-     2.131628207280301e-14
+     1.776356839400250e-14
 </pre>
 
 <h3 id="the-gradient-theorem">The gradient theorem</h3>
@@ -88,7 +88,7 @@ abs(v-ends)                                  % gradient theorem</pre>
 </pre>
 
 <p>Another consequence of the gradient theorem is that the integral of $\mathrm{grad}(f)$ over any closed curve is zero. For example, here is an exotic closed curve, which we plot superimposed on the vector field $\mathrm{grad}(f)$.</p>
-<pre class="mcode-input">circ = @(p) chebfun(@(x) exp(2i*p*pi*x));
+<pre class="mcode-input">circ = @(p) chebfun(@(x) exp(2i*p*pi*x + 0.8i));
 C = (circ(1) + circ(3)/1.5 + circ(8)/3.5) / 2;
 figure('position', [0 0 600 400])
 quiver(F,0.5,'numpts',12), hold on
@@ -99,7 +99,7 @@ plot(C, 'r'), axis equal off</pre>
 <pre class="mcode-input">v = integral(F,C)</pre>
 
 <pre class="mcode-output">v =
-     0
+    -1.353328241103713e-15
 </pre>
 
 <h3 id="curl-of-the-gradient">Curl of the gradient</h3>
@@ -107,7 +107,7 @@ plot(C, 'r'), axis equal off</pre>
 <pre class="mcode-input">norm(curl(grad(f)))</pre>
 
 <pre class="mcode-output">ans =
-     1.841714593426618e-15
+     1.820643535541389e-15
 </pre>
 
 <h3 id="more-information">More information</h3>
