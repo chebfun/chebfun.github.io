@@ -1,0 +1,62 @@
+---
+title: "Boundary layer for advection-diffusion equation"
+layout: example
+authordate: "Nick Trefethen, October 2010"
+meta: "(Chebfun example ode/BoundaryLayer.m) [Tags: #linearODE, #boundarylayer, #advectiondiffusion]"
+---
+
+Consider the steady-state linear advection-diffusion equation
+
+$$ L_\varepsilon u = -\varepsilon u" - u' = 1,\qquad    u(0) = u(1) = 0 , $$
+
+where $\varepsilon&gt;0$ is a small parameter. The solution to this equation has a boundary layer near $x=0$.
+
+In Chebfun, we can define the $\varepsilon$-dependent operator like this:
+
+<pre class="mcode-input">dom = [0,1];
+L = @(eps) chebop(@(u) -eps*diff(u,2) - diff(u),dom,'dirichlet');</pre>Another supported and perhaps more memorable syntax for specifying boundary conditions is with the `&amp;` operator:
+
+<pre class="mcode-input">L = @(eps) chebop(@(u) -eps*diff(u,2) - diff(u),dom) &amp; 'dirichlet';</pre>For $\varepsilon=0.1$ we get this picture:
+
+<pre class="mcode-input">u = L(0.1)\1;
+LW = 'linewidth'; lw = 1.6;
+clf, plot(u,'b',LW,lw)
+grid on, axis([-0.03 1 0 1.03])</pre><img src="img/BoundaryLayer_01.png" class="figure" alt="">
+
+Let's add a curve for $\varepsilon = 0.01$:
+
+<pre class="mcode-input">u = L(0.01)\1;
+hold on, plot(u,'r',LW,lw)</pre><img src="img/BoundaryLayer_02.png" class="figure" alt="">
+
+Here's $\varepsilon = 0.001$:
+
+<pre class="mcode-input">u = L(0.001)\1;
+hold on, plot(u,LW,lw,'color',[0 .8 0])
+legend('\epsilon=0.1','\epsilon=0.01','\epsilon=0.001')
+FS = 'fontsize';
+title('Boundary layers for three values of \epsilon',FS,12)</pre><img src="img/BoundaryLayer_03.png" class="figure" alt="">
+
+It can be shown that the width of the boundary layer for this equation is $O(\varepsilon)$.  Suppose we want to measure this in Chebfun.  One method would be to find the point where the solution goes through $0.5$.  (This definition wouldn't work for larger $\varepsilon$.)
+
+<pre class="mcode-input">width = @(eps) min(roots(L(eps)\1-.5));</pre>For example, here are the widths for the three curves just plotted:
+
+<pre class="mcode-input">format long
+w = [width(.1) width(.01) width(.001)]</pre><pre class="mcode-output">w =
+   0.088880675019136   0.007073961393037   0.000694537220660
+</pre>Let's add these points to the plot:
+
+<pre class="mcode-input">MS = 'markersize';
+plot(w,[.5 .5 .5],'.k',MS,18)</pre><img src="img/BoundaryLayer_04.png" class="figure" alt="">
+
+We can also plot boundary layer width against $\varepsilon$. The dashed red line confirms the linear behavior.
+
+<pre class="mcode-input">epsvec = [.1 .03 .01 .003 .001 .0003];
+for j = 1:length(epsvec)
+    w(j) = width(epsvec(j));
+end
+clf
+loglog(epsvec,w,'.-k',LW,1.6,MS,16), grid on
+xlabel('\epsilon',FS,12)
+ylabel('width of boundary layer',FS,12)
+hold on, plot(epsvec,epsvec,'--r',LW,2)</pre><img src="img/BoundaryLayer_05.png" class="figure" alt="">
+

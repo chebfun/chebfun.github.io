@@ -80,8 +80,8 @@ plot(r,LW,1.6), axis([-1 1 -1 1]), axis square</pre>
 <pre class="mcode-output">ans = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[      -1,       1]      604    complex values 
-Epslevel = 1.000000e-05.  Vscale = 1.000012e+00.
+[      -1,       1]      576    complex values 
+Epslevel = 1.000000e-05.  Vscale = 9.979956e-01.
 </pre>
 
 <p>The zero contours of a function are computed by Chebfun2 to plotting accuracy and they are typically not accurate to machine precision.</p>
@@ -131,11 +131,11 @@ fprintf('min2 and max2 separately = %5.3fs\n',t)
 tic; [Y X] = minandmax2(f); t=toc;
 fprintf('minandmax2 command = %5.3fs\n',t)</pre>
 
-<pre class="mcode-output">min2 and max2 separately = 0.444s
-minandmax2 command = 0.199s
+<pre class="mcode-output">min2 and max2 separately = 0.427s
+minandmax2 command = 0.192s
 </pre>
 
-<p>For high accuracy the commands <code>min2</code>, <code>max2</code>, and <code>minandmax2</code> require the Optimisation Toolbox in MATLAB.</p>
+<p>The commands <code>min2</code>, <code>max2</code>, and <code>minandmax2</code> run faster if the MATLAB Optimisation Toolbox is available.</p>
 <h3 id="135-critical-points">13.5 Critical points</h3>
 <p>The critical points of smooth function of two variables can be located by finding the zeros of $\partial f/ \partial y = \partial f / \partial x = 0$. This is a rootfinding problem.  For example,</p>
 <pre class="mcode-input">f = chebfun2(@(x,y) (x.^2-y.^3+1/8).*sin(10*x.*y));
@@ -143,7 +143,7 @@ r = roots(gradient(f));                       % critical points
 plot(roots(diff(f,1,2)),'b',LW,1.6), hold on  % plot zero contours of f_x
 plot(roots(diff(f)),'r')                      % plot zero contours of f_y
 plot(r(:,1),r(:,2),'k.','MarkerSize',30)      % plot extrema
-axis square</pre>
+axis([-1,1,-1,1]), axis square</pre>
 
 <p><img src="img/guide13_05.png" class="figure" alt=""></p>
 <p>There is a new command here called gradient that computes the gradient vector and represents it as a chebfun2v object. The roots command then solves for the isolated roots of the bivariate polynomial system represented in the chebfun2v representing the gradient. For more information about the gradient command see Chapter 14 of this guide.</p>

@@ -68,7 +68,7 @@
 <h3 id="111-what-is-a-chebfun2">11.1  What is a chebfun2?</h3>
 <p>A chebfun2 is a function of two variables defined on a rectangle $[a,b]\times[c,d]$. The syntax for chebfun2 objects is similar to the syntax for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands overloaded. For instance, <code>trace(f)</code> returns the sum of the diagonal entries when $f$ is a matrix and the integral of $f(x,x)$ when $f$ is a chebfun2.</p>
 <p>Chebfun2 builds on Chebfun's univariate representations and algorithms. It is the first extension of Chebfun to functions of two variables.  Algorithmic details are given in [Townsend &amp; Trefethen 2013b].</p>
-<p>The implementation of Chebfun2 exploits the observation that many functions of two variables can be well approximable by low rank approximants. A rank $1$ function is of the form $u(y)v(x)$, and a rank $k$ function can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.</p>
+<p>The implementation of Chebfun2 exploits the observation that many functions of two variables can be well approximated by low rank approximants. A rank $1$ function is of the form $u(y)v(x)$, and a rank $k$ function can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.</p>
 <h3 id="112-what-is-a-chebfun2v">11.2 What is a chebfun2v?</h3>
 <p>Chebfun2 can represent scalar valued functions, such as $\exp(x+y)$, and vector valued functions, such as $[\exp(x+y);\cos(x-y)]$. A vector valued function is called a chebfun2v, and chebfun2v objects are useful for computations of vector calculus. For information about chebfun2v objects and vector calculus, see Chapters 14 and 15 of this guide.</p>
 <h3 id="113-constructing-chebfun2-objects">11.3 Constructing chebfun2 objects</h3>
@@ -81,7 +81,7 @@ plot(f), zlim([-2 2])</pre>
 <pre class="mcode-input">contour(f), axis square</pre>
 
 <p><img src="img/guide11_02.png" class="figure" alt=""></p>
-<p>One way to find the rank of the approximant used to represent $f$ like this:</p>
+<p>One way to find the rank of the approximant used to represent $f$ is like this:</p>
 <pre class="mcode-input">length(f)</pre>
 
 <pre class="mcode-output">ans =
@@ -120,7 +120,7 @@ vertical scale =   1
 f(x,y)</pre>
 
 <pre class="mcode-output">ans =
-   0.999492965776269
+   0.659412936784630
 </pre>
 
 <p>Evaluation along the line $y = \pi/6$:</p>
@@ -143,7 +143,7 @@ plot(r), axis square, title('Zero contours of f-.95')</pre>
 plot(fy)</pre>
 
 <p><img src="img/guide11_04.png" class="figure" alt=""></p>
-<p>The syntax for the <code>diff</code> command can cause confusion because we are following the matrix syntax in MATLAB. We also offer <code>diffx(f,k)</code> and <code>diffy(f,k)</code>, which differentiate $f(x,y)$ with respect to the first first and second variable $k$ times, respectively.</p>
+<p>The syntax for the <code>diff</code> command can cause confusion because we are following the matrix syntax in MATLAB. Chebfun2 also offers <code>diffx(f,k)</code> and <code>diffy(f,k)</code>, which differentiate $f(x,y)$ $k$ times with respect to the first first and second variable, respectively.</p>
 <p>What is the mean value of $f(x,y)$ on $[-1,1]\times[-1,1]$?</p>
 <pre class="mcode-input">mean2(f)</pre>
 
@@ -200,10 +200,9 @@ coeffs2vals       paduaVals2coeffs
 <pre class="mcode-output"> MAX2   Global maximum of a CHEBFUN2.
     Y = MAX2(F) returns the global maximum of F over its domain.
 
-    [Y, X] = MAX2(F) returns the global maximum in Y and its location X.  
+    [Y, X] = MAX2(F) returns the global maximum in Y and its location X.
 
-    For certain problems this problem can be slow if the MATLAB Optimization
-    Toolbox is not available.
+   This command may be faster if the OPTIMIZATION TOOLBOX is installed.
 
   See also MIN2, MINANDMAX2.
 
@@ -234,11 +233,9 @@ ans =
 plot(f)</pre>
 
 <p><img src="img/guide11_06.png" class="figure" alt=""></p>
-<p>Many properties of analytic functions can be visualised by these types of plots [Wegert 2012], such as the location of zeros and their multiplicities. Can you work out the multiplicity of the root at z=0 from this plot?</p>
+<p>Many properties of analytic functions can be visualised by these types of plots, such as the location of zeros and their multiplicities. Can you work out the multiplicity of the root at z=0 from this plot?</p>
 <p>At present, since Chebfun2 only represents smooth functions, a trick is required to draw pictures like these for functions with poles [Trefethen 2013]. For functions with branch points or essential singularities, it is currently not possible in Chebfun2 to draw phase plots.</p>
-<h3 id="118-what-to-do-now">11.8 What to do now</h3>
-<p>To find out more about Chebfun2 you can continue reading this guide, or have a look at the Chebfun2 Examples. This guide and the Chebfun2 Examples are written as publishable m-files. For instance, you can publish this chapter of the guide by typing publish('guide11.m').</p>
-<h3 id="119-references">11.9 References</h3>
+<h3 id="118-references">11.8 References</h3>
 <p>[Bebendorf 2008] M. Bebendorf, <em>Hierarchical Matrices: A Means to Efficiently Solve Elliptic Boundary Value Problems</em>, Springer, 2008.</p>
 <p>[Carvajal, Chapman, &amp; Geddes 2008] O. A. Carvajal, F. W. Chapman and K. O. Geddes, Hybrid symbolic-numeric integration in multiple dimensions via tensor-product series, <em>Proceedings of ISSAC'05</em>, M. Kauers, ed., ACM Press, 2005, pp.84-91.</p>
 <p>[Townsend &amp; Trefethen 2013] A. Townsend and L. N. Trefethen, Gaussian elimination as an iterative algorithm, <em>SIAM News</em>, March 2013.</p>

@@ -66,12 +66,13 @@
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
 <h3 id="141-what-is-a-chebfun2v">14.1 What is a chebfun2v?</h3>
-<p>Chebfun2 objects represent vector-valued functions. We use a lower case letter, $f$, for a chebfun2 and an upper case letter, $F$, for a chebfun2v.</p>
-<p>Chebfun2 represents a vector-valued function $F(x,y) = (f(x,y);g(x,y))$ by approximating each component by a low rank approximant. There are two ways to form a chebfun2v: either by explicitly calling the constructor or by vertical concatenation of two chebfun2 objects. Here are these two alternatives:</p>
+<p>Chebfun2 objects represent vector-valued functions. We use a lower case letter like $f$ for a chebfun2 and an upper case letter like $F$ for a chebfun2v.</p>
+<p>Chebfun2 represents a vector-valued function $F(x,y) = (f(x,y);g(x,y))$ by approximating each component by a low rank approximant. There are two ways to form a chebfun2v: either by explicitly calling the constructor, or by vertical concatenation of two chebfun2 objects. Here are these two alternatives:</p>
 <pre class="mcode-input">d = [0 1 0 2];
 F = chebfun2v(@(x,y) sin(x.*y), @(x,y) cos(y), d);  % calling the constructor
-f = chebfun2(@(x,y) sin(x.*y), d); g = chebfun2(@(x,y) cos(y), d);
-G = [f;g]                                          % vertical concatenation</pre>
+f = chebfun2(@(x,y) sin(x.*y), d);
+g = chebfun2(@(x,y) cos(y), d);
+G = [f;g]                                           % vertical concatenation</pre>
 
 <pre class="mcode-output">G = 
 chebfun2v object (Column vector)
@@ -100,7 +101,7 @@ chebfun2v object (Column vector)
 chebfun2 object: (1 smooth surface)
        domain                 rank       corner values
 [   0,   1] x [   0,   2]        8     [7.3e-32 -2.1e-16 -2.7e-16 0.74]
-vertical scale = 1.1 
+vertical scale = 0.89 
  = 
 chebfun2 object: (1 smooth surface)
        domain                 rank       corner values
@@ -115,7 +116,7 @@ fprintf('Parallelogram law holds with error = %10.5e\n',plaw)</pre>
 <pre class="mcode-output">Parallelogram law holds with error = 0.00000e+00
 </pre>
 
-<p>The dot product combines two vector functions into a scalar function. If the dot product of two chebfun2v objects takes the value zero at some (x,y) then the vector valued functions are orthogonal at (x,y).  For example, the following code segment determines a curve along which two vector-valued functions are orthogonal:</p>
+<p>The dot product combines two vector functions into a scalar function. If the dot product of two chebfun2v objects takes the value zero at some (x,y), then the vector-valued functions are orthogonal at (x,y).  For example, the following code segment determines a curve along which two vector-valued functions are orthogonal:</p>
 <pre class="mcode-input">LW = 'linewidth';
 F = chebfun2v(@(x,y) sin(x.*y), @(x,y) cos(y),d);
 G = chebfun2v(@(x,y) cos(4*x.*y), @(x,y) x + x.*y.^2,d);
@@ -135,10 +136,10 @@ plot(roots(dot(F,G)),LW,1.6), axis equal, axis(d)</pre>
 </pre>
 
 <h3 id="143-differential-operators">14.3 Differential operators</h3>
-<p>Vector calculus also involves various differential operators defined on scalar or vector valued functions such as gradient, curl, divergence, and Laplacian.</p>
+<p>Vector calculus also involves various differential operators defined on scalar- or vector-valued functions such as gradient, curl, divergence, and Laplacian.</p>
 <p>The gradient of a chebfun2 representing a scalar function $f(x,y)$ is, geometrically, the direction and magnitude of steepest ascent of $f$. If the gradient of $f$ is $0$ at $(x,y)$, then $f$ has a critical point at $(x,y)$. Here are the critical points of a sum of Gaussian bumps:</p>
 <pre class="mcode-input">f = chebfun2(0);
-rand('state',1)
+rng('default')
 for k = 1:10
     x0 = 2*rand-1; y0 = 2*rand-1;
     f = f + chebfun2(@(x,y) exp(-10*((x-x0).^2 + (y-y0).^2)));
@@ -147,13 +148,6 @@ plot(f), hold on
 r = roots(gradient(f));
 plot3(r(:,1),r(:,2),f(r(:,1),r(:,2)),'k.','markersize',20)
 zlim([0 4]), hold off</pre>
-
-<pre class="mcode-output">Warning: Using 'state' to set RAND's internal state causes RAND, RANDI, and
-RANDN to use legacy random number generators.  This syntax will be removed in a
-future release.  See &lt;a href="matlab:helpview([docroot
-'\techdoc\math\math.map'],'update_random_number_generator')"&gt;Updating Your
-Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax. 
-</pre>
 
 <p><img src="img/guide14_02.png" class="figure" alt=""></p>
 <p>The curl of 2D vector function is a scalar function defined as follows.</p>
@@ -172,7 +166,7 @@ Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax.
 <pre class="mcode-input">norm(curl(gradient(f)))</pre>
 
 <pre class="mcode-output">ans =
-     7.677807384201505e-15
+     6.938000443776954e-15
 </pre>
 
 <p>The divergence of a chebfun2v is defined as follows.</p>
@@ -188,7 +182,7 @@ Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax.
 <pre class="mcode-input">norm(laplacian(f) - divergence(gradient(f)))</pre>
 
 <pre class="mcode-output">ans =
-     4.218889943555688e-14
+     2.684523002093832e-14
 </pre>
 
 <h3 id="144-line-integrals">14.4 Line integrals</h3>
@@ -221,7 +215,7 @@ abs(v-ends)                                         % gradient theorem</pre>
 
 <h3 id="145-phase-diagram">14.5 Phase diagram</h3>
 <p>A phase diagram is a graphical representation of a system of trajectories for a two variable autonomous dynamical system. Chebfun2 plots phase diagrams with <code>quiver</code> command, which has been overloaded to plot the vector field. Note that there is a potential terminological ambiguity in that a "phase portrait" can also refer to a portrait of a complex-valued function (see section 11.7 of the guide).</p>
-<p>In addition, Chebfun2 makes it easy to compute and plot individual trajectories of a vector field. If $F$ is a chebfun2v, then <code>ode45(F,tspan,y0)</code> computes a trajectory of the autonomous system $dx/dt=f(x,y)$, $dy/dt=g(x,y)$, where $f$ and $g$ are the first and second components of $F$. Given a prescribed time interval and initial conditions, this command returns a complex valued chebfun representing the trajectory in the form $x(t) + iy(t)$. For example:</p>
+<p>In addition, Chebfun2 makes it easy to compute and plot individual trajectories of a vector field. If $F$ is a chebfun2v, then <code>ode45(F,tspan,y0)</code> computes a trajectory of the autonomous system $dx/dt=f(x,y)$, $dy/dt=g(x,y)$, where $f$ and $g$ are the first and second components of $F$. Given a prescribed time interval and initial conditions, this command returns a complex-valued chebfun representing the trajectory in the form $x(t) + iy(t)$. For example:</p>
 <pre class="mcode-input">d = 0.04; a = 1; b = -.75;
 F = chebfun2v(@(x,y)y, @(x,y)-d*y - b*x - a*x.^3, [-2 2 -2 2]);
 [t y] = ode45(F,[0 40],[0,.5]);

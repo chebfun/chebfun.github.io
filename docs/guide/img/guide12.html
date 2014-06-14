@@ -42,9 +42,9 @@ fprintf('QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum(sum(chebfun2(F))); t = toc;
 fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum2(chebfun2(F)); t = toc;
-fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.2695 secs
-CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.0902 secs
-CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0337 secs
+fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.1492 secs
+CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.0640 secs
+CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0379 secs
 </pre>Chebfun2 is not designed specifically for numerical quadrature (or more properly, "cubature"), and careful comparisons with existing software have not been carried out. Low rank function approximations have been previously used for numerical quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman &amp; Geddes 2005].
 
 
@@ -123,7 +123,7 @@ The command `cumsum2` computes the double indefinite integral, which is a functi
 contour(cumsum2(f),'numpts',400), axis equal
 title('Contours of cumsum2(f)'), axis([-1 1 -1 1])
 norm( cumsum(cumsum(f),2) - cumsum2(f) )</pre><pre class="mcode-output">ans =
-     5.110555772443615e-16
+     0
 </pre><img src="img/guide12_04.png" class="figure" alt="">
 
 
@@ -205,8 +205,8 @@ I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5])); % integrate out x,y
 tic, I = sum(chebfun(@(z) I(z),[1 2],'vectorize')); t = toc;
 fprintf(' Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
 tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;         % compare with MATLAB
-fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output"> Chebfun2:  I = -0.48056569408898  time = 2.155 secs
-Integral3:  I = -0.48056569417568  time = 0.806 secs
+fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output"> Chebfun2:  I = -0.48056569408898  time = 2.105 secs
+Integral3:  I = -0.48056569417568  time = 0.526 secs
 </pre>
 
 ## 12.8 References

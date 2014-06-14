@@ -225,6 +225,7 @@ ol.slats {
         margin-bottom: 0;
         margin-right: 160px;
         font-weight: 600;
+        line-height: 1.45em;
       }
       ol.slats li a p {
         margin: .4em 160px .4em 0;

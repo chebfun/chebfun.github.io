@@ -16,7 +16,7 @@
 
 %%
 % The implementation of Chebfun2 exploits the observation that many
-% functions of two variables can be well approximable by low rank approximants.
+% functions of two variables can be well approximated by low rank approximants.
 % A rank $1$ function is of the form $u(y)v(x)$, and a rank $k$ function can be
 % written as the sum of $k$ rank $1$ functions. Smooth functions tend to be 
 % well approximated by functions of low rank.  
@@ -53,7 +53,7 @@ contour(f), axis square
 
 %%
 % One way to find the rank of the approximant used to represent $f$
-% like this:
+% is like this:
 length(f)
 
 %%
@@ -103,9 +103,10 @@ plot(fy)
 
 %%
 % The syntax for the `diff` command can cause confusion because we are
-% following the matrix syntax in MATLAB. We also offer `diffx(f,k)` and 
-% `diffy(f,k)`, which differentiate $f(x,y)$ with respect
-% to the first first and second variable $k$ times, respectively.
+% following the matrix syntax in MATLAB. Chebfun2 also
+% offers `diffx(f,k)` and 
+% `diffy(f,k)`, which differentiate $f(x,y)$ $k$ times with respect
+% to the first first and second variable, respectively.
 
 %%
 % What is the mean value of $f(x,y)$ on $[-1,1]\times[-1,1]$? 
@@ -154,7 +155,7 @@ plot(f)
 
 %% 
 % Many properties of analytic functions can be visualised by these types
-% of plots [Wegert 2012], such as the location of zeros and their multiplicities.
+% of plots, such as the location of zeros and their multiplicities.
 % Can you work out the multiplicity of the root at z=0 from this plot?
 
 %%
@@ -164,13 +165,7 @@ plot(f)
 % For functions with branch points or essential singularities, it is currently
 % not possible in Chebfun2 to draw phase plots.
 
-%% 11.8 What to do now
-% To find out more about Chebfun2 you can continue reading this guide, or 
-% have a look at the Chebfun2 Examples. This guide and the Chebfun2 
-% Examples are written as publishable m-files. For instance, you can publish
-% this chapter of the guide by typing publish('guide11.m').   
-
-%% 11.9 References 
+%% 11.8 References 
 % 
 % [Bebendorf 2008] M. Bebendorf, _Hierarchical Matrices: A Means to 
 % Efficiently Solve Elliptic Boundary Value Problems_, Springer, 2008.

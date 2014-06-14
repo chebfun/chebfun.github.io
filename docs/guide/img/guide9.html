@@ -24,7 +24,7 @@ Next we plot another function and integrate it from $0$ to $\infty$:
 <pre class="mcode-input">g = chebfun('1./(gamma(x+1))',[0 inf]);
 sumg = sum(g)
 plot(g,'r',LW,1.6)</pre><pre class="mcode-output">sumg =
-   2.266534507739543
+   2.266534507699836
 </pre><img src="img/guide9_02.png" class="figure" alt="">
 
 Where do $f$ and $g$ intersect?  We can find out using `roots`:
@@ -58,14 +58,14 @@ Notice that a function on an infinite domain is by default plotted on an interva
 h = chebfun(hh,[0 inf]);
 plot(h,LW,1.6,'interval',[0 100])
 normh = norm(h)</pre><pre class="mcode-output">normh =
-   Inf
+     2.441961683579082e-05
 </pre><img src="img/guide9_05.png" class="figure" alt="">
 
 Chebfun provides a convenient tool for the numerical evaluation of integrals over infinite domains:
 
 <pre class="mcode-input">g = chebfun('(2/sqrt(pi))*exp(-x.^2)',[0 inf]);
 sumg = sum(g)</pre><pre class="mcode-output">sumg =
-   0.999999999893763
+   0.999999999999999
 </pre>The cumsum operator applied to this integrand gives us the error function, which matches the MATLAB `erf` function reasonably well:
 
 <pre class="mcode-input">errorfun = cumsum(g)
@@ -85,8 +85,8 @@ Epslevel = 2.220446e-16.  Vscale = 1.000000e+00.
 </pre>One should be cautious in evaluating integrals over infinite intervals, however, for as mentioned in Section 1.5, the accuracy is sometimes disappointing, especially for functions that do not decay very quickly:
 
 <pre class="mcode-input">sum(chebfun('(1/pi)./(1+s.^2)',[-inf inf]))</pre><pre class="mcode-output">ans =
-   1.000000000010317
-</pre>Here's an example of a function whose wiggles decay to slowly to be fully resolved:
+   0.999999999998234
+</pre>Here's an example of a function whose wiggles decay too slowly to be fully resolved:
 
 <pre class="mcode-input">sinc = chebfun('sin(pi*x)./(pi*x)',[-inf inf]);
 plot(sinc,'m',LW,1.6,'interval',[-10 10])</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
@@ -100,7 +100,7 @@ The use of mappings to simplify an unbounded domain to a bounded one is an idea 
 
 ## 9.2 Poles
 
-Chebfun can handle certain "vertical" as well as "horizontal" infinities -- especially, functions that blow up according to an integer power, i.e., with a pole.  If you know the nature of the blowup, it is a good idea to specify it using the `'exps'` flag. For example, here's a function with a pole at $0$.  We use `'exps'` to tell the constructor that the function looks like $x^{-1}$ at the left endpoint and $x^0$ (i.e., smooth) at the right endpoint.
+Chebfun can handle certain "vertical" as well as "horizontal" infinities -- especially, functions that blow up according to an integer power, i.e., with a pole.  If you know the nature of the blowup, it is a good idea to specify it using the `'exps'` flag. For example, here's a function with a simple pole at $0$.  We use `'exps'` to tell the constructor that the function looks like $x^{-1}$ at the left endpoint and $x^0$ (i.e., smooth) at the right endpoint.
 
 <pre class="mcode-input">f = chebfun('sin(50*x) + 1./x',[0 4],'exps',[-1,0]);
 plot(f,LW,1.6), ylim([-5 30])</pre><img src="img/guide9_07.png" class="figure" alt="">
@@ -112,27 +112,31 @@ plot(f,LW,1.6), ylim([-30 30])</pre><img src="img/guide9_08.png" class="figure" 
 
 Here's the tangent function:
 
-<pre class="mcode-input">f = chebfun('tan(x)', pi*((-5/2):(5/2)), 'exps', -ones(1,6)); %% PROBLEM!
+<pre class="mcode-input">f = chebfun('tan(x)', pi*((-5/2):(5/2)), 'exps', -ones(1,6));
 plot(f,LW,1.6), ylim([-5 5])</pre><img src="img/guide9_09.png" class="figure" alt="">
 
 Rootfinding works as expected:
 
-<pre class="mcode-input">%x2 = chebfun('x/2',pi*(5/2)*[-1 1]);
-%hold on, plot(x2,'k',LW,1.6)
-%r = roots(f-x2); plot(r,x2(r),LW,1.6,'or','markersize',8)</pre>And we can manipulate the function in various other familiar ways:
+<pre class="mcode-input">x2 = chebfun('x/2',pi*(5/2)*[-1 1]);
+hold on, plot(x2,'k',LW,1.6)
+r = roots(f-x2,'nojump'); plot(r,x2(r),'or',LW,1.6,'markersize',8)</pre><img src="img/guide9_10.png" class="figure" alt="">
 
-<pre class="mcode-input">%g = sin(2*x2)+min(abs(f+2),6);
-%hold off, plot(g,LW,1.6)</pre>If you don't know what singularities your function may have, Chebfun has some ability to find them if the flags `'blowup`' and `'splitting`' are on:
+And we can manipulate the function in various other familiar ways:
+
+<pre class="mcode-input">g = sin(2*x2)+min(abs(f+2),6);
+hold off, plot(g,LW,1.6)</pre><img src="img/guide9_11.png" class="figure" alt="">
+
+If you don't know what singularities your function may have, Chebfun has some ability to find them if the flags `'blowup`' and `'splitting`' are on:
 
 <pre class="mcode-input">gam = chebfun('gamma(x)',[-4 4],'splitting','on','blowup',1);
-plot(gam,LW,1.6), ylim([-10 10])</pre><img src="img/guide9_10.png" class="figure" alt="">
+plot(gam,LW,1.6), ylim([-10 10])</pre><img src="img/guide9_12.png" class="figure" alt="">
 
 But it's always better to specify the breakpoints and powers if you know them:
 
 <pre class="mcode-input">gam = chebfun('gamma(x)',[-4:0 4],'exps',[-1 -1 -1 -1 -1 0]);</pre>It's also possible to have poles of different strengths on two sides of a singularity.  In this case, you specify two exponents at each internal breakpoint rather than one:
 
 <pre class="mcode-input">f = chebfun(@(x) cos(100*x)+sin(x).^(-2+sign(x)),[-1 0 1],'exps',[0 -3 -1 0]);
-plot(f,LW,1.6), ylim([-30 30])</pre><img src="img/guide9_11.png" class="figure" alt="">
+plot(f,LW,1.6), ylim([-30 30])</pre><img src="img/guide9_13.png" class="figure" alt="">
 
 
 
@@ -141,7 +145,7 @@ plot(f,LW,1.6), ylim([-30 30])</pre><img src="img/guide9_11.png" class="figure" 
 Less reliable but also sometimes useful is the possibility of working with functions with algebraic singularities that are not poles. Here's a function with inverse square root singularities at each end:
 
 <pre class="mcode-input">w = chebfun('(2/pi)./(sqrt(1-x.^2))','exps',[-.5 -.5]);
-plot(w,'m',LW,1.6), ylim([0 10])</pre><img src="img/guide9_12.png" class="figure" alt="">
+plot(w,'m',LW,1.6), ylim([0 10])</pre><img src="img/guide9_14.png" class="figure" alt="">
 
 The integral is $2$:
 
@@ -152,7 +156,14 @@ The integral is $2$:
 <pre class="mcode-input">x = chebfun('x');
 T = chebpoly(0:5)';
 f = x.^4 + x.^5;
-%chebcoeffs1 = T*(w.*f)</pre>Here for comparison are the Chebyshev coefficients as obtained from `chebpoly`:
+chebcoeffs1 = T*(w.*f)</pre><pre class="mcode-output">chebcoeffs1 =
+   0.750000000000000
+   0.625000000000000
+   0.500000000000000
+   0.312500000000000
+   0.125000000000000
+   0.062500000000000
+</pre>Here for comparison are the Chebyshev coefficients as obtained from `chebpoly`:
 
 <pre class="mcode-input">chebcoeffs2 = flipud(chebpoly(f)')</pre><pre class="mcode-output">chebcoeffs2 =
    0.375000000000000
@@ -185,7 +196,7 @@ Epslevel = 6.814598e-11.  Vscale = 3.844231e+00.
 [  0.0002,    0.02]      122     0.014     0.14 
 [    0.02,       2]       84      0.14      3.8 
 Epslevel = 4.572597e-10.  Vscale = 3.844231e+00.  Total length = 513.
-</pre>A much better representation, however, is constructed if we tell Chebfun about the singularity at $x=0$:
+</pre>A better representation, however, is constructed if we tell Chebfun about the singularity at $x=0$:
 
 <pre class="mcode-input">f = chebfun(ff,d,'exps',[.5 0])
 plot(f,LW,1.6)</pre><pre class="mcode-output">f = 
@@ -193,7 +204,7 @@ plot(f,LW,1.6)</pre><pre class="mcode-output">f =
        interval       length   endpoint values   endpoint exponents
 [       0,       2]       12         0      3.8         [0.5      0]  
 Epslevel = 1.000000e-14.  Vscale = 2.718282e+00.
-</pre><img src="img/guide9_13.png" class="figure" alt="">
+</pre><img src="img/guide9_15.png" class="figure" alt="">
 
 Under certain circumstances Chebfun will introduce singularities like this of its own accord.  For example, just as `abs(f)` introduces breakpoints at roots of `f`, `sqrt(abs(f))` introduces breakpoints and also singularities at such roots:
 
@@ -210,7 +221,7 @@ sumf = sum(f)</pre><pre class="mcode-output">f =
 Epslevel = 1.408355e-15.  Vscale = 1.000000e+00.  Total length = 78.
 sumf =
    9.585121877884726
-</pre><img src="img/guide9_14.png" class="figure" alt="">
+</pre><img src="img/guide9_16.png" class="figure" alt="">
 
 If you have a function that blows up but you don't know the nature of the singularities, even whether they are poles or not, Chebfun will try to figure them out automatically if you run in `'blowup 2'` mode.  Here's an example
 
@@ -221,7 +232,7 @@ If you have a function that blows up but you don't know the nature of the singul
 Epslevel = 1.000000e-14.  Vscale = 1.000000e+00.
 </pre>Notice that the `'exps'` field shows values close to $-e$ and $-\pi$, as is confirmed by looking at the numbers to higher precision:
 
-<pre class="mcode-input">f.funs{1}.onefun.exponents</pre><pre class="mcode-output">ans =
+<pre class="mcode-input">get(f, 'exps')</pre><pre class="mcode-output">ans =
   -2.718281828460000  -3.141592653590000
 </pre>The treatment of blowups in Chebfun was initiated by Mark Richardson in an MSc thesis at Oxford [Richardson 2009], then further developed by Richardson in collaboration with Rodrigo Platte and Nick Hale.
 

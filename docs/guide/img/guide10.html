@@ -4,7 +4,7 @@ layout: guide-chapter
 authordate: "Lloyd N. Trefethen, November 2009, latest revision June 2014"
 ---
 
-Chapter 7 described the chebop capability for solving linear ODEs (ordinary differential equations) by a backslash command.  We will now describe extensions of chebops to nonlinear problems, as well as other methods for nonlinear ODEs:
+Chapter 7 described the chebop capability for solving linear ODEs (ordinary differential equations) by the backslash command.  We will now describe extensions of chebops to nonlinear problems, as well as other methods for nonlinear ODEs:
 
 Initial-value problems:  `ode45`, `ode113`, `ode15s`Boundary-value problems: `bvp4c`, `bvp5c`Both kinds of problems via chebops:  nonlinear backslash (=`solvebvp`)In this chapter we outline the use of these methods; for fuller details, see the `help` documentation and especially the online Chebfun Examples.  The last of the methods listed, nonlinear backslash or `solvebvp`, represents a "pure Chebfun" approach in which Newton's method is applied on chebfuns, with the necessary derivative operators calculated by Chebfun's built-in capabilities of Automatic Differentiation (AD).  This is the main Chebfun method recommended for solving boundary-value problems.
 
@@ -24,7 +24,7 @@ For example, here is a solution of $u' = u^2$ over $[0,1]$ with initial conditio
 
 <pre class="mcode-input">fun = @(t,u) u.^2;
 u = chebfun.ode45(fun, [0, 1], 0.95);
-LW = 'linewidth'; lw = 2;
+LW = 'linewidth'; lw = 1.6;
 plot(u,LW,lw)</pre><img src="img/guide10_01.png" class="figure" alt="">
 
 The first argument to `ode45` defines the equation, the second defines the domain for the independent variable, and the third provides the initial condition.  It is the presence of the domain object that directs MATLAB to use the Chebfun version of `ode45` rather than the MATLAB original.
@@ -53,7 +53,7 @@ v = chebfun.ode113(fun, [0 10*pi], [1 0], opts);
 minandmax(v(:,1))</pre><pre class="mcode-output">ans =
   -0.999999999999994
    1.000000000000000
-</pre>As a third example we solve the van der Pol equation for a nonlinear oscillator.  Following the example in the MATLAB ODE documentation, we take $u'' = 1000(1-u^2)u'-u$ with initial conditions $u=2$, $u'=0$.  This is a highly stiff problem whose solution contains very rapid transitions, so we use ode15s in "splitting on" mode:
+</pre>As a third example we solve the van der Pol equation for a nonlinear oscillator.  Following the example in the MATLAB ODE documentation, we take $u'' = 1000(1-u^2)u'-u$ with initial conditions $u=2$, $u'=0$.  This is a highly stiff problem whose solution contains very rapid transitions, so we use `ode15s` in "splitting on" mode:
 
 <pre class="mcode-input">opts = odeset('abstol',1e-8,'reltol',1e-8);
 fun = @(t,v) [v(2); 1000*(1 - v(1)^2)*v(2) - v(1)];
@@ -103,7 +103,7 @@ Here is an example with a variable coefficient, a problem due to George Carrier 
 $$ \varepsilon u'' + 2(1-x^2)u + u^2 = 1 ,\qquad
 u(-1) = u(1) = 0. $$
 
-with $\varepsilon = 0.01$.  Here is a solution with `bvp5c`, just one of many solutions of this problem.
+with $\varepsilon = 0.01$.  Here is a solution with `bvp4c`, just one of many solutions of this problem.
 
 <pre class="mcode-input">ep = 0.01;
 ode = @(x,v) [v(2); (1-v(1)^2-2*(1-x^2)*v(1))/ep];
@@ -111,22 +111,16 @@ bc = @(va,vb) [va(1); vb(1)];
 d = [-1,1];
 one = chebfun(1,d);
 v0 = [0*one 0*one];
-v = bvp5c(ode, bc, v0);
-u = v(:,1); plot(u, LW, lw)
-
-%TODO: This no longer seems to give a solution!</pre><pre class="mcode-output">Warning: Unable to meet the tolerance without using more than 5000 mesh points.
- The last mesh of 1027 points and the solution are available in the output
- argument.
- The maximum error is 23.2626, while requested accuracy is 0.001. 
-</pre><img src="img/guide10_07.png" class="figure" alt="">
+v = bvp4c(ode, bc, v0);
+u = v(:,1); plot(u, LW, lw)</pre><img src="img/guide10_07.png" class="figure" alt="">
 
 
 
 ## 10.3 Automatic differentiation
 
-The options described in the last two sections rely on standard numerical discretizations, whose results are then converted to Chebfun form.  It is natural, however, to want to be able to solve ODEs fully within the Chebfun context, operating always at the level of functions.  If the ODE is nonlinear, this will lead to Newton iterations for functions, also known as Newton-Kantorovich iterations.  As with any Newton method, this will require a derivative, which in this case becomes a linear operator: an infinite-dimensional Jacobian, or more properly a Frechet derivative.
+The options described in the last two sections rely on standard numerical discretizations, whose results are then converted to Chebfun form.  It is natural, however, to want to be able to solve ODEs fully within the Chebfun context, operating always at the level of functions.  If the ODE is nonlinear, this will lead to Newton iterations for functions, also known as Newton-Kantorovich iterations.  As with any Newton method, this will require a derivative, which in this case becomes a linear operator: an infinite-dimensional Jacobian, or more properly a _Frechet derivative_.
 
-Chebfun contains features for making such explorations possible. This means that with Chebfun, you can explore Newton iterations at the function level. The crucial tool for making this possible is Chebfun Automatic Differentiation (AD), introduced by Asgeir Birkisson and Toby Driscoll [Birkisson &amp; Driscoll 2011].
+Chebfun contains features for making such explorations possible. This means that with Chebfun, you can explore Newton iterations at the function level. The enabling tool is Chebfun Automatic Differentiation (AD), introduced by Asgeir Birkisson and Toby Driscoll [Birkisson &amp; Driscoll 2011].
 
 To illustrate Chebfun AD, consider the sequence of computations
 
@@ -137,7 +131,7 @@ w = u + diff(v);</pre>Suppose we ask, how does one of these variables depend on 
 
 As mathematicians we can answer this question as follows. The variation takes the form $dv/du = 3u^2 = 3x^4$.  In other words, $dv/du$ is the linear operator that multiplies a function on $[0,1]$ by $3x^4$.
 
-In Chebfun, to compute this operator, we need to select a variable to act as a basis variable for derivative computations, and seed its derivative. (This procedure has changed with Version 5.)  To compute derivatives with respect to $u$, we convert it to an object known as an `adchebfun`, and redo the computations:
+In Chebfun, to compute this operator, we need to select a variable to act as a basis variable for derivative computations, and seed its derivative. (This procedure has changed with Version 5.)  To compute derivatives with respect to $u$, we convert it to an object known as an `adchebfun` and redo the computations:
 
 <pre class="mcode-input">u = adchebfun(u);
 v = exp(x) + u.^3;
@@ -147,25 +141,23 @@ w = u + diff(v);</pre>We can now obtain the derivative of $v$ with respect to $u
 
 <pre class="mcode-input">plot(dvdu*x, LW, lw)</pre><img src="img/guide10_08.png" class="figure" alt="">
 
-TODO: This is no longer supported. If we want `dwdv`, we'd have to redo the computation, with `v` seeded as the base variable. But I think the computation of `dwdu` below is enough to show this point. AB, 2014/06/02.
+Notice that `dvdu` is a multiplication operator, acting on a function just by pointwise multiplication.  (The proper term is _multiplier operator_.)
 
-Notice that `dvdu` is a multiplication operator, acting on a function just by pointwise multiplication.  (The proper term is _multiplier operator_. You can extract the chebfun corresponding to its diagonal part with the command `f=diag(dvdu)`.)  This will not be true of $dw/dv$, however. If `w = u+diff(v)`, then `w+dw = u+diff(v+dv)`, so $dw/dv$ must be the differentiation operator with respect to the variable $x$:
+What about $dw/du$?  To do this on paper we must think a little more carefully and compute
 
-<pre class="mcode-input">% dwdv = diff(w,v); TODO: Remove?</pre>We can verify for example that `dwdv*x` is $1$:
+$$ {dw\over du} = {\partial w\over \partial u} +
+{\partial w\over \partial v}{\partial v\over \partial u}
+= I + D(3u^2)  =  I + D(3x^4), $$
 
-<pre class="mcode-input">%plot(dwdv*x,LW,lw) TODO: Remove?</pre>What about $dw/du$?  Here we must think a little more carefully and compute
-
-dw/du = (partial w/partial u) + (partial w/partial v)*(partial
-v/partial u)<pre class="mcode">       = I + D*3u^2  =  I + D*3x^4 ,</pre>where I is the identity operator and D is the differentiation operator with respect to x.  If we apply dw/du to x, for example, the result will be x + (3x^5)' = x + 15x^4.  The following computation confirms that Chebfun reaches this result automatically.
+where $I$ is the identity operator and $D$ is the differentiation operator with respect to $x$.  If we apply $dw/du$ to $x$, for example, the result will be $x + (3x^5)' = x + 15x^4$.  The following computation confirms that Chebfun reaches this result automatically.
 
 <pre class="mcode-input">dwdu = w.jacobian;
 norm(dwdu*x - (x+15*x.^4))</pre><pre class="mcode-output">ans =
      8.422556560155997e-16
-</pre>All these AD calculations are built into Chebfun's `diff(f,g)` command, making available in principle the linear operator representing the Jacobian (Frechet derivative) of any chebfun with respect to any other chebfun.  We use use the overload `spy` command to see at a glance that the first of our Frechet derivaties is a multiplier operator while the others are non-diagonal:
+</pre>We can use use the overloaded `spy` command to see at a glance that the first of our Frechet derivatives is a multiplier operator while the others are non-diagonal:
 
-<pre class="mcode-input">subplot(1,3,2), spy(dvdu), title dvdu
-%TODO: Remove? subplot(1,3,2), spy(dwdv), title dwdv
-subplot(1,3,2), spy(dwdu), title dwdu</pre><img src="img/guide10_09.png" class="figure" alt="">
+<pre class="mcode-input">subplot(1,2,1), spy(dvdu), title dvdu
+subplot(1,2,2), spy(dwdu), title dwdu</pre><img src="img/guide10_09.png" class="figure" alt="">
 
 We now look at how AD enables Chebfun users to solve nonlinear ODE problems with backslash, just like the linear ones solved in Chapter 7.
 
@@ -198,7 +190,7 @@ The object `L` we have created is a chebop, with these fields:
     numVars: []
 </pre>Notice that one of the fields is called `init`, which may hold an initial guess for an iteration if one is specified.  If a guess is not specified, then a low-order polynomial function is used that matches the boundary conditions. To solve a nonlinear ODE, Chebfun uses a Newton or damped Newton iteration starting at the given initial guess.  Each step of the iteration requires the solution of a linear problem specified by a Jacobian operator (Frechet derivative) evaluated at the current estimated solution.  This is provided by the AD facility, and the linear problem is then solved by chebops.
 
-In Section 7.9 we hand coded our own Newton iteration to solve the nonlinear BVP
+In Section 7.9 we hand-coded our own Newton iteration to solve the nonlinear BVP
 
 $$ 0.001u''-u^3 = 0,\qquad  u(-1) = 1,~~ u(1) = -1. $$
 
@@ -215,15 +207,25 @@ while nrmdu &gt; 1e-10
 end
 clf, plot(u)</pre><pre class="mcode-output">nrmdu =
    0.260668532007021
-</pre><pre class="mcode-output">Undefined function 'power' for input arguments of type 'chebmatrix'.
-Error in @(x,u)0.001*diff(u,2)-u.^3
+nrmdu =
+   0.164126069559970
+nrmdu =
+   0.098900892365548
+nrmdu =
+   0.053787171684147
+nrmdu =
+   0.021518152858702
+nrmdu =
+   0.003586696693333
+nrmdu =
+     8.951602489402293e-05
+nrmdu =
+     5.357404768429311e-08
+nrmdu =
+     5.456499823499451e-14
+</pre><img src="img/guide10_11.png" class="figure" alt="">
 
-Error in chebop/feval (line 124)
-    out = N.op(x, u);
-Error in chebop/mtimes (line 25)
-    C = feval(A, B);
-Error in guide10 (line 318)
-   r = L*u;</pre>However, it is not necessary to construct such Newton iterations by hand! The code above is a much simplified version of what happens under-the-hood when `nonlinear backslash' is called to solve nonlinear differential equations. A few examples of this are demonstrated below.
+However, it is not necessary to construct such Newton iterations by hand! The code above is a much simplified version of what happens under-the-hood when `nonlinear backslash' is called to solve nonlinear differential equations. A few examples of this are demonstrated below.
 
 Let us reconsider some of the examples of the last three sections.  First in Section 10.1 we had the nonlinear IVP
 
@@ -235,15 +237,17 @@ This can be solved in chebop formulation like this:
 N.op = @(x,u) diff(u) - u.^2;
 N.lbc = 0.95;
 u = N\0;
-plot(u,'m',LW,lw)</pre>Next came the linear equation $u''=-u$.  With chebops, there is no need to reformulate the problem as a first-order system.  There are two boundary conditions at the left, which can be imposed by making `N.lbc` a function returning an array.
+plot(u,'m',LW,lw)</pre><img src="img/guide10_12.png" class="figure" alt="">
+
+Next came the linear equation $u''=-u$.  With chebops, there is no need to reformulate the problem as a first-order system.  There are two boundary conditions at the left, which can be imposed by making `N.lbc` a function returning an array.
 
 <pre class="mcode-input">N = chebop(0, 10*pi);
 N.op = @(x,u) diff(u,2) + u;
 N.lbc = @(u) [u-1; diff(u)];
 u = N\0;
-plot(u, 'm', diff(u), 'c', LW, lw)</pre>The van der Pol problem of Section 10.1 cannot be solved by chebops; the stiffness quickly causes failure of the Newton iteration.
+plot(u, 'm', diff(u), 'c', LW, lw)</pre><img src="img/guide10_13.png" class="figure" alt="">
 
-TODO: Verify this is still the case.
+The van der Pol problem of Section 10.1 cannot be solved by chebops; the stiffness causes failure of the Newton iteration.
 
 Here is the Carrier problem of section 10.2:
 
@@ -253,31 +257,36 @@ N.op = @(x,u) ep*diff(u,2) + 2*(1 - x.^2).*u + u.^2;
 N.bc = 'dirichlet';
 x = chebfun('x');
 N.init = 2*(x.^2 - 1).*(1 - 2./(1 + 20*x.^2));
-u = N\1; plot(u, 'm', LW, lw)</pre>We get a different solution from the one we got before! This one is correct too; the Carrier problem has many solutions. If we multiply this solution by $\sin(x/2)$ and take the result as a new initial guess, we converge to another new solution:
+u = N\1; plot(u, 'm', LW, lw)</pre><img src="img/guide10_14.png" class="figure" alt="">
 
-<pre class="mcode-input">N.init= u.*sin(x/2);
+We get a different solution from the one we got before! This one is correct too; the Carrier problem has many solutions. If we multiply this solution by $1.2\sin(x/2)$ and take the result as a new initial guess, we converge to another new solution:
+
+<pre class="mcode-input">N.init= 1.2*u.*sin(x/2);
 [u, info] = solvebvp(N, 1);
-plot(u,'m',LW,lw)
+plot(u,'m',LW,lw)</pre><img src="img/guide10_15.png" class="figure" alt="">
 
-%TODO: This no longer converges?</pre>This time, we called the method `solvebvp` with two output arguments. The second output is a MATLAB struct, which contains data showing the norms of the updates during the Newton iteration, revealing in this case a troublesome initial phase followed by eventual rapid convergence.
+This time, we called the method `solvebvp` with two output arguments. The second output is a MATLAB struct, which contains data showing the norms of the updates during the Newton iteration, revealing in this case a troublesome initial phase followed by eventual rapid convergence.
 
-<pre class="mcode-input">semilogy(nrmdu,'.-k',LW,lw), ylim([1e-14,1e2])</pre>Another way to get information about the Newton iteration with nonlinear backlash is by setting
+<pre class="mcode-input">nrmdu = info.normDelta;
+semilogy(nrmdu,'.-k',LW,lw), ylim([1e-14,1e2])</pre><img src="img/guide10_16.png" class="figure" alt="">
+
+Another way to get information about the Newton iteration with nonlinear backlash is by setting
 
 <pre class="mcode-input">cheboppref.setDefaults('plotting','on')</pre>or
 
 <pre class="mcode-input">cheboppref.setDefaults('display','iter')</pre>Type `help cheboppref` for details.  Here we shall not pursue this option and thus return the system to its factory state:
 
 <pre class="mcode-input">cheboppref.setDefaults('plotting','off')
-cheboppref.setDefaults('display','none')
-
-% TODO: Do we want to show how to create a `cheboppref` object,
-% and pass that to `solvebvp`?</pre>The heading of this section refers to the command `solvebvp`. When you apply backslash to a nonlinear chebop, it invokes the overloaded MATLAB command `mldivide`; this in turn calls a command `solvebvp` to do the actual work. By calling `solvebvp` directly, you can control the computation in ways not accessible through backslash. This situation is just like the relationship in standard MATLAB between `\` and `linsolve`. See the help documentation for details.
+cheboppref.setDefaults('display','none')</pre>The heading of this section refers to the command `solvebvp`. When you apply backslash to a nonlinear chebop, it invokes the overloaded MATLAB command `mldivide`; this in turn calls a command `solvebvp` to do the actual work. By calling `solvebvp` directly, you can control the computation in ways not accessible through backslash. This situation is just like the relationship in standard MATLAB between `\` and `linsolve`. See the help documentation for details.
 
 
 
 ## 10.5 Graphical user interface: Chebgui
 
-Chebfun includes a GUI (Graphical User Interface) for solving all kinds of ODE, time-dependent PDE, and eigenvalue problems interactively. We will not describe it here, but we encourage the reader to type `chebgui` and give it a try. Be sure to note the `Demo` menu, which contains dozens of preloaded examples, both scalars and systems. Perhaps most important of all is the `Export to m-file" button, which produces a Chebfun m-file corresponding to whatever problem is loaded into the GUI.  This feature enables one to get going quickly and interactively, then switch to a Chebfun program to adjust the fine points. close all chebgui
+Chebfun includes a GUI (Graphical User Interface) for solving all kinds of ODE, time-dependent PDE, and eigenvalue problems interactively. We will not describe it here, but we encourage the reader to type `chebgui` and give it a try. Be sure to note the `Demo` menu, which contains dozens of preloaded examples, both scalars and systems. Perhaps most important of all is the `Export to m-file" button, which produces a Chebfun m-file corresponding to whatever problem is loaded into the GUI.  This feature enables one to get going quickly and interactively, then switch to a Chebfun program to adjust the fine points.
+
+<pre class="mcode-input">close all
+chebgui</pre><img src="img/guide10_17.png" class="figure" alt="">
 
 
 

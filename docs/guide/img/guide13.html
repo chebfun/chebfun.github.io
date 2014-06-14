@@ -21,8 +21,8 @@ The zero curves are represented as complex valued chebfuns (see Chapter 5 of the
 <pre class="mcode-input">r(:,1)</pre><pre class="mcode-output">ans = 
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[      -1,       1]      604    complex values 
-Epslevel = 1.000000e-05.  Vscale = 1.000012e+00.
+[      -1,       1]      576    complex values 
+Epslevel = 1.000000e-05.  Vscale = 9.979956e-01.
 </pre>The zero contours of a function are computed by Chebfun2 to plotting accuracy and they are typically not accurate to machine precision.
 
 
@@ -82,9 +82,9 @@ If both the global maximum and minimum are required, it is roughly twice as fast
 <pre class="mcode-input">tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t=toc;
 fprintf('min2 and max2 separately = %5.3fs\n',t)
 tic; [Y X] = minandmax2(f); t=toc;
-fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 0.444s
-minandmax2 command = 0.199s
-</pre>For high accuracy the commands `min2`, `max2`, and `minandmax2` require the Optimisation Toolbox in MATLAB.
+fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 0.427s
+minandmax2 command = 0.192s
+</pre>The commands `min2`, `max2`, and `minandmax2` run faster if the MATLAB Optimisation Toolbox is available.
 
 
 
@@ -97,7 +97,7 @@ r = roots(gradient(f));                       % critical points
 plot(roots(diff(f,1,2)),'b',LW,1.6), hold on  % plot zero contours of f_x
 plot(roots(diff(f)),'r')                      % plot zero contours of f_y
 plot(r(:,1),r(:,2),'k.','MarkerSize',30)      % plot extrema
-axis square</pre><img src="img/guide13_05.png" class="figure" alt="">
+axis([-1,1,-1,1]), axis square</pre><img src="img/guide13_05.png" class="figure" alt="">
 
 There is a new command here called gradient that computes the gradient vector and represents it as a chebfun2v object. The roots command then solves for the isolated roots of the bivariate polynomial system represented in the chebfun2v representing the gradient. For more information about the gradient command see Chapter 14 of this guide.
 

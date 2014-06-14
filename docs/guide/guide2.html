@@ -109,7 +109,7 @@ Iexact =
 
 <pre class="mcode-output">ans =
    0.842700792949715
-Elapsed time is 0.000076 seconds.
+Elapsed time is 0.000094 seconds.
 </pre>
 
 <p>Using MATLAB's various quadrature commands is understandably slower:</p>
@@ -121,16 +121,16 @@ Elapsed time is 0.000076 seconds.
   tic, I = quadgk(F,0,1,'abstol',tol,'reltol',tol); t = toc;
     fprintf('QUADGK:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output">  QUAD:  I = 0.842700792949715  time = 0.1770 secs
- QUADL:  I = 0.842700792949715  time = 0.1605 secs
-QUADGK:  I = 0.842700792949715  time = 0.0665 secs
+<pre class="mcode-output">  QUAD:  I = 0.842700792949715  time = 0.1290 secs
+ QUADL:  I = 0.842700792949715  time = 0.0579 secs
+QUADGK:  I = 0.842700792949715  time = 0.0989 secs
 </pre>
 
 <p>The timing for Chebfun comes out competitive:</p>
 <pre class="mcode-input">  tic, I = sum(chebfun(F,[0,1])); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0091 secs
+<pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0087 secs
 </pre>
 
 <p>Here is a similar comparison for a function that is more difficult, because of the absolute value, which leads with "splitting on" to a chebfun consisting of a number of funs.</p>
@@ -149,10 +149,10 @@ QUADGK:  I = 0.842700792949715  time = 0.0665 secs
   tic, I = sum(chebfun(@(x) abs(besselj(0,x)),[0,20],'splitting','on')); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">   QUAD:  I = 4.445031603001505  time = 0.135 secs
-  QUADL:  I = 4.445031603001576  time = 0.074 secs
- QUADGK:  I = 4.445031603001578  time = 0.092 secs
-CHEBFUN:  I = 4.445031603001566  time = 0.207 secs
+<pre class="mcode-output">   QUAD:  I = 4.445031603001505  time = 0.126 secs
+  QUADL:  I = 4.445031603001576  time = 0.071 secs
+ QUADGK:  I = 4.445031603001578  time = 0.077 secs
+CHEBFUN:  I = 4.445031603001566  time = 0.238 secs
 </pre>
 
 <p>This last example highlights the piecewise-smooth aspect of Chebfun integration.  Here is another example of a piecewise smooth problem.</p>
@@ -168,7 +168,7 @@ CHEBFUN:  I = 4.445031603001566  time = 0.207 secs
 
 <pre class="mcode-output">ans =
   -0.381556448850250
-Elapsed time is 0.001715 seconds.
+Elapsed time is 0.001584 seconds.
 </pre>
 
 <p>For another example of a definite integral we turn to an integrand given as example <code>F21F</code> in [Kahaner 1971].  We treat it first in the default mode of splitting off:</p>
@@ -233,7 +233,7 @@ ans =
 
 <pre class="mcode-output">Warning: Result may not be accurate as the function decays slowly at infinity. 
 ans =
-   1.229596649932259
+   0.666666674295143
 </pre>
 
 <p>Chebfun is not a specialized item of quadrature software; it is a general system for manipulating functions in which quadrature is just one of many capabilities. Nevertheless Chebfun compares reasonably well as a quadrature engine against specialized software.  This was the conclusion of an Oxford MSc thesis by Phil Assheton [Assheton 2008], which compared Chebfun experimentally to quadrature codes including MATLAB's <code>quad</code> and <code>quadl</code>, Gander and Gautschi's <code>adaptsim</code> and <code>adaptlob</code>, Espelid's <code>modsim</code>, <code>modlob</code>, <code>coteda</code>, and <code>coteglob</code>, QUADPACK's <code>QAG</code> and <code>QAGS</code>, and the NAG Library's <code>d01ah</code>.  In both reliability and speed, Chebfun was found to be competitive with these alternatives.  The overall winner was <code>coteda</code> [Espelid 2003], which was typically about twice as fast as Chebfun. For further comparisons of quadrature codes, together with the development of some improved codes based on a philosophy that has something in common with Chebfun, see [Gonnet 2009].  See also "Battery test of Chebfun as an integrator" in the Quadrature section of the Chebfun Examples collection.</p>
@@ -440,14 +440,14 @@ ans =
   tic, I = sum(chebfun(@(y) Iy(y),[0.5 2.5],'vectorize')); t = toc;
   fprintf('CHEBFUN:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.429 secs
+<pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.403 secs
 </pre>
 
 <p>Here for comparison is MATLAB's <code>dblquad/quadl</code> with a tolerance of $10^{-11}$:</p>
 <pre class="mcode-input">  tic, I = dblquad(f,-2,2,0.5,2.5,1e-11,@quadl); t = toc;
   fprintf('DBLQUAD/QUADL:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">DBLQUAD/QUADL:  I = 0.02041246545700  time = 4.685 secs
+<pre class="mcode-output">DBLQUAD/QUADL:  I = 0.02041246545700  time = 4.214 secs
 </pre>
 
 <p>This example of a 2D integrand is smooth, so both Chebfun and <code>dblquad</code> can handle it to high accuracy.</p>
@@ -459,7 +459,7 @@ toc</pre>
 
 <pre class="mcode-output">ans =
    0.020412465456999
-Elapsed time is 1.285345 seconds.
+Elapsed time is 0.459328 seconds.
 </pre>
 
 <p>and we can plot the function without the need for <code>meshgrid</code>:</p>
@@ -501,7 +501,7 @@ Iexact =
 
 <pre class="mcode-output">Igauss =
    2.350402387287603
-Elapsed time is 0.479105 seconds.
+Elapsed time is 0.258040 seconds.
 </pre>
 
 <p>Even 100,000 points doesn't take very long:</p>
@@ -511,7 +511,7 @@ Elapsed time is 0.479105 seconds.
 
 <pre class="mcode-output">Igauss =
    2.350402387287603
-Elapsed time is 0.251026 seconds.
+Elapsed time is 0.244681 seconds.
 </pre>
 
 <p>Traditionally, numerical analysts computed Gauss quadrature nodes and weights by the eigenvalue algorithm of Golub and Welsch [Golub &amp; Welsch 1969]. However, the Hale-Townsend algorithms are both more accurate and much faster [Hale &amp; Townsend 2013].</p>

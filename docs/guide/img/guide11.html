@@ -12,7 +12,7 @@ A chebfun2 is a function of two variables defined on a rectangle $[a,b]\times[c,
 
 Chebfun2 builds on Chebfun's univariate representations and algorithms. It is the first extension of Chebfun to functions of two variables.  Algorithmic details are given in [Townsend &amp; Trefethen 2013b].
 
-The implementation of Chebfun2 exploits the observation that many functions of two variables can be well approximable by low rank approximants. A rank $1$ function is of the form $u(y)v(x)$, and a rank $k$ function can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.
+The implementation of Chebfun2 exploits the observation that many functions of two variables can be well approximated by low rank approximants. A rank $1$ function is of the form $u(y)v(x)$, and a rank $k$ function can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.
 
 
 
@@ -33,7 +33,7 @@ There are several commands for plotting a chebfun2, including `plot`, `contour`,
 
 <pre class="mcode-input">contour(f), axis square</pre><img src="img/guide11_02.png" class="figure" alt="">
 
-One way to find the rank of the approximant used to represent $f$ like this:
+One way to find the rank of the approximant used to represent $f$ is like this:
 
 <pre class="mcode-input">length(f)</pre><pre class="mcode-output">ans =
      7
@@ -64,7 +64,7 @@ Evaluation at a point:
 
 <pre class="mcode-input">x = 2*rand - 1; y = 2*rand - 1;
 f(x,y)</pre><pre class="mcode-output">ans =
-   0.999492965776269
+   0.659412936784630
 </pre>Evaluation along the line $y = \pi/6$:
 
 <pre class="mcode-input">f(:,pi/6)</pre><pre class="mcode-output">ans = 
@@ -82,7 +82,7 @@ What is the partial derivative $\partial f/\partial y$?
 <pre class="mcode-input">fy = diff(f,1,1);
 plot(fy)</pre><img src="img/guide11_04.png" class="figure" alt="">
 
-The syntax for the `diff` command can cause confusion because we are following the matrix syntax in MATLAB. We also offer `diffx(f,k)` and `diffy(f,k)`, which differentiate $f(x,y)$ with respect to the first first and second variable $k$ times, respectively.
+The syntax for the `diff` command can cause confusion because we are following the matrix syntax in MATLAB. Chebfun2 also offers `diffx(f,k)` and `diffy(f,k)`, which differentiate $f(x,y)$ $k$ times with respect to the first first and second variable, respectively.
 
 What is the mean value of $f(x,y)$ on $[-1,1]\times[-1,1]$?
 
@@ -136,10 +136,9 @@ coeffs2vals       paduaVals2coeffs
 <pre class="mcode-input">help chebfun2/max2</pre><pre class="mcode-output"> MAX2   Global maximum of a CHEBFUN2.
     Y = MAX2(F) returns the global maximum of F over its domain. 
     
-    [Y, X] = MAX2(F) returns the global maximum in Y and its location X.  
+    [Y, X] = MAX2(F) returns the global maximum in Y and its location X.
  
-    For certain problems this problem can be slow if the MATLAB Optimization
-    Toolbox is not available.
+   This command may be faster if the OPTIMIZATION TOOLBOX is installed.
   
   See also MIN2, MINANDMAX2.
 
@@ -171,19 +170,13 @@ ans =
 <pre class="mcode-input">f = chebfun2(@(z) sin(z)-sinh(z),2*pi*[-1 1 -1 1]);
 plot(f)</pre><img src="img/guide11_06.png" class="figure" alt="">
 
-Many properties of analytic functions can be visualised by these types of plots [Wegert 2012], such as the location of zeros and their multiplicities. Can you work out the multiplicity of the root at z=0 from this plot?
+Many properties of analytic functions can be visualised by these types of plots, such as the location of zeros and their multiplicities. Can you work out the multiplicity of the root at z=0 from this plot?
 
 At present, since Chebfun2 only represents smooth functions, a trick is required to draw pictures like these for functions with poles [Trefethen 2013]. For functions with branch points or essential singularities, it is currently not possible in Chebfun2 to draw phase plots.
 
 
 
-## 11.8 What to do now
-
-To find out more about Chebfun2 you can continue reading this guide, or have a look at the Chebfun2 Examples. This guide and the Chebfun2 Examples are written as publishable m-files. For instance, you can publish this chapter of the guide by typing publish('guide11.m').
-
-
-
-## 11.9 References
+## 11.8 References
 
 [Bebendorf 2008] M. Bebendorf, _Hierarchical Matrices: A Means to Efficiently Solve Elliptic Boundary Value Problems_, Springer, 2008.
 
