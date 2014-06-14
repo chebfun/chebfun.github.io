@@ -131,7 +131,7 @@ title(['maximum = ' num2str(max(fB))]);</pre>
 
 <p><img src="img/ResolventNorm_02.png" class="figure" alt=""></p>
 <p>Here are 12 random $6\times6$ complex matrices, all with rightmost eigenvalue having real part $-0.25$:</p>
-<pre class="mcode-input">randn('seed',1)
+<pre class="mcode-input">rng(1)
 for j = 1:12
     N = 6;
     A = randn(N) + 1i*randn(N) + 2i*diag(randn(N,1));
@@ -145,7 +145,7 @@ end</pre>
 <p><img src="img/ResolventNorm_03.png" class="figure" alt=""></p>
 <h3 id="references">References</h3>
 <ol>
-<li>L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of    Nonnormal Matrices and Operators, Princeton U. Press, 2005.</li>
+<li>L. N. Trefethen and M. Embree, <em>Spectra and Pseudospectra: The Behavior of    Nonnormal Matrices and Operators</em>, Princeton U. Press, 2005.</li>
 </ol></div>
         </div>
     </div>

@@ -65,7 +65,7 @@
 <pre class="mcode-input">FS = 'FontSize'; fs = 16;
 gam = 100; j = 1;
 f = chebfun2(0);
-rand('state',1)
+rng(1)
 for n = 1:100
     x0 = 2*rand-1; y0 = 2*rand-1;
     df = chebfun2(@(x,y) exp(-gam*((x-x0).^2+(y-y0).^2)));
@@ -81,7 +81,7 @@ end</pre>
 <p>Generically, the sum of $100$ rank 1 functions is a rank $100$ function. However, in this case the numerical rank is significantly less than the mathematical rank:</p>
 <pre class="mcode-input">fprintf('Rank of function is %u\n',rank(f))</pre>
 
-<pre class="mcode-output">Rank of function is 58
+<pre class="mcode-output">Rank of function is 56
 </pre>
 
 <h3 id="why-the-surprise">Why the surprise?</h3>

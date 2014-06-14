@@ -77,7 +77,7 @@ title(['maximum = ' num2str(max(fB))]);
 %%
 % Here are 12 random $6\times6$ complex matrices, all with rightmost
 % eigenvalue having real part $-0.25$:
-randn('seed',1)
+rng(1)
 for j = 1:12
     N = 6;
     A = randn(N) + 1i*randn(N) + 2i*diag(randn(N,1));
@@ -90,5 +90,5 @@ end
 
 %% References
 %
-% 1. L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of
-%    Nonnormal Matrices and Operators, Princeton U. Press, 2005.
+% 1. L. N. Trefethen and M. Embree, _Spectra and Pseudospectra: The Behavior of
+%    Nonnormal Matrices and Operators_, Princeton U. Press, 2005.

@@ -48,7 +48,7 @@ To find the answer to the problem posed, we need to know the time at which $\mat
   11.755625978672818
 </pre>The total computer time for the computations up to this point is as follows:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 4.440846 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 3.791633 seconds.
 </pre>Now let's plot the motion, using an anonymous function `ell2` which returns a chebfun of the position of ellipse 2 at time $t$. We plot the big ellipse together with a succession of small ellipses:
 
 <pre class="mcode-input">ell2 = @(t) w(t) + z2*(z1(t)-w(t))/z2(t);

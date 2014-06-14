@@ -60,7 +60,7 @@ In practice, though, the potential wells cannot be fabricated identically. A bri
 
 <pre class="mcode-input">vals = [repmat([depth 0],1,numwell) depth];  % [ 0 -depth 0 ... -depth 0 ]
 
-randn('state',1138)
+rng(1138)
 vals(2:2:end) = vals(2:2:end) + 0.017*randn(1,numwell);
 
 vals = mat2cell(vals,1,ones(1,2*numwell+1));  % convert to cell
@@ -71,10 +71,10 @@ U = chebfun(vals,x);</pre>Now we find that the wavefunctions extend significantl
 energies = diag(E)
 semilogy(Psi.^2,LW,lw), ylabel('probability'),
 axis( [x([2 end-1]) 1e-3 1e-0]  )</pre><pre class="mcode-output">energies =
-   0.203815714644833
-   0.232140581678280
-   0.241302649586224
-   0.252997582174507
+   0.218256274770835
+   0.232110036471835
+   0.256879388748688
+   0.269586365175545
 </pre><img src="img/SolarQDA_04.png" class="figure" alt="">
 
 

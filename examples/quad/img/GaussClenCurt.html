@@ -47,7 +47,7 @@ end
 semilogy(NN,err,'.-',LW,1,MS,16), grid on
 ylim([1e-18 1])
 xlabel('Npts',FS,12), ylabel('Error',FS,12)
-title('Gauss quadrature convergence',FS,16), toc</pre><pre class="mcode-output">Elapsed time is 0.395501 seconds.
+title('Gauss quadrature convergence',FS,16), toc</pre><pre class="mcode-output">Elapsed time is 0.274021 seconds.
 </pre><img src="img/GaussClenCurt_02.png" class="figure" alt="">
 
 Let's add another curve to the plot for Clenshaw-Curtis:
@@ -60,7 +60,7 @@ for Npts = NN
 end
 semilogy(NN,err,'.-r',LW,1,MS,16)
 title('Gauss and Clenshaw-Curtis',FS,16)
-legend('Gauss','Clenshaw-Curtis','location','southwest'), toc</pre><pre class="mcode-output">Elapsed time is 1.836512 seconds.
+legend('Gauss','Clenshaw-Curtis','location','southwest'), toc</pre><pre class="mcode-output">Elapsed time is 0.463077 seconds.
 </pre><img src="img/GaussClenCurt_03.png" class="figure" alt="">
 
 Clenshaw-Curtis quadrature also converges geometrically for analytic functions ([1], Theorem 19.3). In some circumstances Gauss converges up to twice as fast as C-C, with respect to `Npts`, but as this example suggests, the two formulas are often closer than that.  The computer time is often faster with C-C. For details of the comparison, see [2], [4], and Chapter 19 of [3].

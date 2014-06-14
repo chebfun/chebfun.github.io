@@ -31,7 +31,7 @@
 % For example, here are the eigenvalues and
 % field of values of a random matrix of dimension 20.
 % This is a case where the boundary is smooth.
-randn('seed',1), A = randn(20);
+rng(1), A = randn(20);
 LW = 'linewidth'; lw = 1.6; MS = 'markersize'; ms = 18;
 FA = fov(A);
 figure, plot(FA,LW,lw), axis equal, grid on
@@ -64,7 +64,7 @@ plot(real(FB(maxtheta)),imag(FB(maxtheta)),'.r',MS,24)
 
 %%
 % Since the field of values is not smooth, its boundary is
-% a Chebfun with several pieces:
+% a chebfun with several pieces:
 FB
 
 %%
@@ -85,8 +85,9 @@ type fov
 %% References
 %
 % 1. C. R. Johnson, Numerical determination of the field of values of a
-%    general complex matrix, SIAM J. Numer. Anal. 15 (1978), 595-602.
+%    general complex matrix, _SIAM Journal on Numerical
+%    Analysis_, 15 (1978), 595-602.
 %
-% 2. L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of
-%    Nonnormal Matrices and Operators, Princeton U. Press, 2005, chapter 17 on
+% 2. L. N. Trefethen and M. Embree, _Spectra and Pseudospectra: The Behavior of
+%    Nonnormal Matrices and Operators_, Princeton U. Press, 2005, chapter 17 on
 %    Numerical range, abscissa, and radius.

@@ -42,7 +42,7 @@ g = chebfun2(f);
 [Y, X] = min2(g);
 t = toc(s);
 
-fprintf('Total time taken = %1.4fs\n',t)</pre><pre class="mcode-output">Total time taken = 0.7049s
+fprintf('Total time taken = %1.4fs\n',t)</pre><pre class="mcode-output">Total time taken = 0.6796s
 </pre>Here is the plot of the minimum in a contour plot:
 
 <pre class="mcode-input">contour(g), hold on, plot(X(1), X(2), 'k.', 'markersize', 20), hold off</pre><img src="img/GlobalMinimum_02.png" class="figure" alt="">

@@ -19,7 +19,7 @@ L.op = @(x,f) diff(f,1) + 2*x.*f;   % ODE
 L.bc = @(x,f) f(0);                 % interior point condition
 f = L\1;
 toc
-plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre><pre class="mcode-output">Elapsed time is 1.281041 seconds.
+plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre><pre class="mcode-output">Elapsed time is 1.146895 seconds.
 </pre><img src="img/DawsonIntegral_01.png" class="figure" alt="">
 
 The problem can be solved analytically:
@@ -58,7 +58,7 @@ An elegant way to evaluate Dawson's integral as well as several others in the co
 <pre class="mcode-input">N = 36;
 tic
 f = chebfun(@(x) real(sqrt(pi)*(cef(x,N)-exp(-x.^2))/2i), [-W W]);
-toc</pre><pre class="mcode-output">Elapsed time is 0.053982 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 0.024386 seconds.
 </pre>If you have the Symbolic Toolbox...
 
 <pre class="mcode">semilogy(abs(f-fexact)), grid on</pre><pre class="mcode-input">function w = cef(z,N)      % Weideman's complex error function routine

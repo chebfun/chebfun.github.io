@@ -13,24 +13,19 @@ Generically the boundary of the field of values is smooth, but it is not always 
 
 For example, here are the eigenvalues and field of values of a random matrix of dimension 20. This is a case where the boundary is smooth.
 
-<pre class="mcode-input">randn('seed',1), A = randn(20);
+<pre class="mcode-input">rng(1), A = randn(20);
 LW = 'linewidth'; lw = 1.6; MS = 'markersize'; ms = 18;
 FA = fov(A);
 figure, plot(FA,LW,lw), axis equal, grid on
 ax = axis; axis(1.1*ax)
-hold on, plot(eig(A),'.k',MS,ms)</pre><pre class="mcode-output">Warning: Using 'seed' to set RANDN's internal state causes RAND, RANDI, and
-RANDN to use legacy random number generators.  This syntax will be removed in a
-future release.  See &lt;a href="matlab:helpview([docroot
-'\techdoc\math\math.map'],'update_random_number_generator')"&gt;Updating Your
-Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax. 
-</pre><img src="img/FieldOfValues_01.png" class="figure" alt="">
+hold on, plot(eig(A),'.k',MS,ms)</pre><img src="img/FieldOfValues_01.png" class="figure" alt="">
 
 The numerical abscissa of A is the maximum real part of its field of values:
 
 <pre class="mcode-input">[alpha,maxtheta] = max(real(FA))</pre><pre class="mcode-output">alpha =
-   5.340723050262904
+   5.556701165271448
 maxtheta =
-   6.283185307179586
+     0
 </pre>Here we add it to the plot as a red dot:
 
 <pre class="mcode-input">plot(real(FA(maxtheta)),imag(FA(maxtheta)),'.r',MS,24)</pre><img src="img/FieldOfValues_02.png" class="figure" alt="">
@@ -38,7 +33,7 @@ maxtheta =
 You can also find the numerical abscissa without Chebfun:
 
 <pre class="mcode-input">alpha = max(eig((A+A')/2))</pre><pre class="mcode-output">alpha =
-   5.340723050262882
+   5.556701165271409
 </pre>Now let's consider a matrix B defined as a diagonal matrix with the same eigenvalues as A. In this case the boundary of the field of values is a polygon:
 
 <pre class="mcode-input">B = diag(eig(A));
@@ -49,10 +44,10 @@ hold on, plot(eig(B),'.k',MS,ms), axis(1.1*ax), axis equal, grid on
 plot(real(FB(maxtheta)),imag(FB(maxtheta)),'.r',MS,24)</pre><pre class="mcode-output">Error using cellfun
 Non-scalar in Uniform output, at index 7, output 1.
 Set 'UniformOutput' to false.
-Error in chebfun/plot (line 120)
+Error in chebfun/plot (line 144)
 jumpLineSet = any(cellfun(@(v) strcmpi(v, 'JumpLine'), varargin));
 Error in FieldOfValues (line 60)
-hold off, plot(real(FB),imag(FB),'b',LW,lw,'jumpline',{'b',LW,lw})</pre>Since the field of values is not smooth, its boundary is a Chebfun with several pieces:
+hold off, plot(real(FB),imag(FB),'b',LW,lw,'jumpline',{'b',LW,lw})</pre>Since the field of values is not smooth, its boundary is a chebfun with several pieces:
 
 <pre class="mcode-input">FB</pre>Finally, here's an example where the boundary of the field of values mixes smooth curves with straight segments:
 
@@ -66,7 +61,7 @@ hold on, plot(eig(C),'.k',MS,ms)</pre>Here is a listing of FOV. Note that the nu
 
 ## References
 
-1. C. R. Johnson, Numerical determination of the field of values of a    general complex matrix, SIAM J. Numer. Anal. 15 (1978), 595-602.
+1. C. R. Johnson, Numerical determination of the field of values of a    general complex matrix, _SIAM Journal on Numerical    Analysis_, 15 (1978), 595-602.
 
-2. L. N. Trefethen and M. Embree, Spectra and Pseudospectra: The Behavior of    Nonnormal Matrices and Operators, Princeton U. Press, 2005, chapter 17 on    Numerical range, abscissa, and radius.
+2. L. N. Trefethen and M. Embree, _Spectra and Pseudospectra: The Behavior of    Nonnormal Matrices and Operators_, Princeton U. Press, 2005, chapter 17 on    Numerical range, abscissa, and radius.
 

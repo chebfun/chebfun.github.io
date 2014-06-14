@@ -87,10 +87,10 @@ The average degree reduction parameter $\tau$ can take almost any value between 
 
 <pre class="mcode-input">M = 2000;
 f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.629561 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.392881 seconds.
 </pre><pre class="mcode-input">c = -1.0001;
 f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 1.127352 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 1.144787 seconds.
 </pre>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.
 
 Here are the functions used above to compute $\tau$ and plot the subdivision diagrams.

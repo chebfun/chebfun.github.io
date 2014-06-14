@@ -87,9 +87,9 @@
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 disp(['Residual of interior condition:    ', num2str(abs(sum(u)))])</pre>
 
-<pre class="mcode-output">Residual of differential equation: 3.9683e-12
+<pre class="mcode-output">Residual of differential equation: 1.545e-12
 Residual of left BC:               2.2204e-16
-Residual of interior condition:    2.0521e-17
+Residual of interior condition:    2.7756e-17
 </pre>
 
 <p>We could also require the mean of $u$ to take another value, e.g. $1$, via</p>
@@ -113,7 +113,7 @@ disp(['Residual of left BC:               ',  num2str(abs(u(-1)-1))])
 x = chebfun('x');
 disp(['Residual of interior condition:    ', num2str(abs(sum(sin(4*pi*x).*u)))])</pre>
 
-<pre class="mcode-output">Residual of differential equation: 7.1621e-13
+<pre class="mcode-output">Residual of differential equation: 1.9835e-12
 Residual of left BC:               4.4409e-16
 Residual of interior condition:    0
 </pre>
@@ -134,9 +134,9 @@ disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 disp(['Residual of interior condition:    ', num2str(abs(u(0)-.5))])</pre>
 
-<pre class="mcode-output">Residual of differential equation: 2.0369e-12
+<pre class="mcode-output">Residual of differential equation: 1.2192e-12
 Residual of left BC:               1.1102e-16
-Residual of interior condition:    2.2204e-16
+Residual of interior condition:    0
 </pre>
 
 <p><img src="img/NonstandardBCs_03.png" class="figure" alt=""></p>
@@ -155,9 +155,9 @@ disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 up = diff(u);
 disp(['Residual of interior condition:    ', num2str(abs(up(0)-1))])</pre>
 
-<pre class="mcode-output">Residual of differential equation: 3.1325e-12
+<pre class="mcode-output">Residual of differential equation: 3.1185e-12
 Residual of left BC:               5.5511e-16
-Residual of interior condition:    1.2879e-14
+Residual of interior condition:    1.7764e-15
 </pre></div>
         </div>
     </div>

@@ -35,7 +35,7 @@ r = roots(d-20);
 breakaway_time = r(1)
 plot(breakaway_time,d(breakaway_time),'.r','markersize',28)
 title(['Breakaway time = ' num2str(breakaway_time)],'fontsize',14)</pre><pre class="mcode-output">breakaway_time =
-  42.015895525059491
+  42.015895525059506
 </pre><img src="img/ResonantVandal_01.png" class="figure" alt="">
 
 So the vandal does his damage in 42 seconds. This is a very impressive young man, but I think he could apply his talents more constructively.
@@ -43,7 +43,7 @@ So the vandal does his damage in 42 seconds. This is a very impressive young man
 By the way, how close does the vandal come to achieving the breakaway condition $d=20$ one cycle earlier?  Here's the answer:
 
 <pre class="mcode-input">max(d{35,40})</pre><pre class="mcode-output">ans =
-  19.126234407862356
+  19.126234407862434
 </pre>
 
 ## References

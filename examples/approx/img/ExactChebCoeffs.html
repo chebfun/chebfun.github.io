@@ -23,7 +23,7 @@ The Chebsyhev coefficients of a Lipschitz-continuous function $f$ can be determi
 
 If $f(x)$ is analytic within a particular contour $C$ in the complex plane, then by Cauchy's integral formula, we can also write $$ f(x) = \frac{1}{2 \pi i} \int_{C} \frac{f(z)}{z-x} {\rm d} z. $$
 
-If $C$ is large enough to enclose the unit interval, then the second of these two formulas can be subsituted into the first and the orders of integration interchanged to give $$ a_n = \frac{1}{\pi^2 i} \int_C f(z) \int_{-1}^{1} \frac{T_n(x) {\rm d} x}{(z-x)\sqrt{1-x^2}} {\rm d} z. $$
+If $C$ is large enough to enclose the unit interval, then the second of these two formulas can be substituted into the first and the orders of integration interchanged to give $$ a_n = \frac{1}{\pi^2 i} \int_C f(z) \int_{-1}^{1} \frac{T_n(x) {\rm d} x}{(z-x)\sqrt{1-x^2}} {\rm d} z. $$
 
 The integral with respect to $x$ can be computed exactly so that we end up with $$a_n = \frac{1}{\pi i} \int_{C} \frac{f(z)}{\sqrt{z^2-1}(z \pm \sqrt{z^2-1})^n} {\rm d} z. $$
 
@@ -41,7 +41,7 @@ This function can be represented in Chebfun by an interpolant in 17 points.
 
 <pre class="mcode-input">f  = @(x) 1./(5+x);
 fc = chebfun(f);
-k = 1:length(fc);</pre>The function has a pole at $-5$ with residue $1$. Substituing these values into the above formula then gives the following exact expression for the Chebyshev expansion coefficients: $$ a_n =  \frac{1}{\sqrt{6}} \frac{(-1)^n}{(5+\sqrt{24})^n} $$
+k = 1:length(fc);</pre>The function has a pole at $-5$ with residue $1$. Substituting these values into the above formula then gives the following exact expression for the Chebyshev expansion coefficients: $$ a_n =  \frac{1}{\sqrt{6}} \frac{(-1)^n}{(5+\sqrt{24})^n} $$
 
 The theoretical coefficients match those computed by Chebfun, apart from floating point representation and aliasing effects. The $a_0$ coefficient is out by the usual factor of $2$.
 
@@ -76,5 +76,5 @@ xlabel('n'), ylabel('log(|a_n|)'), grid on</pre><pre class="mcode-output">ans =
 
 ## References
 
-1. D. Elliott, The evaluation and estimation of the coefficients in the    Chebyshev series expansion of a function, Mathematics of    Computation, 18 (1964), 274-284.
+1. D. Elliott, The evaluation and estimation of the coefficients in the    Chebyshev series expansion of a function, _Mathematics of    Computation_, 18 (1964), 274-284.
 

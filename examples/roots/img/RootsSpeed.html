@@ -22,7 +22,7 @@ Let us do a test of the speed and accuracy of the Chebfun algorithm for computin
 <pre class="mcode-input">r = roots(f);
 tic, r = roots(f);</pre>Here is the time elapsed:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 0.536234 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 0.523016 seconds.
 </pre>Here is the maximum error:
 
 <pre class="mcode-input">norm(r-exact,inf)</pre><pre class="mcode-output">ans =
@@ -45,9 +45,9 @@ hold on, plot(r,f(r),'.r','markersize',18), hold off</pre><img src="img/RootsSpe
 <pre class="mcode-input">for ntest = [250 500 1000]
     c = randn(ntest,1);
     tic, roots(c); toc
-end</pre><pre class="mcode-output">Elapsed time is 0.095171 seconds.
-Elapsed time is 0.338576 seconds.
-Elapsed time is 1.836516 seconds.
+end</pre><pre class="mcode-output">Elapsed time is 0.083902 seconds.
+Elapsed time is 0.350879 seconds.
+Elapsed time is 1.932197 seconds.
 </pre>It is clear from this experiment that calling Matlab `roots` for a polynomial of degree as large as our chebfun `f` would be very slow.
 
 However, $O(n^2)$ algorithms for this problem have been available for quite a while, though they are not built into MATLAB. A key person in this effort over the years has been Dario Bini of the University of Pisa.  See for example [2].  This group also offers Fortran software. Another notable contribution is [4].
