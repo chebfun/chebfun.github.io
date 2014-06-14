@@ -504,6 +504,16 @@ blockquote {
   }
 
 
+/* other pages
+--------------------------------------------------------------------------- */
+form.subscribe {
+  text-align: center;
+}
+  form.subscribe div {
+    width: 60%;
+  }
+
+
 /* homepage
 --------------------------------------------------------------------------- */
 .homepage .page-header h1 {
