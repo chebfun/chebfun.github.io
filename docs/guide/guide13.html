@@ -109,7 +109,7 @@ d = [0 2*pi 0 2*pi];
 f = chebfun2(@(s,t) sp(t)-figof8(s),d);  % rootfinding
 r = roots(real(f),imag(f));              % calculate intersections
 spr = sp(r(:,2));
-plot(real(spr),imag(spr),'.k',MS,20)
+plot(real(spr),imag(spr),'.k',MS,20), ylim([-1.1 2.1])
 hold off</pre>
 
 <p><img src="img/guide13_03.png" class="figure" alt=""></p>
@@ -131,8 +131,8 @@ fprintf('min2 and max2 separately = %5.3fs\n',t)
 tic; [Y X] = minandmax2(f); t=toc;
 fprintf('minandmax2 command = %5.3fs\n',t)</pre>
 
-<pre class="mcode-output">min2 and max2 separately = 0.427s
-minandmax2 command = 0.192s
+<pre class="mcode-output">min2 and max2 separately = 0.419s
+minandmax2 command = 0.219s
 </pre>
 
 <p>The commands <code>min2</code>, <code>max2</code>, and <code>minandmax2</code> run faster if the MATLAB Optimisation Toolbox is available.</p>

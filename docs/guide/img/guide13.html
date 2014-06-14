@@ -58,7 +58,7 @@ d = [0 2*pi 0 2*pi];
 f = chebfun2(@(s,t) sp(t)-figof8(s),d);  % rootfinding
 r = roots(real(f),imag(f));              % calculate intersections
 spr = sp(r(:,2));
-plot(real(spr),imag(spr),'.k',MS,20)
+plot(real(spr),imag(spr),'.k',MS,20), ylim([-1.1 2.1])
 hold off</pre><img src="img/guide13_03.png" class="figure" alt="">
 
 Chebfun2 rootfinding is based on an algorithm described in [Nakatsukasa, Noferini &amp; Townsend 2013].
@@ -82,8 +82,8 @@ If both the global maximum and minimum are required, it is roughly twice as fast
 <pre class="mcode-input">tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t=toc;
 fprintf('min2 and max2 separately = %5.3fs\n',t)
 tic; [Y X] = minandmax2(f); t=toc;
-fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 0.427s
-minandmax2 command = 0.192s
+fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 0.419s
+minandmax2 command = 0.219s
 </pre>The commands `min2`, `max2`, and `minandmax2` run faster if the MATLAB Optimisation Toolbox is available.
 
 
