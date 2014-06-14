@@ -73,23 +73,20 @@ coeffs(end:-1:end-5)'</pre><pre class="mcode-output">ans =
   -0.000459323884575
 </pre>The nonzero coefficients in the power series expansion alternate in sign, which suggests that convergence is limited by a singularity on the negative $x$-axis. Indeed this is the case, and the singularity's location is known to be approximately $x_0 = -5.6900380545$. We can see the singularity in Chebfun by extending the domain of the chebop to somewhere near $x_0$, whereupon the boundary conditions at $x=0$ become interior point conditions. (The resulting function is not fully accurate, as Chebfun warns.)
 
-<pre class="mcode-input">N2 = chebop(op, [-5.6, 10], bc);
+<pre class="mcode-input">N2 = chebop(op, [-5.6, 11], bc);
 v = N2\0
-hold off, plot(v, 'k-'), xlim([-5.7 10])
-title('A singularity of the Blasius function')</pre><pre class="mcode-output">Error using functionalBlock.feval (line 179)
-Evaluation location is not in the domain.
-Error in adchebfun/feval (line 664)
-            E = functionalBlock.feval(x, f.domain);
-Error in @(x,u)[u(0);feval(diff(u),0);feval(diff(u),dom(2))-1]
+hold off, plot(v, 'k-'), xlim([-5.7 11])
+title('A singularity of the Blasius function')</pre><pre class="mcode-output">Warning: Newton iteration failed.
+Please try supplying a better initial guess via the .init field
+of the chebop. 
+v = 
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[    -5.6,      11]      517        67      9.3 
+Epslevel = 1.762239e-15.  Vscale = 6.662492e+01.
+</pre><img src="img/Blasius_03.png" class="figure" alt="">
 
-Error in chebop/linearize (line 225)
-            bcU = N.bc(x, u{:});
-Error in chebop/solvebvp (line 108)
-[L, residual, isLinear] = linearize(N, u0, x);
-Error in chebop/mldivide (line 13)
-[varargout{1:nargout}] = solvebvp(varargin{:});
-Error in Blasius (line 98)
-v = N2\0</pre>
+
 
 ## References
 
