@@ -5,7 +5,7 @@ authordate: "Toby Driscoll, May 2011"
 meta: "(Chebfun example ode-eig/SolarQDA.m) [Tags: #eigenvalues, #piecewise, #quantum]"
 ---
 
-Researchers at the University of Delaware are exploring the use of quantum dot arrays (QDA) to capture solar energy. One simplified model of a QDA is as a 1D Schroedinger eigenvalue problem. The governing equation is
+Researchers at the University of Delaware are exploring the use of quantum dot arrays (QDA) to capture solar energy. One simplified model of a QDA is as a 1D Schr&ouml;dinger eigenvalue problem. The governing equation is
 
 $$ -\frac{\hbar^2}{2m} \psi'' + U(x) \psi = E \psi, $$
 
@@ -33,7 +33,7 @@ The effective mass is also piecewise constant, so we go through the same motions
 
 <pre class="mcode-input">vals = [repmat(m,1,numwell) m(1)];
 vals = mat2cell(vals,1,ones(1,2*numwell+1));  % convert to cell
-emass = chebfun(vals,x);</pre>Now we are ready to define the Schroedinger operator.
+emass = chebfun(vals,x);</pre>Now we are ready to define the Schr&ouml;dinger operator.
 
 <pre class="mcode-input">N = chebop(@(psi) -hbar^2./(2*emass).*diff(psi,2) + U.*psi, x);
 N.lbc = 0; N.rbc = 0;</pre>We find the `numwell` lowest allowed energies and their wavefunctions. Rather than getting one isolated wavefunction "bump" per well, we see that the wells influence one another strongly.
@@ -54,10 +54,7 @@ If we look at probability, we find that the first four modes extend significantl
 
 <pre class="mcode-input">clf
 semilogy(Psi.^2,LW,lw), ylabel('probability'),
-axis( [x([2 end-1]) 1e-3 1e-1]  )</pre><pre class="mcode-output">Warning: Negative data ignored 
-Warning: Negative data ignored 
-Warning: Negative data ignored 
-</pre><img src="img/SolarQDA_03.png" class="figure" alt="">
+axis( [x([2 end-1]) 1e-3 1e-1]  )</pre><img src="img/SolarQDA_03.png" class="figure" alt="">
 
 In practice, though, the potential wells cannot be fabricated identically. A brief experiment shows that the delocalization deteriorates even with small fluctuations in the well depths. Here we perturb by 2% variance.
 
@@ -67,12 +64,7 @@ randn('state',1138)
 vals(2:2:end) = vals(2:2:end) + 0.017*randn(1,numwell);
 
 vals = mat2cell(vals,1,ones(1,2*numwell+1));  % convert to cell
-U = chebfun(vals,x);</pre><pre class="mcode-output">Warning: Using 'state' to set RANDN's internal state causes RAND, RANDI, and
-RANDN to use legacy random number generators.  This syntax will be removed in a
-future release.  See &lt;a href="matlab:helpview([docroot
-'\techdoc\math\math.map'],'update_random_number_generator')"&gt;Updating Your
-Random Number Generator Syntax&lt;/a&gt; to use RNG to replace the old syntax. 
-</pre>Now we find that the wavefunctions extend significantly over just one or two wells.
+U = chebfun(vals,x);</pre>Now we find that the wavefunctions extend significantly over just one or two wells.
 
 <pre class="mcode-input">N.op = @(psi) -hbar^2./(2*emass).*diff(psi,2) + U.*psi;
 [Psi,E] = eigs(N,numwell,0);
@@ -83,9 +75,6 @@ axis( [x([2 end-1]) 1e-3 1e-0]  )</pre><pre class="mcode-output">energies =
    0.232140581678280
    0.241302649586224
    0.252997582174507
-Warning: Negative data ignored 
-Warning: Negative data ignored 
-Warning: Negative data ignored 
 </pre><img src="img/SolarQDA_04.png" class="figure" alt="">
 
 
