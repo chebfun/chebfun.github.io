@@ -70,7 +70,7 @@ close all, plot(h,LW,1), axis equal, axis([-4 4 -.4 2])</pre>
 <p><img src="img/Needle_01.png" class="figure" alt=""></p>
 <p>We see immediately that the optimal position of the center of the needle, call it $x$, will lie in $[-2,2]$.  Actually it's pretty clear it will lie in $[-1,1]$.</p>
 <p>This is obviously an optimization problem, but exactly how should we formulate it?  One interpretation is that it is a problem of <em>semiinfinite programming</em>, because it mixes an objective function to minimize with a continuum of constraints.  Presumably there are methods that could be used to solve it in this framework.</p>
-<p>For us, when I hear the word "continuum", we think Chebfun. Suppose we specify two variables: $x$, the horizontal position of the center of the needle, and $\theta$, its angle counterclockwise from the horizontal.  Given $x$ and $\theta$, we then ask how low the needle can lie.  Let</p>
+<p>Here in the Oxford Numerical Analysis Group, when we hear the word "continuum", we think Chebfun. Suppose we specify two variables: $x$, the horizontal position of the center of the needle, and $\theta$, its angle counterclockwise from the horizontal.  Given $x$ and $\theta$, we then ask how low the needle can lie.  Let</p>
 <p>$$ y(x,\theta) $$</p>
 <p>be its minimal height, given that it does not cut below the surface. Then $y(x,\theta)$ is just a maximum of a continuous function over an interval, which we can compute with Chebfun like this:</p>
 <pre class="mcode-input">function y = minfun(x,theta)
@@ -109,7 +109,7 @@ yyp = interp2(xx,thth,yy,xxp,ttp,'cubic');
 close, contour(xxp,ttp,yyp,80), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 18.286433 seconds.
+<pre class="mcode-output">Elapsed time is 27.738718 seconds.
 </pre>
 
 <p><img src="img/Needle_03.png" class="figure" alt=""></p>
@@ -128,7 +128,7 @@ levels = 0.06:.003:0.12;
 close, contour(xxp,ttp,yyp,levels), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 title(['min value on grid: ' num2str(min(min(yy)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 17.090212 seconds.
+<pre class="mcode-output">Elapsed time is 20.993416 seconds.
 </pre>
 
 <p><img src="img/Needle_04.png" class="figure" alt=""></p>
@@ -142,7 +142,7 @@ end</pre>
 guess = [.41, -0.2];
 tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 7.585688 seconds.
+<pre class="mcode-output">Elapsed time is 9.244190 seconds.
 </pre>
 
 <p>So it would seem that to 10 digits or more, the minimal height is around</p>
