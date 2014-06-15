@@ -66,8 +66,9 @@
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
 <h3 id="111-what-is-a-chebfun2">11.1  What is a chebfun2?</h3>
-<p>A chebfun2 is a function of two variables defined on a rectangle $[a,b]\times[c,d]$. The syntax for chebfun2 objects is similar to the syntax for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands overloaded. For instance, <code>trace(f)</code> returns the sum of the diagonal entries when $f$ is a matrix and the integral of $f(x,x)$ when $f$ is a chebfun2.</p>
-<p>Chebfun2 builds on Chebfun's univariate representations and algorithms. It is the first extension of Chebfun to functions of two variables.  Algorithmic details are given in [Townsend &amp; Trefethen 2013b].</p>
+<p>Chebfun2 is the part of Chebfun that deals with functions of two variables defined on a rectangle $[a,b]\times[c,d]$. Just like Chebfun in 1D, it is an extremely convenient tool for all kinds of computations including algebraic manipulation, optimization, integration, and rootfinding. It also extends to vector-valued functions of two variable, so that one can perform vector calculus.</p>
+<p>A chebfun2, with a lower-case "c", is a Matlab object, the 2D analogue of a chebfun. The syntax for chebfun2 objects is similar to the syntax for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands overloaded. For instance, <code>trace(f)</code> returns the sum of the diagonal entries when $f$ is a matrix and the integral of $f(x,x)$ when $f$ is a chebfun2.</p>
+<p>Chebfun2 builds on Chebfun's univariate representations and algorithms.  Algorithmic details are given in [Townsend &amp; Trefethen 2013b].</p>
 <p>The implementation of Chebfun2 exploits the observation that many functions of two variables can be well approximated by low rank approximants. A rank $1$ function is of the form $u(y)v(x)$, and a rank $k$ function can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.</p>
 <h3 id="112-what-is-a-chebfun2v">11.2 What is a chebfun2v?</h3>
 <p>Chebfun2 can represent scalar valued functions, such as $\exp(x+y)$, and vector valued functions, such as $[\exp(x+y);\cos(x-y)]$. A vector valued function is called a chebfun2v, and chebfun2v objects are useful for computations of vector calculus. For information about chebfun2v objects and vector calculus, see Chapters 14 and 15 of this guide.</p>
@@ -120,7 +121,7 @@ vertical scale =   1
 f(x,y)</pre>
 
 <pre class="mcode-output">ans =
-   0.659412936784630
+   0.985306430644048
 </pre>
 
 <p>Evaluation along the line $y = \pi/6$:</p>

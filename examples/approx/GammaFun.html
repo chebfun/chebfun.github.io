@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The gamma function and its poles &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The gamma function and its poles</h1>
+<h2>Nick Hale, December 2009<span><a href='/examples/approx/GammaFun.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/approx/GammaFun.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>This script displays some of the features introduced in version 3 for unbounded functions by exploring the gamma function $\Gamma(x)$ on the interval $[-4,4]$.</p>
+<p>The gamma function has simple poles at the negative integers and zero. Chebfun can determine the locations and orders of these poles if it is called with the <code>'blowup'</code> and <code>'splitting'</code> flags on. The <code>'exponents'</code> field of the output indicates that each pole is simple, that is, it has a singularity of type $x^{-1}$.</p>
+<pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
+gam = chebfun('gamma(x)',[-4 4],'blowup','on','splitting','on')
+plot(gam,'m',LW,1.6), hold on
+title('Gamma function',FS,12)</pre>
+
+<pre class="mcode-output">gam = 
+   chebfun column (5 smooth pieces)
+       interval       length   endpoint values   endpoint exponents
+[      -4,      -3]       18       Inf      Inf         [-1      -1]  
+[      -3,      -2]       18      -Inf     -Inf         [-1      -1]  
+[      -2,      -1]       18       Inf      Inf         [-1      -1]  
+[      -1,2.2e-308]       18      -Inf     -Inf         [-1      -1]  
+[2.2e-308,       4]       30       Inf        6         [-1      0]  
+Epslevel = 2.722575e-12.  Vscale = 1.200000e+01.  Total length = 102.
+</pre>
+
+<p><img src="img/GammaFun_01.png" class="figure" alt=""></p>
+<p>Alternatively, and always a better idea when the information is available, one can instruct Chebfun what poles to put where:</p>
+<pre class="mcode-input">gam = chebfun('gamma(x)',[-4 -3 -2 -1 0 4],'exps',[-1 -1 -1 -1 -1 0])
+plot(gam,LW,1.6), hold on
+title('Gamma function again',FS,12)</pre>
+
+<pre class="mcode-output">gam = 
+   chebfun column (5 smooth pieces)
+       interval       length   endpoint values   endpoint exponents
+[      -4,      -3]       20       Inf      Inf         [-1      -1]  
+[      -3,      -2]       21      -Inf     -Inf         [-1      -1]  
+[      -2,      -1]       24       Inf      Inf         [-1      -1]  
+[      -1,       0]       20      -Inf     -Inf         [-1      -1]  
+[       0,       4]       35       Inf        6         [-1      0]  
+Epslevel = 1.000000e-14.  Vscale = 1.200000e+01.  Total length = 120.
+</pre>
+
+<p><img src="img/GammaFun_02.png" class="figure" alt=""></p>
+<p>We can now treat $\Gamma(x)$ like any other chebfun. For example, we can:</p>
+<p>(1) Find its reciprocal $1/\Gamma(x)$:</p>
+<pre class="mcode-input">gam_i = 1./gam;</pre>
+
+<p>(2) Compute the square root $|\Gamma(x)|^{1/2}$:</p>
+<pre class="mcode-input">absgam = abs(gam);
+sqrtgam = real(sqrt(absgam));</pre>
+
+<p>(3) Plot these functions:</p>
+<pre class="mcode-input">plot(gam_i,'r', sqrtgam,'-g',LW,1.6)
+legend('\Gamma(x)', '1/\Gamma(x)', 'sqrt(|\Gamma(x)|)',...
+   'location','southeast')
+title('Various related functions',FS,12)</pre>
+
+<p><img src="img/GammaFun_03.png" class="figure" alt=""></p>
+<p>(4) Plot the critical points:</p>
+<pre class="mcode-input">[y r] = minandmax(gam,'local');
+[yi ri] = minandmax(gam_i,'local');
+[ys rs] = minandmax(sqrtgam,'local');
+
+plot(r,gam(r),'.k',ri,gam_i(ri),'.k', ...
+    rs,sqrtgam(rs),'.k',MS,18,LW,1.6), hold off
+title('Gamma function on [-4,4] and its critical points',FS,12)</pre>
+
+<p><img src="img/GammaFun_04.png" class="figure" alt=""></p>
+<p>(5) Compute some integrals:</p>
+<pre class="mcode-input">sum(gam)
+sum(absgam)
+sum(sqrtgam)</pre>
+
+<pre class="mcode-output">ans =
+   NaN
+ans =
+   Inf
+ans =
+  14.043323986892387
+</pre>
+
+<p>Do you understand why these results come out not-a-number, infinite, and finite?</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

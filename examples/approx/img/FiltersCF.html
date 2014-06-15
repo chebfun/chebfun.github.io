@@ -9,25 +9,23 @@ Digital filtering is one of the most important applications of approximation the
 
 Mathematically, digital filters are polynomial ("FIR" or "finite impulse response") or rational ("IIR" or "infinite impulse response") approximations to prescribed functions. The classic method for computing FIR filters, called the Parks McLellan method by engineers, is the Remez algorithm, available in the `remez` command of Chebfun [1].  However, complicated filter designs are not always easy by this method, for the Remez algorithm is nonlinear and may fail to converge if there is not a good enough initial guess.
 
-It seems that CF (Caratheodory-Fejer) approximation may be a promising alternative, either for computing the filter itself or at least for generating an initial guess. (For a reference on CF approximations, see Chapter 20 of [2].) Consider for example this function with "pass bands":
+It seems that CF (Caratheodory-Fejer) approximation may be a promising alternative, either for computing the filter itself or at least for generating an initial guess. (For a reference on CF approximations, see Chapter 20 of [2].) Here for example is a function with three "pass bands", together with polynomial approximations of degrees $100$ and $1000$:
 
 <pre class="mcode-input">x = chebfun('x');
 LW = 'linewidth';
 f = (abs(x)&lt;.3) + (abs(x-.7)&lt;.1) + (abs(x+.65)&lt;.2);
-plot(f,'k',LW,1.2), grid on, axis([-1 1 -1 2]), shg</pre><img src="img/FiltersCF_01.png" class="figure" alt="">
+plot(f,'k',LW,1.2), grid on, axis([-1 1 -1 2]), shg
 
-Here are polynomial approximations of degrees $100$ and $1000$:
-
-<pre class="mcode-input">tic
+tic
 for m = [100 1000]
   p = cf(f,m,0,max(100,2*m));
-  plot(p,'r',f,'k',LW,1.2), grid on
+  plot(f,'k',p,'r',LW,1.2), grid on
   axis([-1 1 -1 2]), snapnow
-end</pre><img src="img/FiltersCF_02.png" class="figure" alt="">
+end</pre><img src="img/FiltersCF_01.png" class="figure" alt="">
 
 It didn't take long to produce these pictures:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 2.246244 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 4.365173 seconds.
 </pre>In practice, filter specifications usually have "don't care" regions between pass and stop bands. Here to give an idea of the possibilities we make $f$ a little smoother by convolving it with a narrow hat function.  Now degrees $100$ and $200$ give good filters:
 
 <pre class="mcode-input">s = chebfun('s', [-.02 .02]);
@@ -35,13 +33,13 @@ phi = 50-50^2*abs(s);
 f2 = conv(f,phi);
 for m = [100 200]
   p = cf(f2,m,0,max(100,2*m));
-  plot(p,'r',f2,'k',LW,1.2), grid on
+  plot(f2,'k',p,'r',LW,1.2), grid on
   axis([-1 1 -1 2]), snapnow
-end</pre><img src="img/FiltersCF_03.png" class="figure" alt="">
+end</pre><img src="img/FiltersCF_02.png" class="figure" alt="">
 
 Here's the error:
 
-<pre class="mcode-input">plot(f2-p,LW,1.2), grid on</pre><img src="img/FiltersCF_04.png" class="figure" alt="">
+<pre class="mcode-input">plot(f2-p,LW,1.2), grid on</pre><img src="img/FiltersCF_03.png" class="figure" alt="">
 
 For applications, one would need to transplant such computations from a bounded to a periodic interval.
 
