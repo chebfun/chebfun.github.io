@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Arc length in the complex plane &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Arc length in the complex plane</h1>
+<h2>Kuan Xu, November 2012<span><a href='/examples/complex/ComplexArcLength.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/complex/ComplexArcLength.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-arc-length-of-a-contour">1. Arc length of a contour</h3>
+<p>Here is a contour discussed in the Example "A Keyhole Contour Integral" [1]:</p>
+<pre class="mcode-input">r = 0.2; R = 2; e = 0.1;
+t = chebfun('t',[0 1]);                   % parameter
+c = [-R+e*1i -r+e*1i -r-e*1i -R-e*1i];
+z = join( c(1) + t*(c(2)-c(1)), ...       % top of the keyhole
+          c(2)*c(3).^t ./ c(2).^t, ...    % inner circle
+          c(3) + t*(c(4)-c(3)), ...       % bottom of the keyhole
+          c(4)*c(1).^t ./ c(4).^t);       % outer circle
+LW = 'LineWidth'; lw = 1.6;
+plot(z,LW,lw), axis equal</pre>
+
+<p><img src="img/ComplexArcLength_01.png" class="figure" alt=""></p>
+<p>The total length of the contour can be calculated with one command:</p>
+<pre class="mcode-input">L = arcLength(z)</pre>
+
+<pre class="mcode-output">L =
+  17.179598985403512
+</pre>
+
+<p>If the length of each patch is what you want to know, then you can make the input a quasimatrix whose columns are the different pieces.</p>
+<pre class="mcode-input">z = [ c(1) + t*(c(2)-c(1))...           % Top of the keyhole
+      c(2)*c(3).^t ./ c(2).^t...        % Inner circle
+      c(3) + t*(c(4)-c(3))...           % Bottom of the keyhole
+      c(4)*c(1).^t ./ c(4).^t];         % Outer circle
+L = arcLength(z)</pre>
+
+<pre class="mcode-output">L =
+  Columns 1 through 3
+   1.800000000000000   1.197613431941939   1.800000000000000
+  Column 4
+  12.381985553461574
+</pre>
+
+<h3 id="2-equidistributing-points-along-a-contour">2. Equidistributing points along a contour</h3>
+<p>It is not uncommon that we need to discretize and sample over a 2D curve in the complex plane. For instance, we may want to uniformly distribute points along the boundary of a domain when the boundary integral method is used. That is, the points should be equally-spaced with respect to arc length. Consider the following star-shaped curve:</p>
+<pre class="mcode-input">t = chebfun('t',[0 1]);
+s = exp(1i*2*pi*t).*(0.5*sin(8*pi*t).^2+0.5);
+plot(s,LW,lw), axis equal, hold on</pre>
+
+<p><img src="img/ComplexArcLength_02.png" class="figure" alt=""></p>
+<p>First, we calculate the total arc length of this closed curve.</p>
+<pre class="mcode-input">L = arcLength(s)</pre>
+
+<pre class="mcode-output">L =
+   9.634012138198042
+</pre>
+
+<p>Suppose, for example, that we want to equidistribute 64 points.</p>
+<pre class="mcode-input">N = 64;
+h = L/N;
+T = zeros(1,N);</pre>
+
+<p>We could do this by solving 63 rootfinding problems:</p>
+<pre class="mcode-input">tic
+len = cumsum(abs(diff(s)));
+for k = 1:N-1
+    T(k+1) = roots(len-k*h);
+end
+toc</pre>
+
+<pre class="mcode-output">Elapsed time is 6.719020 seconds.
+</pre>
+
+<p>Now that we have the coordinates of the points, and let's mark them on the curve.</p>
+<pre class="mcode-input">P = s(T);
+MS = 'MarkerSize'; ms = 16;
+plot(P,'.r',MS,ms)</pre>
+
+<p><img src="img/ComplexArcLength_03.png" class="figure" alt=""></p>
+<p>The rootfinding problems above, unfortunately, took quite a while, because the chebfun <code>len</code> is rather long:</p>
+<pre class="mcode-input">length(len)</pre>
+
+<pre class="mcode-output">ans =
+        1918
+</pre>
+
+<p>A better approach is not to solve our own rootfinding problems but to first invert <code>len</code> with the Chebfun command <code>inv</code>:</p>
+<pre class="mcode-input">tic, g = inv(len); toc</pre>
+
+<pre class="mcode-output">Elapsed time is 2.505071 seconds.
+</pre>
+
+<p>Here we put circles around the dots to confirmthat we have the same result as before:</p>
+<pre class="mcode-input">plot(s(g((0:N-1)*h)),'ok',MS,8)</pre>
+
+<p><img src="img/ComplexArcLength_04.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>Chebfun Example <a href="../complex/KeyholeContour.html">complex/KeyholeContour</a></li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

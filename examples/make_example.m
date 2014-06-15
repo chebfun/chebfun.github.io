@@ -32,6 +32,14 @@ opts.stylesheet = fullfile(pwd, 'custom_example2md.xsl');
 % Move into the containing folder, publish the example, make a bare MarkDown
 % template file, then move back out.
 cd(folder)
+
+% This is really inelegant. Must override `snapnow` in the code
+% in order to get pretty pictures, so create a file `snapnow.m`
+% that redirects to `chebexample_snapnow`.
+fh = fopen('snapnow.m', 'w');
+fprintf(fh, 'function snapnow(varargin), chebexample_snapnow(varargin{:}), return');
+fclose(fh);
+
 try
     mypublish(examplename, opts);
     cd('..')
