@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vector calculus &raquo; Chebfun</title>
+    <title>Delta and Heaviside hyperfunctions &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -51,61 +51,50 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Vector calculus</h1>
+<h1>Delta and Heaviside hyperfunctions</h1>
+<h2>Mohsin Javed, April 2012<span><a href='/examples/complex/Hyperfuns.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/complex/Hyperfuns.m'>view on Github</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (28)</a></li>
-        <li><a href="/examples/calc/index.html">Calculus (6)</a></li>
-        <li><a href="/examples/complex/index.html">Complex variables (8)</a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff! (4)</a></li>
-        <li><a href="/examples/geom/index.html">Geometry (6)</a></li>
-        <li><a href="/examples/integro/index.html">Integral equations (2)</a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra (9)</a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems (6)</a></li>
-        <li><a href="/examples/opt/index.html">Optimization (10)</a></li>
-        <li><a href="/examples/ode/index.html">Ordinary differential equations (23)</a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations (1)</a></li>
-        <li><a href="/examples/stats/index.html">Probability and statistics (8)</a></li>
-        <li><a href="/examples/quad/index.html">Quadrature (3)</a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding (15)</a></li>
-        <li class='active'><a href="/examples/veccalc/index.html">Vector calculus (3)</a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/veccalc/AutonomousSystems.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/AutonomousSystems_01.png' /></div>
-            <h3>Phase portraits and trajectories</h3>
-            <p>Alex Townsend, March 2013
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#duffing oscillator</span>, <span href='#' class='tag'>#phase portrait</span></span>
-            </p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/veccalc/CheckingVectorCalculus.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/CheckingVectorCalculus_01.png' /></div>
-            <h3>Checking vector calculus</h3>
-            <p>Alex Townsend, March 2013
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#divgradcurl</span>, <span href='#' class='tag'>#gradient theorem</span>, <span href='#' class='tag'>#parallelogram law</span></span>
-            </p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/veccalc/UndergraduateCalculus.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/UndergraduateCalculus_01.png' /></div>
-            <h3>Undergraduate multivariable calculus</h3>
-            <p>Alex Townsend, March 2013
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#green's theorem</span>, <span href='#' class='tag'>#line integral</span>, <span href='#' class='tag'>#mulivariable calculus</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="introduction">Introduction</h3>
+<p>Hyperfunction theory describes a generalized function $f(x)$ on the real line by viewing it as the difference between two generating functions $F_+(z)$ and $F_-(z)$, holomorphic in the upper and lower complex planes, respectively. The value of $f(x)$ at a <em>regular point</em> $x$ on the real line is calculated by taking the difference of the upper and lower parts of the generating functions and then applying the limit,</p>
+<p>$$ \lim_{\varepsilon\to 0} [ F_+(x+i\varepsilon) - F_-(x-i\varepsilon) ] $$</p>
+<p>i.e., we approach the real axis from directly above and below the point $x$. If the limit does not exist, $x$ is called a <em>singular point</em> of $f$ and it does not make sense to talk about the value of $f$ at $x$ [1].</p>
+<p>A given hyperfunction does not have a unique choice of generators; you can add any analytic function to $F_+$ and $F_-$ without changing their difference along the real axis.  So properly speaking, a hyperfunction is an equivalence class.</p>
+<h3 id="the-dirac-delta-function">The Dirac delta function</h3>
+<p>An elegant choice of generating function for the Dirac delta function is to take both $F_-$ and $F_+$ equal to the same function,</p>
+<pre class="mcode-input">F = @(z) -1./(2i*pi*z);</pre>
+
+<p>Thus in this case $F_+ = F_-$.</p>
+<h3 id="the-heaviside-function">The Heaviside function</h3>
+<p>The Heaviside function also has an elegant choice of generator, again with $G_- = G_+$ equal to the same function, the integral of the previous one:</p>
+<pre class="mcode-input">G = @(z) -1/(2*pi*1i)*log(-z);</pre>
+
+<p>Using the above definitions, we define anonymous functions to describe the delta function and the Heaviside function on the interval $[-1,1]$. Note that we take the real part only to remove imaginary rounding errors.</p>
+<pre class="mcode-input">x = chebfun('x');
+hyperDelta = @(ep) real(F(x+1i*ep)-F(x-1i*ep));
+hyperHeaviside = @(ep) real(G(x+1i*ep)-G(x-1i*ep));</pre>
+
+<p>We now imitate the limiting process by taking small values of the parameter $\varepsilon$ and plotting the corresponding functions below: First, delta functions.</p>
+<pre class="mcode-input">for ep = .1:-.01:.001;
+    plot(hyperDelta(ep)), hold on
+end
+title('Delta function','fontsize',12), hold off</pre>
+
+<p><img src="img/Hyperfuns_01.png" class="figure" alt=""></p>
+<p>Next, Heaviside functions.</p>
+<pre class="mcode-input">for ep = .1:-.01:.001;
+    plot(hyperHeaviside(ep)), hold on
+end
+title('Heaviside function','fontsize',12), hold off</pre>
+
+<p><img src="img/Hyperfuns_02.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>Urs Graf, <em>Introduction to Hyperfunctions and Their Integral    Transforms: An Applied and Computational Approach</em>, Birkhaeuser, 2010.</li>
+</ol></div>
         </div>
     </div>
 </div>
