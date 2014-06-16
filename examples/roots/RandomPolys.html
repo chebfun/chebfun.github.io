@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Roots of random polynomials on an interval &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Roots of random polynomials on an interval</h1>
+<h2>Nick Trefethen, June 2014<span><a href='/examples/roots/RandomPolys.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/roots/RandomPolys.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Recently I heard a talk by Igor Pritsker of Oklahoma State University at which he discussed a theorem of Das in 1971 about the roots of random real polynomials [1,3].  This can be very nicely illustrated in Chebfun.</p>
+<p>Das's result asserts that for a random polynomial on $[-1,1]$ with real coefficients, the fraction of roots that lie in $[-1,1]$ will be about $1/\sqrt 3 \approx 0.57735$. By a random polynomial on $[-1,1]$, we mean a linear combination of Legendre polynomials (normalized by 2-norm on $[-1,1]$) with random independent coefficients drawn from the standard normal distribution. For such polynomials, the fraction of roots in $[-1,1]$ approaches $1/\sqrt 3$ as $n\to\infty$ with probability 1.</p>
+<p>Here for example is a random polynomial of degree 30:</p>
+<pre class="mcode-input">rng('default');
+n = 30;
+cleg = randn(n+1,1);                  % Legendre coeffs
+ccheb = leg2cheb(cleg,'norm');        % Chebyshev coeffs
+p = chebfun(ccheb,'coeffs');
+LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
+plot(p,LW,1.6), axis([-1.1 1.1 -n n]), grid on
+rr = roots(p);
+hold on, plot(rr,p(rr),'.r',MS,16), hold off
+ratio = length(rr)/n;
+title(['fraction of roots in [-1,1]: ' num2str(ratio)],FS,12)</pre>
+
+<p><img src="img/RandomPolys_01.png" class="figure" alt=""></p>
+<p>Here are its roots in the complex plane, both real and complex:</p>
+<pre class="mcode-input">r = roots(p,'all');
+plot([-1 1],[0 0],'k',LW,1), grid on
+hold on, plot(r,'.r',MS,12), hold off
+xlim([-2.5 2.5]), axis equal
+set(gca,'xtick',-2:2)</pre>
+
+<p><img src="img/RandomPolys_02.png" class="figure" alt=""></p>
+<p>You might guess by looking at the first of these pictures that this was a polynomial of odd degree, but of course it is of even degree. So there must be a real root outside $[-1,1]$, as indeed we see in the second picture.</p>
+<p>Now let's construct ten random polynomials of degree 1000 and print the fraction of roots in $[-1,1]$ for each:</p>
+<pre class="mcode-input">n = 1000;
+data = [];
+for k = 1:10
+  cleg = randn(n+1,1);                % Legendre coeffs
+  ccheb = leg2cheb(cleg,'norm');      % Chebyshev coeffs
+  p = chebfun(ccheb,'coeffs');
+  rr = roots(p);
+  ratio = length(rr)/n;
+  data = [data ratio];
+  disp(['fraction of roots in [-1,1]: ' num2str(ratio)])
+end</pre>
+
+<pre class="mcode-output">fraction of roots in [-1,1]: 0.556
+fraction of roots in [-1,1]: 0.606
+fraction of roots in [-1,1]: 0.566
+fraction of roots in [-1,1]: 0.573
+fraction of roots in [-1,1]: 0.59
+fraction of roots in [-1,1]: 0.557
+fraction of roots in [-1,1]: 0.578
+fraction of roots in [-1,1]: 0.571
+fraction of roots in [-1,1]: 0.579
+fraction of roots in [-1,1]: 0.561
+</pre>
+
+<p>The mean for the whole experiment is pretty close to $0.577$,</p>
+<pre class="mcode-input">mean(data)</pre>
+
+<pre class="mcode-output">ans =
+   0.573700000000000
+</pre>
+
+<p>One could vary these experiments in all kinds of ways, for example defining random polynomials via Chebyshev or more generally Jacobi expansions or by interpolation of random data in Chebyshev or other points.  The case of Jacobi expansions is considered in [2], though the proofs there are not complete.</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>M. Das, Real zeros of a random sum of orthogonal polynomials,     <em>Proceedings of the American Mathematical Society</em>, 27     (1971), 147-153.</p>
+</li>
+<li>
+<p>M. Das and S. S. Bhatt, Real roots of random    harmonic equations, <em>Indian Journal of Pure and    Applied Mathematics</em>, 13 (1982), 411-420.</p>
+</li>
+<li>
+<p>J. E. Wilkins, The expected value of the number of     real zeros of a random sum of Legendre polynomials,     <em>Proceedings of the American Mathematical Society</em>, 125     (1997), 1531-1536.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
