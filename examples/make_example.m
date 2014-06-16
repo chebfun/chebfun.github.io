@@ -36,9 +36,12 @@ cd(folder)
 % This is really inelegant. Must override `snapnow` in the code
 % in order to get pretty pictures, so create a file `snapnow.m`
 % that redirects to `chebexample_snapnow`.
-fh = fopen('snapnow.m', 'w');
-fprintf(fh, 'function snapnow(varargin), chebexample_snapnow(varargin{:}), return');
-fclose(fh);
+snapfile = which('snapnow');
+if ~strcmp(fileparts(snapfile), pwd)
+    fh = fopen('snapnow.m', 'w');
+    fprintf(fh, 'function snapnow(varargin), chebexample_snapnow(varargin{:}), return');
+    fclose(fh);
+end
 
 try
     mypublish(examplename, opts);
