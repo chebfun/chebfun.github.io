@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Approximation Theory and Approximation Practice &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+        <h1>Approximation Theory and Approximation Practice</h1></div>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<p>This textbook, with 163 figures and 210 exercises, was published in 2013. It
+is available from <a href="http://bookstore.siam.org/ot128/">SIAM</a> and from
+<a href="http://amzn.com/1611972396">Amazon</a>.</p>
+<p>Unusual features:</p>
+<ul>
+<li>The emphasis is on topics close to numerical algorithms.</li>
+<li>Everything is illustrated with Chebfun.</li>
+<li>Each chapter is a <code>publish</code>able MATLAB m-file.</li>
+<li>There is a bias toward theorems and methods for analytic functions, which
+  appear so often in practical approximation, rather than on functions at the
+  edge of discontinuity with their seductive theoretical challenges.</li>
+<li>Original sources are cited rather than textbooks, and each item in the
+  27-page bibliography is annotated with an editorial comment.</li>
+</ul>
+<p>The <a href="atap-first6chapters.pdf">first six chapters</a> are available online.</p>
+<p>All the m-files used to generate the book with MATLAB <code>publish</code> are also
+available. This makes it easy to run any of the numerical demonstrations from
+the book, assuming you have Chebfun in your MATLAB path. You can get them from
+a zip file or individually:</p>
+<ul>
+<li><strong><a href="atap-mfiles.zip">All files (.zip)</a></strong></li>
+<li><a href="chap1.m">chap1.m</a>    Introduction</li>
+<li><a href="chap2.m">chap2.m</a>    Chebyshev points and interpolants</li>
+<li><a href="chap3.m">chap3.m</a>    Chebyshev polynomials and series</li>
+<li><a href="chap4.m">chap4.m</a>    Interpolants, truncations, and aliasing</li>
+<li><a href="chap5.m">chap5.m</a>    Barycentric interpolation formula</li>
+<li><a href="chap6.m">chap6.m</a>    Weierstrass approximation theorem</li>
+<li><a href="chap7.m">chap7.m</a>    Convergence for differentiable functions</li>
+<li><a href="chap8.m">chap8.m</a>    Convergence for analytic functions</li>
+<li><a href="chap9.m">chap9.m</a>    Gibbs phenomenon</li>
+<li><a href="chap10.m">chap10.m</a>  Best approximation</li>
+<li><a href="chap11.m">chap11.m</a>  Hermite integral formula</li>
+<li><a href="chap12.m">chap12.m</a>  Potential theory and approximation</li>
+<li><a href="chap13.m">chap13.m</a>  Equispaced points, Runge phenomenon</li>
+<li><a href="chap14.m">chap14.m</a>  Discussion of higher-order polynomial interpolation</li>
+<li><a href="chap15.m">chap15.m</a>  Lebesgue constants</li>
+<li><a href="chap16.m">chap16.m</a>  Best and near-best</li>
+<li><a href="chap17.m">chap17.m</a>  Orthogonal polynomials</li>
+<li><a href="chap18.m">chap18.m</a>  Polynomial roots and colleague matrices</li>
+<li><a href="chap19.m">chap19.m</a>  Clenshaw-Curtis and Gauss quadrature</li>
+<li><a href="chap20.m">chap20.m</a>  Carathéodory-Fejér approximation</li>
+<li><a href="chap21.m">chap21.m</a>  Spectral methods</li>
+<li><a href="chap22.m">chap22.m</a>  Linear approximations: beyond polynomials</li>
+<li><a href="chap23.m">chap23.m</a>  Nonlinear approximations: why rational functions?</li>
+<li><a href="chap24.m">chap24.m</a>  Rational best approximation</li>
+<li><a href="chap25.m">chap25.m</a>  Two famous problems</li>
+<li><a href="chap26.m">chap26.m</a>  Rational interpolation and linearized least-squares</li>
+<li><a href="chap27.m">chap27.m</a>  Padé approximation</li>
+<li><a href="chap28.m">chap28.m</a>  Analytic continuation and convergence acceleration</li>
+<li><a href="refs.m">refs.m</a>       References</li>
+</ul>
+<h3 id="errata">Errata</h3>
+<ul>
+<li>p 11: Exercise 2.2: in the final formula $N$ should be $n$</li>
+<li>p 22: Exercise 3.6: the exponent $k-1$ should be $(k-1)/2$</li>
+<li>p 26: subscripts $m$ should be $n$; $-k(\mathrm{mod} 2n)$ should be $(-k)(\mathrm{mod} 2n)$</li>
+<li>p 30: Exercise 4.4(d): <code>length(f(np))</code> should be <code>length(f(Mmax+1))</code></li>
+<li>p 31: Exercise 4.6 should insert "(down to machine precision, in practice,
+  by Chebyshev interpolation)" before "and then"</li>
+<li>p 47: Exercise 6.6(b): $2n$ should be $2n-1$ (6 times)</li>
+<li>p 51: <code>1.652783663415789e+04</code> should be <code>2.102783663403057e+04</code></li>
+<li>p 54: Exercise 7.6(b): <code>s=linspace(-1,1,10), p=chebfun(@(x)
+  spline(s,exp(s),x));</code></li>
+<li>p 57: just before the second displayed equation, (3.12) should be (3.13)</li>
+<li>p 71: Exercise 9.8: $\mathrm{sign}(\sin(x/2))$ should be $\mathrm{sign}(x)$</li>
+<li>p 74: "Bolzano-Weierstrass" should be "Heine-Borel"</li>
+<li>p 78: Exercise 10.1: after <code>'splitting','on'</code> insert <code>,'minsamples',65</code></li>
+<li>p 82: Cauchy stated a related formula but not exactly "the same result"</li>
+<li>p 93: the product in (12.14) should run over $j&lt;k$, not $j\neq k$</li>
+<li>p 119: the pointer to Exercise 10.5 should be to Exercise 10.6</li>
+<li>p 127: the formulas need to be normalized by division by terms like
+  $(p_k,p_k)$</li>
+<li>pp 147, 151: Eqs. (19.10), (19.12) are incorrectly copied from Trefethen
+  (2008): $(n-2\nu-1)^{2\nu+1}$ should be $(2n+1-\nu)^\nu$</li>
+<li>p 160: "maps $[-1,1]$" should be "maps the unit circle"</li>
+<li>p 166: Eq. (21.2) is incorrect (p. 166 and inside back cover)</li>
+<li>p 215: the integral in (25.13) should have limits from $-\infty$ to $\infty$</li>
+<li>p 215: after (25.14), "even number" should be "odd number"</li>
+<li>p 215: on the last line, type $(n,n)$ should be type $(n-1,n)$</li>
+<li>p 222: in (26.3), $r(z)$ should be $r(x)$</li>
+<li>p 229: the summation at the bottom needs a square root</li>
+<li>p 256: "Lottka" should be "Lotka"</li>
+<li>p 296: de la Vallée Poussin (1910) is missing an annotation</li>
+<li>p 300: Borel should also list page 75</li>
+<li>p 304: Richardson extrapolation should list pages 257-258</li>
+<li>p 305: Weierstrass should not list page 75</li>
+</ul>
+<h3 id="changes-needed-for-chebfun-version-5">Changes needed for Chebfun Version 5</h3>
+<ul>
+<li>p 168: <code>[0 0 0 1 0]</code> → <code>[0 0 0 1 0]'</code></li>
+</ul>
+<h3 id="other-notes">Other notes</h3>
+<ul>
+<li>p 151: concerning Xiang and Bornemann [2012], Bornemann has pointed out
+  (personal communication, August 2013) that just the right result along these
+  lines, derived from L1 approximation, appeared years ago as Theorem 2 in G.
+  Freud, "Über einseitige Approximation durch Polynome. I," Act. Sci. Math.
+  Szeged 16 (1955), 12-28.</li>
+</ul></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
