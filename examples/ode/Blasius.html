@@ -68,13 +68,12 @@ dom = [0, 11];
 op  = @(u) 2*diff(u,3) + u.*diff(u,2);
 bc  = @(x,u) [u(0); feval(diff(u),0); feval(diff(u),dom(2))-1];
 N   = chebop(op, dom, bc);
-u   = N\0;
-u   = simplify(u)</pre>
+u   = N\0</pre>
 
-<pre class="mcode-output">u = 
+<pre class="mcode-output">u =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,      11]       39         0      9.3 
+[       0,      11]       39  -2.9e-15      9.3 
 Epslevel = 1.814350e-15.  Vscale = 9.279212e+00.
 </pre>
 
@@ -143,10 +142,10 @@ title('A singularity of the Blasius function')</pre>
 <pre class="mcode-output">Warning: Newton iteration failed.
 Please try supplying a better initial guess via the .init field
 of the chebop. 
-v = 
+v =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[    -5.6,      11]      517        67      9.3 
+[    -5.6,      11]      511        67      9.3 
 Epslevel = 1.762239e-15.  Vscale = 6.662492e+01.
 </pre>
 
