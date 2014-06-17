@@ -12,6 +12,7 @@ TO DO:
         - maybe include the class diagram:
           http://www.gliffy.com/go/publish/image/4249553/L.png
     - 404 error should be a SCRIBBLE rendering
+    - the link to "develop" in "News" is broken
 
 DONE:
     - add prominent 'download' link on homepage
