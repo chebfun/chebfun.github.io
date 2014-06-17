@@ -274,7 +274,7 @@ between starting with polynomials and composing, or finding a polynomial
 directly for the composed expression. However, because the underlying methods
 are numerical rather than symbolic, the two techniques are not identical. An
 extreme example would be <code>sin(x).*exp(-x)</code> if <code>x</code> is a
-chebfun defined on the interval `[0, inf]`. This fails because the
+chebfun defined on the interval <code>[0, inf]</code>. This fails because the
 first step is to represent <code>sin(x)</code> by a mapped polynomial on an
 infinite domain, which is impossible. Yet
 <code>chebfun('sin(x).*exp(-x)')</code> would be fine on the same domain,
