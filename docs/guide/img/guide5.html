@@ -8,14 +8,14 @@ authordate: "Lloyd N. Trefethen, November 2009, latest revision June 2014"
 
 ## 5.1  Complex functions of a real variable
 
-One of the attractive features of Matlab is that it handles complex arithmetic well. For example, here are $20$ points on the upper half of the unit circle in the complex plane:
+One of the attractive features of MATLAB is that it handles complex arithmetic well. For example, here are $20$ points on the upper half of the unit circle in the complex plane:
 
 <pre class="mcode-input">s = linspace(0,pi,20);
 f = exp(1i*s);
 plot(f,'.')
 axis equal</pre><img src="img/guide5_01.png" class="figure" alt="">
 
-In Matlab, both the variables `i` and `j` are initialized as $i$, the square root of $-1$, but this code uses `1i` instead (just as one might write, for example, `3+2i` or `2.2-1.1i`).  Writing the imaginary unit in this fashion is a common trick among Matlab programmers, for it avoids the risk of surprises caused by `i` or `j` having been overwritten by other values. The `axis equal` command ensures that the real and imaginary axes are scaled equally.
+In MATLAB, both the variables `i` and `j` are initialized as $i$, the square root of $-1$, but this code uses `1i` instead (just as one might write, for example, `3+2i` or `2.2-1.1i`).  Writing the imaginary unit in this fashion is a common trick among MATLAB programmers, for it avoids the risk of surprises caused by `i` or `j` having been overwritten by other values. The `axis equal` command ensures that the real and imaginary axes are scaled equally.
 
 Here is a Chebfun analogue.
 
@@ -189,7 +189,7 @@ The integral of $f(z) = \log(z)\tanh(z)$ around this contour will be equal to $2
 <pre class="mcode-input">f = log(z).*tanh(z);
 I = sum(f.*diff(z))
 Iexact = 4i*pi*log(pi/2)</pre><pre class="mcode-output">I =
-  0.000000000000006 + 5.674755637702223i
+  0.000000000000003 + 5.674755637702226i
 Iexact =
   0.000000000000000 + 5.674755637702224i
 </pre>
@@ -228,7 +228,7 @@ For example, the function $f(z) = \sin(z)^3 + \cos(z)^3$ clearly has no poles; h
 f = sin(z).^3 + cos(z).^3;
 N = sum((diff(f)./f))/(2i*pi)</pre><pre class="mcode-output">N =
   2.999999999999997 + 0.000000000000001i
-</pre>What is really going on here is a calculation of the change of the argument of $f$ as the boundary is traversed.  Another way to find that number is with the Chebfun overloads of the Matlab commands `angle` and `unwrap`:
+</pre>What is really going on here is a calculation of the change of the argument of $f$ as the boundary is traversed.  Another way to find that number is with the Chebfun overloads of the MATLAB commands `angle` and `unwrap`:
 
 <pre class="mcode-input">anglef = unwrap(angle(f));
 N = (anglef(end)-anglef(0))/(2*pi)</pre><pre class="mcode-output">N =
@@ -242,7 +242,7 @@ $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$
 <pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi]);
 f = sin(z).^3 + cos(z).^3;
 r = sum(z.*(diff(f)./f))/(2i*pi)</pre><pre class="mcode-output">r =
- -0.785398163397449 + 0.000000000000000i
+ -0.785398163397448 + 0.000000000000000i
 </pre>We can check the result by a more ordinary Chebfun calculation:
 
 <pre class="mcode-input">x = chebfun('x');

@@ -50,7 +50,7 @@ Here for example are the three roots of Ai and Bi closest to 0:
   tic, r = roots(f); toc
   r</pre><pre class="mcode-output">lengthf =
     44
-Elapsed time is 0.006353 seconds.
+Elapsed time is 0.006345 seconds.
 r =
                    0
    1.000000000000005
@@ -70,7 +70,7 @@ r =
   tic, r = roots(f); toc
   fprintf('%22.14f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
    214
-Elapsed time is 0.055586 seconds.
+Elapsed time is 0.056670 seconds.
      96.00000000000000
      97.00000000000000
      98.00000000000001
@@ -83,7 +83,7 @@ Elapsed time is 0.055586 seconds.
   tic, r = roots(f); toc
   fprintf('%22.13f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
         1684
-Elapsed time is 0.201339 seconds.
+Elapsed time is 0.219016 seconds.
      996.0000000000000
      996.9999999999999
      998.0000000000000
@@ -122,29 +122,29 @@ Rootfinding is more central to Chebfun than one might at first imagine, because 
 <pre class="mcode-input">  x = chebfun('x')
   absx = abs(x)
   subplot(1,2,1), plot(x,'.-')
-  subplot(1,2,2), plot(absx,'.-')</pre><pre class="mcode-output">x = 
+  subplot(1,2,2), plot(absx,'.-')</pre><pre class="mcode-output">x =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [      -1,       1]        2        -1        1 
-Epslevel = 6.492624e-16.  Vscale = 1.
-absx = 
+Epslevel = 1.110223e-15.  Vscale = 1.
+absx =
    chebfun column (2 smooth pieces)
        interval       length   endpoint values  
 [      -1,       0]        2         1        0 
 [       0,       1]        2         0        1 
-Epslevel = 6.492624e-16.  Vscale = 1.  Total length = 4.
+Epslevel = 1.110223e-15.  Vscale = 1.  Total length = 4.
 </pre><img src="img/guide3_06.png" class="figure" alt="">
 
 We saw this effect already in Section 1.4. Another similar effect shown in that section occurs with `min(f,g)` or `max(f,g)`.  Here, breakpoints are introduced at points where `f-g` is zero:
 
 <pre class="mcode-input">  f = min(x,-x/2), subplot(1,2,1), plot(f,'.-')
-  g = max(.6,1-x.^2), subplot(1,2,2), plot(g,'.-'), ylim([.5,1])</pre><pre class="mcode-output">f = 
+  g = max(.6,1-x.^2), subplot(1,2,2), plot(g,'.-'), ylim([.5,1])</pre><pre class="mcode-output">f =
    chebfun column (2 smooth pieces)
        interval       length   endpoint values  
 [      -1,       0]        2        -1        0 
 [       0,       1]        2         0     -0.5 
-Epslevel = 8.713070e-16.  Vscale = 1.  Total length = 4.
-g = 
+Epslevel = 1.332268e-15.  Vscale = 1.  Total length = 4.
+g =
    chebfun column (3 smooth pieces)
        interval       length   endpoint values  
 [      -1,   -0.63]        1       0.6      0.6 

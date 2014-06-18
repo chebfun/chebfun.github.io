@@ -74,15 +74,13 @@ f = chebfun2(@(x,y) sin(x.*y), d);
 g = chebfun2(@(x,y) cos(y), d);
 G = [f;g]                                           % vertical concatenation</pre>
 
-<pre class="mcode-output">G = 
-chebfun2v object (Column vector)
- = 
-chebfun2 object: (1 smooth surface)
+<pre class="mcode-output">G =
+   chebfun2v object (Column vector) containing:
+   chebfun2 object: (1 smooth surface)
        domain                 rank       corner values
 [   0,   1] x [   0,   2]        7     [3.3e-32 -1.5e-16 -1.8e-16 0.91]
 vertical scale =   1 
- = 
-chebfun2 object: (1 smooth surface)
+   chebfun2 object: (1 smooth surface)
        domain                 rank       corner values
 [   0,   1] x [   0,   2]        1     [   1    1 -0.42 -0.42]
 vertical scale =   1 
@@ -95,15 +93,13 @@ vertical scale =   1
 <pre class="mcode-input">f = chebfun2(@(x,y) exp(-(x.*y).^2/20), d);
 f*F</pre>
 
-<pre class="mcode-output">ans = 
-chebfun2v object (Column vector)
- = 
-chebfun2 object: (1 smooth surface)
+<pre class="mcode-output">ans =
+   chebfun2v object (Column vector) containing:
+   chebfun2 object: (1 smooth surface)
        domain                 rank       corner values
 [   0,   1] x [   0,   2]        8     [7.3e-32 -2.1e-16 -2.7e-16 0.74]
 vertical scale = 0.89 
- = 
-chebfun2 object: (1 smooth surface)
+   chebfun2 object: (1 smooth surface)
        domain                 rank       corner values
 [   0,   1] x [   0,   2]        7     [   1    1 -0.42 -0.34]
 vertical scale =   1 
@@ -131,7 +127,8 @@ plot(roots(dot(F,G)),LW,1.6), axis equal, axis(d)</pre>
     and G both have two components, then it returns the CHEBFUN2 representing
         CROSS(F,G) = F(1) * G(2) - F(2) * G(1)
     where F = (F(1); F(2)) and G = (G(1); G(2)). If F and G have three
-    components then it returns the CHEBFUN2V representing the 3D cross product.
+    components then it returns the CHEBFUN2V representing the 3D cross 
+    product.
 
 </pre>
 
@@ -210,7 +207,7 @@ v = integral(F,C);ends = f(cos(10),sin(10))-f(0,0); % line integral
 abs(v-ends)                                         % gradient theorem</pre>
 
 <pre class="mcode-output">ans =
-     3.552713678800501e-15
+     1.776356839400250e-15
 </pre>
 
 <h3 id="145-phase-diagram">14.5 Phase diagram</h3>

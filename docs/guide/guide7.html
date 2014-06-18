@@ -304,7 +304,7 @@ u = chebop(@(x,u) diff(u,2)+u,[-10,10],cos(10),cos(10))\0;
 toc
 error = u(5) - cos(5)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.195947 seconds.
+<pre class="mcode-output">Elapsed time is 0.191178 seconds.
 error =
     -2.148281552649678e-14
 </pre>
@@ -318,7 +318,7 @@ error = u(5) - cos(5)
 cheboppref.setDefaults('factory')
    % reset to standard mode</pre>
 
-<pre class="mcode-output">Elapsed time is 0.867546 seconds.
+<pre class="mcode-output">Elapsed time is 2.681013 seconds.
 error =
     -8.326672684688674e-16
 </pre>
@@ -368,15 +368,15 @@ nrmdu =
 nrmdu =
    0.053787171683935
 nrmdu =
-   0.021518152858430
+   0.021518152858431
 nrmdu =
    0.003586696693251
 nrmdu =
-     8.951602488871140e-05
+     8.951602488759634e-05
 nrmdu =
-     5.357404784734187e-08
+     5.357404761476523e-08
 nrmdu =
-     1.916022049613522e-14
+     2.070091492167117e-14
 </pre>
 
 <p><img src="img/guide7_14.png" class="figure" alt=""></p>

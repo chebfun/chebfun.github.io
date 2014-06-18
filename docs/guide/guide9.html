@@ -74,7 +74,7 @@ plot(f,LW,1.6)
 maxf = max(f)</pre>
 
 <pre class="mcode-output">maxf =
-   1.608912750768337
+   1.608912750768336
 </pre>
 
 <p><img src="img/guide9_01.png" class="figure" alt=""></p>
@@ -84,7 +84,7 @@ sumg = sum(g)
 plot(g,'r',LW,1.6)</pre>
 
 <pre class="mcode-output">sumg =
-   2.266534507699836
+   2.266534507699834
 </pre>
 
 <p><img src="img/guide9_02.png" class="figure" alt=""></p>
@@ -94,13 +94,13 @@ r = roots(f-g)
 plot(r,f(r),'.k',MS,18)</pre>
 
 <pre class="mcode-output">r =
-   0.027639744894515
+   0.027639744894514
    0.265714132607450
-   0.706922132176980
+   0.706922132176979
    0.862331877000826
    1.297442594652156
    1.594466987072374
-   1.781855556974646
+   1.781855556974645
 </pre>
 
 <p><img src="img/guide9_03.png" class="figure" alt=""></p>
@@ -111,7 +111,7 @@ clf, plot(g,LW,1.6)
 [minval,minpos] = min(g)</pre>
 
 <pre class="mcode-output">minval =
-    -1.110223024625157e-16
+     0
 minpos =
    1.346573590279973
 </pre>
@@ -124,7 +124,7 @@ plot(h,LW,1.6,'interval',[0 100])
 normh = norm(h)</pre>
 
 <pre class="mcode-output">normh =
-     2.441961683579082e-05
+     2.441961683577727e-05
 </pre>
 
 <p><img src="img/guide9_05.png" class="figure" alt=""></p>
@@ -133,7 +133,7 @@ normh = norm(h)</pre>
 sumg = sum(g)</pre>
 
 <pre class="mcode-output">sumg =
-   0.999999999999999
+   0.999999999999991
 </pre>
 
 <p>The cumsum operator applied to this integrand gives us the error function, which matches the MATLAB <code>erf</code> function reasonably well:</p>
@@ -141,10 +141,10 @@ sumg = sum(g)</pre>
 disp('          erf               errorfun')
 for n = 1:6, disp([erf(n) errorfun(n)]), end</pre>
 
-<pre class="mcode-output">errorfun = 
+<pre class="mcode-output">errorfun =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,     Inf]       99         0        1 
+[       0,     Inf]       97         0        1 
 Epslevel = 2.220446e-16.  Vscale = 1.000000e+00.
           erf               errorfun
    0.842700792949715   0.842700792948944
@@ -152,7 +152,7 @@ Epslevel = 2.220446e-16.  Vscale = 1.000000e+00.
    0.999977909503001   0.999977909500824
    0.999999984582742   0.999999984579919
    0.999999999998463   0.999999999995027
-   1.000000000000000   0.999999999995982
+   1.000000000000000   0.999999999995981
 </pre>
 
 <p>One should be cautious in evaluating integrals over infinite intervals, however, for as mentioned in Section 1.5, the accuracy is sometimes disappointing, especially for functions that do not decay very quickly:</p>
@@ -259,20 +259,20 @@ d = [0,2];
 f = chebfun(ff,d)</pre>
 
 <pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
-f = 
+f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,       2]    65537         0      3.8 
+[       0,       2]    65537   3.6e-15      3.8 
 Epslevel = 6.814598e-11.  Vscale = 3.844231e+00.
 </pre>
 
 <p>We could turn splitting on and resolve the function by many pieces, as illustrated in Section 8.3:</p>
 <pre class="mcode-input">f = chebfun(ff,d,'splitting','on')</pre>
 
-<pre class="mcode-output">f = 
+<pre class="mcode-output">f =
    chebfun column (6 smooth pieces)
        interval       length   endpoint values  
-[       0,   2e-10]       43         0  1.4e-05 
+[       0,   2e-10]       43   1.2e-07  1.4e-05 
 [   2e-10,   2e-08]       62   1.4e-05  0.00014 
 [   2e-08,   2e-06]       91   0.00014   0.0014 
 [   2e-06,  0.0002]      111    0.0014    0.014 
@@ -285,7 +285,7 @@ Epslevel = 4.572597e-10.  Vscale = 3.844231e+00.  Total length = 513.
 <pre class="mcode-input">f = chebfun(ff,d,'exps',[.5 0])
 plot(f,LW,1.6)</pre>
 
-<pre class="mcode-output">f = 
+<pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values   endpoint exponents
 [       0,       2]       12         0      3.8         [0.5      0]  
@@ -299,7 +299,7 @@ f = sqrt(abs(sin(theta)))
 plot(f,LW,1.6)
 sumf = sum(f)</pre>
 
-<pre class="mcode-output">f = 
+<pre class="mcode-output">f =
    chebfun column (4 smooth pieces)
        interval       length   endpoint values   endpoint exponents
 [       0,     3.1]       19         0        0         [0.5      0.5]  
@@ -315,7 +315,7 @@ sumf =
 <p>If you have a function that blows up but you don't know the nature of the singularities, even whether they are poles or not, Chebfun will try to figure them out automatically if you run in <code>'blowup 2'</code> mode.  Here's an example</p>
 <pre class="mcode-input">f = chebfun('x.*(1+x).^(-exp(1)).*(1-x).^(-pi)','blowup',2)</pre>
 
-<pre class="mcode-output">f = 
+<pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values   endpoint exponents
 [      -1,       1]       30      -Inf      Inf         [-2.7      -3.1]  

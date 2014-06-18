@@ -66,14 +66,14 @@
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
 <h3 id="51-complex-functions-of-a-real-variable">5.1  Complex functions of a real variable</h3>
-<p>One of the attractive features of Matlab is that it handles complex arithmetic well. For example, here are $20$ points on the upper half of the unit circle in the complex plane:</p>
+<p>One of the attractive features of MATLAB is that it handles complex arithmetic well. For example, here are $20$ points on the upper half of the unit circle in the complex plane:</p>
 <pre class="mcode-input">s = linspace(0,pi,20);
 f = exp(1i*s);
 plot(f,'.')
 axis equal</pre>
 
 <p><img src="img/guide5_01.png" class="figure" alt=""></p>
-<p>In Matlab, both the variables <code>i</code> and <code>j</code> are initialized as $i$, the square root of $-1$, but this code uses <code>1i</code> instead (just as one might write, for example, <code>3+2i</code> or <code>2.2-1.1i</code>).  Writing the imaginary unit in this fashion is a common trick among Matlab programmers, for it avoids the risk of surprises caused by <code>i</code> or <code>j</code> having been overwritten by other values. The <code>axis equal</code> command ensures that the real and imaginary axes are scaled equally.</p>
+<p>In MATLAB, both the variables <code>i</code> and <code>j</code> are initialized as $i$, the square root of $-1$, but this code uses <code>1i</code> instead (just as one might write, for example, <code>3+2i</code> or <code>2.2-1.1i</code>).  Writing the imaginary unit in this fashion is a common trick among MATLAB programmers, for it avoids the risk of surprises caused by <code>i</code> or <code>j</code> having been overwritten by other values. The <code>axis equal</code> command ensures that the real and imaginary axes are scaled equally.</p>
 <p>Here is a Chebfun analogue.</p>
 <pre class="mcode-input">s = chebfun(@(s) s,[0 pi]);
 f = exp(1i*s);
@@ -261,7 +261,7 @@ I = sum(f.*diff(z))
 Iexact = 4i*pi*log(pi/2)</pre>
 
 <pre class="mcode-output">I =
-  0.000000000000006 + 5.674755637702223i
+  0.000000000000003 + 5.674755637702226i
 Iexact =
   0.000000000000000 + 5.674755637702224i
 </pre>
@@ -303,7 +303,7 @@ N = sum((diff(f)./f))/(2i*pi)</pre>
   2.999999999999997 + 0.000000000000001i
 </pre>
 
-<p>What is really going on here is a calculation of the change of the argument of $f$ as the boundary is traversed.  Another way to find that number is with the Chebfun overloads of the Matlab commands <code>angle</code> and <code>unwrap</code>:</p>
+<p>What is really going on here is a calculation of the change of the argument of $f$ as the boundary is traversed.  Another way to find that number is with the Chebfun overloads of the MATLAB commands <code>angle</code> and <code>unwrap</code>:</p>
 <pre class="mcode-input">anglef = unwrap(angle(f));
 N = (anglef(end)-anglef(0))/(2*pi)</pre>
 
@@ -319,7 +319,7 @@ f = sin(z).^3 + cos(z).^3;
 r = sum(z.*(diff(f)./f))/(2i*pi)</pre>
 
 <pre class="mcode-output">r =
- -0.785398163397449 + 0.000000000000000i
+ -0.785398163397448 + 0.000000000000000i
 </pre>
 
 <p>We can check the result by a more ordinary Chebfun calculation:</p>

@@ -18,7 +18,7 @@ if ( nargin == 0 )
     set(0, 'defaultaxesfontsize',   13);
     set(0, 'defaultlinelinewidth',  1.6);
     set(0, 'defaultpatchlinewidth', 1.6);
-    set(0, 'defaultlinemarkersize', 6);
+    set(0, 'defaultlinemarkersize', 14);
     set(0, 'defaultfigurecolor',    'none');
     set(0, 'defaultaxescolor',      'none');
 

@@ -92,8 +92,8 @@ plot(f), zlim([-2 2])</pre>
 <p>Alternatively, more information can be given by displaying the chebfun2 object:</p>
 <pre class="mcode-input">f</pre>
 
-<pre class="mcode-output">f = 
-chebfun2 object: (1 smooth surface)
+<pre class="mcode-output">f =
+   chebfun2 object: (1 smooth surface)
        domain                 rank       corner values
 [  -1,   1] x [  -1,   1]        7     [0.54 0.54 0.54 0.54]
 vertical scale =   1 
@@ -121,13 +121,13 @@ vertical scale =   1
 f(x,y)</pre>
 
 <pre class="mcode-output">ans =
-   0.985306430644048
+   0.999845728319147
 </pre>
 
 <p>Evaluation along the line $y = \pi/6$:</p>
 <pre class="mcode-input">f(:,pi/6)</pre>
 
-<pre class="mcode-output">ans = 
+<pre class="mcode-output">ans =
    chebfun row (1 smooth piece)
        interval       length   endpoint values  
 [      -1,       1]       11      0.87     0.87 
@@ -159,34 +159,35 @@ plot(fy)</pre>
 <pre class="mcode-output">
 Methods for class chebfun2:
 
-abs               exp               mean2             sin               
-cdr               feval             median            sinh              
-chebfun2          fevalm            min               size              
-chebpoly2         flipdim           min2              sph2cart          
-chebpolyplot      fliplr            minandmax2        sphere            
-chebpolyplot2     flipud            minus             sqrt              
-chebpolyval2      fred              mldivide          squeeze           
-chol              get               mrdivide          std               
-complex           grad              mtimes            std2              
-conj              gradient          norm              subsref           
-constructor       horzcat           pivotplot         sum               
-contour           imag              pivots            sum2              
-contourf          integral          plot              surf              
-cos               integral2         plus              surface           
-cosh              isempty           pol2cart          surfacearea       
-ctranspose        isequal           potential         svd               
-cumprod           isreal            power             tan               
-cumsum            iszero            prod              tand              
-cumsum2           jacobian          qr                tanh              
-dblquad           lap               quad2d            times             
-del2              laplacian         quiver            trace             
-diag              ldivide           quiver3           transpose         
-diff              length            rank              uminus            
-diffx             log               rdivide           uplus             
-diffy             lu                real              vertcat           
-discriminant      max               restrict          volt              
-display           max2              roots             waterfall         
-ellipsoid         mean              simplify          
+abs               exp               median            size              
+cdr               feval             min               sph2cart          
+chebfun2          fevalm            min2              sphere            
+chebpoly2         flipdim           minandmax2        sqrt              
+chebpolyplot      fliplr            minus             squeeze           
+chebpolyplot2     flipud            mldivide          std               
+chebpolyval2      fred              mrdivide          std2              
+chol              get               mtimes            subsref           
+complex           grad              norm              sum               
+conj              gradient          pivotplot         sum2              
+constructor       horzcat           pivots            surf              
+contour           imag              plot              surface           
+contourf          integral          plus              surfacearea       
+cos               integral2         pol2cart          svd               
+cosh              isempty           potential         tan               
+ctranspose        isequal           power             tand              
+cumprod           isreal            prod              tanh              
+cumsum            iszero            qr                times             
+cumsum2           jacobian          quad2d            trace             
+dblquad           lap               quiver            transpose         
+del2              laplacian         quiver3           uminus            
+diag              ldivide           rank              uplus             
+diff              length            rdivide           vertcat           
+diffx             log               real              volt              
+diffy             lu                restrict          waterfall         
+discriminant      max               roots             
+disp              max2              simplify          
+display           mean              sin               
+ellipsoid         mean2             sinh              
 
 Static methods:
 

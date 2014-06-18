@@ -79,7 +79,7 @@ set(0, 'defaultaxeslinewidth',  0.5);
 set(0, 'defaultaxesfontsize',   13);
 set(0, 'defaultlinelinewidth',  1.6);
 set(0, 'defaultpatchlinewidth', 1.6);
-set(0, 'defaultlinemarkersize', 6);
+set(0, 'defaultlinemarkersize', 14);
 set(0, 'defaultfigurecolor',    'none');
 set(0, 'defaultaxescolor',      'none');
 
@@ -89,6 +89,17 @@ warning('off', 'MATLAB:gui:latexsup:UnableToInterpretLaTeXString');
 warning('off', 'MATLAB:gui:latexsup:UnsupportedFont');
 
 chebexample_publish(varargin{:});
+
+set(0, 'defaultfigureposition', 'factory');
+set(0, 'defaultaxeslinewidth',  'factory');
+set(0, 'defaultaxesfontsize',   'factory');
+set(0, 'defaultlinelinewidth',  'factory');
+set(0, 'defaultpatchlinewidth', 'factory');
+set(0, 'defaultlinemarkersize', 'factory');
+set(0, 'defaultfigurecolor',    'factory');
+set(0, 'defaultaxescolor',      'factory');
+
+chebfunpref.setDefaults('factory'), cheboppref.setDefaults('factory')
 close all
 
 return

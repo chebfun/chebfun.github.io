@@ -218,13 +218,13 @@ If $f$ is a bit smoother, polynomial approximation to machine precision becomes 
   length(chebfun('abs(x).*x.^2'))
   length(chebfun('abs(x).*x.^3'))
   length(chebfun('abs(x).*x.^4'))</pre><pre class="mcode-output">ans =
-       30224
+       32092
 ans =
-        4311
+        2935
 ans =
-        2032
+   884
 ans =
-   549
+   419
 </pre>Of course, these particular functions would be easily approximated by piecewise smooth chebfuns.
 
 It is interesting to plot convergence as a function of $N$.  Here is an example from [Battles &amp; Trefethen 2004] involving the next function from the sequence above.
@@ -384,7 +384,7 @@ To illustrate the possibilities, consider the function
 <pre class="mcode-input">f = chebfun('tanh(pi*x/2) + x/20',[-10,10]);
 length(f)
 plot(f)</pre><pre class="mcode-output">ans =
-   354
+   350
 </pre><img src="img/guide4_18.png" class="figure" alt="">
 
 We can use the command `chebpade`, developed by Ricardo Pachon, to compute a Chebyshev-Pade approximant, defined by the condition that the Chebyshev series of $p/q$ should match that of $f$ as far as possible [Baker &amp; Graves-Morris 1996].  (This is the so-called "Clenshaw-Lord" Chebyshev-Pade approximation; if the flag `maehly` is specified the code alternatively computes the linearized variation known as the "Maehly" approximation.) Chebyshev-Pade approximation is the analogue for functions defined on an interval of Pade approximation for functions defined in a neighborhood of a point.
@@ -394,7 +394,7 @@ r = p./q;</pre>The functions $f$ and $r$ match to about $8$ digits:
 
 <pre class="mcode-input">norm(f-r)
 plot(f-r,'r')</pre><pre class="mcode-output">ans =
-     4.884636435860349e-09
+     4.884636435860270e-09
 </pre><img src="img/guide4_19.png" class="figure" alt="">
 
 Mathematically, $f$ has poles in the complex plane at $\pm i$, $\pm 3i$, $\pm 5i$, and so on. We can obtain approximations to these values by looking at the roots of $q$:
@@ -410,32 +410,32 @@ Mathematically, $f$ has poles in the complex plane at $\pm i$, $\pm 3i$, $\pm 5i
 r = p./q;
 norm(f-r)
 plot(f-r,'m')</pre><pre class="mcode-output">ans =
-     3.501057932933577e-07
+     3.500806556974698e-07
 </pre><img src="img/guide4_20.png" class="figure" alt="">
 
 Again the poles are not bad:
 
 <pre class="mcode-input">roots(q,'complex')</pre><pre class="mcode-output">ans =
-  0.000000000000000 - 1.000011080689748i
-  0.000000000000000 + 1.000011080689748i
-  0.000000000000000 - 3.010648481009431i
-  0.000000000000000 + 3.010648481009431i
+  0.000000000000000 - 1.000011079941540i
+  0.000000000000000 + 1.000011079941540i
+  0.000000000000000 - 3.010648045969651i
+  0.000000000000000 + 3.010648045969651i
 </pre>The third and fourth options for rational approximation, as mentioned in Section 4.6, are best approximants computed by `remez` and Caratheodory-Fejer approximants computed by `cf` [Trefethen &amp; Gutknecht 1983, Van Deun &amp; Trefethen 2011]. As mentioned in Section 4.6, CF approximants often agree with best approximations to machine precision if f is smooth. We explore the same function yet again, and this time obtain an equioscillating error curve:
 
 <pre class="mcode-input">[p,q] = cf(f,40,4);
 r = p./q;
 norm(f-r)
 plot(f-r,'c')</pre><pre class="mcode-output">ans =
-     2.999223668038306e-10
+     2.999271492763430e-10
 </pre><img src="img/guide4_21.png" class="figure" alt="">
 
 And the poles:
 
 <pre class="mcode-input">roots(q,'complex')</pre><pre class="mcode-output">ans =
-  0.000000000000009 - 1.000000066684912i
-  0.000000000000009 + 1.000000066684912i
- -0.000000000000012 - 3.001936139266716i
- -0.000000000000012 + 3.001936139266716i
+  0.000000000000016 - 1.000000066684727i
+  0.000000000000016 + 1.000000066684727i
+  0.000000000000263 - 3.001936139221722i
+  0.000000000000263 + 3.001936139221722i
 </pre>It is tempting to vary parameters and functions to explore more poles and what accuracy can be obtained for them.  But rational approximation and analytic continuation are very big subjects and we shall resist the temptation.  See Chapter 28 of [Trefethen 2013] and [Webb, Trefethen &amp; Gonnet 2012].
 
 
