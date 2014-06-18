@@ -35,7 +35,7 @@ F = grad(f);                                 % gradient (chebfun2v)
 C = chebfun(@(t) t.*exp(100i*t),[0 pi/10]);  % spiral curve
 v = integral(F,C); ends = f(pi/10,0)-f(0,0); % line integral
 abs(v-ends)                                  % gradient theorem</pre><pre class="mcode-output">ans =
-     2.220446049250313e-16
+     1.110223024625157e-16
 </pre>Another consequence of the gradient theorem is that the integral of $\mathrm{grad}(f)$ over any closed curve is zero. For example, here is an exotic closed curve, which we plot superimposed on the vector field $\mathrm{grad}(f)$.
 
 <pre class="mcode-input">circ = @(p) chebfun(@(x) exp(2i*p*pi*x + 0.8i));
@@ -47,7 +47,7 @@ plot(C, 'r'), axis equal off</pre><img src="img/CheckingVectorCalculus_01.png" c
 Its integral should be zero.
 
 <pre class="mcode-input">v = integral(F,C)</pre><pre class="mcode-output">v =
-    -1.353328241103713e-15
+    -1.575362663393231e-15
 </pre>
 
 ## Curl of the gradient
@@ -66,5 +66,5 @@ The code found in this Example can also be found in [1] along with additional in
 
 ## References
 
-1. A. Townsend and L. N. Trefethen, An extension of Chebfun to two    dimensions, SIAM Journal on Scientific Computing, 35 (2013), C495-C518.
+1. A. Townsend and L. N. Trefethen, An extension of Chebfun to two    dimensions, _SIAM Journal on Scientific Computing_, 35 (2013), C495-C518.
 

@@ -78,6 +78,10 @@ for n = 0:4
 end</pre>
 
 <p><img src="img/GreedyInterp_01.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_02.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_03.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_04.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_05.png" class="figure" alt=""></p>
 <p>Let's continue to $n = 8, 16, 32, 64, 128$:</p>
 <pre class="mcode-input">for n = 5:128
    s = [s; maxpos];
@@ -91,19 +95,23 @@ end</pre>
    end
 end</pre>
 
-<p><img src="img/GreedyInterp_02.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_06.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_07.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_08.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_09.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_10.png" class="figure" alt=""></p>
 <p>The greedy algorithm has chosen interpolation points that cluster near the boundary.  Here they are in black, compared with Chebyshev points in red:</p>
 <pre class="mcode-input">hold off, plot(sort(s),'.k',MS,12)
 scheb = chebpts(length(s));
 hold on, plot(scheb,'or',MS,6)
 ylim(1.02*[-1 1])</pre>
 
-<p><img src="img/GreedyInterp_03.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_11.png" class="figure" alt=""></p>
 <p>Here is a comparison of the Lebesgue function of the greedy points, again compared with Chebyshev points in red:</p>
 <pre class="mcode-input">hold off, semilogy(lebesgue(s),'k',LW,1.4)
 hold on, semilogy(lebesgue(scheb),'r',LW,1.4)</pre>
 
-<p><img src="img/GreedyInterp_04.png" class="figure" alt=""></p>
+<p><img src="img/GreedyInterp_12.png" class="figure" alt=""></p>
 <p>The flavor of this kind of algorithm is reminiscent of the theory of Leja points [1,2], though the details are different since Leja points are determined just by the domain of approximation whereas here we are adaptively working with the function $f$ itself. For an explanation related to potential theory of why effective interpolation grids tend to cluster near boundaries, see Chapter 12 of [3].</p>
 <h3 id="references">References</h3>
 <ol>

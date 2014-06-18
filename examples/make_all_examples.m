@@ -48,11 +48,12 @@ for j = 1:length(folders)
     files = dir(folder)';
     examples = {};
     for f = files
-        if f.isdir
+        if f.isdir || strcmp(f.name, 'snapnow.m')
             continue;
         end
 
         name = f.name;
+        % Skip ".", "..", and any non-m-files.
         if ( length(name) < 3 ) || ( ~strcmp(name(end-1:end), '.m') )
             continue;
         end

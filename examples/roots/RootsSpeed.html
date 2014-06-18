@@ -79,7 +79,7 @@ tic, r = roots(f);</pre>
 <p>Here is the time elapsed:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.523016 seconds.
+<pre class="mcode-output">Elapsed time is 0.586771 seconds.
 </pre>
 
 <p>Here is the maximum error:</p>
@@ -104,9 +104,9 @@ hold on, plot(r,f(r),'.r','markersize',18), hold off</pre>
     tic, roots(c); toc
 end</pre>
 
-<pre class="mcode-output">Elapsed time is 0.083902 seconds.
-Elapsed time is 0.350879 seconds.
-Elapsed time is 1.932197 seconds.
+<pre class="mcode-output">Elapsed time is 0.100821 seconds.
+Elapsed time is 0.314396 seconds.
+Elapsed time is 1.799736 seconds.
 </pre>
 
 <p>It is clear from this experiment that calling Matlab <code>roots</code> for a polynomial of degree as large as our chebfun <code>f</code> would be very slow.</p>

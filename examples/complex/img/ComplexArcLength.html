@@ -49,7 +49,7 @@ plot(s,LW,lw), axis equal, hold on</pre><img src="img/ComplexArcLength_02.png" c
 First, we calculate the total arc length of this closed curve.
 
 <pre class="mcode-input">L = arcLength(s)</pre><pre class="mcode-output">L =
-   9.634012138198042
+   9.634012138198038
 </pre>Suppose, for example, that we want to equidistribute 64 points.
 
 <pre class="mcode-input">N = 64;
@@ -61,7 +61,7 @@ len = cumsum(abs(diff(s)));
 for k = 1:N-1
     T(k+1) = roots(len-k*h);
 end
-toc</pre><pre class="mcode-output">Elapsed time is 6.719020 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 5.734705 seconds.
 </pre>Now that we have the coordinates of the points, and let's mark them on the curve.
 
 <pre class="mcode-input">P = s(T);
@@ -74,7 +74,7 @@ The rootfinding problems above, unfortunately, took quite a while, because the c
         1918
 </pre>A better approach is not to solve our own rootfinding problems but to first invert `len` with the Chebfun command `inv`:
 
-<pre class="mcode-input">tic, g = inv(len); toc</pre><pre class="mcode-output">Elapsed time is 2.505071 seconds.
+<pre class="mcode-input">tic, g = inv(len); toc</pre><pre class="mcode-output">Elapsed time is 2.432249 seconds.
 </pre>Here we put circles around the dots to confirmthat we have the same result as before:
 
 <pre class="mcode-input">plot(s(g((0:N-1)*h)),'ok',MS,8)</pre><img src="img/ComplexArcLength_04.png" class="figure" alt="">

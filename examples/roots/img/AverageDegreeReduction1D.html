@@ -39,14 +39,14 @@ Functions that are locally nonsmooth at a point on the interval but are smooth e
 
 <pre class="mcode-input">f = @(x) abs(x).^3;
 compute_tau(f, 2)
-subdivisionDiagram(f,1)</pre><pre class="mcode-output">tau = 0.00093</pre><img src="img/AverageDegreeReduction1D_02.png" class="figure" alt="">
+subdivisionDiagram(f,1)</pre><pre class="mcode-output">tau = 0.00136</pre><img src="img/AverageDegreeReduction1D_02.png" class="figure" alt="">
 
 In this example the degree reduction after one subdivision makes $\tau\ll 1$. However, the subdivision within Chebfun subdivides $[-1,1]$ in $[-1,r]$ and $[r,1]$, where $r$ is an arbitrary constant so such small values for $\tau$ are rarely realised.
 
 If the subdivision does not divide exactly on the point of discontinuity, then $\tau$ is just something less than $1/2$.
 
 <pre class="mcode-input">f = @(x) abs(x-.01).^7;
-compute_tau(f, 2^3)</pre><pre class="mcode-output">tau = 0.34032</pre>
+compute_tau(f, 2^3)</pre><pre class="mcode-output">tau = 0.33201</pre>
 
 ## Analytic functions
 
@@ -79,7 +79,7 @@ m = m'</pre><pre class="mcode-output">m =
 Some functions have values of $\tau$ larger than $1/2$, at least for the first few subdivisions. These functions tend to be difficult at many points on the interval. For example,
 
 <pre class="mcode-input">f = chebfun(@(x) abs(prod(x-linspace(-1,1,10)).^3),'vectorise');
-compute_tau(f, 2)</pre><pre class="mcode-output">tau = 0.70773</pre>
+compute_tau(f, 2)</pre><pre class="mcode-output">tau = 0.70761</pre>
 
 ## Conclusion
 
@@ -87,10 +87,10 @@ The average degree reduction parameter $\tau$ can take almost any value between 
 
 <pre class="mcode-input">M = 2000;
 f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.392881 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.500778 seconds.
 </pre><pre class="mcode-input">c = -1.0001;
 f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 1.144787 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 1.162350 seconds.
 </pre>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.
 
 Here are the functions used above to compute $\tau$ and plot the subdivision diagrams.

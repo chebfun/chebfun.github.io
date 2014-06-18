@@ -14,7 +14,7 @@ xlim([-1.1 1.1]), axis equal, grid on</pre><img src="img/Birthday_01.png" class=
 
 This chebfun `s` is a a piecewise linear complex funtion of a real variable, as we can see by writing it without the semicolon:
 
-<pre class="mcode-input">s</pre><pre class="mcode-output">s = 
+<pre class="mcode-input">s</pre><pre class="mcode-output">s =
    chebfun column (89 smooth pieces)
        interval       length   endpoint values  
 [      -1,   -0.98]        2    complex values 
@@ -106,7 +106,7 @@ This chebfun `s` is a a piecewise linear complex funtion of a real variable, as 
 [    0.93,    0.96]        2    complex values 
 [    0.96,    0.98]        2    complex values 
 [    0.98,       1]        2    complex values 
-Epslevel = 7.882764e-16.  Vscale = 1.003774e+00.  Total length = 178.
+Epslevel = 1.110223e-15.  Vscale = 1.003774e+00.  Total length = 178.
 </pre>Since `s` is a chebfun, we can apply functions to it. For example, here is `exp(s)`:
 
 <pre class="mcode-input">plot(exp(s),'b',LW,lw), axis equal, grid on</pre><img src="img/Birthday_02.png" class="figure" alt="">
@@ -120,4 +120,6 @@ Playing around with different functions is a good way to learn about complex var
 <pre class="mcode-input">plot(exp((1+1i)*s),'g',LW,lw), axis equal, axis off
 snapnow
 plot(sinh(3*s),'r',LW,lw), axis equal, axis off</pre><img src="img/Birthday_04.png" class="figure" alt="">
+
+<img src="img/Birthday_05.png" class="figure" alt="">
 

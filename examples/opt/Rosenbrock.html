@@ -82,18 +82,15 @@ figure, plot(fminx,LW,1.6)
 xlabel('x',FS,14), ylabel('min_y(f(x,y))',FS,14)
 title('minimum of f(x,y) along vertical slices',FS,14)</pre>
 
-<pre class="mcode-output">Warning: Function not resolved using 6035 pts. 
-</pre>
-
 <p><img src="img/Rosenbrock_02.png" class="figure" alt=""></p>
 <p>The global minimum of $f(x,y)$ is the minimum of <code>fminx</code>:</p>
 <pre class="mcode-input">format long
 [minf,minx] = min(fminx)</pre>
 
 <pre class="mcode-output">minf =
-    -1.555634961125651e-14
+     2.355893258254582e-13
 minx =
-   1.000000000043155
+   0.999999999999930
 </pre>
 
 <p>The variable <code>minx</code> represents the $x$-coordinate of the minimum. We can find the $y$ coordinate like this:</p>
@@ -102,7 +99,7 @@ minx =
 <pre class="mcode-output">minf =
      5.684341886080801e-14
 miny =
-   1.000000000086311
+   0.999999999999859
 </pre>
 
 <p>Let's show the contour plot again, with the minimum point:</p>
@@ -129,7 +126,7 @@ xlabel('x',FS,14), ylabel('min_y(f(x,y))',FS,14)
 title('minimum of f(x,y) along vertical slices',FS,14)
 toc</pre>
 
-<pre class="mcode-output">Elapsed time is 17.706132 seconds.
+<pre class="mcode-output">Elapsed time is 18.436341 seconds.
 </pre>
 
 <p><img src="img/Rosenbrock_05.png" class="figure" alt=""></p>

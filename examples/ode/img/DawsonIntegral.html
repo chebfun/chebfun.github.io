@@ -19,14 +19,14 @@ L.op = @(x,f) diff(f,1) + 2*x.*f;   % ODE
 L.bc = @(x,f) f(0);                 % interior point condition
 f = L\1;
 toc
-plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre><pre class="mcode-output">Elapsed time is 1.146895 seconds.
+plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre><pre class="mcode-output">Elapsed time is 1.262842 seconds.
 </pre><img src="img/DawsonIntegral_01.png" class="figure" alt="">
 
 The problem can be solved analytically:
 
 $$ F(x) = e^{-x^2} \int_0^x e^{t^2} dt. $$
 
-Users with access to the Matlab Symbolic Toolbox could also solve it with the following code:
+Users with access to the MATLAB Symbolic Toolbox could also solve it with the following code:
 
 <pre class="mcode">y = sym('y');
 f(y) = sym('f(y)');
@@ -58,7 +58,7 @@ An elegant way to evaluate Dawson's integral as well as several others in the co
 <pre class="mcode-input">N = 36;
 tic
 f = chebfun(@(x) real(sqrt(pi)*(cef(x,N)-exp(-x.^2))/2i), [-W W]);
-toc</pre><pre class="mcode-output">Elapsed time is 0.024386 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 0.023185 seconds.
 </pre>If you have the Symbolic Toolbox...
 
 <pre class="mcode">semilogy(abs(f-fexact)), grid on</pre><pre class="mcode-input">function w = cef(z,N)      % Weideman's complex error function routine

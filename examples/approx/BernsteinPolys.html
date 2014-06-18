@@ -92,6 +92,8 @@ end</pre>
 end</pre>
 
 <p><img src="img/BernsteinPolys_02.png" class="figure" alt=""></p>
+<p><img src="img/BernsteinPolys_03.png" class="figure" alt=""></p>
+<p><img src="img/BernsteinPolys_04.png" class="figure" alt=""></p>
 <p>Note a signature feature of Bernstein polynomial approximations, their monotonicity in various senses.  There is never any Gibbs phenomenon.</p>
 <p>On the other hand, since these approximations depend on the central limit theorem to give accuracy as $n$ gets large, they take no advantage at all of smoothness.  Here for example is a repetition of the last experiment for a far smoother function.</p>
 <pre class="mcode-input">f = s + exp(-50*(s-.3).^2) + exp(-200*(s-.7).^2);
@@ -102,7 +104,9 @@ for n = [25 50 100]
   snapnow
 end</pre>
 
-<p><img src="img/BernsteinPolys_03.png" class="figure" alt=""></p>
+<p><img src="img/BernsteinPolys_05.png" class="figure" alt=""></p>
+<p><img src="img/BernsteinPolys_06.png" class="figure" alt=""></p>
+<p><img src="img/BernsteinPolys_07.png" class="figure" alt=""></p>
 <p>Though $f$ is now entire, the convergence is not really better than before. By contrast we know that $n=100$ is more than enough for Chebyshev interpolation to nail this function to machine precision:</p>
 <pre class="mcode-input">length(f)</pre>
 

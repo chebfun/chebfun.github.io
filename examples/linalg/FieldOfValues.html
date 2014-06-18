@@ -101,8 +101,8 @@ plot(real(FB(maxtheta)),imag(FB(maxtheta)),'.r',MS,24)</pre>
 <pre class="mcode-output">Error using cellfun
 Non-scalar in Uniform output, at index 7, output 1.
 Set 'UniformOutput' to false.
-Error in chebfun/plot (line 144)
-jumpLineSet = any(cellfun(@(v) strcmpi(v, 'JumpLine'), varargin));
+Error in chebfun/plot (line 162)
+jumpLineIsSet = any(cellfun(@(v) strcmpi(v, 'JumpLine'), varargin));
 Error in FieldOfValues (line 60)
 hold off, plot(real(FB),imag(FB),'b',LW,lw,'jumpline',{'b',LW,lw})</pre>
 

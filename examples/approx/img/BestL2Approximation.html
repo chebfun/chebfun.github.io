@@ -40,7 +40,7 @@ A good introduction to $L^2$ approximations can be found in [2]. The `polyfit` c
 f = abs(x);
 P = legpoly(0:n,[-1,1],'norm');         % Legendre-Vandermonde matrix
 cleg = P'*f;                            % compute Legendre coefficients
-pn = P*cleg;                            % Form chebfun of best L^2 approximation
+pn = P*cleg;                            % form chebfun of best L^2 approximation
 plot(f,LW,lw), hold on, plot(pn,'r',LW,lw)
 title('Best L^2 approximation to |x| of degree 5','fontsize',16), hold off</pre><img src="img/BestL2Approximation_01.png" class="figure" alt="">
 
@@ -81,7 +81,7 @@ f = 1./(1+1e6*x.^2);                 % Runge function
 s = tic; pn = polyfit(f,n); t = toc(s);
 fprintf('L^2 error is %1.3e\n',norm(f - pn))
 fprintf('L^2 approximation of degree %u in t = %1.3f\n',n,t)</pre><pre class="mcode-output">L^2 error is 1.797e-06
-L^2 approximation of degree 10000 in t = 1.204
+L^2 approximation of degree 10000 in t = 1.051
 </pre>
 
 ## Piecewise smooth functions

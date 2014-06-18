@@ -37,7 +37,7 @@ elseif ( any(strcmpi(flag, {'reset', 'factory'})) )
     set(0, 'defaultlinelinewidth',  'factory');
     set(0, 'defaultpatchlinewidth', 'factory');
     set(0, 'defaultlinemarkersize', 'factory');
-    set(0, 'defaultfigurecolor',    'factory');
+    set(0, 'defaultfigurecolor',    'w');
     set(0, 'defaultaxescolor',      'factory');
     chebfunpref.setDefaults('factory');
     cheboppref.setDefaults('factory');

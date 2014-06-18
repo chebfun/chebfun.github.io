@@ -84,7 +84,7 @@ v = integral(F,C); ends = f(pi/10,0)-f(0,0); % line integral
 abs(v-ends)                                  % gradient theorem</pre>
 
 <pre class="mcode-output">ans =
-     2.220446049250313e-16
+     1.110223024625157e-16
 </pre>
 
 <p>Another consequence of the gradient theorem is that the integral of $\mathrm{grad}(f)$ over any closed curve is zero. For example, here is an exotic closed curve, which we plot superimposed on the vector field $\mathrm{grad}(f)$.</p>
@@ -99,7 +99,7 @@ plot(C, 'r'), axis equal off</pre>
 <pre class="mcode-input">v = integral(F,C)</pre>
 
 <pre class="mcode-output">v =
-    -1.353328241103713e-15
+    -1.575362663393231e-15
 </pre>
 
 <h3 id="curl-of-the-gradient">Curl of the gradient</h3>
@@ -114,7 +114,7 @@ plot(C, 'r'), axis equal off</pre>
 <p>The code found in this Example can also be found in [1] along with additional information about vector calculus in Chebfun2.</p>
 <h3 id="references">References</h3>
 <ol>
-<li>A. Townsend and L. N. Trefethen, An extension of Chebfun to two    dimensions, SIAM Journal on Scientific Computing, 35 (2013), C495-C518.</li>
+<li>A. Townsend and L. N. Trefethen, An extension of Chebfun to two    dimensions, <em>SIAM Journal on Scientific Computing</em>, 35 (2013), C495-C518.</li>
 </ol></div>
         </div>
     </div>

@@ -12,7 +12,7 @@ Small stability regions indicate that you might need very small time steps. This
 We can plot boundaries of some stability regions rather nicely with Chebfun. First we define some colors, and a region of the complex plane to work in.
 
 <pre class="mcode-input">C = 'color'; c = {'b','r','g','m','y','c'};
-x = [0 0]; y = [-8 8]; K = 'k'; LW = 'linewidth'; FS = 'fontsize';</pre>The Adams-Bashforth formulas are the simplest family of explicit linear multistep methods; they are the basis of the Matlab code `ode113`. Here are stability regions for the Adams-Bashforth formulas of orders 1, 2, 3.  (We can't go higher without extra effort, because at order 4 this method would give a loop that would need to be lopped off.)  As the order increases, the regions get smaller, corresponding to stricter limits on the allowable time step.
+x = [0 0]; y = [-8 8]; K = 'k'; LW = 'linewidth'; FS = 'fontsize';</pre>The Adams-Bashforth formulas are the simplest family of explicit linear multistep methods; they are the basis of the MATLAB code `ode113`. Here are stability regions for the Adams-Bashforth formulas of orders 1, 2, 3.  (We can't go higher without extra effort, because at order 4 this method would give a loop that would need to be lopped off.)  As the order increases, the regions get smaller, corresponding to stricter limits on the allowable time step.
 
 <pre class="mcode-input">plot(y,x,K,LW,1), hold on, plot(x,y,K)
 t = chebfun('t',[0 2*pi]);
@@ -23,7 +23,7 @@ s = (23-16./z+5./z.^2)/12; plot(r./s,C,c{3},LW,2)  % order 3
 axis([-2.5 .5 -1.5 1.5]), axis square, grid on
 title('Adams-Bashforth orders 1,2,3',FS,16)</pre><img src="img/Regions_01.png" class="figure" alt="">
 
-The Runge-Kutta formulas are one-step methods, a bit trickier to derive but simpler to apply; they are the basis of the Matlab codes `ode23` and `ode45`.  To plot their stability regions, we need to solve an equation.  We can do that with a Newton iteration, which we terminate here after 3 or 4 steps. Here are stability regions of RK formulas of order 1,2,3,4. In this case the regions get bigger as the order increases.
+The Runge-Kutta formulas are one-step methods, a bit trickier to derive but simpler to apply; they are the basis of the MATLAB codes `ode23` and `ode45`.  To plot their stability regions, we need to solve an equation.  We can do that with a Newton iteration, which we terminate here after 3 or 4 steps. Here are stability regions of RK formulas of order 1,2,3,4. In this case the regions get bigger as the order increases.
 
 <pre class="mcode-input">clf, plot(y,x,K,LW,1), hold on, plot(x,y,K)
 w = z-1;
@@ -44,7 +44,7 @@ plot(w,C,c{4},LW,2)                                % order 4
 axis([-5 2 -3.5 3.5]), axis square, grid on
 title('Runge-Kutta orders 1,2,3,4',FS,16)</pre><img src="img/Regions_02.png" class="figure" alt="">
 
-Finally we look at the backward differentiation formulas of orders 1-6, which are related to the Matlab code `ode15s`. In this case the stability regions are the _exteriors_ of the curves drawn.
+Finally we look at the backward differentiation formulas of orders 1-6, which are related to the MATLAB code `ode15s`. In this case the stability regions are the _exteriors_ of the curves drawn.
 
 <pre class="mcode-input">clf, plot(8*y,x,K,LW,1), hold on, plot(x,8*y,K)
 d = 1-1./z; r = 0;

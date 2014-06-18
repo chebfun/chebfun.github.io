@@ -83,7 +83,7 @@ compute_tau(f, 2^3)</pre>
 compute_tau(f, 2)
 subdivisionDiagram(f,1)</pre>
 
-<pre class="mcode-output">tau = 0.00093</pre>
+<pre class="mcode-output">tau = 0.00136</pre>
 
 <p><img src="img/AverageDegreeReduction1D_02.png" class="figure" alt=""></p>
 <p>In this example the degree reduction after one subdivision makes $\tau\ll 1$. However, the subdivision within Chebfun subdivides $[-1,1]$ in $[-1,r]$ and $[r,1]$, where $r$ is an arbitrary constant so such small values for $\tau$ are rarely realised.</p>
@@ -91,7 +91,7 @@ subdivisionDiagram(f,1)</pre>
 <pre class="mcode-input">f = @(x) abs(x-.01).^7;
 compute_tau(f, 2^3)</pre>
 
-<pre class="mcode-output">tau = 0.34032</pre>
+<pre class="mcode-output">tau = 0.33201</pre>
 
 <h3 id="analytic-functions">Analytic functions</h3>
 <p>For functions that are analytic on the real line with simple poles in the complex plane, Elliott's method [1] can be used to understand $\tau$. For example, consider the function $1/(x-1.0001)$.</p>
@@ -125,7 +125,7 @@ m = m'</pre>
 <pre class="mcode-input">f = chebfun(@(x) abs(prod(x-linspace(-1,1,10)).^3),'vectorise');
 compute_tau(f, 2)</pre>
 
-<pre class="mcode-output">tau = 0.70773</pre>
+<pre class="mcode-output">tau = 0.70761</pre>
 
 <h3 id="conclusion">Conclusion</h3>
 <p>The average degree reduction parameter $\tau$ can take almost any value between $0$ and $1$. For functions that are equally difficult throughout the whole interval, $\tau$ is close to $1/2$. For functions that are difficult, local $\tau$ is often small. Therefore, one would expect that Chebfun's rootfinding algorithm would be more efficient at finding the roots of functions that have a small $\tau$.  However, this is not the case, as the following two examples (of roughly the same size) show:</p>
@@ -133,14 +133,14 @@ compute_tau(f, 2)</pre>
 f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
 tic, roots(f); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.392881 seconds.
+<pre class="mcode-output">Elapsed time is 0.500778 seconds.
 </pre>
 
 <pre class="mcode-input">c = -1.0001;
 f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
 tic, roots(f); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.144787 seconds.
+<pre class="mcode-output">Elapsed time is 1.162350 seconds.
 </pre>
 
 <p>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.</p>

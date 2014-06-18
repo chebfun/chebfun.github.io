@@ -32,7 +32,7 @@ N.rbc = exp(2)*cos(1);</pre>Define the linear operator.
 <pre class="mcode-input">y_exact = exp(2*x).*cos(x);</pre>How close is the computed solution to the true solution?
 
 <pre class="mcode-input">norm(y-y_exact)</pre><pre class="mcode-output">ans =
-     2.237306123889514e-13
+     2.237284085109215e-13
 </pre>Plot the computed solution.
 
 <pre class="mcode-input">plot(y,'linewidth',2), grid on</pre><img src="img/WikiODE_01.png" class="figure" alt="">
@@ -59,7 +59,7 @@ N.op = @(y) diff(y,2) + pi^2*y;</pre>This problem has a Dirichlet boundary condi
 <pre class="mcode-input">y_exact = cos(pi*x)+sin(pi*x);</pre>How close is the computed solution to the true solution?
 
 <pre class="mcode-input">norm(y-y_exact)</pre><pre class="mcode-output">ans =
-     2.731773285568975e-14
+     2.731864025127892e-14
 </pre>Plot the computed solution.
 
 <pre class="mcode-input">plot(y,'linewidth',2), grid on</pre><img src="img/WikiODE_02.png" class="figure" alt="">
@@ -85,7 +85,7 @@ N = chebop(d);</pre>First-order problems require only one boundary condition.
 <pre class="mcode-input">y_exact = 2/3 + 4/3*exp(-3*x);</pre>How close is the computed solution to the true solution?
 
 <pre class="mcode-input">norm(y-y_exact)</pre><pre class="mcode-output">ans =
-     1.546973993379486e-15
+     1.567738394778723e-15
 </pre>Plot the computed solution
 
 <pre class="mcode-input">plot(y,'linewidth',2), grid on</pre><img src="img/WikiODE_03.png" class="figure" alt="">

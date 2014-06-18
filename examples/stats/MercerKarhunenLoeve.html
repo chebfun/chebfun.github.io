@@ -72,7 +72,6 @@
 <p>We can create the integral operator and find the leading terms of its Mercer decomposition numerically.</p>
 <pre class="mcode-input">F = fred( K, domain([-1,1]) );
 [Psi,Lambda] = eigs(F,20,'lm');
-Psi = Psi{1};
 [lambda,idx] = sort(diag(Lambda),'descend');
 Psi = Psi(:,idx);</pre>
 
@@ -87,30 +86,31 @@ ylabel('\Psi(x)')</pre>
 Psi(:,1:6)'*Psi(:,1:6)</pre>
 
 <pre class="mcode-output">ans =
-    1.0000   -0.0000    0.0000   -0.0000    0.0000   -0.0000
-    0.0000    1.0000    0.0000    0.0000    0.0000   -0.0000
-    0.0000   -0.0000    1.0000   -0.0000   -0.0000    0.0000
-    0.0000    0.0000   -0.0000    1.0000    0.0000    0.0000
-    0.0000    0.0000   -0.0000    0.0000    1.0000   -0.0000
-   -0.0000   -0.0000    0.0000    0.0000   -0.0000    1.0000
+   6 x 6 chebmatrix of block types:
+    'double'    'double'    'double'    'double'    'double'    'double'
+    'double'    'double'    'double'    'double'    'double'    'double'
+    'double'    'double'    'double'    'double'    'double'    'double'
+    'double'    'double'    'double'    'double'    'double'    'double'
+    'double'    'double'    'double'    'double'    'double'    'double'
+    'double'    'double'    'double'    'double'    'double'    'double'
 </pre>
 
 <p>The truncation of the Mercer sum does lead to an underestimate of the values of the kernel $K(s,t)$. For our example, we should get $K(s,s)=1$, but we get noticeably less.</p>
 <pre class="mcode-input">Psi(0,:)*diag(lambda)*Psi(0,:)'
 Psi(0.95,:)*diag(lambda)*Psi(0.95,:)'</pre>
 
-<pre class="mcode-output">ans =
-    0.9799
-ans =
-    0.9825
-</pre>
+<pre class="mcode-output">Error using subsref
+Subscript indices must either be real positive integers or logicals.
+Error in chebmatrix/subsref (line 20)
+        varargout{1} = chebmatrix(subsref(A.blocks, sr1));
+Error in MercerKarhunenLoeve (line 55)
+Psi(0,:)*diag(lambda)*Psi(0,:)'</pre>
 
 <p>In fact, the eigenvalues decrease only like $O(n^{-2})$, which makes the pointwise convergence in the number of terms rather slow.</p>
 <pre class="mcode-input">loglog(lambda,'.',plotopt{:}), axis tight
 xlabel('n')
 ylabel('| \lambda_n |')</pre>
 
-<p><img src="img/MercerKarhunenLoeve_02.png" class="figure" alt=""></p>
 <h3 id="karhunen-loeve-expansion">Karhunen-Loeve expansion</h3>
 <p>Now suppose that $X(t,\omega)$ is a stochastic process for $t$ in some interval $[a,b]$ and $\omega$ in some probability space. The process is often characterized by its mean, $\mu(t)$, and its covariance, $K(s,t)$, the expected value of $(X(s)-\mu(s))(X(t)-\mu(t))$. Using Mercer's theorem on $K$, we can express the process by the K-L expansion</p>
 <p>$$ X(t,\omega) = \mu(t) + \sum_j^\infty \sqrt(\lambda_j) \psi_j(t)
@@ -119,10 +119,6 @@ Z_j(\omega), $$</p>
 <p>K-L is a generalization of the singular value decomposition of a matrix, which can be written as a sum of outer products of vectors. The covariance $K$ plays the role of the Gram matrix inner products (in probability) of "columns" of the process for different values of $s$ and $t$. A number of SVD results have K-L analogs, most notably that the best approximation of the process results from truncating the expansion, if the eigenvalues are arranged in nonincreasing order.</p>
 <p>Because the $Z_j$ in the expansion are uncorrelated, the variance of $X$ is just the sum of the eigenvalues. This is the trace of $K$, which is the integral of $K(s,s)$; in this case, the result is $2$. But we can also calculate the variance in a truncation of the expansion by summing only some of the eigenvalues. For example, suppose the process $X$ has the exponential covariance in $K$ above. The eigenvalues show that $95\%$ of the variance in the process is captured by the first $10$ K-L modes:</p>
 <pre class="mcode-input">captured = sum(lambda(1:10)) / 2</pre>
-
-<pre class="mcode-output">captured =
-    0.9579
-</pre>
 
 <p>We can find realizations of $X$ by selecting the random parameters $Z_j$ in the expansion.</p>
 <pre class="mcode-input">Z = randn(10,400);
@@ -133,7 +129,6 @@ mu = sum(X,2)/400;
 hold on, plot(mu,'k',plotopt{:})
 title('Random realizations, and the mean')</pre>
 
-<p><img src="img/MercerKarhunenLoeve_03.png" class="figure" alt=""></p>
 <p>We should get roughly the original covariance function back. (We'll discretize the computation for speed.)</p>
 <pre class="mcode-input">points = (-1:.05:1)';
 [S,T] = meshgrid(points);
@@ -141,7 +136,6 @@ C = cov( X(points,:)' );  % covariance at discrete locations
 clf, mesh(S,T,C)
 hold on, plot3(S,T,K(S,T),'k.',plotopt{:})</pre>
 
-<p><img src="img/MercerKarhunenLoeve_04.png" class="figure" alt=""></p>
 <p>If we shorten the correlation length of the process relative to the domain (i.e., more randomness), the amount of variance captured by the first $10$ modes will decrease.</p>
 <pre class="mcode-input">K = @(s,t) exp(-4*abs(s-t));     % decrease correlation faster, then...
 F = fred( K, domain([-1,1]) );
@@ -156,11 +150,6 @@ ylabel('| \lambda_n |')
 
 captured = sum(lambdaShort(1:10)) / 2    % ... a smaller fraction is captured</pre>
 
-<pre class="mcode-output">captured =
-    0.6744
-</pre>
-
-<p><img src="img/MercerKarhunenLoeve_05.png" class="figure" alt=""></p>
 <h3 id="references">References</h3>
 <ol>
 <li>D. Xu, <em>Numerical Methods for Stochastic Computations</em>, Princeton    University Press, 2010.</li>

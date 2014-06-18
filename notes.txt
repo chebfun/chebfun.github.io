@@ -5,7 +5,6 @@ TO DO:
     - add links everywhere necessary
         - guide has lots
     - add content
-        - update faq, including collapsibleness and style
         - update history
         - add more simple examples on the homepage
         - fix the white-on-black issue from LNT
@@ -13,6 +12,7 @@ TO DO:
           http://www.gliffy.com/go/publish/image/4249553/L.png
     - 404 error should be a SCRIBBLE rendering
     - the link to "develop" in "News" is broken
+    - link to download guide chapters
 
 DONE:
     - add prominent 'download' link on homepage
@@ -24,6 +24,7 @@ DONE:
         - news section
     - make example figures & guide figures export_fig-style
     - add content
+        - update faq, including collapsibleness and style
         - update support -- only one help@chebfun.org
         - ask for feedback!!!
         - update develop, etc, etc.

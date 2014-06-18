@@ -35,19 +35,19 @@ One of Chebfun's features is its ability to locate discontinuities automatically
 
 <pre class="mcode-input">s2 = chebfun(@(x) s(x),[0 10],'splitting','on');
 norm(s-s2,inf)</pre><pre class="mcode-output">ans =
-     1.521005536677857e-14
+     1.732132944291553e-13
 </pre>Here are the breakpoints of the automatically constructed function `s2`. Note that $x=1$ and $x=9$ are missing, again because of the not-a-knot condition.
 
 <pre class="mcode-input">format long
 s2.ends'</pre><pre class="mcode-output">ans =
                    0
-   2.000005725229792
-   3.000001600230374
-   3.999987057475273
-   5.000008153981277
-   5.999990910674561
-   6.999997431114807
-   8.000021289834358
+   1.999976235014862
+   3.000034428755721
+   4.000003367301884
+   5.000000000000000
+   5.999996653602773
+   7.000000154083863
+   8.000003654564953
   10.000000000000000
 </pre>It is interesting that breakpoints near $2,3,\dots,8$ match these values not to $15$ or $16$ digits but to about the cube root of that precision. This does not reflect poor performance of the splitting algorithm, but just the fact that the function being sampled has two continuous derivatives.  If it had only one continuous derivative, we'd get $8$ digits of accuracy, and if only the function itself were continuous, we'd expect $15$ or $16$ digits. When not even the function is continuous, Chebfun captures discontinuities down to the very last bit.  For information about edge detection in Chebfun, see [1].
 

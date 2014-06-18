@@ -19,7 +19,7 @@ To create the operator in Chebfun, we define the kernel and use the `fred` funct
 K = @(x,s) exp(-1i*F*(x-s).^2 );               % kernel
 L = sqrt(1i*F/pi) * chebop(@(u) fred(K,u));    % Fredholm integral operator</pre>Computing the $80$ eigenvalues of largest complex magnitude requires just a call to `eigs` with the `'lm'` option:
 
-<pre class="mcode-input">tic, lam = eigs(L,80,'lm'); toc</pre><pre class="mcode-output">Elapsed time is 11.291006 seconds.
+<pre class="mcode-input">tic, lam = eigs(L,80,'lm'); toc</pre><pre class="mcode-output">Elapsed time is 11.785988 seconds.
 </pre>Finally, a beautiful pattern emerges when we plot the results:
 
 <pre class="mcode-input">x = chebfun('x');
@@ -36,9 +36,9 @@ For a remarkable analysis of such patterns, see [1].
 
 1. A. Boettcher, H. Brunner, A. Iserles and S. P. Norsett, On the singular    values and eigenvalues of the Fox-Li and related operators, _New York    Journal of Mathematics_, 16 (2010), 539-561.
 
-2. T. A. Driscoll, <Automatic    spectral collocation for integral, integro-differential, and integrally    reformulated differential equations>, J. Comput. Phys. 229 (2010),    5980-5998.
+2. T. A. Driscoll, <Automatic    spectral collocation for integral, integro-differential, and integrally    reformulated differential equations>, _Journal of Computational    Physics_, 229 (2010), 5980-5998.
 
-3. A. G. Fox and T. Li, Resonant modes in a maser interferometer, Bell    System Technical Journal 40 (1961), 453-488.
+3. A. G. Fox and T. Li, Resonant modes in a maser interferometer, _Bell    System Technical Journal_, 40 (1961), 453-488.
 
-4. L. N. Trefethen and M. Embree, Spectra and Pseudospectra, Princeton    University Press, 2005 (Chapter 60).
+4. L. N. Trefethen and M. Embree, _Spectra and Pseudospectra: The    Behavior of Nonnormal Matrices and Operators_, Princeton    University Press, 2005 (Chapter 60).
 

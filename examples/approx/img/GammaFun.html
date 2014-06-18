@@ -12,22 +12,7 @@ The gamma function has simple poles at the negative integers and zero. Chebfun c
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
 gam = chebfun('gamma(x)',[-4 4],'blowup','on','splitting','on')
 plot(gam,'m',LW,1.6), hold on
-title('Gamma function',FS,12)</pre><pre class="mcode-output">gam = 
-   chebfun column (5 smooth pieces)
-       interval       length   endpoint values   endpoint exponents
-[      -4,      -3]       18       Inf      Inf         [-1      -1]  
-[      -3,      -2]       18      -Inf     -Inf         [-1      -1]  
-[      -2,      -1]       18       Inf      Inf         [-1      -1]  
-[      -1,2.2e-308]       18      -Inf     -Inf         [-1      -1]  
-[2.2e-308,       4]       30       Inf        6         [-1      0]  
-Epslevel = 2.722575e-12.  Vscale = 1.200000e+01.  Total length = 102.
-</pre><img src="img/GammaFun_01.png" class="figure" alt="">
-
-Alternatively, and always a better idea when the information is available, one can instruct Chebfun what poles to put where:
-
-<pre class="mcode-input">gam = chebfun('gamma(x)',[-4 -3 -2 -1 0 4],'exps',[-1 -1 -1 -1 -1 0])
-plot(gam,LW,1.6), hold on
-title('Gamma function again',FS,12)</pre><pre class="mcode-output">gam = 
+title('Gamma function',FS,12)</pre><pre class="mcode-output">gam =
    chebfun column (5 smooth pieces)
        interval       length   endpoint values   endpoint exponents
 [      -4,      -3]       20       Inf      Inf         [-1      -1]  
@@ -35,7 +20,22 @@ title('Gamma function again',FS,12)</pre><pre class="mcode-output">gam =
 [      -2,      -1]       24       Inf      Inf         [-1      -1]  
 [      -1,       0]       20      -Inf     -Inf         [-1      -1]  
 [       0,       4]       35       Inf        6         [-1      0]  
-Epslevel = 1.000000e-14.  Vscale = 1.200000e+01.  Total length = 120.
+Epslevel = 6.958400e-14.  Vscale = Inf.  Total length = 120.
+</pre><img src="img/GammaFun_01.png" class="figure" alt="">
+
+Alternatively, and always a better idea when the information is available, one can instruct Chebfun what poles to put where:
+
+<pre class="mcode-input">gam = chebfun('gamma(x)',[-4 -3 -2 -1 0 4],'exps',[-1 -1 -1 -1 -1 0])
+plot(gam,LW,1.6), hold on
+title('Gamma function again',FS,12)</pre><pre class="mcode-output">gam =
+   chebfun column (5 smooth pieces)
+       interval       length   endpoint values   endpoint exponents
+[      -4,      -3]       20       Inf      Inf         [-1      -1]  
+[      -3,      -2]       21      -Inf     -Inf         [-1      -1]  
+[      -2,      -1]       24       Inf      Inf         [-1      -1]  
+[      -1,       0]       20      -Inf     -Inf         [-1      -1]  
+[       0,       4]       35       Inf        6         [-1      0]  
+Epslevel = 1.000000e-14.  Vscale = Inf.  Total length = 120.
 </pre><img src="img/GammaFun_02.png" class="figure" alt="">
 
 We can now treat $\Gamma(x)$ like any other chebfun. For example, we can:

@@ -103,7 +103,7 @@ plot(s,LW,lw), axis equal, hold on</pre>
 <pre class="mcode-input">L = arcLength(s)</pre>
 
 <pre class="mcode-output">L =
-   9.634012138198042
+   9.634012138198038
 </pre>
 
 <p>Suppose, for example, that we want to equidistribute 64 points.</p>
@@ -119,7 +119,7 @@ for k = 1:N-1
 end
 toc</pre>
 
-<pre class="mcode-output">Elapsed time is 6.719020 seconds.
+<pre class="mcode-output">Elapsed time is 5.734705 seconds.
 </pre>
 
 <p>Now that we have the coordinates of the points, and let's mark them on the curve.</p>
@@ -138,7 +138,7 @@ plot(P,'.r',MS,ms)</pre>
 <p>A better approach is not to solve our own rootfinding problems but to first invert <code>len</code> with the Chebfun command <code>inv</code>:</p>
 <pre class="mcode-input">tic, g = inv(len); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 2.505071 seconds.
+<pre class="mcode-output">Elapsed time is 2.432249 seconds.
 </pre>
 
 <p>Here we put circles around the dots to confirmthat we have the same result as before:</p>

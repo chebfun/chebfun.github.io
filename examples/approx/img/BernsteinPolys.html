@@ -39,6 +39,10 @@ end</pre>To illustrate the behavior of Bernstein polynomials, here we see slow c
   snapnow
 end</pre><img src="img/BernsteinPolys_02.png" class="figure" alt="">
 
+<img src="img/BernsteinPolys_03.png" class="figure" alt="">
+
+<img src="img/BernsteinPolys_04.png" class="figure" alt="">
+
 Note a signature feature of Bernstein polynomial approximations, their monotonicity in various senses.  There is never any Gibbs phenomenon.
 
 On the other hand, since these approximations depend on the central limit theorem to give accuracy as $n$ gets large, they take no advantage at all of smoothness.  Here for example is a repetition of the last experiment for a far smoother function.
@@ -49,7 +53,11 @@ for n = [25 50 100]
   hold on, plot(Bn(f,n),'r',LW,lw)
   title(['n = ' int2str(n)],'fontsize',14)
   snapnow
-end</pre><img src="img/BernsteinPolys_03.png" class="figure" alt="">
+end</pre><img src="img/BernsteinPolys_05.png" class="figure" alt="">
+
+<img src="img/BernsteinPolys_06.png" class="figure" alt="">
+
+<img src="img/BernsteinPolys_07.png" class="figure" alt="">
 
 Though $f$ is now entire, the convergence is not really better than before. By contrast we know that $n=100$ is more than enough for Chebyshev interpolation to nail this function to machine precision:
 

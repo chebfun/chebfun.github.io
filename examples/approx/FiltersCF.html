@@ -74,10 +74,11 @@ for m = [100 1000]
 end</pre>
 
 <p><img src="img/FiltersCF_01.png" class="figure" alt=""></p>
+<p><img src="img/FiltersCF_02.png" class="figure" alt=""></p>
 <p>It didn't take long to produce these pictures:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 4.365173 seconds.
+<pre class="mcode-output">Elapsed time is 4.165942 seconds.
 </pre>
 
 <p>In practice, filter specifications usually have "don't care" regions between pass and stop bands. Here to give an idea of the possibilities we make $f$ a little smoother by convolving it with a narrow hat function.  Now degrees $100$ and $200$ give good filters:</p>
@@ -90,11 +91,12 @@ for m = [100 200]
   axis([-1 1 -1 2]), snapnow
 end</pre>
 
-<p><img src="img/FiltersCF_02.png" class="figure" alt=""></p>
+<p><img src="img/FiltersCF_03.png" class="figure" alt=""></p>
+<p><img src="img/FiltersCF_04.png" class="figure" alt=""></p>
 <p>Here's the error:</p>
 <pre class="mcode-input">plot(f2-p,LW,1.2), grid on</pre>
 
-<p><img src="img/FiltersCF_03.png" class="figure" alt=""></p>
+<p><img src="img/FiltersCF_05.png" class="figure" alt=""></p>
 <p>For applications, one would need to transplant such computations from a bounded to a periodic interval.</p>
 <h3 id="references">References</h3>
 <ol>

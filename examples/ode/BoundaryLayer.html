@@ -59,7 +59,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <p>Consider the steady-state linear advection-diffusion equation</p>
-<p>$$ L_\varepsilon u = -\varepsilon u" - u' = 1,\qquad    u(0) = u(1) = 0 , $$</p>
+<p>$$ L_\varepsilon u = -\varepsilon u'' - u' = 1,\qquad    u(0) = u(1) = 0 , $$</p>
 <p>where $\varepsilon&gt;0$ is a small parameter. The solution to this equation has a boundary layer near $x=0$.</p>
 <p>In Chebfun, we can define the $\varepsilon$-dependent operator like this:</p>
 <pre class="mcode-input">dom = [0,1];

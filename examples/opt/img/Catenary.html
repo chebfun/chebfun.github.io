@@ -93,19 +93,19 @@ nextJ =
 nextJ =
    2.813551498179433
 nextJ =
-   2.813430779819847
+   2.813430779819846
 nextJ =
-   2.813430203941192
+   2.813430203941190
 </pre>The exact solution is a simple $\cosh$. Here is the error in our solution.
 
 <pre class="mcode-input">y_exact = chebfun('cosh(x)', dom);
 norm(y - y_exact)</pre><pre class="mcode-output">ans =
-     7.515155565793266e-06
+     7.515155563754042e-06
 </pre>And the values of the energy functional:
 
 <pre class="mcode-input">fprintf('\n  final J[y]: %.16f\n', J(y))
 fprintf('optimal J[y]: %.16f\n', J(y_exact))</pre><pre class="mcode-output">
-  final J[y]: 2.8134302039411923
+  final J[y]: 2.8134302039411905
 optimal J[y]: 2.8134302039235086
 </pre>Finally, a plot of the catenary:
 

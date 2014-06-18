@@ -102,7 +102,13 @@ for k = 1:4,
   zlim([-1 3]),caxis([-3 3]), view(-33,20), axis off
 end</pre>
 
-<p><img src="img/Drum_01.png" class="figure" alt=""></p>
+<pre class="mcode-output">Error using subsref
+Subscript indices must either be real positive integers or logicals.
+Error in chebmatrix/subsref (line 20)
+        varargout{1} = chebmatrix(subsref(A.blocks, sr1));
+Error in Drum (line 42)
+V = V*diag(sign(V(0,:)));  % ensure V(0,k) &gt; 0</pre>
+
 <p>If the drum instead has a variable density given by $\rho(r)$, the right- hand side of the original ODE becomes $-\omega^2\rho u$. In general, the connection to Bessel functions is broken, but we will not miss a beat using <code>eigs</code>.</p>
 <p>Constant density gives $\omega_2/\omega_1 = 2.2954$. Let's design a density so that $\omega_2/\omega_1 = 2$, a perfect octave. We will search among density functions of the form</p>
 <p>$$ \rho(r) = 1 - a\sin(\pi r). $$</p>
@@ -122,11 +128,6 @@ astar = find(ratfun==2)
 clf, plot(ratfun), title('Eigenvalue ratio'), xlabel('a')
 set(gca,'xtick',[0.5,astar,1],'ytick',[2],'xgrid','on','ygrid','on')</pre>
 
-<pre class="mcode-output">astar =
-   0.812158808550519
-</pre>
-
-<p><img src="img/Drum_02.png" class="figure" alt=""></p>
 <p>We compute the ratio at <code>astar</code> to verify the answer, and plot the eigenfunctions.</p>
 <pre class="mcode-input">residual = evratio(astar) - 2
 subplot(1,2,1), surfl(rr.*cos(tt),rr.*sin(tt),repmat(-V(rr(1,:),1),60,1))
@@ -135,11 +136,6 @@ subplot(1,2,2), surfl(rr.*cos(tt),rr.*sin(tt),repmat(-V(rr(1,:),2),60,1))
 shading interp, lighting phong, title('Second mode')
 colormap copper</pre>
 
-<pre class="mcode-output">residual =
-    -3.457678587892588e-12
-</pre>
-
-<p><img src="img/Drum_03.png" class="figure" alt=""></p>
 <pre class="mcode-input">end</pre></div>
         </div>
     </div>

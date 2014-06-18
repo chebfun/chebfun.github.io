@@ -29,7 +29,7 @@ N = chebop(d);</pre>The problem has a single Dirichlet boundary condition at $x=
 <pre class="mcode-input">u_exact = 0.5*exp(-x).*sin(2*x);</pre>How close is the computed solution to the true solution?
 
 <pre class="mcode-input">accuracy = norm(u-u_exact)</pre><pre class="mcode-output">accuracy =
-     3.153348352907638e-16
+     8.866862559633357e-16
 </pre>Plot the computed solution
 
 <pre class="mcode-input">plot(u,'linewidth',1.6), grid on
