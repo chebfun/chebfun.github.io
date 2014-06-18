@@ -65,7 +65,7 @@ r = chebfun2(@(r,t) r,[r1 r2 t1 t2]);
 t = chebfun2(@(r,t) t,[r1 r2 t1 t2]);
 [x,y] = pol2cart(t,r);
 f = cos(5*x.*y) + y;
-surf([x;y;f])
+surf([x;y;f]), zlim([-5 5])
 title('Function on sector domain',FS,fs)
 
 %%

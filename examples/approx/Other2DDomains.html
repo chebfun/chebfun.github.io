@@ -97,7 +97,7 @@ title('Sector domain',FS,fs)</pre>
 t = chebfun2(@(r,t) t,[r1 r2 t1 t2]);
 [x,y] = pol2cart(t,r);
 f = cos(5*x.*y) + y;
-surf([x;y;f])
+surf([x;y;f]), zlim([-5 5])
 title('Function on sector domain',FS,fs)</pre>
 
 <p><img src="img/Other2DDomains_04.png" class="figure" alt=""></p>
