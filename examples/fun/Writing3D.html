@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Partial differential equations &raquo; Chebfun</title>
+    <title>Writing a message in 3D &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -51,43 +51,45 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Partial differential equations</h1>
+<h1>Writing a message in 3D</h1>
+<h2>Nick Trefethen, November 2010<span><a href='/examples/fun/Writing3D.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/fun/Writing3D.m'>view on Github</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (30)</a></li>
-        <li><a href="/examples/calc/index.html">Calculus (6)</a></li>
-        <li><a href="/examples/complex/index.html">Complex variables (9)</a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff! (6)</a></li>
-        <li><a href="/examples/geom/index.html">Geometry (7)</a></li>
-        <li><a href="/examples/integro/index.html">Integral equations (2)</a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra (9)</a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems (6)</a></li>
-        <li><a href="/examples/opt/index.html">Optimization (10)</a></li>
-        <li><a href="/examples/ode/index.html">Ordinary differential equations (23)</a></li>
-        <li class='active'><a href="/examples/pde/index.html">Partial differential equations (1)</a></li>
-        <li><a href="/examples/stats/index.html">Probability and statistics (9)</a></li>
-        <li><a href="/examples/quad/index.html">Quadrature (3)</a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding (16)</a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus (3)</a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/pde/Erosion.html'>
-            <div class='thumbwrapper'><img src='/examples/pde/img/Erosion_01.png' /></div>
-            <h3>Heat equation via <code>expm</code></h3>
-            <p>Nick Trefethen, October 2010
-                <span class='tags'><span href='#' class='tag'>#erosion</span>, <span href='#' class='tag'>#expm</span>, <span href='#' class='tag'>#heatequation</span>, <span href='#' class='tag'>#linearpde</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>The <code>scribble</code> command produces a chebfun defined on the domain $[-1,1]$ that takes piecewise linear complex values. For example:</p>
+<pre class="mcode-input">s = scribble('There is no fun like chebfun.');
+LW = 'linewidth';
+plot(s,'r',LW,2.0)
+xlim(1.05*[-1 1]), axis equal, drawnow</pre>
+
+<p><img src="img/Writing3D_01.png" class="figure" alt=""></p>
+<p>The use of complex variables is just a convenience.  We could produce the same result with real and imaginary parts. Note that we include <code>'jumpline','.'</code> to prevent the inclusion of dotted lines connecting one component to the next. (Chebfun has different defaults for plotting gaps in real and complex functions.)</p>
+<pre class="mcode-input">rs = real(s); is = imag(s);
+plot(rs,is,'m',LW,2.0,'jumpline','none')
+xlim(1.05*[-1 1]), axis equal, drawnow</pre>
+
+<p><img src="img/Writing3D_02.png" class="figure" alt=""></p>
+<p>It's a small step from here to plotting in 3D with the <code>plot3</code> command.  Here's an example</p>
+<pre class="mcode-input">plot3(rs,sin(6*rs),is,'b',LW,2.0,'jumpline','none')
+axis equal, view(-1.5,6), drawnow</pre>
+
+<p><img src="img/Writing3D_03.png" class="figure" alt=""></p>
+<p>Here is a longer message composed by the British poet Kate McLoughlin.  If you execute or publish this m-file, you will see the message circle around.</p>
+<pre class="mcode-input">s = 6*scribble(['There is no fun like chebfun.  ' ...
+                'Try it and you''ll see.  ' ...
+                'It does your calculation, ' ...
+                'and makes a cup of tea!']);
+rs = real(s);
+set(gcf, 'position', [0 0 600 450])
+plot3(cos(rs),sin(rs),imag(s)+.05*rs,LW,2,'jumpline','none')
+axis([-1 1 -1 1 -1 1]), axis off
+set(gca,'cameraviewanglemode','manual')
+view(-540,20), pause(1)
+for j = 1:360, camorbit(2,0), drawnow, end</pre>
+
+<p><img src="img/Writing3D_04.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>

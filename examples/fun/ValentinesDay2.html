@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Partial differential equations &raquo; Chebfun</title>
+    <title>Happy Valentines Day! (again) &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -51,43 +51,70 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Partial differential equations</h1>
+<h1>Happy Valentines Day! (again)</h1>
+<h2>Anonymous, February 2013<span><a href='/examples/fun/ValentinesDay2.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/fun/ValentinesDay2.m'>view on Github</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (30)</a></li>
-        <li><a href="/examples/calc/index.html">Calculus (6)</a></li>
-        <li><a href="/examples/complex/index.html">Complex variables (9)</a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff! (6)</a></li>
-        <li><a href="/examples/geom/index.html">Geometry (7)</a></li>
-        <li><a href="/examples/integro/index.html">Integral equations (2)</a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra (9)</a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems (6)</a></li>
-        <li><a href="/examples/opt/index.html">Optimization (10)</a></li>
-        <li><a href="/examples/ode/index.html">Ordinary differential equations (23)</a></li>
-        <li class='active'><a href="/examples/pde/index.html">Partial differential equations (1)</a></li>
-        <li><a href="/examples/stats/index.html">Probability and statistics (9)</a></li>
-        <li><a href="/examples/quad/index.html">Quadrature (3)</a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding (16)</a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus (3)</a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/pde/Erosion.html'>
-            <div class='thumbwrapper'><img src='/examples/pde/img/Erosion_01.png' /></div>
-            <h3>Heat equation via <code>expm</code></h3>
-            <p>Nick Trefethen, October 2010
-                <span class='tags'><span href='#' class='tag'>#erosion</span>, <span href='#' class='tag'>#expm</span>, <span href='#' class='tag'>#heatequation</span>, <span href='#' class='tag'>#linearpde</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Happy Valentines day to all Chebfun2 users! Copy and paste this M-file into your Matlab to watch the love movie.</p>
+<pre class="mcode-input">d = [0 1 0 4*pi];
+t = chebfun2(@(t,th) t, d);
+th = chebfun2(@(t,th) th, d);</pre>
+
+<p>Parametric surface:</p>
+<pre class="mcode-input">X = sin(pi*t).*cos(th/2);
+Y = 0.7*sin(pi*t).*sin(th/2);
+Z = (t-1).*(-49+50*t+30*t.*cos(th)+cos(2*th))./(-25+(cos(th)).^2);</pre>
+
+<p>Color scheme:</p>
+<pre class="mcode-input">C = sin(10*X).*cos((Y-.1).^2)+(Z+1);
+
+% Message:
+S = scribble('Happy Valentines Day!');</pre>
+
+<p>Generate surface:</p>
+<pre class="mcode-input">surf(X, Y, Z, C), hold on
+% Add text:
+plot3(1.1*cos(2.5*real(S+1)), 0.8*sin(real(2.5*(S+1))),...
+    1.5*imag(S)-1.05, 'k', 'jumpline', '', 'linewidth', 2), hold off
+% Make it pretty:
+axis tight off image
+colormap hot
+set(gcf, 'color', 'w')
+view(180, 6)
+
+% Rotate:
+% M = [];
+TA = linspace(-1.25, 3, 500);
+for ta = TA
+    view(180*ta, 6)
+    axis([-1.1 1.1 -1.1 1.1 -2 .1333])
+    drawnow
+%     M = [M getframe()];
+end</pre>
+
+<p><img src="img/ValentinesDay2_01.png" class="figure" alt=""></p>
+<p>If you would like to save this love movie to a GIF file then uncomment the lines below (and the lines beginning M = ...) and run the example.</p>
+<pre class="mcode-input">% % Save to .gif:
+% [ignored, idx] = min(abs(TA-.75));
+% for j = 1:idx-1
+%     im = frame2im(M(j));
+%     [imind, cm] = rgb2ind(im, 16);
+%     if ( j == 1 )
+%         imwrite(imind, cm, 'ValentinesDay.gif', 'gif', ...
+%             'Loopcount', inf, 'DelayTime', 1e-5);
+%     else
+%         imwrite(imind, cm, 'ValentinesDay.gif', 'gif', ...
+%             'WriteMode', 'append', 'DelayTime', 1e-5);
+%     end
+% end</pre>
+
+<p>Reference</p>
+<ol>
+<li>Anonymous, 14th February 2013, Chebfun Example    <a href="../fun/ValentinesDay.html">fun/ValentinesDay</a></li>
+</ol></div>
         </div>
     </div>
 </div>

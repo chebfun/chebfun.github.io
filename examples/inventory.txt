@@ -47,6 +47,8 @@ fun/Birthday.m
 fun/BirthdayOdds.m
 fun/Encryption.m
 fun/ValentinesDay.m
+fun/ValentinesDay2.m
+fun/Writing3D.m
 geom/Area.m
 geom/Ellipse.m
 geom/Ellipses.m
