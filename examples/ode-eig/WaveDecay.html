@@ -79,10 +79,7 @@ for j = 1:4
   text(.3,1.6,sprintf('mode %d         lam = %6.3f',n,lam),FS,fs)
 end</pre>
 
-<pre class="mcode-output">Undefined function 'mrdivide' for input arguments of type 'chebmatrix'.
-Error in WaveDecay (line 22)
-  v = v/norm(v,inf);          % normalize to have amplitude 1</pre>
-
+<p><img src="img/WaveDecay_01.png" class="figure" alt=""></p>
 <p>Here are the same, but for the wave equation with a decay band:</p>
 <pre class="mcode-input">clf
 a = 0.2;
@@ -103,7 +100,9 @@ for j = 1:4
   axis([-pi/2 pi/2 -1.6 2.2])
   if j &lt; 4, set(gca,'xtick',[]), end
   text(.3,1.6,sprintf('mode %d         lam = %6.3f',n,lam),FS,fs)
-end</pre></div>
+end</pre>
+
+<p><img src="img/WaveDecay_02.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>

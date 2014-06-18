@@ -54,10 +54,9 @@ If we look at probability, we find that the first four modes extend significantl
 
 <pre class="mcode-input">clf
 semilogy(Psi.^2,LW,lw), ylabel('probability'),
-axis( [x([2 end-1]) 1e-3 1e-1]  )</pre><pre class="mcode-output">Error using semilogy
-Conversion to double from chebmatrix is not possible.
-Error in SolarQDA (line 75)
-semilogy(Psi.^2,LW,lw), ylabel('probability'),</pre>In practice, though, the potential wells cannot be fabricated identically. A brief experiment shows that the delocalization deteriorates even with small fluctuations in the well depths. Here we perturb by 2% variance.
+axis( [x([2 end-1]) 1e-3 1e-1]  )</pre><img src="img/SolarQDA_03.png" class="figure" alt="">
+
+In practice, though, the potential wells cannot be fabricated identically. A brief experiment shows that the delocalization deteriorates even with small fluctuations in the well depths. Here we perturb by 2% variance.
 
 <pre class="mcode-input">vals = [repmat([depth 0],1,numwell) depth];  % [ 0 -depth 0 ... -depth 0 ]
 
@@ -71,7 +70,14 @@ U = chebfun(vals,x);</pre>Now we find that the wavefunctions extend significantl
 [Psi,E] = eigs(N,numwell,0);
 energies = diag(E)
 semilogy(Psi.^2,LW,lw), ylabel('probability'),
-axis( [x([2 end-1]) 1e-3 1e-0]  )</pre>
+axis( [x([2 end-1]) 1e-3 1e-0]  )</pre><pre class="mcode-output">energies =
+   0.218256274770835
+   0.232110036471835
+   0.256879388748688
+   0.269586365175545
+</pre><img src="img/SolarQDA_04.png" class="figure" alt="">
+
+
 
 ## References
 
