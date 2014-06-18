@@ -13,6 +13,8 @@ TO DO:
     - 404 error should be a SCRIBBLE rendering
     - the link to "develop" in "News" is broken
     - link to download guide chapters
+    - add (frontend) search functionality to examples page
+        - http://documentcloud.github.io/visualsearch/
 
 DONE:
     - add prominent 'download' link on homepage
