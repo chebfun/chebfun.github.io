@@ -52,6 +52,7 @@ geom/Ellipses.m
 geom/Lissajous.m
 geom/Procrustes.m
 geom/RoundingCorners.m
+geom/VolumeOfHeart.m
 integro/FoxLi.m
 integro/WikiIntegroDiff.m
 linalg/CondNos.m

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The volume of a torus, a heart, and a seashell &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The volume of a torus, a heart, and a seashell</h1>
+<h2>Rodrigo Platte, April 2013<span><a href='/examples/geom/VolumeOfHeart.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/geom/VolumeOfHeart.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>This example demonstrates how to compute the volume of a solid enclosed by a parameterized surface with Chebfun2. The main idea is to use the divergence theorem to relate the volume of a region to a surface integral. This process is first illustrated using Green's theorem, the two-dimensional version of the divergence theorem, to compute areas of planar regions.</p>
+<h3 id="area-of-a-planar-region">Area of a planar region</h3>
+<p>For a two-dimensional vector field $F(x,y)=[f(x,y),g(x,y)]^T$ with continuous partial derivatives in a region $R$, Green's theorem states that the outward flux of $F$ across the  boundary of $R$ equals the double integral of the its divergence over $R$.</p>
+<p>$$ \oint_C F\cdot n \ ds = \int\limits_R \nabla \cdot F \  dV, $$</p>
+<p>where $C$ is oriented counterclockwise and $n$ is the outward normal.</p>
+<p>If $\nabla \cdot F = 1$ in $R$, therefore, the net flux of $F$ across $C$ equals the area of $R$. There are many vector fields satisfying this condition, such as</p>
+<p>$$ F(x,y)=[x,0]^T,\qquad F(x,y)=[0,y]^T, \qquad
+F(x,y)=\frac{1}{2}[x,y]^T. $$</p>
+<p>In the examples below, the last of these choices is used.</p>
+<p>Consider the ellipse with semimajor and semiminor axis lengths 2 and 1.</p>
+<pre class="mcode-input">t = chebfun(@(t) t, [0 2*pi]);
+x = 2*cos(t); y = sin(t);
+lw = 'linewidth'; fill(x,y,'r',lw,2), axis equal</pre>
+
+<p><img src="img/VolumeOfHeart_01.png" class="figure" alt=""></p>
+<p>The outward normal on its contour is given by</p>
+<p>$$ n = \frac{1}{\sqrt{x'(t)^2+y'(t)^2}}\langle y'(t), -x'(t)\rangle , $$</p>
+<p>and the contour integral becomes:</p>
+<p>$$ A = \oint_C F\cdot n \ ds = \frac{1}{2} \int_0^{2\pi} x(t)y'(t)-y(t)x'(t)
+\ \ dt = \frac{1}{2} \int_0^{2\pi} 2\cos^2 t + 2\sin^2 t \ dt = 2\pi. $$</p>
+<p>And that is what we get using chebfuns:</p>
+<pre class="mcode-input">0.5*sum(x.*diff(y)-y.*diff(x))</pre>
+
+<pre class="mcode-output">ans =
+   6.283185307179585
+</pre>
+
+<p>We now apply the same procedure to compute the area of the heart region in the Chebfun Happy Valentines Day! example [1]. In the plot below, we include the normal vector field $[y(t),-x'(t)]^T$ at the boundary.</p>
+<pre class="mcode-input">t = -chebfun('t',[0 2*pi]);
+x = 16*sin(t).^3;
+y = 13*cos(t)-5*cos(2*t)-2*cos(3*t)-1*cos(4*t);
+dx = diff(x); dy = diff(y);
+tt = linspace(-0,2*pi,20);
+quiver(x(tt),y(tt),dy(tt),-dx(tt),lw,2), hold on
+fill(x,y,'.-r',lw,3), axis equal off, hold off</pre>
+
+<p><img src="img/VolumeOfHeart_02.png" class="figure" alt=""></p>
+<p>The area of this heart-shaped region is:</p>
+<pre class="mcode-input">0.5*sum(x.*diff(y)-y.*diff(x))</pre>
+
+<pre class="mcode-output">ans =
+     5.654866776461628e+02
+</pre>
+
+<h3 id="volume-of-a-torus">Volume of a torus</h3>
+<p>In three dimensions, the divergence theorem is</p>
+<p>$$ \int\limits_V(\nabla\cdot F)\ dV=\int\limits_S (F\cdot n) \ dS, $$</p>
+<p>where $S$ is the surface boundary of $V$ and $n$ its outward normal. If we now take, for instance $F(x,y,z) = [0,0,z]^T$ we obtain the volume of the solid enclosed by $S$,</p>
+<p>$$ V = \int\limits_S (F\cdot n) \ dS. $$</p>
+<p>Suppose that we parameterize the surface $S$ using parameters $u$ and $v$, where $u$ and $v$ are defined on a planar region $R$. The surface integral in terms of $u$ and $v$ then becomes</p>
+<p>$$ V = \left|\int\limits_R F(x(u,v),y(u,v),z(u,v))\cdot
+\left(\frac{\partial r}{\partial u}(
+u,v) \times \frac{\partial r}{\partial v}(u,v) \right) \ du dv \right|, $$</p>
+<p>where $r(u,v)$ is the parametric description of $S$ in vector form. We use the absolute value above because the orientation of the normal vector is not well defined in this expression.</p>
+<p>We will now use Chebfun2 to compute this double integral and approximate the volume of the torus with $R_T = 3$ and $r_T = 1$. We point out that its exact area and volume are $4\pi^2 R_T r_T$ and $2\pi^2 R_T r_T^2$, respectively.</p>
+<pre class="mcode-input">u = chebfun2(@(u,v) u, [0 2*pi 0 2*pi]);
+v = chebfun2(@(u,v) v, [0 2*pi 0 2*pi]);
+x = (3+cos(v)).*cos(u);
+y = (3+cos(v)).*sin(u);
+z = sin(v);
+surf(x,y,z)
+view(-55,30), axis equal, camlight</pre>
+
+<p><img src="img/VolumeOfHeart_03.png" class="figure" alt=""></p>
+<p>We next compute and plot the vector field perpendicular to its surface. Notice that the <code>normal</code> command in Chebfun2 returns $r_v\times r_u$.</p>
+<pre class="mcode-input">r = [x;y;z];       % position vector
+v = normal(r);     % vector field perpendicular to S</pre>
+
+<p>We now plot the normal vectors and the field F over S.</p>
+<pre class="mcode-input">F = [0*z;0*z;z];
+quiver3(x,y,z,v,'k',lw,2,'numpts',10); hold on
+quiver3(x,y,z,F,'g',lw,2,'numpts',10);
+surf(x,y,z,F'*v), colorbar
+axis tight off, hold off, view(-28,64), camlight</pre>
+
+<p><img src="img/VolumeOfHeart_04.png" class="figure" alt=""></p>
+<p>The colors used in the surface of the torus show the integrand of the surface integral. The red region shows positive flux and in the blue the flux is close to zero, as $F$ is nearly parallel to the surface there. The net flux across the surface in this case is the volume of the torus. Using Chebfun2 we obtain</p>
+<pre class="mcode-input">Vol = integral2(F'*v)
+Exact = 2*pi^2*3*1^2</pre>
+
+<pre class="mcode-output">Vol =
+  59.217626406536354
+Exact =
+  59.217626406536148
+</pre>
+
+<p>This computation is accurate to about 14 digits.</p>
+<p>We can also easily compute the area of the torus with using the magnitude of the vector field $v$ [2],</p>
+<pre class="mcode-input">Area = integral2(sqrt(v'*v))
+Exact = 4*pi^2*3*1</pre>
+
+<pre class="mcode-output">Area =
+     1.184352528130725e+02
+Exact =
+     1.184352528130723e+02
+</pre>
+
+<h3 id="volume-of-a-heart">Volume of a heart</h3>
+<p>We now consider the volume of a more complex three dimensional region, the heart region in the Chebfun Example called Happy Valentines Day! [3].</p>
+<pre class="mcode-input">u = chebfun2(@(v,u) u,[0 1 0 4*pi]);
+v = chebfun2(@(v,u) v,[0 1 0 4*pi]);
+x = sin(pi*v).*cos(u/2);
+y = 0.7*sin(pi*v).*sin(u/2);
+z = (v-1).*(-49+50*v+30*v.*cos(u)+cos(2*u))./(-25+(cos(u)).^2);</pre>
+
+<p>As in the previous example, we next compute the vector the field orthogonal to the surface of this heart shaped region.</p>
+<pre class="mcode-input">r = [x;y;z];
+v = -normal(r);</pre>
+
+<p>We next plot the field $F$ and the normal $v$ on the surface of the heart. The dot product of $F$ and $v$ is used to color the surface.</p>
+<pre class="mcode-input">F = [0*z;0*z;z];
+quiver3(x,y,z,v,'k',lw,2,'numpts',10); hold on
+quiver3(x,y,z,F,'g',lw,2,'numpts',10);
+surf(x,y,z,F'*v), hold off
+axis equal tight, camlight, view(-45,5)
+colorbar, set(gcf,'position',[744 184 914 866])</pre>
+
+<p><img src="img/VolumeOfHeart_05.png" class="figure" alt=""></p>
+<p>Finally, we compute the volume of the heart.</p>
+<pre class="mcode-input">Vol = integral2(F'*v)</pre>
+
+<pre class="mcode-output">Vol =
+   2.199114857512856
+</pre>
+
+<p>For comparison, here is the volume  the bounding box that encloses the heart region.</p>
+<pre class="mcode-input">lx = (max2(x)-min2(x)); ly = (max2(y)-min2(y)); lz = (max2(z)-min2(z));
+VolBox = lx*ly*lz</pre>
+
+<pre class="mcode-output">VolBox =
+   5.973333333333412
+</pre>
+
+<h3 id="volume-of-a-seashell">Volume of a seashell</h3>
+<p>In our final example we compute the volume of the seashell region parameterized by the following equations.</p>
+<pre class="mcode-input">u = chebfun2(@(u,v) u, [0 6*pi 0 2*pi]);
+v = chebfun2(@(u,v) v, [0 6*pi 0 2*pi]);
+
+x = 2*(1-exp(u/(6*pi))).*cos(u).*cos(v/2).^2;
+y = 2*(-1+exp(u/(6*pi))).*sin(u).*cos(v/2).^2;
+z = 1-exp(u/(3*pi))-sin(v)+exp(u/(6*pi)).*sin(v);
+
+surf(x,y,z), camlight
+view(160,10), axis equal, box on</pre>
+
+<p><img src="img/VolumeOfHeart_06.png" class="figure" alt=""></p>
+<p>Notice that in this case the parametrization gives an open surface at $y=0$ (corresponding to $u=2\pi$). As can be seen below, however, there is no flux across the open part of the seashell, as the vector filed $[0,0,z]$ is parallel to it.</p>
+<pre class="mcode-input">hold on
+F = [0*z;0*z;z];
+quiver3(x,y,z,F,'g',lw,2);
+hold off</pre>
+
+<p><img src="img/VolumeOfHeart_07.png" class="figure" alt=""></p>
+<p>As in the previous examples, therefore, the net flux across this surface gives the volume of the seashell.</p>
+<pre class="mcode-input">r = [x;y;z];
+v = -normal(r);
+Vol = integral2(F'*v)</pre>
+
+<pre class="mcode-output">Vol =
+  55.256380423125627
+</pre>
+
+<p>For comparison, here is the volume  the bounding box that encloses the seashell.</p>
+<pre class="mcode-input">lx = (max2(x)-min2(x)); ly = (max2(y)-min2(y)); lz = (max2(z)-min2(z));
+VolBox = lx*ly*lz</pre>
+
+<pre class="mcode-output">VolBox =
+     2.579395508775318e+02
+</pre>
+
+<p>This solid fills about $21\%$ of its bounding box:</p>
+<pre class="mcode-input">Vol/VolBox</pre>
+
+<pre class="mcode-output">ans =
+   0.214222209177068
+</pre>
+
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>Chebfun Example <a href="../fun/ValentinesDay.html">fun/ValentinesDay</a></p>
+</li>
+<li>
+<p><a href="http://en.wikipedia.org/wiki/Parametric_surface">http://en.wikipedia.org/wiki/Parametric_surface</a></p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
