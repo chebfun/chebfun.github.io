@@ -20,6 +20,7 @@ approx/LebesgueConst.m
 approx/Local.m
 approx/OrthPolys.m
 approx/OscError.m
+approx/Other2DDomains.m
 approx/PrettyFunctions.m
 approx/RationalInterp.m
 approx/ResolutionWiggly.m
