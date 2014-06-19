@@ -55,7 +55,7 @@
 <h1>Nonlinear ODEs and Chebgui</h1>
 <h2>Lloyd N. Trefethen, November 2009, latest revision June 2014<span>
     
-        <a href='/docs/guide/guide9.html'
+        <a href='/docs/guide/guide09.html'
 >previous</a><span class='sep-sm
 '>&middot;</span><a href='../guide'>index</a><span class='sep-sm
 '>&middot;</span><a href='/docs/guide/guide11.html'
@@ -121,14 +121,17 @@ v = chebfun.ode15s(fun, [0 3000], [2 0], opts);
 chebfunpref.setDefaults('factory')
 u = v(:,1); plot(u,LW,lw)</pre>
 
+<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+</pre>
+
 <p><img src="img/guide10_03.png" class="figure" alt=""></p>
 <p>Here is a pretty good estimate of the period of the oscillator:</p>
 <pre class="mcode-input">diff(roots(u))</pre>
 
 <pre class="mcode-output">ans =
    1.0e+02 *
-   8.072000511670380
-   8.072001250877227
+   8.071984160150478
+   8.072067796345104
 </pre>
 
 <p>Finally here is an illustration of the Lorenz equations:</p>
@@ -229,15 +232,15 @@ clf, plot(u, 'm', LW, lw)</pre>
 <p>The object <code>L</code> we have created is a chebop, with these fields:</p>
 <pre class="mcode-input">disp(L)</pre>
 
-<pre class="mcode-output">  chebop with properties:
-
-     domain: [-1 1]
-         op: @(x,u)0.0001*diff(u,2)+x.*u
-        lbc: @(u)u-BC
-        rbc: @(u)u-BC
-         bc: []
-       init: []
-    numVars: []
+<pre class="mcode-output">   Linear operator:
+      0.0001*diff(u,2)+x.*u = 0
+   operating on chebfun objects defined on:
+      [-1 1]
+   with
+    left boundary conditions:
+      u-BC = 0
+    right boundary conditions:
+      @(u)u-BC = 0
 </pre>
 
 <p>Notice that one of the fields is called <code>init</code>, which may hold an initial guess for an iteration if one is specified.  If a guess is not specified, then a low-order polynomial function is used that matches the boundary conditions. To solve a nonlinear ODE, Chebfun uses a Newton or damped Newton iteration starting at the given initial guess.  Each step of the iteration requires the solution of a linear problem specified by a Jacobian operator (Frechet derivative) evaluated at the current estimated solution.  This is provided by the AD facility, and the linear problem is then solved by chebops.</p>
@@ -258,21 +261,21 @@ clf, plot(u)</pre>
 <pre class="mcode-output">nrmdu =
    0.260668532007021
 nrmdu =
-   0.164126069559970
+   0.164126069559936
 nrmdu =
-   0.098900892365548
+   0.098900892365438
 nrmdu =
-   0.053787171684147
+   0.053787171683933
 nrmdu =
-   0.021518152858702
+   0.021518152858429
 nrmdu =
-   0.003586696693333
+   0.003586696693249
 nrmdu =
-     8.951602489402334e-05
+     8.951602488841667e-05
 nrmdu =
-     5.357404768429318e-08
+     5.357404990847659e-08
 nrmdu =
-     5.456495500136958e-14
+     1.781832975555619e-14
 </pre>
 
 <p><img src="img/guide10_11.png" class="figure" alt=""></p>
@@ -311,6 +314,10 @@ u = N\1; plot(u, 'm', LW, lw)</pre>
 [u, info] = solvebvp(N, 1);
 plot(u,'m',LW,lw)</pre>
 
+<pre class="mcode-output">Warning: Newton iteration failed. Maximum number of iterations exceeded.
+See help cheboppref for how to increase the number of steps allowed. 
+</pre>
+
 <p><img src="img/guide10_15.png" class="figure" alt=""></p>
 <p>This time, we called the method <code>solvebvp</code> with two output arguments. The second output is a MATLAB struct, which contains data showing the norms of the updates during the Newton iteration, revealing in this case a troublesome initial phase followed by eventual rapid convergence.</p>
 <pre class="mcode-input">nrmdu = info.normDelta;
@@ -330,8 +337,7 @@ cheboppref.setDefaults('display','none')</pre>
 <p>The heading of this section refers to the command <code>solvebvp</code>. When you apply backslash to a nonlinear chebop, it invokes the overloaded MATLAB command <code>mldivide</code>; this in turn calls a command <code>solvebvp</code> to do the actual work. By calling <code>solvebvp</code> directly, you can control the computation in ways not accessible through backslash. This situation is just like the relationship in standard MATLAB between <code>\</code> and <code>linsolve</code>. See the help documentation for details.</p>
 <h3 id="105-graphical-user-interface-chebgui">10.5 Graphical user interface: Chebgui</h3>
 <p>Chebfun includes a GUI (Graphical User Interface) for solving all kinds of ODE, time-dependent PDE, and eigenvalue problems interactively. We will not describe it here, but we encourage the reader to type <code>chebgui</code> and give it a try. Be sure to note the <code>Demo</code> menu, which contains dozens of preloaded examples, both scalars and systems. Perhaps most important of all is the `Export to m-file" button, which produces a Chebfun m-file corresponding to whatever problem is loaded into the GUI.  This feature enables one to get going quickly and interactively, then switch to a Chebfun program to adjust the fine points.</p>
-<pre class="mcode-input">close all
-chebgui</pre>
+<pre class="mcode-input">chebgui</pre>
 
 <p><img src="img/guide10_17.png" class="figure" alt=""></p>
 <h3 id="106-references">10.6 References</h3>

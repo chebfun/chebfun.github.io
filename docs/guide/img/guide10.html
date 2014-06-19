@@ -60,14 +60,15 @@ fun = @(t,v) [v(2); 1000*(1 - v(1)^2)*v(2) - v(1)];
 chebfunpref.setDefaults('enableBreakpointDetection',true)
 v = chebfun.ode15s(fun, [0 3000], [2 0], opts);
 chebfunpref.setDefaults('factory')
-u = v(:,1); plot(u,LW,lw)</pre><img src="img/guide10_03.png" class="figure" alt="">
+u = v(:,1); plot(u,LW,lw)</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+</pre><img src="img/guide10_03.png" class="figure" alt="">
 
 Here is a pretty good estimate of the period of the oscillator:
 
 <pre class="mcode-input">diff(roots(u))</pre><pre class="mcode-output">ans =
    1.0e+02 *
-   8.072000511670380
-   8.072001250877227
+   8.071984160150478
+   8.072067796345104
 </pre>Finally here is an illustration of the Lorenz equations:
 
 <pre class="mcode-input">fun = @(t,u) [10*(u(2)-u(1)); 28*u(1)-u(2)-u(1)*u(3); u(1)*u(2)-(8/3)*u(3)];
@@ -179,15 +180,15 @@ What's going on in such a calculation is that `L` is a prescription for construc
 
 The object `L` we have created is a chebop, with these fields:
 
-<pre class="mcode-input">disp(L)</pre><pre class="mcode-output">  chebop with properties:
-
-     domain: [-1 1]
-         op: @(x,u)0.0001*diff(u,2)+x.*u
-        lbc: @(u)u-BC
-        rbc: @(u)u-BC
-         bc: []
-       init: []
-    numVars: []
+<pre class="mcode-input">disp(L)</pre><pre class="mcode-output">   Linear operator:
+      0.0001*diff(u,2)+x.*u = 0
+   operating on chebfun objects defined on:
+      [-1 1]
+   with
+    left boundary conditions:
+      u-BC = 0
+    right boundary conditions:
+      @(u)u-BC = 0
 </pre>Notice that one of the fields is called `init`, which may hold an initial guess for an iteration if one is specified.  If a guess is not specified, then a low-order polynomial function is used that matches the boundary conditions. To solve a nonlinear ODE, Chebfun uses a Newton or damped Newton iteration starting at the given initial guess.  Each step of the iteration requires the solution of a linear problem specified by a Jacobian operator (Frechet derivative) evaluated at the current estimated solution.  This is provided by the AD facility, and the linear problem is then solved by chebops.
 
 In Section 7.9 we hand-coded our own Newton iteration to solve the nonlinear BVP
@@ -208,21 +209,21 @@ end
 clf, plot(u)</pre><pre class="mcode-output">nrmdu =
    0.260668532007021
 nrmdu =
-   0.164126069559970
+   0.164126069559936
 nrmdu =
-   0.098900892365548
+   0.098900892365438
 nrmdu =
-   0.053787171684147
+   0.053787171683933
 nrmdu =
-   0.021518152858702
+   0.021518152858429
 nrmdu =
-   0.003586696693333
+   0.003586696693249
 nrmdu =
-     8.951602489402334e-05
+     8.951602488841667e-05
 nrmdu =
-     5.357404768429318e-08
+     5.357404990847659e-08
 nrmdu =
-     5.456495500136958e-14
+     1.781832975555619e-14
 </pre><img src="img/guide10_11.png" class="figure" alt="">
 
 However, it is not necessary to construct such Newton iterations by hand! The code above is a much simplified version of what happens under-the-hood when `nonlinear backslash' is called to solve nonlinear differential equations. A few examples of this are demonstrated below.
@@ -263,7 +264,9 @@ We get a different solution from the one we got before! This one is correct too;
 
 <pre class="mcode-input">N.init= 1.2*u.*sin(x/2);
 [u, info] = solvebvp(N, 1);
-plot(u,'m',LW,lw)</pre><img src="img/guide10_15.png" class="figure" alt="">
+plot(u,'m',LW,lw)</pre><pre class="mcode-output">Warning: Newton iteration failed. Maximum number of iterations exceeded.
+See help cheboppref for how to increase the number of steps allowed. 
+</pre><img src="img/guide10_15.png" class="figure" alt="">
 
 This time, we called the method `solvebvp` with two output arguments. The second output is a MATLAB struct, which contains data showing the norms of the updates during the Newton iteration, revealing in this case a troublesome initial phase followed by eventual rapid convergence.
 
@@ -285,8 +288,7 @@ cheboppref.setDefaults('display','none')</pre>The heading of this section refers
 
 Chebfun includes a GUI (Graphical User Interface) for solving all kinds of ODE, time-dependent PDE, and eigenvalue problems interactively. We will not describe it here, but we encourage the reader to type `chebgui` and give it a try. Be sure to note the `Demo` menu, which contains dozens of preloaded examples, both scalars and systems. Perhaps most important of all is the `Export to m-file" button, which produces a Chebfun m-file corresponding to whatever problem is loaded into the GUI.  This feature enables one to get going quickly and interactively, then switch to a Chebfun program to adjust the fine points.
 
-<pre class="mcode-input">close all
-chebgui</pre><img src="img/guide10_17.png" class="figure" alt="">
+<pre class="mcode-input">chebgui</pre><img src="img/guide10_17.png" class="figure" alt="">
 
 
 

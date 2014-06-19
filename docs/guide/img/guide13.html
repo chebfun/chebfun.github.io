@@ -22,7 +22,7 @@ The zero curves are represented as complex valued chebfuns (see Chapter 5 of the
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [      -1,       1]      576    complex values 
-Epslevel = 1.000000e-05.  Vscale = 9.979956e-01.
+Epslevel = 1.000000e-05.  Vscale = 9.980190e-01.
 </pre>The zero contours of a function are computed by Chebfun2 to plotting accuracy and they are typically not accurate to machine precision.
 
 
@@ -82,8 +82,8 @@ If both the global maximum and minimum are required, it is roughly twice as fast
 <pre class="mcode-input">tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t=toc;
 fprintf('min2 and max2 separately = %5.3fs\n',t)
 tic; [Y X] = minandmax2(f); t=toc;
-fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 0.516s
-minandmax2 command = 0.204s
+fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 0.474s
+minandmax2 command = 0.227s
 </pre>The commands `min2`, `max2`, and `minandmax2` run faster if the MATLAB Optimisation Toolbox is available.
 
 

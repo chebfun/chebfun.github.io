@@ -12,7 +12,7 @@ slug     = 'guide';
 
 % Make each chapter the user has requested
 for n = N(:)'
-    chapname = [ slug num2str(n) '.m' ];
+    chapname = [ slug sprintf('%02d',n) '.m' ];
 
     % Try to copy the file.
     [copysuccess,msg] = copyfile([pathpath chapname], chapname);
@@ -22,7 +22,7 @@ for n = N(:)'
     end
 
     % Let the user know the Publish has begun.
-    message = ['Making Chapter ' num2str(n) '...'];
+    message = ['Making Chapter ' sprintf('%02d',n) '...'];
     n = max(1, 33-length(message));
     spaces = repmat(' ', 1, n);
     fprintf(1, [message spaces])

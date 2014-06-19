@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>6. Quasimatrices and Least-Squares &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<span class='chapter_number'>6</span>
+<h1>Quasimatrices and Least-Squares</h1>
+<h2>Lloyd N. Trefethen, November 2009, latest revision June 2014<span>
+    
+        <a href='/docs/guide/guide05.html'
+>previous</a><span class='sep-sm
+'>&middot;</span><a href='../guide'>index</a><span class='sep-sm
+'>&middot;</span><a href='/docs/guide/guide07.html'
+>next</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<h3 id="61-quasimatrices-and-spy">6.1  Quasimatrices and <code>spy</code></h3>
+<p>A chebfun can have more than one column, or if it is transposed, it can have more than one row.  In these cases we get a <em>quasimatrix</em>, a "matrix" in which one of the dimensions is discrete as usual but the other is continuous.  Our default choice will be that of an " $\infty\times n$ " quasimatrix consisting of $n$ columns, each of which is a chebfun.  When it is important to specify the orientation we use the term <em>column quasimatrix</em> or <em>row quasimatrix</em>.</p>
+<p>Here for example is the quasimatrix consisting of the first six powers of $x$ on the interval $[-1,1]$.  The command <code>size</code> can be used to identify the continuous dimension, and to find the numbers of rows or columns:</p>
+<pre class="mcode-input">  x = chebfun('x');
+  A = [1 x x.^2 x.^3 x.^4 x.^5];
+  size(A)
+  size(A,2)</pre>
+
+<pre class="mcode-output">ans =
+   Inf     6
+ans =
+     6
+</pre>
+
+<p>Here is the third column of $A$ evaluated at the point $x=0.5$:</p>
+<pre class="mcode-input">  A(0.5,3)</pre>
+
+<pre class="mcode-output">ans =
+   0.250000000000000
+</pre>
+
+<p>Here are the column sums, i.e., the integrals of $1, x,\dots, x^5$ from $-1$ to $1$:</p>
+<pre class="mcode-input">  format short, sum(A), format long</pre>
+
+<pre class="mcode-output">ans =
+    2.0000         0    0.6667         0    0.4000         0
+</pre>
+
+<p>And here is a plot of the columns:</p>
+<pre class="mcode-input">  LW = 'linewidth';
+  plot(A,LW,1.6), grid on, ylim([-1.1 1.1])</pre>
+
+<p><img src="img/guide06_01.png" class="figure" alt=""></p>
+<p>The term quasimatrix comes from [Stewart 1998], and the same idea appears with different terminology in [de Boor 1991] and [Trefethen &amp; Bau 1997, pp. 52-54].  The idea is a natural one, since so much of applied linear algebra deals with discrete approximations to the continuous, but it seems not to have been discussed explicitly very much until the appearance of Chebfun [Battles &amp; Trefethen 2004, Battles 2006].</p>
+<p>If <code>f</code> and <code>g</code> are column chebfuns, then <code>f'*g</code> is a scalar, their inner product. For example, here is the inner product of $x^2$ and $x^4$ over $[-1,1]$ (equal to $2/7$):</p>
+<pre class="mcode-input">  A(:,3)'*A(:,5)</pre>
+
+<pre class="mcode-output">ans =
+   0.285714285714286
+</pre>
+
+<p>More generally, if <code>A</code> and <code>B</code> are column quasimatrices with $m$ and $n$ columns, respectively, then <code>A'*B</code> is the $m \times n$ matrix of inner products of those columns. Here is the $6\times 6$ example corresponding to $B=A$:</p>
+<pre class="mcode-input">  format short, A'*A, format long</pre>
+
+<pre class="mcode-output">ans =
+    2.0000    0.0000    0.6667    0.0000    0.4000    0.0000
+    0.0000    0.6667         0    0.4000    0.0000    0.2857
+    0.6667    0.0000    0.4000    0.0000    0.2857   -0.0000
+    0.0000    0.4000    0.0000    0.2857    0.0000    0.2222
+    0.4000    0.0000    0.2857   -0.0000    0.2222   -0.0000
+    0.0000    0.2857         0    0.2222   -0.0000    0.1818
+</pre>
+
+<p>You can get an idea of the shape of a quasimatrix with the overloaded <code>spy</code> command</p>
+<pre class="mcode-input">  subplot(1,2,1), spy(A), title A
+  subplot(1,2,2), spy(A'), title('A''')</pre>
+
+<p><img src="img/guide06_02.png" class="figure" alt=""></p>
+<h3 id="62-backslash-and-least-squares">6.2 Backslash and least-squares</h3>
+<p>In MATLAB, the command <code>c = A\b</code> computes the solution to the system of equations $Ac = b$ if $A$ is a square matrix, whereas if $A$ is rectangular, with more rows than columns, it computes the least squares solution, the vector $c$ that minimizes $\|Ac-b\|$.  A quasimatrix is always rectangular, and <code>\</code> has accordingly been overloaded to carry out the appropriate continuous least-squares computation. (The actual MATLAB command that handles backslash is <code>mldivide</code>.)</p>
+<p>For example, continuing with the same chebfun <code>x</code> and quasimatrix <code>A</code> as above, consider the following sequence:</p>
+<pre class="mcode-input">  f = exp(x).*sin(6*x);
+  c = A\f</pre>
+
+<pre class="mcode-output">c =
+   0.309654988398408
+   4.640757102742464
+  -2.157249816336408
+ -20.041645425109152
+   1.073963006923383
+  15.477982292827999
+</pre>
+
+<p>The vector $c$ can be interpreted as the vector of coefficients of the least-squares fit to $f$ by a linear combination of the functions $1, x,\dots, x^5$.  Here is a plot of $f$ (in blue) and the least-squares approximation (in red), which we label <code>ffit</code>.</p>
+<pre class="mcode-input">  ffit = A*c;
+  clf, plot(f,'b',ffit,'r',LW,1.6), grid on
+  error = norm(f-ffit)</pre>
+
+<pre class="mcode-output">error =
+   0.356073976001434
+</pre>
+
+<p><img src="img/guide06_03.png" class="figure" alt=""></p>
+<p>It is a general result that the least-squares approximation by a polynomial of degree $n$ to a continuous function $f$ must intersect $f$ at least $n+1$ times in the interval of approximation.</p>
+<p>Here is quite a different quasimatrix whose columns can be used to fit $f$. The columns correspond to hat functions located at points equally spaced from $-1$ to $1$, and they are realized as piecewise smooth chebfuns.</p>
+<pre class="mcode-input">  A2 = [];
+  for j = 0:8
+    xj = -1 + j/4;
+    A2 = [A2 max(0,1-4*abs(x-xj))];
+  end
+  plot(A2)
+  set(gca,'xtick',-1:.25:1)</pre>
+
+<p><img src="img/guide06_04.png" class="figure" alt=""></p>
+<p>A linear combination of these columns is a piecewise linear function with breakpoints at $-0.75, -0.50,\dots,0.75$.  Here is the least-squares fit by such functions to $f$.  Remember that although we happen to be fitting here by a function with a discrete flavor, all the operations are continuous ones involving integrals, not point evaluations.</p>
+<pre class="mcode-input">  c = A2\f;
+  ffit = A2*c;
+  plot(f,'b',ffit,'.-r',LW,1.6), grid on
+  set(gca,'xtick',-1:.25:1)
+  error = norm(f-ffit)</pre>
+
+<pre class="mcode-output">error =
+   0.148137345378415
+</pre>
+
+<p><img src="img/guide06_05.png" class="figure" alt=""></p>
+<h3 id="63-qr-factorization">6.3 QR factorization</h3>
+<p>Matrix least-squares problems are ordinarily solved by QR factorization, and in the quasimatrix case, they are solved by quasimatrix QR factorization. This is the technology underlying the backslash operator described in the last section.</p>
+<p>A quasimatrix QR factorization takes this form:</p>
+<p>$$ A = QR, $$</p>
+<p>with</p>
+<p>$$ A:~ \infty\times n, \quad Q: ~ \infty\times n, \quad R: ~ n\times n.  $$</p>
+<p>The columns of $A$ are arbitrary, the columns of $Q$ are orthonormal, and $R$ is an $n\times n$ upper-triangular matrix.  This factorization corresponds to what is known in various texts as the "reduced", "economy size", "skinny", "abbreviated", or "condensed" QR factorization, since $Q$ is rectangular rather than square and $R$ is square rather than rectangular.  In MATLAB the syntax for computing such things is <code>[Q,R] = qr(A,0)</code>, and the same command has been overloaded for chebfuns.  The computation makes use of a quasimatrix analogue of Householder triangularization [Trefethen 2010].  Alternatively one can simply write <code>[Q,R] = qr(A)</code>:</p>
+<pre class="mcode-input">  [Q,R] = qr(A);
+  plot(Q,LW,1.6), grid on</pre>
+
+<p><img src="img/guide06_06.png" class="figure" alt=""></p>
+<p>The <code>spy</code> command confirms the shape of these various matrices. In principle half the dots in the upper-triangle should be zero because of the fact that the columns of $A$ alternate even and odd functions, but rounding errors introduce nonzeros.</p>
+<pre class="mcode-input">  subplot(1,3,1), spy(A), title A
+  subplot(1,3,2), spy(Q), title Q
+  subplot(1,3,3), spy(R), title R</pre>
+
+<p><img src="img/guide06_07.png" class="figure" alt=""></p>
+<p>The plot shows <em>orthogonal polynomials</em>, namely the orthogonalizations of the monomials $1, x,\dots,x^5$ over $[-1,1]$.  These are the famous Legendre polynomials $P_k$ [Abramowitz &amp; Stegun 1972], except that the latter are conventionally normalized by the condition $P(1) = 1$ rather than by having norm $1$.  We can renormalize to impose this condition as follows:</p>
+<pre class="mcode-input">  for j = 1:size(A,2)
+    R(j,:) = R(j,:)*Q(1,j);
+    Q(:,j) = Q(:,j)/Q(1,j);
+  end
+  clf, plot(Q,LW,1.6), grid on</pre>
+
+<p><img src="img/guide06_08.png" class="figure" alt=""></p>
+<p>(A slicker way to produce this plot in Chebfun would be to execute <code>plot(legpoly(0:5))</code>.)</p>
+<p>If $A=QR$, then $A R^{-1} = Q$, and here is $R^{-1}$:</p>
+<pre class="mcode-input">  format short, inv(R), format long</pre>
+
+<pre class="mcode-output">ans =
+    1.0000   -0.0000   -0.5000    0.0000    0.3750   -0.0000
+         0    1.0000    0.0000   -1.5000   -0.0000    1.8750
+         0         0    1.5000   -0.0000   -3.7500    0.0000
+         0         0         0    2.5000    0.0000   -8.7500
+         0         0         0         0    4.3750   -0.0000
+         0         0         0         0         0    7.8750
+</pre>
+
+<p>Column $k$ of $R^{-1}$ is the vector of coefficients of the expansion of column $k$ of $Q$ as a linear combination of the columns of $A$, that is, the monomials $1, x, x^2,\dots.$  In other words, column $k$ of $R^{-1}$ is the vector of coefficients of the degree $k$ Legendre polynomial.  For example, we see from the matrix that $P_3(x) = 2.5x^3 - 1.5x$.</p>
+<p>Here is what the hat functions look like after orthonormalization:</p>
+<pre class="mcode-input">  [Q2,R2] = qr(A2);
+  plot(Q2,LW,1.6)</pre>
+
+<p><img src="img/guide06_09.png" class="figure" alt=""></p>
+<h3 id="64-svd-norm-cond">6.4 <code>svd</code>, <code>norm</code>, <code>cond</code></h3>
+<p>An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in particular, $A$ maps the unit ball in $R^n$ to a hyperellipsoid of dimension $\le n$ in $R^m$. The (reduced, skinny, condensed,...) <em>SVD</em> or <em>singular value decomposition</em> exhibits this map by providing a factorization $AV = US$ or equivalently $A = USV^<em>$, where $U$ is $m\times n$ with orthonormal columns, $S$ is diagonal with nonincreasing nonnegative diagonal entries known as the </em>singular values<em>, and $V$ is $n\times n$ and orthogonal. $A$ maps $v_j$, the $j$ th column of $V$ or the $j$ th </em>right singular vector<em>, to $s_j$ times $u_j$, the $j$ th column of $U$ or the $j$ th </em>left singular vector*, which is the vector defining the $j$ th largest semiaxis of the hyperellipsoid.  See Chapters 4 and 5 of [Trefethen &amp; Bau 1997].</p>
+<p>If A is an $\infty \times n$ quasimatrix, everything is analogous:</p>
+<p>$$ A = USV', \qquad  A: \infty \times n,~~
+U: \infty \times n, ~~  S: n \times n, ~~  V:  n \times n. $$</p>
+<p>The image of the unit ball in $R^n$ under $A$ is still a hyperellipsoid of dimension $\le n$, which now lies within an infinite-dimensional function space. The columns of $Q$ are orthonormal functions and $S$ and $V$ have the same properties as in the matrix case.</p>
+<p>For example, here are the singular values of the matrix A defined earlier with columns $1,x,\dots,x^5$:</p>
+<pre class="mcode-input">  s = svd(A,0)</pre>
+
+<pre class="mcode-output">s =
+   1.532062889375340
+   1.032551897396699
+   0.518125864967969
+   0.258419769500035
+   0.080938947808205
+   0.035425077461572
+</pre>
+
+<p>The largest singular value is equal to the norm of the quasimatrix, which is defined by  $\|A\| = \max_x \|Ax\| / \|x\|$.</p>
+<pre class="mcode-input">  norm(A,2)</pre>
+
+<pre class="mcode-output">ans =
+   1.532062889375340
+</pre>
+
+<p>(Note that we must include the argument <code>2</code> here: for reasons of speed, the default for quasimatrices, unlike the usual MATLAB matrices, is the Frobenius norm rather than the 2-norm.) The SVD enables us to identify exactly what vectors are involved in achieving this maximum ratio.  The optimal vector $x$ is $v_1$, the first right singular vector of $A$,</p>
+<pre class="mcode-input">  [U,S,V] = svd(A);
+  v1 = V(:,1)</pre>
+
+<pre class="mcode-output">v1 =
+   0.913034433780914
+   0.000000000000000
+   0.344611116356111
+   0.000000000000000
+   0.218200140270718
+   0.000000000000000
+</pre>
+
+<p>We can use spy to confirm the shapes of the matrices. As with <code>spy( R)</code> earlier, here <code>spy(V)</code> should in principle show a checkerboard, but nonzeros are introduced by rounding errors.</p>
+<pre class="mcode-input">  subplot(1,5,1), spy(A), title A
+  subplot(1,5,3), spy(U), title U
+  subplot(1,5,4), spy(S), title S
+  subplot(1,5,5), spy(V), title V</pre>
+
+<p><img src="img/guide06_10.png" class="figure" alt=""></p>
+<p>We confirm that the norm of $v_1$ is $1$:</p>
+<pre class="mcode-input">  norm(v1)</pre>
+
+<pre class="mcode-output">ans =
+   1.000000000000000
+</pre>
+
+<p>This vector is mapped by $A$ to the chebfun $s_1u_1$:</p>
+<pre class="mcode-input">  u1 = U(:,1);
+  norm(u1)</pre>
+
+<pre class="mcode-output">ans =
+   1.000000000000000
+</pre>
+
+<pre class="mcode-input">  s1 = S(1,1)</pre>
+
+<pre class="mcode-output">s1 =
+   1.532062889375340
+</pre>
+
+<pre class="mcode-input">  norm(A*v1)</pre>
+
+<pre class="mcode-output">ans =
+   1.532062889375341
+</pre>
+
+<pre class="mcode-input">  norm(A*v1-s1*u1)</pre>
+
+<pre class="mcode-output">ans =
+     4.142554461132180e-16
+</pre>
+
+<p>Similarly, the minimal singular value and corresponding singular vectors describe the minimum amount that $A$ can enlarge an input.  The following commands plot the extreme functions $Av_1$ (blue) and $Av_n$ (red).  We can interpret these as the largest and smallest degree $5$ polynomials, as measured in the $2$-norm over $[-1,1]$, whose coefficient vectors have $2$-norm equal to $1$.</p>
+<pre class="mcode-input">  clf, plot(A*v1,LW,1.6), grid on, hold on
+  vn = V(:,end);
+  plot(A*vn,'r',LW,1.6), hold off</pre>
+
+<p><img src="img/guide06_11.png" class="figure" alt=""></p>
+<p>The ratio of the largest and smallest singular values -- the eccentricity of the hyperellipsoid -- is the condition number of $A$:</p>
+<pre class="mcode-input">  max(s)/min(s)</pre>
+
+<pre class="mcode-output">ans =
+  43.247975704139762
+</pre>
+
+<pre class="mcode-input">  cond(A)</pre>
+
+<pre class="mcode-output">ans =
+  43.247975704139762
+</pre>
+
+<p>The fact that <code>cond(A)</code> is a good deal greater than $1$ reflects the ill-conditioning of the monomials $1,x,\dots ,x^5$ as a basis for degree $5$ polynomials in $[-1,1]$.  The effect becomes rapidly stronger as we take more terms in the sequence:</p>
+<pre class="mcode-input">  cond([A x.^6 x.^7 x.^8 x.^9 x.^10 x.^11 x.^12 x.^13 x.^14 x.^15])</pre>
+
+<pre class="mcode-output">ans =
+     2.298938277191532e+05
+</pre>
+
+<p>By contrast a quasimatrix formed of suitably normalized Legendre polynomials has condition number $1$, since they are orthonormal:</p>
+<pre class="mcode-input">cond(legpoly(0:15,'norm'))</pre>
+
+<pre class="mcode-output">ans =
+   1.000000000000002
+</pre>
+
+<p>A quasimatrix of Chebyshev polynomials doesn't quite achieve condition number $1$, but it comes close:</p>
+<pre class="mcode-input">cond(chebpoly(0:15))</pre>
+
+<pre class="mcode-output">ans =
+   4.597747107616716
+</pre>
+
+<p>Chebyshev polynomials form an excellent basis for expansions on $[-1,1]$, a fact that is at the heart of Chebfun.</p>
+<h3 id="65-other-norms">6.5 Other norms</h3>
+<p>The definition $\|A\| = \max_x \|Ax\|/\|x\|$ makes sense in other norms besides the $2$-norm, and the particularly important alternatives are the $1$-norm and the $\infty$-norm.  The 1-norm of a column quasimatrix is the "maximum column sum", i.e., the maximum of the 1-norms of its columns.   In the case of our quasimatrix $A$, the maximum is attained by the first column, which has norm $2$:</p>
+<pre class="mcode-input">  norm(A,1)</pre>
+
+<pre class="mcode-output">ans =
+     2
+</pre>
+
+<p>The $\infty$-norm is the "maximum row sum", which for a column quasimatrix corresponds to the maximum of the chebfun obtained by adding the absolute values of the columns.  In the case of $A$, the sum is $1+|x|+\cdots +|x|^5$, which attains its maximum value $6$ at $x=-1$ and $1$:</p>
+<pre class="mcode-input">  norm(A,inf)</pre>
+
+<pre class="mcode-output">ans =
+   6.000000000000002
+</pre>
+
+<p>The norms of row quasimatrices are analogous, with <code>norm(A',inf) = norm(A,1)</code> and <code>norm(A',1) = norm(A,inf)</code>. Like MATLAB itself applied to a rectangular matrix, Chebfun does not define <code>cond(A,1)</code> or <code>cond(A,inf)</code> if <code>A</code> is a quasimatrix.</p>
+<p>The Frobenius or Hilbert-Schmidt norm is equal to the square root of the sum of the squares of the singular values:</p>
+<pre class="mcode-input">  norm(A,'fro')</pre>
+
+<pre class="mcode-output">ans =
+   1.938148951041007
+</pre>
+
+<h3 id="66-rank-null-orth-pinv">6.6 <code>rank</code>, <code>null</code>, <code>orth</code>, <code>pinv</code></h3>
+<p>Chebfun also contains overloads for some further MATLAB operations related to orthogonal matrix factorizations. Perhaps the most useful of these is <code>rank(A)</code>, which computes the singular values of $A$ and makes a judgement as to how many of them are significantly different from zero.  For example, with $x$ still defined as before, here is an example showing that the functions $1,$ $\sin(x)^2$, and $\cos(x)^2$ are linearly dependent:</p>
+<pre class="mcode-input">  B = [1 sin(x).^2 cos(x).^2];
+  rank(B)</pre>
+
+<pre class="mcode-output">ans =
+     2
+</pre>
+
+<p>Since $B$ is rank-deficient, is has a nontrivial nullspace, and the command <code>null(B)</code> will find an orthonormal basis for it:</p>
+<pre class="mcode-input">  null(B)</pre>
+
+<pre class="mcode-output">ans =
+  -0.577350269189626
+   0.577350269189626
+   0.577350269189626
+</pre>
+
+<p>Similarly the command <code>orth(B)</code> finds an orthonormal basis for the range of B, which in this case has dimension $2$:</p>
+<pre class="mcode-input">  orth(B)</pre>
+
+<pre class="mcode-output">ans =
+   chebfun column1 (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]       17      0.61     0.61 
+Epslevel = 2.340672e-16.  Vscale = 7.634146e-01.
+   chebfun column2 (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]       17      -1.4     -1.4 
+Epslevel = 1.555489e-15.  Vscale = 1.425588e+00.
+</pre>
+
+<p>If <code>A</code> is an $\infty\times n$ column quasimatrix, the command <code>pinv(A)</code> computes the pseudoinverse of <code>A</code>, an $n \times \infty$ row quasimatrix such that <code>pinv(A)*c = A\c</code>.</p>
+<p>Here is a summary of the dimensions of these objects:</p>
+<pre class="mcode-input">  subplot(1,3,1), spy(null(B)), title null(B)
+  subplot(1,3,2), spy(orth(B)), title orth(B)
+  subplot(1,3,3), spy(pinv(A)), title pinv(A)</pre>
+
+<p><img src="img/guide06_12.png" class="figure" alt=""></p>
+<h3 id="67-array-valued-chebfuns-vs-arrays-of-chebfuns">6.7 Array-valued chebfuns vs. arrays of chebfuns</h3>
+<p>In Chebfun, quasimatrices are actually implemented in two different ways.  When its columns are smooth functions, a quasimatrix is normally represented as an <em>array-valued chebfun</em>. If a quasimatrix has singularities, or breakpoints that differ from one column to another, it is represented in a different fashion as an <em>array of chebfuns</em>.  This representation is more flexible, though slower for some operations. In principle, users should never see the difference.</p>
+<h3 id="68-references">6.8  References</h3>
+<p>[Abramowitz &amp; Stegun 1972] M. A. Abramowitz and I. A. Stegun, eds., <em>Handbook of Mathematical Functions with Formulas, Graphs, and Mathematical Tables</em>, 9th printing, Dover, 1972.</p>
+<p>[Battles 2006] Z. Battles, <em>Numerical Linear Algebra for Continuous Functions</em>, DPhil thesis, Oxford University Computing Laboratory, 2006.</p>
+<p>[Battles &amp; Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension of Matlab to continuous functions and operators", <em>SIAM Journal on Scientific Computing</em>, 25 (2004), 1743-1770.</p>
+<p>[de Boor 1991] C. de Boor, "An alternative approach to (the teaching of) rank, basis, and dimension", <em>Linear Algebra and its Applications</em>, 146 (1991), 221-229.</p>
+<p>[Stewart 1998] G. W. Stewart, <em>Afternotes Goes to Graduate School: Lectures on Advanced Numerical Analysis</em>, SIAM, 1998.</p>
+<p>[Trefethen 2008] L. N. Trefethen, "Householder triangularization of a quasimatrix", <em>IMA Journal of Numerical Analysis</em>, 30 (2010), 887-897.</p>
+<p>[Trefethen &amp; Bau 1997] L. N. Trefethen and D. Bau, III, <em>Numerical Linear Algebra</em>, SIAM, 1997.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

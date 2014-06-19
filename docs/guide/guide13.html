@@ -81,7 +81,7 @@ plot(r,LW,1.6), axis([-1 1 -1 1]), axis square</pre>
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [      -1,       1]      576    complex values 
-Epslevel = 1.000000e-05.  Vscale = 9.979956e-01.
+Epslevel = 1.000000e-05.  Vscale = 9.980190e-01.
 </pre>
 
 <p>The zero contours of a function are computed by Chebfun2 to plotting accuracy and they are typically not accurate to machine precision.</p>
@@ -131,8 +131,8 @@ fprintf('min2 and max2 separately = %5.3fs\n',t)
 tic; [Y X] = minandmax2(f); t=toc;
 fprintf('minandmax2 command = %5.3fs\n',t)</pre>
 
-<pre class="mcode-output">min2 and max2 separately = 0.516s
-minandmax2 command = 0.204s
+<pre class="mcode-output">min2 and max2 separately = 0.474s
+minandmax2 command = 0.227s
 </pre>
 
 <p>The commands <code>min2</code>, <code>max2</code>, and <code>minandmax2</code> run faster if the MATLAB Optimisation Toolbox is available.</p>

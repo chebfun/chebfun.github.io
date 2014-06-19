@@ -1,0 +1,383 @@
+---
+title: "3. Rootfinding and Minima and Maxima"
+layout: guide-chapter
+authordate: "Lloyd N. Trefethen, October 2009, latest revision June 2014"
+---
+
+
+
+## 3.1 `roots`
+
+Chebfun comes with a global rootfinding capability -- the ability to find all the zeros of a function in its region of definition.  For example, here is a polynomial with two roots in $[-1,1]$:
+
+<pre class="mcode-input">  x = chebfun('x');
+  p = x.^3 + x.^2 - x;
+  r = roots(p)</pre><pre class="mcode-output">r =
+                   0
+   0.618033988749895
+</pre>We can plot $p$ and its roots like this:
+
+<pre class="mcode-input">  plot(p), grid on
+  MS = 'markersize';
+  hold on, plot(r,p(r),'.r',MS,20)</pre><img src="img/guide03_01.png" class="figure" alt="">
+
+Of course, one does not need Chebfun to find roots of a polynomial. The MATLAB `roots` command works from a polynomial's coefficients and computes estimates of all the roots, not just those in a particular interval.
+
+<pre class="mcode-input">  roots([1 1 -1 0])</pre><pre class="mcode-output">ans =
+                   0
+  -1.618033988749895
+   0.618033988749895
+</pre>A more substantial example of rootfinding involving a Bessel function was considered in Sections 1.2 and 2.4.  Here is a similar calculation for the Airy functions Ai and Bi, modeled after the page on Airy functions at WolframMathWorld.
+
+<pre class="mcode-input">  Ai = chebfun(@(x) airy(0,x),[-10,3]);
+  Bi = chebfun(@(x) airy(2,x),[-10,3]);
+  hold off, plot(Ai,'r')
+  hold on, plot(Bi,'b')
+  rA = roots(Ai); plot(rA,Ai(rA),'.r',MS,16)
+  rB = roots(Bi); plot(rB,Bi(rB),'.b',MS,16)
+  axis([-10 3 -.6 1.5]), grid on</pre><img src="img/guide03_02.png" class="figure" alt="">
+
+Here for example are the three roots of Ai and Bi closest to 0:
+
+<pre class="mcode-input">  [rA(end-2:end) rB(end-2:end)]</pre><pre class="mcode-output">ans =
+  -5.520559828095553  -4.830737841662016
+  -4.087949444130974  -3.271093302836358
+  -2.338107410459769  -1.173713222709129
+</pre>Chebfun finds roots by a method due to Boyd and Battles [Boyd 2002, Battles 2006].  If the chebfun is of degree greater than about $50$, it is broken into smaller pieces recursively.  On each small piece zeros are then found as eigenvalues of a "colleague matrix", the analogue for Chebyshev polynomials of a companion matrix for monomials [Specht 1960, Good 1961]. This method can be startlingly fast and accurate.  For example, here is a sine function with $11$ zeros:
+
+<pre class="mcode-input">  f = chebfun('sin(pi*x)',[0 10]);
+  lengthf = length(f)
+  tic, r = roots(f); toc
+  r</pre><pre class="mcode-output">lengthf =
+    44
+Elapsed time is 0.011288 seconds.
+r =
+                   0
+   1.000000000000005
+   1.999999999999998
+   2.999999999999999
+   3.999999999999997
+   5.000000000000000
+   6.000000000000002
+   7.000000000000001
+   8.000000000000004
+   9.000000000000005
+  10.000000000000000
+</pre>A similar computation with 101 zeros comes out equally well:
+
+<pre class="mcode-input">  f = chebfun('sin(pi*x)',[0 100]);
+  lengthf = length(f)
+  tic, r = roots(f); toc
+  fprintf('%22.14f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
+   214
+Elapsed time is 0.084763 seconds.
+     96.00000000000000
+     97.00000000000000
+     98.00000000000001
+     99.00000000000000
+    100.00000000000000
+</pre>And here is the same on an interval with 1001 zeros.
+
+<pre class="mcode-input">  f = chebfun('sin(pi*x)',[0 1000]);
+  lengthf = length(f)
+  tic, r = roots(f); toc
+  fprintf('%22.13f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
+        1684
+Elapsed time is 0.225564 seconds.
+     996.0000000000000
+     996.9999999999999
+     998.0000000000000
+     999.0000000000000
+    1000.0000000000000
+</pre>With the ability to find zeros, we can solve a variety of nonlinear problems.  For example, where do the curves $x$ and $\cos(x)$ intersect?  Here is the answer.
+
+<pre class="mcode-input">  x = chebfun('x',[-2 2]);
+  hold off, plot(x)
+  f = cos(x);
+  hold on, plot(f,'k')
+  r = roots(f-x)
+  plot(r,f(r),'or',MS,8)</pre><pre class="mcode-output">r =
+   0.739085133215160
+</pre><img src="img/guide03_03.png" class="figure" alt="">
+
+All of the examples above concern chebfuns consisting of a single fun. If there are several funs, then roots are included at jumps as necessary. The following example shows a chebfun with $26$ pieces.  It has nine zeros: one within a fun, eight at jumps between funs.
+
+<pre class="mcode-input">  x = chebfun('x',[-2 2]);
+  f = x.^3 - 3*x - 2 + sign(sin(20*x));
+  hold off, plot(f), grid on
+  r = roots(f);
+  hold on, plot(r,0*r,'.r',MS,16)</pre><img src="img/guide03_04.png" class="figure" alt="">
+
+If one prefers only the "genuine" roots, omitting those at jumps, they can be computed like this:
+
+<pre class="mcode-input">  r = roots(f,'nojump');
+  plot(r,0*r,'.r',MS,30)</pre><img src="img/guide03_05.png" class="figure" alt="">
+
+
+
+## 3.2 `min`, `max`, `abs`, `sign`, `round`, `floor`, `ceil`
+
+Rootfinding is more central to Chebfun than one might at first imagine, because a number of commands, when applied to smooth chebfuns, must produce non-smooth results, and it is rootfinding that tells us where to put the discontinuities. For example, the `abs` command introduces breakpoints wherever the argument goes through zero.  Here we see that `x` consists of a single piece, whereas `abs(x)` consists of two pieces.
+
+<pre class="mcode-input">  x = chebfun('x')
+  absx = abs(x)
+  subplot(1,2,1), plot(x,'.-')
+  subplot(1,2,2), plot(absx,'.-')</pre><pre class="mcode-output">x =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]        2        -1        1 
+Epslevel = 1.110223e-15.  Vscale = 1.
+absx =
+   chebfun column (2 smooth pieces)
+       interval       length   endpoint values  
+[      -1,       0]        2         1        0 
+[       0,       1]        2         0        1 
+Epslevel = 1.110223e-15.  Vscale = 1.  Total length = 4.
+</pre><img src="img/guide03_06.png" class="figure" alt="">
+
+We saw this effect already in Section 1.4. Another similar effect shown in that section occurs with `min(f,g)` or `max(f,g)`.  Here, breakpoints are introduced at points where `f-g` is zero:
+
+<pre class="mcode-input">  f = min(x,-x/2), subplot(1,2,1), plot(f,'.-')
+  g = max(.6,1-x.^2), subplot(1,2,2), plot(g,'.-'), ylim([.5,1])</pre><pre class="mcode-output">f =
+   chebfun column (2 smooth pieces)
+       interval       length   endpoint values  
+[      -1,       0]        2        -1        0 
+[       0,       1]        2         0     -0.5 
+Epslevel = 1.332268e-15.  Vscale = 1.  Total length = 4.
+g =
+   chebfun column (3 smooth pieces)
+       interval       length   endpoint values  
+[      -1,   -0.63]        1       0.6      0.6 
+[   -0.63,    0.63]        3       0.6      0.6 
+[    0.63,       1]        1       0.6      0.6 
+Epslevel = 2.664535e-16.  Vscale = 1.  Total length = 5.
+</pre><img src="img/guide03_07.png" class="figure" alt="">
+
+The function `sign` also introduces breaks, as illustrated in the last section. The commands `round`, `floor`, and `ceil` behave like this too. For example, here is $\exp(x)$ rounded to nearest multiples of $0.5$:
+
+<pre class="mcode-input">  g = exp(x);
+  clf, plot(g)
+  gh = 0.5*round(2*g);
+  hold on, plot(gh,'r');
+  grid on</pre><img src="img/guide03_08.png" class="figure" alt="">
+
+
+
+## 3.3 Local extrema
+
+Local extrema of smooth functions can be located by finding zeros of the derivative.  For example, here is a variant of the Airy function again, with all its extrema in its range of definition located and plotted.
+
+<pre class="mcode-input">  f = chebfun('exp(real(airy(x)))',[-15,0]);
+  clf, plot(f)
+  r = roots(diff(f));
+  hold on, plot(r,f(r),'.r'), grid on</pre><img src="img/guide03_09.png" class="figure" alt="">
+
+Chebfun users don't have to compute the derivative explicitly to find extrema, however.  An alternative is to type
+
+<pre class="mcode-input">  [ignored,r2] = minandmax(f,'local');</pre>which returns both interior local extrema and also the endpoints of `f`. Similarly one can type `min(f,'local')` and `max(f,'local')`.
+
+These methods will find non-smooth extrema as well as smooth ones, since these correspond to "zeros" of the derivative where the derivative jumps from one sign to the other.  Here is an example.
+
+<pre class="mcode-input">  x = chebfun('x');
+  f = exp(x).*sin(30*x);
+  g = 2-6*x.^2;
+  h = max(f,g);
+  clf, plot(h)</pre><img src="img/guide03_10.png" class="figure" alt="">
+
+Here are all the local extrema, smooth and nonsmooth:
+
+<pre class="mcode-input">  [ignored,extrema] = minandmax(h,'local');
+  hold on, plot(extrema,h(extrema),'.r')</pre><img src="img/guide03_11.png" class="figure" alt="">
+
+Suppose we want to pick out the local extrema that are actually local minima.  We can do that by hand by checking for the second derivative to be positive:
+
+<pre class="mcode-input">  h2 = diff(h,2);
+  maxima = extrema(h2(extrema)&gt;0);
+  plot(maxima,h(maxima),'ok',MS,12)</pre><img src="img/guide03_12.png" class="figure" alt="">
+
+Or we could do it implicitly with `local`,
+
+<pre class="mcode-input">  [maxval,maxpos] = min(h,'local')
+  plot(maxpos,maxval,'.k',MS,24)</pre><pre class="mcode-output">maxval =
+   0.363476521730995
+  -0.410835468002950
+  -0.506554704820389
+   0.257807200650400
+   0.848004324296444
+  -0.324870829559028
+  -1.882251804443044
+  -2.705787848740124
+maxpos =
+  -1.000000000000000
+  -0.889007218654500
+  -0.679567708415180
+  -0.538855701053878
+   0.438177223602422
+   0.622477687626771
+   0.804389189016844
+   0.995948373499375
+</pre><img src="img/guide03_13.png" class="figure" alt="">
+
+
+
+## 3.4 Global extrema: max and min
+
+If `min` or `max` is applied to a single chebfun, it returns its global minimum or maximum.  For example:
+
+<pre class="mcode-input">  f = chebfun('1-x.^2/2');
+  [min(f) max(f)]</pre><pre class="mcode-output">ans =
+   0.500000000000000   1.000000000000000
+</pre>Chebfun computes such a result by checking the values of `f` at all endpoints and at zeros of the derivative.
+
+As with standard MATLAB, one can find the location of the extreme point by supplying two output arguments:
+
+<pre class="mcode-input">  [minval,minpos] = min(f)</pre><pre class="mcode-output">minval =
+   0.500000000000000
+minpos =
+    -1
+</pre>Note that just one position is returned even though the minimum is attained at two points.  This is consistent with the behavior of standard MATLAB.
+
+This ability to do global 1D optimization in Chebfun is rather remarkable.  Here is a nontrivial example.
+
+<pre class="mcode-input">  f = chebfun('sin(x)+sin(x.^2)',[0,15]);
+  hold off, plot(f,'k')</pre><img src="img/guide03_14.png" class="figure" alt="">
+
+The length of this chebfun is not as great as one might imagine:
+
+<pre class="mcode-input">  length(f)</pre><pre class="mcode-output">ans =
+   216
+</pre>Here are its global minimum and maximum:
+
+<pre class="mcode-input">  [minval,minpos] = min(f)
+  [maxval,maxpos] = max(f)
+  hold on
+  plot(minpos,minval,'.b',MS,30)
+  plot(maxpos,maxval,'.r',MS,30)</pre><pre class="mcode-output">minval =
+  -1.990085468159411
+minpos =
+   4.852581429906174
+maxval =
+   1.995232599437863
+maxpos =
+  14.234791972306914
+</pre><img src="img/guide03_15.png" class="figure" alt="">
+
+For larger chebfuns, it is inefficient to compute the global minimum and maximum separately like this -- each one must compute the derivative and find all its zeros. The alternative `minandmax` code mentioned above provides a faster alternative:
+
+<pre class="mcode-input">  [extremevalues,extremepositions] = minandmax(f)</pre><pre class="mcode-output">extremevalues =
+  -1.990085468159411
+   1.995232599437863
+extremepositions =
+   4.852581429906174
+  14.234791972306914
+</pre>
+
+## 3.5 `norm(f,1)` and `norm(f,inf)`
+
+The default, $2$-norm form of the `norm` command was considered in Section 2.2. In standard MATLAB one can also compute $1$-, $\infty$-, and Frobenius norms with `norm(f,1)`, `norm(f,inf)`, and `norm(f,'fro')`.  These have been overloaded in Chebfun, and in the first two cases, rootfinding is part of the implementation.  (The $2$- and Frobenius norms are equal for a single chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm `norm(f,1)` is the integral of the absolute value, and Chebfun computes this by adding up segments between zeros, at which $|f(x)|$ will typically have a discontinuous slope. The $\infty$-norm is computed from the formula $\|f\|_\infty = \max(\max(f),-\min(f))$.
+
+For example:
+
+<pre class="mcode-input">  f = chebfun('sin(x)',[103 103+4*pi]);
+  norm(f,inf)
+  norm(f,1)</pre><pre class="mcode-output">ans =
+   1.000000000000004
+ans =
+   7.999999999999985
+</pre>
+
+## 3.6 Roots in the complex plane
+
+Chebfuns live on real intervals, and the funs from which they are made live on real subintervals.  But a polynomial representing a fun may have roots outside the interval of definition, which may be complex. Sometimes we may want to get our hands on these roots, and the `roots` command makes this possible in various ways through the flags `'all'`, `'complex'`, and `'norecursion'`.
+
+The simplest example is a chebfun that is truly intended to correspond to a polynomial.  For example, the chebfun
+
+<pre class="mcode-input">f = 1+16*x.^2;</pre>has no roots in $[-1,1]$:
+
+<pre class="mcode-input">roots(f)</pre><pre class="mcode-output">ans =
+   Empty matrix: 0-by-1
+</pre>We can extract its complex roots with the command
+
+<pre class="mcode-input">roots(f,'all')</pre><pre class="mcode-output">ans =
+  0.000000000000000 - 0.250000000000000i
+  0.000000000000000 + 0.250000000000000i
+</pre>The situation for more general chebfuns is more complicated.  For example, the chebfun
+
+<pre class="mcode-input">g = exp(x).*f(x);</pre>also has no roots in [-1,1],
+
+<pre class="mcode-input">roots(g)</pre><pre class="mcode-output">ans =
+   Empty matrix: 0-by-1
+</pre>but it has plenty of roots in the complex plane:
+
+<pre class="mcode-input">roots(g,'all')</pre><pre class="mcode-output">ans =
+ -0.000000000000005 - 0.249999999999978i
+ -0.000000000000005 + 0.249999999999978i
+ -4.514295260797543 + 0.000000000000000i
+ -4.305379866528998 - 1.512639982193695i
+ -4.305379866528998 + 1.512639982193695i
+ -3.665579285322570 - 2.987015116560347i
+ -3.665579285322570 + 2.987015116560347i
+ -2.550317126684314 - 4.375039689106831i
+ -2.550317126684314 + 4.375039689106831i
+ -0.861420112587618 - 5.602650471930568i
+ -0.861420112587618 + 5.602650471930568i
+  1.622698986271943 - 6.531004222742813i
+  1.622698986271943 + 6.531004222742813i
+  5.548999753916629 - 6.812667273565966i
+  5.548999753916629 + 6.812667273565966i
+</pre>Most of these are spurious. What has happened is that `g` is represented by a polynomial chosen for its approximation properties on $[-1,1]$. Inevitably that polynomial will have roots in the complex plane, even if they have little to do with `g`. (See the discussion of the Walsh and Blatt-Saff theorems in Chapter 18 of [Trefethen 2013].)
+
+One cannot expect Chebfun to solve this problem perfectly -- after all, it is working on a real interval, not in the complex plane, and analytic continuation from the one to the other is well known to be an ill-posed problem.  Nevertheless, Chebfun may do a pretty good job of selecting genuine complex (and real) roots near the interval of definition if you use the `'complex'` flag:
+
+<pre class="mcode-input">roots(g,'complex')</pre><pre class="mcode-output">ans =
+ -0.000000000000005 - 0.249999999999978i
+ -0.000000000000005 + 0.249999999999978i
+</pre>We will not go into detail here of how this is done, but the idea is that associated with any fun is a family of "Chebfun ellipses" in the complex plane, with foci at the endpoints, inside which one may expect reasonably good accuracy of the fun. Assuming the interval is $[-1,1]$ and the fun has length $L$, the Chebfun ellipse associated with a parameter $\delta\ll 1$ is the region in the complex plane bounded by the image under the map $(z+1/z)/2$ of the circle $|z|=r$, where $r$ is defined by the condition $r^{-L}=\delta$.  (See Chapter 8 of [Trefethen 2013].)  The command `roots(g,'complex')` first effectively does `roots(g,'all')`, then returns only those roots lying inside a particular Chebfun ellipse -- we take the one corresponding to delta equal to the square root of the Chebfun tolerance parameter `eps`.
+
+One must expect complex roots of chebfuns to lose accuracy as one moves away from the interval of definition.  Here's an example:
+
+<pre class="mcode-input">  f = exp(exp(x)).*(x-0.1i).*(x-.3i).*(x-.6i).*(x-1i);
+  roots(f,'complex')</pre><pre class="mcode-output">ans =
+ -0.000000000001424 + 0.099999999998721i
+  0.000000000821187 + 0.300000000582508i
+ -0.000001475913970 + 0.599999262065463i
+</pre>Notice that the first three imaginary roots are located with about $11$, $8$, and $5$ digits of accuracy, while the fourth does not appear in the list at all.
+
+Here is a more complicated example:
+
+<pre class="mcode-input">F = @(x) 4+sin(x)+sin(sqrt(2)*x)+sin(pi*x);
+f = chebfun(F,[-100,100]);</pre>This function has a lot of complex roots lying in strips on either side of the real axis.
+
+<pre class="mcode-input">  r = roots(f,'complex');
+  hold off, plot(r,'.',MS,8)</pre><img src="img/guide03_16.png" class="figure" alt="">
+
+If you are dealing with complex roots of complicated chebfuns like this, it may be safer to add a flag `'norecursion'` to the roots call, at the cost of slowing down the computation. This turns off the Boyd-Battles recursion mentioned above, lowering the chance of missing a few roots near interfaces of the recursion.  If we try that here we find that the results look almost the same as before in a plot:
+
+<pre class="mcode-input">r2 = roots(f,'complex','norecursion');
+hold on, plot(r,'om',MS,8)</pre><img src="img/guide03_17.png" class="figure" alt="">
+
+However, the accuracy has improved:
+
+<pre class="mcode-input">norm(F(r))
+norm(F(r2))</pre><pre class="mcode-output">ans =
+     3.526715521171215e-08
+ans =
+     1.927038280308219e-09
+</pre>To find poles in the complex plane as opposed to zeros, see Section 4.8. More advanced methods of rootfinding and polefinding are based on rational approximations rather than polynomials, an area where Chebfun has significant capabilities; see the next chapter of this guide, Chapter 28 of [Trefethen 2013], and [Webb 2013].
+
+
+
+## 3.7 References
+
+[Battles 2006] Z. Battles, _Numerical Linear Algebra for Continuous Functions_, DPhil thesis, Oxford University Computing Laboratory, 2006.
+
+[Boyd 2002] J. A. Boyd, "Computing zeros on a real interval through Chebyshev expansion and polynomial rootfinding", _SIAM Journal on Numerical Analysis_, 40 (2002), 1666-1682.
+
+[Good 1961] I. J. Good, "The colleague matrix, a Chebyshev analogue of the companion matrix", _Quarterly Journal of Mathematics_, 12 (1961), 61-68.
+
+[Specht 1960] W. Specht, "Die Lage der Nullstellen eines Polynoms. IV", _Mathematische Nachrichten_, 21 (1960), 201-222.
+
+[Trefethen 2013] L. N. Trefethen, _Approximation Theory and Approximation Practice_, SIAM, 2013.
+
+[Webb 2011] M. Webb, "Computing complex singularities of differential equations with Chebfun", _SIAM Undergraduate Research Online_, 6 (2013), <a href="http://dx.doi.org/10.1137/12S011520">http://dx.doi.org/10.1137/12S011520</a>.
+
