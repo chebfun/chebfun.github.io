@@ -62,7 +62,7 @@
 <pre class="mcode-input">LW = 'linewidth'; lw = 1.6; MS = 'MarkerSize'; ms = 10;</pre>
 
 <h3 id="construction-and-comparison">Construction and comparison</h3>
-<p>A Fourier-based chebfun, or <code>fourfun</code> as we like to refer to them, can be created with the use of the `periodic' flag in the chebfun constructor. For, example, the function $f(x) = \cos(8\sin(x))$ for $-\pi \leq x \leq \pi$ can be constructed as follows:</p>
+<p>A Fourier-based chebfun, or <code>fourfun</code> as we like to refer to them, can be created with the use of the <code>'periodic'</code> flag in the chebfun constructor. For, example, the function $f(x) = \cos(8\sin(x))$ for $-\pi \leq x \leq \pi$ can be constructed as follows:</p>
 <pre class="mcode-input">domain = [-pi,pi];
 f = chebfun(@(x) cos(8*sin(x)),domain,'periodic')
 plot(f,LW,lw);</pre>
@@ -79,7 +79,7 @@ Epslevel = 2.675450e-15.  Vscale = 1.000000e+00.
 <pre class="mcode-input">plotcoeffs(f)</pre>
 
 <p><img src="img/FourierBasedChebfuns_02.png" class="figure" alt=""></p>
-<p>Since $f$ is smooth and periodic, a Fourier representation requires fewer terms than a Chebyshev representation of $f$ to reach machine precision. We can check this by constructing $f$ without the `periodic' flag:</p>
+<p>Since $f$ is smooth and periodic, a Fourier representation requires fewer terms than a Chebyshev representation of $f$ to reach machine precision. We can check this by constructing $f$ without the <code>'periodic'</code> flag:</p>
 <pre class="mcode-input">f_cheby = chebfun(@(x) cos(8*sin(x)),domain)</pre>
 
 <pre class="mcode-output">f_cheby =
@@ -155,8 +155,9 @@ plot(df, LW, lw)</pre>
 </pre>
 
 <p>Complex-valued fourfuns are also possible. For example:</p>
-<pre class="mcode-input">f = chebfun(@(x) 16*sin(x).^3 + 1i*(13*cos(x)-5*cos(2*x)-2*cos(3*x)-cos(4*x)),domain,'periodic')
-plot(f, LW, lw)</pre>
+<pre class="mcode-input">f = chebfun(@(x) 1i*(13*cos(x)-5*cos(2*x)-2*cos(3*x)-cos(4*x)) + ...
+                 16*sin(x).^3, domain, 'periodic')
+plot(f, LW, lw), axis equal</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
