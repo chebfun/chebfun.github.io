@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A periodic ODE system &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>A periodic ODE system</h1>
+<h2>Nick Hale, November 2010<span><a href='/examples/ode-linear/PeriodicSystem.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-linear/PeriodicSystem.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Chebfun can solve systems of ODEs with periodic boundary conditions. For example, consider the equations</p>
+<p>$$ u - v' = 0, \qquad u'' + v = \cos(x) $$</p>
+<p>on the interval $[-\pi, \pi]$ with periodic boundary conditions on $u$ and $v$. A Chebfun solution could be put together like this:</p>
+<pre class="mcode-input">d = [-pi,pi];
+A = chebop(d);
+A.op = @(x,u,v) [u-diff(v); diff(u,2)+v];
+x = chebfun('x',d);
+f = [0;cos(x)];
+A.bc = 'periodic';
+u = A\f;</pre>
+
+<p>We plot the result:</p>
+<pre class="mcode-input">LW = 'linewidth'; lw = 2; FS = 'fontsize'; fs = 14;
+plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');</pre>
+
+<p><img src="img/PeriodicSystem_01.png" class="figure" alt=""></p>
+<p>For this problem, the solution can actually be computed analytically. How close were we?</p>
+<pre class="mcode-input">exact = [cos(x+3*pi/4) cos(x+pi/4)]/sqrt(2);
+err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre>
+
+<pre class="mcode-output">err =
+     1.423587059541599e-14
+</pre>
+
+<p>We show this also works for piecewise problems by artificially introducing a breakpoint at the origin.</p>
+<pre class="mcode-input">A.domain = [-pi,0,pi];
+u = A\f;
+plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');
+err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre>
+
+<pre class="mcode-output">err =
+     5.232477141380225e-14
+</pre>
+
+<p><img src="img/PeriodicSystem_02.png" class="figure" alt=""></p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

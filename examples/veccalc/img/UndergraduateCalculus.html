@@ -127,7 +127,7 @@ plot(c,'k'), hold off</pre><img src="img/UndergraduateCalculus_05.png" class="fi
 Here is the computed integral:
 
 <pre class="mcode-input">integral(f,c)</pre><pre class="mcode-output">ans =
-  -7.429899228439558
+  -7.429899228439556
 </pre>
 
 ## Vector calculus identity
@@ -142,15 +142,15 @@ We can verify this identity for a chosen $F$ and $G$:
 <pre class="mcode-input">F = chebfun2v(@(x,y) y,@(x,y) x.^2,@(x,y) x);
 G = chebfun2v(@(x,y) cos(2*x),@(x,y) x,@(x,y) x+y);
 subplot(1,2,1), quiver3(F,'numpts',5)
-subplot(1,2,2), quiver3(G,'r','numpts',5)</pre><pre class="mcode-output">Error using chebfun2v/quiver3
-Error: File: /Users/hrothgar/Dropbox/chebfun/chebfun/@chebfun2v/quiver3.m Line: 131 Column: 58
-Expression or statement is incorrect--possibly unbalanced (, {, or [.
-Error in UndergraduateCalculus (line 162)
-subplot(1,2,1), quiver3(F,'numpts',5)</pre>The vector calculus identity holds with a small error. If it were done by hand, `LHS` and `RHS` would be exactly equal.
+subplot(1,2,2), quiver3(G,'r','numpts',5)</pre><img src="img/UndergraduateCalculus_06.png" class="figure" alt="">
+
+The vector calculus identity holds with a small error. If it were done by hand, `LHS` and `RHS` would be exactly equal.
 
 <pre class="mcode-input">LHS = divergence(cross(F,G));
 RHS = (dot(G,curl(F)) - dot(F,curl(G)));
-norm(LHS-RHS)</pre>
+norm(LHS-RHS)</pre><pre class="mcode-output">ans =
+     5.472336319999712e-14
+</pre>
 
 ## Further comments
 

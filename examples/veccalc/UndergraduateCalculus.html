@@ -163,7 +163,7 @@ plot(c,'k'), hold off</pre>
 <pre class="mcode-input">integral(f,c)</pre>
 
 <pre class="mcode-output">ans =
-  -7.429899228439558
+  -7.429899228439556
 </pre>
 
 <h3 id="vector-calculus-identity">Vector calculus identity</h3>
@@ -176,16 +176,15 @@ G = chebfun2v(@(x,y) cos(2*x),@(x,y) x,@(x,y) x+y);
 subplot(1,2,1), quiver3(F,'numpts',5)
 subplot(1,2,2), quiver3(G,'r','numpts',5)</pre>
 
-<pre class="mcode-output">Error using chebfun2v/quiver3
-Error: File: /Users/hrothgar/Dropbox/chebfun/chebfun/@chebfun2v/quiver3.m Line: 131 Column: 58
-Expression or statement is incorrect--possibly unbalanced (, {, or [.
-Error in UndergraduateCalculus (line 162)
-subplot(1,2,1), quiver3(F,'numpts',5)</pre>
-
+<p><img src="img/UndergraduateCalculus_06.png" class="figure" alt=""></p>
 <p>The vector calculus identity holds with a small error. If it were done by hand, <code>LHS</code> and <code>RHS</code> would be exactly equal.</p>
 <pre class="mcode-input">LHS = divergence(cross(F,G));
 RHS = (dot(G,curl(F)) - dot(F,curl(G)));
 norm(LHS-RHS)</pre>
+
+<pre class="mcode-output">ans =
+     5.472336319999712e-14
+</pre>
 
 <h3 id="further-comments">Further comments</h3>
 <p>The multivariable course has another two weeks to go, out of a total of only eight weeks. This example will be updated if Chebfun2 is able to explore any more topics from the multivariate calculus course.</p>

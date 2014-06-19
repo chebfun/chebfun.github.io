@@ -54,7 +54,7 @@ tic, r = roots(f, g, 'resultant'); toc
 plot(roots(f), 'r', LW, lw), hold on
 plot(roots(g), 'b', LW, lw)
 plot(r(:,1), r(:,2), 'k.', MS, ms)
-axis([-1,1,-1,1]), axis equal, hold off</pre><pre class="mcode-output">Elapsed time is 4.758663 seconds.
+axis([-1,1,-1,1]), axis equal, hold off</pre><pre class="mcode-output">Elapsed time is 4.947122 seconds.
 </pre><img src="img/ResultantMethod_02.png" class="figure" alt="">
 
 The new algorithm based on the resultant method does not compute the zero contours of $f$ and $g$, but we display them throughout this Example to visualise the computed solutions.
@@ -72,7 +72,7 @@ tic, r = roots(f, g, 'resultant'); toc
 plot(roots(f), 'r', LW, lw), hold on
 plot(roots(g), 'b', LW, lw)
 plot(r(:,1), r(:,2), 'k.', MS, ms)
-axis([-1,1,-1,1]), axis equal, hold off</pre><pre class="mcode-output">Elapsed time is 19.652108 seconds.
+axis([-1,1,-1,1]), axis equal, hold off</pre><pre class="mcode-output">Elapsed time is 20.397364 seconds.
 </pre><img src="img/ResultantMethod_03.png" class="figure" alt="">
 
 The diagram above shows that we have found all the solutions, and we can get a rough idea of the error in the computed solutions by computing the residual:
@@ -95,7 +95,7 @@ tic, r = roots(f, g, 'resultant'); toc
 plot(roots(f), 'r', LW, lw), hold on
 plot(roots(g), 'b', LW, lw)
 plot(r(:,1), r(:,2), 'k.', MS, ms)
-axis(rect), axis equal, hold off</pre><pre class="mcode-output">Elapsed time is 9.696655 seconds.
+axis(rect), axis equal, hold off</pre><pre class="mcode-output">Elapsed time is 10.561756 seconds.
 </pre><img src="img/ResultantMethod_04.png" class="figure" alt="">
 
 

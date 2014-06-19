@@ -6,6 +6,11 @@ function make_example(folder, examplename, varargin)
 
 % TODO: make this robust to other people's machines
 %       and figure out the process for updating existing examples.
+
+if exist(folder) ~= 7
+    mkdir(folder)
+end
+
 pathpath = '/Users/hrothgar/Dropbox/chebfun/examples/';
 egname = [folder '/' examplename '.m'];
 copyfile([pathpath egname], egname);

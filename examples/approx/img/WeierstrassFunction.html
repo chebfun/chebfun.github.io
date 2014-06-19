@@ -59,9 +59,9 @@ str = [sprintf('%2s %11s %16s %19s\n', 'k', 'x_min', 'F_k(x_min)', 'computation 
 disp(str)</pre><pre class="mcode-output"> k       x_min       F_k(x_min)    computation time
 ----------------------------------------------------
  2   -1.0000000      +0.0000000        0.05 sec
- 4   -0.6196232      -0.0504416        0.05 sec
- 6   -0.6010220      -0.1761766        0.05 sec
- 8   -0.6000610      -0.2098447        1.58 sec
+ 4   -0.6196232      -0.0504416        0.06 sec
+ 6    0.6010220      -0.1761766        0.07 sec
+ 8   -0.6000610      -0.2098447        1.86 sec
 
 </pre>Chebfun is slowly converging to the actual solution given by $F_{min} = \sin(\frac{\pi}{5}) - \cos(\frac{\pi}{5}) = -0.2212317420...$ at the points $x = \pm \frac35$. Chebfun's difficulty is not with accurately locating the minima: the `x_min` iterates are geometrically converging to the correct solution as they should. The problem is that the iterates' global minima so slowly converge to the global minimum of $F$ while Chebfun must deal with polynomials of geometrically increasing degree.
 

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bloodhound supersonic car &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Bloodhound supersonic car</h1>
+<h2>Tanya Morton, January 2013<span><a href='/examples/ode-nonlin/Bloodhound.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-nonlin/Bloodhound.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>This script solves the equation of motion for the acceleration phase of the Bloodhound supersonic car using Chebfun.</p>
+<p>The car is powered by a jet engine and a rocket and aims to reach a speed in excess of 1000 mph. More details on the project can be found at the website <a href="http://www.bloodhoundssc.com/">http://www.bloodhoundssc.com/</a>.</p>
+<p>Mathematically, the problem takes the form of an initial value ODE</p>
+<p>$$ a(t)v' + b(t)v + cv^2 = d(t), \qquad t \in [0,50],~~ v(0) = 0 . $$</p>
+<p>Here $a$ is a piecewise linear function and $b$ and $d$ are piecewise constants. The break occurs at the discontinuity caused by the rocket ignition.</p>
+<p>One can vary the parameters of the run, such as the rocket start time or the mass of the car, to see the effect on the time taken to reach 1000 miles per hour.</p>
+<p>Define the domain.</p>
+<pre class="mcode-input">dom = [0 50];
+RocketStart = 11;      % in seconds</pre>
+
+<p>Compute the mass.</p>
+<pre class="mcode-input">MassOriginal = 6500;   % in kg
+JetThrust = 80;        % in kN
+RocketThrust = 115;    % in kN
+JSFC = 0.0005*102;     % in kg/(kN*h) Jet Specific Fuel Consumption
+RSFC = 102/220;        % Rocket Specific Fuel Consumption</pre>
+
+<p>The mass satisfies</p>
+<p>$$ \mathrm{mass} = \mathrm{original}
+                   - \mathrm{(jet~fuel~burned)}
+                   - \mathrm{(rocket~fuel~burned)} $$</p>
+<pre class="mcode-input">mass = @(t) MassOriginal - (JSFC*JetThrust*t) - ...   % in kg, t in seconds
+    (RSFC*RocketThrust.*(t-RocketStart).*(t&gt;RocketStart));</pre>
+
+<p>Create a chebfun for mass to capture the piecewise linear behaviour.</p>
+<pre class="mcode-input">cmass = chebfun(mass, dom, 'splitting', 'on');</pre>
+
+<p>Create chebfuns or anonymous functions for the forces.</p>
+<pre class="mcode-input">thrust = @(t) 1000*(JetThrust + RocketThrust.*(t&gt;RocketStart)); % in N</pre>
+
+<p>Create a chebfun for thrust to capture the piecewise constant behavior.</p>
+<pre class="mcode-input">cthrust = chebfun(thrust, dom, 'splitting', 'on');</pre>
+
+<p>Drag:</p>
+<pre class="mcode-input">aerodrag = @(v) (175./289).*v.^2; % in N
+surfacedrag = (2/5)*cmass*9.81;   % in N</pre>
+
+<p>Create a chebop to represent the differential equation. Newton's 2nd law (variable mass):</p>
+<p>$$ \frac{d(mv)}{dt} = \mathrm{thrust} - \mathrm{drag}, $$
+$$ m \frac{dv}{dt} + \frac{dm}{dt} v = \mathrm{thrust} - \mathrm{drag}. $$</p>
+<pre class="mcode-input">N = chebop(@(t,v) cmass.*diff(v) + diff(cmass).*v - cthrust + ...
+    aerodrag(v) + surfacedrag, dom);</pre>
+
+<p>Set up the right-hand side of the differential equation so that $ N(v) = \mathrm{rhs} $.</p>
+<pre class="mcode-input">rhs = 0;</pre>
+
+<p>Assign boundary conditions to the chebop.</p>
+<pre class="mcode-input">N.bc = @(t,v) v(0);</pre>
+
+<p>Define an initial solution.</p>
+<pre class="mcode-input">N.init = chebfun(@(t) t, dom);</pre>
+
+<p>Solve the problem using backslash.</p>
+<pre class="mcode-input">u = N\rhs;
+u_mph = u/0.44704; % convert to mph for plotting</pre>
+
+<p>Find where the solution is equal to 1000 mph.</p>
+<pre class="mcode-input">t1000 = find(u == 447); % number of seconds when we hit 1000 mph</pre>
+
+<p>Plot the solution.</p>
+<pre class="mcode-input">figure
+plot(u_mph,'LineWidth',2);
+hold on
+plot([0 50],[1000 1000],'r', 'LineWidth', 2); % 1000 mph line
+hold on;
+text(20, 500, ['Time to 1000 mph = ' num2str(t1000, 3) ' seconds']);
+title('Velocity of the Bloodhound Supersonic Car (Acceleration Phase)')
+ylabel('velocity in mph')</pre>
+
+<p><img src="img/Bloodhound_01.png" class="figure" alt=""></p>
+<p>Integrate to find the distance.</p>
+<pre class="mcode-input">s = cumsum(u);
+s_miles = s/1609;     % convert to miles to plot
+figure
+plot(s_miles,'LineWidth',2); title('Distance travelled')
+xlabel('Time in seconds'),   ylabel('Distance in miles')</pre>
+
+<p><img src="img/Bloodhound_02.png" class="figure" alt=""></p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

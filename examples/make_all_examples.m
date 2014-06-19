@@ -10,14 +10,27 @@ function make_all_examples(varargin)
 if nargin == 0,
     % Make all examples in all folders.
 
-    folders = { 'approx',   'linalg',   ...
-                'calc',     'complex',  ...
-                'ode',      'ode-eig',  ...
-                'opt',      'pde',      ...
-                'quad',     'roots',    ...
-                'fun',      'stats',    ...
-                'geom',     'veccalc',  ...
-                'integro' };
+    folders = {
+        'approx',
+        'approx2',
+        'calc',
+        'cheb',
+        'complex',
+        'fun',
+        'geom',
+        'integro',
+        'linalg',
+        'ode-eig',
+        'ode-linear',
+        'ode-nonlin',
+        'opt',
+        'pde',
+        'quad',
+        'roots',
+        'stats',
+        'temp',
+        'veccalc'
+        };
 
 elseif nargin == 1,
     % The input was either a string (single folder name)

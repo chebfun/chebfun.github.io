@@ -25,32 +25,21 @@ For example, suppose we have an exponentially decaying kernel:
 
 <pre class="mcode-input">F = fred( K, domain([-1,1]) );
 [Psi,Lambda] = eigs(F,20,'lm');
+Psi = Psi{1};
 [lambda,idx] = sort(diag(Lambda),'descend');
+Psi = Psi(:,idx);</pre><pre class="mcode-output">Error using chebfun/subsref (line 78)
+Index exceeds CHEBFUN dimensions.
+Error in MercerKarhunenLoeve (line 39)
 Psi = Psi(:,idx);</pre><pre class="mcode-input">plot(Psi(:,[1 2 5 10]),plotopt{:})
 title('First four Mercer eigenfunctions')
 xlabel('x')
-ylabel('\Psi(x)')</pre><img src="img/MercerKarhunenLoeve_01.png" class="figure" alt="">
-
-The eigenfunctions returned by `eigs` are orthonormal.
+ylabel('\Psi(x)')</pre>The eigenfunctions returned by `eigs` are orthonormal.
 
 <pre class="mcode-input">format short
-Psi(:,1:6)'*Psi(:,1:6)</pre><pre class="mcode-output">ans =
-   6 x 6 chebmatrix of block types:
-    'double'    'double'    'double'    'double'    'double'    'double'
-    'double'    'double'    'double'    'double'    'double'    'double'
-    'double'    'double'    'double'    'double'    'double'    'double'
-    'double'    'double'    'double'    'double'    'double'    'double'
-    'double'    'double'    'double'    'double'    'double'    'double'
-    'double'    'double'    'double'    'double'    'double'    'double'
-</pre>The truncation of the Mercer sum does lead to an underestimate of the values of the kernel $K(s,t)$. For our example, we should get $K(s,s)=1$, but we get noticeably less.
+Psi(:,1:6)'*Psi(:,1:6)</pre>The truncation of the Mercer sum does lead to an underestimate of the values of the kernel $K(s,t)$. For our example, we should get $K(s,s)=1$, but we get noticeably less.
 
 <pre class="mcode-input">Psi(0,:)*diag(lambda)*Psi(0,:)'
-Psi(0.95,:)*diag(lambda)*Psi(0.95,:)'</pre><pre class="mcode-output">Error using subsref
-Subscript indices must either be real positive integers or logicals.
-Error in chebmatrix/subsref (line 20)
-        varargout{1} = chebmatrix(subsref(A.blocks, sr1));
-Error in MercerKarhunenLoeve (line 55)
-Psi(0,:)*diag(lambda)*Psi(0,:)'</pre>In fact, the eigenvalues decrease only like $O(n^{-2})$, which makes the pointwise convergence in the number of terms rather slow.
+Psi(0.95,:)*diag(lambda)*Psi(0.95,:)'</pre>In fact, the eigenvalues decrease only like $O(n^{-2})$, which makes the pointwise convergence in the number of terms rather slow.
 
 <pre class="mcode-input">loglog(lambda,'.',plotopt{:}), axis tight
 xlabel('n')

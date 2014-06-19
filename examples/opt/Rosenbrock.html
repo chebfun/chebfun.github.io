@@ -126,7 +126,7 @@ xlabel('x',FS,14), ylabel('min_y(f(x,y))',FS,14)
 title('minimum of f(x,y) along vertical slices',FS,14)
 toc</pre>
 
-<pre class="mcode-output">Elapsed time is 18.436341 seconds.
+<pre class="mcode-output">Elapsed time is 14.747522 seconds.
 </pre>
 
 <p><img src="img/Rosenbrock_05.png" class="figure" alt=""></p>
@@ -135,7 +135,7 @@ toc</pre>
 
 <pre class="mcode-output">ans =
   Columns 1 through 3
-  -1.000000000000000  -0.635872022371398   0.210237104254782
+  -1.000000000000000  -0.635872022371396   0.210237104254783
   Column 4
    1.000000000000000
 </pre>
@@ -145,13 +145,13 @@ toc</pre>
 [minf,miny] = min(chebfun(@(y) f(minx,y), [-1 3]))</pre>
 
 <pre class="mcode-output">minf =
-  -0.969232500643148
+  -0.969232500643147
 minx =
-   0.395759627601420
+   0.395759627601423
 minf =
   -0.969232500643148
 miny =
-   0.331573987886855
+   0.331573987886853
 </pre>
 
 <p>And here's the plot:</p>

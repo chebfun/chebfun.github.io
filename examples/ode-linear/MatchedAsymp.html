@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Matched asymptotics and boundary layers &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Matched asymptotics and boundary layers</h1>
+<h2>Nick Trefethen, December 2010<span><a href='/examples/ode-linear/MatchedAsymp.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-linear/MatchedAsymp.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>A powerful technique for problems with large or small parameters is the method of matched asymptotics, where approximate solutions accurate in one region of the problem domain are matched to different approximate solutions accurate in another region.  This subject is discussed in many books by authors including Bender &amp; Orszag, Fowler, Howison, Lagerstrom, Nayfeh, and van Dyke.</p>
+<p>For example, consider the linear boundary-value problem</p>
+<p>$$ -\varepsilon y'' + (2-x^2)y = 1, \qquad    y(-1) = y(1) = 0 $$</p>
+<p>with $\varepsilon \ll 1$. In Chebfun, we can set up the problem conveniently with a couple of anonymous functions:</p>
+<pre class="mcode-input">d = [-1,1];
+x = chebfun('x',d);
+L = @(eps) chebop(@(x,u)-eps*diff(u,2) + (2-x.^2).*u,d,0,0);
+y = @(eps) L(eps)\1;</pre>
+
+<p>Here are the solutions for three values of $\varepsilon$:</p>
+<pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize';
+figure, tic
+for j = 1:4
+   ep = 10^(-j);
+   yep = y(ep);
+   subplot(2,2,j), plot(yep,LW,1.6), hold on
+   grid on, axis([-1.05 1.05 0 1])
+   title(sprintf('eps = %4.1e     npts = %d',ep,length(yep)),FS,8)
+end
+toc</pre>
+
+<pre class="mcode-output">Elapsed time is 2.225620 seconds.
+</pre>
+
+<p><img src="img/MatchedAsymp_01.png" class="figure" alt=""></p>
+<p>It is clear almost at a glance what form the solution is taking as $\varepsilon \to 0$. Away from $\pm 1$, the $\varepsilon y''$ term is negligible and the solution is approximately that of the rest of the equation,</p>
+<p>$$ y_{\mbox{interior}} = {1\over 2-x^2}. $$</p>
+<p>Near $\pm 1$, on the other hand, $\varepsilon y''$ becomes significant as the solution quickly bends down to meet the boundary condition.</p>
+<p>In matched asymptotics the solution away from the boundary layers is called the <em>outer solution</em>.  Here we have two boundary layers, each of which has an <em>inner solution</em>. To analyze the right boundary layer, for example, we make the approximation $x=1$.  This gives a constant coefficient second- order equation, with an exponentially growing solution $\exp(x\varepsilon^{-1/2} )$ and an exponentially decaying solution $\exp(-x\varepsilon^{-1/2})$. One of our two free parameters is used up by the fact that only the first of these is appropriate at the right boundary. The other parameter is used to satisfy the boundary condition, giving</p>
+<p>$$ y_{\mbox{right}} = 1 - \exp(\varepsilon^{-1/2}(x-1)). $$</p>
+<p>Similarly at the left boundary we have</p>
+<p>$$ y_{\mbox{left}} = 1 - \exp(\varepsilon^{-1/2}(-x-1)). $$</p>
+<p>The three solutions can be combined to give an asymptotic model valid throughout $[-1,1]$:</p>
+<pre class="mcode-input">model = @(eps) 1./(2-x.^2) - exp((x-1)/sqrt(eps)) - exp((-x-1)/sqrt(eps));</pre>
+
+<p>Let us superimpose the prediction of this model, a dashed red line, on the plots as before</p>
+<pre class="mcode-input">for j = 1:4
+   ep = 10^(-j);
+   subplot(2,2,j)
+   meps = model(ep);
+   plot(meps,'--r',LW,1.6)
+   grid on, axis([-1.05 1.05 0 1])
+end</pre>
+
+<p><img src="img/MatchedAsymp_02.png" class="figure" alt=""></p>
+<p>It is interesting to plot and measure the differences between the true solution and the model:</p>
+<pre class="mcode-input">for j = 1:4
+   ep = 10^(-j);
+   subplot(2,2,j)
+   yep = y(ep);
+   meps = model(ep);
+   hold off, plot(meps-yep,'m',LW,1.6)
+   grid on, xlim([-1.05 1.05])
+   err = norm(yep-meps,inf);
+   title(sprintf('eps = %4.1e     err = %5.2e',ep,err),FS,8)
+end</pre>
+
+<p><img src="img/MatchedAsymp_03.png" class="figure" alt=""></p>
+<p>These plots reveal global convergence at a rate $O(\varepsilon^{1/2})$ as $\varepsilon\to 0$, with the maximal error being attained in a matching region near the boundaries of width $O(\varepsilon^{1/2})$. In the interior the accuracy is higher, $O(\varepsilon)$.</p>
+<p>Matched asymptotics is a highly developed field and has been applied to linear and nonlinear problems of all kinds. A linear problem with a variable coefficient may have interior as well as boundary layers, and for a nonlinear problem there may be interior layers at arbitrary locations.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
