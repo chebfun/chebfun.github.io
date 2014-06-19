@@ -4,7 +4,6 @@ approx/BestApprox.m
 approx/BestL2Approximation.m
 approx/BSplineConv.m
 approx/BumpFunction.m
-approx/ChebCoeffs.m
 approx/ChebPolysHigham.m
 approx/ChebyshevCoeffs.m
 approx/Convergence.m
