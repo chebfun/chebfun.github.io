@@ -1,0 +1,122 @@
+---
+title: "Fourier-based chebfuns"
+layout: example
+authordate: "Grady Wright, June 2014"
+meta: "[Tags: #periodic, #interpolation, #fourier]"
+---
+
+One of the new features of Chebfun version 5 is the ability to create chebfuns of smooth periodic functions using Fourier series.  In this example we introduce and explore some the functionality of this new tool.
+
+<pre class="mcode-input">LW = 'linewidth'; lw = 1.6; MS = 'MarkerSize'; ms = 10;</pre>
+
+## Construction and comparison
+
+A Fourier-based chebfun, or `fourfun` as we like to refer to them, can be created with the use of the `periodic' flag in the chebfun constructor. For, example, the function $f(x) = \cos(8\sin(x))$ for $-\pi \leq x \leq \pi$ can be constructed as follows:
+
+<pre class="mcode-input">domain = [-pi,pi];
+f = chebfun(@(x) cos(8*sin(x)),domain,'periodic')
+plot(f,LW,lw);</pre><pre class="mcode-output">f =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[    -3.1,     3.1]       61         1        1 
+Epslevel = 2.675450e-15.  Vscale = 1.000000e+00.
+</pre><img src="img/FourierBasedChebfuns_01.png" class="figure" alt="">
+
+Here $f$ is represented to machine precision using a Fourier interpolant rather than a Chebyshev interpolant. The displayed information for $f$ above shows that it is of length 61, meaning that $f$ is resolved to machine precision using 61 samples, or $(61-1)/2=30$ (complex) Fourier modes. These coefficients can be displayed graphically by
+
+<pre class="mcode-input">plotcoeffs(f)</pre><img src="img/FourierBasedChebfuns_02.png" class="figure" alt="">
+
+Since $f$ is smooth and periodic, a Fourier representation requires fewer terms than a Chebyshev representation of $f$ to reach machine precision. We can check this by constructing $f$ without the `periodic' flag:
+
+<pre class="mcode-input">f_cheby = chebfun(@(x) cos(8*sin(x)),domain)</pre><pre class="mcode-output">f_cheby =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[    -3.1,     3.1]      101         1        1 
+Epslevel = 3.552714e-15.  Vscale = 1.000000e+00.
+</pre>The ratio of length of the Chebyshev series to the Fourier series should be approximately $\pi/2$ since the former has a resolution power of $\pi$ points per wavelength and the latter of 2 points per wavelength. We can check this numerically as
+
+<pre class="mcode-input">ratio = length(f_cheby)/length(f)
+theoretical = pi/2</pre><pre class="mcode-output">ratio =
+   1.655737704918033
+theoretical =
+   1.570796326794897
+</pre>
+
+## Basic operations
+
+Many Chebfun operations can also be applied directly to a fourfun. Below we illustrate some of the basic ones.
+
+Addition, subtraction, multiplication, division, and function composition can all be directly applied to a fourfun.  However one should be aware that operation should result in a smooth and periodic function. The following example illustrates some of these operations:
+
+<pre class="mcode-input">g = chebfun(@(x) sin(x),domain,'periodic');
+f = tanh(cos(1+2*g).^2)-0.5
+plot(f, LW, lw)</pre><pre class="mcode-output">f =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[    -3.1,     3.1]      145     -0.22    -0.22 
+Epslevel = 3.033487e-15.  Vscale = 4.997782e-01.
+</pre><img src="img/FourierBasedChebfuns_03.png" class="figure" alt="">
+
+The max, min, and roots of $f$ can be computed by
+
+<pre class="mcode-input">[maxf,xmaxf] = max(f);
+[minf,xminf] = min(f);
+rootsf = roots(f);
+maxf
+minf
+rootsf</pre><pre class="mcode-output">maxf =
+   0.261594155955765
+minf =
+  -0.500000000000004
+rootsf =
+  -3.009212218006480
+  -2.090420462897023
+  -1.051172190692771
+  -0.132380435583312
+   0.779312428506053
+   2.362280225083740
+</pre>These can be visualized as
+
+<pre class="mcode-input">plot(f, LW, lw), hold on
+plot(xmaxf,maxf,'gs',xminf,minf,'md',rootsf,0*rootsf,'ro',MS,ms)
+legend('f','max f','min f','zeros f','location','southwest')
+hold off;</pre><img src="img/FourierBasedChebfuns_04.png" class="figure" alt="">
+
+The derivative of $f$ is computed using `diff`:
+
+<pre class="mcode-input">df = diff(f);
+plot(df, LW, lw)</pre><img src="img/FourierBasedChebfuns_05.png" class="figure" alt="">
+
+and the definite integral is computed using `sum`:
+
+<pre class="mcode-input">intf = sum(f)</pre><pre class="mcode-output">intf =
+  -0.074010812957415
+</pre>Complex-valued fourfuns are also possible. For example:
+
+<pre class="mcode-input">f = chebfun(@(x) 16*sin(x).^3 + 1i*(13*cos(x)-5*cos(2*x)-2*cos(3*x)-cos(4*x)),domain,'periodic')
+plot(f, LW, lw)</pre><pre class="mcode-output">f =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[    -3.1,     3.1]        9    complex values 
+Epslevel = 4.911761e-16.  Vscale = 17.
+</pre><img src="img/FourierBasedChebfuns_06.png" class="figure" alt="">
+
+The area enclosed by this curve can be computed as
+
+<pre class="mcode-input">area_heart = abs(sum(real(f).*diff(imag(f))))</pre><pre class="mcode-output">area_heart =
+     5.654866776461625e+02
+</pre>According to [1], the true area enclosed is $180\pi$. The relative error in the computation is then
+
+<pre class="mcode-input">err = (area_heart - 180*pi)/(180*pi)</pre><pre class="mcode-output">err =
+    -4.020849375084742e-16
+</pre>Operations with array-valued fourfuns are also available.
+
+<pre class="mcode-input">f = chebfun(@(x) [(cos(sin(cos(x)))) exp(-x.^2./(x.^2-pi.^2).^2)],domain);
+plot(f,LW, lw)</pre><img src="img/FourierBasedChebfuns_07.png" class="figure" alt="">
+
+
+
+## References
+
+1. Mathworld Heart Curve: <http://mathworld.wolfram.com/HeartCurve.html>
+
