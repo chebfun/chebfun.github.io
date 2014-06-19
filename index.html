@@ -57,96 +57,105 @@
 
     <div class="container main">
         <div class="row">
-            <div class='description'>
-                <div class='col-sm-9'>
-                    <p>Chebfun is an open-source MATLAB package for computing
-                    with functions to 15-digit accuracy. Most Chebfun commands
-                    are overloads of familiar MATLAB commands &mdash; for
-                    example <code>sum(f)</code> computes an integral,
-                    <code>roots(f)</code> finds zeros, and <code>u =
-                    L\f</code> solves a differential equation.</p>
-                </div>
-                <div class='col-sm-3'>
-                    <div class="btn-group-vertical">
-                    <button class='btn btn-lg btn-success btn-download'>Download</button>
-                    <button class='btn btn-lg btn-primary btn-browsesource'>Browse source</button>
-                    </div>
-                </div>
+            <div class='description col-sm-12'>
+                <p>Chebfun is an open-source MATLAB package for computing
+                with functions to 15-digit accuracy. Most Chebfun commands
+                are overloads of familiar MATLAB commands &mdash; for
+                example <code>sum(f)</code> computes an integral,
+                <code>roots(f)</code> finds zeros, and <code>u =
+                L\f</code> solves a differential equation.</p>
+            </div>
+            <div class="links">
+                <a href='download' class='download'>DOWNLOAD V5</a><span class='sep'></span><a href='//github.com/chebfun/chebfun' class='browse-source'>BROWSE SOURCE</a>
             </div>
         </div>
+    </div><!-- div.main -->
 
-        <div class="hidden flexslider billboard">
-          <ul class="slides">
+    <div class="container flexslider">
+      <ul class="slides">
 <li>
-<div class='row'>
-<div class='col-md-6 codewrap'><div class='code'>
-<pre class='mcode-input'>x = chebfun('x');
-
-% Define two functions
-f = exp(-x).*tanh(4*sin(40*x)).*(2 + sin(7*x)) / 16;
-g = (exp(sin(12*x) - x) + x - 2) / 12;
-
-rr = roots(f - g);      % Compute their intersections
-
-plot([f g]), hold on    % Plot the functions
-plot(rr, f(rr), 'o')    % and their intersections
-</pre>
-</div></div>
-<div class='col-md-6 image'><img src='demo1.png' style='margin-top: 33px' /></div>
-</div>
+<div class='codewrap'><pre class='code'><span class='comment'>% Define two functions</span>
+f = chebfun(@(x) sin(x.^2)+sin(x).^2, [0,10]);
+g = chebfun(@(x) exp((5-x).^2/10), [0,10]);
+<span class='comment'>% Compute their intersections</span>
+rr = roots(f - g);
+<span class='comment'>% Plot the functions</span>
+plot([f g]), hold on
+<span class='comment'>% Plot their intersections</span>
+plot(rr, f(rr), 'o')
+</pre></div><div class='imagewrap'><img src='demo1.png' /></div>
 </li>
 
 
 <li>
-<div class='row'>
-<div class='col-md-6 codewrap'><div class='code'>
-<pre class='mcode-input'>% Airy operator
-L = chebop(@(x,u) 0.01*diff(u,2) - x.*u, [-5,5]);
+<div class='codewrap'><pre class='code'><span class='comment'>% Airy operator</span>
+op = @(x,u) 0.01*diff(u,2) - x.*u;
+<span class='comment'>% Create a chebop</span>
+L = chebop(op, [-5,5]);
+<span class='comment'>% Apply boundary conditions</span>
 L.bc = 'dirichlet';
-
-% Solve the differential equation
+<span class='comment'>% Solve the differential equation</span>
 u = L \ 1;
-
 plot(u)
-</pre>
-</div></div>
-<div class='col-md-6 image'><img src='demo2.png' style='margin-top: 40px' /></div>
-</div>
-</li>          </ul>
-        </div>
+</pre></div><div class='imagewrap'><img src='demo2.png' /></div>
+</li>
+
+
+<li>
+<div class='codewrap'><pre class='code'><span class='comment'>% The Dixon-Szego function</span>
+f = @(x,y) (4-2.1*x.^2+ x.^4/3).*x.^2 ...
+            + x.*y + 4*(y.^2-1).*y.^2;
+<span class='comment'>% Create a chebfun2</span>
+F = chebfun2(f, [-2,2,-1.25,1.25]);
+<span class='comment'>% Find the minimum and plot it</span>
+[minf,minx] = min2(F);
+contour(F,30), hold on
+plot(minx(1),minx(2),'.w')
+</pre></div><div class='imagewrap'><img src='demo3.png' /></div>
+</li>
+      </ul>
+    </div>
+
+    <div class="container main detached">
 
         <div class="row">
             <div class="col-md-12" role="main">
-                <div class='description' style='background-color:#900;padding:1em;color:#fafafa;'>
-Homepage &amp; function reference are out for maintenance. They will be up soon.
-</div>
+                <h2>Latest news</h2>
+                <ol class='news slats'><li>
+                        <a href='/news/20140621-whats-new-in-chebfun-v5.html'>
+                            <span class='read-more'>read more &raquo;</span>
+                            <h3><span class='date'>21 June 2014</span><span class='sep'>/</span>What's new in Chebfun Version 5</h3>
+                            <p class='oneline'>Today we are very pleased to announce the release of Chebfun Version 5! Chebfun Version 5 represents a complete rewrite of the Chebfun code and a transition from an svn repository at Oxford to a public repository and issue tracker at GitHub. We are a fully open source project. We invite all our users to learn more and get involved.</p>
+                        </a>
+                    </li>                </ol>
 
-<div class="row widgets">
-  <div class="col col-sm-6 col-md-3">
-    <a class="widget" href="docs/guide">
-      <h3>Get started &raquo;<span class="glyphicon glyphicon-off" style='float:right'></span></h3>
-      <p>Browse the Chebfun Guide, an in-depth introduction to Chebfun's capabilities.</p>
-    </a>
-  </div>
-  <div class="col col-sm-6 col-md-3">
-    <a class="widget" href="download">
-      <h3>Download &raquo;<span class="glyphicon glyphicon-download" style='float:right'></span></h3>
-      <p>Chebfun runs in standard Matlab with no toolboxes required. You'll be up and running in seconds.</p>
-    </a>
-  </div>
-  <div class="col col-sm-6 col-md-3">
-    <a class="widget" href="examples">
-      <h3>View Examples &raquo;<span class="glyphicon glyphicon-th" style='float:right'></span></h3>
-      <p>The gallery contains hundreds of examples of Chebfun's mathematical applications.</p>
-    </a>
-  </div>
-  <div class="col col-sm-6 col-md-3">
-    <a class="widget" href="develop">
-      <h3></span>Contribute &raquo;<span class="glyphicon glyphicon-wrench" style='float:right'></span></h3>
-      <p>Chebfun is open-source and hosted on Github. We're always looking for new developers.</p>
-    </a>
-  </div>
-</div>
+                <div class="row widgets">
+                  <div class="col col-sm-6 col-md-3">
+                    <a class="widget" href="docs/guide">
+                      <h3>Get started &raquo;<span class="glyphicon glyphicon-off" style='float:right'></span></h3>
+                      <p>Browse the Chebfun Guide, an in-depth introduction to Chebfun's capabilities.</p>
+                    </a>
+                  </div>
+                  <div class="col col-sm-6 col-md-3">
+                    <a class="widget" href="download">
+                      <h3>Download &raquo;<span class="glyphicon glyphicon-download" style='float:right'></span></h3>
+                      <p>Chebfun runs in standard Matlab with no toolboxes required. You'll be up and running in seconds.</p>
+                    </a>
+                  </div>
+                  <div class="col col-sm-6 col-md-3">
+                    <a class="widget" href="examples">
+                      <h3>View Examples &raquo;<span class="glyphicon glyphicon-th" style='float:right'></span></h3>
+                      <p>The gallery contains hundreds of examples of Chebfun's mathematical applications.</p>
+                    </a>
+                  </div>
+                  <div class="col col-sm-6 col-md-3">
+                    <a class="widget" href="develop">
+                      <h3></span>Contribute &raquo;<span class="glyphicon glyphicon-wrench" style='float:right'></span></h3>
+                      <p>Chebfun is open-source and hosted on Github. We're always looking for new developers.</p>
+                    </a>
+                  </div>
+                </div>
+
             </div>
         </div>
     </div>

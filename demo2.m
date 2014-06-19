@@ -10,11 +10,11 @@ LW = 'linewidth'; MS = 'markersize';
 L = chebop(@(x,u) 0.01*diff(u,2) - x.*u, [-5,5]);
 L.bc = 'dirichlet';
 
-% Solve
+% Solve the differential equation
 u = L \ 1;
 
 h = figure;
-plot(u, 'color', [.4 .7 .7], LW, 3), hold on
+plot(u, 'color', [.5 .8 .9], LW, 3), hold on
 
 set(h, 'Position', [0 0 650 300])   % make it the right size
 set(gca,'FontSize',15)              % increase tick font size
