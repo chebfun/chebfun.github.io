@@ -81,7 +81,7 @@ g = chebfun(@(x) exp((5-x).^2/10), [0,10]);
 rr = roots(f - g);
 <span class='comment'>% Plot the functions</span>
 plot([f g]), hold on
-<span class='comment'>% Plot their intersections</span>
+<span class='comment'>% Plot the intersections</span>
 plot(rr, f(rr), 'o')
 </pre></div><div class='imagewrap'><img src='demo1.png' /></div>
 </li>
@@ -107,7 +107,7 @@ f = @(x,y) (4-2.1*x.^2+ x.^4/3).*x.^2 ...
             + x.*y + 4*(y.^2-1).*y.^2;
 <span class='comment'>% Create a chebfun2</span>
 F = chebfun2(f, [-2,2,-1.25,1.25]);
-<span class='comment'>% Find the minimum and plot it</span>
+<span class='comment'>% Find the minimum and mark it</span>
 [minf,minx] = min2(F);
 contour(F,30), hold on
 plot(minx(1),minx(2),'.w')

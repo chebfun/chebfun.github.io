@@ -45,6 +45,7 @@ complex/Singularities.m
 fun/Birthday.m
 fun/BirthdayOdds.m
 fun/Encryption.m
+fun/HelloWorld.m
 fun/ValentinesDay.m
 fun/ValentinesDay2.m
 fun/Writing3D.m
@@ -52,6 +53,7 @@ geom/Area.m
 geom/Ellipse.m
 geom/Ellipses.m
 geom/Lissajous.m
+geom/ParametricSurfaces.m
 geom/Procrustes.m
 geom/RoundingCorners.m
 geom/VolumeOfHeart.m
@@ -73,6 +75,7 @@ ode/BlowupFK.m
 ode/BoundaryLayer.m
 ode/Carrier.m
 ode/DawsonIntegral.m
+ode/DynamicalSystems.m
 ode/ExactSolns.m
 ode/FourBugs.m
 ode/LeeGreengardODEs.m
