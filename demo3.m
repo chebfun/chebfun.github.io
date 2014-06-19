@@ -13,8 +13,8 @@ f = @(x,y) (4-2.1*x.^2+ x.^4/3).*x.^2 ...
 F = chebfun2(f,[-2 2 -1.25 1.25]);
 % Find the minimum and plot it
 [minf,minx] = min2(F);
-contour(F,25,LW,1.2), axis([-2 2 -1.25 1.25])
-colormap(autumn*3/4+1/4)
+contour(F,25,LW,1.6), axis([-2 2 -1.25 1.25])
+colormap(jet*1/2+1/2)
 hold on, plot(minx(1),minx(2),'.w',MS,20)
 
 set(h, 'Position', [0 0 650 340])   % make it the right size
