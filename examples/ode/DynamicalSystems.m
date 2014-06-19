@@ -29,7 +29,8 @@ A = [2 -2;0 1]; [EV, EW] = eig(A);        % matrix of the system and eigenvalues
 G = A*g; T = [0 3];                       % phase plane and time interval
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
-quiver(G,'b',LW,2), hold on, axis equal
+figure('position', [0 0 600 300])
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [.1 .05; -.1 -.05; -.1,-.05; -.1,0; .1,0];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
@@ -53,7 +54,7 @@ A = [-1 3; 0 -3]; [EV, EW] = eig(A);
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
 G = A*g; T = [0 6];
-quiver(G,'b',LW,2), hold on, axis equal
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [1 -2/3; -1 2/3; .5 -1; -.5 1; 1 0; -1 0];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
@@ -69,7 +70,7 @@ A = [2 -2;3 -2]; [EV, EW] = eig(A);
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
 G = A*g; T = [0 5];
-quiver(G,'b',LW,2), hold on, axis equal
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [.2 0; .5 0];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
@@ -91,6 +92,7 @@ title('The origin is a center',FS,14)
 % All cases can be summarized in the following picture, where the parabola
 % is defined by $\tau^2 - 4\Delta = 0$.
 
+set(gcf, 'position', [0 0 600 480])
 s1 = .3*scribble('stable'); s2 = .3*scribble('unstable');
 s3 = .3*scribble('saddles'); s4 = .3*scribble('spirals');
 rt = chebfun('2*sqrt(x)',[0 1],'splitting','on');
@@ -99,7 +101,7 @@ plot([0 0],[-2 2],LW,1.6),
 plot([rt -rt],'b',LW,1.6),
 labels = [s3 - .5+1i; s3 - .5-1i; s2 + .4+1.8i; s1 + .4-1.8i; ...
     s2 + .6+.8i; s4 + .6+.6i; s1 + .6-.6i; s4 + .6-.8i];
-plot(labels,LW,1)
+plot(labels,LW,1), axis tight
 title('Stability of linear dynamical systems',FS,14)
 xlabel('det(A)',FS,14), ylabel('tr(A)',FS,14), hold off
 
@@ -112,11 +114,12 @@ xlabel('det(A)',FS,14), ylabel('tr(A)',FS,14), hold off
 % having positive trace $\tau$ and positive determinant $\Delta$ with
 % $\tau < 2\sqrt{\Delta}$.
 
+set(gcf, 'position', [0 0 600 300])
 A = [2 -2;8 1]; [EV, EW] = eig(A);
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
 G = A*g; T = [0 2];
-quiver(G,'b',LW,2), hold on, axis equal
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [.1 .1; -.1 -.1; .1 -.1; -.1 .1];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
@@ -133,7 +136,7 @@ A = [-.5 -2;2 -.2]; [EV, EW] = eig(A);
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
 G = A*g; T = [0 10];
-quiver(G,'b',LW,2), hold on, axis equal
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [0 1; 1 0; 0 -1; -1 0];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
@@ -149,7 +152,7 @@ A = [1 1; 4 -2]; [EV, EW] = eig(A);
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
 G = A*g; T = [0 2];
-quiver(G,'b',LW,2), hold on, axis equal
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [-.1 1; -.5 1; .1 -1; .6 -1];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
@@ -166,7 +169,7 @@ A = [1 1; -2 -2]; [EV, EW] = eig(A);
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
 G = A*g; T = [0 2];
-quiver(G,'b',LW,2), hold on, axis equal
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [-.6 1; -.2 1; .2 1; .7 -1; .3 -1; -.1 -1];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
@@ -182,7 +185,7 @@ A = [1 2; 1 2]; [EV, EW] = eig(A);
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
 G = A*g; T = [0 2];
-quiver(G,'b',LW,2), hold on, axis equal
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [0 .05; -.5 .3; -1 .55; 1 -.55; 0 -.05; .5 -.3];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
@@ -204,7 +207,7 @@ A = [1 4;-1 -3]; [EV, EW] = eig(A);
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
 G = A*g; T = [0 4];
-quiver(G,'b',LW,2), hold on, axis equal
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [-1 .5; 1 -.5; -.9 1; -.5 1; .9 -1; .5 -1; 1 -.75; -1 .75];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
@@ -223,7 +226,7 @@ A = [-1 5/2;-5/2 4]; [EV, EW] = eig(A);
 fprintf('eigenvalues of A:\n'), disp(diag(EW)')
 fprintf('eigenvectors of A:\n'), disp(EV)
 G = A*g; T = [0 2];
-quiver(G,'b',LW,2), hold on, axis equal
+quiver(G,'b',LW,2), hold on, axis equal tight
 initvals = [.1 .1; -.1 -.1; .5 .35; .1 -.1; -.1 .1; -.5 -.35];
 for k = 1:size(initvals,1)
     [~, y] = ode45(G,T,initvals(k,:));
