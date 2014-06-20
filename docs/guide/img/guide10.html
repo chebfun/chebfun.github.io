@@ -6,9 +6,15 @@ authordate: "Lloyd N. Trefethen, November 2009, latest revision June 2014"
 
 Chapter 7 described the chebop capability for solving linear ODEs (ordinary differential equations) by the backslash command.  We will now describe extensions of chebops to nonlinear problems, as well as other methods for nonlinear ODEs:
 
-Initial-value problems:  `ode45`, `ode113`, `ode15s`Boundary-value problems: `bvp4c`, `bvp5c`Both kinds of problems via chebops:  nonlinear backslash (=`solvebvp`)In this chapter we outline the use of these methods; for fuller details, see the `help` documentation and especially the online Chebfun Examples.  The last of the methods listed, nonlinear backslash or `solvebvp`, represents a "pure Chebfun" approach in which Newton's method is applied on chebfuns, with the necessary derivative operators calculated by Chebfun's built-in capabilities of Automatic Differentiation (AD).  This is the main Chebfun method recommended for solving boundary-value problems.
+o  Initial-value problems:  `ode45`, `ode113`, `ode15s`
 
-We use the abbreviations IVP for initial-value problem and BVP for boundary-value problem, as well as BC for boundary condition.
+o  Boundary-value problems: `bvp4c`, `bvp5c`
+
+o  Both kinds of problems via chebops:  nonlinear backslash (=`solvebvp`)
+
+In this chapter we outline the use of these methods; for fuller details, see the `help` documentation and especially the online Chebfun Examples.  The last of the methods listed, nonlinear backslash or `solvebvp`, represents a "pure Chebfun" approach in which Newton's method is applied on chebfuns, with the necessary derivative operators calculated by Chebfun's built-in capabilities of Automatic Differentiation (AD).  This is the main Chebfun method recommended for solving boundary-value problems.
+
+We use the abbreviations IVP for initial-value problem and BVP for boundary-value problem.
 
 For time-dependent PDEs, try `help pde15s`.
 
@@ -27,7 +33,7 @@ u = chebfun.ode45(fun, [0, 1], 0.95);
 LW = 'linewidth'; lw = 1.6;
 plot(u,LW,lw)</pre><img src="img/guide10_01.png" class="figure" alt="">
 
-The first argument to `ode45` defines the equation, the second defines the domain for the independent variable, and the third provides the initial condition.  It is the presence of the domain object that directs MATLAB to use the Chebfun version of `ode45` rather than the MATLAB original.
+The first argument to `ode45` defines the equation, the second defines the domain for the independent variable, and the third provides the initial condition.
 
 To find out where the solution takes the value 10, for example, we can write
 
@@ -57,18 +63,17 @@ minandmax(v(:,1))</pre><pre class="mcode-output">ans =
 
 <pre class="mcode-input">opts = odeset('abstol',1e-8,'reltol',1e-8);
 fun = @(t,v) [v(2); 1000*(1 - v(1)^2)*v(2) - v(1)];
-chebfunpref.setDefaults('enableBreakpointDetection',true)
+chebfunpref.setDefaults('splitting','on')
 v = chebfun.ode15s(fun, [0 3000], [2 0], opts);
 chebfunpref.setDefaults('factory')
-u = v(:,1); plot(u,LW,lw)</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
-</pre><img src="img/guide10_03.png" class="figure" alt="">
+u = v(:,1); plot(u,LW,lw)</pre><img src="img/guide10_03.png" class="figure" alt="">
 
 Here is a pretty good estimate of the period of the oscillator:
 
 <pre class="mcode-input">diff(roots(u))</pre><pre class="mcode-output">ans =
    1.0e+02 *
-   8.071984160150478
-   8.072067796345104
+   8.072000511670380
+   8.072001250877227
 </pre>Finally here is an illustration of the Lorenz equations:
 
 <pre class="mcode-input">fun = @(t,u) [10*(u(2)-u(1)); 28*u(1)-u(2)-u(1)*u(3); u(1)*u(2)-(8/3)*u(3)];
@@ -121,7 +126,7 @@ u = v(:,1); plot(u, LW, lw)</pre><img src="img/guide10_07.png" class="figure" al
 
 The options described in the last two sections rely on standard numerical discretizations, whose results are then converted to Chebfun form.  It is natural, however, to want to be able to solve ODEs fully within the Chebfun context, operating always at the level of functions.  If the ODE is nonlinear, this will lead to Newton iterations for functions, also known as Newton-Kantorovich iterations.  As with any Newton method, this will require a derivative, which in this case becomes a linear operator: an infinite-dimensional Jacobian, or more properly a _Frechet derivative_.
 
-Chebfun contains features for making such explorations possible. This means that with Chebfun, you can explore Newton iterations at the function level. The enabling tool is Chebfun Automatic Differentiation (AD), introduced by Asgeir Birkisson and Toby Driscoll [Birkisson &amp; Driscoll 2011].
+Chebfun contains features for making such explorations possible. This means that with Chebfun, you can explore Newton iterations at the function level. The enabling tool is Chebfun Automatic Differentiation (AD), introduced by Asgeir Birkisson and Toby Driscoll [Birkisson 2014, Birkisson &amp; Driscoll 2011].
 
 To illustrate Chebfun AD, consider the sequence of computations
 
@@ -142,7 +147,7 @@ w = u + diff(v);</pre>We can now obtain the derivative of $v$ with respect to $u
 
 <pre class="mcode-input">plot(dvdu*x, LW, lw)</pre><img src="img/guide10_08.png" class="figure" alt="">
 
-Notice that `dvdu` is a multiplication operator, acting on a function just by pointwise multiplication.  (The proper term is _multiplier operator_.)
+Notice that `dvdu` is a multiplication operator, acting on a function just by pointwise multiplication.  (The technical term is _multiplier operator_.)
 
 What about $dw/du$?  To do this on paper we must think a little more carefully and compute
 
@@ -260,13 +265,11 @@ x = chebfun('x');
 N.init = 2*(x.^2 - 1).*(1 - 2./(1 + 20*x.^2));
 u = N\1; plot(u, 'm', LW, lw)</pre><img src="img/guide10_14.png" class="figure" alt="">
 
-We get a different solution from the one we got before! This one is correct too; the Carrier problem has many solutions. If we multiply this solution by $1.2\sin(x/2)$ and take the result as a new initial guess, we converge to another new solution:
+We get a different solution from the one we got before! This one is correct too; the Carrier problem has many solutions. If we multiply this solution by $2\sin(x/2)$ and take the result as a new initial guess, we converge to a third solution:
 
-<pre class="mcode-input">N.init= 1.2*u.*sin(x/2);
+<pre class="mcode-input">N.init= u.*sin(pi*x/2);
 [u, info] = solvebvp(N, 1);
-plot(u,'m',LW,lw)</pre><pre class="mcode-output">Warning: Newton iteration failed. Maximum number of iterations exceeded.
-See help cheboppref for how to increase the number of steps allowed. 
-</pre><img src="img/guide10_15.png" class="figure" alt="">
+plot(u,'m',LW,lw)</pre><img src="img/guide10_15.png" class="figure" alt="">
 
 This time, we called the method `solvebvp` with two output arguments. The second output is a MATLAB struct, which contains data showing the norms of the updates during the Newton iteration, revealing in this case a troublesome initial phase followed by eventual rapid convergence.
 
@@ -295,6 +298,8 @@ Chebfun includes a GUI (Graphical User Interface) for solving all kinds of ODE, 
 ## 10.6 References
 
 [Bender &amp; Orszag 1978] C. M. Bender and S. A. Orszag, _Advanced Mathematical Methods for Scientists and Engineers_, McGraw-Hill, 1978.
+
+[Birkisson 2014] A. Birkisson, _Numerical Solution of Nonlinear Boundary Value Problems for Ordinary Differential Equations in the Continuous Framework_, D. Phil. thesis, University of Oxford, 2014.
 
 [Birkisson &amp; Driscoll 2011] A. Birkisson and T. A. Driscoll, Automatic Frechet differentiation for the numerical solution of boundary-value problems, _ACM Transactions on Mathematical Software_, 38 (2012), 1-26.
 

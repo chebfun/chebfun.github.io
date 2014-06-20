@@ -135,9 +135,9 @@ Epslevel = 2.183626e-15.  Vscale = 1.000000e+00.
   x = 100*rand(3,1)</pre>
 
 <pre class="mcode-output">x =
-  81.472368639317892
-  90.579193707561927
-  12.698681629350606
+  93.900156199988686
+  87.594281149298382
+  55.015634289842218
 </pre>
 
 <p>Let's compare the chebfun to the true Bessel function at these points:</p>
@@ -146,9 +146,9 @@ Epslevel = 2.183626e-15.  Vscale = 1.000000e+00.
   [g(x) exact error]</pre>
 
 <pre class="mcode-output">ans =
-   0.048059538377880   0.048059538377880   0.000000000000000
-  -0.021311086924089  -0.021311086924090   0.000000000000000
-   0.176415464952875   0.176415464952875  -0.000000000000001
+   0.034806130830652   0.034806130830653  -0.000000000000000
+   0.034267558343628   0.034267558343627   0.000000000000000
+  -0.073316032636650  -0.073316032636650   0.000000000000000
 </pre>
 
 <p>If you want to know the first 5 zeros of the Bessel function, here they are:</p>
@@ -443,7 +443,7 @@ Epslevel = 1.110223e-15.  Vscale = 2.  Total length = 6.
 [ 2.9e+03,   3e+03]       86        -1     0.71 
 [   3e+03, 3.1e+03]       85      0.71 -3.7e-12 
 Epslevel = 3.487391e-13.  Vscale = 1.000000e+00.  Total length = 2748.
-Elapsed time is 1.195712 seconds.
+Elapsed time is 1.509428 seconds.
 </pre>
 
 <p>In this case it is more efficient -- and more interesting mathematically -- to omit the splitting and construct one global chebfun:</p>
@@ -454,7 +454,7 @@ Elapsed time is 1.195712 seconds.
        interval       length   endpoint values  
 [       0, 3.1e+03]     1684  -2.1e-14 -3.1e-13 
 Epslevel = 3.487867e-13.  Vscale = 9.999862e-01.
-Elapsed time is 0.045915 seconds.
+Elapsed time is 0.447233 seconds.
 </pre>
 
 <p>Splitting on and off are discussed further in Section 8.3.</p>
@@ -493,7 +493,117 @@ ans =
 </pre>
 
 <p>For more on the treatment of infinities in Chebfun, see Chapter 9.</p>
-<h3 id="16-rows-columns-and-quasimatrices">1.6  Rows, columns, and quasimatrices</h3>
+<h3 id="16-periodic-functions">1.6  Periodic functions</h3>
+<p>Until 2014, Chebfun used only nonperiodic representations, based on Chebyshev polynomials.  Beginning with Version 5, there is a new capability of representing sufficiently smooth periodic functions by trigonometric polynomials instead, that is, Fourier series.  Such an object is still called a chebfun, but it is a periodic one.  These features were added by Grady Wright in the first half of 2014, and will undoubtedly be developed further in the future.</p>
+<p>For example, here is a periodic function on $[-\pi,\pi]$ represented in the usual way by a Chebyshev series.</p>
+<pre class="mcode-input">ff = @(t) sin(t)/2 + cos(2*t) + 0.2*cos(100*t);
+f = chebfun(ff,[-pi,pi]);
+max(f)
+plot(f)</pre>
+
+<pre class="mcode-output">ans =
+   1.231249778347126
+</pre>
+
+<p><img src="img/guide01_11.png" class="figure" alt=""></p>
+<p>Its length, very roughly, is $100\times \pi$,</p>
+<pre class="mcode-input">length(f)</pre>
+
+<pre class="mcode-output">ans =
+   383
+</pre>
+
+<p>Here is the same function represented by a Fourier series:</p>
+<pre class="mcode-input">f2 = chebfun(ff,[-pi,pi],'periodic')
+max(f2)
+plot(f2,'m')</pre>
+
+<pre class="mcode-output">f2 =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[    -3.1,     3.1]      201       1.2      1.2 
+Epslevel = 3.739287e-15.  Vscale = 1.640723e+00.
+ans =
+   1.231249778347128
+</pre>
+
+<p><img src="img/guide01_12.png" class="figure" alt=""></p>
+<p>Its length is now only about $100\times 2$ (exactly 201).   This improvement by a factor of about $\pi/2$ is typical.</p>
+<pre class="mcode-input">length(f2)</pre>
+
+<pre class="mcode-output">ans =
+   201
+</pre>
+
+<p>We can confirm that the two functions agree like this:</p>
+<pre class="mcode-input">norm(f-chebfun(f2,[-pi, pi]))</pre>
+
+<pre class="mcode-output">ans =
+     1.303148667359825e-14
+</pre>
+
+<p>Readers may be interested to compare <code>plotcoeffs</code> applied to the first and second versions of $f$.  Rather than display that here we shall turn to a simpler example involving a shorter Fourier series.  Consider the function</p>
+<pre class="mcode-input">f = chebfun('7 + sin(t) + exp(1)*cos(2*t)',[-pi,pi],'periodic')</pre>
+
+<pre class="mcode-output">f =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[    -3.1,     3.1]        5       9.7      9.7 
+Epslevel = 4.618714e-16.  Vscale = 9.718282e+00.
+</pre>
+
+<p>Here are the coefficients of $f$ as an expansion in sines and cosines:</p>
+<pre class="mcode-input">[a,b] = fourcoeffs(f)</pre>
+
+<pre class="mcode-output">a =
+   2.718281828459045   0.000000000000001   7.000000000000000
+b =
+                   0   1.000000000000000
+</pre>
+
+<p>Here they are as an expansion in complex exponentials:</p>
+<pre class="mcode-input">c = fourcoeffs(f)</pre>
+
+<pre class="mcode-output">c =
+  Column 1
+  1.359140914229522 + 0.000000000000000i
+  Column 2
+  0.000000000000000 - 0.500000000000000i
+  Column 3
+  7.000000000000000 + 0.000000000000000i
+  Column 4
+  0.000000000000000 + 0.500000000000000i
+  Column 5
+  1.359140914229522 + 0.000000000000000i
+</pre>
+
+<p>Bookkeeping of Fourier coefficients can often be a headache. If these examples don't make the patterns clear, details can be found with <code>help fourcoeffs</code>.</p>
+<p>For a mathematically less trivial example, here is the cosine expansion of a function whose Fourier series coefficients are known to be values of a Bessel function:</p>
+<pre class="mcode-input">f = chebfun('exp(cos(t))',[-pi pi],'periodic');
+[a,b] = fourcoeffs(f);
+n = floor(length(f)/2);
+exact = 2*besseli(n:-1:0,1); exact(end) = exact(end)/2;
+disp('        computed            exact')
+disp([a' exact'])</pre>
+
+<pre class="mcode-output">        computed            exact
+   0.000000000000040   0.000000000000040
+   0.000000000001039   0.000000000001039
+   0.000000000024980   0.000000000024980
+   0.000000000550590   0.000000000550590
+   0.000000011036772   0.000000011036772
+   0.000000199212481   0.000000199212481
+   0.000003198436462   0.000003198436462
+   0.000044977322954   0.000044977322954
+   0.000542926311914   0.000542926311914
+   0.005474240442094   0.005474240442094
+   0.044336849848664   0.044336849848664
+   0.271495339534077   0.271495339534077
+   1.130318207984970   1.130318207984970
+   1.266065877752008   1.266065877752008
+</pre>
+
+<h3 id="17-rows-columns-and-quasimatrices">1.7  Rows, columns, and quasimatrices</h3>
 <p>MATLAB doesn't only deal with column vectors: there are also row vectors and matrices.  The same is true of Chebfun. The chebfuns shown so far have all been in column orientation, which is the default, but one can also take the transpose, compute inner products, and so on:</p>
 <pre class="mcode-input">  x = chebfun(@(x) x)</pre>
 
@@ -546,11 +656,33 @@ Epslevel = 2.220446e-15.  Vscale = 1.
 </pre>
 
 <p>These are called <em>quasimatrices</em>, and they are discussed in Chapter 6.</p>
-<h3 id="17-how-this-guide-is-produced">1.7  How this Guide is produced</h3>
+<h3 id="18-chebfun-features-not-in-this-guide">1.8  Chebfun features not in this Guide</h3>
+<p>Some of Chebfun's most remarkable features haven't made it into this edition of the Guide.  Here are some of our favorites:</p>
+<p>o <code>leg2cheb</code> and <code>cheb2leg</code> for fast Legendre-Chebyshev conversions,</p>
+<p>o <code>conv</code> and <code>circconv</code> for convolution,</p>
+<p>o The <code>'equi'</code> flag to the Chebfun constructor for equispaced data,</p>
+<p>o <code>polyfit</code> for least-squares fitting in the continuous context,</p>
+<p>o <code>inv</code> for computing the inverse of a chebfun,</p>
+<p>o <code>pde15s</code> for PDEs in one space and one time variable.</p>
+<p>To learn about any of these options, try the appropriate <code>help</code> command.  Just as a taster, here's a hint of how fast Chebfun can convert a ten-thousand coefficient Chebyshev expansion to Legendre coefficients and back again using an algorithm from [Hale &amp; Townsend 2013]:</p>
+<pre class="mcode-input">tic
+ccheb = randn(10000,1);
+cleg = cheb2leg(ccheb);
+ccheb2 = leg2cheb(cleg);
+norm(ccheb-ccheb2,inf)
+toc</pre>
+
+<pre class="mcode-output">ans =
+     4.076383675055695e-11
+Elapsed time is 1.212305 seconds.
+</pre>
+
+<h3 id="19-how-this-guide-is-produced">1.9  How this Guide is produced</h3>
 <p>This guide is produced in MATLAB using the <code>publish</code> command with a style sheet somewhat different from the usual; the output of <code>publish</code> is then processed by Markdown. To publish a chapter for yourself, make sure the chebfun guide directory is in your path and then type, for example, <code>open(publish('guide1'))</code>.  The formatting may not be exactly right but it should certainly be intelligible.</p>
-<h3 id="18-references">1.8  References</h3>
+<h3 id="110-references">1.10  References</h3>
 <p>[Battles &amp; Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension of MATLAB to continuous functions and operators", <em>SIAM Journal on Scientific Computing</em>, 25 (2004), 1743-1770.</p>
 <p>[Berrut &amp; Trefethen 2005] J.-P. Berrut and L. N. Trefethen, "Barycentric Lagrange interpolation", <em>SIAM Review 46</em>, (2004), 501-517.</p>
+<p>[Hale &amp; Townsend 2013]  N. Hale and A. Townsend, A fast, simple, and stable Chebyshev--Legendre transform using an asymptotic formula, <em>SIAM Journal on Scientific Computing</em>, 36 (2014), A148-A167.</p>
 <p>[Higham 2004] N. J. Higham, "The numerical stability of barycentric Lagrange interpolation", <em>IMA Journal of Numerical Analysis</em>, 24 (2004), 547-556.</p>
 <p>[Pachon, Platte &amp; Trefethen 2010] R. Pachon, R. B. Platte and L. N. Trefethen, "Piecewise-smooth chebfuns", <em>IMA J. Numer. Anal.</em>, 30 (2010), 898-916.</p>
 <p>[Salzer 1972] H. E. Salzer, "Lagrangian interpolation at the Chebyshev points cos(nu pi/n), nu = 0(1)n; some unnoted advantages", <em>Computer Journal</em> 15 (1972), 156-159.</p>
@@ -572,5 +704,5 @@ Epslevel = 2.220446e-15.  Vscale = 1.
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>
-  <!-- Compiled on Friday, 20 June 2014 at 00:48. -->
+  <!-- Compiled on Friday, 20 June 2014 at 01:25. -->
 </html>

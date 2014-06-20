@@ -161,7 +161,7 @@ I = sum(f.*diff(z))/(2i*pi)</pre><pre class="mcode-output">I =
   0.500000000000000 + 0.000000000000000i
 </pre>Notice that we have just computed the degree $2$ Taylor coefficient of $\exp(z)$.
 
-When Chebfun integrates around a circular contour like this, it does not automatically take advantage of the fact that the integrand is periodic. That would be Fourier analysis as opposed to Chebyshev analysis, and beginning with Version 5, "Fourfun" approach to such problems has been available, at least when the arguments are smooth (compare [Davis 1959]). For example, we could repeat the above calculation in Fourier mode like this:
+When Chebfun integrates around a circular contour like this, it does not automatically take advantage of the fact that the integrand is periodic. That would be Fourier analysis as opposed to Chebyshev analysis, and beginning with Version 5, a "Fourfun" approach to such problems has been available, at least when the arguments are smooth (compare [Davis 1959]). For example, we could repeat the above calculation in Fourier mode like this:
 
 <pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi],'periodic');
 f = exp(z)./z.^3;

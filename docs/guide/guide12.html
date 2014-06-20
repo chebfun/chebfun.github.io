@@ -109,9 +109,9 @@ fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum2(chebfun2(F)); t = toc;
 fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.1577 secs
-CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.0655 secs
-CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0337 secs
+<pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.1442 secs
+CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.0599 secs
+CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0336 secs
 </pre>
 
 <p>Chebfun2 is not designed specifically for numerical quadrature (or more properly, "cubature"), and careful comparisons with existing software have not been carried out. Low rank function approximations have been previously used for numerical quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman &amp; Geddes 2005].</p>
@@ -283,8 +283,8 @@ fprintf(' Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
 tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;         % compare with MATLAB
 fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output"> Chebfun2:  I = -0.48056569408898  time = 2.259 secs
-Integral3:  I = -0.48056569417568  time = 0.944 secs
+<pre class="mcode-output"> Chebfun2:  I = -0.48056569408898  time = 2.768 secs
+Integral3:  I = -0.48056569417568  time = 0.630 secs
 </pre>
 
 <h3 id="128-references">12.8 References</h3>
@@ -305,5 +305,5 @@ Integral3:  I = -0.48056569417568  time = 0.944 secs
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>
-  <!-- Compiled on Friday, 20 June 2014 at 00:48. -->
+  <!-- Compiled on Friday, 20 June 2014 at 01:25. -->
 </html>
