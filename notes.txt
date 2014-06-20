@@ -15,6 +15,7 @@ TO DO:
     - link to download guide chapters
     - add (frontend) search functionality to examples page
         - http://documentcloud.github.io/visualsearch/
+    - figure out what's going on with the chebgui screencap in guide10
 
 DONE:
     - add prominent 'download' link on homepage

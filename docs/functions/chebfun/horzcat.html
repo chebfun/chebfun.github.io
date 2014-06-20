@@ -63,9 +63,6 @@
         <li><a href="../chebfunpref">chebfunpref</a></li>
         <li><a href="../chebgui">chebgui</a></li>
         <li><a href="../chebmatrix">chebmatrix</a></li>
-        <li><a href="../chebop">chebop</a></li>
-        <li><a href="../cheboppref">cheboppref</a></li>
-        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
@@ -75,10 +72,18 @@
  -->
     <div class="sectiontitle">Documentation</div>
     <div class="helptext"><pre><!--helptext --> <span class="helptopic">horzcat</span>   Horizontal concatenation of CHEBFUN objects.
-    [A B] horizontally concatenates the CHEBFUN objects A and B to form an
-    array-valued CHEBFUN or an array of CHEBFUN objects (depending on whether
+    [A B] horizontally concatenates the column CHEBFUN objects A and B to form
+    an array-valued CHEBFUN or an array of CHEBFUN objects (depending on whether
     the interior breakpoints of A and B match or not). [A,B] does the same. Any
-    number of CHEBFUN objects can be concatenated within one pair of brackets.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/vertcat.html">vertcat</a>, <a href="../chebfun/cat.html">cat</a>.
+    number of CHEBFUN objects can be concatenated within one pair of brackets.
+ 
+    If one of A or B is a scalar or a row vector, it is cast to a constant
+    CHEBFUN.
+ 
+    If A and B are row CHEBFUN objects then C = [A B] will be a CHEBMATRIX. See
+    CHEBFUN/VERTCAT for more details.
+ 
+    [A1, A2, ...] concatenates multiple objects.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun/vertcat.html">vertcat</a>, <a href="../chebfun/cat.html">cat</a>, <a href="../quasimatrix/quasimatrix.html">quasimatrix</a>, <a href="../chebmatrix/chebmatrix.html">chebmatrix</a>.
 </div>
       <!--Method-->
       <div class="sectiontitle">Method Details</div>

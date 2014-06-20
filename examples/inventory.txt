@@ -133,6 +133,7 @@ stats/BivariateNormalDistribution.m
 stats/Expectations.m
 stats/Histogram.m
 stats/LeastSquares.m
+stats/MercerKarhunenLoeve.m
 stats/NormalExercises.m
 stats/ProbabilityConvolution.m
 stats/UniformExercises.m

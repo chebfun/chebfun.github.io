@@ -63,23 +63,25 @@
         <li><a href="../chebfunpref">chebfunpref</a></li>
         <li><a href="../chebgui">chebgui</a></li>
         <li><a href="../chebmatrix">chebmatrix</a></li>
-        <li><a href="../chebop">chebop</a></li>
-        <li><a href="../cheboppref">cheboppref</a></li>
-        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
 <!-- 
     <h1><a href='./'>chebfun2</a><span class='sep'>/</span><strong>min</strong></h1>
-    <p>Minimum value of a CHEBFUN2.</p>
+    <p>Minimum value of a CHEBFUN in one direction.</p>
  -->
     <div class="sectiontitle">Documentation</div>
-    <div class="helptext"><pre><!--helptext --> <span class="helptopic">min</span>  Minimum value of a CHEBFUN2.
-    <span class="helptopic">min</span>(F), returns a CHEBFUN representing the minimum of the CHEBFUN2 along the
-    y direction, i.e., <span class="helptopic">min</span>(F) = @(x) min( F ( x, : ) )
+    <div class="helptext"><pre><!--helptext --> <span class="helptopic">min</span>   Minimum value of a CHEBFUN in one direction.
+    <span class="helptopic">min</span>(f) returns a chebfun representing the minimum of the CHEBFUN2 along the
+    y direction, i.e, <span class="helptopic">min</span>(f) = @(x) max( f ( x, : ) )
+ 
+    <span class="helptopic">min</span>(f, [], dim) returns a CHEFBUN representing the minimum of f along the
+    DIM direction. If DIM = 1 is along the y-direction and DIM = 2 is along the
+    x-direction.
+ 
+    WARNING: This function is not always accurate to full machine precision. 
   
-    <span class="helptopic">min</span>(F,[],DIM) returns a CHEBFUN representing the minimum of f along the DIM
-    direction.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun2/max.html">max</a>. 
+    For the global minimum use MIN2.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfun2/max.html">max</a>, <a href="../chebfun2/max2.html">max2</a>, <a href="../chebfun2/min2.html">min2</a>, <a href="../chebfun2/minandmax2.html">minandmax2</a>.
 </div>
       <!--Method-->
       <div class="sectiontitle">Method Details</div>

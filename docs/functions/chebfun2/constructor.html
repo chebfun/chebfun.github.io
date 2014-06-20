@@ -63,9 +63,6 @@
         <li><a href="../chebfunpref">chebfunpref</a></li>
         <li><a href="../chebgui">chebgui</a></li>
         <li><a href="../chebmatrix">chebmatrix</a></li>
-        <li><a href="../chebop">chebop</a></li>
-        <li><a href="../cheboppref">cheboppref</a></li>
-        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
@@ -92,6 +89,8 @@
   slices by sampling along the slices and performing GE on the skeleton.
   Sampling along each slice is increased until the Chebyshev coefficients of the
   slice fall below machine precision.
+ 
+  Chebfun2 does not currently work with Chebyshev grids of the 1st kind.
  
   The algorithm is fully described in:
    A. Townsend and L. N. Trefethen, An extension of Chebfun to two dimensions,

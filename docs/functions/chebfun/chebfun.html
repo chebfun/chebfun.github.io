@@ -63,9 +63,6 @@
         <li><a href="../chebfunpref">chebfunpref</a></li>
         <li><a href="../chebgui">chebgui</a></li>
         <li><a href="../chebmatrix">chebmatrix</a></li>
-        <li><a href="../chebop">chebop</a></li>
-        <li><a href="../cheboppref">cheboppref</a></li>
-        <li><a href="../domain">domain</a></li>
     </ul>
 </div>
 <div id='content' class="col-sm-10" role="main">
@@ -154,7 +151,14 @@
  
   <span class="helptopic">chebfun</span>(F, 'trunc', N) returns a smooth N-point <span class="helptopic">chebfun</span> constructed by
   computing the first N Chebyshev coefficients from their integral form, rather
-  than by interpolation at Chebyshev points.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfunpref/chebfunpref.html">chebfunpref</a>, <a href="../chebpts/chebpts.html">chebpts</a>.</div><!--overloaded--><div class="footerlinktitle">
+  than by interpolation at Chebyshev points.
+ 
+  <span class="helptopic">chebfun</span>(F, 'periodic') constructs a <span class="helptopic">chebfun</span> object representing a smooth and
+  periodic function F on the interval [-1,1]. The resulting <span class="helptopic">chebfun</span> is
+  represented using a Fourier series. All operation done of F should preserve
+  smoothness and periodicity or the results may be inaccurate. Similar options
+  as discussed above may be combined with the 'periodic' flag, with exception to
+  the 'chebkind' and 'splitting' flags.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="../chebfunpref/chebfunpref.html">chebfunpref</a>, <a href="../chebpts/chebpts.html">chebpts</a>.</div><!--overloaded--><div class="footerlinktitle">
     Overloaded methods:
 </div><div class="footerlink">       <a href="../chebmatrix/chebfun.html">chebmatrix/chebfun</a>
 </div>

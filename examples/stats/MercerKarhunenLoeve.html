@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mercer's theorem and the Karhunen-Loeve expansion &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.github.io');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Mercer's theorem and the Karhunen-Loeve expansion</h1>
+<h2>Toby Driscoll, December 2011<span><a href='/examples/stats/MercerKarhunenLoeve.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/stats/MercerKarhunenLoeve.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">plotopt = {'linewidth',2,'markersize',12};</pre>
+
+<p>Mercer's theorem is a continuous analog of the singular-value or eigenvalue decomposition of a symmetric positive definite matrix. One of its main applications is to find convenient ways to express stochastic processes, via the Karhunen-Loeve expansion [1].</p>
+<h3 id="mercers-theorem">Mercer's theorem</h3>
+<p>Suppose $K(s,t)$ is a symmetric (that is, $K(t,s)=K(s,t)$), continuous, and nonnegative definite kernel function on $[a,b]\times [a,b]$. Mercer's theorem asserts that there is an orthonormal set of eigenfunctions $\psi_j(x)$ and eigenvalues $\lambda_j$ such that</p>
+<p>$$ K(s,t) = \sum_j^\infty \lambda_j \psi_j(s) \psi_j(t), $$</p>
+<p>where the values and functions satisfy the integral eigenvalue equation</p>
+<p>$$ \lambda_j \psi_j(s) = \int_a^b K(s,t) \psi_j(t). $$</p>
+<p>For example, suppose we have an exponentially decaying kernel:</p>
+<pre class="mcode-input">K = @(s,t) exp(-abs(s-t));</pre>
+
+<p>We can create the integral operator and find the leading terms of its Mercer decomposition numerically.</p>
+<pre class="mcode-input">F = fred( K, domain([-1,1]) );
+[Psi,Lambda] = eigs(F,20,'lm');
+Psi = chebfun(Psi);
+[lambda,idx] = sort(diag(Lambda),'descend');
+Psi = Psi(:,idx);</pre>
+
+<pre class="mcode-input">plot(Psi(:,[1 2 5 10]),plotopt{:})
+title('First four Mercer eigenfunctions')
+xlabel('x')
+ylabel('\Psi(x)')</pre>
+
+<p><img src="img/MercerKarhunenLoeve_01.png" class="figure" alt=""></p>
+<p>The eigenfunctions returned by <code>eigs</code> are orthonormal.</p>
+<pre class="mcode-input">format short
+Psi(:,1:6)'*Psi(:,1:6)</pre>
+
+<pre class="mcode-output">ans =
+    1.0000    0.0000    0.0000    0.0000   -0.0000    0.0000
+   -0.0000    1.0000    0.0000    0.0000    0.0000   -0.0000
+    0.0000    0.0000    1.0000    0.0000    0.0000   -0.0000
+    0.0000    0.0000   -0.0000    1.0000   -0.0000    0.0000
+   -0.0000   -0.0000    0.0000    0.0000    1.0000    0.0000
+    0.0000   -0.0000   -0.0000    0.0000    0.0000    1.0000
+</pre>
+
+<p>The truncation of the Mercer sum does lead to an underestimate of the values of the kernel $K(s,t)$. For our example, we should get $K(s,s)=1$, but we get noticeably less.</p>
+<pre class="mcode-input">Psi(0,:)*diag(lambda)*Psi(0,:)'
+Psi(0.95,:)*diag(lambda)*Psi(0.95,:)'</pre>
+
+<pre class="mcode-output">ans =
+    0.9799
+ans =
+    0.9825
+</pre>
+
+<p>In fact, the eigenvalues decrease only like $O(n^{-2})$, which makes the pointwise convergence in the number of terms rather slow.</p>
+<pre class="mcode-input">loglog(lambda,'.',plotopt{:}), axis tight
+xlabel('n')
+ylabel('| \lambda_n |')</pre>
+
+<p><img src="img/MercerKarhunenLoeve_02.png" class="figure" alt=""></p>
+<h3 id="karhunen-loeve-expansion">Karhunen-Loeve expansion</h3>
+<p>Now suppose that $X(t,\omega)$ is a stochastic process for $t$ in some interval $[a,b]$ and $\omega$ in some probability space. The process is often characterized by its mean, $\mu(t)$, and its covariance, $K(s,t)$, the expected value of $(X(s)-\mu(s))(X(t)-\mu(t))$. Using Mercer's theorem on $K$, we can express the process by the K-L expansion</p>
+<p>$$ X(t,\omega) = \mu(t) + \sum_j^\infty \sqrt(\lambda_j) \psi_j(t)
+Z_j(\omega), $$</p>
+<p>where $\lambda_j$ and $\psi_j$ are Mercer eigenmodes for $K$, and the $Z_j$ are uncorrelated and of unit variance.</p>
+<p>K-L is a generalization of the singular value decomposition of a matrix, which can be written as a sum of outer products of vectors. The covariance $K$ plays the role of the Gram matrix inner products (in probability) of "columns" of the process for different values of $s$ and $t$. A number of SVD results have K-L analogs, most notably that the best approximation of the process results from truncating the expansion, if the eigenvalues are arranged in nonincreasing order.</p>
+<p>Because the $Z_j$ in the expansion are uncorrelated, the variance of $X$ is just the sum of the eigenvalues. This is the trace of $K$, which is the integral of $K(s,s)$; in this case, the result is $2$. But we can also calculate the variance in a truncation of the expansion by summing only some of the eigenvalues. For example, suppose the process $X$ has the exponential covariance in $K$ above. The eigenvalues show that $95\%$ of the variance in the process is captured by the first $10$ K-L modes:</p>
+<pre class="mcode-input">captured = sum(lambda(1:10)) / 2</pre>
+
+<pre class="mcode-output">captured =
+    0.9579
+</pre>
+
+<p>We can find realizations of $X$ by selecting the random parameters $Z_j$ in the expansion.</p>
+<pre class="mcode-input">Z = randn(10,400);
+L = diag( sqrt(lambda(1:10)) );
+X = Psi(:,1:10)*(L*Z);
+plot(X(:,1:40))
+mu = sum(X,2)/400;
+hold on, plot(mu,'k',plotopt{:})
+title('Random realizations, and the mean')</pre>
+
+<p><img src="img/MercerKarhunenLoeve_03.png" class="figure" alt=""></p>
+<p>We should get roughly the original covariance function back. (We'll discretize the computation for speed.)</p>
+<pre class="mcode-input">points = (-1:.05:1)';
+[S,T] = meshgrid(points);
+C = cov( X(points,:)' );  % covariance at discrete locations
+clf, mesh(S,T,C)
+hold on, plot3(S,T,K(S,T),'k.',plotopt{:})</pre>
+
+<p><img src="img/MercerKarhunenLoeve_04.png" class="figure" alt=""></p>
+<p>If we shorten the correlation length of the process relative to the domain (i.e., more randomness), the amount of variance captured by the first $10$ modes will decrease.</p>
+<pre class="mcode-input">K = @(s,t) exp(-4*abs(s-t));     % decrease correlation faster, then...
+F = fred( K, domain([-1,1]) );
+lambdaShort = sort( eigs(F,24,'lm'), 'descend' );</pre>
+
+<pre class="mcode-input">clf
+loglog(lambda,'b.',plotopt{:})
+hold on
+loglog(lambdaShort,'r.',plotopt{:}), axis tight
+xlabel('n')
+ylabel('| \lambda_n |')
+
+captured = sum(lambdaShort(1:10)) / 2    % ... a smaller fraction is captured</pre>
+
+<pre class="mcode-output">captured =
+    0.6744
+</pre>
+
+<p><img src="img/MercerKarhunenLoeve_05.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>D. Xu, <em>Numerical Methods for Stochastic Computations</em>, Princeton    University Press, 2010.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

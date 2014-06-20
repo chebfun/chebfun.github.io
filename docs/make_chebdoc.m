@@ -13,15 +13,16 @@ docdir = 'functions';
 % We will include the docs of everything returned by
 % `method X` where `X` is one of these:
 classNames = {
-    'chebfun',
-    'chebfun2',
-    'chebfun2v',
+    % 'chebfun',
+    % 'chebfun2',
+    % 'chebfun2v',
+    % 'chebfunpref',
     'chebgui',
     'chebmatrix',
     'chebop',
-    'chebfunpref',
     'cheboppref',
-    'domain'
+    'domain',
+    'fourtech'
     }';
 
 % And also these "trunk" codes, which we'll call "utility functions".
@@ -141,6 +142,7 @@ for className = classNames
     for k = 1:length(functionNames)
 
         functionName = char(functionNames(k));
+        disp(['   ' className '/' functionName '...'])
 
         % The constructor needs a special thing.
         callToHelp = [className '/' functionName];
@@ -149,44 +151,61 @@ for className = classNames
             callToHelp = className;
         end
 
-        % These are the template variables.
-        f_title        = functionName;
-        f_layout       = 'item';
-        f_className    = className;
-        f_functionName = functionName;
-        f_helpHtml     = escapeSlashes(escapePercents(help2html(callToHelp)));
-        f_helpText     = escapeSlashes(help(callToHelp));
-        f_snippet      = getSnippetFrom(f_helpText);
-        f_qualifiers   = methodsData(k, 1);
-        f_returnType   = methodsData(k, 2);
-        f_arguments    = methodsData(k, 4);
+        % Don't bother with methods that have no help text. A lot of these are
+        % methods of a superclass, e.g. domain/plus and so on, since @domain
+        % inherits from @double.
+        s = help(callToHelp);
+        if length(s)
 
-        if strcmp(functionName, className)
-            % This function is a constructor.
-            f_snippet = ['The ' className ' constructor.'];
+            % These are the template variables.
+            f_title        = functionName;
+            f_layout       = 'item';
+            f_className    = className;
+            f_functionName = functionName;
+            f_helpHtml     = escapeSlashes(escapePercents(help2html(callToHelp)));
+            f_helpText     = escapeSlashes(help(callToHelp));
+            f_snippet      = getSnippetFrom(f_helpText);
+            f_qualifiers   = methodsData(k, 1);
+            f_returnType   = methodsData(k, 2);
+            f_arguments    = methodsData(k, 4);
+
+            if strcmp(functionName, className)
+                % This function is a constructor.
+                f_snippet = ['The ' className ' constructor.'];
+            end
+
+            snippets{k} = f_snippet;
+
+            % Here is the array we'll pass to `fprintf`.
+            variables = {char(f_title),
+                         char(f_layout),
+                         char(f_className),
+                         char(f_functionName),
+                         char(f_snippet),
+                         char(f_qualifiers),
+                         char(f_returnType),
+                         char(f_arguments),
+                         char(f_helpHtml)
+                         };
+
+            % Finally, do the templating and write the file.
+            fileName    = [docdir '/' className '/' functionName '.md'];
+            theMarkdown = sprintf(functionTemplate, variables{:});
+            fileHandle  = fopen(fileName, 'w');
+            fprintf(fileHandle, theMarkdown);
+            fclose(fileHandle);
+
+        else
+            % functionName
         end
-
-        snippets{k} = f_snippet;
-
-        % Here is the array we'll pass to `fprintf`.
-        variables = {char(f_title),
-                     char(f_layout),
-                     char(f_className),
-                     char(f_functionName),
-                     char(f_snippet),
-                     char(f_qualifiers),
-                     char(f_returnType),
-                     char(f_arguments),
-                     char(f_helpHtml)
-                     };
-
-        % Finally, do the templating and write the file.
-        fileName    = [docdir '/' className '/' functionName '.md'];
-        theMarkdown = sprintf(functionTemplate, variables{:});
-        fileHandle  = fopen(fileName, 'w');
-        fprintf(fileHandle, theMarkdown);
-        fclose(fileHandle);
     end
+
+
+
+
+
+
+
 
     %-------------------------------------------------------------------------
     % Now generate the index file.
