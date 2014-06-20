@@ -130,6 +130,7 @@ roots/RootsSpeed.m
 roots/SecularRoots.m
 roots/WhiteCurves.m
 stats/BivariateNormalDistribution.m
+stats/CentralLimitTheorem.m
 stats/Expectations.m
 stats/Histogram.m
 stats/LeastSquares.m
