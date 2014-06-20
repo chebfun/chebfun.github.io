@@ -73,9 +73,23 @@
 <a href='../../download'>Download Chebfun</a> (less than 2MB), put it in your
 MATLAB path (the easiest way to do this is probably using the command
 <code><ahref="http://www.mathworks.com/help/techdoc/ref/pathtool.html">pathtool</a></code>),
-and you're ready to go. We recommend running <code>chebtest</code> first to
-get the package warmed up &mdash; that is, loaded into your machine's cache
-&mdash; and to make sure it is running properly.
+and you're ready to go.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#is-it-free">
+          Is it free?
+        </a>
+      </h4>
+    </div>
+    <div id="is-it-free" class="panel-collapse collapse">
+      <div class="panel-body">
+Chebfun is freely-available open-source software.  However,
+it runs in MATLAB, which is a commercial product.
       </div>
     </div>
   </div>
@@ -90,7 +104,24 @@ get the package warmed up &mdash; that is, loaded into your machine's cache
     </div>
     <div id="what-version-of-matlab-do-i-need" class="panel-collapse collapse">
       <div class="panel-body">
-Chebfun is compatable with MATLAB Versions 7.4 (R2007a) and higher.
+Chebfun is compatable with MATLAB 7.8 (R2009a) and higher.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#who-wrote-chebfun">
+          Who wrote Chebfun?
+        </a>
+      </h4>
+    </div>
+    <div id="who-wrote-chebfun" class="panel-collapse collapse">
+      <div class="panel-body">
+Chebfun has been the combined effort of about two
+dozen people, and new developers are welcome.
+See <a href='../../about/people.html'>the list of contributors</a>.
       </div>
     </div>
   </div>
@@ -130,11 +161,8 @@ start playing. <!--with commands like these:
     </div>
     <div id="what-about-2d-or-3d" class="panel-collapse collapse">
       <div class="panel-body">
-We have a project called <a href='../guide/guide11.html'>Chebfun2</a>, led by
-<a href="https://www.maths.ox.ac.uk/people/profiles/alex.townsend/">Alex
-Townsend</a>, that extends Chebfun-like computations to functions defined on
-rectangles. We believe this is comparable to the power and speed of Chebfun
-in 1D for many cases. We are considering a Chebfun in 3D.
+Chebfun can already do a great deal in 2D; check out Chapters 11-15 of the <a
+href='../guide/'>Chebfun Guide</a>. We are investigating possibilities in 3D.
       </div>
     </div>
   </div>
@@ -154,6 +182,10 @@ overloading MATLAB commands for functions instead of vectors. And certainly
 most of our users at present are people who already use MATLAB, who can get
 start using Chebfun the minute they see it. At the same time, we recognize
 that other platforms for Chebfun may be worth exploring.
+A number of people over the years have implemented parts of "Core Chebfun"
+(Version 1, using global representations on $[-1,1]$) in other languages.  An
+implementation of more recent versions of Chebfun in another language would be
+a much bigger project.
       </div>
     </div>
   </div>
@@ -172,10 +204,8 @@ We are always glad to receive comments at
 <a href="mailto:help@chebfun.org">help@chebfun.org</a>, and we usually
 respond quickly to questions. We are especially eager to receive drafts of
 proposed new <a href='../../examples'>Examples</a> for inclusion in our
-collection! Furthermore, since the release of V4.0 in March 2011, Chebfun has
-been an <a href="http://en.wikipedia.org/wiki/Open-source_software">open-source</a>
-project. If you're interested in helping to develop Chebfun, please take a
-look our <a href='//github.com/chebfun/chebfun'>Github page</a>.
+collection! Most-importantly, Chebfun is an open-source project
+<a href='https://github.com/chebfun/chebfun'>hosted on GitHub</a>.
       </div>
     </div>
   </div>
@@ -192,8 +222,25 @@ look our <a href='//github.com/chebfun/chebfun'>Github page</a>.
       <div class="panel-body">
 A chebfun is a MATLAB object that behaves syntactically like a MATLAB vector
 and mathematically like a function of a real variable defined on an interval
-$[a,b]$. See <a href='../guide/guide1.html'>Chapter 1</a> of the
+$[a,b]$. See <a href='../guide/guide01.html'>Chapter 1</a> of the
 <a href='../guide/'>Chebfun Guide</a>.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#what-is-a-chebfun2">
+          What is a chebfun2?
+        </a>
+      </h4>
+    </div>
+    <div id="what-is-a-chebfun2" class="panel-collapse collapse">
+      <div class="panel-body">
+A chebfun2 is like a chebfun, but for a function of
+two variables defined on a rectangle $[a,b] \times [c,d]$.
+Chebfun2 was introduced by Alex Townsend.
       </div>
     </div>
   </div>
