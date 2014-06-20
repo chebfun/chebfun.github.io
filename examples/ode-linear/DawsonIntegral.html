@@ -74,7 +74,7 @@ f = L\1;
 toc
 plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre>
 
-<pre class="mcode-output">Elapsed time is 1.189347 seconds.
+<pre class="mcode-output">Elapsed time is 4.229848 seconds.
 </pre>
 
 <p><img src="img/DawsonIntegral_01.png" class="figure" alt=""></p>
@@ -97,10 +97,14 @@ x = chebfun('x',[0,W]);
 fr = exp(-x.^2).*cumsum(exp(x.^2));  % right of x=0
 fl = newDomain(-flipud(fr),[-W 0]);  % left of x=0
 f = join(fl,fr);                     % must be an easier way to do this!
-f = chebfun(f, [-W 0 W]);              % is there a better way to do this?
+f = merge(f)
 plot(f,LW,lw), grid on</pre>
 
-<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+<pre class="mcode-output">f =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[      -5,       5]       42      -0.1      0.1 
+Epslevel = 3.624416e-07.  Vscale = 5.406332e-01.
 </pre>
 
 <p><img src="img/DawsonIntegral_02.png" class="figure" alt=""></p>
@@ -116,7 +120,7 @@ tic
 f = chebfun(@(x) real(sqrt(pi)*(cef(x,N)-exp(-x.^2))/2i), [-W W]);
 toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.021531 seconds.
+<pre class="mcode-output">Elapsed time is 0.341504 seconds.
 </pre>
 
 <p>If you have the Symbolic Toolbox...</p>
