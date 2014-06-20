@@ -17,6 +17,9 @@ TO DO:
         - http://documentcloud.github.io/visualsearch/
     - figure out what's going on with the chebgui screencap in guide10
     - page for chebgui
+    - news banner with
+        Upcoming talk: "Chebfun as a software project" at ICMS in August in Korea.
+        link: http://voronoi.hanyang.ac.kr/icms2014/
 
 DONE:
     - add prominent 'download' link on homepage
