@@ -21,6 +21,8 @@ TO DO:
         Upcoming talk: "Chebfun as a software project" at ICMS in August in Korea.
         link: http://voronoi.hanyang.ac.kr/icms2014/
 
+    - guide chapter link to download
+
 DONE:
     - add prominent 'download' link on homepage
     - examples category galleries

@@ -506,6 +506,7 @@ blockquote {
   padding-top: 30px;      /* IE6 workaround*/
   height: 0;
   overflow: hidden;
+  margin-bottom: 35px;
 }
   .video-container iframe {
     position: absolute;
