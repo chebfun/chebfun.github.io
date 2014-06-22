@@ -3,7 +3,7 @@
 
 %%
 % (Chebfun example geom/RoseCurves.m)
-% [Tags: #sinewaves, #geometry]
+% [Tags: #sinewaves, #geometry, #polar]
 
 %%
 % A rose curve is a sinusoid in polar coordinates, that is,
@@ -31,18 +31,38 @@ roseCurve = @(m,n) chebfun(@(t) cos(m/n*t).*cos(t)+1i*cos(m/n*t).*sin(t), ...
 %%
 % Here is the image reproduced.
 
-LW = 'linewidth'; lw = 1;
+LW = 'linewidth';
 figure('position', [0 0 680 680]), hold on
 N = 6;
 for m = 1:N
     for n = 1:N
         f = roseCurve(m,n);
         offset = 2.5*m - 2.5i*n;
-        plot(f + offset, 'k-', LW, lw)
+        plot(f + offset, 'k-', LW, 1)
     end
 end
 axis equal tight off
-title('Rose curve for parameter k = m/n')
+
+%%
+% And here is a more ambitious image of the same kind, where the patterns
+% along diagonals become clear.
+
+tic
+clf, hold on
+N = 12;
+for m = 1:N
+    for n = 1:N
+        f = roseCurve(m,n);
+        offset = 2.5*m - 2.5i*n;
+        plot(f + offset, 'k-', LW, .8)
+    end
+end
+axis equal tight off
+time = toc;
+
+%%
+% The above image did not take long to produce:
+time
 
 %% References
 %

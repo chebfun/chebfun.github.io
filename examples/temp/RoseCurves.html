@@ -66,20 +66,41 @@
                            [0, 2*pi*lcm(m,n)]);</pre>
 
 <p>Here is the image reproduced.</p>
-<pre class="mcode-input">LW = 'linewidth'; lw = 1;
+<pre class="mcode-input">LW = 'linewidth';
 figure('position', [0 0 680 680]), hold on
 N = 6;
 for m = 1:N
     for n = 1:N
         f = roseCurve(m,n);
         offset = 2.5*m - 2.5i*n;
-        plot(f + offset, 'k-', LW, lw)
+        plot(f + offset, 'k-', LW, 1)
+    end
+end
+axis equal tight off</pre>
+
+<p><img src="img/RoseCurves_01.png" class="figure" alt=""></p>
+<p>And here is a more ambitious image of the same kind, where the patterns along diagonals become clear.</p>
+<pre class="mcode-input">tic
+clf, hold on
+N = 12;
+for m = 1:N
+    for n = 1:N
+        f = roseCurve(m,n);
+        offset = 2.5*m - 2.5i*n;
+        plot(f + offset, 'k-', LW, .8)
     end
 end
 axis equal tight off
-title('Rose curve for parameter k = m/n')</pre>
+time = toc;</pre>
 
-<p><img src="img/RoseCurves_01.png" class="figure" alt=""></p>
+<p><img src="img/RoseCurves_02.png" class="figure" alt=""></p>
+<p>The above image did not take long to produce:</p>
+<pre class="mcode-input">time</pre>
+
+<pre class="mcode-output">time =
+   5.865927139000000
+</pre>
+
 <h3 id="references">References</h3>
 <ol>
 <li><a href="https://en.wikipedia.org/wiki/Rose_curve">https://en.wikipedia.org/wiki/Rose_curve</a></li>
