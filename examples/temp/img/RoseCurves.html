@@ -7,7 +7,7 @@ meta: "(Chebfun example geom/RoseCurves.m) [Tags: #sinewaves, #geometry]"
 
 A rose curve is a sinusoid in polar coordinates, that is, $$ r = \sin(k\theta). $$ Rational values of $k$ produce closed curves, while irrational values produce curves of infinite length that fill the unit disc. If $k = 1$, then the result is a circle.
 
-The Wikipedia page about rose curves [1] contains a nice image of many roses for different rational values of $k$. This Example reproduces part of that image.
+The Wikipedia page about rose curves [1] contains a nice image of many roses for different rational values of $k$. This Example reproduces that image.
 
 In order to plot the roses, we will paramatrize them in the complex plane using Cartesian coordinates: $$ x(t) = \cos(k t) \sin(t), $$ $$ y(t) = i \cos(k t) \cos(t). $$ Here is a function that creates a chebfun of a rose based on the parameter $k = m/n$ for two integers $m$ and $n$. The domain must be at least as long as $2\pi$ times the least common multiple of $m$ and $n$.
 
@@ -31,5 +31,5 @@ title('Rose curve for parameter k = m/n')</pre><img src="img/RoseCurves_01.png" 
 
 ## References
 
-1. https://en.wikipedia.org/wiki/Rose_(mathematics)
+1. [https://en.wikipedia.org/wiki/Rose_curve](https://en.wikipedia.org/wiki/Rose_curve)
 
