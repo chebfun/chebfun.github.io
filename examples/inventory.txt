@@ -138,6 +138,7 @@ stats/MercerKarhunenLoeve.m
 stats/NormalExercises.m
 stats/ProbabilityConvolution.m
 stats/UniformExercises.m
+temp/RoseCurves.m
 veccalc/AutonomousSystems.m
 veccalc/CheckingVectorCalculus.m
 veccalc/UndergraduateCalculus.m
