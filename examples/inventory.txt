@@ -56,6 +56,7 @@ geom/Ellipses.m
 geom/Lissajous.m
 geom/ParametricSurfaces.m
 geom/Procrustes.m
+geom/RoseCurves.m
 geom/RoundingCorners.m
 geom/VolumeOfHeart.m
 integro/FoxLi.m
@@ -138,7 +139,6 @@ stats/MercerKarhunenLoeve.m
 stats/NormalExercises.m
 stats/ProbabilityConvolution.m
 stats/UniformExercises.m
-temp/RoseCurves.m
 veccalc/AutonomousSystems.m
 veccalc/CheckingVectorCalculus.m
 veccalc/UndergraduateCalculus.m
