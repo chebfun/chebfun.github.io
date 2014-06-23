@@ -77,7 +77,7 @@
 <li>
 <div class='codewrap'><pre class='code'><span class='comment'>% Define two functions</span>
 f = chebfun(@(x) sin(x.^2)+sin(x).^2, [0,10]);
-g = chebfun(@(x) exp((5-x).^2/10), [0,10]);
+g = chebfun(@(x) exp(-(x-5).^2/10), [0,10]);
 <span class='comment'>% Compute their intersections</span>
 rr = roots(f - g);
 <span class='comment'>% Plot the functions</span>
@@ -194,5 +194,5 @@ plot(minx(1),minx(2),'.w')
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>
-<!-- Compiled on Monday, 23 June 2014 at 01:11. -->
+<!-- Compiled on Monday, 23 June 2014 at 14:38. -->
 </html>
