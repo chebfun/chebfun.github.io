@@ -17,7 +17,6 @@ content is regenerated, we will know where to reintervene.
 
 TO DO:
     - add forum
-    - add twitter?
     - prettify function reference
     - add links everywhere necessary
         - guide has lots
@@ -37,7 +36,8 @@ TO DO:
     - news banner with
         Upcoming talk: "Chebfun as a software project" at ICMS in August in Korea.
         link: http://voronoi.hanyang.ac.kr/icms2014/
-
+    - add like/follow buttons to every page
+    - "how to add chebfun to path" on download page
     - guide chapter link to download
 
 DONE:
