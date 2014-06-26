@@ -35,6 +35,7 @@ cheb/Convergence.m
 cheb/ExactChebCoeffs.m
 cheb/FastChebyshevLegendreTransform.m
 complex/Arguments.m
+complex/ClosedContours.m
 complex/ComplexArcLength.m
 complex/ConformalSquare.m
 complex/Hyperfuns.m
@@ -99,6 +100,7 @@ ode-nonlin/FourBugs.m
 ode-nonlin/Logistic.m
 ode-nonlin/LorenzAttractor.m
 ode-nonlin/Orbits.m
+ode-nonlin/ParamODEs.m
 ode-nonlin/ThreeBodyProblem.m
 opt/Catenary.m
 opt/ConstrainedOptimization.m

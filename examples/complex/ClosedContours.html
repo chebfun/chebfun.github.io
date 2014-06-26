@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Integrals over closed contours using periodic chebfuns &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Integrals over closed contours using periodic chebfuns</h1>
+<h2>Mohsin Javed, June 2014<span><a href='/examples/complex/ClosedContours.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/complex/ClosedContours.m'>view on Github</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>In this example, we compute a few integrals over closed contours in the complex plane using periodic chebfuns.</p>
+<p>Consider a smooth and closed contour $\Gamma$ in the complex plane and let us say we want to compute $$ \int_{\Gamma} f(z) dz. $$ If we parametrize $\Gamma$ using a real varaible, say $t$ , then since the contour is closed, the intgrand becomes periodic in $t$ and we get $$ \int_{\Gamma} f(z) dz = \int_{a}^{b} f(z(t)) z'(t) dt. $$</p>
+<p>All this can be done very efficiently in Chebfun, thanks to the Fourier technology which has been integrated with Chebfun's longstanding Chebyshev technology.</p>
+<p>Here is a simple example. Consider the function:</p>
+<pre class="mcode-input">ff = @(z) (1-2*z)./(z.*(z-1).*(z-3));</pre>
+
+<p>Suppose we want to integrate this function on a circle of radius $2$. To do this in Chebfun's periodic mode, we first parametrize the circle:</p>
+<pre class="mcode-input">z = chebfun(@(t) 2*exp(2*pi*1i*t), [0, 1], 'periodic');</pre>
+
+<p>The integrand is then constructed by a simple composition:</p>
+<pre class="mcode-input">f = ff(z)
+LW = 'linewidth'; lw = 1.6;
+plot(f, LW, lw), axis equal</pre>
+
+<pre class="mcode-output">f =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,       1]      145    complex values 
+Epslevel = 6.780169e-14.  Vscale = 1.500000e+00.
+</pre>
+
+<p><img src="img/ClosedContours_01.png" class="figure" alt=""></p>
+<p>This is how the real and imaginary parts of the integrand look on the contour:</p>
+<pre class="mcode-input">subplot(1, 2, 1)
+plot(real(f), LW, lw)
+title('real part')
+subplot(1, 2, 2)
+plot(imag(f), LW, lw)
+title('imaginary part')</pre>
+
+<p><img src="img/ClosedContours_02.png" class="figure" alt=""></p>
+<p>To compute the integral, we recall that</p>
+<p>$$ \int_{|z|=2} f(z) dz = \int_{0}^{1} f(z(t)) z'(t) dt. $$</p>
+<p>We therefore first compute $z'(t)$:</p>
+<pre class="mcode-input">dz = diff(z);</pre>
+
+<p>Computing the integral now could not be easier:</p>
+<pre class="mcode-input">s = sum(f.*dz)</pre>
+
+<pre class="mcode-output">s =
+ -0.000000000000001 + 5.235987755982991i
+</pre>
+
+<p>The true answer is $5 \pi i/3$, and we see that Chebfun has done a very good job:</p>
+<pre class="mcode-input">norm(s - 5/3*pi*1i)</pre>
+
+<pre class="mcode-output">ans =
+     2.739369827896639e-15
+</pre>
+
+<p>Here is another example. Consider the sinc function</p>
+<pre class="mcode-input">ff = @(z) sin(5*z)./(5*z);</pre>
+
+<p>This analytic function has a removable singularity at the origin. Therefore, the integral of the function on any closed contour should be zero according to Cauchy's theorem.</p>
+<pre class="mcode-input">z = chebfun(@(t) exp(2*pi*1i*t), [0, 1], 'periodic');
+f = ff(z);
+dz = diff(z);</pre>
+
+<p>Here is a plot of the function:</p>
+<pre class="mcode-input">clf
+plot(f, LW, lw), axis equal</pre>
+
+<p><img src="img/ClosedContours_03.png" class="figure" alt=""></p>
+<p>And here is the integral, which is numerically zero:</p>
+<pre class="mcode-input">s = sum(f.*dz)</pre>
+
+<pre class="mcode-output">s =
+     -1.000522416239575e-15 + 6.344131569286608e-16i
+</pre>
+
+<p>As our final example, we pick a function with an essential singularity at the origin and compute its integral on the unit circle.</p>
+<pre class="mcode-input">ff = @(z) exp(1./z).*sin(1./z);
+z = chebfun(@(t) exp(2*pi*1i*t), [0, 1], 'periodic');
+f = ff(z);
+dz = diff(z);
+s = sum(f.*dz)</pre>
+
+<pre class="mcode-output">s =
+ -0.000000000000001 + 6.283185307179584i
+</pre>
+
+<p>The result nicely matches $2\pi i$:</p>
+<pre class="mcode-input">exact = 2i*pi</pre>
+
+<pre class="mcode-output">exact =
+  0.000000000000000 + 6.283185307179586i
+</pre></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
