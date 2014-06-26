@@ -19,12 +19,11 @@ set(gca,'dataaspectratio',[1 0.75 4]), view(-72,28)
 set(gca,'xticklabel',k)
 xlabel('k',FS,fs), ylabel('x',FS,fs), set(gca,FS,fs)
 h = get(gca,'xlabel'); set(h,'position',get(h,'position')+[1.5 0.1 0])
-h = get(gca,'ylabel'); set(h,'position',get(h,'position')+[0 0.25 0])
+h = get(gca,'ylabel'); set(h,'position',get(h,'position')+[0 0.25 0])</pre><img src="img/ChebPolysHigham_01.png" class="figure" alt="">
 
-% Fornberg also includes the Legendre polynomials for comparison. This can
-% be easily done in Chebfun by replacing `chebpoly` with `legpoly` above.
-% Here is the result
-clf;
+Fornberg also includes the Legendre polynomials for comparison. This can be easily done in Chebfun by replacing `chebpoly` with `legpoly` above. Here is the result:
+
+<pre class="mcode-input">clf;
 for j = 1:length(k)
   plot3(j*one,x,legpoly(k(j)),'linewidth',1.6), hold on
 end
@@ -34,11 +33,13 @@ set(gca,'dataaspectratio',[1 0.75 4]), view(-72,28)
 set(gca,'xticklabel',k)
 xlabel('k',FS,fs), ylabel('x',FS,fs), set(gca,FS,fs)
 h = get(gca,'xlabel'); set(h,'position',get(h,'position')+[1.5 0.1 0])
-h = get(gca,'ylabel'); set(h,'position',get(h,'position')+[0 0.25 0])</pre><img src="img/ChebPolysHigham_01.png" class="figure" alt="">
+h = get(gca,'ylabel'); set(h,'position',get(h,'position')+[0 0.25 0])</pre><img src="img/ChebPolysHigham_02.png" class="figure" alt="">
 
 
 
 ## References
 
-1. B. Fornberg, _A Practical Guide to Pseudospectral Methods_, Cambridge University Press, 1996. 2. D. J. Higham and N. J. Higham, _Matlab Guide_, 2nd ed., SIAM, 2005.
+1. B. Fornberg, _A Practical Guide to Pseudospectral Methods_, Cambridge University Press, 1996.
+
+2. D. J. Higham and N. J. Higham, _Matlab Guide_, 2nd ed., SIAM, 2005.
 
