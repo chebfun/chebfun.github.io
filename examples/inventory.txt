@@ -113,6 +113,7 @@ opt/Needle.m
 opt/OptimInt.m
 opt/Rosenbrock.m
 opt/Rosenbrock2.m
+pde/BSExponential.m
 pde/Erosion.m
 quad/GaussClenCurt.m
 quad/QuadratureConvergence.m
