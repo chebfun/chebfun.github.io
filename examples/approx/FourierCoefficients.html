@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fourier coefficients &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Fourier coefficients</h1>
+<h2>Grady Wright, June 2014<span><a href='/examples/approx/FourierCoefficients.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/approx/FourierCoefficients.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">LW = 'linewidth'; lw = 1.6; MS = 'MarkerSize'; ms = 10;</pre>
+
+<p>The Fourier series of a function $u \in L^{2}[-\pi,\pi]$ is given as</p>
+<p>$$ \mathcal{F}[u] = \sum_{k=-\infty}^{\infty} c_k e^{ikx} $$</p>
+<p>where</p>
+<p>$$ c_k = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x)e^{-ikx} dx. $$</p>
+<p>Alternatively, we can express the series in terms of sines and cosines:</p>
+<p>$$ \mathcal{F}[u] = \sum_{k=0}^{\infty} a_k \cos(k x) +
+\sum_{k=1}^{\infty} b_k \sin(k x) $$</p>
+<p>where</p>
+<p>$$ a_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\cos(kx) dx, \quad
+b_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\sin(kx) dx, $$</p>
+<p>for $k&gt;0$ and</p>
+<p>$$ a_0 = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x) dx. $$</p>
+<p>Similar expressions hold for more general intervals $[a,b]$ by shifting and scaling appropriately.</p>
+<p>The Fourier coefficients for many functions $u$ can be computed in Chebfun using the <code>fourcoeffs</code> command. The smoothness of $u$ over $[-\pi,\pi]$ dictates the technique for determining the coefficients.</p>
+<h3 id="smooth-periodic-functions">Smooth periodic functions</h3>
+<p>Typically, if $u$ and its periodic extension are twice continuously differentiable over $[-\pi,\pi]$ and $u'''(x)$ is piecewise continuous on $[-\pi,\pi]$ (or more specifically of bounded variation) then the Fourier coefficients of $u$ can be quickly computed by first constructing $u$ with the '<code>periodic</code>' flag in the Chebfun, then calling <code>fourcoeffs</code>. Here is an example for a simple Fourier polynomial:</p>
+<pre class="mcode-input">u = chebfun(@(x) 1 - 4*cos(x) + 6*sin(2*x),[-pi,pi],'periodic');
+c = fourcoeffs(u).'; c = c(end:-1:1);
+disp('Fourier coeffs of 1 + cos(x) + sin(2*x):')
+c</pre>
+
+<pre class="mcode-output">Fourier coeffs of 1 + cos(x) + sin(2*x):
+c =
+  0.000000000000000 + 3.000000000000001i
+ -2.000000000000000 - 0.000000000000000i
+  1.000000000000000 + 0.000000000000000i
+ -2.000000000000000 + 0.000000000000000i
+  0.000000000000000 - 3.000000000000001i
+</pre>
+
+<p>Note that <code>fourcoeffs</code> follows the MATLAB convention of having the coefficients appear in order from highest degree to lowest degree. In the code above we have reversed this order to match the way the coefficients appear in the definitions above.</p>
+<p>Also note that <code>fourcoeffs</code> by default returns the coefficients in complex exponential form, i.e., the value of $c_k$ above.  The equivalent coefficients in terms of cosines and sines can be obtained as:</p>
+<pre class="mcode-input">[a,b] = fourcoeffs(u); a = a(end:-1:1).'; b = b(end:-1:1).';
+disp('Fourier cosine coeffs of 1 + cos(x) + sin(2*x)')
+a
+disp('Fourier sine coeffs of 1 + cos(x) + sin(2*x)')
+b</pre>
+
+<pre class="mcode-output">Fourier cosine coeffs of 1 + cos(x) + sin(2*x)
+a =
+   1.000000000000000
+  -4.000000000000000
+   0.000000000000000
+Fourier sine coeffs of 1 + cos(x) + sin(2*x)
+b =
+  -0.000000000000000
+   6.000000000000002
+</pre>
+
+<p>Note that <code>a</code> contains the constant term in the series as its first coefficient followed by the coefficients for $\cos(x)$ and $\cos(2x)$, while <code>b</code> starts with the coefficient for $\sin(x)$ followed by the coefficient for $\sin(2x)$.</p>
+<p>The default behavior of <code>fourcoeffs</code> is to return all the Fourier coefficients necessary to resolve the function to machine precision (assuming this number is less than 65537).  However, a specific number can be obtained with an additional input argument.  We illustrate this feature on the function $f(x) = 3/(5 - 4\cos(x))$, which is analytic in a strip in the complex plane and has exact Fourier coefficients given by $c_k = 2^{-|k|}$:</p>
+<pre class="mcode-input">numCoeffs = 11;
+u = chebfun(@(x) 3./(5 - 4*cos(x)),[-pi,pi],'periodic');
+c = fourcoeffs(u,numCoeffs).'; c = c(end:-1:1);
+disp('Fourier coeffs of 3/(5-4cos(x)):')
+c</pre>
+
+<pre class="mcode-output">Fourier coeffs of 3/(5-4cos(x)):
+c =
+  0.031250000000000 - 0.000000000000000i
+  0.062500000000000 - 0.000000000000000i
+  0.125000000000000 - 0.000000000000000i
+  0.250000000000000 + 0.000000000000000i
+  0.500000000000000 + 0.000000000000000i
+  1.000000000000000 + 0.000000000000000i
+  0.500000000000000 - 0.000000000000000i
+  0.250000000000000 - 0.000000000000000i
+  0.125000000000000 + 0.000000000000000i
+  0.062500000000000 + 0.000000000000000i
+  0.031250000000000 + 0.000000000000000i
+</pre>
+
+<p>We see that the computed results match the exact results to machine precision.</p>
+<p>Here is an example for a less smooth function:</p>
+<pre class="mcode-input">numCoeffs = 17;
+u = chebfun(@(x) abs(sin(x)).^3,[-pi,pi],'periodic');
+c = fourcoeffs(u,numCoeffs).'; c = c(end:-1:1);
+disp('Fourier coeffs of |sin(x)|^3')
+c</pre>
+
+<pre class="mcode-output">Fourier coeffs of |sin(x)|^3
+c =
+  0.001102371900205 + 0.000000000000000i
+  0.000000000000000 + 0.000000000000000i
+  0.004042030300748 + 0.000000000000000i
+  0.000000000000000 + 0.000000000000000i
+  0.036378272706721 + 0.000000000000000i
+  0.000000000000000 + 0.000000000000000i
+ -0.254647908947031 + 0.000000000000000i
+  0.000000000000000 + 0.000000000000000i
+  0.424413181578389 + 0.000000000000000i
+  0.000000000000000 + 0.000000000000000i
+ -0.254647908947031 - 0.000000000000000i
+  0.000000000000000 + 0.000000000000000i
+  0.036378272706721 - 0.000000000000000i
+  0.000000000000000 + 0.000000000000000i
+  0.004042030300748 - 0.000000000000000i
+  0.000000000000000 + 0.000000000000000i
+  0.001102371900205 - 0.000000000000000i
+</pre>
+
+<p>We see that the coefficients decay much more slowly in this case in fact the number of terms required to resolve this function to machine precision is:</p>
+<pre class="mcode-input">length(u)</pre>
+
+<pre class="mcode-output">ans =
+        5869
+</pre>
+
+<p>The reason is that this function has only two continuous derivatives in $L^{2}[-\pi,\pi]$ and a piecewise continuous third derivative, so its Fourier coefficients decay as $O(|k|^{-4})$ [1].  This decay rate can be seen by plotting the Fourier coefficients on a log-log scale, which can be easily done for the positive mode coefficients (i.e. $k&gt;0$) using the <code>plotcoeffs</code> command:</p>
+<pre class="mcode-input">plotcoeffs(u,'loglog'), hold on
+k = [100 length(u)/2];
+plot(k,10*k.^(-4),'k-',LW,lw)
+text(500,50*(500)^(-4),'O(k^{-4})','FontSize',12)
+hold off</pre>
+
+<p><img src="img/FourierCoefficients_01.png" class="figure" alt=""></p>
+<h3 id="non-smooth-functions">Non-smooth functions</h3>
+<p>The Fourier coefficients of functions (and their periodic extensions) with fewer than two continuous derivatives can also be computed.  However, the functions must first be constructed using the default, 'non-periodic', option.  In this case the Fourier coefficients are computed using the integral formulas (via Chebfun's <code>sum</code> method) instead of the Fast Fourier Transform.</p>
+<p>The quintessential example of a non-smooth function is that of the square wave (or periodic extension of the step function), which can be defined by the <code>sign</code> function as</p>
+<p>$$ u(x) = \mbox{sign}(\sin(x)) $$</p>
+<p>This can be constructed in Chebfun with 'splitting' turned on,</p>
+<pre class="mcode-input">sq_wave = @(x) sign(sin((x)));
+u = chebfun(sq_wave,[-pi,pi],'splitting','on');</pre>
+
+<p>We can obtain the Fourier coefficients of this function using again the <code>fourcoeffs</code> method.  Since the square wave is odd, it makes sense to look at the Fourier sine coefficients in this case:</p>
+<pre class="mcode-input">numCoeffs = 15;
+[a,b] = fourcoeffs(u,numCoeffs); b = b(end:-1:1).';
+disp('Fourier sine coeffs of unit step function:')
+b</pre>
+
+<pre class="mcode-output">Fourier sine coeffs of unit step function:
+b =
+  1.273239544735163 + 0.000000000000000i
+ -0.000000000000000 + 0.000000000000000i
+  0.424413181578387 + 0.000000000000000i
+  0.000000000000000 - 0.000000000000000i
+  0.254647908947033 - 0.000000000000000i
+ -0.000000000000000 - 0.000000000000000i
+  0.181891363533594 - 0.000000000000000i
+</pre>
+
+<p>The exact values of the coefficients are</p>
+<p>$$ b_k = \frac{4}{k\pi} ~~(k \mbox{ odd}) $$</p>
+<p>with $b_k = 0$ for $k$ even, $k\ge 1$. These values can be easily seen in the computed results:</p>
+<pre class="mcode-input">disp('            k               pi/4*b_k')
+disp([(1:7)' pi/4*real(b)])</pre>
+
+<pre class="mcode-output">            k               pi/4*b_k
+   1.000000000000000   1.000000000000000
+   2.000000000000000  -0.000000000000000
+   3.000000000000000   0.333333333333333
+   4.000000000000000   0.000000000000000
+   5.000000000000000   0.200000000000000
+   6.000000000000000  -0.000000000000000
+   7.000000000000000   0.142857142857143
+</pre>
+
+<p>The computed cosine coefficients are numerically zero, as expected:</p>
+<pre class="mcode-input">norm(a,inf)</pre>
+
+<pre class="mcode-output">ans =
+     5.589379644810742e-17
+</pre>
+
+<h3 id="truncated-fourier-approximations">Truncated Fourier approximations</h3>
+<p>The <code>fourcoeffs</code> function can also be used in combination with the Chebfun constructor to generate truncated Fourier series representations of functions.  Here's an example for the above square wave using 15 Fourier modes:</p>
+<pre class="mcode-input">numModes = 15;
+c = fourcoeffs(u,2*numModes+1).';
+u_trunc = chebfun(c,[-pi,pi],'periodic','coeffs');
+plot(u,'k-',u_trunc,'b-',LW,lw)</pre>
+
+<p><img src="img/FourierCoefficients_02.png" class="figure" alt=""></p>
+<p>This represents the best 15-mode trigonometric approximation to the square wave over $[-\pi,\pi]$ in the $L^2$ sense. The oscillations in the approximation are called the Gibbs phenomenon.</p>
+<p>To see the actual 'wave' it is useful to plot the approximation over a larger interval, which can be done for $-4\pi \leq x \leq 4\pi$ as follows:</p>
+<pre class="mcode-input">u = chebfun(sq_wave,[-4*pi,4*pi],'splitting','on');
+u_trunc = chebfun(u_trunc,[-4*pi,4*pi],'periodic');
+plot(u,'k-',u_trunc,'b-',LW,lw)</pre>
+
+<p><img src="img/FourierCoefficients_03.png" class="figure" alt=""></p>
+<p>Note that in this case we don't recompute the Fourier coefficients over the larger domain, we simply construct <code>u_trunc</code> over the larger domain.</p>
+<p>Here is one last example for the sawtooth wave, again computed over $[-\pi,\pi]$ then expanded to a larger domain:</p>
+<pre class="mcode-input">sawtooth = @(x) (mod(x+pi,2*pi))/(2*pi);
+u = chebfun(sawtooth,[-pi,pi],'splitting','on');
+c = fourcoeffs(u,2*numModes+1).';
+u_trunc = chebfun(c,[-pi,pi],'periodic','coeffs');
+
+u = chebfun(sawtooth,[-4*pi,4*pi],'splitting','on');
+u_trunc = chebfun(u_trunc,[-4*pi,4*pi],'periodic');
+plot(u,'k-',u_trunc,'b-',LW,lw)</pre>
+
+<p><img src="img/FourierCoefficients_04.png" class="figure" alt=""></p>
+<p>To hear this wave using try <code>chebtune(u_trunc,6)</code>.</p>
+<h3 id="references">References</h3>
+<p>[1] L.N. Trefethen, <em>Spectral Methods in MATLAB</em>, SIAM, 2000.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

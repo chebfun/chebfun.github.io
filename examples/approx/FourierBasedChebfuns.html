@@ -64,8 +64,8 @@
 
 <h3 id="construction-and-comparison">Construction and comparison</h3>
 <p>Fourier-based chebfuns, or "fourfuns" as we like to refer to them, can be created with the use of the <code>'periodic'</code> flag in the chebfun constructor. For, example, the function $f(x) = \cos(8\sin(x))$ for $-\pi \leq x \leq \pi$ can be constructed as follows:</p>
-<pre class="mcode-input">domain = [-pi,pi];
-f = chebfun(@(x) cos(8*sin(x)),domain,'periodic')
+<pre class="mcode-input">dom = [-pi,pi];
+f = chebfun(@(x) cos(8*sin(x)),dom,'periodic')
 plot(f,LW,lw);</pre>
 
 <pre class="mcode-output">f =
@@ -81,13 +81,13 @@ Epslevel = 2.675450e-15.  Vscale = 1.000000e+00.
 
 <p><img src="img/FourierBasedChebfuns_02.png" class="figure" alt=""></p>
 <p>Since $f$ is smooth and periodic, a Fourier representation requires fewer terms than a Chebyshev representation of $f$ to reach machine precision. We can check this by constructing $f$ without the <code>'periodic'</code> flag:</p>
-<pre class="mcode-input">f_cheby = chebfun(@(x) cos(8*sin(x)),domain)</pre>
+<pre class="mcode-input">f_cheby = chebfun(@(x) cos(8*sin(x)),dom)</pre>
 
 <pre class="mcode-output">f_cheby =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [    -3.1,     3.1]      101         1        1 
-Epslevel = 3.552714e-15.  Vscale = 1.000000e+00.
+Epslevel = 3.552714e-15.  Vscale = 1.
 </pre>
 
 <p>The ratio of length of the Chebyshev series to the Fourier series should be approximately $\pi/2$ since the former has a resolution power of $\pi$ points per wavelength and the latter of 2 points per wavelength. We can check this numerically as</p>
@@ -101,7 +101,7 @@ theoretical =
 </pre>
 
 <p>Trying to construct a fourfun from a non-periodic or non-smooth function will typically result in a warning being issued and an "unhappy" fourfun, as illustrated for the unit step function below:</p>
-<pre class="mcode-input">f = chebfun(@(x) 0.5*(1+sign(x)),domain,'periodic')
+<pre class="mcode-input">f = chebfun(@(x) 0.5*(1+sign(x)),dom,'periodic')
 plot(f,LW,lw);</pre>
 
 <pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
@@ -114,29 +114,29 @@ Epslevel = 1.818989e-12.  Vscale = 1.
 
 <p><img src="img/FourierBasedChebfuns_03.png" class="figure" alt=""></p>
 <p>The length of $f$ is 65536, which is the maximum number of samples used in the construction process to try to resolve $f$. The famous Gibbs' phenomenon can be seen near the discontinuity in the plot of $f$. Chebfun can be used to represent this function in non-periodic mode (i.e. using Chebyshev series) with the option of <code>splitting on</code>:</p>
-<pre class="mcode-input">f = chebfun(@(x) 0.5*(1+sign(x)),domain,'splitting','on')</pre>
+<pre class="mcode-input">f = chebfun(@(x) 0.5*(1+sign(x)),dom,'splitting','on')</pre>
 
 <pre class="mcode-output">f =
    chebfun column (2 smooth pieces)
        interval       length   endpoint values  
 [    -3.1,       0]        1         0        0 
 [       0,     3.1]        1         1        1 
-Epslevel = 1.110223e-15.  Vscale = 1.  Total length = 2.
+Epslevel = 1.110223e-15.  Vscale = 1.000000e+00.  Total length = 2.
 </pre>
 
 <p>Splitting is not an option for fourfuns.</p>
 <h3 id="basic-operations">Basic operations</h3>
 <p>Many Chebfun operations can also be applied directly to a fourfun. Some of these basic operations are illustrated in the examples below.</p>
 <p>Addition, subtraction, multiplication, division, and function composition can all be directly applied to a fourfun.  However one should be aware that operation should result in a smooth and periodic function. The following example illustrates some of these operations:</p>
-<pre class="mcode-input">g = chebfun(@(x) sin(x),domain,'periodic');
+<pre class="mcode-input">g = chebfun(@(x) sin(x),dom,'periodic');
 f = tanh(cos(1+2*g).^2)-0.5
 plot(f, LW, lw)</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values periodic
-[    -3.1,     3.1]      145     -0.22    -0.22 
-Epslevel = 3.033487e-15.  Vscale = 4.997782e-01.
+[    -3.1,     3.1]      141     -0.22    -0.22 
+Epslevel = 7.301755e-15.  Vscale = 4.999998e-01.
 </pre>
 
 <p><img src="img/FourierBasedChebfuns_04.png" class="figure" alt=""></p>
@@ -149,16 +149,16 @@ minf
 rootsf</pre>
 
 <pre class="mcode-output">maxf =
-   0.261594155955765
+   0.261594155955766
 minf =
-  -0.500000000000004
+  -0.500000000000008
 rootsf =
-  -3.009212218006480
-  -2.090420462897023
+  -3.009212218006479
+  -2.090420462897022
   -1.051172190692771
-  -0.132380435583312
-   0.779312428506053
-   2.362280225083740
+  -0.132380435583314
+   0.779312428506051
+   2.362280225083742
 </pre>
 
 <p>These can be visualized as</p>
@@ -177,19 +177,19 @@ plot(df, LW, lw)</pre>
 <pre class="mcode-input">intf = sum(f)</pre>
 
 <pre class="mcode-output">intf =
-  -0.074010812957415
+  -0.074010812957414
 </pre>
 
 <p>Complex-valued fourfuns are also possible. For example:</p>
 <pre class="mcode-input">f = chebfun(@(x) 1i*(13*cos(x)-5*cos(2*x)-2*cos(3*x)-cos(4*x)) + ...
-                 16*sin(x).^3, domain, 'periodic')
+                 16*sin(x).^3, dom, 'periodic')
 plot(f, LW, lw), axis equal</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values periodic
 [    -3.1,     3.1]        9    complex values 
-Epslevel = 4.911761e-16.  Vscale = 17.
+Epslevel = 6.661338e-16.  Vscale = 17.
 </pre>
 
 <p><img src="img/FourierBasedChebfuns_07.png" class="figure" alt=""></p>
@@ -197,14 +197,14 @@ Epslevel = 4.911761e-16.  Vscale = 17.
 <pre class="mcode-input">area_heart = abs(sum(real(f).*diff(imag(f))))</pre>
 
 <pre class="mcode-output">area_heart =
-     5.654866776461625e+02
+     5.654866776461624e+02
 </pre>
 
 <p>According to [1], the true area enclosed is $180\pi$. The relative error in the computation above is then</p>
 <pre class="mcode-input">err = (area_heart - 180*pi)/(180*pi)</pre>
 
 <pre class="mcode-output">err =
-    -4.020849375084742e-16
+    -6.031274062627113e-16
 </pre>
 
 <p>The convolution of two smooth periodic functions can be computed using the <code>circconv</code> (circular convolution) function. The example below demonstrates this function in combination with the additional feature that allows fourfuns to be constructed from function values. The latter is demonstrated first:</p>
@@ -212,7 +212,7 @@ Epslevel = 4.911761e-16.  Vscale = 17.
 n = 201;
 x = fourpts(n);
 func_vals = exp(sin(2*pi*x)) + 0.05*randn(n,1);
-f = chebfun(func_vals,domain,'periodic')</pre>
+f = chebfun(func_vals,dom,'periodic')</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
@@ -221,9 +221,9 @@ f = chebfun(func_vals,domain,'periodic')</pre>
 Epslevel = 1.599777e-15.  Vscale = 2.775945e+00.
 </pre>
 
-<p>Here $f$ interpolates the noisy <code>func_vals</code> at 101 equally spaced points from $[-\pi,\pi)$ using the Fourier basis. The high frequencies in this function can be smoothed by convolving it with a mollifier, in this case a (normalized) Gaussian with variance 0.1.</p>
+<p>Here $f$ interpolates the noisy <code>func_vals</code> at 201 equally spaced points from $[-\pi,\pi)$ using the Fourier basis. The high frequencies in this function can be smoothed by convolving it with a mollifier, in this case a (normalized) Gaussian with variance 0.1.</p>
 <pre class="mcode-input">sigma = 0.1;
-g = chebfun(@(x) 1/(sigma*sqrt(2*pi))*exp(-0.5*(x/sigma).^2),domain,'periodic');</pre>
+g = chebfun(@(x) 1/(sigma*sqrt(2*pi))*exp(-0.5*(x/sigma).^2),dom,'periodic');</pre>
 
 <p>Note that the resulting respresentation of $g$ is actually the periodic extension of the Gaussian over $[-\pi,\pi]$.  The convolution of $f$ and $g$ is computed and visualized using</p>
 <pre class="mcode-input">h = circconv(f,g);
