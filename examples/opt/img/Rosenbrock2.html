@@ -5,14 +5,13 @@ authordate: "Nick Hale, March 2013"
 meta: "(Chebfun example opt/Rosenbrock2.m) [Tags: #Rosenbrock, #optimization, #Chebfun2]"
 ---
 
-<pre class="mcode-input">LW = 'LineWidth';  lw = 1;
-MS = 'MarkerSize'; ms = 20;</pre>
+
 
 ## 1. The Rosenbrock function
 
 One of the very first Chebfun examples [2] demonstrated how standard 1D Chebfun can do a reasonable job of minimizing or maximizing a function defined on a 2D rectangle, such as the Rosenbrock function [1]:
 
-<pre class="mcode-input">f = @(x,y) (1-x).^2 + 100*(y-x.^2).^2;</pre>With the introduction of Chebfun2 in 2013, this take become much simpler.
+<pre class="mcode-input">f = @(x,y) (1-x).^2 + 100*(y-x.^2).^2;</pre>With the introduction of Chebfun2 in 2013, this task became much simpler.
 
 <pre class="mcode-input">F = chebfun2(f, [-1.5 1.5 -1 3]);
 [minf, minx] = min2(F)</pre><pre class="mcode-output">minf =
@@ -21,7 +20,9 @@ minx =
    0.999996684946674   0.999993360274207
 </pre>We can plot the function and the computed minimum like this:
 
-<pre class="mcode-input">contour(F, 10:10:300, LW, lw), colorbar, shg
+<pre class="mcode-input">LW = 'LineWidth';  lw = 1;
+MS = 'MarkerSize'; ms = 20;
+contour(F, 10:10:300, LW, lw), colorbar, shg
 hold on, plot(minx(1), minx(2), '.k', MS, ms), hold off</pre><img src="img/Rosenbrock2_01.png" class="figure" alt="">
 
 
@@ -39,7 +40,7 @@ toc</pre><pre class="mcode-output">minf =
   -0.969232500643146
 minx =
    0.395759632251660   0.331573976807090
-Elapsed time is 0.320943 seconds.
+Elapsed time is 0.275648 seconds.
 </pre>Here is a plot, again with the computed global minimum.
 
 <pre class="mcode-input">contour(F,30, LW, lw), colorbar, hold on
@@ -75,7 +76,7 @@ plot(g, 'r', LW, 2), shg</pre><img src="img/Rosenbrock2_05.png" class="figure" a
 
 ## References
 
-1. H. H. Rosenbrock, "An automatic method for finding the greatest or least    value of a function", Computer Journal, 3 (1960), 175-184.
+1. H. H. Rosenbrock, "An automatic method for finding the greatest or least    value of a function", _Computer Journal_, 3 (1960), 175-184.
 
 2. Chebfun Example [opt/Rosenbrock](../opt/Rosenbrock.html)
 

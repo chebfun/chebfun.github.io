@@ -12,7 +12,7 @@ f = chebfun(@(x) sin(x).^2 + sin(x.^2), d);
 LW = 'linewidth'; lw = 1.2;
 hold off, plot(f, LW, lw, LW, lw), ylim([ - 2.5 2.5])</pre><img src="img/ResolutionWiggly_01.png" class="figure" alt="">
 
-The degree of $f$ is of moderate size:
+The degree of $f$ is moderate:
 
 <pre class="mcode-input">np = length(f)</pre><pre class="mcode-output">np =
    196
@@ -31,7 +31,7 @@ It's clear from this figure that we have pretty good approximation on the left, 
 <pre class="mcode-input">hold off, plot(f - pinterp, 'k', LW, lw)
 title('error of interpolant of half the degree')</pre><img src="img/ResolutionWiggly_03.png" class="figure" alt="">
 
-Note that near the right-hand boundary the approximation improves again, reflecting the fundamental phenomenon that polynomials have power approximation power near the endpoints of an interval than in the middle, as discussed in Chapter 22 of [1].
+Note that near the right-hand boundary the approximation improves again, reflecting the fundamental phenomenon that polynomials have less approximation power near the endpoints of an interval than in the middle, as discussed in Chapter 22 of [1].
 
 What will happen if we change the method of interpolation? For a start, here is what happens if we change from interpolation to least-squares:
 
@@ -46,11 +46,11 @@ title('error of least - squares approximant of half the degree')</pre><img src="
 
 Finally, here is what happens with best minimax approximation. Now we have beautifully smooth tracking of the low-wave-number signal on the right, but no accuracy at all on the left.
 
-<pre class="mcode-input">pbest = remez(f, nphalf - 1, 'maxiter', 100);
+<pre class="mcode-input">warning off
+pbest = remez(f, nphalf - 1, 'maxiter', 100);
+warning on
 plot(f, 'b', pbest, 'r', LW, lw), ylim([ - 2.5 2.5])
-title('f and best approximant of half the degree')</pre><pre class="mcode-output">Warning: Remez algorithm did not converge after 100 iterations to the tolerance
-9.419e-13. 
-</pre><img src="img/ResolutionWiggly_06.png" class="figure" alt="">
+title('f and best approximant of half the degree')</pre><img src="img/ResolutionWiggly_06.png" class="figure" alt="">
 
 The error curve shows its familiar equioscillatory behavior -- with smaller maximum than the other methods, but no ability to take advantage of regions where the function is simpler.
 

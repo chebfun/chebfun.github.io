@@ -59,20 +59,18 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<pre class="mcode-input">LW = 'linewidth'; lw = 1.6;
-MS = 'markersize'; FS = 'fontsize'; fs = 12;</pre>
-
 <h3 id="the-chebyshev-legendre-transform">The Chebyshev-Legendre transform</h3>
 <p>Chebfun is based on Chebyshev interpolants and their related fast algorithms. Chebyshev interpolants are a very practical tool for computing with smooth functions. However, in some situations Legendre expansions, i.e.,</p>
 <p>$$ p(x) = \sum_{n=0}^N c_n^{leg} P_n(x), $$</p>
-<p>where $P_n(x)$ is the degree $n$ Legendre polynomial, are desirable due to their orthogonality in the standard $L^2$ inner product. Recently, a new algorithm has been derived and implemented in Chebfun by Hale and Townsend that converts between $N$ Legendre and Chebyshev coefficients in $\mathcal{O}( N (\log N)^2/ \log \log N)$ operations [2]. The algorithm is based on a long-established asymptotic formula for Legendre polynomials [4], which was previously used in Chebfun's <code>legpts</code> command [1]. The transform comes in two parts: (1) The forward transform, <code>leg2cheb</code>, which converts Legendre to Chebyshev coefficients and (2) The inverse transform, <code>cheb2leg</code>, which converts in the other direction.</p>
+<p>where $P_n(x)$ is the degree $n$ Legendre polynomial, are advantageous due to their orthogonality in the standard $L^2$ inner product. Recently, a new algorithm has been derived and implemented in Chebfun by Hale and Townsend that converts between $N$ Legendre and Chebyshev coefficients in $\mathcal{O}( N (\log N)^2/ \log \log N)$ operations [2]. The algorithm is based on a long-established asymptotic formula for Legendre polynomials [4], which was previously used in Chebfun's <code>legpts</code> command [1]. The transform comes in two parts: (1) The forward transform, <code>leg2cheb</code>, which converts Legendre to Chebyshev coefficients, and (2) The inverse transform, <code>cheb2leg</code>, which converts in the other direction.</p>
 <p>In this Example a few applications are considered.</p>
 <h3 id="computing-the-legendre-coefficients">Computing the Legendre coefficients</h3>
 <p>The problem of computing the coefficients in a Legendre expansion of a function has received considerable research attention since the 1970s, and there are now many approaches (a summary is given [2]). In particular, any fast Chebyshev-Legendre transform can be used to compute the Legendre coefficients of a function by going via Chebyshev coefficients. For example, here are the Legendre coefficients of $1/(1+1000(x-.1)^2)$ using the new fast transform in Chebfun:</p>
 <pre class="mcode-input">f = chebfun(@(x) 1./(1 + 1000*(x-.1).^2));  % A Runge-type function
-c_cheb = chebcoeffs(f).';                     % Chebyshev coeffs in O(NlogN)
+c_cheb = chebcoeffs(f).';                   % Chebyshev coeffs in O(NlogN)
 c_leg = cheb2leg(c_cheb);                   % Leg coeffs with the new algorithm
-
+LW = 'linewidth'; lw = 1.6;
+MS = 'markersize'; FS = 'fontsize'; fs = 12;
 semilogy(flipud(abs(c_leg)), 'xr',MS,4), hold on  % plot them
 semilogy(flipud(abs(c_cheb)), '.b', MS,8)
 legend('Legendre coefficients','Chebyshev coefficients')
@@ -80,11 +78,10 @@ xlabel('n', FS, fs), set(gca, FS, fs), hold off</pre>
 
 <p><img src="img/FastChebyshevLegendreTransform_01.png" class="figure" alt=""></p>
 <p>For an analytic function, the Legendre and Chebyshev coefficients decay at essentially the same geometric rate. However, for algebraically smooth functions the decay of Legendre coefficients is about $n^{-1/2}$ worse than that of the corresponding Chebyshev coefficients, a phenomenon discussed in [5].  Here we witness this disparity for the function $|x-.1|^{7/4}$:</p>
-<pre class="mcode-input">f = chebfun(@(x) abs(x-.1).^(7/4)); N = length(f);  % |x-.1|^(7/4)
+<pre class="mcode-input">f = chebfun(@(x) abs(x-.1).^(7/4)); N = length(f);    % |x-.1|^(7/4)
 c_cheb = chebcoeffs(f)';                              % Chebyshev coeffs
-c_leg = cheb2leg(c_cheb);                           % Legendre coeffs
-
-semilogy(flipud(abs(c_leg)), 'xr',MS,4), hold on,         % plot them
+c_leg = cheb2leg(c_cheb);                             % Legendre coeffs
+semilogy(flipud(abs(c_leg)), 'xr',MS,4), hold on,     % plot them
 semilogy(flipud(abs(c_cheb)), '.b',MS,8),
 semilogy(1:N,(1:N).^(-7/4-1+.5), 'k--', LW, lw)
 semilogy(1:N,(1:N).^(-7/4-1), 'k--', LW, lw)
@@ -99,21 +96,18 @@ xlim([0, N]), xlabel('n', FS, fs), set(gca, FS, fs), hold off</pre>
 <pre class="mcode-input">t = .999i; f = chebfun(@(x) 1./sqrt(1 - 2*x.*t +t.^2)); % generating function
 N = length(f);
 ns = sprintf('No. of evaluation points = %u\n',N);
-
 s = tic;                                                % evaluate f
-c_leg = t.^(N-1:-1:0);                                  % via Legendre coeffs
+c_leg = t.^(N-1:-1:0).';                                % via Legendre coeffs
 cheb_vals = chebtech2.coeffs2vals(leg2cheb(c_leg));     % and time it...
 tt = toc(s);
-
 ts = sprintf('Evaluation time = %1.2fs\n', tt);
 fprintf([ns, ts])
-
-semilogy(chebpts(length(f)), abs(f.values - cheb_vals.'))
+semilogy(chebpts(length(f)), abs(f.values - cheb_vals))
 title('Absolute error', FS, fs), hold off
 axis([-1 1 1e-16 1e-12]), set(gca, FS, fs), hold off</pre>
 
 <pre class="mcode-output">No. of evaluation points = 23945
-Evaluation time = 0.02s
+Evaluation time = 0.91s
 </pre>
 
 <p><img src="img/FastChebyshevLegendreTransform_03.png" class="figure" alt=""></p>
@@ -140,7 +134,7 @@ toc</pre>
 
 <pre class="mcode-output">N =
        31709
-Elapsed time is 2.771613 seconds.
+Elapsed time is 2.207579 seconds.
 </pre>
 
 <p>We can now form a chebfun from solution using <code>leg2cheb</code>:</p>
@@ -153,7 +147,7 @@ clf, plot(u{-0.001,0.001}) % plot u on [-0.001, 0.001]
 title('Computed solution (zoomed in)', FS, fs)
 set(gca, FS, fs), xlabel('x', FS, fs), shg</pre>
 
-<pre class="mcode-output">Elapsed time is 0.785203 seconds.
+<pre class="mcode-output">Elapsed time is 0.810688 seconds.
 </pre>
 
 <p><img src="img/FastChebyshevLegendreTransform_04.png" class="figure" alt=""></p>
@@ -164,7 +158,7 @@ norm(u - f)</pre>
 <pre class="mcode-output">ans =
      4.827388488948259e-14
 ans =
-     1.523098157003031e-12
+     0
 </pre>
 
 <h3 id="conclusion">Conclusion</h3>
@@ -175,10 +169,10 @@ ans =
 <p>N. Hale and A. Townsend, Fast and accurate computation of Gauss-Legendre    and Gauss-Jacobi quadrature nodes and weights,    <em>SIAM Journal on Scientific Computing</em>, 35 (2013), A652-A672.</p>
 </li>
 <li>
-<p>N. Hale and A. Townsend, A fast, simple, and stable Chebyshev--Legendre    transform using an asymptotic formula, <em>SIAM Journal on Scientific    Computing</em>, 36 (2014), A148-A167.</p>
+<p>N. Hale and A. Townsend, A fast, simple, and stable Chebyshev-Legendre    transform using an asymptotic formula, <em>SIAM Journal on Scientific    Computing</em>, 36 (2014), A148-A167.</p>
 </li>
 <li>
-<p>S. Olver and A. Townsend, A fast and well-conditioned spectral method, to    appear in <em>SIAM Review</em>, 55 (2013), 462-489</p>
+<p>S. Olver and A. Townsend, A fast and well-conditioned spectral method,    <em>SIAM Review</em>, 55 (2013), 462-489</p>
 </li>
 <li>
 <p>T. J. Stieltjes, Sur les polynomes de Legendre, <em>Annales de Faculte des    Sciences de Toulouse</em>, 4 (1890), G1-G17.</p>

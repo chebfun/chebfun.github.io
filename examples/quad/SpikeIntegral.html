@@ -64,8 +64,8 @@
          sech(1000*(x-0.6)).^6 + sech(1000*(x-0.8)).^8;</pre>
 
 <p>(which appears as F21F in [1]) over $[0, 1]$.</p>
-<p>We create a Chebfun representation and plot the function, increasing <code>minsamples</code> so that the spikes are not missed by an overly coarse initial sample:</p>
-<pre class="mcode-input">ff = chebfun(f,[0 1], 'splitting','on','minsamples',129);
+<p>We create a Chebfun representation and plot the function.</p>
+<pre class="mcode-input">ff = chebfun(f,[0 1], 'splitting','on');
 LW = 'linewidth';
 plot(ff,'b',LW,1.6,'numpts',1e4), grid on
 title('Spike function','FontSize',14)</pre>
@@ -78,7 +78,7 @@ title('Zoom, on semilogy axes','FontSize',14)</pre>
 <p><img src="img/SpikeIntegral_02.png" class="figure" alt=""></p>
 <p>Now we compute the integral.  In order to estimate the time for this computation, we create the chebfun again without plotting it.</p>
 <pre class="mcode-input">tic
-ff = chebfun(f,[0 1], 'splitting','on','minsamples',129);
+ff = chebfun(f,[0 1], 'splitting','on');
 sum(ff)</pre>
 
 <pre class="mcode-output">ans =
@@ -88,7 +88,7 @@ sum(ff)</pre>
 <p>Time for creating this chebfun and integrating it:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.429568 seconds.
+<pre class="mcode-output">Elapsed time is 0.523430 seconds.
 </pre>
 
 <h3 id="references">References</h3>
