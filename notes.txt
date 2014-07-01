@@ -27,7 +27,6 @@ TO DO:
         - maybe include the class diagram:
           http://www.gliffy.com/go/publish/image/4249553/L.png
     - 404 error should be a SCRIBBLE rendering
-    - the link to "develop" in "News" is broken
     - link to download guide chapters
     - add (frontend) search functionality to examples page
         - http://documentcloud.github.io/visualsearch/
@@ -38,7 +37,6 @@ TO DO:
         link: http://voronoi.hanyang.ac.kr/icms2014/
     - add like/follow buttons to every page
     - "how to add chebfun to path" on download page
-    - guide chapter link to download
 
 DONE:
     - add prominent 'download' link on homepage
