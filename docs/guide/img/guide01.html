@@ -41,8 +41,8 @@ From this little experiment, you cannot see that `f` is represented by a polynom
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [      -1,       1]       61      0.41     0.41 
-Epslevel = 2.183626e-15.  Vscale = 1.000000e+00.
-</pre>These results tell us that `f` is represented by a polynomial interpolant through 61 Chebyshev points, i.e., a polynomial of degree 60.  These numbers have been determined by an adaptive process.  We can see the data points by plotting `f`with the `'.-'` option:
+Epslevel = 2.183626e-15.  Vscale = 1.
+</pre>These results tell us that `f` is represented by a polynomial interpolant through 61 Chebyshev points, i.e., a polynomial of degree 60.  These numbers have been determined by an adaptive process.  We can see the data points by plotting `f|with the |'.-'` option:
 
 <pre class="mcode-input">  plot(f,'.-')</pre><img src="img/guide01_02.png" class="figure" alt="">
 
@@ -75,17 +75,17 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
 
 <pre class="mcode-input">  format long
   x = 100*rand(3,1)</pre><pre class="mcode-output">x =
-  93.900156199988686
-  87.594281149298382
-  55.015634289842218
+  31.246942553442114
+  13.291549864332930
+  68.724035024285897
 </pre>Let's compare the chebfun to the true Bessel function at these points:
 
 <pre class="mcode-input">  exact = besselj(0,x);
   error = g(x) - exact;
   [g(x) exact error]</pre><pre class="mcode-output">ans =
-   0.034806130830652   0.034806130830653  -0.000000000000000
-   0.034267558343628   0.034267558343627   0.000000000000000
-  -0.073316032636650  -0.073316032636650   0.000000000000000
+   0.082046497680186   0.082046497680186  -0.000000000000000
+   0.218246531152797   0.218246531152797   0.000000000000000
+   0.036820588698322   0.036820588698321   0.000000000000001
 </pre>If you want to know the first 5 zeros of the Bessel function, here they are:
 
 <pre class="mcode-input">  r = roots(g); r = r(1:5)</pre><pre class="mcode-output">r =
@@ -182,9 +182,9 @@ cot              iszero           quasi2cheb
 
 Static methods:
 
-constructor      ode113           pchip            
 interp1          ode15s           spline           
-lagrange         ode45            
+lagrange         ode45            update           
+ode113           pchip            
 
 </pre>To find out what a command does, you can use `help`.
 
@@ -335,16 +335,16 @@ As always, `h` may look complicated to a human, but to Chebfun it is just a func
 [ 2.8e+03, 2.9e+03]       84      0.71       -1 
 [ 2.9e+03,   3e+03]       86        -1     0.71 
 [   3e+03, 3.1e+03]       85      0.71 -3.7e-12 
-Epslevel = 3.487391e-13.  Vscale = 1.000000e+00.  Total length = 2748.
-Elapsed time is 1.509428 seconds.
+Epslevel = 3.487741e-13.  Vscale = 1.000000e+00.  Total length = 2748.
+Elapsed time is 1.108702 seconds.
 </pre>In this case it is more efficient -- and more interesting mathematically -- to omit the splitting and construct one global chebfun:
 
 <pre class="mcode-input">  tic, f2 = chebfun('sin(x)',[0 1000*pi]), toc</pre><pre class="mcode-output">f2 =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [       0, 3.1e+03]     1684  -2.1e-14 -3.1e-13 
-Epslevel = 3.487867e-13.  Vscale = 9.999862e-01.
-Elapsed time is 0.447233 seconds.
+Epslevel = 3.487867e-13.  Vscale = 1.000000e+00.
+Elapsed time is 0.038248 seconds.
 </pre>Splitting on and off are discussed further in Section 8.3.
 
 
@@ -382,7 +382,7 @@ In this case the integral comes out just right:
 
 ## 1.6  Periodic functions
 
-Until 2014, Chebfun used only nonperiodic representations, based on Chebyshev polynomials.  Beginning with Version 5, there is a new capability of representing sufficiently smooth periodic functions by trigonometric polynomials instead, that is, Fourier series.  Such an object is still called a chebfun, but it is a periodic one.  These features were added by Grady Wright in the first half of 2014, and will undoubtedly be developed further in the future.
+Until 2014, Chebfun used only nonperiodic representations, based on Chebyshev polynomials.  Beginning with Version 5, there is a new capability of representing sufficiently smooth periodic functions by trigonometric polynomials instead, that is, Fourier series.  Such an object is still called a chebfun, but it is a periodic one.  These features were added by Grady Wright in the first half of 2014, and are in the process of being developed further.  A very interesting project along the same lines has been carried out independently by Kristyn McLeod and Rodrigo Platte at Arizona State University [McLeod 2013].
 
 For example, here is a periodic function on $[-\pi,\pi]$ represented in the usual way by a Chebyshev series.
 
@@ -417,14 +417,14 @@ Its length is now only about $100\times 2$ (exactly 201).   This improvement by 
 </pre>We can confirm that the two functions agree like this:
 
 <pre class="mcode-input">norm(f-chebfun(f2,[-pi, pi]))</pre><pre class="mcode-output">ans =
-     1.303148667359825e-14
+     0
 </pre>Readers may be interested to compare `plotcoeffs` applied to the first and second versions of $f$.  Rather than display that here we shall turn to a simpler example involving a shorter Fourier series.  Consider the function
 
 <pre class="mcode-input">f = chebfun('7 + sin(t) + exp(1)*cos(2*t)',[-pi,pi],'periodic')</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values periodic
 [    -3.1,     3.1]        5       9.7      9.7 
-Epslevel = 4.618714e-16.  Vscale = 9.718282e+00.
+Epslevel = 6.661338e-16.  Vscale = 9.718282e+00.
 </pre>Here are the coefficients of $f$ as an expansion in sines and cosines:
 
 <pre class="mcode-input">[a,b] = fourcoeffs(f)</pre><pre class="mcode-output">a =
@@ -533,8 +533,8 @@ cleg = cheb2leg(ccheb);
 ccheb2 = leg2cheb(cleg);
 norm(ccheb-ccheb2,inf)
 toc</pre><pre class="mcode-output">ans =
-     4.076383675055695e-11
-Elapsed time is 1.212305 seconds.
+     4.756106619652201e-11
+Elapsed time is 0.625065 seconds.
 </pre>
 
 ## 1.9  How this Guide is produced
@@ -552,6 +552,8 @@ This guide is produced in MATLAB using the `publish` command with a style sheet 
 [Hale &amp; Townsend 2013]  N. Hale and A. Townsend, A fast, simple, and stable Chebyshev--Legendre transform using an asymptotic formula, _SIAM Journal on Scientific Computing_, 36 (2014), A148-A167.
 
 [Higham 2004] N. J. Higham, "The numerical stability of barycentric Lagrange interpolation", _IMA Journal of Numerical Analysis_, 24 (2004), 547-556.
+
+[McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic computations using Fourier expansions," _SIAM Undergraduate Research Online_, to appear.
 
 [Pachon, Platte &amp; Trefethen 2010] R. Pachon, R. B. Platte and L. N. Trefethen, "Piecewise-smooth chebfuns", _IMA J. Numer. Anal._, 30 (2010), 898-916.
 
