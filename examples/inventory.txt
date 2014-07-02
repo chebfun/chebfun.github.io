@@ -77,6 +77,7 @@ ode-eig/Drum.m
 ode-eig/Eigenstates.m
 ode-eig/OrrSommerfeld.m
 ode-eig/SolarQDA.m
+ode-eig/ThermoelasticRod.m
 ode-eig/WaveDecay.m
 ode-linear/AdvDiffJump.m
 ode-linear/BoundaryLayer.m
@@ -87,6 +88,7 @@ ode-linear/LinearIVP.m
 ode-linear/LinExpIVP.m
 ode-linear/MatchedAsymp.m
 ode-linear/NonstandardBCs.m
+ode-linear/OrderStars.m
 ode-linear/ParameterODE.m
 ode-linear/PeriodicSystem.m
 ode-linear/Regions.m
@@ -142,6 +144,7 @@ stats/LeastSquares.m
 stats/MercerKarhunenLoeve.m
 stats/NormalExercises.m
 stats/ProbabilityConvolution.m
+stats/ResamplingRandomVariables.m
 stats/UniformExercises.m
 temp/ClosedContours.m
 veccalc/AutonomousSystems.m

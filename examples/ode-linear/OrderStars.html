@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Partial differential equations &raquo; Chebfun</title>
+    <title>Order Stars &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -52,55 +52,45 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Partial differential equations</h1>
+<h1>Order Stars</h1>
+<h2>Nick Trefethen, July 2014<span><a href='/examples/ode-linear/OrderStars.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-linear/OrderStars.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>23</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>3</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>5</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>10</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>9</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>2</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>9</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>7</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>15</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>11</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li class='active'><a href="/examples/pde/index.html">Partial differential equations<span>2</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>3</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>10</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>3</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/pde/BSExponential.html'>
-            <div class='thumbwrapper'><img src='/examples/pde/img/BSExponential_01.png' /></div>
-            <h3>Black-Scholes PDE using operator exponential</h3>
-            <p>Toby Driscoll, June 2014
-                <span class='tags'><span href='#' class='tag'>#expm</span>, <span href='#' class='tag'>#finance</span>, <span href='#' class='tag'>#heatequation</span>, <span href='#' class='tag'>#linearpde</span></span>
-            </p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/pde/Erosion.html'>
-            <div class='thumbwrapper'><img src='/examples/pde/img/Erosion_01.png' /></div>
-            <h3>Heat equation via <code>expm</code></h3>
-            <p>Nick Trefethen, October 2010
-                <span class='tags'><span href='#' class='tag'>#erosion</span>, <span href='#' class='tag'>#expm</span>, <span href='#' class='tag'>#heatequation</span>, <span href='#' class='tag'>#linearpde</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Order stars are a beautiful idea of complex analysis that resolved several open conjectures when they were introduced in 1978 by Wanner, Hairer, and Norsett [1,2,3].  Chebfun is not really a very good tool for illustrating them, since there are poles involved that must be smashed away, but let us give it a go.</p>
+<p>Let $R(z)$ be a function of the complex variable $z$. The <em>order star</em> of $R$ is the region bounded by the curve(s) in the plane satisfying the condition</p>
+<p>$$ | e^{-z} R(z)| = 1 . $$</p>
+<p>For example, here is a function handle for the type $(2,3)$ Pade approximant of $e^z$:</p>
+<pre class="mcode-input">c = 1./factorial(0:18);
+r = padeapprox(c,2,3);</pre>
+
+<p>We can use this mollifying function to turn poles into constants while preserving the absolute value $f=1$:</p>
+<pre class="mcode-input">smash = @(f) tanh(abs(f).^2)/tanh(1);</pre>
+
+<p>Now we can plot the order star like this:</p>
+<pre class="mcode-input">d = 6*[-1 1 -1 1];
+f = chebfun2(@(z) smash(r(z).*exp(-z)),d);
+star = roots(f-1);
+plot(star,'k','linewidth',1.6)
+axis(d), axis square</pre>
+
+<p><img src="img/OrderStars_01.png" class="figure" alt=""></p>
+<p>Such figures reveal important properties of the function $R$.  For example, the meeting of 12 sectors at the origin reflects the 6th-order agreement of the Pade approximant with $e^z$,</p>
+<p>$$ e^z - R(z) = O(z^6). $$</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>E. Hairer and G. Wanner, <em>Solving Ordinary Differential    Equations II</em>, 2nd revised ed., Springer, 1996.</p>
+</li>
+<li>
+<p>A. Iserles and S. P. Norsett, <em>Order Stars</em>,    Chapman and Hall, 1991.</p>
+</li>
+<li>
+<p>G. Wanner, E. Hairer, and S. P. Norsett, Order stars and    stability theorems, <em>BIT</em>, 18 (1978), 475-489.</p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
