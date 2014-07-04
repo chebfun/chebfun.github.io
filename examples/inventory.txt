@@ -18,6 +18,7 @@ approx/OscError.m
 approx/RationalInterp.m
 approx/ResolutionWiggly.m
 approx/ScalingAndSquaring.m
+approx/SmoothCompact.m
 approx/Splines.m
 approx/WeierstrassFunction.m
 approx/WigglyApprox.m
