@@ -24,6 +24,7 @@ approx/WeierstrassFunction.m
 approx/WigglyApprox.m
 approx2/BumpFunction.m
 approx2/Other2DDomains.m
+approx2/PaduaPoints.m
 approx2/PrettyFunctions.m
 calc/DeltaDerivs.m
 calc/ForTheBirds.m

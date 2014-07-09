@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Temporary &raquo; Chebfun</title>
+    <title>Padua points in Chebfun2 &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -52,46 +52,61 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Temporary</h1>
+<h1>Padua points in Chebfun2</h1>
+<h2>Nick Hale and Alex Townsend, July 2014<span><a href='/examples/approx2/PaduaPoints.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/approx2/PaduaPoints.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>24</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>4</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>5</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>10</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>9</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>2</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>9</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>7</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>15</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>11</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>2</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>3</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>10</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>3</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/temp/ClosedContours.html'>
-            <div class='thumbwrapper'><img src='/examples/temp/img/ClosedContours_01.png' /></div>
-            <h3>Integrals over closed contours using periodic chebfuns</h3>
-            <p>Mohsin Javed, June 2014
-                <span class='tags'><span href='#' class='tag'>#contour</span>, <span href='#' class='tag'>#contourintegral</span>, <span href='#' class='tag'>#periodic</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Padua points (named after the University of Padua, where they were discovered in 2005 [1]) are the first known example of a unisolvent point set over bivariate polynomials which have a provably minimal growth in Lebesgue constant of $O(\log^2 n)$. They are sometimes refered to as the "Chebyshev points in 2D" [1].</p>
+<p>It seemed only natural to include these points in Chebfun, and they are now available through the <code>paduapts</code> method. For example, here is the Padua grid corresponding to $n = 8$:</p>
+<pre class="mcode-input">n = 8;
+x = paduapts( n );
+plot(x(:,1), x(:,2), 'ok', 'MarkerFaceColor', 'k')
+axis equal, axis([-1 1 -1 1]), hold on
+FS = 'FontSize';
+title('Padua points', FS, 14), set(gca, FS, 12)</pre>
+
+<p><img src="img/PaduaPoints_01.png" class="figure" alt=""></p>
+<p>There are a number of characterizations of Padua points. One is as the intersection of a certain Lissajous curve [2] with itself and the boundary of $[-1,1]\times[-1,1]$:</p>
+<pre class="mcode-input">t = chebfun('t', [0 pi]);
+L = -cos((n + 1)*t) - 1i*cos(n*t);        % Lissajous curve
+plot(L, 'b')</pre>
+
+<p><img src="img/PaduaPoints_02.png" class="figure" alt=""></p>
+<p>Another is as every other point from an $(n+1)\times(n+2)$ tensor product Chebyshev grid:</p>
+<pre class="mcode-input">x1 = chebpts(n + 1);
+x2 = chebpts(n + 2);
+[X, Y] = meshgrid(x1, x2);
+plot(X, Y, 'or'), hold off</pre>
+
+<p><img src="img/PaduaPoints_03.png" class="figure" alt=""></p>
+<p>If a matrix rather than a bivariate function is supplied as an input, Chebfun2 normally assumes that its values correspond to data on a Chebyshev tensor product grid. However, if the <code>'padua'</code> flag is supplied, the constructor assumes the values are data on a Padua grid and returns a bivariate polynomial that interpolates the prescribed data. For example:</p>
+<pre class="mcode-input">f = @(x,y) cos(exp(2*x+y)).*sin(y);
+fx = f(x(:,1), x(:,2));                   % Samples from Padua grid
+F = chebfun2(fx, [-1 1 -1 1], 'padua');   % Construct Chebfun2 from samples
+plot(F), hold on
+plot3(x(:,1), x(:,2), F(x(:,1), x(:,2)), 'ok', 'MarkerFaceColor', 'k'), hold off</pre>
+
+<p><img src="img/PaduaPoints_04.png" class="figure" alt=""></p>
+<p>The corresponding Padua interpolant is a bivariate Chebyshev polynomial of total degree $n$ (i.e. the degrees in $x$ and $y$ sum to at most $n$). We can verify this by looking at the coefficients of the interpolant:</p>
+<pre class="mcode-input">C = chebcoeffs2(F);
+C(abs(C) &lt; 1e-10) = 0;
+spy(rot90(C, 2)), shg
+title('Spy plot of bivariate Chebyshev coefficients',FS,14)</pre>
+
+<p><img src="img/PaduaPoints_05.png" class="figure" alt=""></p>
+<p>We hope this addition will make it easy to explore Padua interpolants in Chebfun2!</p>
+<p>References</p>
+<ol>
+<li>
+<p>M. Caliari, S. De Marchi, and M. Vianello, "Bivariate polynomial    interpolation on the square    at new nodal sets", <em>Applied Mathematics and Computation</em>, 165    (2005), 261-274.</p>
+</li>
+<li>
+<p>Chebfun Example: <a href="../geom/Lissajous.html">geom/Lissajous</a></p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
