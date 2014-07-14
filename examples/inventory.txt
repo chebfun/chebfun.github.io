@@ -3,6 +3,7 @@ approx/BernsteinPolys.m
 approx/BestApprox.m
 approx/BestL2Approximation.m
 approx/BSplineConv.m
+approx/CF30.m
 approx/DivergentSeries.m
 approx/Entire.m
 approx/FiltersCF.m

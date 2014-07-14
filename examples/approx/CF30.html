@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Temporary &raquo; Chebfun</title>
+    <title>CF approximation 30 years ago &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -52,46 +52,66 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Temporary</h1>
+<h1>CF approximation 30 years ago</h1>
+<h2>Nick Trefethen, July 2014<span><a href='/examples/approx/CF30.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/approx/CF30.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>25</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>4</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>5</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>10</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>9</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>2</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>9</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>7</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>15</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>11</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>2</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>3</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>10</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>3</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/temp/ClosedContours.html'>
-            <div class='thumbwrapper'><img src='/examples/temp/img/ClosedContours_01.png' /></div>
-            <h3>Integrals over closed contours using periodic chebfuns</h3>
-            <p>Mohsin Javed, June 2014
-                <span class='tags'><span href='#' class='tag'>#contour</span>, <span href='#' class='tag'>#contourintegral</span>, <span href='#' class='tag'>#periodic</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>In 1986 I published a 4-page proceedings paper called "Matlab programs for CF approximation" [1].  It is possible that this was the first paper ever published that contained Matlab programs.  It presents two programs: CF, for complex polynomial or rational CF approximation on the unit disk, and RCF, for real polynomial or rational CF approximation on the unit interval.</p>
+<p>The real example of CF approximation given in [1] is type $(1,1)$ approximation to $(1.2-x)^{1/2}$, for which the result is printed as</p>
+<p>$$ r(x) = {1.10417 - 0.77197x \over 1 - 0.27354 x} . $$</p>
+<p>In Chebfun, we can perform the calculation like this:</p>
+<pre class="mcode-input">x = chebfun('x');
+f = sqrt(1.2-x);
+[p,q] = cf(f,1,1);</pre>
+
+<p>The coefficients match nicely:</p>
+<pre class="mcode-input">chebcoeffs(p)
+chebcoeffs(q)</pre>
+
+<pre class="mcode-output">ans =
+  -0.771973873637746   1.104173864799875
+ans =
+  -0.273544292431606   1.000000000000000
+</pre>
+
+<p>How long does it take?  In [1], the computation took "about 40 seconds on an IBM PC/AT".  In Chebfun today, here's the timing:</p>
+<pre class="mcode-input">tic, [p,q] = cf(f,1,1); toc</pre>
+
+<pre class="mcode-output">Elapsed time is 0.075054 seconds.
+</pre>
+
+<p>As far as the eye can tell, the error curve equioscillates between 4 extremes:</p>
+<pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize';
+errfun = f-p./q; error = norm(errfun,inf);
+plot(errfun,LW,1.6)
+grid on, ylim(0.02*[-1 1]), hold on
+plot([-1 1],error*[+1 +1],'--k',LW,1.6)
+plot([-1 1],error*[-1 -1],'--k',LW,1.6), hold off
+title(['type (1,1) CF approximation:  error = ' num2str(error)],FS,12)</pre>
+
+<p><img src="img/CF30_01.png" class="figure" alt=""></p>
+<p>Let's compare with the best approximation.  It takes a bit longer to compute:</p>
+<pre class="mcode-input">tic, [p,q] = remez(f,1,1); toc</pre>
+
+<pre class="mcode-output">Elapsed time is 1.091626 seconds.
+</pre>
+
+<p>Now in principle we have perfect equioscillation, but the error is only very slightly smaller:</p>
+<pre class="mcode-input">errfun = f-p./q; error = norm(errfun,inf);
+plot(errfun,'m',LW,1.6)
+grid on, ylim(0.02*[-1 1]), hold on
+plot([-1 1],error*[+1 +1],'--k',LW,1.6)
+plot([-1 1],error*[-1 -1],'--k',LW,1.6), hold off
+title(['type (1,1) best approximation:  error = ' num2str(error)],FS,12)</pre>
+
+<p><img src="img/CF30_02.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>L. N. Trefethen, "Matlab programs for CF approximation,"    in C. K. Chui, L. L. Schumaker, and J. D. Ward, eds.,    <em>Approximation Theory V</em>, Academic Press, 1986, pp. 599-602.</li>
+</ol></div>
         </div>
     </div>
 </div>
