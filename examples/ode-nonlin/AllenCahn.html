@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Partial differential equations &raquo; Chebfun</title>
+    <title>An Allen-Cahn equation with continuation &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -52,55 +52,52 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Partial differential equations</h1>
+<h1>An Allen-Cahn equation with continuation</h1>
+<h2>Nick Trefethen, November 2010<span><a href='/examples/ode-nonlin/AllenCahn.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-nonlin/AllenCahn.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>25</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>4</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>5</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>10</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>9</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>2</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>9</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>7</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>15</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>12</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li class='active'><a href="/examples/pde/index.html">Partial differential equations<span>2</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>3</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>10</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>3</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/pde/BSExponential.html'>
-            <div class='thumbwrapper'><img src='/examples/pde/img/BSExponential_01.png' /></div>
-            <h3>Black-Scholes PDE using operator exponential</h3>
-            <p>Toby Driscoll, June 2014
-                <span class='tags'><span href='#' class='tag'>#expm</span>, <span href='#' class='tag'>#finance</span>, <span href='#' class='tag'>#heatequation</span>, <span href='#' class='tag'>#linearpde</span></span>
-            </p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/pde/Erosion.html'>
-            <div class='thumbwrapper'><img src='/examples/pde/img/Erosion_01.png' /></div>
-            <h3>Heat equation via <code>expm</code></h3>
-            <p>Nick Trefethen, October 2010
-                <span class='tags'><span href='#' class='tag'>#erosion</span>, <span href='#' class='tag'>#expm</span>, <span href='#' class='tag'>#heatequation</span>, <span href='#' class='tag'>#linearpde</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>The Allen-Cahn equation is a reaction-diffusion that arises in material science:</p>
+<p>$$ u_{tt} = \varepsilon u'' +u-u^3, $$</p>
+<p>where $\varepsilon$ is a small parameter.  Here as an ODE boundary-value problem we shall consider a steady-state version of this problem on the interval $[0,10]$ with a sinusoidal forcing term:</p>
+<p>$$ \varepsilon u'' + u - u^3 = \sin(x),\qquad u(0) = 1,~~  u(10) = -1. $$</p>
+<p>If we try a very small value of $\varepsilon$ without a well-chosen initial guess, Chebfun will not converge.  Instead let's begin by solving the problem with the rather large value $\varepsilon = 2$.</p>
+<pre class="mcode-input">Eps = 2;
+dom = [0, 10];
+x = chebfun('x', dom);
+f = sin(x);
+cheboppref.setDefaults('plotting', 0.01)
+N = chebop(@(u) Eps*diff(u,2) + u - u.^3,dom, 1, -1);
+tic, u = N\f; t = toc;
+
+LW = 'linewidth'; lw = 1.6; FS = 'fontsize'; fs = 14;
+close, plot(u,LW,lw)
+s = 'Eps = %5.1e    length(u) = %d    time = %3.1f secs';
+title(sprintf(s,Eps,length(u),t),FS,fs)</pre>
+
+<p><img src="img/AllenCahn_01.png" class="figure" alt=""></p>
+<p>We now progressively reduce $\varepsilon$ to get sharper and sharper solutions. We use a simple continuation method, in which the initial guess for each iteration is the previous solution. For each value of $\varepsilon$, the solution for the previous value of $\varepsilon$ is a good initial guess of the new solution, so we can turn off damping for the Newton iteration:</p>
+<pre class="mcode-input">cheboppref.setDefaults('damping', 0)
+Epsvec = [1 .5 .2 .1 .03 .01 .003];
+for j = 1:length(Epsvec)
+  close all
+  Eps = Epsvec(j);
+  N = chebop(@(u) Eps*diff(u,2)+u-u.^3,dom,1,-1);
+  N.init = u;
+  tic, u = N\f; t = toc;
+  close, plot(u,LW,lw)
+  title(sprintf(s,Eps,length(u),t),FS,fs), snapnow
+end</pre>
+
+<p><img src="img/AllenCahn_02.png" class="figure" alt=""></p>
+<p><img src="img/AllenCahn_03.png" class="figure" alt=""></p>
+<p><img src="img/AllenCahn_04.png" class="figure" alt=""></p>
+<p><img src="img/AllenCahn_05.png" class="figure" alt=""></p>
+<p><img src="img/AllenCahn_06.png" class="figure" alt=""></p>
+<p><img src="img/AllenCahn_07.png" class="figure" alt=""></p>
+<p><img src="img/AllenCahn_08.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>
