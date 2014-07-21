@@ -627,3 +627,6 @@ form.subscribe {
       .main.detached .widgets .col .widget {
         /*margin-top: 0;*/
       }
+.main.detached.alert {
+  background-color: #dffddf;
+}
