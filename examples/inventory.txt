@@ -101,6 +101,7 @@ ode-nonlin/AllenCahn.m
 ode-nonlin/Blasius.m
 ode-nonlin/Bloodhound.m
 ode-nonlin/BlowupFK.m
+ode-nonlin/BVPSystem.m
 ode-nonlin/Carrier.m
 ode-nonlin/ExactSolns.m
 ode-nonlin/FourBugs.m

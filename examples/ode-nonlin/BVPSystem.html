@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Integral equations &raquo; Chebfun</title>
+    <title>System of two nonlinear BVPs &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -52,55 +52,72 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Integral equations</h1>
+<h1>System of two nonlinear BVPs</h1>
+<h2>Asgeir Birkisson and Toby Driscoll, September 2010<span><a href='/examples/ode-nonlin/BVPSystem.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-nonlin/BVPSystem.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>25</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>4</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>5</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>10</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>9</span></a></li>
-        <li class='active'><a href="/examples/integro/index.html">Integral equations<span>2</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>9</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>7</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>15</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>13</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>2</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>3</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>10</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>3</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/integro/FoxLi.html'>
-            <div class='thumbwrapper'><img src='/examples/integro/img/FoxLi_01.png' /></div>
-            <h3>Eigenvalues of the Fox-Li integral operator</h3>
-            <p>Toby Driscoll and Nick Trefethen, October 2010
-                <span class='tags'><span href='#' class='tag'>#eigenvalues</span>, <span href='#' class='tag'>#fred</span>, <span href='#' class='tag'>#fredholm</span></span>
-            </p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/integro/WikiIntegroDiff.html'>
-            <div class='thumbwrapper'><img src='/examples/integro/img/WikiIntegroDiff_01.png' /></div>
-            <h3>Wikipedia integro-differential equation example</h3>
-            <p>Mark Richardson, September 2010
-                <span class='tags'><span href='#' class='tag'>#backslash</span>, <span href='#' class='tag'>#linear</span>, <span href='#' class='tag'>#wikipedia</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="system-of-equations">System of equations</h3>
+<p>Here is a system of two coupled nonlinear ODEs on the interval $[-1,1]$, with boundary conditions.</p>
+<p>$$ u'' - \sin(v) = 0, $$</p>
+<p>$$ v'' + \cos(u) = 0, $$</p>
+<p>$$ u(-1) = 1,  ~~  v'(-1) = 0, ~~ u'(1) = 0,  ~~  v(1) = 0. $$</p>
+<h3 id="solution-using-multiple-variables-u-and-v">Solution using multiple variables <code>u</code> and <code>v</code></h3>
+<p>One way you can solve a problem like this with Chebfun is to work with multiple variables, solving for two chebfuns $u$ and $v$. Here we do this, setting up the problem using anonymous functions that take two chebfuns as input and return a chebmatrix of two chebfuns as output:</p>
+<pre class="mcode-input">N = chebop(-1, 1);
+x = chebfun('x');
+N.op = @(x,u,v)[ diff(u,2) - sin(v); diff(v,2) + cos(u)];
+N.lbc = @(u,v)[ u-1; diff(v)];
+N.rbc =  @(u,v)[ v; diff(u)];
+N.init = [0*x; 0*x];
+[sol,info] = N\[0; 0];
+nrmduvec = info.normDelta;</pre>
+
+<p>We extract the functions from the solution using the curly braces notation of chebmatrices and plot them:</p>
+<pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize';
+u = sol{1}; v = sol{2};
+figure, subplot(1,2,1), plot(u, LW, 2)
+hold on, plot(v,'--r', LW, 2), hold off
+title('u and v vs. x', FS, 10), legend('u', 'v')
+box on, grid on
+xlabel('x', FS, 10), ylabel('u(x) and v(x)', FS, 10)
+subplot(1,2,2), semilogy(nrmduvec, '-*', LW, 2)
+title('Norm of update vs. iteration no.', FS, 10)
+box on, grid on
+xlabel('iteration no.', FS, 10), ylabel('norm of update', FS, 10)</pre>
+
+<p><img src="img/BVPSystem_01.png" class="figure" alt=""></p>
+<h3 id="solution-using-a-single-indexed-variable-u">Solution using a single indexed variable <code>u</code></h3>
+<p>Another way to solve the same problem is to work with a single chebmatrix variable <code>u</code> that has two components, <code>u{1}</code> and <code>u{2}</code>.</p>
+<p>$$ (u_1)'' - \sin(u_2) = 0, $$</p>
+<p>$$ (u_2)'' + \cos(u_1) = 0, $$</p>
+<p>$$ u_1(-1) = 1, ~~ (u_2)'(-1) = 0, ~~ (u_1)'(1) = 0, ~~ u_2(1) = 0. $$</p>
+<pre class="mcode-input">N = chebop(-1, 1);
+x = chebfun('x');
+N.op = @(x,u) [ diff(u{1},2) - sin(u{2}); diff(u{2},2) + cos(u{1}) ];
+N.lbc = @(u)[ u{1} - 1; diff(u{2}) ];
+N.rbc =  @(u)[ u{2}; diff(u{1}) ];
+N.init = [0*x; 0*x];</pre>
+
+<p>The solution process is the same as before.</p>
+<pre class="mcode-input">[u,info] = N\[0; 0];
+nrmduvec = info.normDelta;</pre>
+
+<p>The components of the solution, as in the problem definition, are again accessed via the curly braces notation of chebmatrices.</p>
+<pre class="mcode-input">clf
+subplot(1,2,1), plot(u{1}, LW, 2), hold on
+plot(u{2}, '--r', LW, 2), hold off
+title('u_1(x) and u_2(x) vs. x', FS, 10), legend('u_1', 'u_2')
+box on, grid on
+xlabel('x', FS, 10), ylabel('u_1(x) and u_2(x)', FS, 10)
+subplot(1,2,2), semilogy(nrmduvec, '-*', LW, 2)
+title('Norm of update vs. iteration no.', FS, 10)
+box on, grid on
+xlabel('iteration no.', FS, 10), ylabel('norm of update', FS, 10)</pre>
+
+<p><img src="img/BVPSystem_02.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>
