@@ -14,6 +14,7 @@ approx/GreedyInterp.m
 approx/Halphen.m
 approx/LebesgueConst.m
 approx/Local.m
+approx/NoisyNonsmooth.m
 approx/OrthPolys.m
 approx/OscError.m
 approx/RationalInterp.m
