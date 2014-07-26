@@ -66,7 +66,7 @@
 <blockquote> If $X$ is normally distributed with mean $2$ and variance $1$, find $P[|X-2|&lt;1]$. </blockquote>
 
 <p>The probability density function (PDF) of the normal distribution can be defined like this:</p>
-<pre class="mcode-input">ff = @(x,mu,sigma) 1/(sqrt(2*pi*sigma))*exp(-0.5*((x-mu)/sigma).^2);</pre>
+<pre class="mcode-input">ff = @(x,mu,sigma) 1/(sigma*sqrt(2*pi))*exp(-0.5*((x-mu)/sigma).^2);</pre>
 
 <p>The domain is the entire real line, and this is a case where Chebfun has no difficulty working with that domain.  We can construct the chebfun like this:</p>
 <pre class="mcode-input">mu = 2;
@@ -81,7 +81,7 @@ f = chebfun(@(x) ff(x,mu,sigma), [-inf,inf]);</pre>
 p = fint(3)-fint(1)</pre>
 
 <pre class="mcode-output">p =
-   0.682689492135811
+   0.682689492135810
 </pre>
 
 <p>Let's plot $f$ and the region $|X-2|&lt;1$:</p>

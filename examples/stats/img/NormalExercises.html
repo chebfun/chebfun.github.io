@@ -21,7 +21,7 @@ Like most textbooks, [1] emphasizes problems that can be solved on paper and don
 
 The probability density function (PDF) of the normal distribution can be defined like this:
 
-<pre class="mcode-input">ff = @(x,mu,sigma) 1/(sqrt(2*pi*sigma))*exp(-0.5*((x-mu)/sigma).^2);</pre>The domain is the entire real line, and this is a case where Chebfun has no difficulty working with that domain.  We can construct the chebfun like this:
+<pre class="mcode-input">ff = @(x,mu,sigma) 1/(sigma*sqrt(2*pi))*exp(-0.5*((x-mu)/sigma).^2);</pre>The domain is the entire real line, and this is a case where Chebfun has no difficulty working with that domain.  We can construct the chebfun like this:
 
 <pre class="mcode-input">mu = 2;
 sigma = 1;
@@ -31,7 +31,7 @@ f = chebfun(@(x) ff(x,mu,sigma), [-inf,inf]);</pre>The cumulative density functi
 
 <pre class="mcode-input">format long
 p = fint(3)-fint(1)</pre><pre class="mcode-output">p =
-   0.682689492135811
+   0.682689492135810
 </pre>Let's plot $f$ and the region $|X-2|&lt;1$:
 
 <pre class="mcode-input">hold off, h = area(f{1,3});
