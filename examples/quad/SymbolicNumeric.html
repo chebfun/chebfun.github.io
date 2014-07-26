@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Symbolic and numerical integration &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Symbolic and numerical integration</h1>
+<h2>Nick Trefethen, July 2014<span><a href='/examples/quad/SymbolicNumeric.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/quad/SymbolicNumeric.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Mathematica can do extraordinary things with symbolic integration.  One way to see it in action is to go to the Wolfram Mathematica Online Integrator and click on "Random Example".</p>
+<p>For example, consider the function</p>
+<p>$$ f(x) = \log(2+x)^3 \log(3+x) x^3 $$</p>
+<p>The Online Integrator quickly delivers the following exact indefinite integral:</p>
+<p>$$ (-759744 - 558290 x + 17705 x  - 1050 x  + 54 x  + \\
+  910528 \text{Log}[2 + x] + 400008 x \text{Log}[2 + x] - \\
+  22836 x^2  \text{Log}[2 + x] + 2072 x^3  \text{Log}[2 + x] - \\
+  162 x^4  \text{Log}[2 + x] - 302016 \text{Log}[2 + x]^2  - \\
+  118800 x \text{Log}[2 + x]^2  + 11880 x^2  \text{Log}[2 + x]^2  - \\
+  1680 x^3  \text{Log}[2 + x]^2  + 216 x^4  \text{Log}[2 + x]^2  + \\
+  48384 \text{Log}[2 + x]^3  + 15552 x \text{Log}[2 + x]^3  - \\
+  2592 x^2  \text{Log}[2 + x]^3  + 576 x^3  \text{Log}[2 + x]^3  - \\
+  144 x^4  \text{Log}[2 + x]^3  + 309078 \text{Log}[3 + x] + \\
+  79680 x \text{Log}[3 + x] - 5520 x^2  \text{Log}[3 + x] + \\
+  592 x^3  \text{Log}[3 + x] - 54 x^4  \text{Log}[3 + x] - \\
+  293976 \text{Log}[2 + x] \text{Log}[3 + x] - \\
+  57600 x \text{Log}[2 + x] \text{Log}[3 + x] + \\
+  7488 x^2  \text{Log}[2 + x] \text{Log}[3 + x] - \\
+  1344 x^3  \text{Log}[2 + x] \text{Log}[3 + x] + \\
+  216 x^4  \text{Log}[2 + x] \text{Log}[3 + x] + \\
+  138672 \text{Log}[2 + x]^2  \text{Log}[3 + x] + \\
+  13824 x \text{Log}[2 + x]^2  \text{Log}[3 + x] - \\
+  3456 x^2  \text{Log}[2 + x]^2  \text{Log}[3 + x] + \\
+  1152 x^3  \text{Log}[2 + x]^2  \text{Log}[3 + x] - \\
+  432 x^4  \text{Log}[2 + x]^2  \text{Log}[3 + x] - \\
+  46656 \text{Log}[2 + x]^3  \text{Log}[3 + x] + \\
+  576 x^4  \text{Log}[2 + x]^3  \text{Log}[3 + x] - \\
+  24 (5609 - 6756 \text{Log}[2 + x] + 4680 \text{Log}[2 + x]^2 ) \\
+   \text{PolyLog}[2, -2 - x] + \\
+  288 (-563 + 780 \text{Log}[2 + x]) \text{PolyLog}[3, -2 - x] - \\
+  224640 \text{PolyLog}[4, -2 - x]) / 2304 $$</p>
+<p>In Chebfun, more prosaically, we could do this:</p>
+<pre class="mcode-input">LW = 'LineWidth'; CO = 'Color'; FS = 'FontSize';
+f = chebfun(@(x) log(2+x).^3.*log(3+x).*x.^3);
+fi = cumsum(f)
+plot(fi,LW,2.2,CO,[0 .7 0]), grid on
+title('symbolically integrable',FS,14)</pre>
+
+<pre class="mcode-output">fi =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]       26  -3.5e-18     0.36 
+Epslevel = 4.440892e-16.  Vscale = 3.642639e-01.
+</pre>
+
+<p><img src="img/SymbolicNumeric_01.png" class="figure" alt=""></p>
+<p>These two results are so utterly different! -- and each would be superior in some applications.</p>
+<p>The definite integral from $-1$ to $1$ could be computed in Chebfun like this,</p>
+<pre class="mcode-input">sum(f)</pre>
+
+<pre class="mcode-output">ans =
+   0.364263868988883
+</pre>
+
+<p>or like this,</p>
+<pre class="mcode-input">fi(1) - fi(-1)</pre>
+
+<pre class="mcode-output">ans =
+   0.364263868988883
+</pre>
+
+<p>If I ask WolframAlpha for the definite integral, it gives six numerical digits, $0.364264$, so perhaps it is bypassing the symbolic solution.</p>
+<p>An example like this highlights the combinatorial complexity that can arise in symbolic computing.  Of course, sometimes no symbolic answer is available at all. If $f$ is changed to</p>
+<p>$$ g(x) = \log(2+x)^3 \log(3+x)^2 x^3, $$</p>
+<p>then the Online Calculator reports: "Mathematica could not find a formula for your integral.  Most likely this means that no formula exists."  For Chebfun, on the other hand, it makes no difference:</p>
+<pre class="mcode-input">g = chebfun(@(x) log(2+x).^3.*log(3+x).^2.*x.^3);
+gi = cumsum(g)
+plot(gi,LW,2.2,CO,[.7 0 .7]), grid on
+title('not symbolically integrable',FS,14)
+
+fi = cumsum(f)</pre>
+
+<pre class="mcode-output">gi =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]       25  -6.9e-18     0.49 
+Epslevel = 4.440892e-16.  Vscale = 4.905198e-01.
+fi =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]       26  -3.5e-18     0.36 
+Epslevel = 4.440892e-16.  Vscale = 3.642639e-01.
+</pre>
+
+<p><img src="img/SymbolicNumeric_02.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>L. N. Trefethen, Computing numerically with functions     instead of numbers, <em>Communications of the ACM</em>, to appear.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

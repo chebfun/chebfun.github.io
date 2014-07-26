@@ -126,6 +126,7 @@ pde/Erosion.m
 quad/GaussClenCurt.m
 quad/QuadratureConvergence.m
 quad/SpikeIntegral.m
+quad/SymbolicNumeric.m
 roots/AverageDegreeReduction1D.m
 roots/AverageDegreeReduction2D.m
 roots/BernoulliPolynomials.m
