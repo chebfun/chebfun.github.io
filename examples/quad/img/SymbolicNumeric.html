@@ -75,18 +75,11 @@ then the Online Calculator reports: "Mathematica could not find a formula for yo
 <pre class="mcode-input">g = chebfun(@(x) log(2+x).^3.*log(3+x).^2.*x.^3);
 gi = cumsum(g)
 plot(gi,LW,2.2,CO,[.7 0 .7]), grid on
-title('not symbolically integrable',FS,14)
-
-fi = cumsum(f)</pre><pre class="mcode-output">gi =
+title('not symbolically integrable',FS,14)</pre><pre class="mcode-output">gi =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [      -1,       1]       25  -6.9e-18     0.49 
 Epslevel = 4.440892e-16.  Vscale = 4.905198e-01.
-fi =
-   chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[      -1,       1]       26  -3.5e-18     0.36 
-Epslevel = 4.440892e-16.  Vscale = 3.642639e-01.
 </pre><img src="img/SymbolicNumeric_02.png" class="figure" alt="">
 
 
