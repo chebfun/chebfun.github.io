@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The nullspace of a linear operator &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The nullspace of a linear operator</h1>
+<h2>Nick Hale and Stefan Guettel, December 2011<span><a href='/examples/ode-eig/NullSpace.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-eig/NullSpace.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>We've recently introduced some new functionality in Chebfun for computing the nullspace of differential operators. Let's explore this with a couple of simple examples.</p>
+<h3 id="1-simple-example-1">1. Simple example #1</h3>
+<p>Let's start as simply as we can, and take</p>
+<p>$$ (Lu)(x) := u''(x), \quad x\in [-1, 1]. $$</p>
+<pre class="mcode-input">L = chebop(@(u) diff(u, 2));</pre>
+
+<p>Clearly the nullspace of this operator -- that is, the space of functions $v$ for which $L(v)=0$ -- is spanned the two functions</p>
+<pre class="mcode-input">v = [1, chebfun('x')];
+norm(L(v))</pre>
+
+<pre class="mcode-output">ans =
+     0
+</pre>
+
+<p>Supposing we didn't know this, we could compute a basis for the nullspace with the <code>null</code> method:</p>
+<pre class="mcode-input">LW = 'LineWidth'; lw = 1.6;
+V = null(L)
+plot(V, LW, lw)
+V'*V
+norm(L(V))</pre>
+
+<pre class="mcode-output">V =
+   chebfun column1 (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]        5      -1.4     0.44 
+Epslevel = 4.009500e-16.  Vscale = 1.384490e+00.
+   chebfun column2 (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]        5     -0.29      1.3 
+Epslevel = 4.132711e-16.  Vscale = 1.343214e+00.
+ans =
+   1.000000000000000  -0.000000000000000
+  -0.000000000000000   1.000000000000000
+ans =
+     5.016230158154673e-13
+</pre>
+
+<p><img src="img/NullSpace_01.png" class="figure" alt=""></p>
+<p>where we find that $V^T V = I$ and $LV \approx 0$ as required.</p>
+<p>Clearly <code>V</code> doesn't correspond directly to $1$ and $x$, since there is some freedom in how we orthogonalise the basis. However, we can check that <code>V</code> and ${1, x}$ correspond to the same spaces by computing the angle between the spaces with the <code>subspace</code> command.</p>
+<pre class="mcode-input">subspace(v, V)</pre>
+
+<pre class="mcode-output">ans =
+     1.947059289569680e-14
+</pre>
+
+<h3 id="2-incomplete-boundary-conditions">2. Incomplete boundary conditions</h3>
+<p>Now let's consider the more complicated 2nd-order operator</p>
+<p>$$ Lu = u'' + 0.1x(1-x^2)u' + \sin(x)u, \quad
+x\in [-\pi, \pi].  \qquad (*) $$</p>
+<pre class="mcode-input">dom = [-pi, pi];
+L = chebop(@(x, u) diff(u, 2) + .1*x.*(1-x.^2).*diff(u) + sin(x).*u, dom);</pre>
+
+<p>As before, it has a nullspace of rank 2.</p>
+<pre class="mcode-input">V = null(L)
+plot(V, LW, lw)
+V'*V
+norm(L(V))</pre>
+
+<pre class="mcode-output">V =
+   chebfun column1 (1 smooth piece)
+       interval       length   endpoint values  
+[    -3.1,     3.1]       64       1.8    0.043 
+Epslevel = 1.753455e-16.  Vscale = 1.786120e+00.
+   chebfun column2 (1 smooth piece)
+       interval       length   endpoint values  
+[    -3.1,     3.1]       64    -0.011      1.3 
+Epslevel = 2.468482e-16.  Vscale = 1.268748e+00.
+ans =
+   0.999999999999999   0.000000000000000
+   0.000000000000000   1.000000000000000
+ans =
+     1.023570181200966e-10
+</pre>
+
+<p><img src="img/NullSpace_02.png" class="figure" alt=""></p>
+<p>However, now suppose we impose one boundary condition, say, a Dirichlet condition at the left. This removes one degree of freedom, and we are left with a rank 1 nullspace.</p>
+<pre class="mcode-input">L.lbc = 0;
+L.rbc = [];
+v = null(L)
+plot(v, LW, lw), shg
+v'*v
+norm(L(v))</pre>
+
+<pre class="mcode-output">v =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[    -3.1,     3.1]       64   7.2e-16      1.3 
+Epslevel = 1.708133e-15.  Vscale = 1.268983e+00.
+ans =
+   1.000000000000000
+ans =
+     2.474464626150296e-11
+</pre>
+
+<p><img src="img/NullSpace_03.png" class="figure" alt=""></p>
+<p>Clearly this null vector must satisfy the given condition $v(-\pi) = 0.$</p>
+<pre class="mcode-input">v(-pi)</pre>
+
+<pre class="mcode-output">ans =
+     7.216449660063518e-16
+</pre>
+
+<h3 id="3-an-application">3. An application</h3>
+<p>Where might these ideas be useful? Well, suppose we were interested in equation $(*)$ with a homogeneous Dirichlet condition at the left, and wanted to know what inhomogeneous Dirichlet condition gave the minimal 2-norm of the solution to $Lu = 1$. Rather than solving the linear system for a number of different boundary conditions (which would be computationally expensive) we could simply solve for one, say again a homogeneous Dirichlet condition,</p>
+<pre class="mcode-input">L.rbc = 0;
+u = L\1;
+hold on, plot(u, '--r', LW, lw), hold off</pre>
+
+<p><img src="img/NullSpace_04.png" class="figure" alt=""></p>
+<p>and compute the rest by adding a scalar multiple of the null-function $v$.</p>
+<pre class="mcode-input">E = chebfun(@(c) norm(u + c*v, 2), [-10, 10], 'vectorize', 'splitting', 'on');
+plot(E,LW,lw)</pre>
+
+<p><img src="img/NullSpace_05.png" class="figure" alt=""></p>
+<p>We compute the 2-norm as a chebfun in the unknown variable $c$, which we can then minimise to obtain the minimal energy solution</p>
+<pre class="mcode-input">[minE, c_star] = min(E)
+u_star = u + c_star*v
+plot(u_star,LW,lw)</pre>
+
+<pre class="mcode-output">minE =
+   4.121950420615822
+c_star =
+   3.143771420956892
+u_star =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[    -3.1,     3.1]       64  -2.9e-15        4 
+Epslevel = 1.124157e-15.  Vscale = 3.989391e+00.
+</pre>
+
+<p><img src="img/NullSpace_06.png" class="figure" alt=""></p>
+<p>So the condition we require is that $u(\pi)$ = <code>bc_star</code>, where</p>
+<pre class="mcode-input">bc_star = u_star(pi)</pre>
+
+<pre class="mcode-output">bc_star =
+   3.989391428267081
+</pre>
+
+<h3 id="4-exotic-constraints">4. Exotic constraints</h3>
+<p>The Chebfun <code>null</code> function can also handle the more exotic types of boundary conditions that can be imposed in Chebfun (see [1]). For example, suppose we wish to compute the nullspace of the 3rd-order piecewise-smoooth ODE</p>
+<p>$$ Lu := 0.1u''' + \sin(x)u'' + u, \quad x\in[-1,1] $$</p>
+<p>with the 'boundary' condition</p>
+<p>$$ \int(u) = u(0). $$</p>
+<pre class="mcode-input">dom = [-1, 1];
+L = chebop(@(x, u) .1*diff(u, 3) + sin(x).*diff(u, 2) + u, dom);
+L.bc = @(x, u) sum(u) - u(0);</pre>
+
+<p>Here <code>null</code> has no problems!</p>
+<pre class="mcode-input">V = null(L)
+plot(V, LW, lw), shg
+V'*V</pre>
+
+<pre class="mcode-output">V =
+   chebfun column1 (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]       64       1.3     -1.1 
+Epslevel = 2.093802e-16.  Vscale = 1.325607e+00.
+   chebfun column2 (1 smooth piece)
+       interval       length   endpoint values  
+[      -1,       1]       64    -0.047     0.62 
+Epslevel = 2.500340e-16.  Vscale = 1.110072e+00.
+ans =
+   1.000000000000000   0.000000000000000
+   0.000000000000000   1.000000000000000
+</pre>
+
+<p><img src="img/NullSpace_07.png" class="figure" alt=""></p>
+<pre class="mcode-input">sum(V) - V(0,:)
+norm(L(V), 1)</pre>
+
+<pre class="mcode-output">ans =
+   1.0e-15 *
+  -0.999200722162641  -0.222044604925031
+ans =
+     8.995882703011659e-09
+</pre>
+
+<h3 id="5-references">5. References</h3>
+<ol>
+<li>Chebfun Example <a href="../ode-linear/NonstandardBCs.html">ode-linear/NonstandardBCs</a></li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

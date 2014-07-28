@@ -79,6 +79,7 @@ linalg/TransientGrowth.m
 ode-eig/DoubleWell.m
 ode-eig/Drum.m
 ode-eig/Eigenstates.m
+ode-eig/NullSpace.m
 ode-eig/OrrSommerfeld.m
 ode-eig/SolarQDA.m
 ode-eig/ThermoelasticRod.m
