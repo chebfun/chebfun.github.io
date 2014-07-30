@@ -77,7 +77,7 @@ Epslevel = 2.675450e-15.  Vscale = 1.000000e+00.
 
 <p><img src="img/FourierBasedChebfuns_01.png" class="figure" alt=""></p>
 <p>Here $f$ is represented to machine precision using a Fourier interpolant rather than a Chebyshev interpolant. The displayed information for $f$ above shows that it is of length 61, meaning that $f$ is resolved to machine precision using 61 samples, or $(61-1)/2=30$ (complex) Fourier modes. These coefficients can be displayed graphically by</p>
-<pre class="mcode-input">plotcoeffs(f)</pre>
+<pre class="mcode-input">plotcoeffs(f), ylim([1e-18 1])</pre>
 
 <p><img src="img/FourierBasedChebfuns_02.png" class="figure" alt=""></p>
 <p>Since $f$ is smooth and periodic, a Fourier representation requires fewer terms than a Chebyshev representation of $f$ to reach machine precision. We can check this by constructing $f$ without the <code>'periodic'</code> flag:</p>
@@ -149,16 +149,16 @@ minf
 rootsf</pre>
 
 <pre class="mcode-output">maxf =
-   0.261594155955766
+   0.261594155955768
 minf =
-  -0.500000000000008
+  -0.500000000000005
 rootsf =
-  -3.009212218006479
-  -2.090420462897022
-  -1.051172190692771
-  -0.132380435583314
-   0.779312428506051
-   2.362280225083742
+  -3.009212218006478
+  -2.090420462897019
+  -1.051172190692773
+  -0.132380435583315
+   0.779312428506052
+   2.362280225083741
 </pre>
 
 <p>These can be visualized as</p>
@@ -177,7 +177,7 @@ plot(df, LW, lw)</pre>
 <pre class="mcode-input">intf = sum(f)</pre>
 
 <pre class="mcode-output">intf =
-  -0.074010812957414
+  -0.074010812957416
 </pre>
 
 <p>Complex-valued fourfuns are also possible. For example:</p>
@@ -197,14 +197,14 @@ Epslevel = 6.661338e-16.  Vscale = 17.
 <pre class="mcode-input">area_heart = abs(sum(real(f).*diff(imag(f))))</pre>
 
 <pre class="mcode-output">area_heart =
-     5.654866776461624e+02
+     5.654866776461628e+02
 </pre>
 
 <p>According to [1], the true area enclosed is $180\pi$. The relative error in the computation above is then</p>
 <pre class="mcode-input">err = (area_heart - 180*pi)/(180*pi)</pre>
 
 <pre class="mcode-output">err =
-    -6.031274062627113e-16
+     0
 </pre>
 
 <p>The convolution of two smooth periodic functions can be computed using the <code>circconv</code> (circular convolution) function. The example below demonstrates this function in combination with the additional feature that allows fourfuns to be constructed from function values. The latter is demonstrated first:</p>
