@@ -71,6 +71,13 @@ code below to your MATLAB command window:</p>
 <pre><code>unzip('https://github.com/chebfun/chebfun/archive/master.zip')
 movefile('chebfun-master', 'chebfun'), addpath(fullfile(cd,'chebfun')), savepath
 </code></pre>
+<p>Note that the <code>savepath</code> command above will not work if you don't have write
+permissions to the MATLAB system file <code>pathdef.m</code>, which may be the case if,
+for example, you're working on a network computer at a university. Because
+MATLAB may be installed in different places, there is no generic solution to
+the problem. To use Chebfun, its path must be added each time you start
+MATLAB; this can either be done manually, or it can be done automatically with
+a custom <code>startup.m</code> file that lives in the default MATLAB path.</p>
 <p>If this is your first look at Chebfun, we suggest that you check out the
 <a href="../docs/guide/">Chebfun Guide</a> and then some of the many <a href="../examples/">Examples</a>.</p>
 <h3 id="for-developers">For developers</h3>
