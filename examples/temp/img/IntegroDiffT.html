@@ -1,0 +1,33 @@
+---
+title: "Time-dependent integro-differential equation"
+layout: example
+authordate: "Nick Hale, October 2010"
+meta: "(Chebfun example pde/IntegroDiffT.m) [Tags: #pde15s]"
+---
+
+Here we demonstrate how to solve the time-dependent integro-differential equation
+
+$$ u_t = 0.02 u''(x) + \int_{-1}^{1} u(\xi) d\xi \int_{-1}^{x} u(\xi) d\xi, $$
+$$ u(-1) = u(1) = 0. $$
+
+using Chebfun's `pde15s` command.
+
+We work on the domain $[-1,1]$ with a pulse initial condition:
+
+<pre class="mcode-input">d = [-1, 1];
+x = chebfun('x', d);
+u0 = (1-x.^2).*exp(-30*(x+.5).^2);</pre>Here is the anonymous function defining the problem for `pde15s`.
+
+<pre class="mcode-input">f = @(t, x, u) 0.02*diff(u,2) + cumsum(u).*sum(u);</pre>Now we solve the problem and plot the result.
+
+<pre class="mcode-input">opts = pdeset('YLim', [0, 1.4]);
+[tt, uu] = pde15s(f, 0:.1:4, u0, 'dirichlet', opts);
+FS = 'fontsize';</pre><img src="img/IntegroDiffT_01.png" class="figure" alt="">
+
+<pre class="mcode-input">waterfall(uu, tt, 'simple')
+xlabel('x', FS, 14)
+ylabel('t', FS, 14)
+zlabel('z', FS, 14)</pre><img src="img/IntegroDiffT_02.png" class="figure" alt="">
+
+This example can also be found as the "Integro-differential equation" demo among the PDE-Scalar demos of CHEBGUI.
+
