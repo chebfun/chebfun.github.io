@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The logistic map, again &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The logistic map, again</h1>
+<h2>Nick Trefethen and Michal Konecny, August 2014<span><a href='/examples/ode-nonlin/Logistic2.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-nonlin/Logistic2.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-chaos">1. Chaos</h3>
+<p>The logistic map is the iteration</p>
+<p>$$ x_{n+1} = r x_n (1-x_n), $$</p>
+<p>where $r$ is a parameter in the interval $[0,4]$. An earlier Example called "The logistic map and chaos" looked at the behavior of this function for fixed $x_0$ as a function of $r$.  Here we do the reverse: fix $r$ and vary $x_0$.  The situation was considered previously in [1].</p>
+<p>The interesting behavior happens for $r\in [3,4]$ -- the famous phenomenon of period doubling to chaos.  Let's begin with the chaos, which you see, for example, for $r=3.75$. Here is what happens after ten iterations of the map:</p>
+<pre class="mcode-input">tic
+r = 3.75;
+x0 = chebfun('x',[0 1]);
+n = 10;
+x = x0;
+for k = 1:n, x = r*x.*(1-x); end
+LW = 'linewidth'; FS = 'fontsize';
+plot(x,LW,1)
+ss = sprintf('r=%4.2f     n=%d     length(x)=%d', r, n, length(x));
+title(ss,FS,12)
+axis([0 1 0 1])</pre>
+
+<p><img src="img/Logistic2_01.png" class="figure" alt=""></p>
+<p>Note that the length of the chebfun is slightly less than the mathematically exact value of $1025$.  This appears to be due to an aliasing phenomenon, but we won't explore that here.</p>
+<h3 id="2-period-2">2. Period 2</h3>
+<p>Here is the same plot except for $r=3.25$, where this dynamical system is of period 2:</p>
+<pre class="mcode-input">r = 3.25;
+x = x0;
+for k = 1:n, x = r*x.*(1-x); end
+plot(x,LW,1)
+ss = sprintf('r=%4.2f     n=%d     length(x)=%d', r, n, length(x));
+title(ss,FS,12)
+axis([0 1 0 1])</pre>
+
+<p><img src="img/Logistic2_02.png" class="figure" alt=""></p>
+<p>One can see that $x$ takes essentially just 2 values. If we truncate the interval a little bit to avoid the complexity at the edges, then Chebfun can take 20 steps without difficulty:</p>
+<pre class="mcode-input">n = 20;
+x0 = chebfun('x',[.02 .98]);
+x = x0;
+for k = 1:n, x = r*x.*(1-x); end
+plot(x,LW,1)
+ss = sprintf('r=%4.2f     n=%d     length(x)=%d', r, n, length(x));
+title(ss,FS,12)
+axis([0 1 0 1])</pre>
+
+<p><img src="img/Logistic2_03.png" class="figure" alt=""></p>
+<p>Here are the two limiting values:</p>
+<pre class="mcode-input">x(0.5), x(0.8)</pre>
+
+<pre class="mcode-output">ans =
+   0.495265168245309
+ans =
+   0.812427139446746
+</pre>
+
+<p>Can you compute these analytically, or semi-analytically using Chebfun <code>roots</code>?</p>
+<h3 id="3-period-4">3. Period 4</h3>
+<p>For $r=3.5$, the system has period 4:</p>
+<pre class="mcode-input">r = 3.5;
+x = x0;
+for k = 1:n, x = r*x.*(1-x); end
+plot(x,LW,1)
+ss = sprintf('r=%4.2f     n=%d     length(x)=%d', r, n, length(x));
+title(ss,FS,12)
+axis([0 1 0 1])</pre>
+
+<p><img src="img/Logistic2_04.png" class="figure" alt=""></p>
+<p>Here are the four limiting values, which again you may be able to compute with <code>roots</code>:</p>
+<pre class="mcode-input">x(0.5), x(0.62), x(0.77), x(0.83)</pre>
+
+<pre class="mcode-output">ans =
+   0.500884210319831
+ans =
+   0.382819683209626
+ans =
+   0.874997263532565
+ans =
+   0.826940706746558
+</pre>
+
+<p>Time for this example:</p>
+<pre class="mcode-input">toc</pre>
+
+<pre class="mcode-output">Elapsed time is 9.889167 seconds.
+</pre>
+
+<h3 id="reference">Reference</h3>
+<ol>
+<li>R. B. Platte and L. N. Trefethen, Chebfun: A new kind of numerical computing, in A. D. Fitt, et al., <em>Progress in Industrial Mathematics at ECMI 2008,</em> Springer, 2010.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

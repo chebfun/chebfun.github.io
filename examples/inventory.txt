@@ -108,6 +108,7 @@ ode-nonlin/Carrier.m
 ode-nonlin/ExactSolns.m
 ode-nonlin/FourBugs.m
 ode-nonlin/Logistic.m
+ode-nonlin/Logistic2.m
 ode-nonlin/LorenzAttractor.m
 ode-nonlin/Orbits.m
 ode-nonlin/ParamODEs.m
