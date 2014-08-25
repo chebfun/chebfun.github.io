@@ -74,50 +74,26 @@ B.op = @(r,u) r.*u;</pre>
 
 <p>Then we find the eigenvalues with <code>eigs</code>. It turns out that the $\omega$ values are also zeros of the Bessel function $J_0$, which gives a way to valudate the results.</p>
 <pre class="mcode-input">[V,D] = eigs(A,B);
-[omega,ii] = sort(sqrt(-diag(D))); omega
-V = [V{:,ii'}]
+[omega,ii] = sort(sqrt(-diag(D)));
+omega
+V = [V{:,ii'}];
 err = omega - sort(roots( besselj(0,chebfun('r',[0 20])) ))</pre>
 
 <pre class="mcode-output">omega =
-   2.404825557945834
-   5.520078110505139
-   8.653727912947318
-  11.791534439019804
-  14.930917708488476
-  18.071063967909421
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31       1.5 -4.5e-13 
-Epslevel = 2.016239e-13.  Vscale = 1.453294e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31        -2 -1.8e-13 
-Epslevel = 2.016239e-13.  Vscale = 1.991007e+00.
-   chebfun column3 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31      -2.4    2e-13 
-Epslevel = 2.016239e-13.  Vscale = 2.375259e+00.
-   chebfun column4 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31       2.7 -1.3e-13 
-Epslevel = 2.016239e-13.  Vscale = 2.688190e+00.
-   chebfun column5 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31         3    9e-13 
-Epslevel = 2.016239e-13.  Vscale = 2.957848e+00.
-   chebfun column6 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31      -3.2  9.7e-14 
-Epslevel = 2.016239e-13.  Vscale = 3.197755e+00.
+   2.404825557948133
+   5.520078110506951
+   8.653727912945760
+  11.791534439014640
+  14.930917708488623
+  18.071063967909186
 err =
    1.0e-09 *
-   0.250053311390275
-   0.218834728116235
-   0.036301628369984
-   0.005526246127374
-   0.000692779167366
-  -0.001502797886133
+   0.252372789333322
+   0.220640394843485
+   0.034736657994472
+   0.000362376795238
+   0.000840216785036
+  -0.001744382416291
 </pre>
 
 <p>We also get the eigenfunctions, which gives a way to visualize deflections of the drums for pure frequencies.</p>
@@ -138,7 +114,7 @@ end</pre>
   B.op = @(r,u) r.*rho.*u;
   [V,D] = eigs(A,B,2,0);
   [omega,ii] = sort(sqrt(-diag(D)));
-  V = [V{:,ii'}]
+  V = [V{:,ii'}];
   ratio = omega(2)/omega(1);
 end</pre>
 
@@ -148,377 +124,8 @@ astar = find(ratfun==2)
 clf, plot(ratfun), title('Eigenvalue ratio'), xlabel('a')
 set(gca,'xtick',[0.5,astar,1],'ytick',[2],'xgrid','on','ygrid','on')</pre>
 
-<pre class="mcode-output">V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.5  1.4e-14 
-Epslevel = 1.640755e-14.  Vscale = 1.509591e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1  4.9e-15 
-Epslevel = 1.640755e-14.  Vscale = 2.064601e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.5  1.4e-14 
-Epslevel = 1.640755e-14.  Vscale = 1.509591e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1  4.9e-15 
-Epslevel = 1.640755e-14.  Vscale = 2.064601e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.7 -2.1e-14 
-Epslevel = 6.994644e-14.  Vscale = 1.741150e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27      -1.9 -5.3e-14 
-Epslevel = 6.994644e-14.  Vscale = 1.881931e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       29       1.5 -7.7e-15 
-Epslevel = 7.985261e-15.  Vscale = 1.508664e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       29      -2.1  4.7e-15 
-Epslevel = 7.985261e-15.  Vscale = 2.063855e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.5  2.6e-15 
-Epslevel = 6.898893e-15.  Vscale = 1.509555e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1 -5.6e-16 
-Epslevel = 6.898893e-15.  Vscale = 2.064572e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       26       1.5  5.2e-15 
-Epslevel = 6.101380e-15.  Vscale = 1.512262e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       26      -2.1  3.9e-15 
-Epslevel = 6.101380e-15.  Vscale = 2.066669e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.5 -4.3e-15 
-Epslevel = 6.197377e-15.  Vscale = 1.516886e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1  4.4e-16 
-Epslevel = 6.197377e-15.  Vscale = 2.069970e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.5  2.7e-16 
-Epslevel = 2.558680e-14.  Vscale = 1.523596e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1 -3.6e-15 
-Epslevel = 2.558680e-14.  Vscale = 2.074144e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.5 -1.1e-15 
-Epslevel = 2.966284e-14.  Vscale = 1.532631e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1 -2.1e-15 
-Epslevel = 2.966284e-14.  Vscale = 2.078636e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.5 -6.1e-15 
-Epslevel = 3.072572e-14.  Vscale = 1.544292e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1  4.1e-15 
-Epslevel = 3.072572e-14.  Vscale = 2.082576e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.6  9.3e-15 
-Epslevel = 6.185693e-15.  Vscale = 1.558921e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1   -2e-15 
-Epslevel = 6.185693e-15.  Vscale = 2.084659e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       26       1.6  4.8e-14 
-Epslevel = 2.051617e-14.  Vscale = 1.576849e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       26      -2.1  1.4e-14 
-Epslevel = 2.051617e-14.  Vscale = 2.083033e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       30       1.6  1.1e-14 
-Epslevel = 9.231944e-15.  Vscale = 1.598296e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       30      -2.1 -1.6e-14 
-Epslevel = 9.231944e-15.  Vscale = 2.075285e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.6 -3.2e-15 
-Epslevel = 1.430039e-14.  Vscale = 1.623186e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27      -2.1  2.9e-15 
-Epslevel = 1.430039e-14.  Vscale = 2.058709e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.7  7.5e-15 
-Epslevel = 1.652680e-14.  Vscale = 1.650882e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27        -2 -3.6e-15 
-Epslevel = 1.652680e-14.  Vscale = 2.031148e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.7  3.6e-15 
-Epslevel = 2.825935e-14.  Vscale = 1.679902e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27        -2 -1.4e-14 
-Epslevel = 2.825935e-14.  Vscale = 1.992562e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.7  3.4e-15 
-Epslevel = 1.127434e-13.  Vscale = 1.707773e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27      -1.9 -1.7e-14 
-Epslevel = 1.127434e-13.  Vscale = 1.946821e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.7   -1e-14 
-Epslevel = 6.363249e-14.  Vscale = 1.731259e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27      -1.9 -4.6e-14 
-Epslevel = 6.363249e-14.  Vscale = 1.902234e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       40       1.7 -1.7e-14 
-Epslevel = 8.245842e-14.  Vscale = 1.747034e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       40      -1.9   -2e-13 
-Epslevel = 8.245842e-14.  Vscale = 1.869451e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       40       1.8 -1.1e-13 
-Epslevel = 9.642265e-14.  Vscale = 1.752601e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       40      -1.9  5.9e-13 
-Epslevel = 9.642265e-14.  Vscale = 1.857376e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31       1.5  3.5e-15 
-Epslevel = 6.462742e-15.  Vscale = 1.508886e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31      -2.1 -5.6e-15 
-Epslevel = 6.462742e-15.  Vscale = 2.064035e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31       1.5 -1.7e-15 
-Epslevel = 1.106455e-14.  Vscale = 1.510677e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31      -2.1  1.2e-15 
-Epslevel = 1.106455e-14.  Vscale = 2.065456e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31       1.5 -2.8e-15 
-Epslevel = 5.382232e-15.  Vscale = 1.514325e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31      -2.1   -2e-14 
-Epslevel = 5.382232e-15.  Vscale = 2.068185e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31       1.5  6.1e-15 
-Epslevel = 8.807116e-15.  Vscale = 1.519967e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       31      -2.1 -2.1e-14 
-Epslevel = 8.807116e-15.  Vscale = 2.071976e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.5    9e-15 
-Epslevel = 2.093427e-14.  Vscale = 1.527806e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1  2.8e-15 
-Epslevel = 2.093427e-14.  Vscale = 2.076396e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25       1.5 -5.4e-15 
-Epslevel = 2.702623e-14.  Vscale = 1.538113e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       25      -2.1  4.4e-16 
-Epslevel = 2.702623e-14.  Vscale = 2.080745e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       24       1.6 -1.9e-14 
-Epslevel = 7.956748e-14.  Vscale = 1.551214e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       24      -2.1 -1.5e-13 
-Epslevel = 7.956748e-14.  Vscale = 2.083952e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       28       1.6  2.6e-14 
-Epslevel = 7.705138e-15.  Vscale = 1.567454e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       28      -2.1 -1.3e-15 
-Epslevel = 7.705138e-15.  Vscale = 2.084448e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.6  4.5e-15 
-Epslevel = 1.306073e-14.  Vscale = 1.587128e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27      -2.1  7.5e-15 
-Epslevel = 1.306073e-14.  Vscale = 2.080092e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.6  7.3e-15 
-Epslevel = 1.162627e-14.  Vscale = 1.610334e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27      -2.1 -3.3e-15 
-Epslevel = 1.162627e-14.  Vscale = 2.068263e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.6  5.8e-15 
-Epslevel = 2.910308e-14.  Vscale = 1.636753e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27        -2 -2.9e-15 
-Epslevel = 2.910308e-14.  Vscale = 2.046377e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       26       1.7 -1.4e-14 
-Epslevel = 7.328269e-14.  Vscale = 1.665358e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       26        -2 -1.2e-13 
-Epslevel = 7.328269e-14.  Vscale = 2.013100e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.7  8.9e-15 
-Epslevel = 4.337271e-14.  Vscale = 1.694171e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27        -2 -1.4e-14 
-Epslevel = 4.337271e-14.  Vscale = 1.970160e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.7 -5.3e-16 
-Epslevel = 5.473996e-14.  Vscale = 1.720281e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27      -1.9 -3.7e-14 
-Epslevel = 5.473996e-14.  Vscale = 1.923729e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.7 -1.6e-14 
-Epslevel = 7.556321e-14.  Vscale = 1.740296e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27      -1.9 -4.9e-14 
-Epslevel = 7.556321e-14.  Vscale = 1.883718e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       32       1.8 -6.8e-14 
-Epslevel = 9.977275e-14.  Vscale = 1.751194e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       32      -1.9  4.4e-14 
-Epslevel = 9.977275e-14.  Vscale = 1.860451e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       29       1.5   -2e-14 
-Epslevel = 9.112364e-15.  Vscale = 1.508664e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       29      -2.1  6.4e-15 
-Epslevel = 9.112364e-15.  Vscale = 2.063855e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27       1.8 -7.5e-15 
-Epslevel = 9.135882e-14.  Vscale = 1.751777e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       27      -1.9 -5.7e-14 
-Epslevel = 9.135882e-14.  Vscale = 1.859179e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       42       1.8   -2e-13 
-Epslevel = 5.401388e-14.  Vscale = 1.752601e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       42      -1.9  6.8e-14 
-Epslevel = 5.401388e-14.  Vscale = 1.857376e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       29       1.5 -7.7e-15 
-Epslevel = 7.985261e-15.  Vscale = 1.508664e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       29      -2.1  4.7e-15 
-Epslevel = 7.985261e-15.  Vscale = 2.063855e+00.
-V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       40       1.8 -1.1e-13 
-Epslevel = 9.642265e-14.  Vscale = 1.752601e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       40      -1.9  5.9e-13 
-Epslevel = 9.642265e-14.  Vscale = 1.857376e+00.
-astar =
-   0.812158808551942
+<pre class="mcode-output">astar =
+   0.812158808551315
 </pre>
 
 <p><img src="img/Drum_02.png" class="figure" alt=""></p>
@@ -530,17 +137,8 @@ subplot(1,2,2), surfl(rr.*cos(tt),rr.*sin(tt),repmat(-V(rr(1,:),2),60,1))
 shading interp, lighting phong, title('Second mode')
 colormap copper</pre>
 
-<pre class="mcode-output">V =
-   chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       30       1.6  6.1e-15 
-Epslevel = 8.800607e-15.  Vscale = 1.604926e+00.
-   chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       1]       30      -2.1 -1.9e-14 
-Epslevel = 8.800607e-15.  Vscale = 2.071651e+00.
-residual =
-    -4.173328349565963e-12
+<pre class="mcode-output">residual =
+    -2.773781204723491e-12
 </pre>
 
 <p><img src="img/Drum_03.png" class="figure" alt=""></p>
