@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Volunteers for "Applications of Chebfun" minisymposium at ICIAM15? &raquo; Chebfun</title>
+    <title>The tiger's tail &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -52,22 +52,51 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1><a href='/news/index.html'>News</a><span class='sep'>&raquo;</span>Volunteers for "Applications of Chebfun" minisymposium at ICIAM15?</h1>
-<h2>21 July 2014</h2>
+<h1>The tiger's tail</h1>
+<h2>Nick Trefethen, August 2014<span><a href='/examples/roots/Tiger.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/roots/Tiger.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
 <div class="row main">
-            <div id='content' class="col-sm-12" role="main">
-<p>Chebfun friends &mdash;</p>
-<p>We expect there will be a Chebfun-related minisymposium at the <a href="http://www.iciam2015.cn/">ICIAM
-meeting</a> in Beijing in August 2015; likely speakers
-include myself, Stefan Guettel, Yuji Nakatsukasa, Vanni Noferini, Sheehan
-Olver, Grady Wright, and Kuan Xu.  One possibility might be to mix this with
-some "applications of Chebfun" talks by Chebfun users.  If you might be
-interested in contributing such a talk, would you get in touch with me?</p>
-<p>Many thanks,</p>
-<p>Nick Trefethen (<a href="mailto:trefethen@maths.ox.ac.uk">trefethen@maths.ox.ac.uk</a>)</p></div>
+<div id='content' class="col-sm-12 example" role="main">
+<p>My essay "Six myths of polynomial interpolation and quadrature", reproduced as an Appendix in [1], closes with an example that reminds one of a tiger's tail. Here with a few modifications is that example:</p>
+<pre class="mcode-input">x = chebfun('x',[-2 1]);
+LW = 'linewidth'; MS = 'markersize';
+CO = 'color'; orange = [1 .5 .25];
+f = exp(.5*x).*(sin(5*x) + sin(101*x));
+roundf = round(f);
+r = roots(f-roundf);
+hold off, plot(f,LW,2,CO,orange), hold on
+ylim([-4 3])
+plot(r,f(r),'.k',MS,12), hold off</pre>
+
+<p><img src="img/Tiger_01.png" class="figure" alt=""></p>
+<p>Let's look at what's going on here.  First of all a chebfun $f$ is constructed:</p>
+<pre class="mcode-input">plot(f,LW,1.6,CO,orange)
+ylim([-4 3])</pre>
+
+<p><img src="img/Tiger_02.png" class="figure" alt=""></p>
+<p>Then another chebfun is constructed consisting of $f$ rounded to integers:</p>
+<pre class="mcode-input">plot(roundf,LW,1.1,'-k','jumpline','k')
+ylim([-4 3])</pre>
+
+<p><img src="img/Tiger_03.png" class="figure" alt=""></p>
+<p>Superimposing the two curves yields a lot of intersections, which are computed by <code>roots</code>:</p>
+<pre class="mcode-input">number_of_roots = length(r)
+plot(f,LW,1,CO,orange), hold on
+plot(roundf,LW,.9,'-k','jumpline','k')
+plot(r,f(r),'.k',MS,8), hold off</pre>
+
+<pre class="mcode-output">number_of_roots =
+   345
+</pre>
+
+<p><img src="img/Tiger_04.png" class="figure" alt=""></p>
+<p>Notice that a dot appears not only where $f$ is equal to an integer, but also where it is equal to a half-integer. Do you see why?</p>
+<h3 id="reference">Reference</h3>
+<ol>
+<li>L. N. Trefethen, <em>Approximation Theory and Approximation    Practice</em>, SIAM, 2013.</li>
+</ol></div>
         </div>
     </div>
 </div>

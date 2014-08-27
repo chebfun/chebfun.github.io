@@ -144,6 +144,7 @@ roots/ResultantMethod.m
 roots/RootsNearAxis.m
 roots/RootsSpeed.m
 roots/SecularRoots.m
+roots/Tiger.m
 roots/WhiteCurves.m
 stats/BivariateNormalDistribution.m
 stats/CentralLimitTheorem.m

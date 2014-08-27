@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Integral equations &raquo; Chebfun</title>
+    <title>Release notes for v5.0.1 &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -52,55 +52,20 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Integral equations</h1>
+<h1>Release notes for v5.0.1</h1>
+<h2></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>26</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>4</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>5</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>10</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>9</span></a></li>
-        <li class='active'><a href="/examples/integro/index.html">Integral equations<span>2</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>9</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>8</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>15</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>14</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>2</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>4</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>17</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>10</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>3</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/integro/FoxLi.html'>
-            <div class='thumbwrapper'><img src='/examples/integro/img/FoxLi_01.png' /></div>
-            <h3>Eigenvalues of the Fox-Li integral operator</h3>
-            <p>Toby Driscoll and Nick Trefethen, October 2010
-                <span class='tags'><span href='#' class='tag'>#eigenvalues</span>, <span href='#' class='tag'>#fred</span>, <span href='#' class='tag'>#fredholm</span></span>
-            </p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/integro/WikiIntegroDiff.html'>
-            <div class='thumbwrapper'><img src='/examples/integro/img/WikiIntegroDiff_01.png' /></div>
-            <h3>Wikipedia integro-differential equation example</h3>
-            <p>Mark Richardson, September 2010
-                <span class='tags'><span href='#' class='tag'>#backslash</span>, <span href='#' class='tag'>#linear</span>, <span href='#' class='tag'>#wikipedia</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<p>Chebfun Version 5.0.1 was released on XX August 2014. Mostly the new release
+consists of minor bug fixes and improvements. For users, the most noticeable
+change is in the command <code>chebcoeffs</code>. This used to be identical to
+<code>chebpoly</code>, returning a row vector of coefficients from highest degree down
+to zero degree. Now <code>chebpoly</code> has been deprecated and <code>chebcoeffs</code>
+returns a column vector of coefficients from zero degree up to highest.
+<code>fourcoeffs</code> has also been changed to return a column vector.</p></div>
         </div>
     </div>
 </div>
