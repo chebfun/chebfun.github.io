@@ -5,38 +5,38 @@ authordate: "Nick Trefethen, August 2014"
 meta: "(Chebfun example roots/Tiger.m) [Tags: #ROOTS]"
 ---
 
-My essay "Six myths of polynomial interpolation and quadrature", reproduced as an Appendix in [1], closes with an example that reminds one of a tiger's tail. Here with a few modifications is that example:
+My essay "Six myths of polynomial interpolation and quadrature", reproduced as an appendix in [1], closes with an example that reminds one of a tiger's tail. Here with a few modifications is that example:
 
 <pre class="mcode-input">x = chebfun('x',[-2 1]);
 LW = 'linewidth'; MS = 'markersize';
 CO = 'color'; orange = [1 .5 .25];
-f = exp(.5*x).*(sin(5*x) + sin(101*x));
+f = 2*exp(.5*x).*(sin(5*x) + sin(101*x));
 roundf = round(f);
-r = roots(f-roundf);
+r = roots(f-roundf,'nojump');
 hold off, plot(f,LW,2,CO,orange), hold on
-ylim([-4 3])
+ylim([-8 6])
 plot(r,f(r),'.k',MS,12), hold off</pre><img src="img/Tiger_01.png" class="figure" alt="">
 
 Let's look at what's going on here.  First of all a chebfun $f$ is constructed:
 
 <pre class="mcode-input">plot(f,LW,1.6,CO,orange)
-ylim([-4 3])</pre><img src="img/Tiger_02.png" class="figure" alt="">
+ylim([-8 6])</pre><img src="img/Tiger_02.png" class="figure" alt="">
 
 Then another chebfun is constructed consisting of $f$ rounded to integers:
 
-<pre class="mcode-input">plot(roundf,LW,1.1,'-k','jumpline','k')
-ylim([-4 3])</pre><img src="img/Tiger_03.png" class="figure" alt="">
+<pre class="mcode-input">plot(roundf,LW,0.8,'-k','jumpline','k')
+ylim([-8 6])</pre><img src="img/Tiger_03.png" class="figure" alt="">
 
 Superimposing the two curves yields a lot of intersections, which are computed by `roots`:
 
 <pre class="mcode-input">number_of_roots = length(r)
-plot(f,LW,1,CO,orange), hold on
-plot(roundf,LW,.9,'-k','jumpline','k')
+plot(f,LW,1.6,CO,orange), hold on
+plot(roundf,LW,0.8,'-k','jumpline','k')
 plot(r,f(r),'.k',MS,8), hold off</pre><pre class="mcode-output">number_of_roots =
    345
 </pre><img src="img/Tiger_04.png" class="figure" alt="">
 
-Notice that a dot appears not only where $f$ is equal to an integer, but also where it is equal to a half-integer. Do you see why?
+In [1], dots appear not only where $f$ is equal to an integer, but also where it is equal to a half-integer. In the present version of the tiger's tail, this effect has been eliminated by use of the `'nojump'` flag in `roots`.
 
 
 
