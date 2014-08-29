@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>News &raquo; Chebfun</title>
+    <title>Release notes for v5.0.1 &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -52,27 +52,20 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-        <h1>News</h1></div>
+<h1><a href='/news/index.html'>News</a><span class='sep'>&raquo;</span>Release notes for v5.0.1</h1>
+<h2>29 August 2014</h2>
+</div>
 
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-
-<ol class='news slats'><li>
-    <a href='/news/20140829-chebfun-v5.0.1.html'>
-        <h3><span class='date'>29 August 2014</span><span class='sep'>/</span>Release notes for v5.0.1</h3>
-        <p>Chebfun Version 5.0.1 was released on 29 August 2014. Mostly the new release consists of minor bug fixes and improvements.&hellip;<span class='read-more'>read more &raquo;</span></p>
-    </a>
-</li>
-<li>
-    <a href='/news/20140621-whats-new-in-chebfun-v5.html'>
-        <h3><span class='date'>21 June 2014</span><span class='sep'>/</span>What's new in Chebfun Version 5</h3>
-        <p>Today we are very pleased to announce the release of Chebfun Version 5. Chebfun Version 5 represents a complete rewrite of the Chebfun code and a transition from an svn repository at Oxford to a public repository and issue tracker at GitHub. We are a fully open source project. We invite all our users to learn more and get involved.&hellip;<span class='read-more'>read more &raquo;</span></p>
-    </a>
-</li>
-</ol>
-
-</div>
+<p>Chebfun Version 5.0.1 has been released. Mostly the new release consists of
+minor bug fixes and improvements. For users, the most noticeable change is in
+the command <code>chebcoeffs</code>. This used to be identical to <code>chebpoly</code>,
+returning a row vector of coefficients from highest degree down to zero
+degree. Now <code>chebpoly</code> has been deprecated and <code>chebcoeffs</code> returns a
+column vector of coefficients from zero degree up to highest. <code>fourcoeffs</code>
+has also been changed to return a column vector.</p></div>
         </div>
     </div>
 </div>
