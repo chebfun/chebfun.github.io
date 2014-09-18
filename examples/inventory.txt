@@ -157,6 +157,7 @@ stats/ProbabilityConvolution.m
 stats/ResamplingRandomVariables.m
 stats/UniformExercises.m
 temp/ClosedContours.m
+temp/CompactingColloids.m
 temp/IntegroDiffT.m
 veccalc/AutonomousSystems.m
 veccalc/CheckingVectorCalculus.m
