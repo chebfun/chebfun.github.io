@@ -59,7 +59,7 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<pre class="mcode-input">FS = 'FontSize'; LW = 'linewidth'; dom = [0 2*pi];</pre>
+<pre class="mcode-input">LW = 'linewidth'; dom = [0 2*pi];</pre>
 
 <p>A Fourier spectral collocation method is now available in Chebfun to solve ODEs with periodic boundary conditions. The solution is a chebfun using a <code>fourtech</code> representation, that is, a trigonometric interpolant on equispaced points. This is the default method for periodic boundary conditions.</p>
 <p>Consider the following first-order ODE</p>
@@ -119,7 +119,7 @@ Epslevel = 1.858519e-15.  Vscale = 2.389479e+00.
 <p>$$ u''(x) +  a_1(x)u'(x) + a_0(x)u(x) = f(x) $$</p>
 <p>on $[0,2\pi]$, with periodic boundary conditions, and where $a_0(x)$, $a_1(x)$, and $f(x)$ are continuous and periodic complex-valued functions. Let $\Delta$ be the Hill discriminant of this equation</p>
 <p>$$ \Delta = \frac{c(2\pi) + s'(2\pi)}{2}, $$</p>
-<p>where $c(x)$ and $s(x)$ are the solutions of the homogeneous version of this equation, corresponding to the initial conditions $c(0)=1$, $c'(0)=0$ and $s(0)=0$, $s'(0)=1$. The nonhomogeneous equation has a unique periodic solution if $\Delta \neq 1$ [1].</p>
+<p>where $c(x)$ and $s(x)$ are the solutions of the homogeneous equation, corresponding to the initial conditions $c(0)=1$, $c'(0)=0$ and $s(0)=0$, $s'(0)=1$. The nonhomogeneous equation has a unique periodic solution if $\Delta \neq 1$ [1].</p>
 <p>Take $a_1(x)=\sin(\cos(x/2)^2)$, $a_0(x)=\cos(12\sin(x))$, and $f(x)=\exp(\cos(2x))$, and solve it with Fourier collocation.</p>
 <pre class="mcode-input">a1 = chebfun(@(x) sin(cos(x/2).^2), dom);
 a0 = chebfun(@(x) cos(12*sin(x)), dom);

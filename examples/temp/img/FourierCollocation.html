@@ -5,7 +5,7 @@ authordate: "Hadrien Montanelli, October 2014"
 meta: "(Chebfun example temp/FourierCollocation) [Tags: #linearODE, #periodic]"
 ---
 
-<pre class="mcode-input">FS = 'FontSize'; LW = 'linewidth'; dom = [0 2*pi];</pre>A Fourier spectral collocation method is now available in Chebfun to solve ODEs with periodic boundary conditions. The solution is a chebfun using a `fourtech` representation, that is, a trigonometric interpolant on equispaced points. This is the default method for periodic boundary conditions.
+<pre class="mcode-input">LW = 'linewidth'; dom = [0 2*pi];</pre>A Fourier spectral collocation method is now available in Chebfun to solve ODEs with periodic boundary conditions. The solution is a chebfun using a `fourtech` representation, that is, a trigonometric interpolant on equispaced points. This is the default method for periodic boundary conditions.
 
 Consider the following first-order ODE
 
@@ -58,7 +58,7 @@ on $[0,2\pi]$, with periodic boundary conditions, and where $a_0(x)$, $a_1(x)$, 
 
 $$ \Delta = \frac{c(2\pi) + s'(2\pi)}{2}, $$
 
-where $c(x)$ and $s(x)$ are the solutions of the homogeneous version of this equation, corresponding to the initial conditions $c(0)=1$, $c'(0)=0$ and $s(0)=0$, $s'(0)=1$. The nonhomogeneous equation has a unique periodic solution if $\Delta \neq 1$ [1].
+where $c(x)$ and $s(x)$ are the solutions of the homogeneous equation, corresponding to the initial conditions $c(0)=1$, $c'(0)=0$ and $s(0)=0$, $s'(0)=1$. The nonhomogeneous equation has a unique periodic solution if $\Delta \neq 1$ [1].
 
 Take $a_1(x)=\sin(\cos(x/2)^2)$, $a_0(x)=\cos(12\sin(x))$, and $f(x)=\exp(\cos(2x))$, and solve it with Fourier collocation.
 
