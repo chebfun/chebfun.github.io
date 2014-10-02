@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The nonlinear optical response of a simple molecule &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The nonlinear optical response of a simple molecule</h1>
+<h2>Jared L. Aurentz and John S. Minor, September 2014<span><a href='/examples/ode-eig/OpticalResponse.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-eig/OpticalResponse.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">function OpticalResponse</pre>
+
+<h3 id="introduction">Introduction</h3>
+<p>The optical response of a material is the measure of how the molecular polarization $P$ changes with respect to an applied electric field strength $E$. In most cases $P$ is analytic in $E$ and can be written as a Taylor series.</p>
+<p>$$
+P(E) = P_0 + \alpha E + \beta E^2 + \gamma E^3 + \cdots
+$$</p>
+<p>Here $P_0$ is the static polarization of the molecule which does not affect the optical response (the optical response only depends on the derivatives of $P$). The nonlinear optical response is characterized by the coefficients corresponding to powers of $E$ greater than $1$. If the potential $V(x)$ of a given molecule is known the polarization can be computed by constructing the Hamiltonian $H$ and solving the Schroedinger eigenvalue problem.</p>
+<p>$$
+H = -\frac12 \frac{\partial^2}{\partial x^2} + V(x)
+$$</p>
+<p>$$
+H \psi(x) = \lambda \psi(x)
+$$</p>
+<p>If the $\lambda$ are countably many and can be ordered as $\lambda_1 &lt; \lambda_2 \leq \lambda_3 \leq \ldots$ then the polarization is computed by the formula,</p>
+<p>$$
+P = \frac{\int x |\psi_1(x)|^2 dx}{\int |\psi_1(x)|^2 dx}
+$$</p>
+<p>where $\psi_1(x)$ is the first eigenfunction, also known as the ground state of the system. To add the contributions of the applied electric field strength $E$ a linear term is added to the Hamiltonian.</p>
+<p>$$
+H(E) = -\frac12 \frac{\partial^2}{\partial x^2} + V(x) + Ex
+$$</p>
+<p>Solutions to Schroedinger's equation now depend on the parameter $E$.</p>
+<p>$$
+H(E) \psi(E,x) = \lambda(E) \psi(E,x)
+$$</p>
+<p>If $E$ is not too large then the polarization can still be computed as before.</p>
+<p>$$
+P(E) = \frac{\int x |\psi_1(E,x)|^2 dx}{\int |\psi_1(E,x)|^2 dx}
+$$</p>
+<p>From the Taylor series we see that the nonlinear optical response is characterized by higher order derivatives of $P(E)$ at $E = 0$, [1].</p>
+<h3 id="the-quantum-harmonic-oscillator">The quantum harmonic oscillator</h3>
+<p>One example of a simple molecule is a single electron bound by a quadratic potential $V(x) = 2x^2$. The solutions of this system are the Hermite functions. These can be computed easily using Chebfun.</p>
+<pre class="mcode-input">L = 8;
+H = @(E) chebop(@(x,u) -.5*diff(u,2) + 2*x.^2.*u + E*x.*u,[-L,L],'dirichlet');
+[PSI,LAMBDA] = eigs(H(0),4,'sr');
+LW = 'linewidth'; FS = 'fontsize';
+plot(PSI,LW,2);
+title('Hermite Functions',FS,16);</pre>
+
+<p><img src="img/OpticalResponse_01.png" class="figure" alt=""></p>
+<p>For an alternative method for computing eigenfunctions of the Schroedinger equation, check out the command <code>quantumstates</code>.</p>
+<p>The polarization function $P(E)$ is evaluated at a set of Chebyshev points and then interpolated with a polynomial.</p>
+<pre class="mcode-input">Emax = .1;
+x = chebfun('x',[-L,L]);
+
+function pval = polarization(efield)
+    [psi,lambda]=eigs(H(efield),1,'sr');
+    pval = ((x.*psi)'*psi)/(psi'*psi);
+end
+
+P = chebfun(@polarization,[-Emax,Emax],'vectorize','eps',1e-10);
+plot(P,LW,2);
+title('Polarization v. Electric Field',FS,16);
+xlabel('Electric Field',FS,16);
+ylabel('Polarization',FS,16);</pre>
+
+<p><img src="img/OpticalResponse_02.png" class="figure" alt=""></p>
+<p>Taking derivatives of $P(E)$ at $E = 0$ gives the various optical response coefficients.</p>
+<pre class="mcode-input">dP = diff(P);
+alpha = dP(0)
+
+d2P = diff(P,2);
+beta = d2P(0)/2
+
+d3P = diff(P,3);
+gamma = d3P(0)/6</pre>
+
+<pre class="mcode-output">alpha =
+  -0.250000001245357
+beta =
+     1.846303596334265e-07
+gamma =
+     1.179965004457915e-05
+</pre>
+
+<h3 id="references">References</h3>
+<p>[1] Juefei Zhou, Urszula B. Szafruga, David S. Watkins, and Mark G. Kuzyk, <em>Optimizing potential energy functions for maximal intrinsic hyperpolarizability</em>, Physical Reviews A, 76 (2007), 053831 pp. 1-10.</p>
+<pre class="mcode-input">end</pre></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
