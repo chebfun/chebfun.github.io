@@ -1,7 +1,7 @@
 ---
 title: "A periodic ODE system"
 layout: example
-authordate: "Nick Hale, November 2010"
+authordate: "Nick Hale, November 2010, latest revision October 2014"
 meta: "(Chebfun example ode-linear/PeriodicSystem.m) [Tags: #linearODE, #ODEsystem, #periodic, #piecewise]"
 ---
 
@@ -17,7 +17,11 @@ A.op = @(x,u,v) [u-diff(v); diff(u,2)+v];
 x = chebfun('x',d);
 f = [0;cos(x)];
 A.bc = 'periodic';
-u = A\f;</pre>We plot the result:
+u = A\f</pre><pre class="mcode-output">u =
+   2 x 1 chebmatrix of block types:
+    'chebfun'
+    'chebfun'
+</pre>Because the boundardy conditions are periodic, the system of ODEs is solved with a Fourier collocation method, and the solution $u$ is represented by a Fourier series. (This is what `periodic` means in the display of $u$ above.) We plot the result:
 
 <pre class="mcode-input">LW = 'linewidth'; lw = 2; FS = 'fontsize'; fs = 14;
 plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');</pre><img src="img/PeriodicSystem_01.png" class="figure" alt="">
@@ -30,8 +34,13 @@ err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre><pre class
 </pre>We show this also works for piecewise problems by artificially introducing a breakpoint at the origin.
 
 <pre class="mcode-input">A.domain = [-pi,0,pi];
-u = A\f;
-plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');
+u = A\f</pre><pre class="mcode-output">u =
+   2 x 1 chebmatrix of block types:
+    'chebfun'
+    'chebfun'
+</pre>The solution is now represented by a Chebyshev series, and the equation has been solved with a Chebyshev collocation method, because Fourier collocation methods don't work with breakpoints.
+
+<pre class="mcode-input">plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre><pre class="mcode-output">err =
      3.213393104607813e-14
 </pre><img src="img/PeriodicSystem_02.png" class="figure" alt="">
