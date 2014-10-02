@@ -159,6 +159,7 @@ stats/ResamplingRandomVariables.m
 stats/UniformExercises.m
 temp/ClosedContours.m
 temp/CompactingColloids.m
+temp/FourierCollocation.m
 temp/IntegroDiffT.m
 temp/OpticalResponse.m
 veccalc/AutonomousSystems.m

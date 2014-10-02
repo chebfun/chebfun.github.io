@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fourier Spectral Collocation &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Fourier Spectral Collocation</h1>
+<h2>Hadrien Montanelli, October 2014<span><a href='/examples/temp/FourierCollocation.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/temp/FourierCollocation.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">FS = 'FontSize'; LW = 'linewidth'; dom = [0 2*pi];</pre>
+
+<p>A Fourier spectral collocation method is now available in Chebfun to solve ODEs with periodic boundary conditions. The solution is a chebfun using a <code>fourtech</code> representation, that is, a trigonometric interpolant on equispaced points. This is the default method for periodic boundary conditions.</p>
+<p>Consider the following first-order ODE</p>
+<p>$$ u'(x) + a(x)u(x) = f(x) $$</p>
+<p>on $[0,2\pi]$, with periodic boundary conditions, and where $a(x)$ and $f(x)$ are continuous and periodic complex-valued functions. This equation has a unique periodic solution if $\overline{a}=\frac{1}{2\pi}\int_0^{2\pi}a(x)dx\neq ik$ for all integers k. In particular, if $a(x)=a$ is a constant coefficient, this means $a\neq ik$ for all $k$.</p>
+<p>Take for example $a(x)=1+\sin(\cos(10x))$ and $f(x)=\exp(\sin(x))$, and solve it with Fourier collocation. Since $\overline{a}=1$, this a well-posed problem.</p>
+<pre class="mcode-input">L = chebop(@(x,u) diff(u) + (1+sin(cos(10*x))).*u, dom);
+L.bc = 'periodic';
+f = chebfun(@(x) exp(sin(x)), dom);
+u = L \ f
+figure, plot(u, LW, 2)</pre>
+
+<pre class="mcode-output">u =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]      257      0.65     0.65 
+Epslevel = 1.859047e-15.  Vscale = 2.389734e+00.
+</pre>
+
+<p><img src="img/FourierCollocation_01.png" class="figure" alt=""></p>
+<p>The periodic solution $u$ satisfies the differential equation to high accuracy:</p>
+<pre class="mcode-input">norm(L*u - f, inf)</pre>
+
+<pre class="mcode-output">ans =
+     3.352183690606336e-11
+</pre>
+
+<p>We can solve the same ODE with Chebyshev collocation on 2nd-kind points using a <code>cheboppref</code> object with <code>chebcolloc2</code> discretization. (Chebyshev collocation on 1st-kind points is also possible, use <code>chebcolloc1</code>.)</p>
+<pre class="mcode-input">pref = cheboppref();
+pref.discretization = 'chebcolloc2';
+v = solvebvp(L, f, pref)
+hold on, plot(v, 'r', LW, 2)</pre>
+
+<pre class="mcode-output">v =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[       0,     6.3]      412      0.65     0.65 
+Epslevel = 1.858519e-15.  Vscale = 2.389479e+00.
+</pre>
+
+<p><img src="img/FourierCollocation_02.png" class="figure" alt=""></p>
+<p>The solution $v$ is now a chebfun with a <code>chebtech2</code> representation, that is, a polynomial interpolant on on 2nd-kind Chebyshev points. It satisfies the differential to high accuracy too</p>
+<pre class="mcode-input">norm(L*v - f, inf)</pre>
+
+<pre class="mcode-output">ans =
+     1.675164292668114e-10
+</pre>
+
+<p>but is about $\pi/2$ times longer.</p>
+<pre class="mcode-input">length(v)/length(u)</pre>
+
+<pre class="mcode-output">ans =
+   1.603112840466926
+</pre>
+
+<p>Consider now the second-order ODE</p>
+<p>$$ u''(x) +  a_1(x)u'(x) + a_0(x)u(x) = f(x) $$</p>
+<p>on $[0,2\pi]$, with periodic boundary conditions, and where $a_0(x)$, $a_1(x)$, and $f(x)$ are continuous and periodic complex-valued functions. Let $\Delta$ be the Hill discriminant of this equation</p>
+<p>$$ \Delta = \frac{c(2\pi) + s'(2\pi)}{2}, $$</p>
+<p>where $c(x)$ and $s(x)$ are the solutions of the homogeneous version of this equation, corresponding to the initial conditions $c(0)=1$, $c'(0)=0$ and $s(0)=0$, $s'(0)=1$. The nonhomogeneous equation has a unique periodic solution if $\Delta \neq 1$ [1].</p>
+<p>Take $a_1(x)=\sin(\cos(x/2)^2)$, $a_0(x)=\cos(12\sin(x))$, and $f(x)=\exp(\cos(2x))$, and solve it with Fourier collocation.</p>
+<pre class="mcode-input">a1 = chebfun(@(x) sin(cos(x/2).^2), dom);
+a0 = chebfun(@(x) cos(12*sin(x)), dom);
+L = chebop(@(u) diff(u, 2) + a1.*diff(u) + a0.*u, dom);
+L.bc = 'periodic';
+f = chebfun(@(x) exp(cos(2*x)), dom);
+u = L \ f
+figure, plot(u, LW, 2)</pre>
+
+<pre class="mcode-output">u =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]      109        18       18 
+Epslevel = 1.679982e-15.  Vscale = 2.114729e+01.
+</pre>
+
+<p><img src="img/FourierCollocation_03.png" class="figure" alt=""></p>
+<p>Again, the periodic solution $u$ satisfies the differential equation to high accuracy</p>
+<pre class="mcode-input">norm(L*u - f, inf)</pre>
+
+<pre class="mcode-output">ans =
+     1.595233571306575e-10
+</pre>
+
+<p>The solution with Chebyshev collocation on 2nd-kind points</p>
+<pre class="mcode-input">pref = cheboppref();
+pref.discretization = 'chebcolloc2';
+v = solvebvp(L, f, pref)
+hold on, plot(v, 'r', LW, 2)</pre>
+
+<pre class="mcode-output">v =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values  
+[       0,     6.3]      256        18       18 
+Epslevel = 1.679919e-15.  Vscale = 2.114813e+01.
+</pre>
+
+<p><img src="img/FourierCollocation_04.png" class="figure" alt=""></p>
+<p>is about 2.35 times longer:</p>
+<pre class="mcode-input">length(v)/length(u)</pre>
+
+<pre class="mcode-output">ans =
+   2.348623853211009
+</pre>
+
+<p>The second-order ODE we have solved is well-posed, and we can check that computing the Hill discriminant, and verifying that it is not 1:</p>
+<pre class="mcode-input">L.bc = [];
+L.lbc = @(c) [ c - 1 ; diff(c) ];
+c = L \ 0;
+L.lbc = @(s) [ s ; diff(s) - 1 ];
+s = L \ 0;
+HillDiscr = 1/2*(c(2*pi) + feval(diff(s), 2*pi))</pre>
+
+<pre class="mcode-output">HillDiscr =
+   0.146112733108023
+</pre>
+
+<p>If we take $a_1(x) = \sin(x)$ and $a_0(x)=1+ia_1(x)$, the solution we obtain does not satisfy the differential equation:</p>
+<pre class="mcode-input">L = chebop(@(x,u) diff(u, 2) + sin(x).*diff(u) + (1+1i*sin(x)).*u, dom);
+L.bc = 'periodic';
+u = L \ f;
+norm(L*u - f, inf)</pre>
+
+<pre class="mcode-output">ans =
+  28.298034533287090
+</pre>
+
+<p>This correponds to a Hill discriminant equal to 1 (up to 14 digits):</p>
+<pre class="mcode-input">L.bc = [];
+L.lbc = @(c) [ c - 1 ; diff(c) ];
+c = L \ 0;
+L.lbc = @(s) [ s ; diff(s) - 1 ];
+s = L \ 0;
+HillDiscr = 1/2*(c(2*pi) + feval(diff(s), 2*pi))</pre>
+
+<pre class="mcode-output">HillDiscr =
+  0.999999999999910 + 0.000000000000007i
+</pre>
+
+<h3 id="references">References</h3>
+<ol>
+<li>M. S. P. Eastham, <em>The spectral theory of periodic differential    equations</em>, Scottish Academic Press, 1973.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
