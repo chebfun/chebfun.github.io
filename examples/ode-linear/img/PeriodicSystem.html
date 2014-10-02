@@ -26,13 +26,13 @@ For this problem, the solution can actually be computed analytically. How close 
 
 <pre class="mcode-input">exact = [cos(x+3*pi/4) cos(x+pi/4)]/sqrt(2);
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre><pre class="mcode-output">err =
-     1.423587059541599e-14
+     8.207219039300378e-14
 </pre>We show this also works for piecewise problems by artificially introducing a breakpoint at the origin.
 
 <pre class="mcode-input">A.domain = [-pi,0,pi];
 u = A\f;
 plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre><pre class="mcode-output">err =
-     5.232477141380225e-14
+     3.213393104607813e-14
 </pre><img src="img/PeriodicSystem_02.png" class="figure" alt="">
 

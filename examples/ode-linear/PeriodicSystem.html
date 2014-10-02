@@ -80,7 +80,7 @@ plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');</pre>
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre>
 
 <pre class="mcode-output">err =
-     1.423587059541599e-14
+     8.207219039300378e-14
 </pre>
 
 <p>We show this also works for piecewise problems by artificially introducing a breakpoint at the origin.</p>
@@ -90,7 +90,7 @@ plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre>
 
 <pre class="mcode-output">err =
-     5.232477141380225e-14
+     3.213393104607813e-14
 </pre>
 
 <p><img src="img/PeriodicSystem_02.png" class="figure" alt=""></p></div>
