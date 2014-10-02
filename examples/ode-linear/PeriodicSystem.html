@@ -53,7 +53,7 @@
 
     <div class='page-header'>
 <h1>A periodic ODE system</h1>
-<h2>Nick Hale, November 2010<span><a href='/examples/ode-linear/PeriodicSystem.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-linear/PeriodicSystem.m'>view on GitHub</a></span></h2>
+<h2>Nick Hale, October 2014<span><a href='/examples/ode-linear/PeriodicSystem.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-linear/PeriodicSystem.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
@@ -68,9 +68,15 @@ A.op = @(x,u,v) [u-diff(v); diff(u,2)+v];
 x = chebfun('x',d);
 f = [0;cos(x)];
 A.bc = 'periodic';
-u = A\f;</pre>
+u = A\f</pre>
 
-<p>We plot the result:</p>
+<pre class="mcode-output">u =
+   2 x 1 chebmatrix of block types:
+    'chebfun'
+    'chebfun'
+</pre>
+
+<p>Because the boundardy conditions are periodic, the system of ODEs is solved with a Fourier collocation method, and the solution $u$ is represented by a Fourier series. (This is what <code>periodic</code> means in the display of $u$ above.) We plot the result:</p>
 <pre class="mcode-input">LW = 'linewidth'; lw = 2; FS = 'fontsize'; fs = 14;
 plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');</pre>
 
@@ -85,8 +91,16 @@ err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre>
 
 <p>We show this also works for piecewise problems by artificially introducing a breakpoint at the origin.</p>
 <pre class="mcode-input">A.domain = [-pi,0,pi];
-u = A\f;
-plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');
+u = A\f</pre>
+
+<pre class="mcode-output">u =
+   2 x 1 chebmatrix of block types:
+    'chebfun'
+    'chebfun'
+</pre>
+
+<p>The solution is now represented by a Chebyshev series, and the equation has been solved with a Chebyshev collocation method, because Fourier collocation methods don't work with breakpoints.</p>
+<pre class="mcode-input">plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre>
 
 <pre class="mcode-output">err =
