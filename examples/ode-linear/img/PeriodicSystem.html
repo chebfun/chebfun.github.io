@@ -18,11 +18,16 @@ x = chebfun('x',d);
 f = [0;cos(x)];
 A.bc = 'periodic';
 u = A\f;
-u{1}</pre><pre class="mcode-output">ans =
+u{1}, u{2}</pre><pre class="mcode-output">ans =
    chebfun column (1 smooth piece)
        interval       length   endpoint values periodic
 [    -3.1,     3.1]        5       0.5      0.5 
 Epslevel = 1.570092e-15.  Vscale = 6.984011e-01.
+ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[    -3.1,     3.1]       33      -0.5     -0.5 
+Epslevel = 1.570092e-15.  Vscale = 7.069065e-01.
 </pre>Because the boundardy conditions are periodic, the system of ODEs is solved with a Fourier collocation method, and the solution $u$ is represented by a Fourier series. (This is what `periodic` means in the display of $u$ above.) We plot the result:
 
 <pre class="mcode-input">LW = 'linewidth'; lw = 2; FS = 'fontsize'; fs = 14;
@@ -37,11 +42,17 @@ err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre><pre class
 
 <pre class="mcode-input">A.domain = [-pi,0,pi];
 u = A\f;
-u{1}</pre><pre class="mcode-output">ans =
+u{1}, u{2}</pre><pre class="mcode-output">ans =
    chebfun column (2 smooth pieces)
        interval       length   endpoint values  
 [    -3.1,       0]       16       0.5     -0.5 
 [       0,     3.1]       16      -0.5      0.5 
+Epslevel = 1.571719e-15.  Vscale = 7.063751e-01.  Total length = 32.
+ans =
+   chebfun column (2 smooth pieces)
+       interval       length   endpoint values  
+[    -3.1,       0]       16      -0.5      0.5 
+[       0,     3.1]       16       0.5     -0.5 
 Epslevel = 1.571719e-15.  Vscale = 7.063751e-01.  Total length = 32.
 </pre>The solution is now represented by a Chebyshev series, and the equation has been solved with a Chebyshev collocation method, because Fourier collocation methods don't work with breakpoints.
 
