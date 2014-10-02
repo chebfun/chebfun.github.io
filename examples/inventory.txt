@@ -157,6 +157,7 @@ stats/NormalExercises.m
 stats/ProbabilityConvolution.m
 stats/ResamplingRandomVariables.m
 stats/UniformExercises.m
+temp/BinousShaikhBellagi.m
 temp/ClosedContours.m
 temp/CompactingColloids.m
 temp/FourierCollocation.m

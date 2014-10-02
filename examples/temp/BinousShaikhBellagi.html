@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Problems from Binous, Shaikh and Bellagi &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Problems from Binous, Shaikh and Bellagi</h1>
+<h2>Nick Trefethen, 17 September 2014<span><a href='/examples/temp/BinousShaikhBellagi.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/temp/BinousShaikhBellagi.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>An interesting new paper by Binous, Shaikh, and Bellagi explores various problems that can be solved by Chebyshev spectral methods [1]. Here we solve a number of these problems with Chebfun, but not all of them; perhaps others could extend the discussion? The equation numbers are from [1], and we abbreviate the authors by ``BSB''.</p>
+<h3 id="1-split-boundary-value-problem">1. Split boundary value problem</h3>
+<p>The first problem BSB address is (3),</p>
+<p>$$ uu'-u'' = 1, \quad u(-1) = 0,~ u(1) = 2 . $$</p>
+<p>BSB solve this by setting up a nonlinear system of equations based on Chebyshev collocation, then solving the system by FindRoot in Mathematica or fsolve in MATLAB. We can solve it in Chebfun by</p>
+<pre class="mcode-input">N = chebop(-1,1);
+N.op = @(x,u) u.*diff(u) - diff(u,2);
+N.lbc = 0; N.rbc = 2;
+u = N\1;</pre>
+
+<p>A plot agrees nicely with Figure 1 of [1],</p>
+<pre class="mcode-input">plot(u), ylim([0 2]), grid on</pre>
+
+<p><img src="img/BinousShaikhBellagi_01.png" class="figure" alt=""></p>
+<p>and the values at $x=0$ and $x=1/\sqrt 2$ agree with BSB Table 1,</p>
+<pre class="mcode-input">format long
+u([0 1/sqrt(2)])</pre>
+
+<pre class="mcode-output">ans =
+   1.030986977102136   1.663419631612752
+</pre>
+
+<h3 id="2-diffusion-problem">2. Diffusion problem</h3>
+<p>Next BSB consider the PDE (5)</p>
+<p>$$ u_t = u_{yy} , \quad u(t,0)=u(t,1) = 0, ~u(0,x) = 1 , $$</p>
+<p>and they report the solution at time $t=0.0126$ based on NDSolve in Mathematica or ode15s in MATLAB.  We can do this as follows (type help chebop/expm for details):</p>
+<pre class="mcode-input">L = chebop(0,1);
+L.op = @(y,u) diff(u,2);
+L.bc = 'dirichlet';
+u0 = chebfun('1',[0 1]);
+t = 0.0126;
+u1 = expm(L,t,u0);</pre>
+
+<p>A plot agrees nicely with BSB Figure 2,</p>
+<pre class="mcode-input">plot(u1), grid on</pre>
+
+<p><img src="img/BinousShaikhBellagi_02.png" class="figure" alt=""></p>
+<p>and the value at $y=0.5$ matches their Table 2:</p>
+<pre class="mcode-input">u1(0.5)</pre>
+
+<pre class="mcode-output">ans =
+   0.996731280145514
+</pre>
+
+<h3 id="3-arnold-problem">3. Arnold problem</h3>
+<p>The third problem addressed by BSB is (8)</p>
+<p>$$ c_t = Ac_{zz} + B c_{zz} , \quad c(t,0)=C,
+~~c(t,\infty) = 0, ~~c(0,z) = 0 , $$</p>
+<p>where $A$, $B$ and $C$ are constants, describing evaporation of a liquid.  It seems that BSB don't list the values of the constants, however, so I will leave this one for now.</p>
+<h3 id="4-unsteady-convection-diffusion-problem">4. Unsteady convection-diffusion problem</h3>
+<p>The next problem is (11)</p>
+<p>$$ c_t = 0.49 Dc_{xx} - 2.5  c_x , \quad c(t,0)=1,
+~~c(t,\infty) = 0, ~~c(0,z) = 0 , $$</p>
+<p>with $D = 0.49$.  The following formulation doesn't work; more thought needed.</p>
+<pre class="mcode-input">dom = [0,10];
+L = chebop(dom);
+L.op = @(x,c) 0.49*diff(c,2) - 2.5*diff(c);
+L.lbc = 1; L.rbc = 0;
+c0 = chebfun('0',dom);
+t = 1.33;
+u1 = expm(L,t,c0);
+plot(u1)</pre>
+
+<p><img src="img/BinousShaikhBellagi_03.png" class="figure" alt=""></p>
+<h3 id="5-falkner-skan-equation">5. Falkner-Skan equation</h3>
+<p>Next we look at</p>
+<p>$$ f''' + ff'' + (\pi/4)(1-(f')^2) = 0, \quad f(0) = f'(0) = 0, ~~
+f'(\infty) = 1 . $$</p>
+<p>BSB solve this on $[0,4]$ and then plot the derivative,</p>
+<pre class="mcode-input">dom = [0 4];
+N = chebop(dom);
+N.op = @(x,f) diff(f,3) + f.*diff(f,2) + (pi/4)*(1-diff(f).^2);
+N.lbc = @(f) [f; diff(f)];
+N.rbc = @(f) diff(f)-1;
+f = N\0;
+plot(diff(f)), grid on</pre>
+
+<p><img src="img/BinousShaikhBellagi_04.png" class="figure" alt=""></p>
+<h3 id="6-non-newtonian-carreau-fluid">6. Non-Newtonian Carreau fluid</h3>
+<p>BSB now consider a non-Newtonian fluids problem with a shear-dependent viscosity mu,</p>
+<p>$$ mu(g) = 0.00204 (1+ 0.04 g^2)^{-1/4} $$</p>
+<p>where $g = \dot\gamma$ is the shear rate. I am not sure what they do with this formula.</p>
+<h3 id="7-convection-past-an-isothermal-plate">7. Convection past an isothermal plate</h3>
+<p>This problem involves a couples system of two ODEs involving the stream function $F(y)$ and the temperature $T(y)$:</p>
+<p>$$ F''' + 3FF' - 2(F')^2 + T = 0, \quad
+T'' + 30FT' = 0, $$</p>
+<p>with five boundary conditions,</p>
+<p>$$ F(0) = F'(0) = 0, ~~ F'(\infty) = 0, ~~
+T(0) = 1, ~~ T(\infty) = 0. $$</p>
+<p>They approximate $[0,\infty]$ by $[0,5]$, but my attempt with this interval fails, so I will shorten it to $[0,2.5]$:</p>
+<pre class="mcode-input">dom = [0 2.5];
+N = chebop(dom);
+N.op = @(y,F,T) [diff(F,3)+3*F.*diff(F)-2*diff(F).^2+T; diff(T,2)+30*F.*diff(T)];
+N.lbc = @(F,T) [F; diff(F); T-1];
+N.rbc = @(F,T) [diff(F); T];
+U = N\0;</pre>
+
+<p>BSB plot the temperature,</p>
+<pre class="mcode-input">T = U{2}; plot(T), grid on, title temperature</pre>
+
+<p><img src="img/BinousShaikhBellagi_05.png" class="figure" alt=""></p>
+<p>and the velocity, which is $F'$,</p>
+<pre class="mcode-input">F = U{1}; plot(diff(F)), grid on, title velocity</pre>
+
+<p><img src="img/BinousShaikhBellagi_06.png" class="figure" alt=""></p>
+<h3 id="reference">Reference</h3>
+<ol>
+<li>H. Binous, A. A. Shaikh, and A. Bellagi, ``Chebyshev orthogonal    collocation technique to solve transport phenomena problems with Matlab    and Mathematica", <em>Computer Applications in Engineering Education</em>, 2014,    pp. 1-10.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
