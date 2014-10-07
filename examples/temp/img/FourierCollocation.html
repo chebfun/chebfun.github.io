@@ -5,7 +5,7 @@ authordate: "Hadrien Montanelli, October 2014"
 meta: "(Chebfun example temp/FourierCollocation) [Tags: #linearODE, #periodic]"
 ---
 
-<pre class="mcode-input">FS = 'FontSize'; LW = 'linewidth'; dom = [0 2*pi];</pre>A Fourier spectral collocation method is now available in Chebfun to solve ODEs with periodic boundary conditions. The solution is a chebfun using a `fourtech` representation, that is, a trigonometric interpolant on equispaced points. This is the default method for periodic boundary conditions.
+<pre class="mcode-input">FS = 'FontSize'; LW = 'linewidth'; dom = [0 2*pi];</pre>A Fourier spectral collocation method is now available in Chebfun to solve ODEs with periodic boundary conditions. The solution is a chebfun using a `trigtech` representation, that is, a trigonometric interpolant on equispaced points. This is the default method for periodic boundary conditions.
 
 Consider the following first-order ODE:
 
@@ -29,7 +29,7 @@ Epslevel = 1.859047e-15.  Vscale = 2.389734e+00.
 The periodic solution $u$ satisfies the differential equation to high accuracy:
 
 <pre class="mcode-input">norm(L*u - f, inf)</pre><pre class="mcode-output">ans =
-     3.352183690606336e-11
+     3.352044035015823e-11
 </pre>We can solve the same ODE with Chebyshev collocation on 2nd-kind points using a `cheboppref` object with `chebcolloc2` discretization. (Chebyshev collocation on 1st-kind points is also possible, use `chebcolloc1`.)
 
 <pre class="mcode-input">pref = cheboppref();
@@ -45,7 +45,7 @@ Epslevel = 1.858519e-15.  Vscale = 2.389479e+00.
 The solution $v$ is now a chebfun with a `chebtech2` representation, that is, a polynomial interpolant on on 2nd-kind Chebyshev points. It satisfies the differential to high accuracy too
 
 <pre class="mcode-input">norm(L*v - f, inf)</pre><pre class="mcode-output">ans =
-     1.675164292668114e-10
+     1.674894080043071e-10
 </pre>but is about $\pi/2$ times longer.
 
 <pre class="mcode-input">length(v)/length(u)</pre><pre class="mcode-output">ans =
@@ -104,22 +104,6 @@ L.lbc = @(s) [ s ; diff(s) - 1 ];
 s = L \ 0;
 HillDiscr = 1/2*(c(2*pi) + feval(diff(s), 2*pi))</pre><pre class="mcode-output">HillDiscr =
    0.146112733108023
-</pre>If we take $a_1(x) = \sin(x)$ and $a_0(x)=1+ia_1(x)$, the solution we obtain does not satisfy the differential equation:
-
-<pre class="mcode-input">L = chebop(@(x,u) diff(u, 2) + sin(x).*diff(u) + (1+1i*sin(x)).*u, dom);
-L.bc = 'periodic';
-u = L \ f;
-norm(L*u - f, inf)</pre><pre class="mcode-output">ans =
-  28.298034533287090
-</pre>This correponds to a Hill discriminant equal to 1 (up to 14 digits):
-
-<pre class="mcode-input">L.bc = [];
-L.lbc = @(c) [ c - 1 ; diff(c) ];
-c = L \ 0;
-L.lbc = @(s) [ s ; diff(s) - 1 ];
-s = L \ 0;
-HillDiscr = 1/2*(c(2*pi) + feval(diff(s), 2*pi))</pre><pre class="mcode-output">HillDiscr =
-  0.999999999999910 + 0.000000000000007i
 </pre>
 
 ## References
