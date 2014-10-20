@@ -61,12 +61,12 @@
 <div id='content' class="col-sm-12 example" role="main">
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';</pre>
 
-<p>Many mathematical models exist for the spread of diseases. This is partly because as epidemiology matured, more sophisticated models were developed. It is also because not all diseases spread in the same fashion. In this Example we explore some of the more well-known models of disease spread. All of the models presented are called "compartmental" models because they group members of a population into compartments -- for example, "infected" and "uninfected" -- which interact according to a system of differential equations.</p>
+<p>Many mathematical models exist for the spread of disease. This is partly because as epidemiology matured, more sophisticated models were developed. It is also because not all diseases spread in the same fashion. In this Example we explore some of the more well-known models of disease spread, all variants of the famous SIR model. All of the models presented are called "compartmental" because they group members of a population into compartments -- for example, "infected" and "uninfected" -- which interact according to a system of differential equations.</p>
 <p>The systems of ODEs in this Example are initial value problems, and their solution on large domains is made possible by Chebfun's new IVP capabilities.</p>
 <h3 id="sir-model">SIR model</h3>
-<p>The most famous mathematical model of epidemics is the SIR model. This model groups members of a fixed population as susceptible (S), infected (I), or recovered (R). The dynamics dictate a one-way track: susceptible members may become infected, and infected individuals may recover, but that is all. So beginning with a nonzero number of infected people, then after enough time everyone ends up "recovered" (which is a word also used to mean "dead").</p>
+<p>The most famous mathematical model of epidemics is the SIR model. This model groups members of a fixed population as susceptible (S), infected (I), or recovered (R). The dynamics dictate a one-way track: susceptible members may become infected, and infected individuals may recover, but that is all. So beginning with a nonzero number of infected people, then after enough time everyone ends up "recovered" (which is a word also used to mean "dead" -- R really refers to noninfectious, nonsusceptible people).</p>
 <p>The model is a great simplification of how most diseases actually spread: it ignores incubation period; it assumes full contact among the whole population, ignoring geographic constraints; it assumes everyone is equally susceptible to the disease; and it treats the population as being continuous rather than discrete. Nevertheless, its assumptions about immunity make it a good model for measles, mumps, and rubella, which are all highly contagious diseases that infected people eventually develop an immunity to.</p>
-<p>The SIR equations are $$ \frac{d S}{d t} = -c I S, $$ $$ \frac{d I}{d t} = c I S - r I, $$ $$ \frac{d R}{d t} = r I. $$ The positive constants $c$ and $r$ are called the contact rate (or transmission rate) and recovery rate, and are determined empirically for a given disease. Looking at the for a while, you'll see that these equations all make sense intuitively. For example, the rate of increase of the population of "recovered" individuals is proportional to the size of infected individuals.</p>
+<p>The SIR equations are $$ \frac{d S}{d t} = -c I S, $$ $$ \frac{d I}{d t} = c I S - r I, $$ $$ \frac{d R}{d t} = r I. $$ The positive constants $c$ and $r$ are called the contact rate (or transmission rate) and recovery rate, and are determined empirically for a given disease. Looking at them for a while, you'll see that these equations all make sense intuitively. For example, the rate of increase of the population of "recovered" individuals is proportional to the size of infected individuals.</p>
 <p>Here is a chebop for the SIR model.</p>
 <pre class="mcode-input">contact_rate  = .003;
 recovery_rate = .3;
@@ -86,14 +86,14 @@ N = chebop(op, [0,30]);</pre>
         R
     ];</pre>
 
-<p>We will use chebop's nonlinear backslash syntax to solve the problem. The <code>deal</code> method allows the solution components to be dealt to multiple outputs.</p>
+<p>We will use chebop's nonlinear backslash syntax to solve the problem. The <code>deal</code> method allows the solution components (which are returned as a chebmatrix) to be dealt to multiple outputs.</p>
 <pre class="mcode-input">[S,I,R] = deal(N\0);</pre>
 
 <p>Here is a plot of the solution.</p>
 <pre class="mcode-input">plot([S I R])
 legend('S','I','R')
 title('SIR model')
-xlabel('x')</pre>
+xlabel('t')</pre>
 
 <p><img src="img/EpidemiologicalModels_01.png" class="figure" alt=""></p>
 <p>So beginning from a small fraction of infected people, eventually the entire population gets the disease and recovers (or dies). Notice that if $I(0)=0$, the solution component for $I$ would be the steady function $I(t)=0$, which is an unstable (and biologically accurate) equilibrium of the system.</p>
@@ -104,6 +104,35 @@ ylim([0 600])</pre>
 
 <p><img src="img/EpidemiologicalModels_02.png" class="figure" alt=""></p>
 <p>It can also be seen from the differential equations that the population is constant by adding the equations together.</p>
+<p>What is the largest number of people infected at a particular time?</p>
+<pre class="mcode-input">round(max(I))</pre>
+
+<pre class="mcode-output">ans =
+   240
+</pre>
+
+<p>Nearly half the population! At what time is the number of infected people equal to the number of recovered people?</p>
+<pre class="mcode-input">t_eq = roots(I-R)
+plot([S I R]), legend('S','I','R'), xlabel('t'), hold on
+plot(t_eq*[1; 1], ylim(gca), 'k:')
+plot(t_eq, I(t_eq), 'k.', MS, 15)</pre>
+
+<pre class="mcode-output">t_eq =
+   7.355455438453560
+</pre>
+
+<p><img src="img/EpidemiologicalModels_03.png" class="figure" alt=""></p>
+<p>Chebfun makes such computations embarrassingly easy.</p>
+<p>What about the instantaneous mortality rate? A natural measure of mortality rate is $$ M(t) = \frac{(1-\rho) R(t)}{\int_0^t S(\xi) d\xi}, $$ where $0\leq\rho\leq 1$ denotes the average fraction of people who die from the disease. That is, the mortality rate is the number of recovered people over the total number of infected people. Here is the instantaneous mortality rate as a function of time.</p>
+<pre class="mcode-input">hold off
+rho = .4;                   % 40 percent of infected people die
+plot((1-rho)*R./cumsum(I))  % The instantaneous mortality rate
+ylim([0 1])
+xlabel('t')
+title('Instantaneous mortality rate for the SIR model')</pre>
+
+<p><img src="img/EpidemiologicalModels_04.png" class="figure" alt=""></p>
+<p>For this model, it is perhaps unsurprising that the instantaneous mortality rate is constant. But it is important to note that in reality that is not always true. In the case of the current Ebola outbreak in West Africa, for instance, other factors are at play to make the transmission rate $c$ variable, actually an increasing function of time. When the transmission rate $c$ is increasing -- so $dc(t)/dt &gt; 0$ -- the number of infected people increases faster than the already-infected people have a chance to die, so the instantaneous mortality rate actually <em>decreases</em>. Once the infection levels peak, however, the mortality rate will skyrocket.</p>
 <h3 id="sir-with-vital-dynamics">SIR with vital dynamics</h3>
 <p>The SIR model described above encounters problems when imposed on a long time horizen. In particular, it assumes that members of the population stick around forever. A modified version of the SIR model accounts for the <em>vital dynamics</em> -- that is, birth and death -- of members of the population.</p>
 <p>SIR with vital dynamics still assumes a constant population size, but it includes a birth rate and death rate (of equal magnitude) that assures that members of the population are replaced by susceptible individuals over time. The equations are $$ \frac{d S}{d t} = \mu N - \mu S - \frac{c}{N} I S, $$ $$ \frac{d I}{d t} = \frac{c}{N} I S - (r+\mu) I, $$ $$ \frac{d R}{d t} = r I - \mu R, $$ where $\mu$ is the birth and death rate and $N$ is the total population size. The other constants have changed to account for the fact that the total population size is worked into the equations.</p>
@@ -133,9 +162,9 @@ N = chebop(op, [0,50]);</pre>
 plot([S I R])
 legend('S','I','R')
 title('SIR model with vital dynamics')
-xlabel('x')</pre>
+xlabel('t')</pre>
 
-<p><img src="img/EpidemiologicalModels_03.png" class="figure" alt=""></p>
+<p><img src="img/EpidemiologicalModels_05.png" class="figure" alt=""></p>
 <p>And again we can verify that the population is constant.</p>
 <pre class="mcode-input">norm(diff(S+I+R))</pre>
 
@@ -143,7 +172,7 @@ xlabel('x')</pre>
      6.846441993590116e-10
 </pre>
 
-<p>The vital dynamics therefore introduct a qualitative change in the solution in that its components are no longer unimodal. Because the population becomes susceptible again over time, there are intermittent outbreaks of the disease. Eventually, however, the situation stabilizes.</p>
+<p>The vital dynamics introduce two qualitative changes in the solution. First, the solution components are no longer unimodal. Because the population becomes susceptible again over time, there are intermittent outbreaks of the disease, which eventually stabilize. Second, the steady state as $t\to\infty$ does not result in everyone being "recovered". Because of the birth/death cycle, the steady state is that there is a constant <em>nonzero</em> number of susceptible and infected people.</p>
 <h3 id="seir">SEIR</h3>
 <p>The SEIR model expands upon the SIR model by adding an intermediate compartment ("exposed") for people who have been infected but are not themselves infectious yet. The "exposed" category is significant for diseases like influenza that have an incubation period.</p>
 <p>The equations of the SEIR model are $$ \frac{d S}{d t} = \mu N - \mu S - \frac{c}{N} I S, $$ $$ \frac{d E}{d t} = \frac{c}{N} I S - (a+\mu) E, $$ $$ \frac{d I}{d t} = aE - (r+\mu) I, $$ $$ \frac{d R}{d t} = r I - \mu R, $$ where $a^{-1}$ is the average incubation period of the contagion.</p>
@@ -176,9 +205,9 @@ N = chebop(op, [0,30]);</pre>
 plot([S E I R])
 legend('S','E','I','R')
 title('SEIR model with vital dynamics')
-xlabel('x')</pre>
+xlabel('t')</pre>
 
-<p><img src="img/EpidemiologicalModels_04.png" class="figure" alt=""></p>
+<p><img src="img/EpidemiologicalModels_06.png" class="figure" alt=""></p>
 <p>And once more, verify the total population is constant:</p>
 <pre class="mcode-input">norm(diff(S+E+I+R))</pre>
 
