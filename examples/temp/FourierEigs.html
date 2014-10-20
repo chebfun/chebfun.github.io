@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Periodic ODE eigenvalue problems &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Periodic ODE eigenvalue problems</h1>
+<h2>Hadrien Montanelli, October 2014<span><a href='/examples/temp/FourierEigs.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/temp/FourierEigs.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">LW = 'linewidth'; dom = [0 2*pi];</pre>
+
+<p>Consider the periodic Strum-Liouville eigenvalue problem</p>
+<p>$$ -\frac{d}{dx}\Big[p(x)\frac{du}{dx}\Big]+q(x)u=\lambda w(x)u, $$</p>
+<p>on $[0,2\pi]$, where $w(x)&gt;0$ and $q(x)$ are periodic and continuous complex-valued functions, and $p(x)&gt;0$ is a periodic ontinuously differentiable complex-valued function. We look for complex eigenvalues $\lambda$, and peridoic complex-valued functions $u(x)$ with two continuous derivatives.</p>
+<p>The spectral theorem for periodic Sturm-Liouville eigenvalue problem [1, Theorem 5.28] states that there exists a basis of periodic and real-valued continuous functions on $[0,2\pi]$ that consists of eigenfunctions $u_n(x)$ of the periodic Sturm-Liouville eigenvalue problem. They are orthonormal with respect to the inner product</p>
+<p>$$ \int_0^{2\pi}\overline{u_m(x)}u_n(x)w(x)dx, $$</p>
+<p>and have real and discrete eigenvalues $\lambda_0&lt;\lambda_1\leq\lambda_2&lt;\lambda_3\leq\lambda_4\ldots$, of multiplicity at most two for $n\geq1$ and one for $n=0$, with $\lambda_n\rightarrow\infty$ as $n\rightarrow\infty$. Moreover, let $\Delta$ be the Hill discriminant defined by</p>
+<p>$$ \Delta = \frac{c(2\pi) + p(2\pi)s'(2\pi)}{2}, $$</p>
+<p>where $c(x)$ and $s(x)$ are the solutions of the Sturm-Liouville equations with initial conditions $c(0)=1$, $p(0)c'(0)=0$ and $s(0)=0$, $p(0)s'(0)=1$. The eigenvalues $\lambda_n$ correspond to $\Delta=1$.</p>
+<p>Let us first review two famous examples.</p>
+<p>If $p(x)=w(x)=1$, $q(x)=0$, on $[0,2\pi]$, we obtain</p>
+<p>$$ -u'' = \lambda u, $$</p>
+<p>with eigenfunctions $A\cos(\sqrt{\lambda_n}x)+B\sin(\sqrt{\lambda_n}x)$, and discrete and real eigenvalues $\lambda_n=n^2,n\geq0$, double for $n\geq1$ and simple for $n=0$. We can solve it in Chebfun as follows.</p>
+<pre class="mcode-input">L = chebop(@(u) -diff(u, 2), dom);
+L.bc = 'periodic';
+k = 5; % number of eigenvalues we want
+[V, D] = eigs(L, k);
+D = diag(D);
+figure, plot(V, LW, 2)</pre>
+
+<p><img src="img/FourierEigs_01.png" class="figure" alt=""></p>
+<p>The computed eigenvalues are very clsoe to the exact ones:</p>
+<pre class="mcode-input">Dexact = [0 1 1 4 4]';
+norm(D - Dexact, inf)</pre>
+
+<pre class="mcode-output">ans =
+     2.993161274389422e-13
+</pre>
+
+<p>The eigenfunctions are periodic</p>
+<pre class="mcode-input">V{1:end}</pre>
+
+<pre class="mcode-output">ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]        5       0.4      0.4 
+Epslevel = 1.000000e-10.  Vscale = 3.989423e-01.
+ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]        5     -0.56    -0.56 
+Epslevel = 1.000000e-10.  Vscale = 5.632210e-01.
+ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]        5    -0.033   -0.033 
+Epslevel = 1.000000e-10.  Vscale = 5.458664e-01.
+ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]        5      0.52     0.52 
+Epslevel = 1.000000e-10.  Vscale = 5.495700e-01.
+ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]        5      0.22     0.22 
+Epslevel = 1.000000e-10.  Vscale = 5.621038e-01.
+</pre>
+
+<p>and satisfy the differential equation to high precision:</p>
+<pre class="mcode-input">norm(L*V - D.'.*V, inf)</pre>
+
+<pre class="mcode-output">ans =
+     2.441382023106272e-13
+</pre>
+
+<p>If $p(x)=w(x)=1$, $q(x)=2q\cos(2x)$, we obtain the Mathieu equations</p>
+<p>$$ -u'' + 2q\cos(2x)u = \lambda u. $$</p>
+<p>They have been studied by the French mathematician \'Emile Mathieu to model the vibrations of elliptical drumheads [2]. Given $q\neq 0$, the eigenvalues $\lambda(q)$ associated with periodic eigenfunctions are called the characteristic values of the Mathieu equations. It can be shown that there exists a countably infinite set of real characteristic values $\lambda_n(q),n\geq0$, double for $n\geq1$ and simple for $n=0$, with elliptic cosine and sine eigenfunctions, the Mathieu functions.</p>
+<pre class="mcode-input">q = 2;
+L = chebop(@(x, u) -diff(u, 2) + 2*q*cos(2*x).*u, dom);
+L.bc = 'periodic';
+k = 5; % number of eigenvalues we want
+[V, D] = eigs(L, k);
+D = diag(D);
+figure, plot(V, LW, 2)</pre>
+
+<p><img src="img/FourierEigs_02.png" class="figure" alt=""></p>
+<p>The computed eigenvalues are very close to the eigenvalues obtained with WolframAlpha:</p>
+<pre class="mcode-input">Dwolfram = [ -1.513956885056520;
+             -1.390676501225323;
+              2.379199880488686;
+              3.672232706497191;
+              5.172665133358294 ];
+norm(D - Dwolfram, inf)</pre>
+
+<pre class="mcode-output">ans =
+     3.361755318564974e-13
+</pre>
+
+<p>Again, the eigenfunctions are periodic</p>
+<pre class="mcode-input">V{1:end}</pre>
+
+<pre class="mcode-output">ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]       29      0.11     0.11 
+Epslevel = 1.000000e-10.  Vscale = 6.469300e-01.
+ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]       29   5.1e-14  5.1e-14 
+Epslevel = 1.000000e-10.  Vscale = 6.678125e-01.
+ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]       29     -0.39    -0.39 
+Epslevel = 1.000000e-10.  Vscale = 4.871346e-01.
+ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]       29  -2.8e-14 -2.8e-14 
+Epslevel = 1.000000e-10.  Vscale = 5.773752e-01.
+ans =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]       29      0.59     0.59 
+Epslevel = 1.000000e-10.  Vscale = 5.917415e-01.
+</pre>
+
+<p>and satisfy the differential equation to high precision:</p>
+<pre class="mcode-input">norm(L*V - D.'.*V, inf)</pre>
+
+<pre class="mcode-output">ans =
+     6.625597141132941e-09
+</pre>
+
+<h3 id="references">References</h3>
+<p>[1] G. Teschl, <em>Ordinary Differential Equations and Dynamical Systems</em>, Graduate Studies in Mathematics, American Mathematical Society, Providence RI, 2012.</p>
+<p>[2] E. Mathieu, <em>M\'emoire sur le mouvement vibratoire d'une membrane de forme elliptique</em>, Journal de math\'ematiques pures et appliqu\'ees, 13 (1868), pp. 137--203.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

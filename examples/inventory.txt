@@ -160,7 +160,9 @@ stats/UniformExercises.m
 temp/BinousShaikhBellagi.m
 temp/ClosedContours.m
 temp/CompactingColloids.m
+temp/EpidemiologicalModels.m
 temp/FourierCollocation.m
+temp/FourierEigs.m
 temp/IntegroDiffT.m
 temp/OpticalResponse.m
 veccalc/AutonomousSystems.m

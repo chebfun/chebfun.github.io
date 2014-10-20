@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Compartmental models in epidemiology &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Compartmental models in epidemiology</h1>
+<h2>Hrothgar, 21 October 2014<span><a href='/examples/temp/EpidemiologicalModels.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/temp/EpidemiologicalModels.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';</pre>
+
+<p>Many mathematical models exist for the spread of diseases. This is partly because as epidemiology matured, more sophisticated models were developed. It is also because not all diseases spread in the same fashion. In this Example we explore some of the more well-known models of disease spread. All of the models presented are called "compartmental" models because they group members of a population into compartments -- for example, "infected" and "uninfected" -- which interact according to a system of differential equations.</p>
+<p>The systems of ODEs in this Example are initial value problems, and their solution on large domains is made possible by Chebfun's new IVP capabilities.</p>
+<h3 id="sir-model">SIR model</h3>
+<p>The most famous mathematical model of epidemics is the SIR model. This model groups members of a fixed population as susceptible (S), infected (I), or recovered (R). The dynamics dictate a one-way track: susceptible members may become infected, and infected individuals may recover, but that is all. So beginning with a nonzero number of infected people, then after enough time everyone ends up "recovered" (which is a word also used to mean "dead").</p>
+<p>The model is a great simplification of how most diseases actually spread: it ignores incubation period; it assumes full contact among the whole population, ignoring geographic constraints; it assumes everyone is equally susceptible to the disease; and it treats the population as being continuous rather than discrete. Nevertheless, its assumptions about immunity make it a good model for measles, mumps, and rubella, which are all highly contagious diseases that infected people eventually develop an immunity to.</p>
+<p>The SIR equations are $$ \frac{d S}{d t} = -c I S, $$ $$ \frac{d I}{d t} = c I S - r I, $$ $$ \frac{d R}{d t} = r I. $$ The positive constants $c$ and $r$ are called the contact rate (or transmission rate) and recovery rate, and are determined empirically for a given disease. Looking at the for a while, you'll see that these equations all make sense intuitively. For example, the rate of increase of the population of "recovered" individuals is proportional to the size of infected individuals.</p>
+<p>Here is a chebop for the SIR model.</p>
+<pre class="mcode-input">contact_rate  = .003;
+recovery_rate = .3;
+
+op = @(x,S,I,R) [ ...
+    diff(S) + contact_rate*I.*S
+    diff(I) - contact_rate*I.*S + recovery_rate*I
+    diff(R) - recovery_rate*I
+    ];
+
+N = chebop(op, [0,30]);</pre>
+
+<p>The initial conditions will be that out of population of 501 there is a single infected individual.</p>
+<pre class="mcode-input">N.lbc = @(S,I,R) [ ...
+        S - 500
+        I - 1
+        R
+    ];</pre>
+
+<p>We will use chebop's nonlinear backslash syntax to solve the problem. The <code>deal</code> method allows the solution components to be dealt to multiple outputs.</p>
+<pre class="mcode-input">[S,I,R] = deal(N\0);</pre>
+
+<p>Here is a plot of the solution.</p>
+<pre class="mcode-input">plot([S I R])
+legend('S','I','R')
+title('SIR model')
+xlabel('x')</pre>
+
+<p><img src="img/EpidemiologicalModels_01.png" class="figure" alt=""></p>
+<p>So beginning from a small fraction of infected people, eventually the entire population gets the disease and recovers (or dies). Notice that if $I(0)=0$, the solution component for $I$ would be the steady function $I(t)=0$, which is an unstable (and biologically accurate) equilibrium of the system.</p>
+<p>The model wouldn't be very realistic if the population size varied over time, so let us verify that it is constant.</p>
+<pre class="mcode-input">plot(S+I+R)
+title('total population size')
+ylim([0 600])</pre>
+
+<p><img src="img/EpidemiologicalModels_02.png" class="figure" alt=""></p>
+<p>It can also be seen from the differential equations that the population is constant by adding the equations together.</p>
+<h3 id="sir-with-vital-dynamics">SIR with vital dynamics</h3>
+<p>The SIR model described above encounters problems when imposed on a long time horizen. In particular, it assumes that members of the population stick around forever. A modified version of the SIR model accounts for the <em>vital dynamics</em> -- that is, birth and death -- of members of the population.</p>
+<p>SIR with vital dynamics still assumes a constant population size, but it includes a birth rate and death rate (of equal magnitude) that assures that members of the population are replaced by susceptible individuals over time. The equations are $$ \frac{d S}{d t} = \mu N - \mu S - \frac{c}{N} I S, $$ $$ \frac{d I}{d t} = \frac{c}{N} I S - (r+\mu) I, $$ $$ \frac{d R}{d t} = r I - \mu R, $$ where $\mu$ is the birth and death rate and $N$ is the total population size. The other constants have changed to account for the fact that the total population size is worked into the equations.</p>
+<pre class="mcode-input">N = 501;
+birth_rate    = .08;
+contact_rate  = 7;
+recovery_rate = 3;
+
+op = @(x,S,I,R) [ ...
+    diff(S) - birth_rate*N + birth_rate*S + contact_rate/N*I.*S
+    diff(I) - contact_rate/N*I.*S + (recovery_rate+birth_rate)*I
+    diff(R) - recovery_rate*I + birth_rate*R
+    ];
+
+N = chebop(op, [0,50]);</pre>
+
+<p>Let's keep the same initial conditions as before.</p>
+<pre class="mcode-input">N.lbc = @(S,I,R) [ ...
+        S - 500
+        I - 1
+        R
+    ];</pre>
+
+<p>What does the solution look like now?</p>
+<pre class="mcode-input">[S,I,R] = deal(N\0);
+
+plot([S I R])
+legend('S','I','R')
+title('SIR model with vital dynamics')
+xlabel('x')</pre>
+
+<p><img src="img/EpidemiologicalModels_03.png" class="figure" alt=""></p>
+<p>And again we can verify that the population is constant.</p>
+<pre class="mcode-input">norm(diff(S+I+R))</pre>
+
+<pre class="mcode-output">ans =
+     6.846441993590116e-10
+</pre>
+
+<p>The vital dynamics therefore introduct a qualitative change in the solution in that its components are no longer unimodal. Because the population becomes susceptible again over time, there are intermittent outbreaks of the disease. Eventually, however, the situation stabilizes.</p>
+<h3 id="seir">SEIR</h3>
+<p>The SEIR model expands upon the SIR model by adding an intermediate compartment ("exposed") for people who have been infected but are not themselves infectious yet. The "exposed" category is significant for diseases like influenza that have an incubation period.</p>
+<p>The equations of the SEIR model are $$ \frac{d S}{d t} = \mu N - \mu S - \frac{c}{N} I S, $$ $$ \frac{d E}{d t} = \frac{c}{N} I S - (a+\mu) E, $$ $$ \frac{d I}{d t} = aE - (r+\mu) I, $$ $$ \frac{d R}{d t} = r I - \mu R, $$ where $a^{-1}$ is the average incubation period of the contagion.</p>
+<pre class="mcode-input">N = 501;
+birth_rate        = .08;
+incubation_period = 5;
+contact_rate      = 8;
+recovery_rate     = 3;
+
+op = @(x,S,E,I,R) [ ...
+    diff(S) - birth_rate*N + birth_rate*S + contact_rate/N*I.*S
+    diff(E) - contact_rate/N*I.*S + (incubation_period+birth_rate)*E
+    diff(I) - incubation_period*E + (recovery_rate+birth_rate)*I
+    diff(R) - recovery_rate*I + birth_rate*R
+    ];
+
+N = chebop(op, [0,30]);</pre>
+
+<p>We will modify the initial conditions so that a single person is <em>exposed</em> but not yet infectious.</p>
+<pre class="mcode-input">N.lbc = @(S,E,I,R) [ ...
+        S - 500
+        E - 1
+        I
+        R
+    ];</pre>
+
+<p>Here is the solution to the SEIR model.</p>
+<pre class="mcode-input">[S,E,I,R] = deal(N\0);
+
+plot([S E I R])
+legend('S','E','I','R')
+title('SEIR model with vital dynamics')
+xlabel('x')</pre>
+
+<p><img src="img/EpidemiologicalModels_04.png" class="figure" alt=""></p>
+<p>And once more, verify the total population is constant:</p>
+<pre class="mcode-input">norm(diff(S+E+I+R))</pre>
+
+<pre class="mcode-output">ans =
+     1.153811870942051e-09
+</pre>
+
+<h3 id="other-models">Other models</h3>
+<p>There are endless variants of the basic SIR model to include factors like passive immunity, variable transmission rates, stochastic processes, noise, external factors (like the mosquitoe population in the case of malaria), geographic setting, and so on.</p>
+<h3 id="references">References</h3>
+<p>[1] Daley, D. J. &amp; Gani, J. <em>Epidemic Modeling: An Introduction.</em>     NY: Cambridge University Press (2005).</p>
+<p>[2] <a href="https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology">Wikipedia: Compartmental models in      epidemiology</a></p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
