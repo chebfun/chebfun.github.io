@@ -121,14 +121,14 @@ plot(t_eq, I(t_eq), 'k.', MS, 15)
 %%
 % What about the instantaneous mortality rate? A natural measure of
 % mortality rate is
-% $$ M(t) = \frac{(1-\rho) R(t)}{\int_0^t S(\xi) d\xi}, $$
-% where $0\leq\rho\leq 1$ denotes the average fraction of people who die
-% from the disease. That is, the mortality rate is the number of recovered
-% people over the total number of infected people. Here is the instantaneous
-% mortality rate as a function of time.
+% $$ M(t) = \frac{\rho R(t)}{\int_0^t S(\xi) d\xi}, $$
+% where $0\leq\rho\leq 1$ denotes the average fraction of people who die from
+% the disease. That is, the mortality rate at time $t$ is the number of
+% recovered people over the total number of people who have been infected up
+% to time $t$. Here is the instantaneous mortality rate as a function of time.
 hold off
 rho = .4;                   % 40 percent of infected people die
-plot((1-rho)*R./cumsum(I))  % The instantaneous mortality rate
+plot(rho*R./cumsum(I))      % The instantaneous mortality rate
 ylim([0 1])
 xlabel('t')
 title('Instantaneous mortality rate for the SIR model')
@@ -139,10 +139,10 @@ title('Instantaneous mortality rate for the SIR model')
 % always true. In the case of the current Ebola outbreak in West Africa, for
 % instance, other factors are at play to make the transmission rate $c$
 % variable, actually an increasing function of time. When the transmission
-% rate $c$ is increasing -- so $dc(t)/dt > 0$ -- the number of infected people
+% rate $c$ is increasing so $dc(t)/dt > 0$, the number of infected people
 % increases faster than the already-infected people have a chance to die, so
 % the instantaneous mortality rate actually _decreases_. Once the infection
-% levels peak, however, the mortality rate will skyrocket.
+% levels peak, however, the mortality rate skyrockets.
 
 
 %% SIR with vital dynamics

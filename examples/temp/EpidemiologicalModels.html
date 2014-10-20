@@ -123,16 +123,16 @@ plot(t_eq, I(t_eq), 'k.', MS, 15)</pre>
 
 <p><img src="img/EpidemiologicalModels_03.png" class="figure" alt=""></p>
 <p>Chebfun makes such computations embarrassingly easy.</p>
-<p>What about the instantaneous mortality rate? A natural measure of mortality rate is $$ M(t) = \frac{(1-\rho) R(t)}{\int_0^t S(\xi) d\xi}, $$ where $0\leq\rho\leq 1$ denotes the average fraction of people who die from the disease. That is, the mortality rate is the number of recovered people over the total number of infected people. Here is the instantaneous mortality rate as a function of time.</p>
+<p>What about the instantaneous mortality rate? A natural measure of mortality rate is $$ M(t) = \frac{\rho R(t)}{\int_0^t S(\xi) d\xi}, $$ where $0\leq\rho\leq 1$ denotes the average fraction of people who die from the disease. That is, the mortality rate at time $t$ is the number of recovered people over the total number of people who have been infected up to time $t$. Here is the instantaneous mortality rate as a function of time.</p>
 <pre class="mcode-input">hold off
 rho = .4;                   % 40 percent of infected people die
-plot((1-rho)*R./cumsum(I))  % The instantaneous mortality rate
+plot(rho*R./cumsum(I))      % The instantaneous mortality rate
 ylim([0 1])
 xlabel('t')
 title('Instantaneous mortality rate for the SIR model')</pre>
 
 <p><img src="img/EpidemiologicalModels_04.png" class="figure" alt=""></p>
-<p>For this model, it is perhaps unsurprising that the instantaneous mortality rate is constant. But it is important to note that in reality that is not always true. In the case of the current Ebola outbreak in West Africa, for instance, other factors are at play to make the transmission rate $c$ variable, actually an increasing function of time. When the transmission rate $c$ is increasing -- so $dc(t)/dt &gt; 0$ -- the number of infected people increases faster than the already-infected people have a chance to die, so the instantaneous mortality rate actually <em>decreases</em>. Once the infection levels peak, however, the mortality rate will skyrocket.</p>
+<p>For this model, it is perhaps unsurprising that the instantaneous mortality rate is constant. But it is important to note that in reality that is not always true. In the case of the current Ebola outbreak in West Africa, for instance, other factors are at play to make the transmission rate $c$ variable, actually an increasing function of time. When the transmission rate $c$ is increasing so $dc(t)/dt &gt; 0$, the number of infected people increases faster than the already-infected people have a chance to die, so the instantaneous mortality rate actually <em>decreases</em>. Once the infection levels peak, however, the mortality rate skyrockets.</p>
 <h3 id="sir-with-vital-dynamics">SIR with vital dynamics</h3>
 <p>The SIR model described above encounters problems when imposed on a long time horizen. In particular, it assumes that members of the population stick around forever. A modified version of the SIR model accounts for the <em>vital dynamics</em> -- that is, birth and death -- of members of the population.</p>
 <p>SIR with vital dynamics still assumes a constant population size, but it includes a birth rate and death rate (of equal magnitude) that assures that members of the population are replaced by susceptible individuals over time. The equations are $$ \frac{d S}{d t} = \mu N - \mu S - \frac{c}{N} I S, $$ $$ \frac{d I}{d t} = \frac{c}{N} I S - (r+\mu) I, $$ $$ \frac{d R}{d t} = r I - \mu R, $$ where $\mu$ is the birth and death rate and $N$ is the total population size. The other constants have changed to account for the fact that the total population size is worked into the equations.</p>
