@@ -11,7 +11,7 @@ if exist(folder) ~= 7
     mkdir(folder)
 end
 
-pathpath = '/Users/hrothgar/Dropbox/chebfun/examples/';
+pathpath = '/Users/hrothgar/chebfun/examples/';
 egname = [folder '/' examplename '.m'];
 copyfile([pathpath egname], egname);
 

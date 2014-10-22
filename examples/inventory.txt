@@ -163,6 +163,7 @@ temp/CompactingColloids.m
 temp/EpidemiologicalModels.m
 temp/FourierCollocation.m
 temp/FourierEigs.m
+temp/FourierExpm.m
 temp/IntegroDiffT.m
 temp/OpticalResponse.m
 veccalc/AutonomousSystems.m
