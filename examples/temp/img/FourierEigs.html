@@ -36,7 +36,7 @@ k = 5; % number of eigenvalues we want
 D = diag(D);
 figure, plot(V, LW, 2)</pre><img src="img/FourierEigs_01.png" class="figure" alt="">
 
-The computed eigenvalues are very clsoe to the exact ones:
+The computed eigenvalues are very close to the exact ones:
 
 <pre class="mcode-input">Dexact = [0 1 1 4 4]';
 norm(D - Dexact, inf)</pre><pre class="mcode-output">ans =
@@ -76,7 +76,7 @@ Epslevel = 1.000000e-10.  Vscale = 5.621038e-01.
 
 $$ -u'' + 2q\cos(2x)u = \lambda u. $$
 
-They have been studied by the French mathematician \'Emile Mathieu to model the vibrations of elliptical drumheads [2]. Given $q\neq 0$, the eigenvalues $\lambda(q)$ associated with periodic eigenfunctions are called the characteristic values of the Mathieu equations. It can be shown that there exists a countably infinite set of real characteristic values $\lambda_n(q),n\geq0$, double for $n\geq1$ and simple for $n=0$, with elliptic cosine and sine eigenfunctions, the Mathieu functions.
+They have been studied by the French mathematician Emile Mathieu to model the vibrations of elliptical drumheads [2]. Given $q\neq 0$, the eigenvalues $\lambda(q)$ associated with periodic eigenfunctions are called the characteristic values of the Mathieu equations. It can be shown that there exists a countably infinite set of real characteristic values $\lambda_n(q),n\geq0$, double for $n\geq1$ and simple for $n=0$, with elliptic cosine and sine eigenfunctions, the Mathieu functions.
 
 <pre class="mcode-input">q = 2;
 L = chebop(@(x, u) -diff(u, 2) + 2*q*cos(2*x).*u, dom);
@@ -132,5 +132,5 @@ Epslevel = 1.000000e-10.  Vscale = 5.917415e-01.
 
 [1] G. Teschl, _Ordinary Differential Equations and Dynamical Systems_, Graduate Studies in Mathematics, American Mathematical Society, Providence RI, 2012.
 
-[2] E. Mathieu, _M\'emoire sur le mouvement vibratoire d'une membrane de forme elliptique_, Journal de math\'ematiques pures et appliqu\'ees, 13 (1868), pp. 137--203.
+[2] E. Mathieu, _Memoire sur le mouvement vibratoire d'une membrane de forme elliptique_, Journal de mathematiques pures et appliquees, 13 (1868), pp. 137--203.
 

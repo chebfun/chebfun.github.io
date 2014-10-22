@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Time-dependent PDEs on a periodic interval &raquo; Chebfun</title>
+    <title>Nonlinear Periodic ODE &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" /> 
@@ -52,8 +52,8 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1>Time-dependent PDEs on a periodic interval</h1>
-<h2>Hadrien Montanelli, October 2014<span><a href='/examples/temp/FourierExpm.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/temp/FourierExpm.m'>view on GitHub</a></span></h2>
+<h1>Nonlinear Periodic ODE</h1>
+<h2>Hadrien Montanelli, October 2014<span><a href='/examples/temp/FourierCollocationNonLin.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/temp/FourierCollocationNonLin.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
@@ -61,49 +61,55 @@
 <div id='content' class="col-sm-12 example" role="main">
 <pre class="mcode-input">LW = 'linewidth'; dom = [0 2*pi];</pre>
 
-<p>Consider the time-dependent PDE</p>
-<p>$$ u_t = \mathcal{L}u, $$</p>
-<p>on $[0,2\pi]\times[0,\infty)$, with a given periodic initial condition $u(x,0)$. We seek periodic solutions $u(x,t)$. If the operator $\mathcal{L}$ is semi-bounded, this problem is well-posed [1], and the unique solution is given by</p>
-<p>$$ u(x,t) = e^{\mathcal{L}t}u(x,0). $$</p>
-<p>Two examples of well-posed problems are the heat equation, $\mathcal{L}u=u_{xx}$, and the convection equation, $\mathcal{L}u=c(x)u_x$.</p>
-<p>Consider first the heat equation</p>
-<p>$$ u_t = u_{xx}, $$</p>
-<p>on $[0,2\pi]\times[0, 1]$, with periodic boundary conditions, and initial condition $u(x,0)=\sin(3x)$. We can solve it in Chebfun as follows with the <code>expm</code> command.</p>
-<pre class="mcode-input">T = 1; dt = 0.05;
-t = [0:dt:T];
-L = chebop(@(u) diff(u, 2), dom);
-L.bc = 'periodic';
-u0 = chebfun(@(x) sin(3*x), dom);
-u = expm(L, t, u0);
-figure, waterfall(u, t, LW, 2)
-view(10, 70), axis([0 2*pi 0 T -1 1])</pre>
+<p>Chebfun uses Fourier-collocation to solve linear, non linear and system of ODEs with periodic boundary conditions. Consider the following nonlinear ODE</p>
+<p>$$ u' - u\cos(u) = \cos(4x), $$</p>
+<p>on [0, 2*pi], with periodic boundary conditions. For nonlinear ODEs, we need to specify an intial guess; let us try $\cos(x)$. We can solve the ODE on Chebfun as follows.</p>
+<pre class="mcode-input">f = chebfun(@(x) cos(4*x), dom);
+N = chebop(@(u) diff(u) - u.*cos(u), dom);
+N.bc = 'periodic';
+N.init = chebfun(@(x) cos(x), dom);
+u = N \ f</pre>
 
-<p><img src="img/FourierExpm_01.png" class="figure" alt=""></p>
-<p>The diffusion has done its job: the solution at $T=1$ has very small amplitude.</p>
-<pre class="mcode-input">norm(u{end})</pre>
-
-<pre class="mcode-output">ans =
-     2.187381824929041e-04
+<pre class="mcode-output">u =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]       89    -0.058   -0.058 
+Epslevel = 2.331417e-15.  Vscale = 2.428494e-01.
 </pre>
 
-<p>Let us solve now the convection equation</p>
-<p>$$ u_t = c(x)u_x, $$</p>
-<p>on $[0,2\pi]\times[0, 20]$, with $c(x)= -\frac{1}{5}-\sin^2(x-1))$, periodic boundary conditions, and initial condition $u(x,0)=\exp(-100(x-1)^2)$.</p>
-<pre class="mcode-input">T = 20; dt = 0.5;
-t = [0:dt:T];
-c = chebfun(@(x) -(1/5 + sin(x-1).^2), dom);
-L = chebop(@(x,u) c.*diff(u, 1), dom);
-L.bc = 'periodic';
-u0 = chebfun(@(x) exp(-100*(x-1).^2), dom);
-u = expm(L, t, u0);
-figure, waterfall(u, t, LW, 2)
-view(10, 70), axis([0 2*pi 0 T 0 1])</pre>
+<p>Let us plot the initial guess in green, the right-hand side in red, and the solution in blue.</p>
+<pre class="mcode-input">figure, plot(N.init, 'g', LW, 2)
+hold on, plot(f, 'r', LW, 2)
+hold on, plot(u, 'b', LW, 2)</pre>
 
-<p><img src="img/FourierExpm_02.png" class="figure" alt=""></p>
-<p>This example from [2] shows the propagation of the initial condition at variable speed, which remains coherent and clean.</p>
-<h3 id="references">References.</h3>
-<p>[1] J. S. Hesthaven, S. Gottlieb, and D. Gottlied, <em>Spectral Methods for Time-Dependent Problems</em>, Cambridge University Press, New York, 2007.</p>
-<p>[2] L. N. Trefethen, <em>Spectral Methods in MATLAB</em>, SIAM, Philadelphia, 2000.</p></div>
+<p><img src="img/FourierCollocationNonLin_01.png" class="figure" alt=""></p>
+<p>The solution $u(x)$ satisfies the ODE to high accuracy:</p>
+<pre class="mcode-input">norm(N*u - f, inf)</pre>
+
+<pre class="mcode-output">ans =
+     3.374973245168419e-12
+</pre>
+
+<p>If we start with an other initial guess, we obtain an other solution. Let us try $\sin(x)^2$, plot it in dashed green, and plot the solution in dashed blue.</p>
+<pre class="mcode-input">N.init = chebfun(@(x) sin(x).^2, dom);
+v = N \ f
+hold on, plot(N.init, '--g', LW, 2)
+hold on, plot(v, '--b', LW, 2)</pre>
+
+<pre class="mcode-output">v =
+   chebfun column (1 smooth piece)
+       interval       length   endpoint values periodic
+[       0,     6.3]       81       1.6      1.6 
+Epslevel = 1.776357e-15.  Vscale = 1.785953e+00.
+</pre>
+
+<p><img src="img/FourierCollocationNonLin_02.png" class="figure" alt=""></p>
+<p>The solution $v(x)$ satisfies the ODE to high accuracy too:</p>
+<pre class="mcode-input">norm(N*v - f, inf)</pre>
+
+<pre class="mcode-output">ans =
+     1.823588159073624e-12
+</pre></div>
         </div>
     </div>
 </div>

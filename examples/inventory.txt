@@ -162,6 +162,7 @@ temp/ClosedContours.m
 temp/CompactingColloids.m
 temp/EpidemiologicalModels.m
 temp/FourierCollocation.m
+temp/FourierCollocationNonLin.m
 temp/FourierEigs.m
 temp/FourierExpm.m
 temp/IntegroDiffT.m
