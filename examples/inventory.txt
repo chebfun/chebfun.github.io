@@ -158,7 +158,6 @@ stats/ProbabilityConvolution.m
 stats/ResamplingRandomVariables.m
 stats/UniformExercises.m
 temp/BinousShaikhBellagi.m
-temp/ClosedContours.m
 temp/CompactingColloids.m
 temp/EpidemiologicalModels.m
 temp/FourierCollocation.m
@@ -166,7 +165,6 @@ temp/FourierCollocationNonLin.m
 temp/FourierEigs.m
 temp/FourierExpm.m
 temp/IntegroDiffT.m
-temp/OpticalResponse.m
 veccalc/AutonomousSystems.m
 veccalc/CheckingVectorCalculus.m
 veccalc/UndergraduateCalculus.m
