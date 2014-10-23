@@ -63,7 +63,7 @@
 
 <p>Chebfun uses Fourier-collocation to solve linear, non linear and system of ODEs with periodic boundary conditions. Consider the following nonlinear ODE</p>
 <p>$$ u' - u\cos(u) = \cos(4x), $$</p>
-<p>on [0, 2*pi], with periodic boundary conditions. For nonlinear ODEs, we need to specify an intial guess; let us try $\cos(x)$. We can solve the ODE on Chebfun as follows.</p>
+<p>on $[0, 2\pi]$, with periodic boundary conditions. For nonlinear ODEs, we need to specify an intial guess; let us try $\cos(x)$. We can solve the ODE on Chebfun as follows.</p>
 <pre class="mcode-input">f = chebfun(@(x) cos(4*x), dom);
 N = chebop(@(u) diff(u) - u.*cos(u), dom);
 N.bc = 'periodic';

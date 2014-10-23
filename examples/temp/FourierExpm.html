@@ -80,15 +80,15 @@ view(10, 70), axis([0 2*pi 0 T -1 1])</pre>
 
 <p><img src="img/FourierExpm_01.png" class="figure" alt=""></p>
 <p>The diffusion has done its job: the solution at $T=1$ has very small amplitude.</p>
-<pre class="mcode-input">norm(u{end})</pre>
+<pre class="mcode-input">norm(u{end}, inf)</pre>
 
 <pre class="mcode-output">ans =
-     2.187381824929041e-04
+     1.234098040882596e-04
 </pre>
 
 <p>Let us solve now the convection equation</p>
 <p>$$ u_t = c(x)u_x, $$</p>
-<p>on $[0,2\pi]\times[0, 20]$, with $c(x)= -\frac{1}{5}-\sin^2(x-1))$, periodic boundary conditions, and initial condition $u(x,0)=\exp(-100(x-1)^2)$.</p>
+<p>on $[0,2\pi]\times[0, 20]$, with $c(x)= -\frac{1}{5}-\sin^2(x-1)$, periodic boundary conditions, and initial condition $u(x,0)=\exp(-100(x-1)^2)$.</p>
 <pre class="mcode-input">T = 20; dt = 0.5;
 t = [0:dt:T];
 c = chebfun(@(x) -(1/5 + sin(x-1).^2), dom);
