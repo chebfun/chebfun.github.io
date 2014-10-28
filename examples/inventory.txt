@@ -159,6 +159,7 @@ stats/ResamplingRandomVariables.m
 stats/UniformExercises.m
 temp/BinousShaikhBellagi.m
 temp/CompactingColloids.m
+temp/Floquet.m
 temp/FourierCollocation.m
 temp/FourierCollocationNonLin.m
 temp/FourierEigs.m
