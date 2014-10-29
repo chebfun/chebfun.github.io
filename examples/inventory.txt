@@ -89,6 +89,7 @@ ode-linear/AdvDiffJump.m
 ode-linear/BoundaryLayer.m
 ode-linear/DawsonIntegral.m
 ode-linear/DynamicalSystems.m
+ode-linear/Floquet.m
 ode-linear/LeeGreengardODEs.m
 ode-linear/LinearIVP.m
 ode-linear/LinExpIVP.m
@@ -111,6 +112,7 @@ ode-nonlin/FourBugs.m
 ode-nonlin/Logistic.m
 ode-nonlin/Logistic2.m
 ode-nonlin/LorenzAttractor.m
+ode-nonlin/ModellingDiseases.m
 ode-nonlin/Orbits.m
 ode-nonlin/ParamODEs.m
 ode-nonlin/ThreeBodyProblem.m
