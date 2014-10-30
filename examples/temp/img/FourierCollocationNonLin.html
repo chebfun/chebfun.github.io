@@ -5,11 +5,11 @@ authordate: "Hadrien Montanelli, October 2014"
 meta: "(Chebfun example temp/FourierCollocationNonLin) [Tags: #nonlinearODE, #periodic]"
 ---
 
-<pre class="mcode-input">LW = 'linewidth'; dom = [0 2*pi];</pre>Chebfun uses Fourier-collocation to solve linear, non linear and system of ODEs with periodic boundary conditions. Consider the following nonlinear ODE
+<pre class="mcode-input">LW = 'linewidth'; dom = [0 2*pi];</pre>Chebfun uses Fourier collocation to solve linear, nonlinear and systems of ODEs with periodic boundary conditions. Consider the nonlinear ODE
 
 $$ u' - u\cos(u) = \cos(4x), $$
 
-on $[0, 2\pi]$, with periodic boundary conditions. For nonlinear ODEs, we need to specify an intial guess; let us try $\cos(x)$. We can solve the ODE on Chebfun as follows.
+on $[0, 2\pi]$, with periodic boundary conditions. For nonlinear ODEs, we need to specify an intial guess; let us try $\cos(x)$. We can solve the ODE in Chebfun as follows.
 
 <pre class="mcode-input">f = chebfun(@(x) cos(4*x), dom);
 N = chebop(@(u) diff(u) - u.*cos(u), dom);
@@ -20,22 +20,21 @@ u = N \ f</pre><pre class="mcode-output">u =
        interval       length   endpoint values periodic
 [       0,     6.3]       89    -0.058   -0.058 
 Epslevel = 2.331417e-15.  Vscale = 2.428494e-01.
-</pre>Let us plot the initial guess in green, the right-hand side in red, and the solution in blue.
+</pre>Let us plot the initial guess in dashed blue, and the solution in blue.
 
-<pre class="mcode-input">figure, plot(N.init, 'g', LW, 2)
-hold on, plot(f, 'r', LW, 2)
+<pre class="mcode-input">figure, plot(N.init, '--b', LW, 2)
 hold on, plot(u, 'b', LW, 2)</pre><img src="img/FourierCollocationNonLin_01.png" class="figure" alt="">
 
 The solution $u(x)$ satisfies the ODE to high accuracy:
 
 <pre class="mcode-input">norm(N*u - f, inf)</pre><pre class="mcode-output">ans =
      3.374973245168419e-12
-</pre>If we start with an other initial guess, we obtain an other solution. Let us try $\sin(x)^2$, plot it in dashed green, and plot the solution in dashed blue.
+</pre>If we start with another initial guess, we might obtain another solution. Let us try $\sin(x)^2$, plot it in dashed green, and plot the solution in green.
 
 <pre class="mcode-input">N.init = chebfun(@(x) sin(x).^2, dom);
 v = N \ f
 hold on, plot(N.init, '--g', LW, 2)
-hold on, plot(v, '--b', LW, 2)</pre><pre class="mcode-output">v =
+hold on, plot(v, 'g', LW, 2)</pre><pre class="mcode-output">v =
    chebfun column (1 smooth piece)
        interval       length   endpoint values periodic
 [       0,     6.3]       81       1.6      1.6 
@@ -46,4 +45,5 @@ The solution $v(x)$ satisfies the ODE to high accuracy too:
 
 <pre class="mcode-input">norm(N*v - f, inf)</pre><pre class="mcode-output">ans =
      1.823588159073624e-12
-</pre>
+</pre>For nonlinear ODEs, the relationships between intial guesses and solutions are difficult to analyse. In this example, we chose two different guesses, and this led to two different solutions.
+

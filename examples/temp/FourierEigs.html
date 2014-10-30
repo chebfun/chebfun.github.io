@@ -77,13 +77,12 @@
 L.bc = 'periodic';
 k = 5; % number of eigenvalues we want
 [V, D] = eigs(L, k);
-D = diag(D);
 figure, plot(V, LW, 2)</pre>
 
 <p><img src="img/FourierEigs_01.png" class="figure" alt=""></p>
 <p>The computed eigenvalues are very close to the exact ones:</p>
 <pre class="mcode-input">Dexact = [0 1 1 4 4]';
-norm(D - Dexact, inf)</pre>
+norm(diag(D) - Dexact, inf)</pre>
 
 <pre class="mcode-output">ans =
      2.993161274389422e-13
@@ -120,7 +119,7 @@ Epslevel = 1.000000e-10.  Vscale = 5.621038e-01.
 </pre>
 
 <p>and satisfy the differential equation to high precision:</p>
-<pre class="mcode-input">norm(L*V - D.'.*V, inf)</pre>
+<pre class="mcode-input">norm(L*V - V*D, inf)</pre>
 
 <pre class="mcode-output">ans =
      2.441382023106272e-13
@@ -134,7 +133,6 @@ L = chebop(@(x, u) -diff(u, 2) + 2*q*cos(2*x).*u, dom);
 L.bc = 'periodic';
 k = 5; % number of eigenvalues we want
 [V, D] = eigs(L, k);
-D = diag(D);
 figure, plot(V, LW, 2)</pre>
 
 <p><img src="img/FourierEigs_02.png" class="figure" alt=""></p>
@@ -144,7 +142,7 @@ figure, plot(V, LW, 2)</pre>
               2.379199880488686;
               3.672232706497191;
               5.172665133358294 ];
-norm(D - Dwolfram, inf)</pre>
+norm(diag(D) - Dwolfram, inf)</pre>
 
 <pre class="mcode-output">ans =
      3.361755318564974e-13
@@ -181,7 +179,7 @@ Epslevel = 1.000000e-10.  Vscale = 5.917415e-01.
 </pre>
 
 <p>and satisfy the differential equation to high precision:</p>
-<pre class="mcode-input">norm(L*V - D.'.*V, inf)</pre>
+<pre class="mcode-input">norm(L*V - V*D, inf)</pre>
 
 <pre class="mcode-output">ans =
      6.625597141132941e-09

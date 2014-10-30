@@ -143,6 +143,10 @@ for i = 1:n
     end
 end</pre>
 
+<pre class="mcode-output">Warning: Vertical concatenation of CHEBFUN objects now produces a CHEBMATRIX
+The V4 behaviour can be reproduced using the JOIN() method. 
+</pre>
+
 <p>The periodicity of $P(t)$ is numerically confirmed by the construction of entries $P(i,j)(t)$ with the <code>periodic</code> flag, which would otherwise fail. The entries of the periodic solution are plotted below:</p>
 <pre class="mcode-input">for i = 1:n
     for j = 1:n
@@ -178,13 +182,13 @@ for i = 1:n
 end</pre>
 
 <p>Then, we obtain the solution by further mulitplying by the periodic matrix $P(t)$. Since $P(t)$ is periodic on $[0,T]$, there is no problem sampling it on a larger interval, unlike aperiodic chebfuns.</p>
-<pre class="mcode-input">xsol = chebfun(@(t) P{1,1}(t), 10*d, 'periodic').*temp(:,1);
+<pre class="mcode-input">xsol = chebfun(@(t) P{1,1}(t), 10*d).*temp(:,1);
 for i = 2:n
-    xsol = [xsol chebfun(@(t) P{i,1}(t), 10*d, 'periodic').*temp(:,1)];
+    xsol = [xsol chebfun(@(t) P{i,1}(t), 10*d).*temp(:,1)];
 end
 for i = 1:n
     for j = 2:n
-        xsol(:,i) = xsol(:,i) + chebfun(@(t) P{i,j}(t), 10*d, 'periodic').*temp(:,j);
+        xsol(:,i) = xsol(:,i) + chebfun(@(t) P{i,j}(t), 10*d).*temp(:,j);
     end
 end</pre>
 

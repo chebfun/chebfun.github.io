@@ -61,9 +61,9 @@
 <div id='content' class="col-sm-12 example" role="main">
 <pre class="mcode-input">LW = 'linewidth'; dom = [0 2*pi];</pre>
 
-<p>Chebfun uses Fourier-collocation to solve linear, non linear and system of ODEs with periodic boundary conditions. Consider the following nonlinear ODE</p>
+<p>Chebfun uses Fourier collocation to solve linear, nonlinear and systems of ODEs with periodic boundary conditions. Consider the nonlinear ODE</p>
 <p>$$ u' - u\cos(u) = \cos(4x), $$</p>
-<p>on $[0, 2\pi]$, with periodic boundary conditions. For nonlinear ODEs, we need to specify an intial guess; let us try $\cos(x)$. We can solve the ODE on Chebfun as follows.</p>
+<p>on $[0, 2\pi]$, with periodic boundary conditions. For nonlinear ODEs, we need to specify an intial guess; let us try $\cos(x)$. We can solve the ODE in Chebfun as follows.</p>
 <pre class="mcode-input">f = chebfun(@(x) cos(4*x), dom);
 N = chebop(@(u) diff(u) - u.*cos(u), dom);
 N.bc = 'periodic';
@@ -77,9 +77,8 @@ u = N \ f</pre>
 Epslevel = 2.331417e-15.  Vscale = 2.428494e-01.
 </pre>
 
-<p>Let us plot the initial guess in green, the right-hand side in red, and the solution in blue.</p>
-<pre class="mcode-input">figure, plot(N.init, 'g', LW, 2)
-hold on, plot(f, 'r', LW, 2)
+<p>Let us plot the initial guess in dashed blue, and the solution in blue.</p>
+<pre class="mcode-input">figure, plot(N.init, '--b', LW, 2)
 hold on, plot(u, 'b', LW, 2)</pre>
 
 <p><img src="img/FourierCollocationNonLin_01.png" class="figure" alt=""></p>
@@ -90,11 +89,11 @@ hold on, plot(u, 'b', LW, 2)</pre>
      3.374973245168419e-12
 </pre>
 
-<p>If we start with an other initial guess, we obtain an other solution. Let us try $\sin(x)^2$, plot it in dashed green, and plot the solution in dashed blue.</p>
+<p>If we start with another initial guess, we might obtain another solution. Let us try $\sin(x)^2$, plot it in dashed green, and plot the solution in green.</p>
 <pre class="mcode-input">N.init = chebfun(@(x) sin(x).^2, dom);
 v = N \ f
 hold on, plot(N.init, '--g', LW, 2)
-hold on, plot(v, '--b', LW, 2)</pre>
+hold on, plot(v, 'g', LW, 2)</pre>
 
 <pre class="mcode-output">v =
    chebfun column (1 smooth piece)
@@ -109,7 +108,9 @@ Epslevel = 1.776357e-15.  Vscale = 1.785953e+00.
 
 <pre class="mcode-output">ans =
      1.823588159073624e-12
-</pre></div>
+</pre>
+
+<p>For nonlinear ODEs, the relationships between intial guesses and solutions are difficult to analyse. In this example, we chose two different guesses, and this led to two different solutions.</p></div>
         </div>
     </div>
 </div>
