@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Computing eigenvalues by sampling the determinant &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" /> 
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Computing eigenvalues by sampling the determinant</h1>
+<h2>Jared Aurentz and Nick Trefethen, November 2014<span><a href='/examples/linalg/EigsViaDet.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/linalg/EigsViaDet.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">function EigsViaDet()</pre>
+
+<p>The eigenvalues of a matrix $A$ are the roots of the determinant function, $f(x) = det(xI-A)$.  If $A$ is real symmetric and tridiagonal and of dimension $N$, then $f(x)$ can be computed in $O(N)$ operations by the method known as Sturm sequences, described in many texts such as on p. 229 of [2] or p. 423 of [3]. Let $d_k$ denote the determinant of the upper-left $k\times k$ block of $A$, and let the diagonal and superdiagonal entries of $A$ be $a_k$ and $b_k$, respectively. Then the key observation, easily derived, is that the determinants satisfy a 3-term recurrence relation,</p>
+<p>$$ d_{n+1} = a_{n+1} d_n - b_n^2 d_{n-1} . $$</p>
+<p>It is salutary to note that we can easily vectorize this recurrence, which means that Chebfun can use it very efficiently to construct chebfuns corresponding to $f(x)$ over a prescribed interval.</p>
+<p>Here is our function for evaluating $f(x)$, which we will call <code>fdet</code>.</p>
+<pre class="mcode-input">     function fdet = fdet(x,a,b,N)
+         dold = ones(size(x));
+         d = x-a(1);
+         for k = 1:N-1
+             dnew = (x-a(k+1)).*d - b(k)^2.*dold;
+             dold = d; d = dnew;
+         end
+         fdet = d;
+     end</pre>
+
+<p>OK, let's try it.  Here is a matrix whose eigenvalues lie roughly in the interval $[-5,5]$:</p>
+<pre class="mcode-input">tic
+N = 100;
+randn('seed',1), rand('seed',1);
+a = 10*rand(N,1)-5;
+b = randn(N-1,1);
+A = spdiags([[b;0] a [0;b]],-1:1,N,N);</pre>
+
+<p>Here, computed the usual way, are the ``exact'' eigenvalues in the interval $[-1,1]$:</p>
+<pre class="mcode-input">format long
+e = eig(full(A)); e_exact = sort(e(abs(e)&lt;=1))</pre>
+
+<pre class="mcode-output">e_exact =
+  -0.916049473056702
+  -0.908771201152738
+  -0.872411788881769
+  -0.847029978770642
+  -0.702300256886522
+  -0.523074611773706
+  -0.419721560888930
+  -0.392287268836446
+  -0.089131356051227
+  -0.021632690024134
+   0.058193454716664
+   0.224377193199407
+   0.538622130914891
+   0.554225021522687
+   0.863765435107438
+   0.892225828854228
+   0.960747881712756
+</pre>
+
+<p>Here we make a chebfun of the determinant function:</p>
+<pre class="mcode-input">c = chebfun(@(x) fdet(x,a,b,N),[-1,1]);
+FS = 'fontsize'; LW = 'linewidth'; MS = 'markersize';
+plot(c,LW,1.6), grid on
+xlabel('x',FS,12)
+title('det(xI-A) as a chebfun',FS,12)</pre>
+
+<p><img src="img/EigsViaDet_01.png" class="figure" alt=""></p>
+<p>Now we compute its roots and compare them with the true eigenvalues.</p>
+<pre class="mcode-input">e_inexact = roots(c);
+disp('         exact              inexact            difference')
+disp([e_exact e_inexact e_exact-e_inexact])</pre>
+
+<pre class="mcode-output">         exact              inexact            difference
+  -0.916049473056702  -0.916049472727511  -0.000000000329190
+  -0.908771201152738  -0.908771202105933   0.000000000953195
+  -0.872411788881769  -0.872411789140868   0.000000000259099
+  -0.847029978770642  -0.847029978845927   0.000000000075285
+  -0.702300256886522  -0.702300256886893   0.000000000000371
+  -0.523074611773706  -0.523074611773782   0.000000000000076
+  -0.419721560888930  -0.419721560888866  -0.000000000000065
+  -0.392287268836446  -0.392287268836482   0.000000000000036
+  -0.089131356051227  -0.089131356051228   0.000000000000001
+  -0.021632690024134  -0.021632690024133  -0.000000000000000
+   0.058193454716664   0.058193454716661   0.000000000000002
+   0.224377193199407   0.224377193199408  -0.000000000000000
+   0.538622130914891   0.538622130914892  -0.000000000000001
+   0.554225021522687   0.554225021522693  -0.000000000000006
+   0.863765435107438   0.863765435107438   0.000000000000000
+   0.892225828854228   0.892225828854227   0.000000000000000
+   0.960747881712756   0.960747881712757  -0.000000000000000
+</pre>
+
+<p>Is this good agreement?  Well for most of the eigenvalues things look good, but the low ones are losing up to seven digits of accuracy, and in fact, this method faces difficulties and would quickly fail for larger values of $N$. A plot of the absolute value of <code>c</code> on a log scale gives an indication of what is going on.</p>
+<pre class="mcode-input">semilogy(abs(c)), ylim([1e22 1e35]), grid on
+xlabel('x',FS,12)
+title('|det(xI-A)| on a log scale',FS,12)</pre>
+
+<p><img src="img/EigsViaDet_02.png" class="figure" alt=""></p>
+<p>The first thing we note in this figure is that the scale of the data is a long way from $1$.  This has something to do with the scaling of the problem to the interval $[-5,5]$, and could be alleviated to some extent by a rescaling.  It could only be alleviated partially, however, for the more fundamental problem is the exponential variation of scales across the interval, a phenomenon associated with the subject of potential theory [1]. This is a mathematical fact about the determinant function. Wilkinson pointed out that in fact the determinant function can be computed with high relative accuracy, despite the bad scaling [3, p. 228], so the problem in our method is not its reliance on $det(xI-A)$.  Rather, it is in making a chebfun representation of this function over a broad interval.</p>
+<p>To confirm this, note how much better the accuracy becomes if we restrict attention to $[-1,-0.8]$:</p>
+<pre class="mcode-input">e_exact = sort(e(abs(e+0.9)&lt;=0.1))
+c = chebfun(@(x) fdet(x,a,b,N),[-1,-0.8]);
+plot(c,LW,1.6), grid on, ylim([-3e26 1e26])
+xlabel('x',FS,12)
+title('det(xI-A) on a smaller interval',FS,12)
+e_inexact = roots(c);
+disp('         exact              inexact            difference')
+disp([e_exact e_inexact e_exact-e_inexact])</pre>
+
+<pre class="mcode-output">e_exact =
+  -0.916049473056702
+  -0.908771201152738
+  -0.872411788881769
+  -0.847029978770642
+         exact              inexact            difference
+  -0.916049473056702  -0.916049473056697  -0.000000000000004
+  -0.908771201152738  -0.908771201152741   0.000000000000002
+  -0.872411788881769  -0.872411788881770   0.000000000000002
+  -0.847029978770642  -0.847029978770640  -0.000000000000002
+</pre>
+
+<p><img src="img/EigsViaDet_03.png" class="figure" alt=""></p>
+<p>Another amusing approach is to use Chebfun's edge detector to count eigenvalues!  The accuracy is magnificent, showing that Chebfun's edge detector is not thrown off by bad scaling.</p>
+<pre class="mcode-input">c2 = chebfun(@(x) sign(fdet(x,a,b,N)),[-1,1],'splitting','on');
+plot(c2,LW,1.6,'jumpline','-'), grid on, ylim([-1.4 1.4]);
+e_edgedetect = roots(c2);
+hold on, plot(e_edgedetect,0*e_edgedetect,'.r',MS,14), hold off
+disp('         exact        via edge detecection     difference')
+e_exact = sort(e(abs(e)&lt;=1));
+disp([e_exact e_edgedetect e_exact-e_edgedetect])</pre>
+
+<pre class="mcode-output">         exact        via edge detecection     difference
+  -0.916049473056702  -0.916049473056708   0.000000000000006
+  -0.908771201152738  -0.908771201152738  -0.000000000000000
+  -0.872411788881769  -0.872411788881771   0.000000000000002
+  -0.847029978770642  -0.847029978770640  -0.000000000000002
+  -0.702300256886522  -0.702300256886524   0.000000000000002
+  -0.523074611773706  -0.523074611773706  -0.000000000000000
+  -0.419721560888930  -0.419721560888932   0.000000000000002
+  -0.392287268836446  -0.392287268836446  -0.000000000000001
+  -0.089131356051227  -0.089131356051230   0.000000000000003
+  -0.021632690024134  -0.021632690024134   0.000000000000000
+   0.058193454716664   0.058193454716661   0.000000000000003
+   0.224377193199407   0.224377193199407   0.000000000000000
+   0.538622130914891   0.538622130914892  -0.000000000000001
+   0.554225021522687   0.554225021522692  -0.000000000000005
+   0.863765435107438   0.863765435107438  -0.000000000000000
+   0.892225828854228   0.892225828854228                   0
+   0.960747881712756   0.960747881712757  -0.000000000000000
+</pre>
+
+<p><img src="img/EigsViaDet_04.png" class="figure" alt=""></p>
+<p>Here is the total time for this Example:</p>
+<pre class="mcode-input">toc</pre>
+
+<pre class="mcode-output">Elapsed time is 9.325846 seconds.
+</pre>
+
+<pre class="mcode-input">end</pre>
+
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>, SIAM,    2013.</p>
+</li>
+<li>
+<p>L. N. Trefethen and D. Bau, III, <em>Numerical Linear Algebra</em>, SIAM, 1997.</p>
+</li>
+<li>
+<p>J. H. Wilkinson, <em>The Algebraic Eigenvalue Problem</em>, Clarendon Press,    1965.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

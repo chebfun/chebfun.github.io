@@ -69,6 +69,7 @@ integro/FoxLi.m
 integro/WikiIntegroDiff.m
 linalg/CondNos.m
 linalg/Crouzeix.m
+linalg/EigsViaDet.m
 linalg/FieldOfValues.m
 linalg/LevelRepulsion.m
 linalg/MercuryEarthConjunctions.m
