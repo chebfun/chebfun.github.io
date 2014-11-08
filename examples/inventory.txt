@@ -69,7 +69,6 @@ integro/FoxLi.m
 integro/WikiIntegroDiff.m
 linalg/CondNos.m
 linalg/Crouzeix.m
-linalg/EigsViaDet.m
 linalg/FieldOfValues.m
 linalg/LevelRepulsion.m
 linalg/MercuryEarthConjunctions.m
@@ -98,7 +97,6 @@ ode-linear/MatchedAsymp.m
 ode-linear/NonstandardBCs.m
 ode-linear/OrderStars.m
 ode-linear/ParameterODE.m
-ode-linear/PeriodicSystem.m
 ode-linear/Regions.m
 ode-linear/ResonantVandal.m
 ode-linear/WikiODE.m
@@ -162,11 +160,13 @@ stats/ResamplingRandomVariables.m
 stats/UniformExercises.m
 temp/BinousShaikhBellagi.m
 temp/CompactingColloids.m
+temp/EigsViaDet.m
 temp/FourierCollocation.m
 temp/FourierCollocationNonLin.m
 temp/FourierEigs.m
 temp/FourierExpm.m
 temp/IntegroDiffT.m
+temp/PeriodicSystem.m
 veccalc/AutonomousSystems.m
 veccalc/CheckingVectorCalculus.m
 veccalc/UndergraduateCalculus.m
