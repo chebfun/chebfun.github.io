@@ -83,7 +83,7 @@ a = 10*rand(N,1)-5;
 b = randn(N-1,1);
 A = spdiags([[b;0] a [0;b]],-1:1,N,N);</pre>
 
-<p>Here, computed the usual way, are the ``exact'' eigenvalues in the interval $[-1,1]$:</p>
+<p>Here, computed the usual way, are the "exact" eigenvalues in the interval $[-1,1]$:</p>
 <pre class="mcode-input">format long
 e = eig(full(A)); e_exact = sort(e(abs(e)&lt;=1))</pre>
 
@@ -175,11 +175,11 @@ disp([e_exact e_inexact e_exact-e_inexact])</pre>
 plot(c2,LW,1.6,'jumpline','-'), grid on, ylim([-1.4 1.4]);
 e_edgedetect = roots(c2);
 hold on, plot(e_edgedetect,0*e_edgedetect,'.r',MS,14), hold off
-disp('         exact        via edge detecection     difference')
+disp('         exact        via edge detection      difference')
 e_exact = sort(e(abs(e)&lt;=1));
 disp([e_exact e_edgedetect e_exact-e_edgedetect])</pre>
 
-<pre class="mcode-output">         exact        via edge detecection     difference
+<pre class="mcode-output">         exact        via edge detection      difference
   -0.916049473056702  -0.916049473056708   0.000000000000006
   -0.908771201152738  -0.908771201152738  -0.000000000000000
   -0.872411788881769  -0.872411788881771   0.000000000000002
@@ -203,7 +203,7 @@ disp([e_exact e_edgedetect e_exact-e_edgedetect])</pre>
 <p>Here is the total time for this Example:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 8.653922 seconds.
+<pre class="mcode-output">Elapsed time is 9.399280 seconds.
 </pre>
 
 <pre class="mcode-input">end</pre>
