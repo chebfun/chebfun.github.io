@@ -153,7 +153,7 @@ Here is what the hat functions look like after orthonormalization:
 
 ## 6.4 `svd`, `norm`, `cond`
 
-An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in particular, $A$ maps the unit ball in $R^n$ to a hyperellipsoid of dimension $\le n$ in $R^m$. The (reduced, skinny, condensed,...) *SVD* or *singular value decomposition* exhibits this map by providing a factorization $AV = US$ or equivalently $A = USV^*$, where $U$ is $m\times n$ with orthonormal columns, $S$ is diagonal with nonincreasing nonnegative diagonal entries known as the *singular values*, and $V$ is $n\times n$ and orthogonal. $A$ maps $v_j$, the $j$ th column of $V$ or the $j$ th *right singular vector*, to $s_j$ times $u_j$, the $j$ th column of $U$ or the $j$ th *left singular vector*, which is the vector defining the $j$ th largest semiaxis of the hyperellipsoid.  See Chapters 4 and 5 of [Trefethen &amp; Bau 1997].
+An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in particular, $A$ maps the unit ball in $R^n$ to a hyperellipsoid of dimension $\le n$ in $R^m$. The (reduced, skinny, condensed,...) *SVD* or *singular value decomposition* exhibits this map by providing a factorization $AV = US$ or equivalently $A = USV^\*$, where $U$ is $m\times n$ with orthonormal columns, $S$ is diagonal with nonincreasing nonnegative diagonal entries known as the *singular values*, and $V$ is $n\times n$ and orthogonal. $A$ maps $v_j$, the $j$ th column of $V$ or the $j$ th *right singular vector*, to $s_j$ times $u_j$, the $j$ th column of $U$ or the $j$ th *left singular vector*, which is the vector defining the $j$ th largest semiaxis of the hyperellipsoid.  See Chapters 4 and 5 of [Trefethen &amp; Bau 1997].
 
 If A is an $\infty \times n$ quasimatrix, everything is analogous:
 
@@ -185,7 +185,7 @@ For example, here are the singular values of the matrix A defined earlier with c
    0.000000000000000
    0.218200140270718
    0.000000000000000
-</pre>We can use spy to confirm the shapes of the matrices. As with `spy( R)` earlier, here `spy(V)` should in principle show a checkerboard, but nonzeros are introduced by rounding errors.
+</pre>We can use spy to confirm the shapes of the matrices. As with `spy(R)` earlier, here `spy(V)` should in principle show a checkerboard, but nonzeros are introduced by rounding errors.
 
 <pre class="mcode-input">  subplot(1,5,1), spy(A), title A
   subplot(1,5,3), spy(U), title U

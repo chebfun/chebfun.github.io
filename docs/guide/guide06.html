@@ -218,7 +218,7 @@ ans =
 
 <p><img src="img/guide06_09.png" class="figure" alt=""></p>
 <h3 id="64-svd-norm-cond">6.4 <code>svd</code>, <code>norm</code>, <code>cond</code></h3>
-<p>An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in particular, $A$ maps the unit ball in $R^n$ to a hyperellipsoid of dimension $\le n$ in $R^m$. The (reduced, skinny, condensed,...) <em>SVD</em> or <em>singular value decomposition</em> exhibits this map by providing a factorization $AV = US$ or equivalently $A = USV^<em>$, where $U$ is $m\times n$ with orthonormal columns, $S$ is diagonal with nonincreasing nonnegative diagonal entries known as the </em>singular values<em>, and $V$ is $n\times n$ and orthogonal. $A$ maps $v_j$, the $j$ th column of $V$ or the $j$ th </em>right singular vector<em>, to $s_j$ times $u_j$, the $j$ th column of $U$ or the $j$ th </em>left singular vector*, which is the vector defining the $j$ th largest semiaxis of the hyperellipsoid.  See Chapters 4 and 5 of [Trefethen &amp; Bau 1997].</p>
+<p>An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in particular, $A$ maps the unit ball in $R^n$ to a hyperellipsoid of dimension $\le n$ in $R^m$. The (reduced, skinny, condensed,...) <em>SVD</em> or <em>singular value decomposition</em> exhibits this map by providing a factorization $AV = US$ or equivalently $A = USV^*$, where $U$ is $m\times n$ with orthonormal columns, $S$ is diagonal with nonincreasing nonnegative diagonal entries known as the <em>singular values</em>, and $V$ is $n\times n$ and orthogonal. $A$ maps $v_j$, the $j$ th column of $V$ or the $j$ th <em>right singular vector</em>, to $s_j$ times $u_j$, the $j$ th column of $U$ or the $j$ th <em>left singular vector</em>, which is the vector defining the $j$ th largest semiaxis of the hyperellipsoid.  See Chapters 4 and 5 of [Trefethen &amp; Bau 1997].</p>
 <p>If A is an $\infty \times n$ quasimatrix, everything is analogous:</p>
 <p>$$ A = USV', \qquad  A: \infty \times n,~~
 U: \infty \times n, ~~  S: n \times n, ~~  V:  n \times n. $$</p>
@@ -255,7 +255,7 @@ U: \infty \times n, ~~  S: n \times n, ~~  V:  n \times n. $$</p>
    0.000000000000000
 </pre>
 
-<p>We can use spy to confirm the shapes of the matrices. As with <code>spy( R)</code> earlier, here <code>spy(V)</code> should in principle show a checkerboard, but nonzeros are introduced by rounding errors.</p>
+<p>We can use spy to confirm the shapes of the matrices. As with <code>spy(R)</code> earlier, here <code>spy(V)</code> should in principle show a checkerboard, but nonzeros are introduced by rounding errors.</p>
 <pre class="mcode-input">  subplot(1,5,1), spy(A), title A
   subplot(1,5,3), spy(U), title U
   subplot(1,5,4), spy(S), title S
