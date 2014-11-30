@@ -50,6 +50,12 @@ body {
   margin-top: 4px;
 }
 
+#github-logo {
+    max-width: 16px;
+    position: relative;
+    top: -3px;
+}
+
 @media print {
   .breadcrumb {
     display: none;
