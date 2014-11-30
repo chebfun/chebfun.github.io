@@ -129,6 +129,7 @@ opt/Rosenbrock2.m
 pde/BSExponential.m
 pde/Erosion.m
 pde/TrapezoidEigs.m
+quad/BatteryTest.m
 quad/GaussClenCurt.m
 quad/QuadratureConvergence.m
 quad/SpikeIntegral.m
