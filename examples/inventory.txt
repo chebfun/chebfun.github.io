@@ -1,3 +1,4 @@
+applics/EuropeanCall.m
 approx/AbsoluteValue.m
 approx/BernsteinPolys.m
 approx/BestApprox.m
