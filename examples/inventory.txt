@@ -10,6 +10,7 @@ approx/Entire.m
 approx/FiltersCF.m
 approx/FourierBasedChebfuns.m
 approx/FourierCoefficients.m
+approx/Galleries.m
 approx/GammaFun.m
 approx/GreedyInterp.m
 approx/Halphen.m
