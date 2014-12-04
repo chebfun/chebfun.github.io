@@ -117,6 +117,7 @@ ode-nonlin/ModellingDiseases.m
 ode-nonlin/Orbits.m
 ode-nonlin/ParamODEs.m
 ode-nonlin/ThreeBodyProblem.m
+ode-nonlin/ThreePlanets.m
 opt/Catenary.m
 opt/ConstrainedOptimization.m
 opt/DixonSzego.m
