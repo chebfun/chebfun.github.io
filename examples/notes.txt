@@ -1,0 +1,12 @@
+NOTES ABOUT EXAMPLES.
+Hrothgar, 30 Nov 2014
+----
+
+I try to avoid manual editing of published examples as much as possible,
+but in certain cases it really is the best solution. These are they.
+
+    applics/EuropeanCall
+        in equation (2):
+            g(y) = f(x(y))\ \|dx/dy\|.  \label{eq2}
+        becomes
+            g(y) = f(x(y))\ |dx/dy|.  \label{eq2}

@@ -10,7 +10,6 @@ approx/Entire.m
 approx/FiltersCF.m
 approx/FourierBasedChebfuns.m
 approx/FourierCoefficients.m
-approx/Galleries.m
 approx/GammaFun.m
 approx/GreedyInterp.m
 approx/Halphen.m
@@ -117,7 +116,6 @@ ode-nonlin/ModellingDiseases.m
 ode-nonlin/Orbits.m
 ode-nonlin/ParamODEs.m
 ode-nonlin/ThreeBodyProblem.m
-ode-nonlin/ThreePlanets.m
 opt/Catenary.m
 opt/ConstrainedOptimization.m
 opt/DixonSzego.m
@@ -170,8 +168,10 @@ temp/FourierCollocation.m
 temp/FourierCollocationNonLin.m
 temp/FourierEigs.m
 temp/FourierExpm.m
+temp/Galleries.m
 temp/IntegroDiffT.m
 temp/PeriodicSystem.m
+temp/ThreePlanets.m
 temp/TrapezoidEigs.m
 veccalc/AutonomousSystems.m
 veccalc/CheckingVectorCalculus.m
