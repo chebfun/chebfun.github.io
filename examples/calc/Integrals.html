@@ -72,14 +72,14 @@ plot(f,LW,lw), ylim(2.5*[-1 1])</pre>
 <pre class="mcode-input">format long, sum(f)</pre>
 
 <pre class="mcode-output">ans =
-  -1.150444078461240
+  -1.150444078461234
 </pre>
 
 <p>You can also calculate the definite interval over a subinterval by giving two additional arguments, like this:</p>
 <pre class="mcode-input">sum(f,3,4)</pre>
 
 <pre class="mcode-output">ans =
-  -1.864326901403210
+  -1.864326901403206
 </pre>
 
 <p>To compute an indefinite integral, use the Chebfun command <code>cumsum</code>. This returns a chebfun defined over the given interval:</p>
@@ -91,7 +91,7 @@ plot(g,'m',LW,lw)</pre>
 <pre class="mcode-input">g(4) - g(3)</pre>
 
 <pre class="mcode-output">ans =
-  -1.864326901403210
+  -1.864326901403206
 </pre>
 
 <p>As always in calculus, when working with indefinite integrals you must be careful to remember the arbitrary constant that may be added.  Thus for example, if you integrate $f$ and then differentiate it, you get $f$ back again:</p>

@@ -98,7 +98,7 @@ title('Marginal distribution', FS, fs)</pre>
                               exp(-(x-mu1).^2./sigma1^2/2),d(1:2));
 fprintf('Error of marginal = %1.3e\n',norm(px-exact'))</pre>
 
-<pre class="mcode-output">Error of marginal = 1.109e-14
+<pre class="mcode-output">Error of marginal = 3.518e-15
 </pre>
 
 <h3 id="conditional-probability-distributions">Conditional probability distributions</h3>
@@ -115,7 +115,7 @@ exact = chebfun(@(x) 1/(sqrt(2*pi*sigmasq))*...
                                  exp(-(x-mu).^2./sigmasq/2),d(1:2));
 fprintf('Error in conditional pdf is %1.5e\n',norm(fy(x,:)-exact));</pre>
 
-<pre class="mcode-output">Error in conditional pdf is 4.19569e-15
+<pre class="mcode-output">Error in conditional pdf is 1.72302e-15
 </pre>
 
 <h3 id="references">References</h3>

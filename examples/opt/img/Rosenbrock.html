@@ -36,15 +36,15 @@ The global minimum of $f(x,y)$ is the minimum of `fminx`:
 
 <pre class="mcode-input">format long
 [minf,minx] = min(fminx)</pre><pre class="mcode-output">minf =
-     2.355893258254582e-13
+     2.386979502944087e-13
 minx =
-   0.999999999999930
+   0.999999999999933
 </pre>The variable `minx` represents the $x$-coordinate of the minimum. We can find the $y$ coordinate like this:
 
 <pre class="mcode-input">[minf,miny] = min(chebfun(@(y) f(minx,y), [-1 3]))</pre><pre class="mcode-output">minf =
-     5.684341886080801e-14
+     0
 miny =
-   0.999999999999859
+   0.999999999999866
 </pre>Let's show the contour plot again, with the minimum point:
 
 <pre class="mcode-input">close, plot(minx,miny,'.k',MS,20)</pre><img src="img/Rosenbrock_03.png" class="figure" alt="">
@@ -72,27 +72,27 @@ fminx = chebfun(fminx0,[-1 1],'vectorize','splitting','on');
 figure, plot(fminx,LW,1.6)
 xlabel('x',FS,14), ylabel('min_y(f(x,y))',FS,14)
 title('minimum of f(x,y) along vertical slices',FS,14)
-toc</pre><pre class="mcode-output">Elapsed time is 14.747522 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 15.191075 seconds.
 </pre><img src="img/Rosenbrock_05.png" class="figure" alt="">
 
 Here are the breakpoints that Chebfun has introduced:
 
 <pre class="mcode-input">fminx.ends</pre><pre class="mcode-output">ans =
   Columns 1 through 3
-  -1.000000000000000  -0.635872022371396   0.210237104254783
+  -1.000000000000000  -0.635872022371399   0.210237104254782
   Column 4
    1.000000000000000
 </pre>We can now quickly compute the global minimum as before:
 
 <pre class="mcode-input">[minf,minx] = min(fminx)
 [minf,miny] = min(chebfun(@(y) f(minx,y), [-1 3]))</pre><pre class="mcode-output">minf =
-  -0.969232500643147
+  -0.969232500643148
 minx =
-   0.395759627601423
+   0.395759627601424
 minf =
   -0.969232500643148
 miny =
-   0.331573987886853
+   0.331573987886852
 </pre>And here's the plot:
 
 <pre class="mcode-input">close, plot(minx,miny,'.k',MS,20)</pre><img src="img/Rosenbrock_06.png" class="figure" alt="">

@@ -7,8 +7,8 @@ meta: "(Chebfun example opt/MercuryEarth.m) [Tags: #optimization, #planets]"
 
 Let us take as our domain a period of 1000 days.
 
-<pre class="mcode-input">domain = [0 1000];
-t = chebfun('t', domain);</pre>Here are some equations we shall take as the elliptical orbits of the Earth and Mercury during this period [1]:
+<pre class="mcode-input">dom = [0 1000];
+t = chebfun('t', dom);</pre>Here are some equations we shall take as the elliptical orbits of the Earth and Mercury during this period [1]:
 
 <pre class="mcode-input">y_m = 56.6741*sin(2*pi*t/87.97);
 x_m = -11.9084+57.9117*cos(2*pi*t/87.97);

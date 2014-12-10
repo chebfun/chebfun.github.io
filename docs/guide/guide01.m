@@ -1,5 +1,5 @@
 %% 1. Getting Started with Chebfun
-% Lloyd N. Trefethen, October 2009, latest revision June 2014
+% Lloyd N. Trefethen, October 2009, latest revision December 2014
 
 %% 1.1  What is a chebfun?
 % A chebfun is a function of one variable defined on an interval $[a,b]$. The
@@ -14,7 +14,7 @@
 
 %%
 % The aim of Chebfun is to "feel symbolic but run at the speed of numerics".
-% More precisely our vision is to achieve for functions what floating-point
+% More precisely, our vision is to achieve for functions what floating-point
 % arithmetic achieves for numbers: rapid computation in which
 % each successive operation is carried out exactly apart from a rounding error
 % that is very small in relative terms [Trefethen 2007].
@@ -39,7 +39,7 @@
 % established by results scattered throughout the 20th century.  A key
 % early figure, for example, was Bernstein in the 1910s. Much of the
 % relevant material can be found collected in the Chebfun-based book
-% _Approximation Theory and Approximation Practice_[Trefethen 2013].
+% _Approximation Theory and Approximation Practice_ [Trefethen 2013].
 
 %%
 % Chebfun was originally created by Zachary Battles and Nick Trefethen at
@@ -54,12 +54,14 @@
 % Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin
 % Javed, Hadrien Montanelli, Alex Townsend,
 % Nick Trefethen, Grady Wright, and Kuan Xu.
+% October 2014 brough new arrivals Jared Aurentz, Behnam
+% Hashemi, and Mikael Slevinsky.
 % Further information about Chebfun history is available at the Chebfun
-% web site, http://www.chebfun.org.
-
-%%
-% This Guide is based on Chebfun Version 5, released
-% in June 2014.  Chebfun is available at http://www.chebfun.org.
+% web site, http://www.chebfun.org
+% where one can also find a discussion of other software projects related
+% to Chebfun.
+% This Guide is based on Chebfun Version 5.1, released
+% in December 2014.
 
 %% 1.2  Constructing simple chebfuns
 % The |chebfun| command constructs a chebfun from a specification such as a
@@ -67,7 +69,7 @@
 % the default interval $[-1,1]$ is used. For example, the following command
 % makes a chebfun corresponding to $\cos(20x)$ on $[-1,1]$ and plots it.
   f = chebfun('cos(20*x)');
-  plot(f)
+  plot(f), ylim([-1.2,1.2])
 
 %%
 % From this little experiment, you cannot see that |f| is represented by a
@@ -79,17 +81,21 @@
   f
 
 %%
+% The |Vscale| field shown here is related to
+% the maximum absolute value of |f|, and |Epslevel| gives some rough
+% information about its relative accuracy.  (|Epslevel| estimates are
+% under development and will be discussed further with a future release.)
+
+%%
 % These results tell us that |f| is represented by a polynomial interpolant
 % through 61 Chebyshev points, i.e., a polynomial of degree 60.  These
 % numbers have been determined by an adaptive process.  We can see the data
-% points by plotting |f|with the |'.-'| option:
-  plot(f,'.-')
+% points by plotting |f| with the |'.-'| option:
+  plot(f,'.-'), ylim([-1.2 1.2])
   
 %%
 % The formula for $N+1$ Chebyshev points in $[-1,1]$ is
-%
 % $$ x(j) = -\cos(j \pi/N), \quad  j = 0:N, $$
-%
 % and in the figure we can see that the points are clustered accordingly
 % near $1$ and $-1$. Note that in the middle of the grid, there are about 5
 % points per wavelength, which is evidently what it takes to represent this
@@ -204,7 +210,7 @@
 %%
 % Later we shall describe the options in greater detail, but for the moment
 % let us see some examples.  One way to get a piecewise smooth function is
-% directly from the constructor, taking advantage of its capability of
+% directly from the Chebfun constructor, taking advantage of its capability of
 % automatic edge detection.  For example, in the default "splitting off"
 % mode a function with a jump in its derivative produces a warning message,
   f = chebfun('abs(x-.3)');
@@ -227,9 +233,7 @@
 % This output confirms that f consists of two funs, each defined by two
 % points and two corresponding function values.
 % The functions live on intervals defined by breakpoints at
-% $-1$, $1$, and a number very close to $0.3$.  The |Vscale| field is related to
-% the maximum absolute value of |f| and |Epslevel| gives some rough
-% information about its relative accuracy.
+% $-1$, $1$, and a number very close to $0.3$. 
 
 %%
 % Another way to make a piecewise smooth chebfun is to construct it
@@ -268,7 +272,7 @@
   f = sin(20*x);
   g = exp(x-1);
   h = max(f,g);
-  plot(h)
+  plot(h), ylim([0 1.2])
 
 %%
 % As always, |h| may look complicated to a human, but to Chebfun it is just a
@@ -289,7 +293,7 @@
 % detection or "splitting" feature, when it is turned on, may subdivide
 % functions even though they do not have clean point singularities, and
 % this may be desirable or undesirable depending on the application.  For
-% example, considering $\sin(x)$ over $[0,1000]$ with splitting on, we end up
+% example, considering $\sin(x)$ over $[0,1000\pi]$ with splitting on, we end up
 % with a chebfun with many pieces:
   tic, f = chebfun('sin(x)',[0 1000*pi],'splitting','on'), toc
 
@@ -306,7 +310,8 @@
 % A major change from Chebfun Version 2 to Version 3 was the generalization of
 % chebfuns to allow certain functions on infinite intervals or which
 % diverge to infinity; the initial credit for these innovations belongs to
-% Nick Hale, Rodrigo Platte, and Mark Richardson.
+% Nick Hale, Rodrigo Platte, and Mark Richardson, and many later
+% developments are due to Kuan Xu.
 % For example, here is a function on the whole real axis,
   f = chebfun('exp(-x.^2/16).*(1+.2*cos(10*x))',[-inf,inf]);
   plot(f)
@@ -316,7 +321,7 @@
   sum(f)
 
 %%
-% Here's the integral of a function on [1,inf]:
+% Here's the integral of a function on $[1,\infty)$:
   sum(chebfun('1./x.^4',[1 inf]))
 
 %%
@@ -339,78 +344,83 @@
 % For more on the treatment of infinities in Chebfun, see Chapter 9.
 
 %% 1.6  Periodic functions
-% Until 2014, Chebfun used only nonperiodic representations, 
-% based on Chebyshev polynomials.  Beginning with Version 5, there
-% is a new capability of 
-% representing sufficiently smooth periodic
-% functions by trigonometric polynomials instead, that is,
-% Fourier series.  Such an object is still called a chebfun, but
-% it is a periodic one.  These features were added by Grady Wright in
-% the first half of 2014, and are in the process of being
-% developed further.  A very interesting project
-% along the same lines has been carried out independently by Kristyn McLeod
-% and Rodrigo Platte at Arizona State University [McLeod 2013].
+% Until 2014, Chebfun used only nonperiodic representations, based on
+% Chebyshev polynomials.  Beginning with Version 5, there is a new capability
+% of representing sufficiently smooth periodic functions by trigonometric
+% polynomials instead, that is, Fourier series.  Such an object is still
+% called a chebfun, but it is a periodic one,
+% and the signal to invoke such capabilities is the string |`trig`|.
+% For abbreviation, we call a periodic chebfun a ``trigfun''.
+% This section gives a quick introduction, and more details can be
+% found in Chapter 11.
+
+%%
+% Trigfuns were initiated by Grady Wright in the first half of 2014.
+% A very interesting project along the same lines has been
+% carried out independently by Kristyn McLeod and Rodrigo Platte at Arizona
+% State University [McLeod 2013].
 
 %%
 % For example, here is a periodic function on $[-\pi,\pi]$ represented
 % in the usual way by a Chebyshev series.
-ff = @(t) sin(t)/2 + cos(2*t) + 0.2*cos(100*t);
+ff = @(t) sin(t) + cos(2*t) - cos(t)/3 + cos(100*t)/6;
 f = chebfun(ff,[-pi,pi]);
 max(f)
 plot(f)
 
 %%
-% Its length, very roughly, is $100\times \pi$, 
+% Its length, very roughly, is $100 \pi$, 
 length(f)
 
 %%
 % Here is the same function represented by a Fourier series:
-f2 = chebfun(ff,[-pi,pi],'periodic')
+f2 = chebfun(ff,[-pi,pi],'trig')
 max(f2)
 plot(f2,'m')
 
 %%
-% Its length is now only about $100\times 2$ (exactly
-% 201).   This improvement
+% Its length is now only about $200$ (exactly 201). This improvement
 % by a factor of about $\pi/2$ is typical.
 length(f2)
 
 %%
-% We can confirm that the two functions agree like this:
-norm(f-chebfun(f2,[-pi, pi]))
+% Sampling at a few arbitrary points confirms that the
+% two functions agree closely:
+xx = [1/3 sqrt(2) exp(1)];
+f(xx) - f2(xx)
 
 %%
 % Readers may be interested to compare |plotcoeffs| applied
 % to the first and second versions of $f$.  Rather than display
 % that here we shall turn to a simpler example involving a 
 % shorter Fourier series.  Consider the function
-f = chebfun('7 + sin(t) + exp(1)*cos(2*t)',[-pi,pi],'periodic')
+f = chebfun('7 + sin(t) + exp(1)*cos(2*t)',[-pi,pi],'trig')
 
 %%
 % Here are the coefficients of $f$ as an expansion in sines and
 % cosines:
-[a,b] = fourcoeffs(f)
+[a,b] = trigcoeffs(f)
 
 %%
 % Here they are as an expansion in complex
 % exponentials:
-c = fourcoeffs(f)
+c = trigcoeffs(f)
 
 %%
 % Bookkeeping of Fourier coefficients can often be a headache. If
 % these examples don't make the patterns clear, details can be found with
-% |help fourcoeffs|.
+% |help trigcoeffs|.
 
 %%
 % For a mathematically less trivial example,
 % here is the cosine expansion of a function whose Fourier series coefficients
 % are known to be values of a Bessel function:
-f = chebfun('exp(cos(t))',[-pi pi],'periodic');
-[a,b] = fourcoeffs(f);
+f = chebfun('exp(cos(t))',[-pi pi],'trig');
+[a,b] = trigcoeffs(f);
 n = floor(length(f)/2);
-exact = 2*besseli(n:-1:0,1); exact(end) = exact(end)/2;
-disp('        computed            exact')
-disp([a' exact'])
+exact = 2*besseli(0:n,1); exact(1) = exact(1)/2;
+disp('        computed             exact')
+disp([a exact'])
 
 %% 1.7  Rows, columns, and quasimatrices
 % MATLAB doesn't only deal with column vectors: there are also row vectors
@@ -471,7 +481,61 @@ ccheb2 = leg2cheb(cleg);
 norm(ccheb-ccheb2,inf)
 toc
 
-%% 1.9  How this Guide is produced
+%% 1.9  Chebfun example galleries
+% MATLAB has long had a `gallery` command to generate interesting
+% matrices, and with version 5.1, Chebfun has introduced an analogous
+% `gallery` command to generate interesting functions.
+
+%%
+% Here is what is currently available:
+help cheb.gallery
+
+%%
+% For example, here is a chebfun representing the Airy function,
+plot(cheb.gallery('airy')), ylim([-.8 .8])
+title('Airy function')
+
+%%
+% In this instance the underlying code fits in a line,
+fa = @airy; p = chebfun(fa, [-40,40]); 
+
+%%
+% Some examples make use of more complicated code, like this 
+% approximation to a Daubechies wavelet scaling function
+% (accurate to about 3 digits of accuracy; the underlying
+% function is a fractal):
+plot(cheb.gallery('daubechies')), ylim([-0.5 1.5])
+title('Daubechies scaling function')
+
+%%
+% To find out how a gallery example was generated, take a look
+% at the code with `type +cheb/gallery` or `edit +cheb/gallery`.
+
+%%
+% Like the MATLAB `gallery` command, `cheb.gallery` produces a
+% plot if you call it without specifying output variables.
+% To illustrate, let us finish with an example the
+% Chebfun team enjoys from the appendix to
+% [Trefethen 2013], "Six myths of polynomial interpolation and
+% quadrature":
+cheb.gallery('zigzag')
+
+%%
+% This function looks piecewise linear, but in fact, it is a 
+% polynomial of degree 10000.  This serves no purpose from
+% an approximation point of view -- one would never represent
+% this function in this manner -- but it illustrates the robustness of
+% high-degree polynomial approximation.
+
+%%
+% If you call `gallery` without any input arguments, it selects
+% a gallery function at random.
+
+%%
+% Other collections worth exploring are `cheb.gallerytrig` for
+% periodic functions and `cheb.gallery2` for 2D functions.
+
+%% 1.10  How this Guide is produced
 % This guide is produced in MATLAB using the |publish| command with a 
 % style sheet somewhat different from the usual; the output of |publish|
 % is then processed by Markdown.
@@ -480,7 +544,7 @@ toc
 % |open(publish('guide1'))|.  The formatting may not be exactly 
 % right but it should certainly be intelligible.
 
-%% 1.10  References
+%% 1.11  References
 % [Battles & Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension
 % of MATLAB to continuous functions and operators", _SIAM Journal on
 % Scientific Computing_, 25 (2004), 1743-1770.
@@ -500,6 +564,7 @@ toc
 % [McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic
 % computations using Fourier expansions," _SIAM Undergraduate Research
 % Online_, to appear.
+% See also `http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun`.
 %
 % [Pachon, Platte & Trefethen 2010] R. Pachon, R. B. Platte and L. N.
 % Trefethen, "Piecewise-smooth chebfuns", _IMA J. Numer. Anal._, 30 (2010),
@@ -511,6 +576,7 @@ toc
 %
 % [Trefethen 2007] L. N. Trefethen, "Computing numerically with functions
 % instead of numbers", _Mathematics in Computer Science_ 1 (2007), 9-19.
+% Revised and reprinted in _Communications of the ACM_ (2014).
 %
 % [Trefethen 2013] L. N. Trefethen, _Approximation Theory and
 % Approximation Practice_, SIAM, 2013.

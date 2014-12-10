@@ -11,6 +11,7 @@ if nargin == 0,
     % Make all examples in all folders.
 
     folders = {
+        'applics',
         'approx',
         'approx2',
         'calc',

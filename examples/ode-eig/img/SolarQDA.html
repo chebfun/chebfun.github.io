@@ -44,10 +44,10 @@ subplot(2,1,1)
 plot(U,LW,lw), ylabel('potential'), xlim(x([1 end]))
 subplot(2,1,2)
 plot(Psi,LW,lw), ylabel('wavefunction'), xlim(x([1 end]))</pre><pre class="mcode-output">energies =
-   0.237600942577988
-   0.241689420351800
-   0.246929983910270
-   0.251332910863171
+   0.237600942577894
+   0.241689420351228
+   0.246929983909500
+   0.251332910862716
 </pre><img src="img/SolarQDA_02.png" class="figure" alt="">
 
 If we look at probability, we find that the first four modes extend significantly over all wells. This is "delocalization" or quantum tunnelling, and it means the device can conduct electricity.
@@ -71,10 +71,10 @@ U = chebfun(vals,x);</pre>Now we find that the wavefunctions extend significantl
 energies = diag(E)
 semilogy(Psi.^2,LW,lw), ylabel('probability'),
 axis( [x([2 end-1]) 1e-3 1e-0]  )</pre><pre class="mcode-output">energies =
-   0.218256274770835
-   0.232110036471835
-   0.256879388748688
-   0.269586365175545
+   0.218256274770184
+   0.232110036472121
+   0.256879388748077
+   0.269586365175261
 </pre><img src="img/SolarQDA_04.png" class="figure" alt="">
 
 

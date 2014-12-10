@@ -30,8 +30,8 @@ u1 = chebfun(real(c1),n); v1 = chebfun(imag(c1),n);
 u2 = chebfun(real(c2),n); v2 = chebfun(imag(c2),n);</pre>The first step is to consider the Bezoutian and form the Bezout matrix. For convenience we first represent the bivariate polynomials $f(x,y)$ and $g(x,y)$ as matrices of coefficients in their bivariate expansions, as we did above.
 
 <pre class="mcode-input">F = zeros(n); G = zeros(n);
-F(end,:) = chebcoeffs(u1); F(:,end) = F(:,end) - chebcoeffs(u2)';
-G(end,:) = chebcoeffs(v1); G(:,end) = G(:,end) - chebcoeffs(v2)';</pre>Now we form the Bezoutian of $f(x,y)$ and $g(x,y)$ (seen as polynomials in $x$) by using the code DLP.m, available from [4]. The code forms a linearization $\lambda X+Y$ for a given matrix polynomial, and in [4] it is shown that $X$ is a Bezout matrix. We use this to construct the Bezout matrix $A$ corresponding to the Bezoutian of $f(x,y)$ and $g(x,y)$.
+F(end,:) = fliplr(chebcoeffs(u1).'); F(:,end) = F(:,end) - flipud(chebcoeffs(u2));
+G(end,:) = fliplr(chebcoeffs(v1).'); G(:,end) = G(:,end) - flipud(chebcoeffs(v2));</pre>Now we form the Bezoutian of $f(x,y)$ and $g(x,y)$ (seen as polynomials in $x$) by using the code DLP.m, available from [4]. The code forms a linearization $\lambda X+Y$ for a given matrix polynomial, and in [4] it is shown that $X$ is a Bezout matrix. We use this to construct the Bezout matrix $A$ corresponding to the Bezoutian of $f(x,y)$ and $g(x,y)$.
 
 <pre class="mcode-input">A = zeros(n-1,n-1,2*n-1);
 a = [ones(n-1,1); 2]/2; b = zeros(n,1); c = ones(n,1)/2; % Cheb 3 term
@@ -81,9 +81,9 @@ y = y(imag(y)==0 &amp; abs(y)&lt;1 &amp; abs(t)&lt;1);</pre>Let's plot the compu
 errors = abs(c2(y)-c1(x))</pre><pre class="mcode-output">errors =
    1.0e-04 *
   Columns 1 through 3
-   0.034925141278734   0.145856664822232   0.444419398752772
+   0.034907156419828   0.145853336499819   0.444406341585828
   Column 4
-   0.145859547250295
+   0.145859734543125
 </pre><img src="img/BivariateRoots_02.png" class="figure" alt="">
 
 <pre class="mcode-input">end</pre><pre class="mcode-input">function [X, Y, M] = DLP(AA, v, a, b, c)

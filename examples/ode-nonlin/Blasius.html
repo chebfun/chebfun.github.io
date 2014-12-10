@@ -76,8 +76,8 @@ u   = simplify(u)</pre>
 <pre class="mcode-output">u =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,      11]       39  -5.6e-15      9.3 
-Epslevel = 1.776357e-15.  Vscale = 9.279212e+00.
+[       0,      11]       39   6.7e-16      9.3 
+Epslevel = 1.743210e-15.  Vscale = 9.279212e+00.
 </pre>
 
 <p>Here is what the solution looks like.</p>
@@ -90,7 +90,7 @@ title('The Blasius function')</pre>
 bc_residuals = bc(0,u)     % Residuals of boundary conditions</pre>
 
 <pre class="mcode-output">op_residual =
-     2.335007672875853e-09
+     2.335009764299070e-09
 bc_residuals =
    1.0e-11 *
                    0
@@ -104,7 +104,7 @@ a_computed = feval(diff(u,2), 0);
 a_exact - a_computed</pre>
 
 <pre class="mcode-output">ans =
-     1.507337032968792e-10
+     1.507317604065861e-10
 </pre>
 
 <p>Noticing that the Blasius function approaches a linear polynomial away from the origin, the reader may wonder what is the limiting value $u(x) - x$ as $x \to \infty$? The answer again is supplied to high accuracy by Boyd, so let us see how Chebfun performs.</p>
@@ -117,7 +117,7 @@ b_computed = feval(u-x, dom(2));
 b_exact - b_computed</pre>
 
 <pre class="mcode-output">ans =
-    -2.284816780218080e-10
+    -2.284870070923262e-10
 </pre>
 
 <p>A special property of the Blasius function is that its power series representation only includes every third term, that is,</p>
@@ -128,12 +128,12 @@ b_exact - b_computed</pre>
 coeffs(end:-1:end-5)'</pre>
 
 <pre class="mcode-output">ans =
-  -0.000000000000003
+   0.000000000000002
    0.000000000001672
-   0.166028668032229
-   0.000000001557072
-  -0.000000015982581
-  -0.000459323884631
+   0.166028668032239
+   0.000000001557068
+  -0.000000015982565
+  -0.000459323884584
 </pre>
 
 <p>The nonzero coefficients in the power series expansion alternate in sign, which suggests that convergence is limited by a singularity on the negative $x$-axis. Indeed this is the case, and the singularity's location is known to be approximately $x_0 = -5.6900380545$. We can see the singularity in Chebfun by extending the domain of the chebop to somewhere near $x_0$, whereupon the boundary conditions at $x=0$ become interior point conditions. (The resulting function is not fully accurate, as Chebfun warns.)</p>
@@ -149,7 +149,7 @@ v =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
 [    -5.6,      11]      256        67      9.3 
-Epslevel = 1.376328e-15.  Vscale = 6.662492e+01.
+Epslevel = 1.664542e-15.  Vscale = 6.662492e+01.
 </pre>
 
 <p><img src="img/Blasius_03.png" class="figure" alt=""></p>

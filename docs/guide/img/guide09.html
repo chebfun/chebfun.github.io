@@ -1,7 +1,7 @@
 ---
 title: "9. Infinite Intervals, Infinite Function Values, and Singularities"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, November 2009, latest revision June 2014"
+authordate: "Lloyd N. Trefethen, November 2009, latest revision December 2014"
 ---
 
 This chapter presents some features of Chebfun that are less robust than what is described in the first eight chapters.  With classic bounded chebfuns on a bounded interval $[a,b]$, you can do amazingly complicated things often without encountering any difficulties. Now we are going to let the intervals and the functions diverge to infinity -- but please lower your expectations!  These features are not always as accurate or reliable.
@@ -10,13 +10,13 @@ This chapter presents some features of Chebfun that are less robust than what is
 
 ## 9.1 Infinite intervals
 
-If a function converges reasonably rapidly to a constant at $\infty$, you can define a corresponding chebfun.  Here are a couple of examples on $[0,\infty]$.  First we plot a function and find its maximum:
+If a function converges reasonably rapidly to a constant at $\infty$, you can define a corresponding chebfun.  Here are a couple of examples on $[0,\infty)$.  First we plot a function and find its maximum:
 
 <pre class="mcode-input">f = chebfun('0.75 + sin(10*x)./exp(x)',[0 inf]);
 LW = 'linewidth'; MS = 'markersize';
 plot(f,LW,1.6)
 maxf = max(f)</pre><pre class="mcode-output">maxf =
-   1.608912750768336
+   1.608912750768335
 </pre><img src="img/guide09_01.png" class="figure" alt="">
 
 Next we plot another function and integrate it from $0$ to $\infty$:
@@ -33,12 +33,12 @@ Where do $f$ and $g$ intersect?  We can find out using `roots`:
 r = roots(f-g)
 plot(r,f(r),'.k',MS,18)</pre><pre class="mcode-output">r =
    0.027639744894514
-   0.265714132607450
+   0.265714132607451
    0.706922132176979
    0.862331877000826
    1.297442594652156
    1.594466987072374
-   1.781855556974645
+   1.781855556974647
 </pre><img src="img/guide09_03.png" class="figure" alt="">
 
 Here's an example on $(-\infty,\infty)$ with a calculation of the location and value of the minimum:
@@ -49,7 +49,7 @@ clf, plot(g,LW,1.6)
 [minval,minpos] = min(g)</pre><pre class="mcode-output">minval =
      0
 minpos =
-   1.346573590279973
+   1.346573590279974
 </pre><img src="img/guide09_04.png" class="figure" alt="">
 
 Notice that a function on an infinite domain is by default plotted on an interval like $[0,10]$ or $[-10,10]$.  You can use an extra `'interval'` flag to plot on other intervals, as shown by this example of a function of small norm whose largest values are near $x=30$:
@@ -58,14 +58,14 @@ Notice that a function on an infinite domain is by default plotted on an interva
 h = chebfun(hh,[0 inf]);
 plot(h,LW,1.6,'interval',[0 100])
 normh = norm(h)</pre><pre class="mcode-output">normh =
-     2.441961683577727e-05
+     2.441961683577674e-05
 </pre><img src="img/guide09_05.png" class="figure" alt="">
 
 Chebfun provides a convenient tool for the numerical evaluation of integrals over infinite domains:
 
 <pre class="mcode-input">g = chebfun('(2/sqrt(pi))*exp(-x.^2)',[0 inf]);
 sumg = sum(g)</pre><pre class="mcode-output">sumg =
-   0.999999999999991
+   0.999999999999992
 </pre>The cumsum operator applied to this integrand gives us the error function, which matches the MATLAB `erf` function reasonably well:
 
 <pre class="mcode-input">errorfun = cumsum(g)
@@ -73,15 +73,15 @@ disp('          erf               errorfun')
 for n = 1:6, disp([erf(n) errorfun(n)]), end</pre><pre class="mcode-output">errorfun =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,     Inf]       97         0        1 
-Epslevel = 2.220446e-16.  Vscale = 1.000000e+00.
+[       0,     Inf]       90         0        1 
+Epslevel = 1.895810e-15.  Vscale = 1.000000e+00.
           erf               errorfun
-   0.842700792949715   0.842700792948944
+   0.842700792949715   0.842700792948946
    0.995322265018953   0.995322265017458
-   0.999977909503001   0.999977909500824
-   0.999999984582742   0.999999984579919
-   0.999999999998463   0.999999999995027
-   1.000000000000000   0.999999999995981
+   0.999977909503001   0.999977909500825
+   0.999999984582742   0.999999984579920
+   0.999999999998463   0.999999999995028
+   1.000000000000000   0.999999999995984
 </pre>One should be cautious in evaluating integrals over infinite intervals, however, for as mentioned in Section 1.5, the accuracy is sometimes disappointing, especially for functions that do not decay very quickly:
 
 <pre class="mcode-input">sum(chebfun('(1/pi)./(1+s.^2)',[-inf inf]))</pre><pre class="mcode-output">ans =
@@ -92,7 +92,7 @@ Epslevel = 2.220446e-16.  Vscale = 1.000000e+00.
 plot(sinc,'m',LW,1.6,'interval',[-10 10])</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
 </pre><img src="img/guide09_06.png" class="figure" alt="">
 
-Chebfun's capability of handling infinite intervals was introduced by Rodrigo Platte in 2008-09.  The details of the implementation then changed considerably with the introduction of version 5 in 2014.
+Chebfun's capability of handling infinite intervals was introduced originally by Rodrigo Platte in 2008-09.  The details of the implementation then changed considerably with the introduction of version 5 in 2014.
 
 The use of mappings to transform an unbounded domain to a bounded one is an idea that has been employed many times over the years.  One of the references we have benefitted especially from, which also contains pointers to other works in this area, is the book [Boyd 2001].
 
@@ -133,7 +133,19 @@ plot(gam,LW,1.6), ylim([-10 10])</pre><img src="img/guide09_12.png" class="figur
 
 But it's always better to specify the breakpoints and powers if you know them:
 
-<pre class="mcode-input">gam = chebfun('gamma(x)',[-4:0 4],'exps',[-1 -1 -1 -1 -1 0]);</pre>It's also possible to have poles of different strengths on two sides of a singularity.  In this case, you specify two exponents at each internal breakpoint rather than one:
+<pre class="mcode-input">gam = chebfun('gamma(x)',[-4:0 4],'exps',[-1 -1 -1 -1 -1 0]);</pre>This is essentially the same result you will get if you execute
+
+plot(cheb.gallery('gamma'))
+
+Can you explain the following three results?
+
+<pre class="mcode-input">sum(gam)</pre><pre class="mcode-output">ans =
+   NaN
+</pre><pre class="mcode-input">sum(abs(gam))</pre><pre class="mcode-output">ans =
+   Inf
+</pre><pre class="mcode-input">sum(abs(gam).^.9)</pre><pre class="mcode-output">ans =
+  58.509500897758691
+</pre>It's also possible to have poles of different strengths on two sides of a singularity.  In this case, you specify two exponents at each internal breakpoint rather than one:
 
 <pre class="mcode-input">f = chebfun(@(x) cos(100*x)+sin(x).^(-2+sign(x)),[-1 0 1],'exps',[0 -3 -1 0]);
 plot(f,LW,1.6), ylim([-30 30])</pre><img src="img/guide09_13.png" class="figure" alt="">
@@ -150,7 +162,7 @@ plot(w,'m',LW,1.6), ylim([0 10])</pre><img src="img/guide09_14.png" class="figur
 The integral is $2$:
 
 <pre class="mcode-input">sum(w)</pre><pre class="mcode-output">ans =
-   2.000000000000000
+     2
 </pre>We pick this example because Chebyshev polynomials are the orthogonal polynomials with respect to this weight function, and Chebyshev coefficients are defined by inner products against Chebyshev polynomials with respect to this weight.  For example, here we compute inner products of $x^4 + x^5$ against the Chebyshev polynomials $T_0,\dots,T_5$.  (The integrals in these inner products are calculated by Gauss-Jacobi quadrature using methods due to Hale and Townsend; for more on this subject see the command `jacpts`.)
 
 <pre class="mcode-input">x = chebfun('x');
@@ -165,7 +177,7 @@ chebcoeffs1 = T*(w.*f)</pre><pre class="mcode-output">chebcoeffs1 =
    0.062500000000000
 </pre>Here for comparison are the Chebyshev coefficients as obtained from `chebcoeffs`:
 
-<pre class="mcode-input">chebcoeffs2 = flipud(chebcoeffs(f)')</pre><pre class="mcode-output">chebcoeffs2 =
+<pre class="mcode-input">chebcoeffs2 = chebcoeffs(f)</pre><pre class="mcode-output">chebcoeffs2 =
    0.375000000000000
    0.625000000000000
    0.500000000000000
@@ -193,9 +205,9 @@ Epslevel = 6.814598e-11.  Vscale = 3.844231e+00.
 [   2e-10,   2e-08]       62   1.4e-05  0.00014 
 [   2e-08,   2e-06]       91   0.00014   0.0014 
 [   2e-06,  0.0002]      111    0.0014    0.014 
-[  0.0002,    0.02]      122     0.014     0.14 
+[  0.0002,    0.02]      123     0.014     0.14 
 [    0.02,       2]       84      0.14      3.8 
-Epslevel = 4.572597e-10.  Vscale = 3.844231e+00.  Total length = 513.
+Epslevel = 4.572597e-10.  Vscale = 3.844231e+00.  Total length = 514.
 </pre>A better representation, however, is constructed if we tell Chebfun about the singularity at $x=0$:
 
 <pre class="mcode-input">f = chebfun(ff,d,'exps',[.5 0])
@@ -214,13 +226,13 @@ plot(f,LW,1.6)
 sumf = sum(f)</pre><pre class="mcode-output">f =
    chebfun column (4 smooth pieces)
        interval       length   endpoint values   endpoint exponents
-[       0,     3.1]       19         0        0         [0.5      0.5]  
-[     3.1,     6.3]       25         0        0         [0.5      0.5]  
-[     6.3,     9.4]       17         0        0         [0.5      0.5]  
-[     9.4,      13]       17         0        0         [0.5      0.5]  
-Epslevel = 1.408355e-15.  Vscale = 1.000000e+00.  Total length = 78.
+[       0,     3.1]       17         0        0         [0.5      0.5]  
+[     3.1,     6.3]       19         0        0         [0.5      0.5]  
+[     6.3,     9.4]       25         0        0         [0.5      0.5]  
+[     9.4,      13]       19         0        0         [0.5      0.5]  
+Epslevel = 1.110223e-15.  Vscale = 1.000000e+00.  Total length = 80.
 sumf =
-   9.585121877884726
+   9.585121877884722
 </pre><img src="img/guide09_16.png" class="figure" alt="">
 
 If you have a function that blows up but you don't know the nature of the singularities, even whether they are poles or not, Chebfun will try to figure them out automatically if you run in `'blowup 2'` mode.  Here's an example
@@ -234,7 +246,7 @@ Epslevel = 1.000000e-14.  Vscale = Inf.
 
 <pre class="mcode-input">get(f, 'exps')</pre><pre class="mcode-output">ans =
   -2.718281828460000  -3.141592653590000
-</pre>The treatment of blowups in Chebfun was initiated by Mark Richardson in an MSc thesis at Oxford [Richardson 2009], then further developed by Richardson in collaboration with Rodrigo Platte and Nick Hale.
+</pre>The treatment of blowups in Chebfun was initiated by Mark Richardson in an MSc thesis at Oxford [Richardson 2009], then further developed by Richardson in collaboration with Rodrigo Platte and Nick Hale, then developed again by Kuan Xu and others in the creation of Chebfun version 5.
 
 
 

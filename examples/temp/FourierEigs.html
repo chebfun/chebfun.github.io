@@ -87,7 +87,7 @@ figure, plot(V, LW, 2)</pre>
 norm(diag(D) - Dexact, inf)</pre>
 
 <pre class="mcode-output">ans =
-     2.993161274389422e-13
+     1.274536032269680e-13
 </pre>
 
 <p>The eigenfunctions are periodic</p>
@@ -95,36 +95,36 @@ norm(diag(D) - Dexact, inf)</pre>
 
 <pre class="mcode-output">ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [       0,     6.3]        5       0.4      0.4 
 Epslevel = 1.000000e-10.  Vscale = 3.989423e-01.
 ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [       0,     6.3]        5     -0.56    -0.56 
-Epslevel = 1.000000e-10.  Vscale = 5.632210e-01.
+Epslevel = 1.000000e-10.  Vscale = 5.615557e-01.
 ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
-[       0,     6.3]        5    -0.033   -0.033 
-Epslevel = 1.000000e-10.  Vscale = 5.458664e-01.
+       interval       length   endpoint values trig
+[       0,     6.3]        5    -0.054   -0.054 
+Epslevel = 1.000000e-10.  Vscale = 5.508979e-01.
 ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
-[       0,     6.3]        5      0.52     0.52 
-Epslevel = 1.000000e-10.  Vscale = 5.495700e-01.
+       interval       length   endpoint values trig
+[       0,     6.3]        5      0.11     0.11 
+Epslevel = 1.000000e-10.  Vscale = 5.600760e-01.
 ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
-[       0,     6.3]        5      0.22     0.22 
-Epslevel = 1.000000e-10.  Vscale = 5.621038e-01.
+       interval       length   endpoint values trig
+[       0,     6.3]        5      0.55     0.55 
+Epslevel = 1.000000e-10.  Vscale = 5.536788e-01.
 </pre>
 
 <p>and satisfy the differential equation to high precision:</p>
 <pre class="mcode-input">norm(L*V - V*D, inf)</pre>
 
 <pre class="mcode-output">ans =
-     2.441382023106272e-13
+     1.374311367821037e-13
 </pre>
 
 <p>If $p(x)=w(x)=1$, $q(x)=2q\cos(2x)$, we obtain the Mathieu equations</p>
@@ -147,7 +147,7 @@ figure, plot(V, LW, 2)</pre>
 norm(diag(D) - Dwolfram, inf)</pre>
 
 <pre class="mcode-output">ans =
-     3.361755318564974e-13
+     8.526512829121202e-14
 </pre>
 
 <p>Again, the eigenfunctions are periodic</p>
@@ -155,27 +155,27 @@ norm(diag(D) - Dwolfram, inf)</pre>
 
 <pre class="mcode-output">ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [       0,     6.3]       29      0.11     0.11 
 Epslevel = 1.000000e-10.  Vscale = 6.469300e-01.
 ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
-[       0,     6.3]       29   5.1e-14  5.1e-14 
+       interval       length   endpoint values trig
+[       0,     6.3]       29  -4.8e-14 -4.8e-14 
 Epslevel = 1.000000e-10.  Vscale = 6.678125e-01.
 ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [       0,     6.3]       29     -0.39    -0.39 
 Epslevel = 1.000000e-10.  Vscale = 4.871346e-01.
 ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
-[       0,     6.3]       29  -2.8e-14 -2.8e-14 
+       interval       length   endpoint values trig
+[       0,     6.3]       29  -1.3e-14 -1.3e-14 
 Epslevel = 1.000000e-10.  Vscale = 5.773752e-01.
 ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [       0,     6.3]       29      0.59     0.59 
 Epslevel = 1.000000e-10.  Vscale = 5.917415e-01.
 </pre>
@@ -184,7 +184,7 @@ Epslevel = 1.000000e-10.  Vscale = 5.917415e-01.
 <pre class="mcode-input">norm(L*V - V*D, inf)</pre>
 
 <pre class="mcode-output">ans =
-     6.625597141132941e-09
+     6.625664957591112e-09
 </pre>
 
 <h3 id="references">References</h3>

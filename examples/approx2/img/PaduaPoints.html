@@ -41,7 +41,7 @@ The corresponding Padua interpolant is a bivariate Chebyshev polynomial of total
 
 <pre class="mcode-input">C = chebcoeffs2(F);
 C(abs(C) &lt; 1e-10) = 0;
-spy(rot90(C, 2)), shg
+spy(C), shg
 title('Spy plot of bivariate Chebyshev coefficients',FS,14)</pre><img src="img/PaduaPoints_05.png" class="figure" alt="">
 
 We hope this addition will make it easy to explore Padua interpolants in Chebfun2!

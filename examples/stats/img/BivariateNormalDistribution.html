@@ -52,7 +52,7 @@ A fundamental property is that each marginal distribution is a univariate normal
 
 <pre class="mcode-input">exact = chebfun(@(x) 1/(sqrt(2*pi)*sigma1)*...
                               exp(-(x-mu1).^2./sigma1^2/2),d(1:2));
-fprintf('Error of marginal = %1.3e\n',norm(px-exact'))</pre><pre class="mcode-output">Error of marginal = 1.109e-14
+fprintf('Error of marginal = %1.3e\n',norm(px-exact'))</pre><pre class="mcode-output">Error of marginal = 3.518e-15
 </pre>
 
 ## Conditional probability distributions
@@ -69,7 +69,7 @@ For the bivariate normal distribution the condition probability distribution is 
 mu = mu1 + sigma1/sigma2*rho*(x-mu2); sigmasq = (1-rho^2)*sigma1^2;
 exact = chebfun(@(x) 1/(sqrt(2*pi*sigmasq))*...
                                  exp(-(x-mu).^2./sigmasq/2),d(1:2));
-fprintf('Error in conditional pdf is %1.5e\n',norm(fy(x,:)-exact));</pre><pre class="mcode-output">Error in conditional pdf is 4.19569e-15
+fprintf('Error in conditional pdf is %1.5e\n',norm(fy(x,:)-exact));</pre><pre class="mcode-output">Error in conditional pdf is 1.72302e-15
 </pre>
 
 ## References

@@ -45,20 +45,20 @@ for k = 1:10
   ratio = length(rr)/n;
   data = [data ratio];
   disp(['fraction of roots in [-1,1]: ' num2str(ratio)])
-end</pre><pre class="mcode-output">fraction of roots in [-1,1]: 0.556
-fraction of roots in [-1,1]: 0.606
+end</pre><pre class="mcode-output">fraction of roots in [-1,1]: 0.592
 fraction of roots in [-1,1]: 0.566
+fraction of roots in [-1,1]: 0.597
+fraction of roots in [-1,1]: 0.581
+fraction of roots in [-1,1]: 0.572
+fraction of roots in [-1,1]: 0.584
+fraction of roots in [-1,1]: 0.575
 fraction of roots in [-1,1]: 0.573
-fraction of roots in [-1,1]: 0.59
-fraction of roots in [-1,1]: 0.557
-fraction of roots in [-1,1]: 0.578
-fraction of roots in [-1,1]: 0.571
-fraction of roots in [-1,1]: 0.579
-fraction of roots in [-1,1]: 0.561
+fraction of roots in [-1,1]: 0.576
+fraction of roots in [-1,1]: 0.575
 </pre>The mean for the whole experiment is pretty close to $0.577$,
 
 <pre class="mcode-input">mean(data)</pre><pre class="mcode-output">ans =
-   0.573700000000000
+   0.579100000000000
 </pre>One could vary these experiments in all kinds of ways, for example defining random polynomials via Chebyshev or more generally Jacobi expansions or by interpolation of random data in Chebyshev or other points.  The case of Jacobi expansions is considered in [2], though the proofs there are not complete.
 
 

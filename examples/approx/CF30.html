@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-the-story">1. The story</h3>
-<p>In 1986 the first of us published a 4-page proceedings paper called "Matlab programs for CF approximation" [1].  It is possible that this was the first paper ever published that contained Matlab programs.  It presents two programs: CF, for complex polynomial or rational CF approximation on the unit disk, and RCF, for real polynomial or rational CF approximation on the unit interval.</p>
+<p>In 1986 the first of us published a 4-page proceedings paper called "Matlab programs for CF approximation" [1].  It is possible that this was the first paper ever published that contained MATLAB programs.  It presents two programs: CF, for complex polynomial or rational CF approximation on the unit disk, and RCF, for real polynomial or rational CF approximation on the unit interval.</p>
 <p>The real example of CF approximation given in [1] is type $(1,1)$ approximation to $(1.2-x)^{1/2}$, for which the result is printed as</p>
 <p>$$ r(x) = {1.10417 - 0.77197x \over 1 - 0.27354 x} . $$</p>
 <p>In Chebfun, we can perform the calculation like this:</p>
@@ -73,8 +73,8 @@ f = sqrt(1.2-x);
 [p,q] = cf(f,1,1);</pre>
 
 <p>The coefficients match nicely:</p>
-<pre class="mcode-input">chebcoeffs(p)
-chebcoeffs(q)</pre>
+<pre class="mcode-input">poly(p)
+poly(q)</pre>
 
 <pre class="mcode-output">ans =
   -0.771973873637746   1.104173864799875
@@ -85,7 +85,7 @@ ans =
 <p>How long does it take?  In [1], the computation took "about 40 seconds on an IBM PC/AT".  In Chebfun today, here's the timing:</p>
 <pre class="mcode-input">tic, [p,q] = cf(f,1,1); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.053521 seconds.
+<pre class="mcode-output">Elapsed time is 0.046339 seconds.
 </pre>
 
 <p>As far as the eye can tell, the error curve equioscillates between 4 extremes:</p>
@@ -101,7 +101,7 @@ title(['type (1,1) CF approximation:  error = ' num2str(err)],FS,12)</pre>
 <p>Let's compare with the best approximation.  It takes a bit longer to compute:</p>
 <pre class="mcode-input">tic, [p,q] = remez(f,1,1); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.769526 seconds.
+<pre class="mcode-output">Elapsed time is 0.586898 seconds.
 </pre>
 
 <p>Now in principle we have perfect equioscillation, but the error is only very slightly smaller:</p>
@@ -182,7 +182,7 @@ Pc =
    1.104173864800379  -0.771973873634149
 Qc =
    1.000000000000000  -0.273544292430500
-Elapsed time is 0.137138 seconds.
+Elapsed time is 0.184647 seconds.
 </pre>
 
 <p><img src="img/CF30_03.png" class="figure" alt=""></p>

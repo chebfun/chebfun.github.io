@@ -17,7 +17,7 @@ N.bc = 'periodic';
 N.init = chebfun(@(x) cos(x), dom);
 u = N \ f</pre><pre class="mcode-output">u =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [       0,     6.3]       89    -0.058   -0.058 
 Epslevel = 2.331417e-15.  Vscale = 2.428494e-01.
 </pre>Let us plot the initial guess in dashed blue, and the solution in blue.
@@ -28,7 +28,7 @@ hold on, plot(u, 'b', LW, 2)</pre><img src="img/FourierCollocationNonLin_01.png"
 The solution $u(x)$ satisfies the ODE to high accuracy:
 
 <pre class="mcode-input">norm(N*u - f, inf)</pre><pre class="mcode-output">ans =
-     3.374973245168419e-12
+     3.379422527647751e-12
 </pre>If we start with another initial guess, we might obtain another solution. Let us try $\sin(x)^2$, plot it in dashed green, and plot the solution in green.
 
 <pre class="mcode-input">N.init = chebfun(@(x) sin(x).^2, dom);
@@ -36,7 +36,7 @@ v = N \ f
 hold on, plot(N.init, '--g', LW, 2)
 hold on, plot(v, 'g', LW, 2)</pre><pre class="mcode-output">v =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [       0,     6.3]       81       1.6      1.6 
 Epslevel = 1.776357e-15.  Vscale = 1.785953e+00.
 </pre><img src="img/FourierCollocationNonLin_02.png" class="figure" alt="">
@@ -44,6 +44,6 @@ Epslevel = 1.776357e-15.  Vscale = 1.785953e+00.
 The solution $v(x)$ satisfies the ODE to high accuracy too:
 
 <pre class="mcode-input">norm(N*v - f, inf)</pre><pre class="mcode-output">ans =
-     1.823588159073624e-12
+     1.803868478825869e-12
 </pre>For nonlinear ODEs, the relationships between intial guesses and solutions are difficult to analyse. In this example, we chose two different guesses, and this led to two different solutions.
 

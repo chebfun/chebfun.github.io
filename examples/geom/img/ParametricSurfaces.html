@@ -90,7 +90,7 @@ hold off</pre><img src="img/ParametricSurfaces_12.png" class="figure" alt="">
 We can verify that $ru$ and $rv$ are orthogonal, in this case, by taking their inner product.
 
 <pre class="mcode-input">norm(ru'*rv,inf)</pre><pre class="mcode-output">ans =
-     2.154393288746328e-13
+     5.016985192747734e-14
 </pre>Finally, we take advantage of this orthogonality and project an arbitrary vector field $V$ onto the Moebius surface. In the figure below, the field `PV` is tangent to the surface.
 
 <pre class="mcode-input">R1 = ru/sqrt(ru'*ru);

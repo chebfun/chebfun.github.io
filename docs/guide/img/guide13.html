@@ -1,122 +1,226 @@
 ---
-title: "13. Chebfun2: Rootfinding and Optimisation"
+title: "13. Chebfun2: Integration and Differentiation"
 layout: guide-chapter
-authordate: "Alex Townsend, March 2013, latest revision June 2014"
+authordate: "Alex Townsend, March 2013, latest revision December 2014"
 ---
 
 
 
-## 13.1 Zero contours
+## 13.1 `sum` and `sum2`
 
-Chebfun2 comes with the capability to compute the zero contours of a function of two variables. For example, we can compute a representation of Trott's curve, an example from algebraic geometry [Trott 1997].
+We have already seen the `sum2` command, which returns the definite double integral of a chebfun2 over its domain of definition. The `sum` command is a little different, integrating with respect to one variable at a time following the MATLAB analogy. For instance, the following commands integrate $\sin(10xy)$ with respect to $y$:
 
-<pre class="mcode-input">x = chebfun2(@(x,y) x); y = chebfun2(@(x,y) y);
-trott = 144*(x.^4+y.^4)-225*(x.^2+y.^2) + 350*x.^2.*y.^2+81;
-r = roots(trott);
-LW = 'linewidth'; MS = 'markersize';
-plot(r,LW,1.6), axis([-1 1 -1 1]), axis square</pre><img src="img/guide13_01.png" class="figure" alt="">
+<pre class="mcode-input">f = chebfun2(@(x,y) sin(10*x.*y),[0 pi/4 0 3]);
+sum(f)</pre><pre class="mcode-output">ans =
+   chebfun row (1 smooth piece)
+       interval       length   endpoint values  
+[       0,    0.79]       35  -2.2e-15     0.13 
+Epslevel = 3.552714e-15.  Vscale = 2.173762e+00.
+</pre>A chebfun is returned because the result depends on $x$ and hence is a function of one variable.  Similarly, we can integrate over the $x$ variable and plot the result.
 
-The zero curves are represented as complex valued chebfuns (see Chapter 5 of the guide). For example,
-
-<pre class="mcode-input">r(:,1)</pre><pre class="mcode-output">ans =
+<pre class="mcode-input">LW = 'linewidth';
+sum(f,2), plot(sum(f,2),LW,1.6)</pre><pre class="mcode-output">ans =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[      -1,       1]      576    complex values 
-Epslevel = 1.000000e-05.  Vscale = 9.980190e-01.
-</pre>The zero contours of a function are computed by Chebfun2 to plotting accuracy and they are typically not accurate to machine precision.
+[       0,       3]       35  -5.6e-16    0.033 
+Epslevel = 3.552714e-15.  Vscale = 5.690896e-01.
+</pre><img src="img/guide13_01.png" class="figure" alt="">
+
+A closer look reveals that `sum(f)` returns a row chebfun while `sum(f,2)` returns a column chebfun. This distinction is a reminder that `sum(f)` is a function of $x$ while `sum(f,2)` is a function of $y$. If we integrate over $y$ and then $x$, the result is the double integral of $f$.
+
+<pre class="mcode-input">sum2(f)
+sum(sum(f))</pre><pre class="mcode-output">ans =
+   0.377914013520379
+ans =
+   0.377914013520379
+</pre>It is interesting to compare the execution times involved for computing the double integral by different commands.  Chebfun2 does very well for smooth functions. Here we see an example in which it is faster than the MATLAB `quad2d` command.
+
+<pre class="mcode-input">F = @(x,y) exp(-(x.^2 + y.^2 + cos(4*x.*y)));
+tol = 3e-14;
+tic, I = quad2d(F,-1,1,-1,1,'AbsTol',tol); t = toc;
+fprintf('QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
+tic, I = sum(sum(chebfun2(F))); t = toc;
+fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
+tic, I = sum2(chebfun2(F)); t = toc;
+fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.2183 secs
+CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.1098 secs
+CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0461 secs
+</pre>Chebfun2 is not designed specifically for numerical quadrature (or more properly, "cubature"), and careful comparisons with existing software have not been carried out. Low rank function approximations have been previously used for numerical quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman &amp; Geddes 2005].  A cubature package CHEBINT based on Chebyshev approximations has been produced by Poppe and Cools [Poppe &amp; Cools 2011].
 
 
 
-## 13.2 `roots`
+## 13.2 `norm`, `mean`, and `mean2`
 
-Chebfun2 also comes with the capability of finding zeros of bivariate systems, i.e., the solutions to $f(x,y) = g(x,y) = 0$. If the `roots` command is supplied with one chebfun2, it computes the zero contours of that function, as in the last section.  However, if it is supplied with two chebfun2 objects, as in `roots(f,g)`, then it computes the roots of the bivariate system. Generically, these are isolated points.
+The $L^2$-norm of a function $f(x,y)$ can be computed as the square root of the double integral of $f^2$. In Chebfun2 the command `norm(f)`, without any additional arguments, computes this quantity. For example,
 
-What points on the Trott's curve intersect with the circle of radius $0.9$?
+<pre class="mcode-input">f = chebfun2('exp(-(x.^2 + y.^2 +4*x.*y))');
+norm(f), sqrt(sum2(f.^2))</pre><pre class="mcode-output">ans =
+   2.819481057146932
+ans =
+   2.819481057146935
+</pre>Here is another example. This time we compute the norms of $f(x,y)$, $\cos(f(x,y))$, and $f(x,y)^5$.
 
-<pre class="mcode-input">g = chebfun2(@(x,y) x.^2 + y.^2 - .9^2);  % circle of radius 0.9
-r = roots(trott,g);
-plot(roots(trott),'b',LW,1.6), hold on
-plot(roots(g),'r',LW,1.6)
-plot(r(:,1),r(:,2),'.k',LW,1.6,MS,20)  % point intersections
-axis([-1 1 -1 1]), axis square, hold off</pre><img src="img/guide13_02.png" class="figure" alt="">
+<pre class="mcode-input">f = chebfun2(@(x,y) exp(-1./( sin(x.*y) + x ).^2));
+norm(f), norm( cos(f) ), norm( f.^5 )</pre><pre class="mcode-output">ans =
+   0.462652919760561
+ans =
+   1.950850368197070
+ans =
+   0.060896016071932
+</pre>The command `mean2` scales the result of `sum2` to return the mean value of $f$ over the rectangle of definition:
 
-The solution to bivariate polynomial systems and intersections of curves, are typically computed to full machine precision.
+<pre class="mcode-input">help chebfun2/mean2</pre><pre class="mcode-output"> MEAN2   Mean of a CHEBFUN2
+    V = MEAN2(F) returns the mean of a CHEBFUN: 
+  
+                         d  b
+                        /  /   
+    V = 1/(d-c)/(b-a)   |  |   f(x,y) dx dy 
+                        /  /
+                       c  a
+  
+  	where the domain of F is [a,b] x [c,d]. 
+ 
+  See also MEAN, STD2.
 
+</pre>For example, here is the average value of a 2D Runge function.
 
+<pre class="mcode-input">runge = chebfun2( @(x,y) 1./( .01 + x.^2 + y.^2 )) ;
+plot(runge)
+mean2(runge)</pre><pre class="mcode-output">ans =
+   3.796119578934829
+</pre><img src="img/guide13_02.png" class="figure" alt="">
 
-## 13.3 Intersections of curves
+The command `mean` computes the average along one variable.  The output is a function of one variable represented by a chebfun, so we can plot it.
 
-The problem of determining the intersections of real parameterised complex curves can be expressed as a bivariate rootfinding problem.  For instance, here are the intersections between the 'splat' curve [Guettel Example 2010] and a 'figure-of-eight' curve.
+<pre class="mcode-input">plot(mean(runge),LW,1.6)
+title('Mean value of 2D Runge function wrt y')</pre><img src="img/guide13_03.png" class="figure" alt="">
 
-<pre class="mcode-input">t = chebfun('t',[0,2*pi]);
-sp = exp(1i*t) + (1+1i)*sin(6*t).^2;     % splat curve
-figof8 = cos(t) + 1i*sin(2*t);           % figure of eight curve
-plot(sp,LW,1.6), hold on
-plot(figof8,'r',LW,1.6), axis equal
+If we average over $y$ and then $x$, we obtain the mean value over the whole domain, matching the earlier result.
 
-d = [0 2*pi 0 2*pi];
-f = chebfun2(@(s,t) sp(t)-figof8(s),d);  % rootfinding
-r = roots(real(f),imag(f));              % calculate intersections
-spr = sp(r(:,2));
-plot(real(spr),imag(spr),'.k',MS,20), ylim([-1.1 2.1])
-hold off</pre><img src="img/guide13_03.png" class="figure" alt="">
-
-Chebfun2 rootfinding is based on an algorithm described in [Nakatsukasa, Noferini &amp; Townsend 2013].
-
-
-
-## 13.4 Global optimisation: `max2`, `min2`, and `minandmax2`
-
-Chebfun2 also provides functionality for global optimisation. Here is a non-trivial example, where we plot the computed minimum and maximum as black dots.
-
-<pre class="mcode-input">f = chebfun2(@(x,y) sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2));
-[mn mnloc] = min2(f);
-[mx mxloc] = max2(f);
-plot(f), hold on
-plot3(mnloc(1),mnloc(2),mn,'.k',MS,40)
-plot3(mxloc(1),mxloc(2),mx,'.k',MS,30)
-zlim([-6 6]), hold off</pre><img src="img/guide13_04.png" class="figure" alt="">
-
-If both the global maximum and minimum are required, it is roughly twice as fast to compute them at the same time by using the `minandmax2` command. For instance,
-
-<pre class="mcode-input">tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t=toc;
-fprintf('min2 and max2 separately = %5.3fs\n',t)
-tic; [Y X] = minandmax2(f); t=toc;
-fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 0.434s
-minandmax2 command = 0.196s
-</pre>The commands `min2`, `max2`, and `minandmax2` run faster if the MATLAB Optimisation Toolbox is available.
-
-
-
-## 13.5 Critical points
-
-The critical points of smooth function of two variables can be located by finding the zeros of $\partial f/ \partial y = \partial f / \partial x = 0$. This is a rootfinding problem.  For example,
-
-<pre class="mcode-input">f = chebfun2(@(x,y) (x.^2-y.^3+1/8).*sin(10*x.*y));
-r = roots(gradient(f));                       % critical points
-plot(roots(diff(f,1,2)),'b',LW,1.6), hold on  % plot zero contours of f_x
-plot(roots(diff(f)),'r')                      % plot zero contours of f_y
-plot(r(:,1),r(:,2),'k.','MarkerSize',30)      % plot extrema
-axis([-1,1,-1,1]), axis square</pre><img src="img/guide13_05.png" class="figure" alt="">
-
-There is a new command here called gradient that computes the gradient vector and represents it as a chebfun2v object. The roots command then solves for the isolated roots of the bivariate polynomial system represented in the chebfun2v representing the gradient. For more information about the gradient command see Chapter 14 of this guide.
-
-
-
-## 13.6 Infinity norm
-
-The $\infty$-norm of a function is the maximum absolute value in its domain. It can be computed by passing an optional argument to the norm command.
-
-<pre class="mcode-input">f = chebfun2(@(x,y) sin(30*x.*y));
-norm(f,inf)</pre><pre class="mcode-output">ans =
-   0.999999999999997
+<pre class="mcode-input">mean(mean(runge))</pre><pre class="mcode-output">ans =
+   3.796119578934826
 </pre>
 
-## 13.7 References
+## 13.3 `cumsum` and `cumsum2`
 
-[Guettel Example 2010] S. Guettel, <a href="http://www2.maths.ox.ac.uk/chebfun/examples/geom/html/Area.shtml">http://www2.maths.ox.ac.uk/chebfun/examples/geom/html/Area.shtml</a>
+The command `cumsum2` computes the double indefinite integral, which is a function of two variables, and returns a chebfun2.
 
-[Nakatsukasa, Noferini &amp; Townsend 2013] Y. Nakatsukasa, V. Noferini and A. Townsend, "Computing the common zeros of two bivariate functions via Bezout resultants", _Numerische Mathematik_, to appear.
+<pre class="mcode-input">help chebfun2/cumsum2</pre><pre class="mcode-output"> CUMSUM2   Double indefinite integral of a CHEBFUN2.
+    F = CUMSUM2(F) returns the double indefinite integral of a CHEBFUN2. That is
+                    y  x
+                   /  /
+    CUMSUM2(F) =  |  |   f(x,y) dx dy   for  (x,y) in [a,b] x [c,d],
+                  /  /
+                 c  a
+ 
+    where [a,b] x [c,d] is the domain of f.
+  
+  See also CUMSUM, SUM, SUM2.
 
-[Trott 2007] M. Trott, Applying Groebner Basis to Three Problems in Geometry, _Mathematica in Education and Research_, 6 (1997), pp.15-28.
+</pre>On the other hand, `cumsum(f)` computes the indefinite integral with respect to just one variable, also returning a chebfun2. The indefinite integral with respect to $y$ and then $xvariable is the same as the double indefinite integral, as we can check numerically.
+
+<pre class="mcode-input">f = chebfun2(@(x,y) sin(3*((x+1).^2+(y+1).^2)));
+contour(cumsum2(f),'numpts',400), axis equal
+title('Contours of cumsum2(f)'), axis([-1 1 -1 1])
+norm( cumsum(cumsum(f),2) - cumsum2(f) )</pre><pre class="mcode-output">ans =
+     0
+</pre><img src="img/guide13_04.png" class="figure" alt="">
+
+
+
+## 13.4 Complex encoding
+
+As is well known, a pair of real scalar functions $f$ and $g$ can be encoded as a complex function $f+ig$. This trick can be useful for simplifying many operations, though at the same time it may be confusing. For instance, instead of representing the unit circle by two real-valued functions, we can represent it by one complex-valued function:
+
+<pre class="mcode-input">d = [0 2*pi];
+c1 = chebfun(@(t) cos(t),d);           % first real-valued function
+c2 = chebfun(@(t) sin(t),d);           % second real-valued function
+c = chebfun(@(t) cos(t)+1i*sin(t),d);  % one complex function</pre>Here are two ways to make a plot of a circle.
+
+<pre class="mcode-input">subplot(1,2,1), plot(c1,c2,LW,1.6)
+axis equal, title('Two real-valued functions')
+subplot(1,2,2), plot(c,LW,1.6)
+axis equal, title('One complex-valued function')</pre><img src="img/guide13_05.png" class="figure" alt="">
+
+This complex encoding trick is exploited in a number of places in Chebfun2. Specifically, it's used to encode the path of integration for a line integral (see next section), to represent zero contours of a chebfun2 (Chapter 14), and to represent trajectories in vector fields (Chapter 15).
+
+We hope users become comfortable with complex encodings, though they are not required for the majority of Chebfun2 functionality.
+
+
+
+## 13.5 Integration along curves
+
+Chebfun2 can compute the integral of $f(x,y)$ along a curve $(x(t),y(t))$. It uses the complex encoding trick and encode the curve $(x(t),y(t))$ as a complex valued chebfun $x(t) + iy(t)$.
+
+For example, here is the curve in the unit square defined by $\exp(10 it)$, $t\in[0,1]$.
+
+<pre class="mcode-input">clf
+C = chebfun(@(t) t.*exp(10i*t),[0 1]);
+plot(C,'k',LW,2), axis([-1 1 -1 1]), axis square</pre><img src="img/guide13_06.png" class="figure" alt="">
+
+Here is a plot of the function $f(x,y) = \cos(10xy^2) + \exp(-x^2)$ on the square, with the values of $f(x,y)$ on the curve $C$ shown in black:
+
+<pre class="mcode-input">f = chebfun2(@(x,y) cos(10*x.*y.^2) + exp(-x.^2));
+plot(f), hold on
+plot3(real(C),imag(C),f(C),'k',LW,2)</pre><img src="img/guide13_07.png" class="figure" alt="">
+
+The object $|f(C)|$ is just a real-valued function defined on $[0,1]$, whose integral we can readily compute:
+
+<pre class="mcode-input">sum(f(C))</pre><pre class="mcode-output">ans =
+   1.613596461872283
+</pre>This number can be interpreted as the integral of $f(x,y)$ along the curve $C$.
+
+
+
+## 13.6 `diff`, `diffx`, `diffy`
+
+In MATLAB the `diff` command calculates finite differences of a matrix along its columns (by default) or rows. For a chebfun2 the same syntax represents partial differentiation $\partial f/\partial y$ (by default) or $\partial f/\partial x$.
+
+As pointed out in the last chapter, however, this can be rather confusing.  Accordingly Chebfun2 offers the alternatives `diffx` and `diffy` with more obvious meaning.  Here for example is the syntax of `diffx`:
+
+<pre class="mcode-input">help chebfun2/diffx</pre><pre class="mcode-output"> DIFFX   Differentiate a CHEBFUN2 with respect to its first argument.
+ 
+    G = DIFFX(F) returns a CHEBFUN2 representing the derivative of F in its
+    first argument. This is the same as DIFF(F,1,2).
+ 
+    G = DIFFX(F,N) returns a CHEBFUN2 representing the Nth derivative of F in
+    its first argument. This is the same as DIFF(F,N,2).
+ 
+    This command is for convenience as the syntax for DIFF, inherited from the
+    DIFF command for matrices, can be confusing.
+  
+  See also DIFFY, DIFF. 
+
+</pre>Here we use `diffx` and `diffy` to check that the Cauchy-Riemann equations hold for an analytic function.
+
+<pre class="mcode-input">f = chebfun2(@(x,y) sin(x+1i*y));   % a holomorphic function
+u = real(f); v = imag(f);           % real and imaginary parts
+norm(diffy(v) - diffx(u))
+norm(diffx(v) + diffy(u))         % Do the Cauchy-Riemann eqns hold?</pre><pre class="mcode-output">ans =
+     2.577622443765214e-14
+ans =
+     1.064740840017172e-14
+</pre>
+
+## 13.7 Integration in three variables
+
+Chebfun2 also works pretty well for integration in three variables. The idea is to integrate over two of the variables using Chebfun2 and the remaining variable using Chebfun. We have selected a tolerance of $10^{-6}$ for this example because the default tolerance in the MATLAB `integral3` command is also $10^{-6}$.
+
+<pre class="mcode-input">r = @(x,y,z) sqrt(x.^2 + y.^2 + z.^2);
+t = @(x,y,z) acos(z./r(x,y,z)); p = @(x,y,z) atan(y./x);
+f = @(x,y,z) sin(5*(t(x,y,z) - r(x,y,z))) .* sin(p(x,y,z)).^2;
+
+I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5]));
+tic, I = sum(chebfun(@(z) I(z),[1 2],'vectorize')); t = toc;
+fprintf('          Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
+tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;
+fprintf('  MATLAB integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output">          Chebfun2:  I = -0.48056569408898  time = 2.407 secs
+  MATLAB integral3:  I = -0.48056569417568  time = 0.920 secs
+</pre>
+
+## 13.8 References
+
+[Carvajal, Chapman &amp; Geddes 2005] O. A. Carvajal, F. W. Chapman and K. O. Geddes, "Hybrid symbolic-numeric integration in multiple dimensions via tensor-product series", _Proceedings of ISSAC'05_, M. Kauers, ed., ACM Press, 2005, pp. 84--91.
+
+[Poppe &amp; Cools 2011] K. Poppe and R. Cools, "CHEBINT: operations on multivariate Chebyshev approximations", `http://nines.cs.kuleuven.be/software/CHEBINT/`.
 

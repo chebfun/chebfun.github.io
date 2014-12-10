@@ -62,10 +62,11 @@ Such types of solutions to the $n$-body problem, where the particles follow peri
 Let us consider the chebfun representing the third particle, whose initial value appears on the left in the above plot. This is a complex valued chebfun with domain $[0, 4\pi]$ (2 periods).
 
 <pre class="mcode-input">v = u(:,3)</pre><pre class="mcode-output">v =
-   chebfun column (1 smooth piece)
+   chebfun column (2 smooth pieces)
        interval       length   endpoint values  
-[       0,      13]      402    complex values 
-Epslevel = 1.000000e-13.  Vscale = 1.081017e+00.
+[       0,     6.3]      204    complex values 
+[     6.3,      13]      204    complex values 
+Epslevel = 1.176364e-13.  Vscale = 1.081017e+00.  Total length = 408.
 </pre>We can compute a rational interpolant for $v$ using the robust rational interpolation and least squares algorithm described in [2], which is implemented by Chebfun in the function `ratinterp`. Then we can consider this rational interpolant as an analytic continuation of the underlying function and analyse its singularities.
 
 We are considering this function in complex time! An abstract concept which can inform us of properties of the solution in real time. For example, if there is a complex singularity $t_0$ near to the real line, the function is somewhat less smooth at time $t = \mbox{real}(t_0)$ than it is elsewhere.
@@ -81,7 +82,7 @@ nu =
 </pre>We can see that the robustness of the algorithm reduces the degree of the denominator drastically. We still have a good error estimate on the real interval:
 
 <pre class="mcode-input">max(abs(rh(linspace(0,4*pi,100)) - v(linspace(0,4*pi,100))))</pre><pre class="mcode-output">ans =
-     4.857852405291055e-10
+     4.858812283118155e-10
 </pre>
 
 ## Analysis of Singularities
@@ -89,25 +90,25 @@ nu =
 The poles calculated above are as follows.
 
 <pre class="mcode-input">poles</pre><pre class="mcode-output">poles =
-  2.092587877358921 - 0.539634193302825i
-  2.912598685191316 + 1.939005723982471i
-  4.188725912975051 - 0.551336407479808i
-  5.233710423473792 + 0.551707401808514i
-  7.332660260488846 + 0.551707250048496i
-  8.377644844195080 - 0.551336357855684i
-  9.653787333617759 + 1.939008596013644i
- 10.473782750539081 - 0.539634603132285i
+  2.092587576050621 - 0.539633773172483i
+  2.912626305510281 + 1.938888110519602i
+  4.188725821398688 - 0.551336259345175i
+  5.233710496681866 + 0.551707499983086i
+  7.332660216670717 + 0.551707400786627i
+  8.377644927236211 - 0.551336465759696i
+  9.653770398670732 + 1.938894850810225i
+ 10.473782630895606 - 0.539634961496462i
 </pre>A straightforward analysis considering the symmetries of the system (communicated to me by Viswanath) shows that if the solution that $v$ is approximating has any complex singularities, the real parts may only take the values $(\pi/3)[1,2,4,5]~(\mbox{mod}\ 2\pi)$.
 
 <pre class="mcode-input">real(poles)*3/pi</pre><pre class="mcode-output">ans =
-   1.998274227215095
-   2.781326867946919
-   3.999938605842549
-   4.997825307644586
-   7.002174758821829
-   8.000061530531870
-   9.218687842219166
-  10.001725785713536
+   1.998273939486862
+   2.781353243408677
+   3.999938518393564
+   4.997825377553146
+   7.002174716978597
+   8.000061609830309
+   9.218671670535985
+  10.001725671462433
 </pre>We have found poles with real parts approximately $(\pi/3)[2,4,5,7,8,10]$, which agrees with the analysis. We do appear to have missed one singularity at $\pi/3$ and $11\pi/3$, but it is typical to expect only the singularities near the centre of the interval to be found. We have also found two additional poles.  A plot shows that these are further fromthe real line.
 
 <pre class="mcode-input">plot(roots(q,'all'),'o','markersize',4,'color','b','markerfacecolor','b')

@@ -31,8 +31,8 @@ fprintf('Rank of function = %u\n', rank(g))</pre><pre class="mcode-output">Rank 
 
 <pre class="mcode-input">Y = min2(g); fprintf('Computed global minimum = %1.16f\n', Y)
 
-fprintf('Error in Chebfun2 minimum = %1.4e\n', abs(Y(1) -exact))</pre><pre class="mcode-output">Computed global minimum = -3.3068686474747913
-Error in Chebfun2 minimum = 4.4587e-13
+fprintf('Error in Chebfun2 minimum = %1.4e\n', abs(Y(1) -exact))</pre><pre class="mcode-output">Computed global minimum = -3.3068686474747908
+Error in Chebfun2 minimum = 4.4631e-13
 </pre>Here is the full four-line code and how long it takes:
 
 <pre class="mcode-input">s = tic;
@@ -42,7 +42,7 @@ g = chebfun2(f);
 [Y, X] = min2(g);
 t = toc(s);
 
-fprintf('Total time taken = %1.4fs\n',t)</pre><pre class="mcode-output">Total time taken = 0.7611s
+fprintf('Total time taken = %1.4fs\n',t)</pre><pre class="mcode-output">Total time taken = 0.7143s
 </pre>Here is the plot of the minimum in a contour plot:
 
 <pre class="mcode-input">contour(g), hold on, plot(X(1), X(2), 'k.', 'markersize', 20), hold off</pre><img src="img/GlobalMinimum_02.png" class="figure" alt="">

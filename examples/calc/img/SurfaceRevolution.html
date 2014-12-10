@@ -54,7 +54,7 @@ error =
 $$ A = 2\pi \int_a^b f(x)\sqrt{1+|f'(x)|^2}\, \mathrm{d}x. $$
 
 <pre class="mcode-input">A = 2*pi*sum(f.*sqrt(1 + abs(diff(f)).^2))</pre><pre class="mcode-output">A =
-  95.016245402718397
+  95.016245402718411
 </pre>The coordinates of the center of gravity are $x_G=0$, $y_G=0$, and
 
 $$ z_G = \frac{\pi}{V} \int_a^b x f^2(x)\, \mathrm{d}x. $$
@@ -65,7 +65,7 @@ colormap hsv, alpha(.1)
 plot3(0,0,zG,'.r','MarkerSize',40)
 zlim([0 8])
 hold off</pre><pre class="mcode-output">zG =
-   2.891592653589792
+   2.891592653589793
 </pre><img src="img/SurfaceRevolution_06.png" class="figure" alt="">
 
 Finally we compute the moment of inertia, assuming that the object is homogeneous with density $1$,

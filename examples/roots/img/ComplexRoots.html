@@ -17,7 +17,7 @@ So here is the Chebfun evaluation:
 
 <pre class="mcode-input">f = ff(z);
 s1 = sum(z.*diff(f)./f)/(2i*pi)</pre><pre class="mcode-output">s1 =
- -0.000000000000003 + 0.500000000000001i
+ -0.000000000000003 + 0.500000000000002i
 </pre>There is nothing in this computation that depends on the use of the unit disk. Other contours are equally tracatable in Chebfun, as illustrated in the Example [complex/KeyholeContour](../complex/KeyholeContour.html) and in [Chapter 5](../../docs/guide/guide5.html) of the Chebfun Guide.
 
 This method of finding a single root goes back at least to McCune in 1966 [4]. In practice we would often want to be able to find multiple roots, and a generalized algorithm for this case was published by Delves and Lyness in 1967 [2], with mathematical origins as far back as Jackson in 1917 [3].  For a discussion of all kinds of related algorithms, see [1].  The idea here is that if $f$ has more than one root in the unit disk, then the value $s$ above comes out as the sum of all these roots.  Similarly
@@ -38,14 +38,14 @@ s0 = sum(diff(f)./f)/(2i*pi)</pre><pre class="mcode-output">s0 =
 
 <pre class="mcode-input">s1 = sum(z.*diff(f)./f)/(2i*pi)
 s2 = sum(z.^2.*diff(f)./f)/(2i*pi)</pre><pre class="mcode-output">s1 =
-     -1.414497626164258e-16 - 1.370507204279738e-17i
+      4.330727237839987e-20 - 1.370796878478212e-17i
 s2 =
  -0.499999999999999 + 0.000000000000000i
 </pre>corresponding to roots at $\pm 0.5i$. We can find these numbers systematically by noting that the monic polynomial $p(z)$ with these roots has coefficients $c_0 = (s_1^2-s_2)/2$, $c_1=-s_1$, $c_2=1$. So here is a calculation of the two roots in the unit disk of $\cosh(\pi z)$:
 
 <pre class="mcode-input">p = [1 -s1 (s1^2-s2)/2];
 roots(p)</pre><pre class="mcode-output">ans =
- -0.000000000000000 - 0.500000000000000i
+ -0.000000000000000 - 0.499999999999999i
   0.000000000000000 + 0.499999999999999i
 </pre>Generalization to higher numbers of roots can be done via Newton's identities. We don't pursue the general case here but instead write a code that finds three roots of an analytic function in the unit disk:
 
@@ -64,9 +64,9 @@ end</pre>Here is an example, this time with a phase portrait to visually verify 
 roots3(ff)
 plot(chebfun2(ff)), hold on
 plot(z, 'k-'), axis equal</pre><pre class="mcode-output">ans =
-  0.000000000000004 + 0.499999999999992i
-  0.000000000000003 - 0.499999999999991i
-  0.299999999999985 - 0.000000000000001i
+ -0.000000000000000 + 0.500000000000000i
+  0.000000000000000 - 0.499999999999999i
+  0.299999999999999 - 0.000000000000000i
 </pre><img src="img/ComplexRoots_01.png" class="figure" alt="">
 
 Here is another:
@@ -75,8 +75,8 @@ Here is another:
 roots3(ff)
 plot(chebfun2(ff)), hold on
 plot(z, 'k-'), axis equal</pre><pre class="mcode-output">ans =
- -0.250000000000003 + 0.433012701892223i
-  0.500000000000002 + 0.000000000000005i
+ -0.250000000000002 + 0.433012701892223i
+  0.500000000000001 + 0.000000000000005i
  -0.249999999999994 - 0.433012701892219i
 </pre><img src="img/ComplexRoots_02.png" class="figure" alt="">
 

@@ -38,15 +38,15 @@ opts.stylesheet = fullfile(pwd, 'custom_example2md.xsl');
 % template file, then move back out.
 cd(folder)
 
-% This is really inelegant. Must override `snapnow` in the code
-% in order to get pretty pictures, so create a file `snapnow.m`
-% that redirects to `chebexample_snapnow`.
-snapfile = which('snapnow');
-if ~strcmp(fileparts(snapfile), pwd)
-    fh = fopen('snapnow.m', 'w');
-    fprintf(fh, 'function snapnow(varargin), chebexample_snapnow(varargin{:}), return');
-    fclose(fh);
-end
+% % This is really inelegant. Must override `snapnow` in the code
+% % in order to get pretty pictures, so create a file `snapnow.m`
+% % that redirects to `chebexample_snapnow`.
+% snapfile = which('snapnow');
+% if ~strcmp(fileparts(snapfile), pwd)
+%     fh = fopen('snapnow.m', 'w');
+%     fprintf(fh, 'function snapnow(varargin), chebexample_snapnow(varargin{:}), return');
+%     fclose(fh);
+% end
 
 try
     mypublish(examplename, opts);
@@ -93,7 +93,8 @@ format long
 warning('off', 'MATLAB:gui:latexsup:UnableToInterpretLaTeXString');
 warning('off', 'MATLAB:gui:latexsup:UnsupportedFont');
 
-chebexample_publish(varargin{:});
+% chebexample_publish(varargin{:});
+publish(varargin{:});
 
 set(0, 'defaultfigureposition', 'factory');
 set(0, 'defaultaxeslinewidth',  'factory');

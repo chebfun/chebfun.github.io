@@ -110,8 +110,8 @@ t_rect_exact  = [-1.5; -0.148243863926]; % from Chapman et al. [1]
 t_rect_est = roots(F_rect);              % Chebfun estimates
 fprintf('{t_rect} exact (Chapman et al.):    %-2.16f    %-16.12f\n', t_rect_exact)
 fprintf('{t_rect} estimated by Chebfun:      %-2.16f    %-16.16f\n', t_rect_est)</pre><pre class="mcode-output">{t_rect} exact (Chapman et al.):    -1.5000000000000000    -0.148243863926 
-{t_rect} estimated by Chebfun:      -1.5000000000000000    -0.1482438639260601
-</pre>Our second computed answer agrees to every digit with the time given in [1], and there is a chance that Chebfun has does even better. (The tolerance of the ODE solver was set to 5e-14, so in fact we should expect that Chebfun has done one digit better.)
+{t_rect} estimated by Chebfun:      -1.5000000000000000    -1.4999999999999618
+{t_rect} estimated by Chebfun:      -0.1482438639260601    </pre>Our second computed answer agrees to every digit with the time given in [1], and there is a chance that Chebfun has does even better. (The tolerance of the ODE solver was set to 5e-14, so in fact we should expect that Chebfun has done one digit better.)
 
 If we construct a similar chebfun to test the equality of the parallelogram's side lengths, then its roots will correspond to the times when the bugs form a rhombus.
 
@@ -121,7 +121,7 @@ t_rhomb_exact = [-0.328190029216; -0.011365703053]; % from Chapman et al. [1]
 t_rhomb_est = roots(F_rhomb);                       % Chebfun estimates
 fprintf('{t_rhomb} exact (Chapman et al.):    %-19.12f    %-12.12f\n', t_rhomb_exact)
 fprintf('{t_rhomb} estimated by Chebfun:      %-16.16f    %-16.16f\n', t_rhomb_est)</pre><pre class="mcode-output">{t_rhomb} exact (Chapman et al.):    -0.328190029216        -0.011365703053
-{t_rhomb} estimated by Chebfun:      -0.3281900292160747    -0.0113657030533572
+{t_rhomb} estimated by Chebfun:      -0.3281900292160134    -0.0113657030533220
 </pre>Again, Chebfun gives an answer correct to as many digits as are available.
 
 Let us plot the special configurations. First, the first rhombus:
@@ -130,23 +130,20 @@ Let us plot the special configurations. First, the first rhombus:
 plot(bugs, 'interval', [-1.5 tt(3)], LW, 2), hold on
 plot(bugs(tt(3),:), 'k.-', MS, 18), hold off
 axis equal, zoom(1.8), axis off
-title(['rhombus, t = ' num2str(tt(3),10)], FS, 12)</pre><img src="img/FourBugs_06.png" class="figure" alt="">
-
-Now the second rectangle:
+title(['rhombus, t = ' num2str(tt(3),10)], FS, 12)</pre><pre class="mcode-output">Error using horzcat
+Dimensions of matrices being concatenated are not consistent.
+Error in FourBugs (line 181)
+tt = sort([t_rect_est, t_rhomb_est]);</pre>Now the second rectangle:
 
 <pre class="mcode-input">plot(bugs, 'interval', [-1.5 tt(2)], LW, 2), hold on
 plot(bugs(tt(2),:), 'k.-', MS, 18), hold off
 axis equal, zoom(4.4), axis off
-title(['rectangle, t = ' num2str(tt(2),10)], FS, 12)</pre><img src="img/FourBugs_07.png" class="figure" alt="">
-
-Finally, the second rombus, flattened nearly to one dimension.
+title(['rectangle, t = ' num2str(tt(2),10)], FS, 12)</pre>Finally, the second rombus, flattened nearly to one dimension.
 
 <pre class="mcode-input">plot(bugs, 'interval', [-1.5 tt(4)], LW, 2), hold on
 plot(bugs(tt(4),:), 'k.-', MS, 18), hold off
 axis equal, zoom(52), axis off
-title(['rhombus, t = ' num2str(tt(4),10)], FS, 12)</pre><img src="img/FourBugs_08.png" class="figure" alt="">
-
-
+title(['rhombus, t = ' num2str(tt(4),10)], FS, 12)</pre>
 
 ## References
 

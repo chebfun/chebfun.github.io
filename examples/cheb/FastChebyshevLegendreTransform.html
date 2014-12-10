@@ -69,22 +69,22 @@
 <h3 id="computing-the-legendre-coefficients">Computing the Legendre coefficients</h3>
 <p>The problem of computing the coefficients in a Legendre expansion of a function has received considerable research attention since the 1970s, and there are now many approaches (a summary is given [2]). In particular, any fast Chebyshev-Legendre transform can be used to compute the Legendre coefficients of a function by going via Chebyshev coefficients. For example, here are the Legendre coefficients of $1/(1+1000(x-.1)^2)$ using the new fast transform in Chebfun:</p>
 <pre class="mcode-input">f = chebfun(@(x) 1./(1 + 1000*(x-.1).^2));  % A Runge-type function
-c_cheb = chebcoeffs(f).';                   % Chebyshev coeffs in O(NlogN)
+c_cheb = chebcoeffs(f);                     % Chebyshev coeffs in O(NlogN)
 c_leg = cheb2leg(c_cheb);                   % Leg coeffs with the new algorithm
 LW = 'linewidth'; lw = 1.6;
 MS = 'markersize'; FS = 'fontsize'; fs = 12;
-semilogy(flipud(abs(c_leg)), 'xr',MS,4), hold on  % plot them
-semilogy(flipud(abs(c_cheb)), '.b', MS,8)
+semilogy(abs(c_leg), 'xr',MS,4), hold on  % plot them
+semilogy(abs(c_cheb), '.b', MS,8)
 legend('Legendre coefficients','Chebyshev coefficients')
 xlabel('n', FS, fs), set(gca, FS, fs), hold off</pre>
 
 <p><img src="img/FastChebyshevLegendreTransform_01.png" class="figure" alt=""></p>
 <p>For an analytic function, the Legendre and Chebyshev coefficients decay at essentially the same geometric rate. However, for algebraically smooth functions the decay of Legendre coefficients is about $n^{-1/2}$ worse than that of the corresponding Chebyshev coefficients, a phenomenon discussed in [5].  Here we witness this disparity for the function $|x-.1|^{7/4}$:</p>
 <pre class="mcode-input">f = chebfun(@(x) abs(x-.1).^(7/4)); N = length(f);    % |x-.1|^(7/4)
-c_cheb = chebcoeffs(f)';                              % Chebyshev coeffs
+c_cheb = chebcoeffs(f);                              % Chebyshev coeffs
 c_leg = cheb2leg(c_cheb);                             % Legendre coeffs
-semilogy(flipud(abs(c_leg)), 'xr',MS,4), hold on,     % plot them
-semilogy(flipud(abs(c_cheb)), '.b',MS,8),
+semilogy(abs(c_leg), 'xr',MS,4), hold on,     % plot them
+semilogy(abs(c_cheb), '.b',MS,8),
 semilogy(1:N,(1:N).^(-7/4-1+.5), 'k--', LW, lw)
 semilogy(1:N,(1:N).^(-7/4-1), 'k--', LW, lw)
 legend('Legendre coefficients','Chebyshev coefficients',...
@@ -99,8 +99,8 @@ xlim([0, N]), xlabel('n', FS, fs), set(gca, FS, fs), hold off</pre>
 N = length(f);
 ns = sprintf('No. of evaluation points = %u\n',N);
 s = tic;                                                % evaluate f
-c_leg = t.^(N-1:-1:0).';                                % via Legendre coeffs
-cheb_vals = chebtech2.coeffs2vals(leg2cheb(c_leg));     % and time it...
+c_leg = t.^(0:N-1).';                                   % via Legendre coeffs
+cheb_vals = chebtech2.coeffs2vals(flipud(leg2cheb(c_leg))); % and time it...
 tt = toc(s);
 ts = sprintf('Evaluation time = %1.2fs\n', tt);
 fprintf([ns, ts])
@@ -109,7 +109,7 @@ title('Absolute error', FS, fs), hold off
 axis([-1 1 1e-16 1e-12]), set(gca, FS, fs), hold off</pre>
 
 <pre class="mcode-output">No. of evaluation points = 23945
-Evaluation time = 0.91s
+Evaluation time = 1.24s
 </pre>
 
 <p><img src="img/FastChebyshevLegendreTransform_03.png" class="figure" alt=""></p>
@@ -131,12 +131,12 @@ A(end-1,:) = (-1).^(0:N-1);                    % left bc
 A(end,:) = ones(1,N);                          % right bc
 b = [zeros(N-2,1);f(-1);f(1)];                 % rhs
 P = spdiags([(1:N-2) 1 1]',0,N,N);             % preconditioner
-c_leg = flipud( (P*A) \ (P*b) );               % solve
+c_leg = ( (P*A) \ (P*b) );                     % solve
 toc</pre>
 
 <pre class="mcode-output">N =
        31709
-Elapsed time is 2.207579 seconds.
+Elapsed time is 4.301824 seconds.
 </pre>
 
 <p>We can now form a chebfun from solution using <code>leg2cheb</code>:</p>
@@ -149,12 +149,12 @@ clf, plot(u{-0.001,0.001}) % plot u on [-0.001, 0.001]
 title('Computed solution (zoomed in)', FS, fs)
 set(gca, FS, fs), xlabel('x', FS, fs), shg</pre>
 
-<pre class="mcode-output">Elapsed time is 0.810688 seconds.
+<pre class="mcode-output">Elapsed time is 0.910657 seconds.
 </pre>
 
 <p><img src="img/FastChebyshevLegendreTransform_04.png" class="figure" alt=""></p>
 <p>Here is the error between the computed and the true solutions:</p>
-<pre class="mcode-input">norm(c_cheb - chebcoeffs(f).', inf)
+<pre class="mcode-input">norm(c_cheb - chebcoeffs(f), inf)
 norm(u - f)</pre>
 
 <pre class="mcode-output">ans =

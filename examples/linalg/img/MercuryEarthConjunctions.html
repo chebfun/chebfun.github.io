@@ -24,11 +24,11 @@ Conjunctions occur when Mercury is in a straight line configuration with the Ear
 
 f = chebfun(@(t) det(M(t)),[0 600],'vectorize');</pre>The roots of the determinant give the days at which a conjunction occurs.
 
-<pre class="mcode-input">zeros = roots(f);</pre>To get a visual interpretation of the roots, one can plot the determinant and then plot _zeros_ all at value $0$. The following figure depicts the times of the first ten conjunctions.
+<pre class="mcode-input">z = roots(f);</pre>To get a visual interpretation of the roots, one can plot the determinant and then plot _zeros_ all at value $0$. The following figure depicts the times of the first ten conjunctions.
 
 <pre class="mcode-input">figure
 plot(f,'linewidth',1.6), hold on, grid on
-plot(zeros(1:10),0,'.r','markersize',20)
+plot(z(1:10),0,'.r','markersize',20)
 xlabel('Time(days)')</pre><img src="img/MercuryEarthConjunctions_01.png" class="figure" alt="">
 
 

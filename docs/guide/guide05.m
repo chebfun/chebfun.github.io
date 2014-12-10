@@ -1,5 +1,5 @@
 %% 5. Complex Chebfuns
-% Lloyd N. Trefethen, November 2009, latest revision June 2014
+% Lloyd N. Trefethen, November 2009, latest revision December 2014
 
 %% 5.1  Complex functions of a real variable
 % One of the attractive features of MATLAB is that it handles complex
@@ -11,12 +11,12 @@ plot(f,'.')
 axis equal
   
 %%
-% In MATLAB, both the variables `i` and `j` are initialized as $i$, the square
-% root of $-1$, but this code uses `1i` instead (just as one might write, for
-% example, `3+2i` or `2.2-1.1i`).  Writing the imaginary unit in this fashion
+% In MATLAB, both the variables |i| and |j| are initialized as $i$, the square
+% root of $-1$, but this code uses |1i| instead (just as one might write, for
+% example, |3+2i| or |2.2-1.1i|).  Writing the imaginary unit in this fashion
 % is a common trick among MATLAB programmers, for it avoids the risk of
-% surprises caused by `i` or `j` having been overwritten by other values. The
-% `axis equal` command ensures that the real and imaginary axes are scaled
+% surprises caused by |i| or |j| having been overwritten by other values. The
+% |axis equal| command ensures that the real and imaginary axes are scaled
 % equally.
 
 %%
@@ -44,16 +44,16 @@ subplot(1,2,2), plot(exp(h)), axis equal
 %%
 % Such plots make pretty pictures, but as always with Chebfun, the
 % underlying operations involve precise mathematics carried out to many
-% digits of accuracy.  For example, the integral of `g` is $-\pi i/10$,
+% digits of accuracy.  For example, the integral of |g| is $-\pi i/10$,
 sum(g)
 
 %%
-% and the integral of `h` is zero:
+% and the integral of |h| is zero:
 sum(h)
 
 %%
 % Piecewise smooth complex chebfuns are also possible. For example, the
-% following starts from a chebfun `z` defined as $(1+0.5i)s$ for $s$ on the
+% following starts from a chebfun |z| defined as $(1+0.5i)s$ for $s$ on the
 % interval $[0,1]$ and $1+0.5i-2(s-1)$ for $s$ on the interval $[1,2]$.
 z = chebfun({@(s) (1+.5i)*s, @(s) 1+.5i-2*(s-1)},[0 1 2]);
 subplot(1,2,1), plot(z), axis equal, grid on
@@ -61,13 +61,13 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on
 
 %%
 % Actually, this way of constructing a piecewise chebfun is rather clumsy.
-% An easier method is to use the `join` command, in which a
-% construction like `join(f,g,h)` constructs a single chebfun with the same
-% values as `f`, `g`, and `h`, but on a domain concatenated together.  Thus if
-% the domains of `f`, `g`, `h` are $[a,b]$,
-% $[c,d]$, and $[e,f]$, then `join(f,g,h)` has
+% An easier method is to use the |join| command, in which a
+% construction like |join(f,g,h)| constructs a single chebfun with the same
+% values as |f|, |g|, and |h|, but on a domain concatenated together.  Thus if
+% the domains of |f|, |g|, |h| are $[a,b]$,
+% $[c,d]$, and $[e,f]$, then |join(f,g,h)| has
 % three pieces with domains $[a,b]$, $[b,b+(d-c)]$, $[b+(d-c),b+(d-c)+(f-e)]$.
-% Using this trick, we can construct the chebfun `z` above in the following
+% Using this trick, we can construct the chebfun |z| above in the following
 % alternative manner:
   s = chebfun(@(s) s,[0 1]);
   zz = join((1+.5i)*s, 1+.5i-2*s);
@@ -83,9 +83,9 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on
 % infinitesimal region, they preserve angles between intersecting curves.
 
 %%
-% For example, suppose we define `R` to be a chebfun corresponding to the
-% four sides of a rectangle and we define `X` to be another chebfun
-% corresponding to a cross inside `R`.
+% For example, suppose we define |R| to be a chebfun corresponding to the
+% four sides of a rectangle and we define |X| to be another chebfun
+% corresponding to a cross inside |R|.
 s = chebfun('s',[0 1]);
 R = join(1+s, 2+2i*s, 2+2i-s, 1+2i-2i*s);
 LW = 'linewidth'; lw1 = 2; lw2 = 3;
@@ -94,7 +94,7 @@ X = join(1.3+1.5i+.4*s, 1.5+1.3i+.4i*s);
 hold on, plot(X,'r',LW,lw2)
 
 %%
-% Here we see what happens to `R` and `X` under the maps $z^2$ and $\exp(z)$:
+% Here we see what happens to |R| and |X| under the maps $z^2$ and $\exp(z)$:
 clf
 subplot(1,2,1), plot(R.^2,LW,lw1), grid on, axis equal
 hold on, plot(X.^2,'r',LW,lw2)
@@ -105,7 +105,8 @@ hold on, plot(exp(X),'r',LW,lw2)
 % We can take the same idea further and construct a grid in the complex
 % plane, each segment of which is a piece of a chebfun that happens to be
 % linear.  In this case we accumulate the various pieces as successive
-% columns of a quasimatrix, i.e., a "matrix" whose columns are chebfuns.
+% columns of a quasimatrix, i.e., a "matrix" whose columns are chebfuns
+% (see Chapter 6).
   x = chebfun(@(x) x);
   S = chebfun;                  % make an empty chebfun
   for d = -1:.2:1
@@ -147,7 +148,7 @@ hold on, axis equal
 plot((sqrt(5)-1)/2,0,'.k','markersize',4)
 
 %%
-% Here's a prettier version of the same image using the Chebfun `fill`
+% Here's a prettier version of the same image using the Chebfun |fill|
 % command.
 S = join(-.5i+s, 1-.5i+1i*s, 1+.5i-s, .5i-1i*s);
 clf
@@ -161,9 +162,7 @@ axis off
 %% 5.3 Contour integrals
 % If $s$ is a real parameter and $z(s)$ is a complex function of $s$,
 % then we can define a contour integral in the complex plane like this:
-%
 % $$ \int f(z(s)) z'(s) ds . $$
-%
 % The contour in question is the curve described by $z(s)$ as $s$ varies over
 % its range.
 
@@ -183,7 +182,7 @@ axis off
 % According to *Cauchy's theorem*, the integral of an analytic function
 % around a closed curve is zero, or equivalently, the integral between two
 % points $z_1$ and $z_2$ is path-independent.
-% To verify this, we can compute the
+% To verify this property, we can compute the
 % same integral over the straight segment going directly from $0$
 % to $-1+0.5i$:
   w = chebfun('(-1+.5i)*s',[0 1]);
@@ -215,11 +214,11 @@ I = sum(f.*diff(z))/(2i*pi)
 % automatically take advantage of the fact that the integrand is periodic.
 % That would
 % be Fourier analysis as opposed to Chebyshev analysis, and beginning
-% with Version 5, a "Fourfun" approach to such problems has been
+% with Version 5, a "trigfun" approach to such problems has been
 % available, at least when the arguments are smooth (compare [Davis 1959]).
 % For example, we could repeat the above calculation in Fourier mode
 % like this:
-z = chebfun('exp(1i*s)',[0 2*pi],'periodic');
+z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = exp(z)./z.^3;
 I = sum(f.*diff(z))/(2i*pi)
 
@@ -232,7 +231,7 @@ I = sum(f.*diff(z))/(2i*pi)
 
 %%
 % The contour does not have to have radius $1$, or be centered at the origin:
-z = chebfun('1+2*exp(1i*s)',[0 2*pi],'periodic');
+z = chebfun('1+2*exp(1i*s)',[0 2*pi],'trig');
 f = exp(z)./z.^3;
 I2 = sum(f.*diff(z))/(2i*pi)
 
@@ -267,15 +266,15 @@ Iexact = 4i*pi*log(pi/2)
 % Bernoulli number $B_k$ is $k!$ times the kth Taylor coefficient of
 % $z/((\exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.
 k = 10;
-z = chebfun('5*exp(1i*s)',[0 2*pi]);
+z = chebfun('4*exp(1i*s)',[0 2*pi],'trig');
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 exact = 5/66
 
 %%
-% Notice that we have taken `z` to be a circle of radius $5$. If the radius is
+% Notice that we have taken |z| to be a circle of radius $4$. If the radius is
 % $1$, the accuracy is a good deal lower:
-z = chebfun('exp(1i*s)',[0 2*pi]);
+z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 
@@ -289,14 +288,10 @@ B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 % Another use of Cauchy integrals is to count zeros or poles of functions
 % in specified regions.  According to the *principle of the argument*, the
 % number of zeros minus the number of poles of $f$ in a region is
-%
 % $$ N = {1\over 2\pi i} \int { f'(z) \over f(z)} dz, $$
-%
 % where the integral is taken over the boundary.  Since $f' = df/dz =
 % (df/ds)(ds/dz)$, we can rewrite this as
-%
 % $$ N = {1\over 2\pi i} \int {1\over f} {df\over ds} ds. $$
-%
 % For example, the function $f(z) = \sin(z)^3 + \cos(z)^3$ clearly has no
 % poles; how many zeros does it have in the disk about $0$ of radius $2$? The
 % following calculation shows that the answer is $3$:
@@ -307,19 +302,17 @@ N = sum((diff(f)./f))/(2i*pi)
 %%
 % What is really going on here is a calculation of the change of the
 % argument of $f$ as the boundary is traversed.  Another way to find that
-% number is with the Chebfun overloads of the MATLAB commands `angle`
-% and `unwrap`:
+% number is with the Chebfun overloads of the MATLAB commands |angle|
+% and |unwrap|:
 anglef = unwrap(angle(f));
 N = (anglef(end)-anglef(0))/(2*pi)
 
 %%
 % Variations on this idea enable one to locate zeros and poles as well as
 % count them.  For example, we can locate a single zero with the formula
-%
 % $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$
-%
 % [McCune 1966].  Here is the zero of the function above in the unit disk:
-z = chebfun('exp(1i*s)',[0 2*pi],'periodic');
+z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = sin(z).^3 + cos(z).^3;
 r = sum(z.*(diff(f)./f))/(2i*pi)
 
@@ -335,7 +328,7 @@ r = roots(f)
 % see [Austin, Kravanja & Trefethen 2013].
 
 %% 5.5 Alphabet soup
-% The Chebfun command `scribble` returns a piecewise linear complex chebfun
+% The Chebfun command |scribble| returns a piecewise linear complex chebfun
 % corresponding to a word spelled out in capital letters.  For example:
 f = scribble('Oxford University');
 LW = 'linewidth'; lw = 2;
@@ -377,20 +370,23 @@ plot(tan(f),LW,lw), axis equal, axis off
 f = scribble('Happy Birthday Pafnuty!');
 L = f.ends(end);
 g = @(z) exp(-2.2i+(2.5i+.4)*z);
-clf, plot(g(f),'r',LW,lw), axis equal, axis off
+clf, plot(g(f),'r',LW,lw)
 circle = 1.12*chebfun(@(x) exp(2i*pi*x/L),[0 L]);
 ellipse = 1.2*(circle + 1./circle)/2 + 1i*mean(imag(f));
 hold on, plot(g(ellipse),'b',LW,lw)
 axis auto equal off
 
 %%
-% You can find an example "Birthday cards and analytic function" in the
-% Complex Variables section of the Chebfun Examples collection, and further
-% related explorations in the Geometry section.
+% You can find an example "Birthday cards and analytic functions" in the
+% Fun Stuff section of the Chebfun Examples collection, and further
+% related explorations in the Geometry section.  And here's another
+% complex scribble:
+clf
+cheb.gallery('motto')
 
 %% 5.6  References
 %
-% [Austin, Kravanja & Trefethen 2013] A. P. Austin, P. Kravanja and
+% [Austin, Kravanja & Trefethen 2014] A. P. Austin, P. Kravanja and
 % L. N. Trefethen, "Numerical algorithms based on analytic function
 % values at roots of unity", _SIAM Journal on Numerical Analysis_, to appear.
 %

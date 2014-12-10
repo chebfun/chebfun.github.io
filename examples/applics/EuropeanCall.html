@@ -114,7 +114,7 @@ hold off</pre>
 <pre class="mcode-input">sum(lognPDF)</pre>
 
 <pre class="mcode-output">ans =
-   1.000000000000001
+   1.000000000000000
 </pre>
 
 <h3 id="change-from-the-original-to-the-risk-neutral-measure">Change from the original to the risk-neutral measure</h3>
@@ -157,7 +157,7 @@ hold off, grid on</pre>
 <p><img src="img/EuropeanCall_04.png" class="figure" alt=""></p>
 <h3 id="distribution-of-the-option-payoff-at-maturity">Distribution of the option payoff at maturity</h3>
 <p>Formula (\ref{eq1}) takes the risk-neutral expectation of the random variable $V(S_T)$, where $V$ is the function specifying the contract's payoff. How can we calculate the distribution of a random variable which is itself the function of another random variable? The answer of this question appears in every book of basic probability: if $f(x)$ is the PDF of the random variable $x$ and $y(x)$ is a function of $x$, the distribution $g(y)$ is given by</p>
-<p>\begin{equation}   g(y) = f(x(y))\ \Big|dx/dy\Big|.  \label{eq2} \end{equation}</p>
+<p>\begin{equation}   g(y) = f(x(y))\ \Big\|dx/dy\Big\|.  \label{eq2} \end{equation}</p>
 <p>The validity of this rule relies on some assumptions, the most relevant for us now being the possibility of inverting the function $V$, which in turn implies the requirement of the function being monotonically increasing or decreasing. The usual way of dealing with this requirement is to split the domain of the function in regions with this behaviour and then putting them together.</p>
 <p>For the case of the call option, we can apply directly this rule on the ITM region to find out its contribution to the PDF of $V(S)$. In this region, the transformation function simply is $y = S-K$ and $dx/dy=1$. Substituting in (\ref{eq2}), we find that the chebfun of the PDF in the ITM region is</p>
 <pre class="mcode-input">ITM = chebfun(@(S) lognHnd(S+K)*1,[0 RHS]);</pre>
@@ -182,7 +182,7 @@ hold off</pre>
 <pre class="mcode-input">sum(exp(r*T)*payoffPDF)</pre>
 
 <pre class="mcode-output">ans =
-   1.000000000001236
+   1.000000000001234
 </pre>
 
 <h3 id="comparison-with-the-black-scholes-formula">Comparison with the Black-Scholes formula</h3>
@@ -190,7 +190,7 @@ hold off</pre>
 <pre class="mcode-input">approx = sum(x.*payoffPDF);
 disp(['approx = ', num2str(approx,'%10.15f')])</pre>
 
-<pre class="mcode-output">approx = 40.837802467835900
+<pre class="mcode-output">approx = 40.837802467835829
 </pre>
 
 <p>We indicate the location of the expected value with a blue line on the payoff's distribution.</p>
@@ -218,7 +218,7 @@ disp(['exact  = ', num2str(exact,'%10.15f')])
 disp(['approx = ', num2str(approx,'%10.15f')])</pre>
 
 <pre class="mcode-output">exact  = 40.837802467836617
-approx = 40.837802467835900
+approx = 40.837802467835829
 </pre>
 
 <h3 id="summary">Summary</h3>

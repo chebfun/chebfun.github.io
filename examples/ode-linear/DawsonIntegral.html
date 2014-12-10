@@ -76,7 +76,7 @@ f = L\1;
 toc
 plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre>
 
-<pre class="mcode-output">Elapsed time is 4.229848 seconds.
+<pre class="mcode-output">Elapsed time is 2.369714 seconds.
 </pre>
 
 <p><img src="img/DawsonIntegral_01.png" class="figure" alt=""></p>
@@ -105,8 +105,8 @@ plot(f,LW,lw), grid on</pre>
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[      -5,       5]       42      -0.1      0.1 
-Epslevel = 3.624416e-07.  Vscale = 5.406332e-01.
+[      -5,       5]       38      -0.1      0.1 
+Epslevel = 9.665300e-07.  Vscale = 5.396731e-01.
 </pre>
 
 <p><img src="img/DawsonIntegral_02.png" class="figure" alt=""></p>
@@ -122,7 +122,7 @@ tic
 f = chebfun(@(x) real(sqrt(pi)*(cef(x,N)-exp(-x.^2))/2i), [-W W]);
 toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.341504 seconds.
+<pre class="mcode-output">Elapsed time is 0.051382 seconds.
 </pre>
 
 <p>If you have the Symbolic Toolbox...</p>

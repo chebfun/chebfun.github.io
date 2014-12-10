@@ -62,17 +62,17 @@ The Floquet exponents are given by the eigenvalues of the matrix B:
 
 <pre class="mcode-input">[V,D] = eig(B);invV = eye(n)/V;
 Exponents = diag(D)</pre><pre class="mcode-output">Exponents =
-  0.000000000000003 - 0.268354690531905i
-  0.000000000000003 + 0.268354690531904i
-  0.037475319732291 + 1.000000000000000i
- -0.037475319732286 + 1.000000000000000i
+  0.000000000004853 - 0.268354690535319i
+  0.000000000004853 + 0.268354690535319i
+ -0.037475319730416 + 1.000000000000000i
+  0.037475319732382 + 1.000000000000000i
 </pre>And the Floquet multipliers are given by the exponential of the Floquet exponents multiplied by the period T:
 
 <pre class="mcode-input">Multipliers = exp(diag(D)*T)</pre><pre class="mcode-output">Multipliers =
-  0.665180257006666 - 0.746682814646595i
-  0.665180257006668 + 0.746682814646594i
- -1.124942799147944 - 0.000000000000001i
- -0.888934086921964 + 0.000000000000001i
+  0.665180257008794 - 0.746682814665106i
+  0.665180257008793 + 0.746682814665107i
+ -0.888934086927188 + 0.000000000000001i
+ -1.124942799148266 + 0.000000000000001i
 </pre>We can build the chebmatrix exponential $e^{-tB}$ and use this to find the periodic matrix $P(t)$:
 
 <pre class="mcode-input">t = chebfun('t',d);

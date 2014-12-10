@@ -62,8 +62,8 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <p>Let us take as our domain a period of 1000 days.</p>
-<pre class="mcode-input">domain = [0 1000];
-t = chebfun('t', domain);</pre>
+<pre class="mcode-input">dom = [0 1000];
+t = chebfun('t', dom);</pre>
 
 <p>Here are some equations we shall take as the elliptical orbits of the Earth and Mercury during this period [1]:</p>
 <pre class="mcode-input">y_m = 56.6741*sin(2*pi*t/87.97);

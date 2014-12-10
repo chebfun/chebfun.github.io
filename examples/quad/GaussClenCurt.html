@@ -98,7 +98,7 @@ Iclenshawcurtis = w*f(s)</pre>
 Igauss = w*f(s)</pre>
 
 <pre class="mcode-output">Igauss =
-   0.336732834781728
+   0.336732834781727
 </pre>
 
 <p>Though this value of <code>Npts</code> is in the hundreds, Chebfun can handle values in the millions without difficulty. This is achieved by the algorithm of Hale and Townsend [1]. See the Example <a href="../quad/GaussQuad.html">quad/GaussQuad</a>.</p>
@@ -115,7 +115,7 @@ ylim([1e-18 1])
 xlabel('Npts',FS,12), ylabel('Error',FS,12)
 title('Gauss quadrature convergence',FS,16), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.333560 seconds.
+<pre class="mcode-output">Elapsed time is 0.165843 seconds.
 </pre>
 
 <p><img src="img/GaussClenCurt_02.png" class="figure" alt=""></p>
@@ -130,7 +130,7 @@ semilogy(NN,err,'.-r',LW,1,MS,16)
 title('Gauss and Clenshaw-Curtis',FS,16)
 legend('Gauss','Clenshaw-Curtis','location','southwest'), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.089475 seconds.
+<pre class="mcode-output">Elapsed time is 0.909083 seconds.
 </pre>
 
 <p><img src="img/GaussClenCurt_03.png" class="figure" alt=""></p>

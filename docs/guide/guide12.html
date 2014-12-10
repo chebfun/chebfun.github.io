@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>12. Chebfun2: Integration and Differentiation &raquo; Chebfun</title>
+    <title>12. Chebfun2: Getting Started &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -55,8 +55,8 @@
 
     <div class='page-header'>
 <span class='chapter_number'>12</span>
-<h1>Chebfun2: Integration and Differentiation</h1>
-<h2>Alex Townsend, March 2013, latest revision June 2014<span>
+<h1>Chebfun2: Getting Started</h1>
+<h2>Alex Townsend, March 2013, latest revision December 2014<span>
     
         <a href='/docs/guide/guide11.html'
 >previous</a><span class='sep-sm
@@ -68,230 +68,235 @@
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<h3 id="121-sum-and-sum2">12.1 <code>sum</code> and <code>sum2</code></h3>
-<p>We have already seen the <code>sum2</code> command, which returns the definite double integral of a chebfun2 over its domain of definition. The sum command is a little different and integrates with respect to one variable at a time. For instance, the following commands integrate over the $y$ variable:</p>
-<pre class="mcode-input">f = chebfun2(@(x,y) sin(10*x.*y),[0 pi/4 0 3]);
-sum(f)</pre>
+<h3 id="121-what-is-a-chebfun2">12.1  What is a chebfun2?</h3>
+<p>Chebfun2 is the part of Chebfun that deals with functions of two variables defined on a rectangle $[a,b]\times[c,d]$. Just like Chebfun in 1D, it is an extremely convenient tool for all kinds of computations including algebraic manipulation, optimization, integration, and rootfinding. It also extends to vector-valued functions of two variables, so that one can perform vector calculus.</p>
+<p>For example, here is a test function that has been part of MATLAB for many years.  MATLAB represents the "peaks" function by a $49\times 49$ matrix:</p>
+<pre class="mcode-input">peaks</pre>
+
+<pre class="mcode-output"> 
+z =  3*(1-x).^2.*exp(-(x.^2) - (y+1).^2) ... 
+   - 10*(x/5 - x.^3 - y.^5).*exp(-x.^2-y.^2) ... 
+   - 1/3*exp(-(x+1).^2 - y.^2)
+
+</pre>
+
+<p><img src="img/guide12_01.png" class="figure" alt=""></p>
+<p>The same function is available as a chebfun2 in the Chebfun2 gallery:</p>
+<pre class="mcode-input">f = cheb.gallery2('peaks');
+plot(f), axis tight, title('Chebfun2 Peaks')</pre>
+
+<p><img src="img/guide12_02.png" class="figure" alt=""></p>
+<p>Of course in Chebfun we can do all sorts of things with functions to high accuracy, such as evaluate them</p>
+<pre class="mcode-input">f(0.5,0.5)</pre>
+
+<pre class="mcode-output">ans =
+   0.375375578848318
+</pre>
+
+<p>or compute their maxima,</p>
+<pre class="mcode-input">max2(f)</pre>
+
+<pre class="mcode-output">ans =
+   8.106213589442334
+</pre>
+
+<p>A chebfun2, with a lower-case "c", is a MATLAB object, the 2D analogue of a chebfun. The syntax for chebfun2 objects is similar to the syntax for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands overloaded. For instance, <code>trace(A)</code> returns the sum of the diagonal entries of a matrix $A$ and <code>trace(f)</code> returns the integral of $f(x,x)$ when $f$ is a chebfun2.</p>
+<p>Chebfun2 builds on Chebfun's univariate representations and algorithms.  Algorithmic details are given in [Townsend &amp; Trefethen 2013b] and mathematical underpinnings in [Townsend &amp; Trefethen 2014]. For more information, see Section 12.8.</p>
+<h3 id="122-what-is-a-chebfun2v">12.2 What is a chebfun2v?</h3>
+<p>Chebfun2 can represent scalar-valued functions, such as $\exp(x+y)$, and vector-valued functions, such as $[\exp(x+y);\cos(x-y)]$. A vector-valued function is called a chebfun2v, and chebfun2v objects are useful for computations of vector calculus. For information about chebfun2v objects and vector calculus, see Chapters 15 and 16 of this guide.</p>
+<h3 id="123-constructing-chebfun2-objects">12.3 Constructing chebfun2 objects</h3>
+<p>A chebfun2 is constructed by supplying the Chebfun2 constructor with a function handle or string. The default rectangular domain is $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is given at the end of this chapter.) For example, here we construct and plot a chebfun2 representing $\cos(2\pi xy)$ on $[-1,1]\times[-1,1]$.</p>
+<pre class="mcode-input">f = chebfun2(@(x,y) cos(2*pi*x.*y));
+plot(f), zlim([-2 2])</pre>
+
+<p><img src="img/guide12_03.png" class="figure" alt=""></p>
+<p>There are several commands for plotting a chebfun2, including <code>plot</code>, <code>contour</code>, and <code>surf</code>.  Here is a contour plot of $f$:</p>
+<pre class="mcode-input">contour(f), axis square</pre>
+
+<p><img src="img/guide12_04.png" class="figure" alt=""></p>
+<p>One way to find the rank of the approximant used to represent $f$, discussed in Section 8.8, is like this:</p>
+<pre class="mcode-input">length(f)</pre>
+
+<pre class="mcode-output">ans =
+    11
+</pre>
+
+<p>Alternatively, more information can be given by displaying the chebfun2 object:</p>
+<pre class="mcode-input">f</pre>
+
+<pre class="mcode-output">f =
+   chebfun2 object: (1 smooth surface)
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]       11     [   1    1    1    1]
+vertical scale =   1 
+</pre>
+
+<p>The corner values are the values of the chebfun2 at $(-1,-1)$, $(-1,1)$, $(1,-1)$, and $(1,1)$, in that order. The vertical scale is used by operations to aim for close to machine precision relative to that number.</p>
+<h3 id="124-basic-operations">12.4 Basic operations</h3>
+<p>Once we have a chebfun2, we can compute quantities such as its definite double integral:</p>
+<pre class="mcode-input">sum2(f)</pre>
+
+<pre class="mcode-output">ans =
+   0.902823333580281
+</pre>
+
+<p>This matches well the exact answer obtained by calculus, which is $(2/\pi)\hbox{Si}(2\pi)$:</p>
+<pre class="mcode-input">exact = 0.9028233335802806267957003779</pre>
+
+<pre class="mcode-output">exact =
+   0.902823333580281
+</pre>
+
+<p>We can also evaluate a chebfun2 at a point $(x,y)$, or along a line. When evaluating along a line a chebfun is returned because the answer is a function of one variable.</p>
+<p>Evaluation at a point:</p>
+<pre class="mcode-input">x = 2*rand - 1; y = 2*rand - 1;
+f(x,y)</pre>
+
+<pre class="mcode-output">ans =
+  -0.507059801016062
+</pre>
+
+<p>Evaluation along the line $y = \pi/6$:</p>
+<pre class="mcode-input">f(:,pi/6)</pre>
 
 <pre class="mcode-output">ans =
    chebfun row (1 smooth piece)
        interval       length   endpoint values  
-[       0,    0.79]       35  -1.8e-15     0.13 
-Epslevel = 8.354003e-15.  Vscale = 2.172798e+00.
+[      -1,       1]       21     -0.99    -0.99 
+Epslevel = 1.776357e-15.  Vscale = 1.000000e+00.
 </pre>
 
-<p>A chebfun is returned because the result depends on $x$ and hence, is a function of one variable.  Similarly, we can integrate over the $x$ variable, and plot the result.</p>
-<pre class="mcode-input">LW = 'linewidth';
-sum(f,2), plot(sum(f,2),LW,1.6)</pre>
-
-<pre class="mcode-output">ans =
-   chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[       0,       3]       35  -5.6e-16    0.033 
-Epslevel = 7.345480e-15.  Vscale = 5.688372e-01.
-</pre>
-
-<p><img src="img/guide12_01.png" class="figure" alt=""></p>
-<p>A closer look reveals that <code>sum(f)</code> returns a row chebfun while <code>sum(f,2)</code> returns a column chebfun. This distinction is a reminder that <code>sum(f)</code> is a function of $x$ while <code>sum(f,2)</code> is a function of $y$. If we integrate over $y$ and then $x$ the result is the double integral of $f$.</p>
-<pre class="mcode-input">sum2(f)
-sum(sum(f))</pre>
-
-<pre class="mcode-output">ans =
-   0.377914013520379
-ans =
-   0.377914013520379
-</pre>
-
-<p>It is interesting to compare the execution times involved for computing the double integral by different commands.  Chebfun2 does very well for smooth functions. Here we see an example in which it is faster than the MATLAB <code>quad2d</code> command.</p>
-<pre class="mcode-input">F = @(x,y) exp(-(x.^2 + y.^2 + cos(4*x.*y)));
-tol = 3e-14;
-tic, I = quad2d(F,-1,1,-1,1,'AbsTol',tol); t = toc;
-fprintf('QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
-tic, I = sum(sum(chebfun2(F))); t = toc;
-fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
-tic, I = sum2(chebfun2(F)); t = toc;
-fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
-
-<pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.1442 secs
-CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.0599 secs
-CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0336 secs
-</pre>
-
-<p>Chebfun2 is not designed specifically for numerical quadrature (or more properly, "cubature"), and careful comparisons with existing software have not been carried out. Low rank function approximations have been previously used for numerical quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman &amp; Geddes 2005].</p>
-<h3 id="122-norm-mean-and-mean2">12.2 <code>norm</code>, <code>mean</code>, and <code>mean2</code></h3>
-<p>The $L^2$-norm of a function $f(x,y)$ can be computed as the square root of the double integral of $f^2$. In Chebfun2 the command <code>norm(f)</code>, without any additional arguments, computes this quantity. For example,</p>
-<pre class="mcode-input">f = chebfun2('exp(-(x.^2 + y.^2 +4*x.*y))');
-norm(f), sqrt(sum2(f.^2))</pre>
-
-<pre class="mcode-output">ans =
-   2.819481057146934
-ans =
-   2.819481057146935
-</pre>
-
-<p>Here is another example. This time we compute the norms of $f(x,y)$, $\cos(f(x,y))$, and $f(x,y)^5$.</p>
-<pre class="mcode-input">f = chebfun2(@(x,y) exp(-1./( sin(x.*y) + x ).^2));
-norm(f), norm( cos(f) ), norm( f.^5 )</pre>
-
-<pre class="mcode-output">ans =
-   0.462652919760561
-ans =
-   1.950850368197068
-ans =
-   0.060896016071932
-</pre>
-
-<p>Just as <code>sum2</code> performs double integration, <code>mean2</code> computes the average value of $f(x,y)$ over both variables:</p>
-<pre class="mcode-input">help chebfun2/mean2</pre>
-
-<pre class="mcode-output"> MEAN2   Mean of a CHEBFUN2
-    V = MEAN2(F) returns the mean of a CHEBFUN:
-
-                         d  b
-                        /  /   
-    V = 1/(d-c)/(b-a)   |  |   f(x,y) dx dy 
-                        /  /
-                       c  a
-
-    where the domain of F is [a,b] x [c,d]. 
-
-  See also MEAN, STD2.
-
-</pre>
-
-<p>For example, here is the average value of a 2D Runge function.</p>
-<pre class="mcode-input">runge = chebfun2( @(x,y) 1./( .01 + x.^2 + y.^2 )) ;
-plot(runge)
-mean2(runge)</pre>
-
-<pre class="mcode-output">ans =
-   3.796119578934829
-</pre>
-
-<p><img src="img/guide12_02.png" class="figure" alt=""></p>
-<p>The command <code>mean</code> computes the average along one variable.  The output of <code>mean(f)</code> is a function of one variable represented by a chebfun, and so we can plot it.</p>
-<pre class="mcode-input">plot(mean(runge),LW,1.6)
-title('Mean value of 2D Runge function wrt y')</pre>
-
-<p><img src="img/guide12_03.png" class="figure" alt=""></p>
-<p>If we average over the $y$ variable and then the $x$ variable, we obtain the mean value over the whole domain.</p>
-<pre class="mcode-input">mean(mean(runge))      % compare with mean2(runge)</pre>
-
-<pre class="mcode-output">ans =
-   3.796119578934826
-</pre>
-
-<h3 id="123-cumsum-and-cumsum2">12.3 <code>cumsum</code> and <code>cumsum2</code></h3>
-<p>The command <code>cumsum2</code> computes the double indefinite integral, which is a function of two variables, and returns a chebfun2.</p>
-<pre class="mcode-input">help chebfun2/cumsum2</pre>
-
-<pre class="mcode-output"> CUMSUM2   Double indefinite integral of a CHEBFUN2.
-    F = CUMSUM2(F) returns the double indefinite integral of a CHEBFUN2. That is
-                    y  x
-                   /  /
-    CUMSUM2(F) =  |  |   f(x,y) dx dy   for  (x,y) in [a,b] x [c,d],
-                  /  /
-                 c  a
-
-    where [a,b] x [c,d] is the domain of f.
-
-  See also CUMSUM, SUM, SUM2.
-
-</pre>
-
-<p>On the other hand, <code>cumsum(f)</code> computes the indefinite integral with respect to just one variable, also returning a chebfun2. Again, the indefinite integral in the $y$ variable and then the $x$ variable is the same as the double indefinite integral, as we can check numerically.</p>
-<pre class="mcode-input">f = chebfun2(@(x,y) exp(-(x.^2 + 3*x.*y+y.^2) ));
-contour(cumsum2(f),'numpts',400), axis equal
-title('Contours of cumsum2(f)'), axis([-1 1 -1 1])
-norm( cumsum(cumsum(f),2) - cumsum2(f) )</pre>
-
-<pre class="mcode-output">ans =
-     0
-</pre>
-
-<p><img src="img/guide12_04.png" class="figure" alt=""></p>
-<h3 id="124-complex-encoding">12.4 Complex encoding</h3>
-<p>As is well known, a pair of real scalar functions $f$ and $g$ can be encoded as a complex function $f+ig$. This trick can be useful for simplifying many operations, but at the same time may be confusing. For instance, instead of representing the unit circle with two real-valued functions, we can represent it with one complex-valued function:</p>
-<pre class="mcode-input">c1 = chebfun(@(t) cos(t),[0 2*pi]);          % first real-valued function
-c2 = chebfun(@(t) sin(t),[0 2*pi]);          % second real-valued function
-c = chebfun(@(t) cos(t)+1i*sin(t),[0 2*pi]); % one complex function</pre>
-
-<p>Here are two ways to make a plot of a circle.</p>
-<pre class="mcode-input">subplot(1,2,1), plot(c1,c2,LW,1.6)
-axis equal, title('Two real-valued functions')
-subplot(1,2,2), plot(c,LW,1.6)
-axis equal, title('One complex-valued function')</pre>
+<p>There are plenty of other questions that may be of interest.  For instance, what are the zero contours of $f(x,y) - .95$?</p>
+<pre class="mcode-input">r = roots(f-.95);
+plot(r), axis square, title('Zero contours of f-.95')</pre>
 
 <p><img src="img/guide12_05.png" class="figure" alt=""></p>
-<p>This complex encoding trick is used in a number of places in Chebfun2. Specifically, it's used to encode the path of integration for a line integral (see section 12.5, below), to represent zero contours of a chebfun2 (see Chapter 13), and to represent trajectories in vector fields (see Chapter 14).</p>
-<p>We hope users become comfortable with using complex encodings, though they are not required for the majority of Chebfun2 functionality.</p>
-<h3 id="125-integration-along-curves">12.5 Integration along curves</h3>
-<p>Chebfun2 can compute the integral of $f(x,y)$ along a curve $(x(t),y(t))$. It uses the complex encoding trick and encode the curve $(x(t),y(t))$ as a complex valued chebfun $x(t) + iy(t)$. For instance, what is the area under the following curve?</p>
-<pre class="mcode-input">clf
-f = chebfun2(@(x,y) cos(10*x.*y.^2) + exp(-x.^2)); % chebfun2 object
-C = chebfun(@(t) t.*exp(10i*t),[0 1]);             % spiral curve
-plot(f), hold on
-plot3(real(C),imag(C),f(C),'k','linewidth',2)</pre>
+<p>What is the partial derivative $\partial f/\partial y$?</p>
+<pre class="mcode-input">fy = diff(f,1,1);
+plot(fy)</pre>
 
 <p><img src="img/guide12_06.png" class="figure" alt=""></p>
-<p>We can compute this by restricting $f$ to the curve and then integrating</p>
-<pre class="mcode-input">sum(f(C))</pre>
+<p>The syntax for the <code>diff</code> command can cause confusion because we are following the matrix syntax in MATLAB. Chebfun2 also offers the more easily remembered <code>diffx(f,k)</code> and <code>diffy(f,k)</code>, which differentiate $f(x,y)$ $k$ times with respect to the first first and second variable, respectively.</p>
+<p>What is the mean value of $f$ on $[-1,1]\times[-1,1]$?</p>
+<pre class="mcode-input">mean2(f)</pre>
 
 <pre class="mcode-output">ans =
-   1.613596461872283
+   0.225705833395070
 </pre>
 
-<h3 id="126-diff">12.6 <code>diff</code></h3>
-<p>In MATLAB the <code>diff</code> command calculates finite differences of a matrix along its columns (by default) or rows. For a chebfun2 the same syntax represents partial differentiation $\partial f/\partial y$ (by default) or $\partial f/\partial x$. This command has the following syntax:</p>
-<pre class="mcode-input">help chebfun2/diff</pre>
+<h3 id="125-chebfun2-methods">12.5 Chebfun2 methods</h3>
+<p>There are over 100 methods that can be applied to chebfun2 objects. For a complete list type:</p>
+<pre class="mcode-input">methods chebfun2</pre>
 
-<pre class="mcode-output"> DIFF   Derivative of a CHEBFUN2s.
-    DIFF(F) is the derivative of F along the y direction.
+<pre class="mcode-output">
+Methods for class chebfun2:
 
-    DIFF(F, N) is the Nth derivative of F in the y direction.
+abs               feval             mesh              sin               
+cdr               fevalm            min               sinh              
+chebcoeffs2       flipdim           min2              size              
+chebfun2          fliplr            minandmax2        sph2cart          
+chebpolyplot      flipud            minus             sphere            
+chebpolyplot2     fred              mldivide          sqrt              
+chebpolyval2      get               mrdivide          squeeze           
+chol              grad              mtimes            std               
+complex           gradient          norm              std2              
+conj              horzcat           pivotplot         subsref           
+contour           imag              pivots            sum               
+contourf          integral          plot              sum2              
+cos               integral2         plotcoeffs        surf              
+cosh              isempty           plotcoeffs2       surface           
+ctranspose        isequal           plus              surfacearea       
+cumprod           isreal            pol2cart          svd               
+cumsum            iszero            potential         tan               
+cumsum2           jacobian          power             tand              
+dblquad           lap               prod              tanh              
+del2              laplacian         qr                times             
+diag              ldivide           quad2d            trace             
+diff              length            quiver            transpose         
+diffx             log               quiver3           uminus            
+diffy             lu                rank              uplus             
+discriminant      max               rdivide           vertcat           
+disp              max2              real              volt              
+display           mean              restrict          waterfall         
+ellipsoid         mean2             roots             
+exp               median            simplify          
 
-    DIFF(F, N, DIM) is the Nth derivative of F along the dimension DIM.
-      DIM = 1 (default) is the derivative in the y-direction.
-      DIM = 2 is the derivative in the x-direction.
+Static methods:
 
-    DIFF(F, [NX NY]) is the partial derivative of NX of F in the first variable,
-    and NY of F in the second derivative. For example, DIFF(F,[1 2]) is
-    d^3F/dxd^2y.
-
-  See also GRADIENT, SUM, PROD.
+chebpts2          outerProduct      vals2coeffs       
+coeffs2vals       paduaVals2coeffs  
 
 </pre>
 
-<p>Here we use <code>diff</code> to check that the Cauchy-Riemann equations hold for an analytic function.</p>
-<pre class="mcode-input">f = chebfun2(@(x,y) sin(x+1i*y));   % a holomorphic function
-u = real(f); v = imag(f);           % real and imaginary parts
-norm(diff(u) - (-diff(v,1,2)))
-norm(diff(u,1,2) - diff(v))         % Do the Cauchy-Riemann eqns hold?</pre>
+<p>Most of these commands have been overloaded from MATLAB. More information about a Chebfun2 command can be found with <code>help</code>:</p>
+<pre class="mcode-input">help chebfun2/max2</pre>
+
+<pre class="mcode-output"> MAX2   Global maximum of a CHEBFUN2.
+    Y = MAX2(F) returns the global maximum of F over its domain.
+
+    [Y, X] = MAX2(F) returns the global maximum in Y and its location X.
+
+   This command may be faster if the OPTIMIZATION TOOLBOX is installed.
+
+  See also MIN2, MINANDMAX2.
+
+</pre>
+
+<h3 id="126-composition-of-chebfun2-objects">12.6 Composition of chebfun2 objects</h3>
+<p>So far, in this chapter, chebfun2 objects have been constructed explicitly via a command of the form <code>chebfun2(...)</code>. Another way to construct new chebfun2 objects is by composing them together with operations such as <code>+</code>, <code>-</code>, <code>.*</code>, and <code>.^</code>. For example,</p>
+<pre class="mcode-input">x = chebfun2(@(x,y) x, [-2 3 -4 4]);
+y = chebfun2(@(x,y) y, [-2 3 -4 4]);
+
+f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
+contour(f), axis square</pre>
+
+<p><img src="img/guide12_07.png" class="figure" alt=""></p>
+<h3 id="127-analytic-functions">12.7 Analytic functions</h3>
+<p>An analytic function $f(z)$ can be thought of as a complex-valued function of two real variables, $f(x,y) = f(x+iy)$. If the Chebfun2 constructor is given an anonymous function with one argument, it assumes that argument is a complex variable. For instance,</p>
+<pre class="mcode-input">f = chebfun2(@(z) sin(z));
+f(1+1i), sin(1+1i)</pre>
 
 <pre class="mcode-output">ans =
-     1.060890001425453e-14
+  1.298457581415977 + 0.634963914784736i
 ans =
-     2.569762378645553e-14
+  1.298457581415977 + 0.634963914784736i
 </pre>
 
-<h3 id="127-integration-in-three-variables">12.7 Integration in three variables</h3>
-<p>Chebfun2 also works pretty well for integration in three variables. The idea is to integrate over two of the variables using Chebfun2 and the remaining variable using Chebfun. We have selected a tolerance of $10^{-6}$ for this example because the default tolerance in the MATLAB <code>integral3</code> command is also $10^{-6}$.</p>
-<pre class="mcode-input">r = @(x,y,z) sqrt(x.^2 + y.^2 + z.^2);
-t = @(x,y,z) acos(z./r(x,y,z)); p = @(x,y,z) atan(y./x);
-f = @(x,y,z) sin(5*(t(x,y,z) - r(x,y,z))) .* sin(p(x,y,z)).^2;
+<p>These functions can be visualised by using a technique known as phase portrait plots. Given a complex number $z = re^{i\theta}$, the phase $e^{i\theta}$ can be represented by a colour. We follow Wegert's colour recommendations [Wegert 2012], using red for a phase $i$, then yellow, green, blue, and violet as the phase moves clockwise around the unit circle. For example,</p>
+<pre class="mcode-input">f = chebfun2(@(z) sin(z)-sinh(z),2*pi*[-1 1 -1 1]);
+plot(f)</pre>
 
-I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5])); % integrate out x,y
-tic, I = sum(chebfun(@(z) I(z),[1 2],'vectorize')); t = toc;
-fprintf(' Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
-tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;         % compare with MATLAB
-fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
+<p><img src="img/guide12_08.png" class="figure" alt=""></p>
+<p>Many properties of analytic functions can be visualised by these types of plots, such as the location of zeros and their multiplicities. Can you work out the multiplicity of the root at $z=0$ from this plot? For another example, try <code>cheb.gallery2('airycomplex')</code>.</p>
+<p>At present, since Chebfun2 only represents smooth functions, a trick is required to draw pictures like these for functions with poles [Trefethen 2013]. For functions with branch points or essential singularities, it is currently not possible in Chebfun2 to draw phase plots.</p>
+<h3 id="128-chebfun2-low-rank-approximations">12.8 Chebfun2 low rank approximations</h3>
+<p>Chebfun2 exploits the observation that many functions of two variables can be well approximated by low rank approximants. A rank $1$ function, also known as <em>separable</em>, is of the form $u(y)v(x)$, and a rank $k$ function is one that can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.</p>
+<p>Here is an exampled adapted from [Townsend &amp; Trefethen 2013] and <code>cheb.gallery2('smokering')</code>. The function $$ f(x,y) = \exp( -40(x^2-xy+2y^2 - 1/2)^2) $$ has the shape of an elliptical ring in the unit square, and Chebfun2 represents it by an approximation of reasonably high rank:</p>
+<pre class="mcode-input">ff = @(x,y) exp(-40*(x.^2 - x.*y + 2*y.^2 - 1/2).^2);
+f = chebfun2(ff);
+levels = 0.1:0.1:0.9;
+contour(f,levels)
+title(['rank ' int2str(length(f))],'fontsize',12)</pre>
 
-<pre class="mcode-output"> Chebfun2:  I = -0.48056569408898  time = 2.768 secs
-Integral3:  I = -0.48056569417568  time = 0.630 secs
-</pre>
+<p><img src="img/guide12_09.png" class="figure" alt=""></p>
+<p>To illustrate the nature of low-rank approximations, rather than letting Chebfun2 determine the rank adaptively, we can force it to take ranks $1,2,\dots ,9$.  Here are the results, plotted with black level curves at heights $0.2,0.4,0.6,0.8$:</p>
+<pre class="mcode-input">levels = 0.2:0.2:0.8;
+clf
+for k = 1:9
+    axes('position',[.03+.33*mod(k-1,3) .67-.3*floor((k-1)/3) .28 .28])
+    contour(chebfun2(ff,k),levels,'k'), axis off
+end</pre>
 
-<h3 id="128-references">12.8 References</h3>
-<p>[Carvajal, Chapman &amp; Geddes 2005] O. A. Carvajal, F. W. Chapman and K. O. Geddes, Hybrid symbolic-numeric integration in multiple dimensions via tensor-product series, <em>Proceedings of ISSAC'05</em>, M. Kauers, ed., ACM Press, 2005, pp. 84--91.</p></div>
+<p><img src="img/guide12_10.png" class="figure" alt=""></p>
+<p>For this function, "plotting accuracy" is achieved approximately at rank 16; the remaining terms are then required to get from 2-3 digits to 15.</p>
+<h3 id="129-references">12.9 References</h3>
+<p>[Bebendorf 2008] M. Bebendorf, <em>Hierarchical Matrices: A Means to Efficiently Solve Elliptic Boundary Value Problems</em>, Springer, 2008.</p>
+<p>[Carvajal, Chapman, &amp; Geddes 2008] O. A. Carvajal, F. W. Chapman and K. O. Geddes, "Hybrid symbolic-numeric integration in multiple dimensions via tensor-product series", <em>Proceedings of ISSAC'05</em>, M. Kauers, ed., ACM Press, 2005, 84-91.</p>
+<p>[Townsend &amp; Trefethen 2013] A. Townsend and L. N. Trefethen, "Gaussian elimination as an iterative algorithm", <em>SIAM News</em>, March 2013.</p>
+<p>[Townsend &amp; Trefethen 2013b] A. Townsend and L. N. Trefethen, "An extension of Chebfun to two dimensions", <em>SIAM Journal on Scientific Computing</em>, 35 (2013), C495-C518.</p>
+<p>[Townsend &amp; Trefethen 2014] A. Townsend and L. N. Trefethen, "Continuous analogues of matrix factorizations", <em>Proceedings of the Royal Society A</em> 471 (2014) 20140585.</p>
+<p>[Trefethen 2013] L. N. Trefethen, "Phase Portraits for functions with poles", <code>www.chebfun.org/examples/complex/PortraitsWithPoles.html</code>.</p>
+<p>[Wegert 2012] E. Wegert, <em>Visual Complex Functions: An Introduction with Phase Portraits</em>, Birkhauser/Springer, 2012.</p></div>
         </div>
     </div>
 </div>

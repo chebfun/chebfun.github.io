@@ -27,7 +27,7 @@ end</pre><img src="img/FiltersCF_01.png" class="figure" alt="">
 
 It didn't take long to produce these pictures:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 3.789340 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 1.918371 seconds.
 </pre>In practice, filter specifications usually have "don't care" regions between pass and stop bands. Here to give an idea of the possibilities we make $f$ a little smoother by convolving it with a narrow hat function.  Now degrees $100$ and $200$ give good filters:
 
 <pre class="mcode-input">s = chebfun('s', [-.02 .02]);

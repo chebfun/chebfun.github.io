@@ -62,6 +62,12 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <p>The Black-Scholes partial differential equation is the foundation of much of modern finance. Suppose you have a European-style call option (right to buy) for a certain stock, to be exercised at a time $T$ in the future. Then, as a function of the stock price $s$, the value $v(t,s)$ of the option is governed by $$ v_t = -\frac{\sigma^2}{2}s^2v_{ss} -rsv_s + rv, \quad s&gt;0, \quad t &gt; 0, $$ subject to $$ v(0, T) = 0, \quad v(t, s)\rightarrow s \text{ as } s\rightarrow \infty. $$</p>
+<pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
+
+ String must have valid interpreter syntax: 
+$$ v(0, T) = 0, \quad v(t, s)\rightarrow s \text{ as } s\rightarrow \infty. $$
+</pre>
+
 <p>It's much more convenient for us to work on a finite domain, so we will truncate and replace the asymptotic condition with a Neumann condition.</p>
 <pre class="mcode-input">d = [0 500];
 s = chebfun('s', d);
@@ -94,18 +100,17 @@ end</pre>
 <pre class="mcode-input">v(55)</pre>
 
 <pre class="mcode-output">ans =
-   9.849887662246317
+   9.849887661936435
 </pre>
 
 <p>Note that the initial condition for $w$ is piecewise defined. Thus, <code>w</code> will be piecewise at all times in Chebfun.</p>
 <pre class="mcode-input">w</pre>
 
 <pre class="mcode-output">w =
-   chebfun column (2 smooth pieces)
+   chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0,      50]       32  -5.4e-12      -43 
-[      50,   5e+02]       46       -43  1.4e-12 
-Epslevel = 3.603337e-13.  Vscale = 4.925016e+01.  Total length = 78.
+[       0,   5e+02]       97     5e-11  7.9e-12 
+Epslevel = 4.510522e-13.  Vscale = 4.925018e+01.
 </pre>
 
 <p>However, the solution is actually smooth.</p>
@@ -113,7 +118,7 @@ Epslevel = 3.603337e-13.  Vscale = 4.925016e+01.  Total length = 78.
 jump2 = wss(50+100*eps) - wss(50-100*eps)</pre>
 
 <pre class="mcode-output">jump2 =
-     3.182833503700966e-09
+    -2.428612866367530e-17
 </pre></div>
         </div>
     </div>

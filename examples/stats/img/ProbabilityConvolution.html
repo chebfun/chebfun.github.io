@@ -41,7 +41,7 @@ One can show (see, for example, [1]) that `N3` should be equal to $N(\mu_1+\mu_2
 
 <pre class="mcode-input">N4 = normalDist(x, m1 + m2, sqrt(s1^2 + s2^2));
 norm(N4 - N3{dom(1), dom(2)})</pre><pre class="mcode-output">ans =
-     2.170603001670892e-14
+     2.183854302009455e-14
 </pre>
 
 ## Gamma distribution
@@ -74,7 +74,7 @@ $$ G(k_1, \theta) + G(k_2, \theta) = G(k_1 + k_2, \theta): $$
 
 <pre class="mcode-input">G4 = gammaDist(x, k1 + k2, t);
 norm(G4 - G3{dom(1), dom(2)})</pre><pre class="mcode-output">ans =
-     3.707027419276411e-14
+     3.705400930768999e-14
 </pre>
 
 ## Exponential distribution
@@ -98,7 +98,7 @@ In this instance, the theory tells us we should have a gamma distribution, which
 
 <pre class="mcode-input">E3 = gammaDist(x, 2, 1/lam);
 norm(E3 - E2{dom(1), dom(2)})</pre><pre class="mcode-output">ans =
-     9.068184965180562e-16
+     9.113016718859841e-16
 </pre>
 
 ## Exotic distributions
@@ -126,7 +126,7 @@ And this is the distribution of the random variable $z=x+y$, where $x$ is drawn 
 <pre class="mcode-input">tic
 h = conv(F, G);
 toc
-hold on, plot(h, 'k', LW, 1.6), hold off</pre><pre class="mcode-output">Elapsed time is 1.175249 seconds.
+hold on, plot(h, 'k', LW, 1.6), hold off</pre><pre class="mcode-output">Elapsed time is 0.506917 seconds.
 </pre><img src="img/ProbabilityConvolution_05.png" class="figure" alt="">
 
 

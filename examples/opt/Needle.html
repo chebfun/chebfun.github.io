@@ -112,7 +112,7 @@ yyp = interp2(xx,thth,yy,xxp,ttp,'cubic');
 close, contour(xxp,ttp,yyp,80), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 colorbar, title(['min value on grid: ' num2str(min(yy(:)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 26.508426 seconds.
+<pre class="mcode-output">Elapsed time is 24.155701 seconds.
 </pre>
 
 <p><img src="img/Needle_03.png" class="figure" alt=""></p>
@@ -131,11 +131,11 @@ levels = 0.06:.003:0.12;
 close, contour(xxp,ttp,yyp,levels), grid on, xlabel('x',FS,14), ylabel('theta',FS,14)
 title(['min value on grid: ' num2str(min(min(yy)))],FS,14), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 23.267147 seconds.
+<pre class="mcode-output">Elapsed time is 17.933435 seconds.
 </pre>
 
 <p><img src="img/Needle_04.png" class="figure" alt=""></p>
-<p>The winner seems to be the region on the right. From here the right thing to do is call a bivariate optimization routine. In basic Matlab the simplest one is the direct search code <href='http://www.mathworks.co.uk/help/matlab/ref/fminsearch.html'&gt;fminsearch&lt;/a>. This requires the input to be a single vector, so we'll need a wrapper:</p>
+<p>The winner seems to be the region on the right. From here the right thing to do is call a bivariate optimization routine. In basic MATLAB the simplest one is the direct search code <href='http://www.mathworks.co.uk/help/matlab/ref/fminsearch.html'&gt;fminsearch&lt;/a>. This requires the input to be a single vector, so we'll need a wrapper:</p>
 <pre class="mcode-input">function y = minfunwrapper(xvec)
 y = minfun(xvec(1), xvec(2));
 end</pre>
@@ -145,7 +145,7 @@ end</pre>
 guess = [.41, -0.2];
 tic, [xvec,yval] = fminsearch(@minfunwrapper,guess,opts); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 9.707755 seconds.
+<pre class="mcode-output">Elapsed time is 8.237043 seconds.
 </pre>
 
 <p>So it would seem that to 10 digits or more, the minimal height is around</p>

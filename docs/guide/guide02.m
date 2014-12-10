@@ -1,8 +1,8 @@
 %% 2. Integration and Differentiation
-% Lloyd N. Trefethen, November 2009, latest revision June 2014
+% Lloyd N. Trefethen, November 2009, latest revision December 2014
 
-%% 2.1 `sum`
-% We have seen that the `sum` command returns the definite integral of a
+%% 2.1 |sum|
+% We have seen that the |sum| command returns the definite integral of a
 % chebfun over its range of definition.  The integral is normally
 % calculated by an FFT-based version of Clenshaw-Curtis quadrature, as
 % described first in [Gentleman 1972]. This formula is applied on each fun
@@ -40,7 +40,7 @@
 
   %%
 % It is interesting to compare the times involved in evaluating this number
-% in various ways.  MATLAB's specialized `erf` code is the fastest:
+% in various ways.  MATLAB's specialized |erf| code is the fastest:
   tic, erf(1), toc
 
   %%
@@ -92,9 +92,11 @@
 
 %%
 % For another example of a definite integral we turn to an integrand given
-% as example `F21F` in [Kahaner 1971].  We treat it first in the default mode
+% as example |F21F| in [Kahaner 1971] (see also
+% `cheb.gallery('kahaner')`).  We treat it first in the default mode
 % of splitting off:
-  ff = @(x) sech(10*(x-0.2)).^2 + sech(100*(x-0.4)).^4 + sech(1000*(x-0.6)).^6;
+  ff = @(x) sech(10*(x-0.2)).^2 + sech(100*(x-0.4)).^4 + ...
+            sech(1000*(x-0.6)).^6;
   f = chebfun(ff,[0,1])
 
 %%
@@ -116,7 +118,7 @@
 
 %%
 % We can fix the problem by forcing finer initial sampling in the
-% Chebfun constructor with the `minSamples` flag:
+% Chebfun constructor with the |minSamples| flag:
   f = chebfun(ff,[0,1],'splitting','on','minSamples',100);
   length(f)
   sum(f)
@@ -124,7 +126,7 @@
 %%
 % Now the integral is correct again, and note that the length of
 % the chebfun is much smaller than with the original
-% global representation.  For more about `minSamples`, see
+% global representation.  For more about |minSamples|, see
 % Section 8.6.
 
 %%
@@ -146,11 +148,11 @@
 % capabilities. Nevertheless Chebfun compares reasonably well as a
 % quadrature engine against specialized software.  This was the conclusion
 % of an Oxford MSc thesis by Phil Assheton [Assheton 2008], which compared
-% Chebfun experimentally to quadrature codes including MATLAB's `quad` and
-% `quadl`, Gander and Gautschi's `adaptsim` and `adaptlob`, Espelid's `modsim`,
-% `modlob`, `coteda`, and `coteglob`, QUADPACK's `QAG` and `QAGS`, and the NAG
-% Library's `d01ah`.  In both reliability and speed, Chebfun was found to be
-% competitive with these alternatives.  The overall winner was `coteda`
+% Chebfun experimentally to quadrature codes including MATLAB's |quad| and
+% |quadl|, Gander and Gautschi's |adaptsim| and |adaptlob|, Espelid's |modsim|,
+% |modlob|, |coteda|, and |coteglob|, QUADPACK's |QAG| and |QAGS|, and the NAG
+% Library's |d01ah|.  In both reliability and speed, Chebfun was found to be
+% competitive with these alternatives.  The overall winner was |coteda|
 % [Espelid 2003], which was typically about twice as fast as Chebfun. For
 % further comparisons of quadrature codes, together with the development of
 % some improved codes based on a philosophy that has something in common
@@ -158,8 +160,8 @@
 % integrator" in the Quadrature section of the Chebfun Examples
 % collection.
 
-%% 2.2 `norm`, `mean`, `std`, `var`
-% A special case of an integral is the `norm` command, which for a chebfun
+%% 2.2 |norm|, |mean|, |std|, |var|
+% A special case of an integral is the |norm| command, which for a chebfun
 % returns by default the 2-norm, i.e., the square root of the integral of
 % the square of the absolute value over the region of definition.  Here is
 % a well-known example:
@@ -175,17 +177,17 @@
   plot(f)
 
 %%
-% Here are the norms of `f` and its tenth power:
+% Here are the norms of |f| and its tenth power:
   norm(f), norm(f.^10)
 
 %% 2.3 cumsum
-% In MATLAB, `cumsum` gives the cumulative sum of a vector,
+% In MATLAB, |cumsum| gives the cumulative sum of a vector,
   v = [1 2 3 5]
   cumsum(v)
 %%
 % The continuous analogue of this operation is indefinite integration.
-% If `f`
-% is a fun of length $n$, then `cumsum(f)` is a fun of length $n+1$.  For a
+% If |f|
+% is a fun of length $n$, then |cumsum(f)| is a fun of length $n+1$.  For a
 % chebfun consisting of several funs, the integration is performed on each
 % piece.
 
@@ -230,7 +232,7 @@
   Li2 = Li(2)
 
 %%
-% (Chebfun has no trouble if `xmax` is increased
+% (Chebfun has no trouble if |xmax| is increased
 % to $10^5$ or $10^{10}$.)  Here is a plot comparing $Li(x)$ with $\pi(x)$:
   clf, plot(Li,'m')
   p = primes(xmax);
@@ -245,12 +247,12 @@
 % $x=10^{14}$ and $x=2\times 10^{316}$ [Kotnik 2008].
 
 %%
-% The `mean`, `std`, and `var` commands have also been overloaded for
+% The |mean|, |std|, and |var| commands have also been overloaded for
 % chebfuns and are based on integrals.  For example,
   mean(chebfun('cos(x).^2',[0,10*pi]))
 
-%% 2.4 `diff`
-% In MATLAB, `diff` gives finite differences of a vector:
+%% 2.4 |diff|
+% In MATLAB, |diff| gives finite differences of a vector:
   v = [1 2 3 5]
   diff(v)
 
@@ -283,7 +285,7 @@
 % segment.
 
 %%
-% Thanks to the delta functions, `cumsum` and `diff` are essentially inverse
+% Thanks to the delta functions, |cumsum| and |diff| are essentially inverse
 % operations.  It is no surprise that differentiating an indefinite
 % integral returns us to the original function:
   norm(f-diff(cumsum(f)))
@@ -297,13 +299,14 @@
 
 %%
 % Multiple derivatives can be obtained by adding a second argument to
-% `diff`.  Thus for example,
+% |diff|.  Thus for example,
   f = chebfun('1./(1+x.^2)');
   g = diff(f,4); plot(g)
 
 %%
 % However, one should be cautious about the potential loss of information
-% in repeated differentiation.  For example, if we evaluate this fourth
+% in repeated differentiation of
+% nonperiodic chebfuns.  For example, if we evaluate this fourth
 % derivative at $x=0$ we get an answer that matches the correct value
 % $24$ only to $11$ places:
   g(0)
@@ -345,7 +348,7 @@
 %%
 % Using 1D Chebfun technology,
 % we can compute the integral over the box like this.  Notice the use of
-% the flag `vectorize` to construct a chebfun from a function only defined
+% the flag |vectorize| to construct a chebfun from a function only defined
 % for scalar arguments.
   Iy = @(y) sum(chebfun(@(x) f(x,y),[-2 2]));
   tic, I = sum(chebfun(@(y) Iy(y),[0.5 2.5],'vectorize')); t = toc;
@@ -353,17 +356,17 @@
 
 %%
 % Here for comparison is MATLAB's
-% `dblquad/quadl` with a tolerance of $10^{-11}$:
+% |dblquad/quadl| with a tolerance of $10^{-11}$:
   tic, I = dblquad(f,-2,2,0.5,2.5,1e-11,@quadl); t = toc;
   fprintf('DBLQUAD/QUADL:  I = %16.14f  time = %5.3f secs\n',I,t)
 
 %%
-% This example of a 2D integrand is smooth, so both Chebfun and `dblquad` can
+% This example of a 2D integrand is smooth, so both Chebfun and |dblquad| can
 % handle it to high accuracy. 
 
 %%
 % A much better approach for this problem, however, is to use
-% Chebfun2, which is described in Chapters 11-15.
+% Chebfun2, which is described in Chapters 12-16.
 % With this method we can compute the integral quickly,
 tic
 f2 = chebfun2(f,[-2 2 0.5 2.5]);
@@ -371,18 +374,20 @@ sum2(f2)
 toc
 
 %%
-% and we can plot the function without the need for `meshgrid`:
+% and we can plot the function without the need for |meshgrid|:
 contour(f2,-1:.2:1), colorbar, grid on
 
 %% 2.6 Gauss and Gauss-Jacobi quadrature
 % For quadrature experts, Chebfun contains some powerful capabilities
-% due to Nick Hale and Alex Townsend [Hale & Townsend 2013].
+% due to Nick Hale and Alex Townsend [Hale & Townsend 2013]
+% and Ignace Bogaert
+% [Bogaert, Michiels & Fostier 2012, Bogaert 2014].
 % To start with, suppose we
 % wish to carry out $4$-point Gauss quadrature over $[-1,1]$.  The quadrature
 % nodes are the zeros of the degree $4$ Legendre polynomial
-% `legpoly(4)`, which
-% can be obtained from the Chebfun command `legpts`, and if two output
-% arguments are requested, `legpts` provides weights also:
+% |legpoly(4)|, which
+% can be obtained from the Chebfun command |legpts|, and if two output
+% arguments are requested, |legpts| provides weights also:
   [s,w] = legpts(4)
 
 %% 
@@ -401,26 +406,26 @@ contour(f2,-1:.2:1), colorbar, grid on
   toc
 
 %%
-% Even 100,000 points doesn't take very long:
+% Even a million points doesn't take very long:
   tic
-  [s,w] = legpts(100000); Igauss = w*f(s)
+  [s,w] = legpts(1e6); Igauss = w*f(s)
   toc
 
 %%
 % Traditionally, numerical analysts computed Gauss quadrature nodes
 % and weights by the eigenvalue algorithm of Golub and Welsch [Golub &
-% Welsch 1969]. However, the Hale-Townsend algorithms are both more
-% accurate and much faster [Hale & Townsend 2013].
-% Closely related fast algorithms developed independently are presented
-% in [Bogaert, Michiels & Fostier 2012].
+% Welsch 1969]. However, the Hale-Townsend and Bogaert
+% algorithms are both more
+% accurate and much faster [Hale & Townsend 2013, 
+% Bogaert, Michiels & Fostier 2012, Bogaert 2014].
 
 %%
 % For Legendre polynomials, Legendre points, and Gauss quadrature, use
-% `legpoly` and `legpts`. For Chebyshev polynomials, Chebyshev points, and
-% Clenshaw-Curtis quadrature, use `chebpoly` and `chebpts` and the built-in
-% Chebfun commands such as `sum`. A third variant is also available: for
+% |legpoly| and |legpts|. For Chebyshev polynomials, Chebyshev points, and
+% Clenshaw-Curtis quadrature, use |chebpoly| and |chebpts| and the built-in
+% Chebfun commands such as |sum|. A third variant is also available: for
 % Jacobi polynomials, Gauss-Jacobi points, and Gauss-Jacobi quadrature, see
-% `jacpoly` and `jacpts`. These arise in integration of functions with
+% |jacpoly| and |jacpts|. These arise in integration of functions with
 % singularities at one or both endpoints, and are used internally by
 % Chebfun for integration of chebfuns with singularities (Chapter 9).
 
@@ -434,9 +439,14 @@ contour(f2,-1:.2:1), colorbar, grid on
 % Software_, dissertation, MSc in Mathematical Modelling and Scientific
 % Computing, Oxford University, 2008.
 %
-% [Bogaert, Michiels, and Fostier, "O(1) computation of Legendre
+% [Bogaert 2014] I. Bogaert, "Iteration-free computation of
+% Gauss-Legendre quadrature nodes and weights",
+% _SIAM Journal on Scientific Computing_, 36 (2014), A1008--A1026.
+%
+% [Bogaert, Michiels, & Fostier 2012] I. Bogaert,
+% B. Michiels, and J. Fostier, "O(1) computation of Legendre
 % polynomials and Legendre nodes and weights for parallel computing",
-% _SIAM Journal on Scientific Computing_,34 (2012), C83-C101. 
+% _SIAM Journal on Scientific Computing_, 34 (2012), C83-C101. 
 %
 % [Espelid 2003] T. O. Espelid, "Doubly adaptive quadrature routines
 % based on Newton-Cotes rules", _BIT Numerical Mathematics_, 43 (2003),

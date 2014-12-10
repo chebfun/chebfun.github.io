@@ -82,20 +82,20 @@ V = [V{:,ii'}];
 err = omega - sort(roots( besselj(0,chebfun('r',[0 20])) ))</pre>
 
 <pre class="mcode-output">omega =
-   2.404825557948133
-   5.520078110506951
-   8.653727912945760
-  11.791534439014640
-  14.930917708488623
-  18.071063967909186
+   2.404825557952783
+   5.520078110503695
+   8.653727912947350
+  11.791534439015653
+  14.930917708489117
+  18.071063967908913
 err =
    1.0e-09 *
-   0.252372789333322
-   0.220640394843485
-   0.034736657994472
-   0.000362376795238
-   0.000840216785036
-  -0.001744382416291
+   0.257003751613638
+   0.217384332756865
+   0.036330050079414
+   0.001366018409499
+   0.001342925770587
+  -0.002010835942201
 </pre>
 
 <p>We also get the eigenfunctions, which gives a way to visualize deflections of the drums for pure frequencies.</p>
@@ -127,7 +127,7 @@ clf, plot(ratfun), title('Eigenvalue ratio'), xlabel('a')
 set(gca,'xtick',[0.5,astar,1],'ytick',[2],'xgrid','on','ygrid','on')</pre>
 
 <pre class="mcode-output">astar =
-   0.812158808551315
+   0.812158808549756
 </pre>
 
 <p><img src="img/Drum_02.png" class="figure" alt=""></p>
@@ -140,7 +140,7 @@ shading interp, lighting phong, title('Second mode')
 colormap copper</pre>
 
 <pre class="mcode-output">residual =
-    -2.773781204723491e-12
+    -2.317701586207477e-12
 </pre>
 
 <p><img src="img/Drum_03.png" class="figure" alt=""></p>

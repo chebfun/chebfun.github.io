@@ -79,10 +79,10 @@ diag(Ls)</pre>
 
 <pre class="mcode-output">ans =
    1.0e+02 *
-  -1.234915472724822
-  -0.626486098335943
-  -0.251462532663090
-  -0.001601435707215
+  -1.234915472724630
+  -0.626486098335608
+  -0.251462532662759
+  -0.001601435706946
 </pre>
 
 <p>Here is what happens in a slightly unstable case:</p>
@@ -93,10 +93,10 @@ diag(Lu)</pre>
 
 <pre class="mcode-output">ans =
    1.0e+02 *
-  -1.235278901224997
-  -0.625884455973523
-  -0.252000055360805
-   0.000799646107139
+  -1.235278901227600
+  -0.625884455974818
+  -0.252000055363520
+   0.000799646105231
 </pre>
 
 <p>Here we see the perturbation which is least stable in the first case, or unstable in the second case.</p>
@@ -120,7 +120,7 @@ maxlam = @(delta) eigs( chebop(@(x,u)diff(u,2),[0 1],BC(delta)), 1, 0 );</pre>
 <pre class="mcode-output">stability =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[     0.5,       2]       22        -2      3.9 
+[     0.5,       2]       11        -2      3.9 
 Epslevel = 1.000000e-11.  Vscale = 3.928224e+00.
 </pre>
 
@@ -130,7 +130,7 @@ clf, plot(stability,LW,1.6), hold on, plot(dstar,0,'ro',MS,16)
 xlabel('\delta'), ylabel('max \lambda'), grid on</pre>
 
 <pre class="mcode-output">dstar =
-   1.000000000031163
+   1.000000000023135
 </pre>
 
 <p><img src="img/ThermoelasticRod_02.png" class="figure" alt=""></p>

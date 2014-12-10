@@ -104,7 +104,7 @@ For more general curves a parameterisation may be very difficult, or impossible,
 <pre class="mcode-input">level = chebfun2(@(x,y) x.^2/4 + y.^2-1,[0 3 0 3]);
 C2 = roots(level);
 integral(F,C2)</pre><pre class="mcode-output">ans =
-  -3.970176744730233
+  -3.970028213458296
 </pre>We did not obtain machine precision because the curve is approximated to only 4-5 digits due to several limitations of the algorithm for computing the zero contours of a function.
 
 
@@ -127,7 +127,7 @@ plot(c,'k'), hold off</pre><img src="img/UndergraduateCalculus_05.png" class="fi
 Here is the computed integral:
 
 <pre class="mcode-input">integral(f,c)</pre><pre class="mcode-output">ans =
-  -7.429899228439556
+  -7.429899228439568
 </pre>
 
 ## Vector calculus identity
@@ -149,7 +149,7 @@ The vector calculus identity holds with a small error. If it were done by hand, 
 <pre class="mcode-input">LHS = divergence(cross(F,G));
 RHS = (dot(G,curl(F)) - dot(F,curl(G)));
 norm(LHS-RHS)</pre><pre class="mcode-output">ans =
-     5.472336319999712e-14
+   2.267426262152573
 </pre>
 
 ## Further comments

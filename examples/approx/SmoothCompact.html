@@ -81,7 +81,7 @@ axis([-1 1 -.2 1.2])</pre>
      1
 </pre>
 
-<p>By taking more and more terms, we can have any finite degree of smoothness, and an infinite convolution gives us a function in $C^\infty$.  It will have compact support of the sum of the values of $h$ is funite.</p>
+<p>By taking more and more terms, we can have any finite degree of smoothness, and an infinite convolution gives us a function in $C^\infty$.  It will have compact support if the sum of the values of $h$ is finite.</p>
 <p>This gives a nice way to construct partitions of unity.  For example, here is the function above padded by zero values to the interval $[-1,2]$, and the same function shifted one unit to the right:</p>
 <pre class="mcode-input">[a,b] = domain(f);
 f1 = chebfun({0, f, 0},[-1 a b 2]);

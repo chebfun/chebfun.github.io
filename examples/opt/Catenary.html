@@ -74,7 +74,7 @@
 <pre class="mcode-input">f = @(y,yp) y .* sqrt(1 + yp.^2);
 J = @(y) sum( f(y, diff(y)) );
 
-alpha = cosh(1);
+alpha = cosh(-1);
 beta  = cosh(1);</pre>
 
 <p>Since the problem is nonlinear, we will need to solve it iteratively. As an initial guess to the iteration we'll choose a simple line, and note its functional value.</p>
@@ -137,15 +137,15 @@ for k = 1:5
 end</pre>
 
 <pre class="mcode-output">nextJ =
-   2.840828750691848
+   2.840828750691852
 nextJ =
-   2.816226754422265
+   2.816226754422263
 nextJ =
    2.813551498179433
 nextJ =
-   2.813430779819848
+   2.813430779819845
 nextJ =
-   2.813430203941194
+   2.813430203941191
 </pre>
 
 <p>The exact solution is a simple $\cosh$. Here is the error in our solution.</p>
@@ -153,7 +153,7 @@ nextJ =
 norm(y - y_exact)</pre>
 
 <pre class="mcode-output">ans =
-     7.515155566381136e-06
+     7.515155564171490e-06
 </pre>
 
 <p>And the values of the energy functional:</p>
@@ -161,8 +161,8 @@ norm(y - y_exact)</pre>
 fprintf('optimal J[y]: %.16f\n', J(y_exact))</pre>
 
 <pre class="mcode-output">
-  final J[y]: 2.8134302039411945
-optimal J[y]: 2.8134302039235086
+  final J[y]: 2.8134302039411909
+optimal J[y]: 2.8134302039235082
 </pre>
 
 <p>Finally, a plot of the catenary:</p>

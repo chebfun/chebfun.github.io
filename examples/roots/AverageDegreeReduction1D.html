@@ -136,14 +136,14 @@ compute_tau(f, 2)</pre>
 f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
 tic, roots(f); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.436858 seconds.
+<pre class="mcode-output">Elapsed time is 0.509681 seconds.
 </pre>
 
 <pre class="mcode-input">c = -1.0001;
 f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
 tic, roots(f); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.124365 seconds.
+<pre class="mcode-output">Elapsed time is 1.055354 seconds.
 </pre>
 
 <p>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.</p>

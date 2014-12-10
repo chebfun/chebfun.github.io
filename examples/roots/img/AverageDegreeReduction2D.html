@@ -29,7 +29,7 @@ A function $f(x,y)$ is of rank $1$ if it can can be written as a product of univ
 
 <pre class="mcode-input">M = 2000;
 f = @(x,y) sin(M*x).*sin(M*y);
-compute_tau(f, 2)          % Expected to be approximately 1/2</pre><pre class="mcode-output">Tau = 0.50018</pre>The parameter $\tau$ in this case is equal to $1/2$ because the number of oscillations of $f(x,y)$ in a rectangular domain $[a,b]\times[c,d]$ is directly proportional to $(b-a)(d-c)$. Moreover, the number of oscillations determines the number of points required to resolve the function. Therefore, each subdivision (in the $x$ or $y$ direction) halves the numerical degree of the polynomial interpolant and $\tau \approx 1/2$.
+compute_tau(f, 2)          % Expected to be approximately 1/2</pre><pre class="mcode-output">Tau = 0.33178</pre>The parameter $\tau$ in this case is equal to $1/2$ because the number of oscillations of $f(x,y)$ in a rectangular domain $[a,b]\times[c,d]$ is directly proportional to $(b-a)(d-c)$. Moreover, the number of oscillations determines the number of points required to resolve the function. Therefore, each subdivision (in the $x$ or $y$ direction) halves the numerical degree of the polynomial interpolant and $\tau \approx 1/2$.
 
 Here is a diagram that shows the numerical degrees after each level of subdivision:
 
@@ -45,7 +45,7 @@ A function $f(x,y)$ on $[-1,1]\times[-1,1]$ is defined as Toeplitz if there is a
 
 <pre class="mcode-input">M = 20;
 f = @(x,y) sin(M*(x-y));
-compute_tau(f, 2)          % Expected to be approximately 1/sqrt(2) = 0.707</pre><pre class="mcode-output">Tau = 0.90299</pre>The average $\tau$ parameter can be explained since all the oscillations of $f$ occur along diagonals, i.e., $y=-x$ (rather than in the coordinate directions). Two subdivisions, one in the $x$ and one in the $y$ direction are required to halve the length of the diagonal lines and hence, $\tau^2 \approx 1/2$ and $\tau = 1/\sqrt{2}$.
+compute_tau(f, 2)          % Expected to be approximately 1/sqrt(2) = 0.707</pre><pre class="mcode-output">Tau = 1.30609</pre>The average $\tau$ parameter can be explained since all the oscillations of $f$ occur along diagonals, i.e., $y=-x$ (rather than in the coordinate directions). Two subdivisions, one in the $x$ and one in the $y$ direction are required to halve the length of the diagonal lines and hence, $\tau^2 \approx 1/2$ and $\tau = 1/\sqrt{2}$.
 
 Here is a diagram that shows the numerical degrees after each level of subdivision:
 

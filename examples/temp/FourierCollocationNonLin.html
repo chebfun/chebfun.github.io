@@ -74,7 +74,7 @@ u = N \ f</pre>
 
 <pre class="mcode-output">u =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [       0,     6.3]       89    -0.058   -0.058 
 Epslevel = 2.331417e-15.  Vscale = 2.428494e-01.
 </pre>
@@ -88,7 +88,7 @@ hold on, plot(u, 'b', LW, 2)</pre>
 <pre class="mcode-input">norm(N*u - f, inf)</pre>
 
 <pre class="mcode-output">ans =
-     3.374973245168419e-12
+     3.379422527647751e-12
 </pre>
 
 <p>If we start with another initial guess, we might obtain another solution. Let us try $\sin(x)^2$, plot it in dashed green, and plot the solution in green.</p>
@@ -99,7 +99,7 @@ hold on, plot(v, 'g', LW, 2)</pre>
 
 <pre class="mcode-output">v =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [       0,     6.3]       81       1.6      1.6 
 Epslevel = 1.776357e-15.  Vscale = 1.785953e+00.
 </pre>
@@ -109,7 +109,7 @@ Epslevel = 1.776357e-15.  Vscale = 1.785953e+00.
 <pre class="mcode-input">norm(N*v - f, inf)</pre>
 
 <pre class="mcode-output">ans =
-     1.823588159073624e-12
+     1.803868478825869e-12
 </pre>
 
 <p>For nonlinear ODEs, the relationships between intial guesses and solutions are difficult to analyse. In this example, we chose two different guesses, and this led to two different solutions.</p></div>

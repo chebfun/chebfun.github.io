@@ -86,10 +86,10 @@ chebx = chebfun('x',[0 1]);</pre>
 <p>Since we want to take values of $s$ closer and closer to $1$, we rewrite $s$ in the form</p>
 <p>$$ s = 1-10^{-\gamma}, $$</p>
 <p>where $\gamma$ takes integer values (giving $s=0.9,0.99,0.999,\dots$). We thus define $s$ as an anonymous function</p>
-<pre class="mcode-input">s = @(gamma) 1-10^(-gamma);</pre>
+<pre class="mcode-input">s = @(gam) 1-10^(-gam);</pre>
 
 <p>We can then obtain the solution of the problem for different values of $\gamma$. Again, we use anonymous functions to achieve the desired effect.</p>
-<pre class="mcode-input">ugamma = @(gamma) solvebvp(Ns(s(gamma)),1);</pre>
+<pre class="mcode-input">ugamma = @(g) solvebvp(Ns(s(g)),1);</pre>
 
 <p>Here, the <code>solvebvp</code> method is another way to call the chebop backslash method. The second argument corresponds to the right-hand side of the differential equation.</p>
 <h3 id="solutions-for-different-values-of-gamma">Solutions for different values of $\gamma$</h3>
@@ -97,13 +97,13 @@ chebx = chebfun('x',[0 1]);</pre>
 <pre class="mcode-input">res = []; error = [];
 LW = 'linewidth'; FS = 'fontsize';
 ax = [0 1 -2.2 0.2];
-for gamma = 1:3
-    solgamma = ugamma(gamma);
+for g = 1:3
+    solgamma = ugamma(g);
     plot(solgamma,LW,1.6)
-    ss = sprintf('gamma = %1d    length(solution) = %4d',gamma,length(solgamma));
+    ss = sprintf('gamma = %1d    length(solution) = %4d',g,length(solgamma));
     title(ss,FS,12), axis(ax), grid on, snapnow
-    res(gamma) = norm(feval(Ns(s(gamma)),solgamma)-1);
-    error(gamma) = norm(solgamma - uexact(chebx,s(gamma)));
+    res(g) = norm(feval(Ns(s(g)),solgamma)-1);
+    error(g) = norm(solgamma - uexact(chebx,s(g)));
 end</pre>
 
 <p><img src="img/ParameterODE_01.png" class="figure" alt=""></p>
@@ -127,18 +127,18 @@ title('Norm of error',FS,12), xlabel('\gamma',FS,12)</pre>
 <pre class="mcode-input">Nsbreak = @(s) chebop(@(x,u) a(x,s).*diff(u,2)+ap(x,s).*diff(u),[0 .5 1],0,0);</pre>
 
 <p>We now redefine the anonymous function which gives the solution.</p>
-<pre class="mcode-input">ugammabreak = @(gamma) solvebvp(Nsbreak(s(gamma)),1);</pre>
+<pre class="mcode-input">ugammabreak = @(g) solvebvp(Nsbreak(s(g)),1);</pre>
 
 <p>We're now all set to solve the problem using breakpoints for different values of $\gamma$. Here, values of $\gamma$ up to 6 work with the default chebop settings.</p>
 <pre class="mcode-input">chebx = chebfun('x',[0 0.5 1]);
 res = []; error = []; legs = [];
-for gamma = 1:7
-    solgamma = ugammabreak(gamma);
+for g = 1:7
+    solgamma = ugammabreak(g);
     plot(solgamma,LW,1.6)
-    ss = sprintf('gamma = %1d    length(solution) = %4d',gamma,length(solgamma));
+    ss = sprintf('gamma = %1d    length(solution) = %4d',g,length(solgamma));
     title(ss,FS,12), axis(ax), grid on, snapnow
-    res(gamma) = norm(feval(Nsbreak(s(gamma)),solgamma)-1);
-    error(gamma) = norm(solgamma - uexact(chebx,s(gamma)));
+    res(g) = norm(feval(Nsbreak(s(g)),solgamma)-1);
+    error(g) = norm(solgamma - uexact(chebx,s(g)));
 end</pre>
 
 <p><img src="img/ParameterODE_06.png" class="figure" alt=""></p>

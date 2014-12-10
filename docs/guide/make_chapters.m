@@ -7,7 +7,7 @@ function make_chapters(N)
 
 % TODO: make this robust to other people's machines
 %       and figure out the process for updating existing examples.
-pathpath = '/Users/hrothgar/Dropbox/chebfun/guide/';
+pathpath = '/Users/hrothgar/chebfun/guide/';
 slug     = 'guide';
 
 % Make each chapter the user has requested
@@ -50,7 +50,8 @@ function mypublish(varargin)
 close all
 evalin('base','clear all');
 guideFormats;
-chebexample_publish(varargin{:});
+% chebexample_publish(varargin{:});
+publish(varargin{:});
 guideFormats('factory');
 close all
 

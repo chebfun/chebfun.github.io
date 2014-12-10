@@ -56,7 +56,7 @@
     <div class='page-header'>
 <span class='chapter_number'>8</span>
 <h1>Chebfun Preferences</h1>
-<h2>Lloyd N. Trefethen, November 2009, last revised June 2014<span>
+<h2>Lloyd N. Trefethen, November 2009, last revised December 2014<span>
     
         <a href='/docs/guide/guide07.html'
 >previous</a><span class='sep-sm
@@ -106,7 +106,7 @@
 <p>To ensure that all preferences are set to their factory values, execute</p>
 <pre class="mcode-input">chebfunpref.setDefaults('factory')</pre>
 
-<p>In this chapter we explore some of these adjustable preferences, showing how special effects can be achieved by modifying them.  Besides showing off some useful techniques, this review will also serve to deepen the user's understanding of Chebfun by poking about a bit at its edges.</p>
+<p>In this chapter we explore some of these adjustable preferences, showing how special effects can be achieved by modifying them.  Besides showing off some useful techniques, this review will also serve to deepen the user's understanding of Chebfun by poking around a bit at its edges.</p>
 <p>A general point to be emphasized is the distinction between creating a chebfun directly from the constructor and creating one by operating on previous chebfuns.  In the former case we can include preferences directly in the constructor command, and we recommend this as good practice:</p>
 <pre class="mcode-input">f = chebfun('x.^x',[0,1],'splitting','on');</pre>
 
@@ -118,7 +118,7 @@ chebfunpref.setDefaults('splitting',false)</pre>
 
 <h3 id="82-domain-the-default-domain">8.2  <code>domain</code>: the default domain</h3>
 <p>Like Chebyshev polynomials themselves, chebfuns are defined by default on the domain $[-1,1]$ if no other domain is specified.  However, this default choice of the default domain can be modified.  For example, we can work with trigonometric functions on $[0,2\pi]$ conveniently like this:</p>
-<pre class="mcode-input">  chebfunpref.setDefaults('domain',[0 2*pi])
+<pre class="mcode-input">  chebfunpref.setDefaults('domain',[0 2*pi],'tech',@trigtech)
   f = chebfun(@(t) sin(19*t));
   g = chebfun(@(t) cos(20*t));
   plot(f,g), axis equal, axis off</pre>
@@ -168,7 +168,7 @@ chebfunpref.setDefaults('splitting',false)</pre>
 <pre class="mcode-output">ans =
    515
 ans =
-   0.100000000057983
+   0.100000000057989
    0.200000000011776
    0.300000000012712
    0.400000000008074
@@ -206,7 +206,7 @@ ans =
   format short, f.ends</pre>
 
 <pre class="mcode-output">ans =
-   826
+   825
 ans =
   Columns 1 through 7
    -1.0000   -0.7500   -0.5000   -0.2500         0    0.2500    0.3750
@@ -229,7 +229,7 @@ ans =
   length(f3)</pre>
 
 <pre class="mcode-output">ans =
-        2827
+        2828
 </pre>
 
 <p>On the other hand, splitting off mode has advantages of robustness.  In particular, operations involving derivatives generally work better when functions are represented by global polynomials, and chebops for the most part require this.  Also, for educational purposes, it is very convenient that Chebfun can be used so easily to study the properties of pure polynomial representations even of very high degree.</p>
@@ -239,11 +239,11 @@ ans =
 
 <pre class="mcode-output">ans = 
   Columns 1 through 4
-    [66x1 bndfun]    [79x1 bndfun]    [88x1 bndfun]    [90x1 bndfun]
+    [66x1 bndfun]    [78x1 bndfun]    [90x1 bndfun]    [90x1 bndfun]
   Columns 5 through 8
-    [124x1 bndfun]    [31x1 bndfun]    [97x1 bndfun]    [62x1 bndfun]
+    [124x1 bndfun]    [31x1 bndfun]    [96x1 bndfun]    [62x1 bndfun]
   Columns 9 through 11
-    [79x1 bndfun]    [76x1 bndfun]    [34x1 bndfun]
+    [79x1 bndfun]    [74x1 bndfun]    [35x1 bndfun]
 </pre>
 
 <p>Alternatively, suppose we wish to allow individual funs to have length up to 513.  We can do that like this:</p>
@@ -253,16 +253,16 @@ ans =
   f.funs</pre>
 
 <pre class="mcode-output">ans =
-        1175
+        1183
 ans =
    -1.0000         0    0.5000    0.7500    1.0000
 ans = 
-    [344x1 bndfun]    [305x1 bndfun]    [252x1 bndfun]    [274x1 bndfun]
+    [353x1 bndfun]    [307x1 bndfun]    [246x1 bndfun]    [277x1 bndfun]
 </pre>
 
 <h3 id="85-maxlength-maximum-length">8.5  <code>maxLength</code>: maximum length</h3>
 <p>As just mentioned, in splitting off mode, the constructor tries to make a global chebfun from the given string or anonymous function.  For a function like $|x|$ or $\hbox{sign}(x)$, this will typically not be possible and we must give up somewhere. The parameter <code>maxLength</code>, set to $2^{16}+1$ in the factory, determines this giving-up point.</p>
-<p>For example, here's what happens normally if we try to make a chebfun for sign(x).</p>
+<p>For example, here's what happens normally if we try to make a chebfun for $\hbox{sign}(x)$.</p>
 <pre class="mcode-input">  f = chebfun('sign(x)');</pre>
 
 <pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
@@ -278,7 +278,7 @@ ans =
 </pre>
 
 <p><img src="img/guide08_05.png" class="figure" alt=""></p>
-<p>Notice that no warning message is produced since we have asked explicitly for exactly 50 points.  On the other hand we could also change the default maximum to this number (or more precisely the default degree to one less than this number), giving the same effect though now with another warning message:</p>
+<p>Notice that no warning message is produced since we have asked explicitly for exactly 50 points.  On the other hand we could also change the default maximum to this number, giving the same effect though now with another warning message:</p>
 <pre class="mcode-input">  f = chebfun('sign(x)','maxLength',50);
   length(f)</pre>
 
@@ -299,7 +299,7 @@ ans =
       105185
 sumf =
    0.888888888881000
-Elapsed time is 1.852304 seconds.
+Elapsed time is 1.951031 seconds.
 </pre>
 
 <p><img src="img/guide08_06.png" class="figure" alt=""></p>
@@ -346,7 +346,7 @@ Elapsed time is 1.852304 seconds.
 
 <p><img src="img/guide08_09.png" class="figure" alt=""></p>
 <p>Incidentally, if the value of <code>minSamples</code> specified is not one greater than a power of 2, it is rounded up to the next such value.</p>
-<p>The factory value <code>minSamples=17</code> was chosen as a compromise between efficiency and reliability.  (Until Version 5, the choice was `minSamples=9'.)  In practice it rarely seems to fail, but perhaps it is most vulnerable when applied in splitting on mode to functions with narrow spikes.  For example, the following chebfun is missing most of the spikes that should be there:</p>
+<p>The factory value <code>minSamples=17</code> was chosen as a compromise between efficiency and reliability.  (Until Version 5, the choice was <code>minSamples=9</code>.)  In practice it rarely seems to fail, but perhaps it is most vulnerable when applied in splitting on mode to functions with narrow spikes.  For example, the following chebfun is missing most of the spikes that should be there:</p>
 <pre class="mcode-input">  ff = @(x) max(.85,sin(x+x.^2)) - x/20;
   f = chebfun(ff,[0,10],'splitting','on');
   plot(f)</pre>
@@ -367,7 +367,7 @@ Elapsed time is 1.852304 seconds.
 
 <pre class="mcode-output">ff = 
     @(x)besselj(x,exp(x))
-Elapsed time is 0.075354 seconds.
+Elapsed time is 0.146163 seconds.
 ans =
         3777
 </pre>
@@ -376,7 +376,7 @@ ans =
 <pre class="mcode-input">  tic, f = chebfun(ff,[0 8],'resampling','on'); toc
   length(f)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.084235 seconds.
+<pre class="mcode-output">Elapsed time is 0.070557 seconds.
 ans =
         3782
 </pre>
@@ -397,7 +397,7 @@ ans =
 </pre>
 
 <p><img src="img/guide08_12.png" class="figure" alt=""></p>
-<p>This rather bizarre example encourages us to play further. What if we change length(x)<em>sin(15</em>x) to sin(length(x)*x)? Now there is no convergence, for no matter how fine the grid is, the function is underresolved.</p>
+<p>This rather bizarre example encourages us to play further. What if we change <code>length(x)*sin(15*x)</code> to <code>sin(length(x)*x)</code>? Now there is no convergence, for no matter how fine the grid is, the function is underresolved.</p>
 <pre class="mcode-input">  hh = @(x) sin(length(x)*x);
   h = chebfun(hh,'sampleTest',0,'resampling','on');</pre>
 
@@ -426,7 +426,7 @@ p.eps</pre>
 </pre>
 
 <p>However, one can change this with a command like <code>chebfunpref.setDefaults('eps',1e-6)</code>.</p>
-<p>There are cases where weakening the tolerance makes a big difference. For example, this happens in certain applications in 2D and in certain applications involving differential equations.  (Indeed, the Chebfun differential equations commands have their own tolerance control strategies.) However, Chebfun does such a good job at resolving many functions that the <code>eps</code>-adjustment feature is not as useful as you might imagine, and we recommend that users not change <code>eps</code> unless they are having real problems with standard precision.</p>
+<p>There are cases where weakening the tolerance makes a big difference. For example, this happens in certain applications in 2D and in certain applications involving differential equations.  (Indeed, the Chebfun differential equations commands have their own tolerance control strategies.) However, Chebfun does such a good job at resolving many functions that the <code>eps</code>-adjustment feature is not as useful as you might imagine, and we recommend that users not change <code>eps</code> unless they are having real problems with standard precision or are working with noisy data.</p>
 <h3 id="89-chebyshev-grids-of-first-or-second-kind">8.9 Chebyshev grids of first or second kind</h3>
 <p>Beginning with Version 5, Chebfun includes capabilities for carrying out almost all computations with Chebyshev points of either the first kind ($\cos((j+1/2)\pi/(n+1)),$ $0\le j \le n$, implemented in the <code>chebtech1</code> class) or the second kind ($\cos(j\pi/n),$ $0\le j \le n$, implemented in the <code>chebtech2</code> class). These capabilities were included to further our research into the pros and cons of different kinds of algorithms, and most users can ignore this choice entirely. You can query which kind of Chebyshev points is in use with</p>
 <pre class="mcode-input">t = chebkind</pre>
@@ -449,10 +449,10 @@ p.eps</pre>
 
 <h3 id="810-rectangular-or-ultraspherical-spectral-discretizations">8.10 Rectangular or ultraspherical spectral discretizations</h3>
 <p>Chebfun's factory default for spectral discretizations is rectangular collocation in Chebyshev points of the second kind, which corresponds to</p>
-<pre class="mcode-input">cheboppref.setDefaults('discretization','colloc2')</pre>
+<pre class="mcode-input">cheboppref.setDefaults('discretization','chebcolloc2')</pre>
 
 <p>To change the preference to first-kind points, one can execute</p>
-<pre class="mcode-input">cheboppref.setDefaults('discretization','colloc1')</pre>
+<pre class="mcode-input">cheboppref.setDefaults('discretization','chebcolloc1')</pre>
 
 <p>and for Olver-Townsend ultraspherical discretizations,</p>
 <pre class="mcode-input">cheboppref.setDefaults('discretization','ultraspherical')</pre>
@@ -468,7 +468,7 @@ p.eps</pre>
 <pre class="mcode-input">chebfunpref.setDefaults('factory')</pre>
 
 <h3 id="812-additional-preferences">8.12 Additional preferences</h3>
-<p>Information about additional Chebfun preferences can be found by executing <code>chebfunpref</code> or <code>help chebfunpref</code>.  In general the most reliable values to use in setting preferences are are <code>1</code> or <code>true' and</code>0<code>or</code>false<code>(not</code>'on'<code>and</code>'off'`).</p>
+<p>Information about additional Chebfun preferences can be found by executing <code>chebfunpref</code> or <code>help chebfunpref</code>.  In general the most reliable values to use in setting preferences are are <code>1</code> or <code>true</code> and <code>0</code> or <code>false</code> (not <code>'on'</code> and <code>'off'</code>).</p>
 <p>For example, <code>'sampleTest'</code> controls whether a function is evaluated at an extra point as a safety check of convergence.  With the default <code>'on'</code> value, this test is indeed carried out.</p>
 <p>Another example is that <code>'blowup'</code> relates to the construction of chebfuns that diverge to infinity, as described in Chapter 9. <code>blowup=0</code> is used for no singularities, <code>blowup=1</code> if for functions with poles (blowups with a negative integer power) and <code>blowup=2</code> for functions with branch points (blowups with an arbitrary power).</p></div>
         </div>

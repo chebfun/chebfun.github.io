@@ -39,9 +39,9 @@ We confirm that we've solved the problem by calculating the residual of the diff
 
 <pre class="mcode-input">disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
-disp(['Residual of interior condition:    ', num2str(abs(sum(u)))])</pre><pre class="mcode-output">Residual of differential equation: 3.9683e-12
-Residual of left BC:               2.2204e-16
-Residual of interior condition:    2.0521e-17
+disp(['Residual of interior condition:    ', num2str(abs(sum(u)))])</pre><pre class="mcode-output">Residual of differential equation: 3.4816e-12
+Residual of left BC:               1.2212e-15
+Residual of interior condition:    3.7919e-17
 </pre>We could also require the mean of $u$ to take another value, e.g. $1$, via
 
 <pre class="mcode-input">N.bc = @(x,u) mean(u)-1;</pre>If we now solve the problem, we see that this condition is satisfied to a high accuracy
@@ -58,9 +58,9 @@ Again, we obtained an accurate solution (to evaluate the interior point conditio
 <pre class="mcode-input">disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ',  num2str(abs(u(-1)-1))])
 x = chebfun('x');
-disp(['Residual of interior condition:    ', num2str(abs(sum(sin(4*pi*x).*u)))])</pre><pre class="mcode-output">Residual of differential equation: 7.0223e-13
-Residual of left BC:               4.4409e-16
-Residual of interior condition:    0
+disp(['Residual of interior condition:    ', num2str(abs(sum(sin(4*pi*x).*u)))])</pre><pre class="mcode-output">Residual of differential equation: 1.7589e-12
+Residual of left BC:               1.4433e-15
+Residual of interior condition:    2.5752e-16
 </pre>
 
 ## Example 2: Interior point conditions
@@ -84,9 +84,9 @@ We reuse the chebop from above, only needing to change the `.bc` field:
 <pre class="mcode-input">u = N\1; plot(u,LW,1.6), grid on
 disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
-disp(['Residual of interior condition:    ', num2str(abs(u(0)-.5))])</pre><pre class="mcode-output">Residual of differential equation: 2.0369e-12
-Residual of left BC:               1.1102e-16
-Residual of interior condition:    2.2204e-16
+disp(['Residual of interior condition:    ', num2str(abs(u(0)-.5))])</pre><pre class="mcode-output">Residual of differential equation: 2.0169e-12
+Residual of left BC:               1.1102e-15
+Residual of interior condition:    4.4409e-16
 </pre><img src="img/NonstandardBCs_03.png" class="figure" alt="">
 
 If we want to impose conditions on the derivative, such as
@@ -104,7 +104,7 @@ and confirm that we obtain an accurate solution
 <pre class="mcode-input">disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 up = diff(u);
-disp(['Residual of interior condition:    ', num2str(abs(up(0)-1))])</pre><pre class="mcode-output">Residual of differential equation: 3.6648e-12
-Residual of left BC:               5.5511e-16
-Residual of interior condition:    1.2879e-14
+disp(['Residual of interior condition:    ', num2str(abs(up(0)-1))])</pre><pre class="mcode-output">Residual of differential equation: 5.1635e-12
+Residual of left BC:               1.1102e-15
+Residual of interior condition:    2.1094e-14
 </pre>

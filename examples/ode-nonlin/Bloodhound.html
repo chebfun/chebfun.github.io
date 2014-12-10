@@ -117,6 +117,11 @@ $$ m \frac{dv}{dt} + \frac{dm}{dt} v = \mathrm{thrust} - \mathrm{drag}. $$</p>
 <pre class="mcode-input">u = N\rhs;
 u_mph = u/0.44704; % convert to mph for plotting</pre>
 
+<pre class="mcode-output">Warning: Newton iteration failed.
+Please try supplying a better initial guess via the .init field
+of the chebop. 
+</pre>
+
 <p>Find where the solution is equal to 1000 mph.</p>
 <pre class="mcode-input">t1000 = find(u == 447); % number of seconds when we hit 1000 mph</pre>
 

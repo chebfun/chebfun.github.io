@@ -20,12 +20,12 @@ A.bc = 'periodic';
 u = A\f;
 u{1}, u{2}</pre><pre class="mcode-output">ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [    -3.1,     3.1]        5       0.5      0.5 
 Epslevel = 1.570092e-15.  Vscale = 6.984011e-01.
 ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [    -3.1,     3.1]       33      -0.5     -0.5 
 Epslevel = 1.570092e-15.  Vscale = 7.069065e-01.
 </pre>Because the boundardy conditions are periodic, the system of ODEs is solved with a Fourier collocation method, and the solution $u$ is represented by a Fourier series. (This is what `periodic` means in the display of $u$ above.) We plot the result:
@@ -37,7 +37,7 @@ For this problem, the solution can actually be computed analytically. How close 
 
 <pre class="mcode-input">exact = [cos(x+3*pi/4) cos(x+pi/4)]/sqrt(2);
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre><pre class="mcode-output">err =
-     8.207219039300378e-14
+     8.207219039300383e-14
 </pre>We show this also works for piecewise problems by artificially introducing a breakpoint at the origin.
 
 <pre class="mcode-input">A.domain = [-pi,0,pi];
@@ -58,6 +58,6 @@ Epslevel = 1.571719e-15.  Vscale = 7.063751e-01.  Total length = 32.
 
 <pre class="mcode-input">plot(u,LW,lw), title('Solutions u and v',FS,fs), legend('u','v');
 err = max([norm(u{1}-exact(:,1),inf) norm(u{2}-exact(:,2),inf)])</pre><pre class="mcode-output">err =
-     3.213393104607813e-14
+     4.582320677971030e-14
 </pre><img src="img/PeriodicSystem_02.png" class="figure" alt="">
 

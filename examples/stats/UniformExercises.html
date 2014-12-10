@@ -167,8 +167,8 @@ hold on, plot(f,'k',LW,1.6), grid on</pre>
 aa = roots(g)</pre>
 
 <pre class="mcode-output">aa =
-  -1.000000000000000
-   2.999999999999998
+  -0.999999999999999
+   2.999999999999999
 </pre>
 
 <p>As before, we can see $a = -1$ and $b = 3$ are the correct choices.</p>
@@ -176,9 +176,9 @@ aa = roots(g)</pre>
 b = aa(2)</pre>
 
 <pre class="mcode-output">a =
-    -1
+  -0.999999999999999
 b =
-   2.999999999999998
+   2.999999999999999
 </pre>
 
 <p>Let us plot $f$ on the interval $[-5,5]$, the two roots $a$ and $b$:</p>
@@ -199,8 +199,8 @@ grid on</pre>
 <pre class="mcode-input">ab = roots(meanab-1, varab-4/3)</pre>
 
 <pre class="mcode-output">ab =
-  -0.999999999999998   3.000000000000003
-   2.999999999999998  -0.999999999999996
+  -1.000000000000000   3.000000000000001
+   3.000000000000001  -1.000000000000001
 </pre>
 
 <p>As there are two pairs of $a$ and $b$ listed in <code>ab</code>, we need to identify the correct pair:</p>
@@ -208,9 +208,9 @@ grid on</pre>
 b = ab(1, 1)</pre>
 
 <pre class="mcode-output">a =
-   3.000000000000003
+   3.000000000000001
 b =
-  -0.999999999999998
+  -1.000000000000000
 </pre>
 
 <h3 id="4-application-adapted-from-example-12-page-107">4. Application adapted from Example 12, page 107</h3>

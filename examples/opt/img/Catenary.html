@@ -24,7 +24,7 @@ To solve this problem with Chebfun, we begin with the functional and boundary co
 <pre class="mcode-input">f = @(y,yp) y .* sqrt(1 + yp.^2);
 J = @(y) sum( f(y, diff(y)) );
 
-alpha = cosh(1);
+alpha = cosh(-1);
 beta  = cosh(1);</pre>Since the problem is nonlinear, we will need to solve it iteratively. As an initial guess to the iteration we'll choose a simple line, and note its functional value.
 
 <pre class="mcode-input">dom = [-1,1];
@@ -87,26 +87,26 @@ for k = 1:5
     % Print out the current value of the energy functional.
     nextJ = J(y)
 end</pre><pre class="mcode-output">nextJ =
-   2.840828750691848
+   2.840828750691852
 nextJ =
-   2.816226754422265
+   2.816226754422263
 nextJ =
    2.813551498179433
 nextJ =
-   2.813430779819848
+   2.813430779819845
 nextJ =
-   2.813430203941194
+   2.813430203941191
 </pre>The exact solution is a simple $\cosh$. Here is the error in our solution.
 
 <pre class="mcode-input">y_exact = chebfun('cosh(x)', dom);
 norm(y - y_exact)</pre><pre class="mcode-output">ans =
-     7.515155566381136e-06
+     7.515155564171490e-06
 </pre>And the values of the energy functional:
 
 <pre class="mcode-input">fprintf('\n  final J[y]: %.16f\n', J(y))
 fprintf('optimal J[y]: %.16f\n', J(y_exact))</pre><pre class="mcode-output">
-  final J[y]: 2.8134302039411945
-optimal J[y]: 2.8134302039235086
+  final J[y]: 2.8134302039411909
+optimal J[y]: 2.8134302039235082
 </pre>Finally, a plot of the catenary:
 
 <pre class="mcode-input">plot(y_exact, 'r--', LW,2), hold on

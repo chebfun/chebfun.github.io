@@ -29,17 +29,17 @@ V'*V
 norm(L(V))</pre><pre class="mcode-output">V =
    chebfun column1 (1 smooth piece)
        interval       length   endpoint values  
-[      -1,       1]        5      -1.4     0.44 
+[      -1,       1]        4      -1.4     0.44 
 Epslevel = 4.009500e-16.  Vscale = 1.384490e+00.
    chebfun column2 (1 smooth piece)
        interval       length   endpoint values  
-[      -1,       1]        5     -0.29      1.3 
+[      -1,       1]        4     -0.29      1.3 
 Epslevel = 4.132711e-16.  Vscale = 1.343214e+00.
 ans =
    1.000000000000000  -0.000000000000000
   -0.000000000000000   1.000000000000000
 ans =
-     5.016230158154673e-13
+     2.644251170154956e-13
 </pre><img src="img/NullSpace_01.png" class="figure" alt="">
 
 where we find that $V^T V = I$ and $LV \approx 0$ as required.
@@ -47,7 +47,7 @@ where we find that $V^T V = I$ and $LV \approx 0$ as required.
 Clearly `V` doesn't correspond directly to $1$ and $x$, since there is some freedom in how we orthogonalise the basis. However, we can check that `V` and $\{1, x\}$ correspond to the same spaces by computing the angle between the spaces with the `subspace` command.
 
 <pre class="mcode-input">subspace(v, V)</pre><pre class="mcode-output">ans =
-     1.947059289569680e-14
+     1.385544576431027e-14
 </pre>
 
 ## 2. Incomplete boundary conditions
@@ -73,10 +73,10 @@ Epslevel = 1.753455e-16.  Vscale = 1.786120e+00.
 [    -3.1,     3.1]       64    -0.011      1.3 
 Epslevel = 2.468482e-16.  Vscale = 1.268748e+00.
 ans =
-   0.999999999999999   0.000000000000000
+   0.999999999999998   0.000000000000000
    0.000000000000000   1.000000000000000
 ans =
-     1.023570181200966e-10
+     3.096261776816828e-11
 </pre><img src="img/NullSpace_02.png" class="figure" alt="">
 
 However, now suppose we impose one boundary condition, say, a Dirichlet condition at the left. This removes one degree of freedom, and we are left with a rank 1 nullspace.
@@ -89,18 +89,18 @@ v'*v
 norm(L(v))</pre><pre class="mcode-output">v =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[    -3.1,     3.1]       64   7.2e-16      1.3 
+[    -3.1,     3.1]       64  -1.7e-16      1.3 
 Epslevel = 1.708133e-15.  Vscale = 1.268983e+00.
 ans =
    1.000000000000000
 ans =
-     2.474464626150296e-11
+     1.427155766422003e-11
 </pre><img src="img/NullSpace_03.png" class="figure" alt="">
 
 Clearly this null vector must satisfy the given condition $v(-\pi) = 0.$
 
 <pre class="mcode-input">v(-pi)</pre><pre class="mcode-output">ans =
-     7.216449660063518e-16
+    -1.665334536937735e-16
 </pre>
 
 ## 3. An application
@@ -121,20 +121,20 @@ We compute the 2-norm as a chebfun in the unknown variable $c$, which we can the
 <pre class="mcode-input">[minE, c_star] = min(E)
 u_star = u + c_star*v
 plot(u_star,LW,lw)</pre><pre class="mcode-output">minE =
-   4.121950420615822
+   4.121950420615883
 c_star =
-   3.143771420956892
+   3.143771420957320
 u_star =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[    -3.1,     3.1]       64  -2.9e-15        4 
-Epslevel = 1.124157e-15.  Vscale = 3.989391e+00.
+[    -3.1,     3.1]       64    -4e-15        4 
+Epslevel = 1.776357e-15.  Vscale = 3.989391e+00.
 </pre><img src="img/NullSpace_06.png" class="figure" alt="">
 
 So the condition we require is that $u(\pi)$ = `bc_star`, where
 
 <pre class="mcode-input">bc_star = u_star(pi)</pre><pre class="mcode-output">bc_star =
-   3.989391428267081
+   3.989391428267542
 </pre>
 
 ## 4. Exotic constraints
@@ -156,23 +156,23 @@ plot(V, LW, lw), shg
 V'*V</pre><pre class="mcode-output">V =
    chebfun column1 (1 smooth piece)
        interval       length   endpoint values  
-[      -1,       1]       64       1.3     -1.1 
-Epslevel = 2.093802e-16.  Vscale = 1.325607e+00.
+[      -1,       1]       64       1.1     -1.2 
+Epslevel = 2.269192e-16.  Vscale = 1.223148e+00.
    chebfun column2 (1 smooth piece)
        interval       length   endpoint values  
-[      -1,       1]       64    -0.047     0.62 
-Epslevel = 2.500340e-16.  Vscale = 1.110072e+00.
+[      -1,       1]       64      0.77    -0.15 
+Epslevel = 2.567754e-16.  Vscale = 1.080928e+00.
 ans =
-   1.000000000000000   0.000000000000000
-   0.000000000000000   1.000000000000000
+   1.000000000000000  -0.000000000000000
+  -0.000000000000000   1.000000000000001
 </pre><img src="img/NullSpace_07.png" class="figure" alt="">
 
 <pre class="mcode-input">sum(V) - V(0,:)
 norm(L(V), 1)</pre><pre class="mcode-output">ans =
    1.0e-15 *
-  -0.999200722162641  -0.222044604925031
+  -0.111022302462516   0.666133814775094
 ans =
-     8.995882703011659e-09
+     9.372923955371351e-09
 </pre>
 
 ## 5. References

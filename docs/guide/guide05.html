@@ -56,7 +56,7 @@
     <div class='page-header'>
 <span class='chapter_number'>5</span>
 <h1>Complex Chebfuns</h1>
-<h2>Lloyd N. Trefethen, November 2009, latest revision June 2014<span>
+<h2>Lloyd N. Trefethen, November 2009, latest revision December 2014<span>
     
         <a href='/docs/guide/guide04.html'
 >previous</a><span class='sep-sm
@@ -114,7 +114,7 @@ subplot(1,2,2), plot(exp(h)), axis equal</pre>
 <pre class="mcode-input">sum(h)</pre>
 
 <pre class="mcode-output">ans =
-      1.719627766156472e-16 - 1.522474749680446e-16i
+     -2.430648284784403e-18 - 1.522474749680446e-16i
 </pre>
 
 <p>Piecewise smooth complex chebfuns are also possible. For example, the following starts from a chebfun <code>z</code> defined as $(1+0.5i)s$ for $s$ on the interval $[0,1]$ and $1+0.5i-2(s-1)$ for $s$ on the interval $[1,2]$.</p>
@@ -129,7 +129,7 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on</pre>
   norm(z-zz)</pre>
 
 <pre class="mcode-output">ans =
-     1.281975124255709e-16
+     0
 </pre>
 
 <h3 id="52-analytic-functions-and-conformal-maps">5.2 Analytic functions and conformal maps</h3>
@@ -151,7 +151,7 @@ subplot(1,2,2), plot(exp(R),LW,lw1), grid on, axis equal
 hold on, plot(exp(X),'r',LW,lw2)</pre>
 
 <p><img src="img/guide05_08.png" class="figure" alt=""></p>
-<p>We can take the same idea further and construct a grid in the complex plane, each segment of which is a piece of a chebfun that happens to be linear.  In this case we accumulate the various pieces as successive columns of a quasimatrix, i.e., a "matrix" whose columns are chebfuns.</p>
+<p>We can take the same idea further and construct a grid in the complex plane, each segment of which is a piece of a chebfun that happens to be linear.  In this case we accumulate the various pieces as successive columns of a quasimatrix, i.e., a "matrix" whose columns are chebfuns (see Chapter 6).</p>
 <pre class="mcode-input">  x = chebfun(@(x) x);
   S = chebfun;                  % make an empty chebfun
   for d = -1:.2:1
@@ -199,9 +199,7 @@ axis off</pre>
 
 <p><img src="img/guide05_13.png" class="figure" alt=""></p>
 <h3 id="53-contour-integrals">5.3 Contour integrals</h3>
-<p>If $s$ is a real parameter and $z(s)$ is a complex function of $s$, then we can define a contour integral in the complex plane like this:</p>
-<p>$$ \int f(z(s)) z'(s) ds . $$</p>
-<p>The contour in question is the curve described by $z(s)$ as $s$ varies over its range.</p>
+<p>If $s$ is a real parameter and $z(s)$ is a complex function of $s$, then we can define a contour integral in the complex plane like this: $$ \int f(z(s)) z'(s) ds . $$ The contour in question is the curve described by $z(s)$ as $s$ varies over its range.</p>
 <p>For example, in the example at the end of Section 5.1 the contour consists of two straight segments that begin at $0$ and end at $-1+.5i$.  We can compute the integral of $\exp(-z^2)$ over the contour like this:</p>
 <pre class="mcode-input">  f = exp(-z.^2);
   I = sum(f.*diff(z))</pre>
@@ -211,7 +209,7 @@ axis off</pre>
 </pre>
 
 <p>Notice how easily the contour integral is realized in Chebfun, even over a contour consisting of several pieces. This particular integral is related to the complex error function [Weideman 1994].</p>
-<p>According to <em>Cauchy's theorem</em>, the integral of an analytic function around a closed curve is zero, or equivalently, the integral between two points $z_1$ and $z_2$ is path-independent. To verify this, we can compute the same integral over the straight segment going directly from $0$ to $-1+0.5i$:</p>
+<p>According to <em>Cauchy's theorem</em>, the integral of an analytic function around a closed curve is zero, or equivalently, the integral between two points $z_1$ and $z_2$ is path-independent. To verify this property, we can compute the same integral over the straight segment going directly from $0$ to $-1+0.5i$:</p>
 <pre class="mcode-input">  w = chebfun('(-1+.5i)*s',[0 1]);
   f = exp(-w.^2);
   I2 = sum(f.*diff(w))</pre>
@@ -230,23 +228,23 @@ I = sum(f.*diff(z))/(2i*pi)</pre>
 </pre>
 
 <p>Notice that we have just computed the degree $2$ Taylor coefficient of $\exp(z)$.</p>
-<p>When Chebfun integrates around a circular contour like this, it does not automatically take advantage of the fact that the integrand is periodic. That would be Fourier analysis as opposed to Chebyshev analysis, and beginning with Version 5, a "Fourfun" approach to such problems has been available, at least when the arguments are smooth (compare [Davis 1959]). For example, we could repeat the above calculation in Fourier mode like this:</p>
-<pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi],'periodic');
+<p>When Chebfun integrates around a circular contour like this, it does not automatically take advantage of the fact that the integrand is periodic. That would be Fourier analysis as opposed to Chebyshev analysis, and beginning with Version 5, a "trigfun" approach to such problems has been available, at least when the arguments are smooth (compare [Davis 1959]). For example, we could repeat the above calculation in Fourier mode like this:</p>
+<pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = exp(z)./z.^3;
 I = sum(f.*diff(z))/(2i*pi)</pre>
 
 <pre class="mcode-output">I =
-  0.500000000000002 + 0.000000000000000i
+  0.500000000000002 - 0.000000000000000i
 </pre>
 
 <p>Chebyshev methods are more flexible, as a rule, but Fourier methods have advantages sometimes of efficiency (up to a factor of $\pi/2$ per dimension) and accuracy.  For techniques that recover some of that factor of $\pi/2$ even for nonperiodic problems, see [Hale &amp; Trefethen 2008].</p>
 <p>The contour does not have to have radius $1$, or be centered at the origin:</p>
-<pre class="mcode-input">z = chebfun('1+2*exp(1i*s)',[0 2*pi],'periodic');
+<pre class="mcode-input">z = chebfun('1+2*exp(1i*s)',[0 2*pi],'trig');
 f = exp(z)./z.^3;
 I2 = sum(f.*diff(z))/(2i*pi)</pre>
 
 <pre class="mcode-output">I2 =
-  0.499999999999999 + 0.000000000000000i
+  0.500000000000000 - 0.000000000000000i
 </pre>
 
 <p>Nor does the contour have to be smooth. Here let us compute the same result by integration over a square (reverting to Chebyshev rather than Fourier technology).</p>
@@ -273,7 +271,7 @@ I = sum(f.*diff(z))
 Iexact = 4i*pi*log(pi/2)</pre>
 
 <pre class="mcode-output">I =
-  0.000000000000003 + 5.674755637702226i
+ -0.000000000000009 + 5.674755637702251i
 Iexact =
   0.000000000000000 + 5.674755637702224i
 </pre>
@@ -281,38 +279,34 @@ Iexact =
 <h3 id="54-cauchy-integrals-and-locating-zeros-and-poles">5.4 Cauchy integrals and locating zeros and poles</h3>
 <p>Here are some further examples of computations with Cauchy integrals. The Bernoulli number $B_k$ is $k!$ times the kth Taylor coefficient of $z/((\exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.</p>
 <pre class="mcode-input">k = 10;
-z = chebfun('5*exp(1i*s)',[0 2*pi]);
+z = chebfun('4*exp(1i*s)',[0 2*pi],'trig');
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 exact = 5/66</pre>
 
 <pre class="mcode-output">B10 =
-  0.075757575757581 - 0.000000000000004i
+  0.075757575757578 + 0.000000000000001i
 exact =
    0.075757575757576
 </pre>
 
-<p>Notice that we have taken <code>z</code> to be a circle of radius $5$. If the radius is $1$, the accuracy is a good deal lower:</p>
-<pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi]);
+<p>Notice that we have taken <code>z</code> to be a circle of radius $4$. If the radius is $1$, the accuracy is a good deal lower:</p>
+<pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)</pre>
 
 <pre class="mcode-output">B10 =
-  0.075757575477882 - 0.000000000093791i
+  0.075757572100343 + 0.000000000797062i
 </pre>
 
 <p>This problem of numerical instability would arise no matter how one calculated the integral over the unit circle; it is not the fault of Chebfun.  For a study of how to pick the optimal radius, see [Bornemann 2009].</p>
-<p>Another use of Cauchy integrals is to count zeros or poles of functions in specified regions.  According to the <em>principle of the argument</em>, the number of zeros minus the number of poles of $f$ in a region is</p>
-<p>$$ N = {1\over 2\pi i} \int { f'(z) \over f(z)} dz, $$</p>
-<p>where the integral is taken over the boundary.  Since $f' = df/dz = (df/ds)(ds/dz)$, we can rewrite this as</p>
-<p>$$ N = {1\over 2\pi i} \int {1\over f} {df\over ds} ds. $$</p>
-<p>For example, the function $f(z) = \sin(z)^3 + \cos(z)^3$ clearly has no poles; how many zeros does it have in the disk about $0$ of radius $2$? The following calculation shows that the answer is $3$:</p>
+<p>Another use of Cauchy integrals is to count zeros or poles of functions in specified regions.  According to the <em>principle of the argument</em>, the number of zeros minus the number of poles of $f$ in a region is $$ N = {1\over 2\pi i} \int { f'(z) \over f(z)} dz, $$ where the integral is taken over the boundary.  Since $f' = df/dz = (df/ds)(ds/dz)$, we can rewrite this as $$ N = {1\over 2\pi i} \int {1\over f} {df\over ds} ds. $$ For example, the function $f(z) = \sin(z)^3 + \cos(z)^3$ clearly has no poles; how many zeros does it have in the disk about $0$ of radius $2$? The following calculation shows that the answer is $3$:</p>
 <pre class="mcode-input">z = chebfun('2*exp(1i*s)',[0 2*pi]);
 f = sin(z).^3 + cos(z).^3;
 N = sum((diff(f)./f))/(2i*pi)</pre>
 
 <pre class="mcode-output">N =
-  2.999999999999997 + 0.000000000000001i
+  2.999999999999998 + 0.000000000000001i
 </pre>
 
 <p>What is really going on here is a calculation of the change of the argument of $f$ as the boundary is traversed.  Another way to find that number is with the Chebfun overloads of the MATLAB commands <code>angle</code> and <code>unwrap</code>:</p>
@@ -320,18 +314,16 @@ N = sum((diff(f)./f))/(2i*pi)</pre>
 N = (anglef(end)-anglef(0))/(2*pi)</pre>
 
 <pre class="mcode-output">N =
-   2.999999999999998
+   2.999999999999997
 </pre>
 
-<p>Variations on this idea enable one to locate zeros and poles as well as count them.  For example, we can locate a single zero with the formula</p>
-<p>$$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$</p>
-<p>[McCune 1966].  Here is the zero of the function above in the unit disk:</p>
-<pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi],'periodic');
+<p>Variations on this idea enable one to locate zeros and poles as well as count them.  For example, we can locate a single zero with the formula $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$ [McCune 1966].  Here is the zero of the function above in the unit disk:</p>
+<pre class="mcode-input">z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = sin(z).^3 + cos(z).^3;
 r = sum(z.*(diff(f)./f))/(2i*pi)</pre>
 
 <pre class="mcode-output">r =
- -0.785398163397448 - 0.000000000000000i
+ -0.785398163397446 - 0.000000000000000i
 </pre>
 
 <p>We can check the result by a more ordinary Chebfun calculation:</p>
@@ -389,16 +381,20 @@ plot(f,LW,lw), xlim(1.2*[-1 1]), axis equal</pre>
 <pre class="mcode-input">f = scribble('Happy Birthday Pafnuty!');
 L = f.ends(end);
 g = @(z) exp(-2.2i+(2.5i+.4)*z);
-clf, plot(g(f),'r',LW,lw), axis equal, axis off
+clf, plot(g(f),'r',LW,lw)
 circle = 1.12*chebfun(@(x) exp(2i*pi*x/L),[0 L]);
 ellipse = 1.2*(circle + 1./circle)/2 + 1i*mean(imag(f));
 hold on, plot(g(ellipse),'b',LW,lw)
 axis auto equal off</pre>
 
 <p><img src="img/guide05_20.png" class="figure" alt=""></p>
-<p>You can find an example "Birthday cards and analytic function" in the Complex Variables section of the Chebfun Examples collection, and further related explorations in the Geometry section.</p>
+<p>You can find an example "Birthday cards and analytic functions" in the Fun Stuff section of the Chebfun Examples collection, and further related explorations in the Geometry section.  And here's another complex scribble:</p>
+<pre class="mcode-input">clf
+cheb.gallery('motto')</pre>
+
+<p><img src="img/guide05_21.png" class="figure" alt=""></p>
 <h3 id="56-references">5.6  References</h3>
-<p>[Austin, Kravanja &amp; Trefethen 2013] A. P. Austin, P. Kravanja and L. N. Trefethen, "Numerical algorithms based on analytic function values at roots of unity", <em>SIAM Journal on Numerical Analysis</em>, to appear.</p>
+<p>[Austin, Kravanja &amp; Trefethen 2014] A. P. Austin, P. Kravanja and L. N. Trefethen, "Numerical algorithms based on analytic function values at roots of unity", <em>SIAM Journal on Numerical Analysis</em>, to appear.</p>
 <p>[Bornemann 2009] F. Bornemann, "Accuracy and stability of computing high-order derivatives of analytic functions by Cauchy integrals", <em>Foundations of Computational Mathematics</em>, 11 (2011), 1-63.</p>
 <p>[Davis 1959] P. J. Davis, "On the numerical integration of periodic analytic functions", in R. E. Langer, ed., <em>On Numerical Integration</em>, Math. Res. Ctr., U. of Wisconsin, 1959, pp. 45-59.</p>
 <p>[Hale &amp; Trefethen 2008] N. Hale and L. N. Trefethen, "New quadrature formulas from conformal maps", <em>SIAM Journal on Numerical Analysis</em>, 46 (2008), 930-948.</p>

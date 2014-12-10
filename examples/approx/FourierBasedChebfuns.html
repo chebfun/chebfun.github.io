@@ -65,14 +65,14 @@
 <pre class="mcode-input">LW = 'linewidth'; lw = 1.6; MS = 'MarkerSize'; ms = 10;</pre>
 
 <h3 id="construction-and-comparison">Construction and comparison</h3>
-<p>Fourier-based chebfuns, or "fourfuns" as we like to refer to them, can be created with the use of the <code>'periodic'</code> flag in the chebfun constructor. For, example, the function $f(x) = \cos(8\sin(x))$ for $-\pi \leq x \leq \pi$ can be constructed as follows:</p>
+<p>Fourier-based chebfuns, or "trigfuns" as we like to refer to them, can be created with the use of the <code>'periodic'</code> flag in the chebfun constructor. For, example, the function $f(x) = \cos(8\sin(x))$ for $-\pi \leq x \leq \pi$ can be constructed as follows:</p>
 <pre class="mcode-input">dom = [-pi,pi];
 f = chebfun(@(x) cos(8*sin(x)),dom,'periodic')
 plot(f,LW,lw);</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [    -3.1,     3.1]       61         1        1 
 Epslevel = 2.675450e-15.  Vscale = 1.000000e+00.
 </pre>
@@ -102,14 +102,15 @@ theoretical =
    1.570796326794897
 </pre>
 
-<p>Trying to construct a fourfun from a non-periodic or non-smooth function will typically result in a warning being issued and an "unhappy" fourfun, as illustrated for the unit step function below:</p>
+<p>Trying to construct a trigfun from a non-periodic or non-smooth function will typically result in a warning being issued and an "unhappy" trigfun, as illustrated for the unit step function below:</p>
 <pre class="mcode-input">f = chebfun(@(x) 0.5*(1+sign(x)),dom,'periodic')
 plot(f,LW,lw);</pre>
 
-<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried a non-trig
+representation? 
 f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [    -3.1,     3.1]    65536       0.5      0.5 
 Epslevel = 1.818989e-12.  Vscale = 1.
 </pre>
@@ -123,22 +124,22 @@ Epslevel = 1.818989e-12.  Vscale = 1.
        interval       length   endpoint values  
 [    -3.1,       0]        1         0        0 
 [       0,     3.1]        1         1        1 
-Epslevel = 1.110223e-15.  Vscale = 1.000000e+00.  Total length = 2.
+Epslevel = 1.110223e-15.  Vscale = 1.  Total length = 2.
 </pre>
 
-<p>Splitting is not an option for fourfuns.</p>
+<p>Splitting is not an option for trigfuns.</p>
 <h3 id="basic-operations">Basic operations</h3>
-<p>Many Chebfun operations can also be applied directly to a fourfun. Some of these basic operations are illustrated in the examples below.</p>
-<p>Addition, subtraction, multiplication, division, and function composition can all be directly applied to a fourfun.  However one should be aware that operation should result in a smooth and periodic function. The following example illustrates some of these operations:</p>
+<p>Many Chebfun operations can also be applied directly to a trigfun. Some of these basic operations are illustrated in the examples below.</p>
+<p>Addition, subtraction, multiplication, division, and function composition can all be directly applied to a trigfun.  However one should be aware that operation should result in a smooth and periodic function. The following example illustrates some of these operations:</p>
 <pre class="mcode-input">g = chebfun(@(x) sin(x),dom,'periodic');
 f = tanh(cos(1+2*g).^2)-0.5
 plot(f, LW, lw)</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [    -3.1,     3.1]      141     -0.22    -0.22 
-Epslevel = 7.301755e-15.  Vscale = 4.999998e-01.
+Epslevel = 2.220446e-16.  Vscale = 4.999998e-01.
 </pre>
 
 <p><img src="img/FourierBasedChebfuns_04.png" class="figure" alt=""></p>
@@ -182,14 +183,14 @@ plot(df, LW, lw)</pre>
   -0.074010812957416
 </pre>
 
-<p>Complex-valued fourfuns are also possible. For example:</p>
+<p>Complex-valued trigfuns are also possible. For example:</p>
 <pre class="mcode-input">f = chebfun(@(x) 1i*(13*cos(x)-5*cos(2*x)-2*cos(3*x)-cos(4*x)) + ...
                  16*sin(x).^3, dom, 'periodic')
 plot(f, LW, lw), axis equal</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [    -3.1,     3.1]        9    complex values 
 Epslevel = 6.661338e-16.  Vscale = 17.
 </pre>
@@ -209,16 +210,16 @@ Epslevel = 6.661338e-16.  Vscale = 17.
      0
 </pre>
 
-<p>The convolution of two smooth periodic functions can be computed using the <code>circconv</code> (circular convolution) function. The example below demonstrates this function in combination with the additional feature that allows fourfuns to be constructed from function values. The latter is demonstrated first:</p>
+<p>The convolution of two smooth periodic functions can be computed using the <code>circconv</code> (circular convolution) function. The example below demonstrates this function in combination with the additional feature that allows trigfuns to be constructed from function values. The latter is demonstrated first:</p>
 <pre class="mcode-input">rng('default'), rng(0);
 n = 201;
-x = fourpts(n);
+x = trigpts(n);
 func_vals = exp(sin(2*pi*x)) + 0.05*randn(n,1);
 f = chebfun(func_vals,dom,'periodic')</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [    -3.1,     3.1]      201         1        1 
 Epslevel = 1.599777e-15.  Vscale = 2.775945e+00.
 </pre>

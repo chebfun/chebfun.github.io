@@ -56,7 +56,7 @@
     <div class='page-header'>
 <span class='chapter_number'>1</span>
 <h1>Getting Started with Chebfun</h1>
-<h2>Lloyd N. Trefethen, October 2009, latest revision June 2014<span>
+<h2>Lloyd N. Trefethen, October 2009, latest revision December 2014<span>
     
         <a href='None'
 class='invisible'>previous</a><span class='sep-sm
@@ -71,15 +71,14 @@ class='invisible'>previous</a><span class='sep-sm
 <h3 id="11-what-is-a-chebfun">1.1  What is a chebfun?</h3>
 <p>A chebfun is a function of one variable defined on an interval $[a,b]$. The syntax for chebfuns is almost exactly the same as the usual MATLAB syntax for vectors, with the familiar MATLAB commands for vectors overloaded in natural ways. Thus, for example, whereas <code>sum(f)</code> returns the sum of the entries when <code>f</code> is a vector, it returns a definite integral when <code>f</code> is a chebfun.</p>
 <p>Chebfun with a capital C is the name of the software system.</p>
-<p>The aim of Chebfun is to "feel symbolic but run at the speed of numerics". More precisely our vision is to achieve for functions what floating-point arithmetic achieves for numbers: rapid computation in which each successive operation is carried out exactly apart from a rounding error that is very small in relative terms [Trefethen 2007].</p>
+<p>The aim of Chebfun is to "feel symbolic but run at the speed of numerics". More precisely, our vision is to achieve for functions what floating-point arithmetic achieves for numbers: rapid computation in which each successive operation is carried out exactly apart from a rounding error that is very small in relative terms [Trefethen 2007].</p>
 <p>The implementation of Chebfun is based on the mathematical fact that smooth functions can be represented very efficiently by polynomial interpolation in Chebyshev points, or equivalently, thanks to the Fast Fourier Transform, by expansions in Chebyshev polynomials.  For a simple function, 20 or 30 points often suffice, but the process is stable and effective even for functions complicated enough to require 1000 or 1,000,000 points. Chebfun makes use of adaptive procedures that aim to find the right number of points automatically so as to represent each function to roughly machine precision, that is, about 15 digits of relative accuracy.  (Originally Chebfun stored function values at Chebyshev points; in Version 5 it switched to storing Chebyshev expansion coefficients.)</p>
-<p>The mathematical foundations of Chebfun are for the most part well established by results scattered throughout the 20th century.  A key early figure, for example, was Bernstein in the 1910s. Much of the relevant material can be found collected in the Chebfun-based book <em>Approximation Theory and Approximation Practice</em>[Trefethen 2013].</p>
-<p>Chebfun was originally created by Zachary Battles and Nick Trefethen at Oxford during 2002-2005 [Battles &amp; Trefethen 2004].  Battles left the project in 2005, and soon four new members were added to the team: Ricardo Pachon (from 2006), Rodrigo Platte (from 2007), and Toby Driscoll and Nick Hale (from 2008). In 2009, Asgeir Birkisson and Mark Richardson also became involved, and other contributors included Pedro Gonnet, Joris Van Deun, and Georges Klein.  Nick Hale served as Director of the project during 2010-2014.  The Chebfun Version 5 rewrite was directed by Nick Hale during 2013-2014, and the team included Anthony Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin Javed, Hadrien Montanelli, Alex Townsend, Nick Trefethen, Grady Wright, and Kuan Xu. Further information about Chebfun history is available at the Chebfun web site, <a href="http://www.chebfun.org">http://www.chebfun.org</a>.</p>
-<p>This Guide is based on Chebfun Version 5, released in June 2014.  Chebfun is available at <a href="http://www.chebfun.org">http://www.chebfun.org</a>.</p>
+<p>The mathematical foundations of Chebfun are for the most part well established by results scattered throughout the 20th century.  A key early figure, for example, was Bernstein in the 1910s. Much of the relevant material can be found collected in the Chebfun-based book <em>Approximation Theory and Approximation Practice</em> [Trefethen 2013].</p>
+<p>Chebfun was originally created by Zachary Battles and Nick Trefethen at Oxford during 2002-2005 [Battles &amp; Trefethen 2004].  Battles left the project in 2005, and soon four new members were added to the team: Ricardo Pachon (from 2006), Rodrigo Platte (from 2007), and Toby Driscoll and Nick Hale (from 2008). In 2009, Asgeir Birkisson and Mark Richardson also became involved, and other contributors included Pedro Gonnet, Joris Van Deun, and Georges Klein.  Nick Hale served as Director of the project during 2010-2014.  The Chebfun Version 5 rewrite was directed by Nick Hale during 2013-2014, and the team included Anthony Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin Javed, Hadrien Montanelli, Alex Townsend, Nick Trefethen, Grady Wright, and Kuan Xu. October 2014 brough new arrivals Jared Aurentz, Behnam Hashemi, and Mikael Slevinsky. Further information about Chebfun history is available at the Chebfun web site, <a href="http://www.chebfun.org">http://www.chebfun.org</a> where one can also find a discussion of other software projects related to Chebfun. This Guide is based on Chebfun Version 5.1, released in December 2014.</p>
 <h3 id="12-constructing-simple-chebfuns">1.2  Constructing simple chebfuns</h3>
 <p>The <code>chebfun</code> command constructs a chebfun from a specification such as a string or an anonymous function.  If you don't specify an interval, then the default interval $[-1,1]$ is used. For example, the following command makes a chebfun corresponding to $\cos(20x)$ on $[-1,1]$ and plots it.</p>
 <pre class="mcode-input">  f = chebfun('cos(20*x)');
-  plot(f)</pre>
+  plot(f), ylim([-1.2,1.2])</pre>
 
 <p><img src="img/guide01_01.png" class="figure" alt=""></p>
 <p>From this little experiment, you cannot see that <code>f</code> is represented by a polynomial.  One way to see this is to find the length of <code>f</code>:</p>
@@ -99,13 +98,12 @@ class='invisible'>previous</a><span class='sep-sm
 Epslevel = 2.183626e-15.  Vscale = 1.
 </pre>
 
-<p>These results tell us that <code>f</code> is represented by a polynomial interpolant through 61 Chebyshev points, i.e., a polynomial of degree 60.  These numbers have been determined by an adaptive process.  We can see the data points by plotting <code>f|with the |'.-'</code> option:</p>
-<pre class="mcode-input">  plot(f,'.-')</pre>
+<p>The <code>Vscale</code> field shown here is related to the maximum absolute value of <code>f</code>, and <code>Epslevel</code> gives some rough information about its relative accuracy.  (<code>Epslevel</code> estimates are under development and will be discussed further with a future release.)</p>
+<p>These results tell us that <code>f</code> is represented by a polynomial interpolant through 61 Chebyshev points, i.e., a polynomial of degree 60.  These numbers have been determined by an adaptive process.  We can see the data points by plotting <code>f</code> with the <code>'.-'</code> option:</p>
+<pre class="mcode-input">  plot(f,'.-'), ylim([-1.2 1.2])</pre>
 
 <p><img src="img/guide01_02.png" class="figure" alt=""></p>
-<p>The formula for $N+1$ Chebyshev points in $[-1,1]$ is</p>
-<p>$$ x(j) = -\cos(j \pi/N), \quad  j = 0:N, $$</p>
-<p>and in the figure we can see that the points are clustered accordingly near $1$ and $-1$. Note that in the middle of the grid, there are about 5 points per wavelength, which is evidently what it takes to represent this cosine to 15 digits of accuracy.  For intervals other than $[-1,1]$, appropriate Chebyshev points are obtained by a linear scaling.</p>
+<p>The formula for $N+1$ Chebyshev points in $[-1,1]$ is $$ x(j) = -\cos(j \pi/N), \quad  j = 0:N, $$ and in the figure we can see that the points are clustered accordingly near $1$ and $-1$. Note that in the middle of the grid, there are about 5 points per wavelength, which is evidently what it takes to represent this cosine to 15 digits of accuracy.  For intervals other than $[-1,1]$, appropriate Chebyshev points are obtained by a linear scaling.</p>
 <p>The curve between the data points is the polynomial interpolant, which is evaluated by the barycentric formula introduced by Salzer [Berrut &amp; Trefethen 2004, Salzer 1972].  This method of evaluating polynomial interpolants is stable and efficient even if the degree is in the millions [Higham 2004].</p>
 <p>What is the integral of $f$ from $-1$ to $1$?  Here it is:</p>
 <pre class="mcode-input">  sum(f)</pre>
@@ -138,9 +136,9 @@ Epslevel = 2.183626e-15.  Vscale = 1.
   x = 100*rand(3,1)</pre>
 
 <pre class="mcode-output">x =
-  31.246942553442114
-  13.291549864332930
-  68.724035024285897
+  16.592753639720730
+  74.410422786330059
+  15.975769849482816
 </pre>
 
 <p>Let's compare the chebfun to the true Bessel function at these points:</p>
@@ -149,20 +147,20 @@ Epslevel = 2.183626e-15.  Vscale = 1.
   [g(x) exact error]</pre>
 
 <pre class="mcode-output">ans =
-   0.082046497680186   0.082046497680186  -0.000000000000000
-   0.218246531152797   0.218246531152797   0.000000000000000
-   0.036820588698322   0.036820588698321   0.000000000000001
+  -0.195005727911549  -0.195005727911549   0.000000000000000
+  -0.018745845656568  -0.018745845656567  -0.000000000000001
+  -0.172655926035966  -0.172655926035966  -0.000000000000000
 </pre>
 
 <p>If you want to know the first 5 zeros of the Bessel function, here they are:</p>
 <pre class="mcode-input">  r = roots(g); r = r(1:5)</pre>
 
 <pre class="mcode-output">r =
-   2.404825557695778
+   2.404825557695767
    5.520078110286308
    8.653727912911013
   11.791534439014285
-  14.930917708487796
+  14.930917708487790
 </pre>
 
 <p>Notice that we have just done something nontrivial and potentially useful.  How else would you find zeros of the Bessel function so readily? As always with numerical computation, we cannot expect the answers to be exactly correct, but they will usually be very close. In fact, these computed zeros are accurate to close to machine precision:</p>
@@ -170,11 +168,11 @@ Epslevel = 2.183626e-15.  Vscale = 1.
 
 <pre class="mcode-output">ans =
    1.0e-14 *
-  -0.272609307918325
+   0.314549201444184
   -0.082399534411417
    0.010653221425832
    0.071369727817872
-  -0.170901560623885
+  -0.092296985262750
 </pre>
 
 <p>Most often we get a chebfun by operating on other chebfuns. For example, here is a sequence that uses plus, times, divide, and power operations on an initial chebfun <code>x</code> to produce a famous function of Runge:</p>
@@ -195,70 +193,71 @@ Epslevel = 2.183626e-15.  Vscale = 1.
 <pre class="mcode-output">
 Methods for class chebfun:
 
-abs              cotd             jaccoeffs        range            
-acos             coth             join             rank             
-acosd            cov              jump             rdivide          
-acosh            csc              kron             real             
-acot             cscd             ldivide          reallog          
-acotd            csch             le               realpow          
-acoth            ctranspose       legcoeffs        realsqrt         
-acsc             cumprod          legpoly          rem              
-acscd            cumsum           length           remez            
-acsch            cylinder         log              repmat           
-airy             diff             log10            residue          
-all              dirac            log1p            restrict         
-and              disp             log2             roots            
-angle            display          logical          round            
-any              domain           loglog           sec              
-arcLength        ellipj           lt               secd             
-area             ellipke          lu               sech             
-asec             end              mat2cell         semilogx         
-asecd            epslevel         max              semilogy         
-asech            eq               mean             sign             
-asin             erf              measure          simplify         
-asind            erfc             merge            sin              
-asinh            erfcinv          mesh             sinc             
-atan             erfcx            min              sind             
-atan2            erfinv           minandmax        sinh             
-atan2d           exp              minus            size             
-atand            expm1            mldivide         sound            
-atanh            feval            mod              spy              
-besselh          fill             movie            sqrt             
-besseli          find             mrdivide         std              
-besselj          fix              mtimes           subsasgn         
-besselk          fliplr           ne               subspace         
-bessely          flipud           newDomain        subsref          
-bvp4c            floor            nextpow2         sum              
-bvp5c            fourcoeffs       norm             surf             
-cat              fred             normal           surface          
-ceil             ge               normest          surfc            
-cf               get              not              svd              
-cheb2cell        gmres            null             tan              
-cheb2quasi       gt               num2cell         tand             
-chebcoeffs       heaviside        or               tanh             
-chebellipseplot  horzcat          orth             times            
-chebfun          hscale           overlap          transpose        
-chebpade         hypot            pde15s           uminus           
-chebpoly         imag             permute          unwrap           
-chebtune         innerProduct     pinv             uplus            
-circconv         integral         plot             vander           
-comet            inv              plot3            var              
-comet3           isdelta          plotcoeffs       vertcat          
-complex          isempty          plus             volt             
-compose          isequal          poly             vscale           
-cond             isfinite         polyfit          waterfall        
-conj             ishappy          pow2             why              
-conv             isinf            power            xor              
-cos              isnan            prod             
-cosd             isreal           qr               
-cosh             issing           quantumstates    
-cot              iszero           quasi2cheb       
+abs              cotd             jaccoeffs        quasi2cheb       
+acos             coth             join             range            
+acosd            cov              jump             rank             
+acosh            csc              kron             rdivide          
+acot             cscd             ldivide          real             
+acotd            csch             le               reallog          
+acoth            ctranspose       legcoeffs        realpow          
+acsc             cumprod          legpoly          realsqrt         
+acscd            cumsum           length           rem              
+acsch            cylinder         log              remez            
+airy             diff             log10            removeDeltas     
+all              dirac            log1p            repmat           
+and              disp             log2             residue          
+angle            display          logical          restrict         
+any              domain           loglog           roots            
+arcLength        ellipj           lt               round            
+area             ellipke          lu               sec              
+asec             end              mat2cell         secd             
+asecd            epslevel         max              sech             
+asech            eq               mean             semilogx         
+asin             erf              measure          semilogy         
+asind            erfc             merge            sign             
+asinh            erfcinv          mesh             simplify         
+atan             erfcx            min              sin              
+atan2            erfinv           minandmax        sinc             
+atan2d           exp              minus            sind             
+atand            expm1            mldivide         sinh             
+atanh            feval            mod              size             
+besselh          fill             movie            sound            
+besseli          find             mrdivide         spy              
+besselj          fix              mtimes           sqrt             
+besselk          fliplr           ne               std              
+bessely          flipud           newDomain        subsasgn         
+bvp4c            floor            nextpow2         subspace         
+bvp5c            fred             norm             subsref          
+cat              ge               normal           sum              
+ceil             get              normest          surf             
+cf               gmres            not              surface          
+cheb2cell        gt               null             surfc            
+cheb2quasi       heaviside        num2cell         svd              
+chebcoeffs       horzcat          or               tan              
+chebellipseplot  hscale           orth             tand             
+chebfun          hypot            overlap          tanh             
+chebpade         imag             pde15s           times            
+chebpoly         innerProduct     permute          transpose        
+chebtune         integral         pinv             trigcoeffs       
+circconv         inv              plot             uminus           
+comet            isPeriodicTech   plot3            unwrap           
+comet3           isdelta          plotcoeffs       uplus            
+complex          isempty          plus             vander           
+compose          isequal          poly             var              
+cond             isfinite         polyfit          vertcat          
+conj             ishappy          polyval          volt             
+conv             isinf            pow2             vscale           
+cos              isnan            power            waterfall        
+cosd             isreal           prod             why              
+cosh             issing           qr               xor              
+cot              iszero           quantumstates    
 
 Static methods:
 
-interp1          ode15s           spline           
-lagrange         ode45            update           
-ode113           pchip            
+dct              interp1          ode45            
+dst              lagrange         pchip            
+idct             ode113           spline           
+idst             ode15s           update           
 
 </pre>
 
@@ -314,7 +313,7 @@ ode113           pchip
 <p>In the next part of this tour we shall explore many of these commands systematically.  First, however, we should see that chebfuns are not restricted to smooth functions.</p>
 <h3 id="14-piecewise-smooth-chebfuns">1.4  Piecewise smooth chebfuns</h3>
 <p>Many functions of interest are not smooth but piecewise smooth.  In this case a chebfun may consist of a concatenation of smooth pieces, each with its own polynomial representation.  Each of the smooth pieces is called a "fun".  This enhancement of Chebfun was developed initially by Ricardo Pachon during 2006-2007, then also by Rodrigo Platte starting in 2007 [Pachon, Platte and Trefethen 2010]. Essentially funs are the "classic chebfuns" for smooth functions on $[-1,1]$ originally implemented by Zachary Battles in Chebfun Version 1.</p>
-<p>Later we shall describe the options in greater detail, but for the moment let us see some examples.  One way to get a piecewise smooth function is directly from the constructor, taking advantage of its capability of automatic edge detection.  For example, in the default "splitting off" mode a function with a jump in its derivative produces a warning message,</p>
+<p>Later we shall describe the options in greater detail, but for the moment let us see some examples.  One way to get a piecewise smooth function is directly from the Chebfun constructor, taking advantage of its capability of automatic edge detection.  For example, in the default "splitting off" mode a function with a jump in its derivative produces a warning message,</p>
 <pre class="mcode-input">  f = chebfun('abs(x-.3)');</pre>
 
 <pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
@@ -336,12 +335,12 @@ ode113           pchip
 <pre class="mcode-output">f =
    chebfun column (2 smooth pieces)
        interval       length   endpoint values  
-[      -1,     0.3]        2       1.3  4.4e-16 
-[     0.3,       1]        2  -1.1e-16      0.7 
+[      -1,     0.3]        2       1.3  2.2e-16 
+[     0.3,       1]        2   1.1e-16      0.7 
 Epslevel = 1.110223e-15.  Vscale = 1.300000e+00.  Total length = 4.
 </pre>
 
-<p>This output confirms that f consists of two funs, each defined by two points and two corresponding function values. The functions live on intervals defined by breakpoints at $-1$, $1$, and a number very close to $0.3$.  The <code>Vscale</code> field is related to the maximum absolute value of <code>f</code> and <code>Epslevel</code> gives some rough information about its relative accuracy.</p>
+<p>This output confirms that f consists of two funs, each defined by two points and two corresponding function values. The functions live on intervals defined by breakpoints at $-1$, $1$, and a number very close to $0.3$.</p>
 <p>Another way to make a piecewise smooth chebfun is to construct it explicitly from various pieces.  For example, the following command specifies three functions $x^2$, $1$, and $4-x$, together with a vector of endpoints indicating that the first function applies on $[-1,1]$, the second on $[1,2]$, and the third on $[2,4]$:</p>
 <pre class="mcode-input">  f = chebfun({@(x) x.^2, 1, @(x) 4-x},[-1 1 2 4]);
   plot(f)</pre>
@@ -379,7 +378,7 @@ Epslevel = 1.110223e-15.  Vscale = 2.  Total length = 6.
 <pre class="mcode-input">  f = sin(20*x);
   g = exp(x-1);
   h = max(f,g);
-  plot(h)</pre>
+  plot(h), ylim([0 1.2])</pre>
 
 <p><img src="img/guide01_08.png" class="figure" alt=""></p>
 <p>As always, <code>h</code> may look complicated to a human, but to Chebfun it is just a function.  Here are its mean, standard deviation, minimum, and maximum:</p>
@@ -407,13 +406,13 @@ Epslevel = 1.110223e-15.  Vscale = 2.  Total length = 6.
    1.000000000000000
 </pre>
 
-<p>A final note about piecewise smooth chebfuns is that the automatic edge detection or "splitting" feature, when it is turned on, may subdivide functions even though they do not have clean point singularities, and this may be desirable or undesirable depending on the application.  For example, considering $\sin(x)$ over $[0,1000]$ with splitting on, we end up with a chebfun with many pieces:</p>
+<p>A final note about piecewise smooth chebfuns is that the automatic edge detection or "splitting" feature, when it is turned on, may subdivide functions even though they do not have clean point singularities, and this may be desirable or undesirable depending on the application.  For example, considering $\sin(x)$ over $[0,1000\pi]$ with splitting on, we end up with a chebfun with many pieces:</p>
 <pre class="mcode-input">  tic, f = chebfun('sin(x)',[0 1000*pi],'splitting','on'), toc</pre>
 
 <pre class="mcode-output">f =
    chebfun column (32 smooth pieces)
        interval       length   endpoint values  
-[       0,      98]       87   2.7e-14    -0.71 
+[       0,      98]       87     3e-14    -0.71 
 [      98,   2e+02]       88     -0.71        1 
 [   2e+02, 2.9e+02]       88         1    -0.71 
 [ 2.9e+02, 3.9e+02]       87     -0.71  1.7e-13 
@@ -425,7 +424,7 @@ Epslevel = 1.110223e-15.  Vscale = 2.  Total length = 6.
 [ 8.8e+02, 9.8e+02]       86     -0.71        1 
 [ 9.8e+02, 1.1e+03]       86         1    -0.71 
 [ 1.1e+03, 1.2e+03]       86     -0.71 -3.2e-13 
-[ 1.2e+03, 1.3e+03]       85  -6.6e-13     0.71 
+[ 1.2e+03, 1.3e+03]       85  -6.7e-13     0.71 
 [ 1.3e+03, 1.4e+03]       86      0.71       -1 
 [ 1.4e+03, 1.5e+03]       86        -1     0.71 
 [ 1.5e+03, 1.6e+03]       85      0.71 -1.6e-12 
@@ -446,7 +445,7 @@ Epslevel = 1.110223e-15.  Vscale = 2.  Total length = 6.
 [ 2.9e+03,   3e+03]       86        -1     0.71 
 [   3e+03, 3.1e+03]       85      0.71 -3.7e-12 
 Epslevel = 3.487741e-13.  Vscale = 1.000000e+00.  Total length = 2748.
-Elapsed time is 1.108702 seconds.
+Elapsed time is 1.308887 seconds.
 </pre>
 
 <p>In this case it is more efficient -- and more interesting mathematically -- to omit the splitting and construct one global chebfun:</p>
@@ -455,14 +454,14 @@ Elapsed time is 1.108702 seconds.
 <pre class="mcode-output">f2 =
    chebfun column (1 smooth piece)
        interval       length   endpoint values  
-[       0, 3.1e+03]     1684  -2.1e-14 -3.1e-13 
+[       0, 3.1e+03]     1684  -3.6e-14 -3.2e-13 
 Epslevel = 3.487867e-13.  Vscale = 1.000000e+00.
-Elapsed time is 0.038248 seconds.
+Elapsed time is 0.037763 seconds.
 </pre>
 
 <p>Splitting on and off are discussed further in Section 8.3.</p>
 <h3 id="15-infinite-intervals-and-infinite-function-values">1.5  Infinite intervals and infinite function values</h3>
-<p>A major change from Chebfun Version 2 to Version 3 was the generalization of chebfuns to allow certain functions on infinite intervals or which diverge to infinity; the initial credit for these innovations belongs to Nick Hale, Rodrigo Platte, and Mark Richardson. For example, here is a function on the whole real axis,</p>
+<p>A major change from Chebfun Version 2 to Version 3 was the generalization of chebfuns to allow certain functions on infinite intervals or which diverge to infinity; the initial credit for these innovations belongs to Nick Hale, Rodrigo Platte, and Mark Richardson, and many later developments are due to Kuan Xu. For example, here is a function on the whole real axis,</p>
 <pre class="mcode-input">  f = chebfun('exp(-x.^2/16).*(1+.2*cos(10*x))',[-inf,inf]);
   plot(f)</pre>
 
@@ -470,12 +469,11 @@ Elapsed time is 0.038248 seconds.
 <p>and here is its integral:</p>
 <pre class="mcode-input">  sum(f)</pre>
 
-<pre class="mcode-output">Warning: Result may not be accurate as the function decays slowly at infinity. 
-ans =
-   7.089815403621277
+<pre class="mcode-output">ans =
+   7.089815403621258
 </pre>
 
-<p>Here's the integral of a function on [1,inf]:</p>
+<p>Here's the integral of a function on $[1,\infty)$:</p>
 <pre class="mcode-input">  sum(chebfun('1./x.^4',[1 inf]))</pre>
 
 <pre class="mcode-output">ans =
@@ -492,24 +490,25 @@ ans =
 <pre class="mcode-input">  sum(h)</pre>
 
 <pre class="mcode-output">ans =
-   1.000000000000000
+     1
 </pre>
 
 <p>For more on the treatment of infinities in Chebfun, see Chapter 9.</p>
 <h3 id="16-periodic-functions">1.6  Periodic functions</h3>
-<p>Until 2014, Chebfun used only nonperiodic representations, based on Chebyshev polynomials.  Beginning with Version 5, there is a new capability of representing sufficiently smooth periodic functions by trigonometric polynomials instead, that is, Fourier series.  Such an object is still called a chebfun, but it is a periodic one.  These features were added by Grady Wright in the first half of 2014, and are in the process of being developed further.  A very interesting project along the same lines has been carried out independently by Kristyn McLeod and Rodrigo Platte at Arizona State University [McLeod 2013].</p>
+<p>Until 2014, Chebfun used only nonperiodic representations, based on Chebyshev polynomials.  Beginning with Version 5, there is a new capability of representing sufficiently smooth periodic functions by trigonometric polynomials instead, that is, Fourier series.  Such an object is still called a chebfun, but it is a periodic one, and the signal to invoke such capabilities is the string <code>trig</code>. For abbreviation, we call a periodic chebfun a ``trigfun''. This section gives a quick introduction, and more details can be found in Chapter 11.</p>
+<p>Trigfuns were initiated by Grady Wright in the first half of 2014. A very interesting project along the same lines has been carried out independently by Kristyn McLeod and Rodrigo Platte at Arizona State University [McLeod 2013].</p>
 <p>For example, here is a periodic function on $[-\pi,\pi]$ represented in the usual way by a Chebyshev series.</p>
-<pre class="mcode-input">ff = @(t) sin(t)/2 + cos(2*t) + 0.2*cos(100*t);
+<pre class="mcode-input">ff = @(t) sin(t) + cos(2*t) - cos(t)/3 + cos(100*t)/6;
 f = chebfun(ff,[-pi,pi]);
 max(f)
 plot(f)</pre>
 
 <pre class="mcode-output">ans =
-   1.231249778347126
+   1.614526099978749
 </pre>
 
 <p><img src="img/guide01_11.png" class="figure" alt=""></p>
-<p>Its length, very roughly, is $100\times \pi$,</p>
+<p>Its length, very roughly, is $100 \pi$,</p>
 <pre class="mcode-input">length(f)</pre>
 
 <pre class="mcode-output">ans =
@@ -517,93 +516,93 @@ plot(f)</pre>
 </pre>
 
 <p>Here is the same function represented by a Fourier series:</p>
-<pre class="mcode-input">f2 = chebfun(ff,[-pi,pi],'periodic')
+<pre class="mcode-input">f2 = chebfun(ff,[-pi,pi],'trig')
 max(f2)
 plot(f2,'m')</pre>
 
 <pre class="mcode-output">f2 =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
-[    -3.1,     3.1]      201       1.2      1.2 
-Epslevel = 3.739287e-15.  Vscale = 1.640723e+00.
+       interval       length   endpoint values trig
+[    -3.1,     3.1]      201       1.5      1.5 
+Epslevel = 3.619187e-15.  Vscale = 2.122902e+00.
 ans =
-   1.231249778347128
+   1.614526099978735
 </pre>
 
 <p><img src="img/guide01_12.png" class="figure" alt=""></p>
-<p>Its length is now only about $100\times 2$ (exactly 201).   This improvement by a factor of about $\pi/2$ is typical.</p>
+<p>Its length is now only about $200$ (exactly 201). This improvement by a factor of about $\pi/2$ is typical.</p>
 <pre class="mcode-input">length(f2)</pre>
 
 <pre class="mcode-output">ans =
    201
 </pre>
 
-<p>We can confirm that the two functions agree like this:</p>
-<pre class="mcode-input">norm(f-chebfun(f2,[-pi, pi]))</pre>
+<p>Sampling at a few arbitrary points confirms that the two functions agree closely:</p>
+<pre class="mcode-input">xx = [1/3 sqrt(2) exp(1)];
+f(xx) - f2(xx)</pre>
 
 <pre class="mcode-output">ans =
-     0
+   1.0e-14 *
+                   0   0.652256026967279   0.954791801177635
 </pre>
 
 <p>Readers may be interested to compare <code>plotcoeffs</code> applied to the first and second versions of $f$.  Rather than display that here we shall turn to a simpler example involving a shorter Fourier series.  Consider the function</p>
-<pre class="mcode-input">f = chebfun('7 + sin(t) + exp(1)*cos(2*t)',[-pi,pi],'periodic')</pre>
+<pre class="mcode-input">f = chebfun('7 + sin(t) + exp(1)*cos(2*t)',[-pi,pi],'trig')</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values periodic
+       interval       length   endpoint values trig
 [    -3.1,     3.1]        5       9.7      9.7 
 Epslevel = 6.661338e-16.  Vscale = 9.718282e+00.
 </pre>
 
 <p>Here are the coefficients of $f$ as an expansion in sines and cosines:</p>
-<pre class="mcode-input">[a,b] = fourcoeffs(f)</pre>
+<pre class="mcode-input">[a,b] = trigcoeffs(f)</pre>
 
 <pre class="mcode-output">a =
-   2.718281828459045   0.000000000000001   7.000000000000000
+   7.000000000000000
+   0.000000000000000
+   2.718281828459045
 b =
-                   0   1.000000000000000
+   1.000000000000000
+   0.000000000000000
 </pre>
 
 <p>Here they are as an expansion in complex exponentials:</p>
-<pre class="mcode-input">c = fourcoeffs(f)</pre>
+<pre class="mcode-input">c = trigcoeffs(f)</pre>
 
 <pre class="mcode-output">c =
-  Column 1
-  1.359140914229522 + 0.000000000000000i
-  Column 2
-  0.000000000000000 - 0.500000000000000i
-  Column 3
-  7.000000000000000 + 0.000000000000000i
-  Column 4
+  1.359140914229523 + 0.000000000000000i
   0.000000000000000 + 0.500000000000000i
-  Column 5
-  1.359140914229522 + 0.000000000000000i
+  7.000000000000000 + 0.000000000000000i
+  0.000000000000000 - 0.500000000000000i
+  1.359140914229523 - 0.000000000000000i
 </pre>
 
-<p>Bookkeeping of Fourier coefficients can often be a headache. If these examples don't make the patterns clear, details can be found with <code>help fourcoeffs</code>.</p>
+<p>Bookkeeping of Fourier coefficients can often be a headache. If these examples don't make the patterns clear, details can be found with <code>help trigcoeffs</code>.</p>
 <p>For a mathematically less trivial example, here is the cosine expansion of a function whose Fourier series coefficients are known to be values of a Bessel function:</p>
-<pre class="mcode-input">f = chebfun('exp(cos(t))',[-pi pi],'periodic');
-[a,b] = fourcoeffs(f);
+<pre class="mcode-input">f = chebfun('exp(cos(t))',[-pi pi],'trig');
+[a,b] = trigcoeffs(f);
 n = floor(length(f)/2);
-exact = 2*besseli(n:-1:0,1); exact(end) = exact(end)/2;
-disp('        computed            exact')
-disp([a' exact'])</pre>
+exact = 2*besseli(0:n,1); exact(1) = exact(1)/2;
+disp('        computed             exact')
+disp([a exact'])</pre>
 
-<pre class="mcode-output">        computed            exact
-   0.000000000000040   0.000000000000040
-   0.000000000001039   0.000000000001039
-   0.000000000024980   0.000000000024980
-   0.000000000550590   0.000000000550590
-   0.000000011036772   0.000000011036772
-   0.000000199212481   0.000000199212481
-   0.000003198436462   0.000003198436462
-   0.000044977322954   0.000044977322954
-   0.000542926311914   0.000542926311914
-   0.005474240442094   0.005474240442094
-   0.044336849848664   0.044336849848664
-   0.271495339534077   0.271495339534077
-   1.130318207984970   1.130318207984970
+<pre class="mcode-output">        computed             exact
    1.266065877752008   1.266065877752008
+   1.130318207984970   1.130318207984970
+   0.271495339534077   0.271495339534077
+   0.044336849848664   0.044336849848664
+   0.005474240442094   0.005474240442094
+   0.000542926311914   0.000542926311914
+   0.000044977322954   0.000044977322954
+   0.000003198436462   0.000003198436462
+   0.000000199212481   0.000000199212481
+   0.000000011036772   0.000000011036772
+   0.000000000550590   0.000000000550590
+   0.000000000024980   0.000000000024980
+   0.000000000001039   0.000000000001039
+   0.000000000000038   0.000000000000040
 </pre>
 
 <h3 id="17-rows-columns-and-quasimatrices">1.7  Rows, columns, and quasimatrices</h3>
@@ -653,9 +652,9 @@ Epslevel = 2.220446e-15.  Vscale = 1.
 <pre class="mcode-input">  A'*A</pre>
 
 <pre class="mcode-output">ans =
-   2.000000000000000  -0.000000000000000   0.666666666666667
-  -0.000000000000000   0.666666666666667                   0
-   0.666666666666667                   0   0.400000000000000
+   2.000000000000000   0.000000000000000   0.666666666666667
+   0.000000000000000   0.666666666666667   0.000000000000000
+   0.666666666666667   0.000000000000000   0.400000000000000
 </pre>
 
 <p>These are called <em>quasimatrices</em>, and they are discussed in Chapter 6.</p>
@@ -676,21 +675,98 @@ norm(ccheb-ccheb2,inf)
 toc</pre>
 
 <pre class="mcode-output">ans =
-     4.756106619652201e-11
-Elapsed time is 0.625065 seconds.
+     4.639022499475232e-11
+Elapsed time is 1.095863 seconds.
 </pre>
 
-<h3 id="19-how-this-guide-is-produced">1.9  How this Guide is produced</h3>
+<h3 id="19-chebfun-example-galleries">1.9  Chebfun example galleries</h3>
+<p>MATLAB has long had a <code>gallery</code> command to generate interesting matrices, and with version 5.1, Chebfun has introduced an analogous <code>gallery</code> command to generate interesting functions.</p>
+<p>Here is what is currently available:</p>
+<pre class="mcode-input">help cheb.gallery</pre>
+
+<pre class="mcode-output"> GALLERY   Chebfun example functions.
+    F = GALLERY(NAME) returns a chebfun or a quasimatrix corresponding to NAME.
+    See the listing below for available names.
+
+    For example,  plot(cheb.gallery('zigzag'))  plots a degree 10000 polynomial
+    that doesn't look like a polynomial, and  plot(cheb.gallery('gamma'))  shows
+    a chebfun with poles. For details of how each function is constructed, try
+    type +cheb/gallery  or  edit cheb.gallery.
+
+    [F,FA] = GALLERY(NAME) also returns the anonymous function FA used to
+    define the function. Some gallery functions are generated by operations
+    beyond the usual Chebfun constructor (e.g. by solving ODEs), so FA in those
+    cases simply evaluates the chebfun.
+
+    GALLERY with no input argument returns a random function from the gallery.
+
+    GALLERY with no output argument creates a plot of the selected function.
+
+    airy         Airy Ai function on [-40,40]
+    bessel       Bessel function J_0 on [-100,100]
+    bump         C-infinity function with compact support
+    blasius      Blasius function on [0,10]
+    chirp        Sine with exponentially increasing frequency
+    daubechies   Approximation to Daubechies phi_2 wavelet scaling function
+    erf          Error function on [-10,10]
+    fishfillet   Wild oscillations from Extreme Extrema example
+    gamma        Gamma function on [-4,4]
+    gaussian     Gaussian function on [-Inf,Inf]
+    jitter       A piecewise constant function generated by ROUND
+    kahaner      Challenging integrand with four spikes
+    motto        Chebfun motto (Gilbert Strang)
+    random       Polynomial interpolant through random data in Chebyshev points
+    rose         A complex-valued sinusoid
+    runge        Runge function
+    seismograph  Tanh plus growing oscillation
+    Si           Sine integral on [-50,50]
+    sinefun1     As smooth as it looks
+    sinefun2     Not as smooth as it looks
+    spikycomb    25 peaks, each sharper than the last
+    stegosaurus  max(wiggly, x/10)
+    vandercheb   Chebyshev-Vandermonde quasimatrix
+    vandermonde  Vandermonde quasimatrix
+    wiggly       One of the Chebfun team's favorites
+    zigzag       Degree 10000 polynomial that looks piecewise linear
+
+    Gallery functions are subject to change in future releases of Chebfun.
+
+  See also CHEB.GALLERYTRIG, CHEB.GALLERY2.
+
+</pre>
+
+<p>For example, here is a chebfun representing the Airy function,</p>
+<pre class="mcode-input">plot(cheb.gallery('airy')), ylim([-.8 .8])
+title('Airy function')</pre>
+
+<p><img src="img/guide01_13.png" class="figure" alt=""></p>
+<p>In this instance the underlying code fits in a line,</p>
+<pre class="mcode-input">fa = @airy; p = chebfun(fa, [-40,40]);</pre>
+
+<p>Some examples make use of more complicated code, like this approximation to a Daubechies wavelet scaling function (accurate to about 3 digits of accuracy; the underlying function is a fractal):</p>
+<pre class="mcode-input">plot(cheb.gallery('daubechies')), ylim([-0.5 1.5])
+title('Daubechies scaling function')</pre>
+
+<p><img src="img/guide01_14.png" class="figure" alt=""></p>
+<p>To find out how a gallery example was generated, take a look at the code with <code>type +cheb/gallery</code> or <code>edit +cheb/gallery</code>.</p>
+<p>Like the MATLAB <code>gallery</code> command, <code>cheb.gallery</code> produces a plot if you call it without specifying output variables. To illustrate, let us finish with an example the Chebfun team enjoys from the appendix to [Trefethen 2013], "Six myths of polynomial interpolation and quadrature":</p>
+<pre class="mcode-input">cheb.gallery('zigzag')</pre>
+
+<p><img src="img/guide01_15.png" class="figure" alt=""></p>
+<p>This function looks piecewise linear, but in fact, it is a polynomial of degree 10000.  This serves no purpose from an approximation point of view -- one would never represent this function in this manner -- but it illustrates the robustness of high-degree polynomial approximation.</p>
+<p>If you call <code>gallery</code> without any input arguments, it selects a gallery function at random.</p>
+<p>Other collections worth exploring are <code>cheb.gallerytrig</code> for periodic functions and <code>cheb.gallery2</code> for 2D functions.</p>
+<h3 id="110-how-this-guide-is-produced">1.10  How this Guide is produced</h3>
 <p>This guide is produced in MATLAB using the <code>publish</code> command with a style sheet somewhat different from the usual; the output of <code>publish</code> is then processed by Markdown. To publish a chapter for yourself, make sure the chebfun guide directory is in your path and then type, for example, <code>open(publish('guide1'))</code>.  The formatting may not be exactly right but it should certainly be intelligible.</p>
-<h3 id="110-references">1.10  References</h3>
+<h3 id="111-references">1.11  References</h3>
 <p>[Battles &amp; Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension of MATLAB to continuous functions and operators", <em>SIAM Journal on Scientific Computing</em>, 25 (2004), 1743-1770.</p>
 <p>[Berrut &amp; Trefethen 2005] J.-P. Berrut and L. N. Trefethen, "Barycentric Lagrange interpolation", <em>SIAM Review 46</em>, (2004), 501-517.</p>
 <p>[Hale &amp; Townsend 2013]  N. Hale and A. Townsend, A fast, simple, and stable Chebyshev--Legendre transform using an asymptotic formula, <em>SIAM Journal on Scientific Computing</em>, 36 (2014), A148-A167.</p>
 <p>[Higham 2004] N. J. Higham, "The numerical stability of barycentric Lagrange interpolation", <em>IMA Journal of Numerical Analysis</em>, 24 (2004), 547-556.</p>
-<p>[McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic computations using Fourier expansions," <em>SIAM Undergraduate Research Online</em>, to appear.</p>
+<p>[McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic computations using Fourier expansions," <em>SIAM Undergraduate Research Online</em>, to appear. See also <code>http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun</code>.</p>
 <p>[Pachon, Platte &amp; Trefethen 2010] R. Pachon, R. B. Platte and L. N. Trefethen, "Piecewise-smooth chebfuns", <em>IMA J. Numer. Anal.</em>, 30 (2010), 898-916.</p>
 <p>[Salzer 1972] H. E. Salzer, "Lagrangian interpolation at the Chebyshev points cos(nu pi/n), nu = 0(1)n; some unnoted advantages", <em>Computer Journal</em> 15 (1972), 156-159.</p>
-<p>[Trefethen 2007] L. N. Trefethen, "Computing numerically with functions instead of numbers", <em>Mathematics in Computer Science</em> 1 (2007), 9-19.</p>
+<p>[Trefethen 2007] L. N. Trefethen, "Computing numerically with functions instead of numbers", <em>Mathematics in Computer Science</em> 1 (2007), 9-19. Revised and reprinted in <em>Communications of the ACM</em> (2014).</p>
 <p>[Trefethen 2013] L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>, SIAM, 2013.</p></div>
         </div>
     </div>

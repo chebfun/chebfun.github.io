@@ -33,16 +33,16 @@ end
 FS = 'fontsize'; LW = 'linewidth'; MS = 'markersize';
 figure, plot(E,LW,1.6), grid on
 title('Eigenvalues of (1-t)A + tB',FS,16);
-xlabel('t',FS,12), toc</pre><pre class="mcode-output">Elapsed time is 1.132062 seconds.
+xlabel('t',FS,12), toc</pre><pre class="mcode-output">Elapsed time is 1.519441 seconds.
 </pre><img src="img/LevelRepulsion_01.png" class="figure" alt="">
 
 The 1st and 2nd curves have a very close near-crossing.  We can find it like this:
 
 <pre class="mcode-input">E5 = E(:,1); E6 = E(:,2);
 [minval,minpos] = min(E6-E5)</pre><pre class="mcode-output">minval =
-   0.093136973028359
+   0.093136973028349
 minpos =
-   0.421670169669891
+   0.421670169669871
 </pre>Let's zoom in and mark the minimal gap in red:
 
 <pre class="mcode-input">axis([minpos-.05 minpos+.05 E5(minpos)-.4 E5(minpos)+.4])
