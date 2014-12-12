@@ -31,7 +31,7 @@ plotcoeffs(f), ylim([1e-18 1])
 %%
 % Since $f$ is smooth and periodic, a Fourier representation requires fewer
 % terms than a Chebyshev representation of $f$ to reach machine precision.
-% We can check this by constructing $f$ without the `'periodic'` flag:
+% We can check this by constructing $f$ without the `'trig'` flag:
 f_cheby = chebfun(@(x) cos(8*sin(x)),dom)
 
 %%

@@ -7,6 +7,6 @@ but in certain cases it really is the best solution. These are they.
 
     applics/EuropeanCall
         in equation (2):
-            g(y) = f(x(y))\ \|dx/dy\|.  \label{eq2}
+            g(y) = f(x(y))\ \Big\|dx/dy\Big\|.  \label{eq2}
         becomes
-            g(y) = f(x(y))\ |dx/dy|.  \label{eq2}
+            g(y) = f(x(y))\ \Big|dx/dy\Big|.  \label{eq2}

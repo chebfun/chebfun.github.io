@@ -26,7 +26,7 @@ Here $f$ is represented to machine precision using a Fourier interpolant rather 
 
 <pre class="mcode-input">plotcoeffs(f), ylim([1e-18 1])</pre><img src="img/FourierBasedChebfuns_02.png" class="figure" alt="">
 
-Since $f$ is smooth and periodic, a Fourier representation requires fewer terms than a Chebyshev representation of $f$ to reach machine precision. We can check this by constructing $f$ without the `'periodic'` flag:
+Since $f$ is smooth and periodic, a Fourier representation requires fewer terms than a Chebyshev representation of $f$ to reach machine precision. We can check this by constructing $f$ without the `'trig'` flag:
 
 <pre class="mcode-input">f_cheby = chebfun(@(x) cos(8*sin(x)),dom)</pre><pre class="mcode-output">f_cheby =
    chebfun column (1 smooth piece)
