@@ -118,7 +118,7 @@ hold off</pre>
 <p><img src="img/guide14_03.png" class="figure" alt=""></p>
 <p>Chebfun2 rootfinding is based on an algorithm described in [Nakatsukasa, Noferini &amp; Townsend 2014].</p>
 <h3 id="144-global-optimisation-max2-min2-and-minandmax2">14.4 Global optimisation: <code>max2</code>, <code>min2</code>, and <code>minandmax2</code></h3>
-<p>Chebfun2 also provides functionality for global optimisation. Here is an example, where we plot the minimum and maximum as black dots.</p>
+<p>Chebfun2 also provides functionality for global optimisation. Here is an example, where we plot the minimum and maximum as red dots.</p>
 <pre class="mcode-input">f = chebfun2(@(x,y) sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2));
 [mn mnloc] = min2(f);
 [mx mxloc] = max2(f);
@@ -134,8 +134,8 @@ fprintf('min2 and max2 separately = %5.3fs\n',t)
 tic; [Y X] = minandmax2(f); t=toc;
 fprintf('minandmax2 command = %5.3fs\n',t)</pre>
 
-<pre class="mcode-output">min2 and max2 separately = 0.449s
-minandmax2 command = 0.191s
+<pre class="mcode-output">min2 and max2 separately = 0.487s
+minandmax2 command = 0.219s
 </pre>
 
 <p>Here is a complicated function from the 2002 SIAM 100-Dollar, 100-Digit Challenge.  Chebfun2 computes its global minimum in a few seconds:</p>
@@ -147,7 +147,7 @@ toc</pre>
 
 <pre class="mcode-output">minval =
   -3.306868647474791
-Elapsed time is 1.055931 seconds.
+Elapsed time is 1.147926 seconds.
 </pre>
 
 <p>The result closely matches the correct solution, computed to 10,000 digits Bornemann et al. [2004]:</p>
@@ -184,7 +184,7 @@ norm(f,inf)</pre>
 
 <h3 id="147-references">14.7 References</h3>
 <p>[Bornemann et al. 2004] F. Bornemann, D. Laurie, S. Wagon and J. Waldvogel, <em>The SIAM 100-Digit Challenge: A Study in High-Accuracy Nuemrical Computing</em>, SIAM 2004.</p>
-<p>[Guettel 2010] S. Guettel, "Area and centroid of a 2D region", <code>www.chebfun.org/examples/geom/Area.html</code>.</p>
+<p>[Guettel 2010] S. Guettel, "Area and centroid of a 2D region", <a href="http://www.chebfun.org/examples/geom/Area.html">http://www.chebfun.org/examples/geom/Area.html</a>.</p>
 <p>[Nakatsukasa, Noferini &amp; Townsend 2014] Y. Nakatsukasa, V. Noferini and A. Townsend, "Computing the common zeros of two bivariate functions via Bezout resultants", <em>Numerische Mathematik</em>, to appear.</p>
 <p>[Trott 2007] M. Trott, "Applying GroebnerBasis to three problems in geometry", <em>Mathematica in Education and Research</em>, 6 (1997), 15-28.</p></div>
         </div>

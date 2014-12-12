@@ -68,7 +68,7 @@
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<p>Chapter 7 described Chebfun's ``chebop'' capabilities for solving linear ordinary differential equations by the backslash command.  We will now describe extensions of chebops to nonlinear problems, as well as special methods used for ODE initial-value problems (IVPs) as opposed to boundary-value problems (BVPs).  Most of the design and implementation of these features was done by Asgeir Birkisson in collaboration with Toby Driscoll.</p>
+<p>Chapter 7 described Chebfun's "chebop" capabilities for solving linear ordinary differential equations by the backslash command.  We will now describe extensions of chebops to nonlinear problems, as well as special methods used for ODE initial-value problems (IVPs) as opposed to boundary-value problems (BVPs).  Most of the design and implementation of these features was done by Asgeir Birkisson in collaboration with Toby Driscoll.</p>
 <h3 id="101-boundary-value-problems-and-solvebvp">10.1  Boundary-value problems: \ and <code>solvebvp</code></h3>
 <p>Chebfun contains overloads <code>bvp4c</code> and <code>bvp5c</code> of MATLAB codes of the same names.  However, these are not our recommended methods for solving BVPs, and we will not discuss them here. Instead, we present methods based on \ and its equivalent command <code>solvebvp</code>.</p>
 <p>Recall that in Chapter 7, we realized linear operators as chebops constructed by commands like these:</p>
@@ -124,7 +124,7 @@ N.lbc = 1; N.rbc = -1;</pre>
 clf, plot(u)</pre>
 
 <p><img src="img/guide10_02.png" class="figure" alt=""></p>
-<p>Note that this is the same result as in Section 7.9. How does Chebfun solve such problems?  That is a long story, which we shall not tell properly here.  In brief, a Newton iteration (sometimes a damped Newton iteration) is carried out in ``continuous mode'', that is, in a space of functions rather than vectors.  Recall that to find a zero of a scalar function, Newton's method requires a derivative at each iterative step, and to find a zero vector of a system of equations, it requires a Jacobian matrix.  Here, we seek a zero function of a nonlinear differential operator equation.  For this, Newton's method requires at each step the continuous analogue of a Jacobian matrix, which is a Frechet derivative linear operator.  This Frechet derivative is realized in Chebfun by a continuous analogue of Automatic Differentiation using methods described in [Birkisson &amp; Driscoll 2012].</p>
+<p>Note that this is the same result as in Section 7.9. How does Chebfun solve such problems?  That is a long story, which we shall not tell properly here.  In brief, a Newton iteration (sometimes a damped Newton iteration) is carried out in "continuous mode", that is, in a space of functions rather than vectors.  Recall that to find a zero of a scalar function, Newton's method requires a derivative at each iterative step, and to find a zero vector of a system of equations, it requires a Jacobian matrix.  Here, we seek a zero function of a nonlinear differential operator equation.  For this, Newton's method requires at each step the continuous analogue of a Jacobian matrix, which is a Frechet derivative linear operator.  This Frechet derivative is realized in Chebfun by a continuous analogue of Automatic Differentiation using methods described in [Birkisson &amp; Driscoll 2012].</p>
 <p>Here is an example with a variable coefficient, a nonlinear BVP due to George Carrier analyzed in Sec. 9.7 of the book [Bender &amp; Orzsag 1978].  We seek a function $u$ satisfying $$ \varepsilon u'' + 2(1-x^2) u + u^2 = 1, \qquad u(-1)=u(1) = 0 $$ with $\varepsilon = 0.01$.  Here is a Chebfun formulation and solution.</p>
 <pre class="mcode-input">ep = 0.01;
 N = chebop(-1, 1);
@@ -226,7 +226,7 @@ pref = cheboppref; pref.ivpSolver = 'ode15s';
 tic, u = solveivp(N,0,pref); toc
 plot(u, LW, lw), ylim([-1.5 1.5])</pre>
 
-<pre class="mcode-output">Elapsed time is 3.549424 seconds.
+<pre class="mcode-output">Elapsed time is 3.807950 seconds.
 </pre>
 
 <p><img src="img/guide10_10.png" class="figure" alt=""></p>

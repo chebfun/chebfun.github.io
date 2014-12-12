@@ -121,7 +121,7 @@
 
 <pre class="mcode-output">lengthf =
     44
-Elapsed time is 0.006204 seconds.
+Elapsed time is 0.007212 seconds.
 r =
                    0
    1.000000000000006
@@ -144,7 +144,7 @@ r =
 
 <pre class="mcode-output">lengthf =
    214
-Elapsed time is 0.070751 seconds.
+Elapsed time is 0.071584 seconds.
      96.00000000000000
      97.00000000000000
      98.00000000000001
@@ -160,7 +160,7 @@ Elapsed time is 0.070751 seconds.
 
 <pre class="mcode-output">lengthf =
         1684
-Elapsed time is 0.227001 seconds.
+Elapsed time is 0.248895 seconds.
      996.0000000000000
      996.9999999999999
      998.0000000000000
@@ -174,7 +174,7 @@ hold off, plot(f)
 tic, r = roots(f); toc
 hold on, plot(r,f(r),'.r'), hold off</pre>
 
-<pre class="mcode-output">Elapsed time is 0.031915 seconds.
+<pre class="mcode-output">Elapsed time is 0.036358 seconds.
 </pre>
 
 <p><img src="img/guide03_03.png" class="figure" alt=""></p>
@@ -406,7 +406,7 @@ ans =
 <p>The situation for more general chebfuns is more complicated.  For example, the chebfun</p>
 <pre class="mcode-input">g = exp(x).*f(x);</pre>
 
-<p>also has no roots in [-1,1],</p>
+<p>also has no roots in $[-1,1]$,</p>
 <pre class="mcode-input">roots(g)</pre>
 
 <pre class="mcode-output">ans =

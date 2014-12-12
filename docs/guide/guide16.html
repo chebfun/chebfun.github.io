@@ -91,7 +91,7 @@ surf(F), camlight</pre>
 <p>An important class of parametric surfaces are surfaces of revolution, which are formed by revolving a curve in the left half plane about the $z$-axis. The <code>cylinder</code> command can be used to generate surfaces of revolution. For example:</p>
 <pre class="mcode-input">f = chebfun(@(t) (sin(pi*t)+1.1).*t.*(t-10),[0 5]);
 F = cylinder(f);
-surf(F), camlight</pre>
+surf(F), axis([-70 70 -70 70 -2 6]), camlight</pre>
 
 <p><img src="img/guide16_03.png" class="figure" alt=""></p>
 <p>Here as another example is a torus with a gap in it.</p>
@@ -141,7 +141,7 @@ axis tight equal off</pre>
 
 <p><img src="img/guide16_06.png" class="figure" alt=""></p>
 <h3 id="163-references">16.3 References</h3>
-<p>[Platte 2013] R. Platte, "Parameterizable surfaces," <code>www.chebfun.org/examples/geom/ParametricSurfaces.html</code>.</p></div>
+<p>[Platte 2013] R. Platte, "Parameterizable surfaces," <a href="http://www.chebfun.org/examples/geom/ParametricSurfaces.html">http://www.chebfun.org/examples/geom/ParametricSurfaces.html</a>.</p></div>
         </div>
     </div>
 </div>

@@ -18,7 +18,7 @@ The implementation of Chebfun is based on the mathematical fact that smooth func
 
 The mathematical foundations of Chebfun are for the most part well established by results scattered throughout the 20th century.  A key early figure, for example, was Bernstein in the 1910s. Much of the relevant material can be found collected in the Chebfun-based book _Approximation Theory and Approximation Practice_ [Trefethen 2013].
 
-Chebfun was originally created by Zachary Battles and Nick Trefethen at Oxford during 2002-2005 [Battles &amp; Trefethen 2004].  Battles left the project in 2005, and soon four new members were added to the team: Ricardo Pachon (from 2006), Rodrigo Platte (from 2007), and Toby Driscoll and Nick Hale (from 2008). In 2009, Asgeir Birkisson and Mark Richardson also became involved, and other contributors included Pedro Gonnet, Joris Van Deun, and Georges Klein.  Nick Hale served as Director of the project during 2010-2014.  The Chebfun Version 5 rewrite was directed by Nick Hale during 2013-2014, and the team included Anthony Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin Javed, Hadrien Montanelli, Alex Townsend, Nick Trefethen, Grady Wright, and Kuan Xu. October 2014 brough new arrivals Jared Aurentz, Behnam Hashemi, and Mikael Slevinsky. Further information about Chebfun history is available at the Chebfun web site, <a href="http://www.chebfun.org">http://www.chebfun.org</a> where one can also find a discussion of other software projects related to Chebfun. This Guide is based on Chebfun Version 5.1, released in December 2014.
+Chebfun was originally created by Zachary Battles and Nick Trefethen at Oxford during 2002-2005 [Battles &amp; Trefethen 2004].  Battles left the project in 2005, and soon four new members were added to the team: Ricardo Pachon (from 2006), Rodrigo Platte (from 2007), and Toby Driscoll and Nick Hale (from 2008). In 2009, Asgeir Birkisson and Mark Richardson also became involved, and other contributors included Pedro Gonnet, Joris Van Deun, and Georges Klein.  Nick Hale served as Director of the project during 2010-2014.  The Chebfun Version 5 rewrite was directed by Nick Hale during 2013-2014, and the team included Anthony Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin Javed, Hadrien Montanelli, Alex Townsend, Nick Trefethen, Grady Wright, and Kuan Xu. October 2014 brough new arrivals Jared Aurentz, Behnam Hashemi, and Mikael Slevinsky. Further information about Chebfun history is available at the Chebfun web site, [http://www.chebfun.org](<a href="http://www.chebfun.org">http://www.chebfun.org</a>), where one can also find a discussion of other software projects related to Chebfun. This Guide is based on Chebfun Version 5.1, released in December 2014.
 
 
 
@@ -71,17 +71,17 @@ The function looks complicated, but it is actually a polynomial of surprisingly 
 
 <pre class="mcode-input">  format long
   x = 100*rand(3,1)</pre><pre class="mcode-output">x =
-  16.592753639720730
-  74.410422786330059
-  15.975769849482816
+  44.445185761526332
+  72.273126998958361
+  38.808271414504134
 </pre>Let's compare the chebfun to the true Bessel function at these points:
 
 <pre class="mcode-input">  exact = besselj(0,x);
   error = g(x) - exact;
   [g(x) exact error]</pre><pre class="mcode-output">ans =
-  -0.195005727911549  -0.195005727911549   0.000000000000000
-  -0.018745845656568  -0.018745845656567  -0.000000000000001
-  -0.172655926035966  -0.172655926035966  -0.000000000000000
+   0.113400568496363   0.113400568496363  -0.000000000000000
+  -0.067336527104634  -0.067336527104634   0.000000000000000
+   0.121550242981183   0.121550242981183   0.000000000000000
 </pre>If you want to know the first 5 zeros of the Bessel function, here they are:
 
 <pre class="mcode-input">  r = roots(g); r = r(1:5)</pre><pre class="mcode-output">r =
@@ -333,7 +333,7 @@ As always, `h` may look complicated to a human, but to Chebfun it is just a func
 [ 2.9e+03,   3e+03]       86        -1     0.71 
 [   3e+03, 3.1e+03]       85      0.71 -3.7e-12 
 Epslevel = 3.487741e-13.  Vscale = 1.000000e+00.  Total length = 2748.
-Elapsed time is 1.308887 seconds.
+Elapsed time is 1.508444 seconds.
 </pre>In this case it is more efficient -- and more interesting mathematically -- to omit the splitting and construct one global chebfun:
 
 <pre class="mcode-input">  tic, f2 = chebfun('sin(x)',[0 1000*pi]), toc</pre><pre class="mcode-output">f2 =
@@ -341,7 +341,7 @@ Elapsed time is 1.308887 seconds.
        interval       length   endpoint values  
 [       0, 3.1e+03]     1684  -3.6e-14 -3.2e-13 
 Epslevel = 3.487867e-13.  Vscale = 1.000000e+00.
-Elapsed time is 0.037763 seconds.
+Elapsed time is 0.047844 seconds.
 </pre>Splitting on and off are discussed further in Section 8.3.
 
 
@@ -378,7 +378,7 @@ In this case the integral comes out just right:
 
 ## 1.6  Periodic functions
 
-Until 2014, Chebfun used only nonperiodic representations, based on Chebyshev polynomials.  Beginning with Version 5, there is a new capability of representing sufficiently smooth periodic functions by trigonometric polynomials instead, that is, Fourier series.  Such an object is still called a chebfun, but it is a periodic one, and the signal to invoke such capabilities is the string ``trig``. For abbreviation, we call a periodic chebfun a ``trigfun''. This section gives a quick introduction, and more details can be found in Chapter 11.
+Until 2014, Chebfun used only nonperiodic representations, based on Chebyshev polynomials.  Beginning with Version 5, there is a new capability of representing sufficiently smooth periodic functions by trigonometric polynomials instead, that is, Fourier series.  Such an object is still called a chebfun, but it is a periodic one, and the signal to invoke such capabilities is the string ``trig``. For abbreviation, we call a periodic chebfun a "trigfun". This section gives a quick introduction, and more details can be found in Chapter 11.
 
 Trigfuns were initiated by Grady Wright in the first half of 2014. A very interesting project along the same lines has been carried out independently by Kristyn McLeod and Rodrigo Platte at Arizona State University [McLeod 2013].
 
@@ -397,14 +397,9 @@ Its length, very roughly, is $100 \pi$,
    383
 </pre>Here is the same function represented by a Fourier series:
 
-<pre class="mcode-input">f2 = chebfun(ff,[-pi,pi],'trig')
+<pre class="mcode-input">f2 = chebfun(ff,[-pi,pi],'trig');
 max(f2)
-plot(f2,'m')</pre><pre class="mcode-output">f2 =
-   chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
-[    -3.1,     3.1]      201       1.5      1.5 
-Epslevel = 3.619187e-15.  Vscale = 2.122902e+00.
-ans =
+plot(f2,'m')</pre><pre class="mcode-output">ans =
    1.614526099978735
 </pre><img src="img/guide01_12.png" class="figure" alt="">
 
@@ -511,17 +506,17 @@ Epslevel = 2.220446e-15.  Vscale = 1.
 
 Some of Chebfun's most remarkable features haven't made it into this edition of the Guide.  Here are some of our favorites:
 
-o `leg2cheb` and `cheb2leg` for fast Legendre-Chebyshev conversions,
+- `leg2cheb` and `cheb2leg` for fast Legendre-Chebyshev conversions,
 
-o `conv` and `circconv` for convolution,
+- `conv` and `circconv` for convolution,
 
-o The `'equi'` flag to the Chebfun constructor for equispaced data,
+- The `'equi'` flag to the Chebfun constructor for equispaced data,
 
-o `polyfit` for least-squares fitting in the continuous context,
+- `polyfit` for least-squares fitting in the continuous context,
 
-o `inv` for computing the inverse of a chebfun,
+- `inv` for computing the inverse of a chebfun,
 
-o `pde15s` for PDEs in one space and one time variable.
+- `pde15s` for PDEs in one space and one time variable.
 
 To learn about any of these options, try the appropriate `help` command.  Just as a taster, here's a hint of how fast Chebfun can convert a ten-thousand coefficient Chebyshev expansion to Legendre coefficients and back again using an algorithm from [Hale &amp; Townsend 2013]:
 
@@ -531,8 +526,8 @@ cleg = cheb2leg(ccheb);
 ccheb2 = leg2cheb(cleg);
 norm(ccheb-ccheb2,inf)
 toc</pre><pre class="mcode-output">ans =
-     4.639022499475232e-11
-Elapsed time is 1.095863 seconds.
+     4.360223293531362e-11
+Elapsed time is 0.811084 seconds.
 </pre>
 
 ## 1.9  Chebfun example galleries
@@ -632,7 +627,7 @@ This guide is produced in MATLAB using the `publish` command with a style sheet 
 
 [Higham 2004] N. J. Higham, "The numerical stability of barycentric Lagrange interpolation", _IMA Journal of Numerical Analysis_, 24 (2004), 547-556.
 
-[McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic computations using Fourier expansions," _SIAM Undergraduate Research Online_, to appear. See also `http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun`.
+[McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic computations using Fourier expansions," _SIAM Undergraduate Research Online_, to appear. See also <a href="http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun">http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun</a>.
 
 [Pachon, Platte &amp; Trefethen 2010] R. Pachon, R. B. Platte and L. N. Trefethen, "Piecewise-smooth chebfuns", _IMA J. Numer. Anal._, 30 (2010), 898-916.
 

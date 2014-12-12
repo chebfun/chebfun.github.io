@@ -42,9 +42,9 @@ fprintf('QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum(sum(chebfun2(F))); t = toc;
 fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum2(chebfun2(F)); t = toc;
-fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.2183 secs
-CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.1098 secs
-CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0461 secs
+fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">QUAD2D:  I = 1.399888131932670  time = 0.2660 secs
+CHEBFUN2/SUMSUM:  I = 1.399888131932670  time = 0.0837 secs
+CHEBFUN2/SUM2:  I = 1.399888131932670  time = 0.0351 secs
 </pre>Chebfun2 is not designed specifically for numerical quadrature (or more properly, "cubature"), and careful comparisons with existing software have not been carried out. Low rank function approximations have been previously used for numerical quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman &amp; Geddes 2005].  A cubature package CHEBINT based on Chebyshev approximations has been produced by Poppe and Cools [Poppe &amp; Cools 2011].
 
 
@@ -117,7 +117,7 @@ The command `cumsum2` computes the double indefinite integral, which is a functi
   
   See also CUMSUM, SUM, SUM2.
 
-</pre>On the other hand, `cumsum(f)` computes the indefinite integral with respect to just one variable, also returning a chebfun2. The indefinite integral with respect to $y$ and then $xvariable is the same as the double indefinite integral, as we can check numerically.
+</pre>On the other hand, `cumsum(f)` computes the indefinite integral with respect to just one variable, also returning a chebfun2. The indefinite integral with respect to $y$ and then $x$ is the same as the double indefinite integral, as we can check numerically.
 
 <pre class="mcode-input">f = chebfun2(@(x,y) sin(3*((x+1).^2+(y+1).^2)));
 contour(cumsum2(f),'numpts',400), axis equal
@@ -214,13 +214,13 @@ I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5]));
 tic, I = sum(chebfun(@(z) I(z),[1 2],'vectorize')); t = toc;
 fprintf('          Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
 tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;
-fprintf('  MATLAB integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output">          Chebfun2:  I = -0.48056569408898  time = 2.407 secs
-  MATLAB integral3:  I = -0.48056569417568  time = 0.920 secs
+fprintf('  MATLAB integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output">          Chebfun2:  I = -0.48056569408898  time = 2.685 secs
+  MATLAB integral3:  I = -0.48056569417568  time = 1.289 secs
 </pre>
 
 ## 13.8 References
 
 [Carvajal, Chapman &amp; Geddes 2005] O. A. Carvajal, F. W. Chapman and K. O. Geddes, "Hybrid symbolic-numeric integration in multiple dimensions via tensor-product series", _Proceedings of ISSAC'05_, M. Kauers, ed., ACM Press, 2005, pp. 84--91.
 
-[Poppe &amp; Cools 2011] K. Poppe and R. Cools, "CHEBINT: operations on multivariate Chebyshev approximations", `http://nines.cs.kuleuven.be/software/CHEBINT/`.
+[Poppe &amp; Cools 2011] K. Poppe and R. Cools, "CHEBINT: operations on multivariate Chebyshev approximations", <a href="http://nines.cs.kuleuven.be/software/CHEBINT/">http://nines.cs.kuleuven.be/software/CHEBINT/</a>.
 

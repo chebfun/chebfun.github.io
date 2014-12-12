@@ -10,7 +10,7 @@ authordate: "Lloyd N. Trefethen, November 2009, latest revision December 2014"
 
 Chebfun is founded on the mathematical subject of approximation theory, and in particular, on Chebyshev series and interpolants.  (For periodic analogues and trigonometric approximations, see Chapter 11.) Conversely, it provides a simple environment in which to demonstrate these approximants and other approximation ideas.
 
-The history of "Chebyshev technology" goes back to the 19th century Russian mathematician Pafnuty Chebyshev (1821-1894) and his mathematical descendants such as Zolotarev and Bernstein (1880-1968).  These men realized that just as Fourier series provide an efficient way to represent a smooth periodic function, series of Chebyshev polynomials can do the same for a smooth nonperiodic function.  A number of excellent textbooks and monographs have been published on approximation theory, including [Davis 1963], [Cheney 1966], [Meinardus 1967], [Lorentz 1986], and Powell [Powell, 1981], and in addition there are books devoted entirely to Chebyshev polynomials, including [Rivlin 1974] and [Mason &amp; Handscomb 2003]. A Chebfun-based book on approximation theory and its computational applications is particularly relevant for Chebfun users [Trefethen 2013].
+The history of "Chebyshev technology" goes back to the 19th century Russian mathematician Pafnuty Chebyshev (1821-1894) and his mathematical descendants such as Zolotarev and Bernstein (1880-1968).  These men realized that just as Fourier series provide an efficient way to represent a smooth periodic function, series of Chebyshev polynomials can do the same for a smooth nonperiodic function.  A number of excellent textbooks and monographs have been published on approximation theory, including [Davis 1963], [Cheney 1966], [Meinardus 1967], [Lorentz 1986], and [Powell, 1981], and in addition there are books devoted entirely to Chebyshev polynomials, including [Rivlin 1974] and [Mason &amp; Handscomb 2003]. A Chebfun-based book on approximation theory and its computational applications is particularly relevant for Chebfun users [Trefethen 2013].
 
 From the dates of publication above it will be clear that approximation theory flourished in the early computer era, and in the 1950s and 1960s a number of numerical methods were developed based on Chebyshev polynomials by Lanczos [Lanczos 1957], Fox [Fox &amp; Parker 1966], Clenshaw, Elliott, Mason, Good, and others.  The Fast Fourier Transform came in 1965 and Salzer's barycentric interpolation formula for Chebyshev points in 1972 [Salzer 1972].  Then in the 1970s Orszag and Gottlieb introduced spectral methods, based on the application of Chebyshev and Fourier technology to the solution of PDEs.  The subject grew rapidly, and it is in the context of spectral methods that Chebyshev techniques are particularly well known today [Boyd 2001], [Trefethen 2000], [Canuto et al. 2006/7].
 
@@ -29,7 +29,7 @@ By *Chebyshev points* we shall mean the set of points in $[-1,1]$ defined by $$ 
     32     0   -48     0    18     0    -1
     64     0  -112     0    56     0    -7     0
    128     0  -256     0   160     0   -32     0     1
-</pre>Note that that output of `poly` follows the pattern for MATLAB's standard `poly` command: it is a row vector, and the high-order coefficients come first. Thus, for example, the fourth row above tells us that $T_3(x) = 4x^3 - 3x$.
+</pre>Note that the output of `poly` follows the pattern for MATLAB's standard `poly` command: it is a row vector, and the high-order coefficients come first. Thus, for example, the fourth row above tells us that $T_3(x) = 4x^3 - 3x$.
 
 Here are plots of $T_2$, $T_3$, $T_{15}$, and $T_{50}$.
 
@@ -262,7 +262,7 @@ The first theorem asserts that Chebyshev interpolants are "near-best" [Ehlich &a
 
 *THEOREM 1.* $$ \|f-p\| \le (2+(2/\pi)\log(N)) \|f-p^*\|. $$
 
-This theorem implies that even if $N$ is as large as 100,000, one can lose no more than one digit by using $p$ instead of $p^*$. Whereas Chebfun will readily compute such a $p$, it is unlikely that anybody has ever computed a nontrivial $p^*$ for a value of $N$ so large.
+This theorem implies that even if $N$ is as large as 100,000, one can lose no more than one digit by using $p$ instead of $p^\*$. Whereas Chebfun will readily compute such a $p$, it is unlikely that anybody has ever computed a nontrivial $p^\*$ for a value of $N$ so large.
 
 The next theorem asserts that if $f$ is $k$ times differentiable, roughly speaking, then the Chebyshev interpolants converge at the algebraic rate $1/N^k$ [Mastroianni &amp; Szabados 1995].
 

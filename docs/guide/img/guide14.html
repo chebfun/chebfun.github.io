@@ -67,7 +67,7 @@ Chebfun2 rootfinding is based on an algorithm described in [Nakatsukasa, Noferin
 
 ## 14.4 Global optimisation: `max2`, `min2`, and `minandmax2`
 
-Chebfun2 also provides functionality for global optimisation. Here is an example, where we plot the minimum and maximum as black dots.
+Chebfun2 also provides functionality for global optimisation. Here is an example, where we plot the minimum and maximum as red dots.
 
 <pre class="mcode-input">f = chebfun2(@(x,y) sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2));
 [mn mnloc] = min2(f);
@@ -82,8 +82,8 @@ If both the global maximum and minimum are required, it is roughly twice as fast
 <pre class="mcode-input">tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t=toc;
 fprintf('min2 and max2 separately = %5.3fs\n',t)
 tic; [Y X] = minandmax2(f); t=toc;
-fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 0.449s
-minandmax2 command = 0.191s
+fprintf('minandmax2 command = %5.3fs\n',t)</pre><pre class="mcode-output">min2 and max2 separately = 0.487s
+minandmax2 command = 0.219s
 </pre>Here is a complicated function from the 2002 SIAM 100-Dollar, 100-Digit Challenge.  Chebfun2 computes its global minimum in a few seconds:
 
 <pre class="mcode-input">tic
@@ -92,7 +92,7 @@ f = cheb.gallery2('challenge');
 minval
 toc</pre><pre class="mcode-output">minval =
   -3.306868647474791
-Elapsed time is 1.055931 seconds.
+Elapsed time is 1.147926 seconds.
 </pre>The result closely matches the correct solution, computed to 10,000 digits Bornemann et al. [2004]:
 
 <pre class="mcode-input">exact = -3.306868647475237280076113</pre><pre class="mcode-output">exact =
@@ -132,7 +132,7 @@ norm(f,inf)</pre><pre class="mcode-output">ans =
 
 [Bornemann et al. 2004] F. Bornemann, D. Laurie, S. Wagon and J. Waldvogel, _The SIAM 100-Digit Challenge: A Study in High-Accuracy Nuemrical Computing_, SIAM 2004.
 
-[Guettel 2010] S. Guettel, "Area and centroid of a 2D region", `www.chebfun.org/examples/geom/Area.html`.
+[Guettel 2010] S. Guettel, "Area and centroid of a 2D region", <a href="http://www.chebfun.org/examples/geom/Area.html">http://www.chebfun.org/examples/geom/Area.html</a>.
 
 [Nakatsukasa, Noferini &amp; Townsend 2014] Y. Nakatsukasa, V. Noferini and A. Townsend, "Computing the common zeros of two bivariate functions via Bezout resultants", _Numerische Mathematik_, to appear.
 

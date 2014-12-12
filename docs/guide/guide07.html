@@ -309,7 +309,7 @@ u = chebop(@(x, u) diff(u, 2) + u, [-10,10], cos(10), cos(10))\0;
 toc
 error = u(5) - cos(5)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.215065 seconds.
+<pre class="mcode-output">Elapsed time is 0.263326 seconds.
 error =
     -4.052314039881821e-15
 </pre>
@@ -322,7 +322,7 @@ toc
 error = u(5) - cos(5)
 cheboppref.setDefaults('factory')   % reset to standard mode</pre>
 
-<pre class="mcode-output">Elapsed time is 1.320343 seconds.
+<pre class="mcode-output">Elapsed time is 0.763625 seconds.
 error =
     -8.326672684688674e-16
 </pre>
@@ -459,7 +459,7 @@ v = N\0;</pre>
 </pre>
 
 <h3 id="710-bvp-systems-with-unknown-parameters">7.10 BVP systems with unknown parameters</h3>
-<p>Sometimes ODEs or systems of ODEs contain unknown parameter values that must be computed as part of the solution. An example of this is MATLAB's built-in <code>mat4bvp</code> example. These parameters can always be included in system as unknowns with zero derivatives, but this can be computationally inefficient. Chebfun allows the option of explicit treatment of the parameters. Often the dependence of the solution on these parameters is nonlinear (as in the case below), and this discussion might better have been left to Chapter 10, but since, from the user perspective, there is little difference in this case, we include it here.</p>
+<p>Sometimes ODEs or systems of ODEs contain unknown parameter values that must be computed as part of the solution. An example of this is MATLAB's built-in <code>mat4bvp</code> example. These parameters can always be included in a system as unknowns with zero derivatives, but this can be computationally inefficient. Chebfun allows the option of explicit treatment of the parameters. Often the dependence of the solution on these parameters is nonlinear (as in the case below), and this discussion might better have been left to Chapter 10, but since, from the user perspective, there is little difference in this case, we include it here.</p>
 <p>Below is an example of such a parameterised problem, which represents a linear pendulum with a forcing sine-wave term of an unknown frequency $T$. The task is to compute the solution for which $$ u(-\pi) = u(\pi) = u'(\pi) = 1. $$</p>
 <pre class="mcode-input">N = chebop(@(x, u , T) diff(u,2) - u - sin(T.*x/pi), [-pi pi]);
 N.lbc = @(u,T) u - 1;

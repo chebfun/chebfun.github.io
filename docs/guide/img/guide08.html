@@ -207,7 +207,7 @@ ans =
       105185
 sumf =
    0.888888888881000
-Elapsed time is 1.951031 seconds.
+Elapsed time is 2.303346 seconds.
 </pre><img src="img/guide08_06.png" class="figure" alt="">
 
 (More efficient ways of resolving this function, by eliminating the singularity, are described in Chapter 9.)
@@ -276,13 +276,13 @@ For example, here is a chebfun constructed in the usual factory mode:
   tic, f = chebfun(ff,[0 8]); toc
   length(f)</pre><pre class="mcode-output">ff = 
     @(x)besselj(x,exp(x))
-Elapsed time is 0.146163 seconds.
+Elapsed time is 0.101563 seconds.
 ans =
         3777
 </pre>There is little difference, even in the timing, if we set 'resampling on', so that previously computed values are not reused:
 
 <pre class="mcode-input">  tic, f = chebfun(ff,[0 8],'resampling','on'); toc
-  length(f)</pre><pre class="mcode-output">Elapsed time is 0.070557 seconds.
+  length(f)</pre><pre class="mcode-output">Elapsed time is 0.070702 seconds.
 ans =
         3782
 </pre>One might wonder why 'resampling on' is an option at all, but in fact, it introduces some very interesting possibilities.  What if the "function" being sampled is not actually a fixed function, but depends on the grid? For example, consider this prescription:

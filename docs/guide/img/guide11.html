@@ -26,7 +26,7 @@ In this chapter we review some of the functionality for trigfuns as well as some
 
 Throughout our discussion, the trigfuns we construct live on the interval $[-\pi,\pi]$, which we specify explicitly in each call to the constructor.  Mathematically, it might have made sense for this to be the default domain for trigfuns, but in Chebfun the factory default is always $[-1,1]$, whether the representation is trigonometric or not.  It is possible to change the default domain to $[-\pi,\pi]$, and indeed to change the default function representation to trigonometric; see Section 8.2. To avoid confusion, however, we have not changed any defaults in this chapter.
 
-For examples of Chebfun solution of periodic ODEs, see Chapter 7, and for periodic functions of two variables, see Chapters 12-16.
+For examples of Chebfun solution of periodic ODEs, see Chapter 7.
 
 (_Editors' note._  Periodic chebfuns were created by Grady Wright of Boise State University during a visit to Oxford in 2014. Another MATLAB project based on trigonometric interpolants, called _Fourfun_, was developed independently by Kristyn McLeod under the supervision of Rodrigo Platte [McLeod 2014].)
 
@@ -34,88 +34,24 @@ For examples of Chebfun solution of periodic ODEs, see Chapter 7, and for period
 
 ## 11.2  Trigonometric series and interpolants
 
-The classical trigonometric series of a periodic function $u$ defined on $[-\pi,\pi]$ is given as $$ \mathcal{F}[u] = \sum_{k=-\infty}^{\infty} a_k e^{ikt} \eqno (1) $$ with coefficients $$ a_k = \frac{1}{2\pi} \int_{-\pi}^{\pi} u(t)e^{-ikt} dt. \eqno (2) $$ Alternatively, we can express the series in terms of sines and cosines, $$ \mathcal{F}[u] = \sum_{k=0}^{\infty} a_k \cos(k t) + \sum_{k=1}^{\infty} b_k \sin(k t) \eqno (3) $$ with $$ a_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t)\cos(kt) dt, \quad b_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t)\sin(kt) dt, \eqno (4) $$ for $k&gt;0$ and $$ a_0 = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) dt. \eqno (5) $$ In what follows we will use the complex exponential form of the series.
+The classical trigonometric series of a periodic function $u$ defined on $[-\pi,\pi]$ is given as $$ \mathcal{F}[u] = \sum_{k=-\infty}^{\infty} a_k e^{ikt} \tag{1} $$ with coefficients $$ a_k = \frac{1}{2\pi} \int_{-\pi}^{\pi} u(t)e^{-ikt} dt. \tag{2} $$ Alternatively, we can express the series in terms of sines and cosines, $$ \mathcal{F}[u] = \sum_{k=0}^{\infty} a_k \cos(k t) + \sum_{k=1}^{\infty} b_k \sin(k t) \tag{3} $$ with $$ a_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t)\cos(kt) dt, \quad b_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t)\sin(kt) dt, \tag{4} $$ for $k&gt;0$ and $$ a_0 = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) dt. \tag{5} $$ In what follows we will use the complex exponential form of the series.
 
-<pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ a_0 = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) dt. \eqno (5) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ a_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t)\cos(kt) dt, \quad b_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t)\sin(kt) dt, \eqno (4) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ \mathcal{F}[u] = \sum_{k=0}^{\infty} a_k \cos(k t) + \sum_{k=1}^{\infty} b_k \sin(k t) \eqno (3) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ a_k = \frac{1}{2\pi} \int_{-\pi}^{\pi} u(t)e^{-ikt} dt. \eqno (2) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ \mathcal{F}[u] = \sum_{k=-\infty}^{\infty} a_k e^{ikt} \eqno (1) $$
-</pre>Note that (1) is often refered to as the _Fourier series_ of $u$, but we will use the term _trigonometric series_ as advocated by Zygmund [Zygmund, 1959].  Similar expressions for the series and coefficients hold for intervals other than $[-\pi,\pi]$ by shifting and scaling appropriately.
+Note that (1) is often refered to as the _Fourier series_ of $u$, but we will use the term _trigonometric series_ as advocated by Zygmund [Zygmund, 1959].  Similar expressions for the series and coefficients hold for intervals other than $[-\pi,\pi]$ by shifting and scaling appropriately.
 
 Approximation theory results for trigonometric series are classic and can be found in, for example, [Zygmund, 1959].  Here we review some of these properties.
 
-The convergence of the trigonometric series depends on the smoothness of $u$ on $[-\pi,\pi]$ and its periodic extension. Let $q_N$ be the truncated series $$ q_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} a_k e^{ikt} \eqno (6) $$ when $N$ is odd and $$ q_N(t) = \sum_{k=-N/2}^{N/2} a_k e^{ikt} \eqno (7) $$ when $N$ is even. If $u$ is periodic, continuous, and of bounded variation on $[-\pi,\pi]$, then as $N\rightarrow \infty$, $$ \| u - q_N \| \rightarrow 0, $$ where $\|\cdot\|$ is the maximum norm. From (1) it is clear that the error is bounded by $$ \| u - q_N \| \leq \sum_{|k| &gt; \lfloor N/2 \rfloor} |a_k|. \eqno (8) $$ The decay rate of the coefficients $a_k$ depends on the smoothness of $u$ and can be estimated by integration by parts.  A classical result says that if $u$ is $(\ell-1)$-times continuously differentiable on $[-\pi,\pi]$, with each of these derivatives being periodic, and the derivative of order $\ell$ is of bounded variation on $[-\pi,\pi]$, then $$ |a_k| = O(|k|^{-\ell-1}),\; k=\pm 1, \pm 2,\dots. \eqno (9) $$ With (8), adding up the tail, this gives us $$ \| u - q_N \| \leq O(N^{-\ell}) \eqno (10) $$ as $N\to\infty$, assuming $\ell\ge 1$.  If $u$ and its periodic extension are $C^{\infty}$, then $q_N$ converges to $u$ faster than any inverse power of $N$.  If $u$ is analytic on $[-\pi,\pi]$ then the convergence rate is exponential, i.e., $\| u - q_N \| = O(b^N)$ for some $b &lt; 1$.
+The convergence of the trigonometric series depends on the smoothness of $u$ on $[-\pi,\pi]$ and its periodic extension. Let $q_N$ be the truncated series $$ q_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} a_k e^{ikt} \tag{6} $$ when $N$ is odd and $$ q_N(t) = \sum_{k=-N/2}^{N/2} a_k e^{ikt} \tag{7} $$ when $N$ is even. If $u$ is periodic, continuous, and of bounded variation on $[-\pi,\pi]$, then as $N\rightarrow \infty$, $$ \| u - q_N \| \rightarrow 0, $$ where $\|\cdot\|$ is the maximum norm. From (1) it is clear that the error is bounded by $$ \| u - q_N \| \leq \sum_{|k| &gt; \lfloor N/2 \rfloor} |a_k|. \tag{8} $$ The decay rate of the coefficients $a_k$ depends on the smoothness of $u$ and can be estimated by integration by parts.  A classical result says that if $u$ is $(\ell-1)$-times continuously differentiable on $[-\pi,\pi]$, with each of these derivatives being periodic, and the derivative of order $\ell$ is of bounded variation on $[-\pi,\pi]$, then $$ |a_k| = O(|k|^{-\ell-1}),\; k=\pm 1, \pm 2,\dots. \tag{9} $$ With (8), adding up the tail, this gives us $$ \| u - q_N \| \leq O(N^{-\ell}) \tag{10} $$ as $N\to\infty$, assuming $\ell\ge 1$.  If $u$ and its periodic extension are $C^{\infty}$, then $q_N$ converges to $u$ faster than any inverse power of $N$.  If $u$ is analytic on $[-\pi,\pi]$ then the convergence rate is exponential, i.e., $\| u - q_N \| = O(b^N)$ for some $b &lt; 1$.
 
-<pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
+In general the coefficients $a_k$ are not known exactly. Let us imagine that we use the trapezoidal quadrature formula to approximate them [Trefethen &amp; Weideman 2014]. Defining the *trigonometric points* by $$ t_j = -\pi + 2\pi j/N, \qquad j=0,\ldots,N-1 \tag{11} $$ (Chebfun: `trigpts(N,[-pi,pi])`) gives the approximation $$ a_k \approx c_k := \frac{1}{N} \sum_{j=0}^{N-1} u(t_j) e^{-i k t_j}. \tag{12} $$ The coefficients $c_k$ are referred to as the _Discrete Fourier Coefficients,_ and when they are replaced by $a_k$ in the truncated trigonometric series $q_N$, the resulting series is called the _discrete Fourier series_ of $u$.  The form of this series depends on the parity of $N$.  For odd $N$ we have $$ p_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} c_k e^{ikt}. \tag{13} $$ When $N$ is even we have $$ p_N(t) = \sum_{k=-N/2+1}^{N/2-1} c_k e^{ikt}\,+ c_{N/2} \cos(N/2 t),\tag{14}  $$ which is often rewritten as $$ p_N(t) = {\sum_{k=-N/2}^{N/2}} {}'  c_k e^{ikt}, \tag{15} $$ where $c_{-N/2} = c_{N/2}$ and the prime means the first and last terms in the sum are halved.  The reason the $\sin(N/2 t)$ term is missing is that this function vanishes when evaluated at $t_j$, so that there is no contribution of this mode to the coefficient $c_{N/2}$.
 
- String must have valid interpreter syntax: 
-$$ \| u - q_N \| \leq O(N^{-\ell}) \eqno (10) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
+The *degree* of a trigonometric sum is the degree of its highest order term.  Thus (6) and (13) are of degree $(N-1)/2$, and (7) and (14) are of degree $N$.
 
- String must have valid interpreter syntax: 
-$$ |a_k| = O(|k|^{-\ell-1}),\; k=\pm 1, \pm 2,\dots. \eqno (9) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
+The discrete Fourier series $p_N$ of (14)-(15) has the property that it interpolates $u$ at the gridpoints (11). The coefficients $c_k$ can be computed in $O(N\log N)$ operations with the fast Fourier transform [Van Loan 1992], and the computation is numerically stable [Henrici 1986]. The approximation properties of the interpolants are very similar to those of the truncated trigonometric series approximation of a function $u$; see e.g. [Canuto et al. 2006/7], [Hesthaven et al. 2007], [Trefethen 2000]. Analysis of this relationship relies on the *Poisson summation formula* (or aliasing formula), which relates the interpolation coefficients $c_k$ to the trigonometric series coefficients $a_k$: $$ c_k = a_k + \sum_{m=1}^{\infty} \left(a_{k+m N} + a_{k-m N}\right). \tag{16}  $$ This formula implies that if $\ell\ge 1$ in (9), the decay rate of $c_k$ is essentially the same as that of $a_k$, with $c_k\to a_k$ as $N\to\infty$.
 
- String must have valid interpreter syntax: 
-$$ \| u - q_N \| \leq \sum_{|k| &gt; \lfloor N/2 \rfloor} |a_k|. \eqno (8) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ q_N(t) = \sum_{k=-N/2}^{N/2} a_k e^{ikt} \eqno (7) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ q_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} a_k e^{ikt} \eqno (6) $$
-</pre>In general the coefficients $a_k$ are not known exactly. Let us imagine that we use the trapezoidal quadrature formula to approximate them [Trefethen &amp; Weideman 2014]. Defining the *trigonometric points* by $$ t_j = -\pi + 2\pi j/N, \qquad j=0,\ldots,N-1 \eqno (11) $$ (Chebfun: `trigpts(N,[-pi,pi])`) gives the approximation $$ a_k \approx c_k := \frac{1}{N} \sum_{j=0}^{N-1} u(t_j) e^{-i k t_j}. \eqno (12) $$ The coefficients $c_k$ are referred to as the _Discrete Fourier Coefficients,_ and when they are replaced by $a_k$ in the truncated trigonometric series $q_N$, the resulting series is called the _discrete Fourier series_ of $u$.  The form of this series depends on the parity of $N$.  For odd $N$ we have $$ p_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} c_k e^{ikt}. \eqno (13) $$ When $N$ is even we have $$ p_N(t) = \sum_{k=-N/2+1}^{N/2-1} c_k e^{ikt}\,+ c_{N/2} \cos(N/2 t),\eqno (14)  $$ which is often rewritten as $$ p_N(t) = {\sum_{k=-N/2}^{N/2}} {}'  c_k e^{ikt}, \eqno (15) $$ where $c_{-N/2} = c_{N/2}$ and the prime means the first and last terms in the sum are halved.  The reason the $\sin(N/2 t)$ term is missing is that this function vanishes when evaluated at $t_j$, so that there is no contribution of this mode to the coefficient $c_{N/2}$.
-
-<pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ p_N(t) = {\sum_{k=-N/2}^{N/2}} {}'  c_k e^{ikt}, \eqno (15) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ p_N(t) = \sum_{k=-N/2+1}^{N/2-1} c_k e^{ikt}\,+ c_{N/2} \cos(N/2 t),\eqno (14)  $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ p_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} c_k e^{ikt}. \eqno (13) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ a_k \approx c_k := \frac{1}{N} \sum_{j=0}^{N-1} u(t_j) e^{-i k t_j}. \eqno (12) $$
-</pre><pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ t_j = -\pi + 2\pi j/N, \qquad j=0,\ldots,N-1 \eqno (11) $$
-</pre>The *degree* of a trigonometric sum is the degree of its highest order term.  Thus (6) and (13) are of degree $(N-1)/2$, and (7) and (14) are of degree $N$.
-
-The discrete Fourier series $p_N$ of (14)-(15) has the property that it interpolates $u$ at the gridpoints (11). The coefficients $c_k$ can be computed in $O(N\log N)$ operations with the fast Fourier transform [Van Loan 1992], and the computation is numerically stable [Henrici 1986]. The approximation properties of the interpolants are very similar to those of the truncated trigonometric series approximation of a function $u$; see e.g. [Canuto et al. 2006/7], [Hesthaven et al. 2007], [Trefethen 2000]. Analysis of this relationship relies on the *Poisson summation formula* (or aliasing formula), which relates the interpolation coefficients $c_k$ to the trigonometric series coefficients $a_k$: $$ c_k = a_k + \sum_{m=1}^{\infty} \left(a_{k+m N} + a_{k-m N}\right). \eqno (16)  $$ This formula implies that if $\ell\ge 1$ in (9), the decay rate of $c_k$ is essentially the same as that of $a_k$, with $c_k\to a_k$ as $N\to\infty$.
-
-<pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ c_k = a_k + \sum_{m=1}^{\infty} \left(a_{k+m N} + a_{k-m N}\right). \eqno (16)  $$
-</pre>To illustrate some of these ideas numerically, consider $u(t) = |\sin t|^3$, a function with $\ell = 3$.
+To illustrate some of these ideas numerically, consider $u(t) = |\sin t|^3$, a function with $\ell = 3$.
 
 <pre class="mcode-input">uu = @(t) abs(sin(t)).^3;
-u = chebfun(uu, [-pi,pi], 'trig');</pre>We can construct the truncated trigonometric series approximation (6) with $N=11$ using the "`trunc'" option:
+u = chebfun(uu, [-pi,pi], 'trig');</pre>We can construct the truncated trigonometric series approximation (6) with $N=11$ using the "trunc" option:
 
 <pre class="mcode-input">q11 = chebfun(uu, [-pi,pi], 'trunc', 11, 'trig');</pre>For comparison, here is the 11-point trigonometric interpolant (13):
 
@@ -276,11 +212,11 @@ A function with a finite number of derivatives gives algebraic decay:
 <pre class="mcode-input">f = chebfun('abs(sin(x)).^5', [-pi pi], 'trig');
 plotcoeffs(f)</pre><img src="img/guide11_10.png" class="figure" alt="">
 
-The `loglog` option enables one more easily to quantify the decay rate (showing the coefficients of index $k&gt;0$).  This function has $\ell =6$ for the estimates (9) and (10), so by (9), the decay rate of coefficients is $a_k = O(|k|^{-6})$.
+The `loglog` option enables one more easily to quantify the decay rate (showing the coefficients of index $k&gt;0$).  This function has $\ell =5$ for the estimates (9) and (10), so by (9), the decay rate of coefficients is $a_k = O(|k|^{-6})$.
 
 <pre class="mcode-input">plotcoeffs(f,'loglog')
 hold on, loglog(3*[3 300],[3 300].^-6,'--r',LW,1.6), hold off
-text(110,4e-9,'N^{-6}',FS,18,'color','r')</pre><img src="img/guide11_11.png" class="figure" alt="">
+text(110,4e-9,'k^{-6}',FS,18,'color','r')</pre><img src="img/guide11_11.png" class="figure" alt="">
 
 At the beginning of this section, we alluded to an important fine point concerning $[-\pi,\pi]$ vs. $[0,2\pi]$ --- or more generally, the transplantation from one domain $[a,b]$ to another. We now explain this.
 
@@ -334,7 +270,7 @@ This represents the best degree 15 trigonometric approximation to the square wav
 
 [Hesthaven et al. 2007] J. S. Hesthaven, S. Gottlieb, and D. Gottlieb, _Spectral Methods for Time-Dependent Problems_, Cambridge U. Press, 2007.
 
-[McLeod 2014] K. McLeod, "Fourfun: A new system for automatic computations using Fourier expansions", submitted, 2014. See also `http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun`.
+[McLeod 2014] K. McLeod, "Fourfun: A new system for automatic computations using Fourier expansions", submitted, 2014. See also <a href="http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun">http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun</a>.
 
 [Trefethen 2000] L. N. Trefethen, _Spectral Methods in MATLAB_, SIAM, 2000.
 
@@ -342,5 +278,5 @@ This represents the best degree 15 trigonometric approximation to the square wav
 
 [Van Loan 1992] C. Van Loan, _Computational Frameworks for the Fast Fourier Transform_, SIAM, 1992.
 
-[Zygmund 1959] A. Zygmund, _Trignometric Series_, Cambridge U. Press, 1959.
+[Zygmund 1959] A. Zygmund, _Trigonometric Series_, Cambridge U. Press, 1959.
 

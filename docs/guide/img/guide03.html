@@ -50,7 +50,7 @@ Here for example are the three roots of Ai and Bi closest to 0:
   tic, r = roots(f); toc
   r</pre><pre class="mcode-output">lengthf =
     44
-Elapsed time is 0.006204 seconds.
+Elapsed time is 0.007212 seconds.
 r =
                    0
    1.000000000000006
@@ -70,7 +70,7 @@ r =
   tic, r = roots(f); toc
   fprintf('%22.14f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
    214
-Elapsed time is 0.070751 seconds.
+Elapsed time is 0.071584 seconds.
      96.00000000000000
      97.00000000000000
      98.00000000000001
@@ -83,7 +83,7 @@ Elapsed time is 0.070751 seconds.
   tic, r = roots(f); toc
   fprintf('%22.13f\n',r(end-4:end))</pre><pre class="mcode-output">lengthf =
         1684
-Elapsed time is 0.227001 seconds.
+Elapsed time is 0.248895 seconds.
      996.0000000000000
      996.9999999999999
      998.0000000000000
@@ -94,7 +94,7 @@ Elapsed time is 0.227001 seconds.
 <pre class="mcode-input">f = cheb.gallery('fishfillet');
 hold off, plot(f)
 tic, r = roots(f); toc
-hold on, plot(r,f(r),'.r'), hold off</pre><pre class="mcode-output">Elapsed time is 0.031915 seconds.
+hold on, plot(r,f(r),'.r'), hold off</pre><pre class="mcode-output">Elapsed time is 0.036358 seconds.
 </pre><img src="img/guide03_03.png" class="figure" alt="">
 
 With the ability to find zeros, we can solve a variety of nonlinear problems.  For example, where do the curves $x$ and $\cos(x)$ intersect?  Here is the answer.
@@ -311,7 +311,7 @@ The simplest example is a chebfun that is truly intended to correspond to a poly
  -0.000000000000000 + 0.250000000000000i
 </pre>The situation for more general chebfuns is more complicated.  For example, the chebfun
 
-<pre class="mcode-input">g = exp(x).*f(x);</pre>also has no roots in [-1,1],
+<pre class="mcode-input">g = exp(x).*f(x);</pre>also has no roots in $[-1,1]$,
 
 <pre class="mcode-input">roots(g)</pre><pre class="mcode-output">ans =
    Empty matrix: 0-by-1
