@@ -122,7 +122,7 @@ for k = 1:N-1
 end
 toc</pre>
 
-<pre class="mcode-output">Elapsed time is 8.830913 seconds.
+<pre class="mcode-output">Elapsed time is 8.705962 seconds.
 </pre>
 
 <p>Now that we have the coordinates of the points, and let's mark them on the curve.</p>
@@ -141,7 +141,7 @@ plot(P,'.r',MS,ms)</pre>
 <p>A better approach is not to solve our own rootfinding problems but to first invert <code>len</code> with the Chebfun command <code>inv</code>:</p>
 <pre class="mcode-input">tic, g = inv(len); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 2.095670 seconds.
+<pre class="mcode-output">Elapsed time is 2.534742 seconds.
 </pre>
 
 <p>Here we put circles around the dots to confirm that we have the same result as before:</p>

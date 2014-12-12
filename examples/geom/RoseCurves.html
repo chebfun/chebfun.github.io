@@ -65,9 +65,9 @@
 <p>The Wikipedia page about rose curves [2] contains a nice image of many roses for different rational values of $k$. This Example reproduces that image.</p>
 <p>In order to plot the roses, we will paramatrize them in the complex plane using Cartesian coordinates: $$ x(t) = \cos(k t) \sin(t), $$ $$ y(t) = i \cos(k t) \cos(t). $$ Here is a function that creates a chebfun of a rose based on the parameter $k = m/n$ for two integers $m$ and $n$. The domain must be at least as long as $2\pi$ times the least common multiple of $m$ and $n$.</p>
 <pre class="mcode-input">roseCurve = @(m,n) chebfun(@(t) cos(m/n*t).*cos(t)+1i*cos(m/n*t).*sin(t), ...
-                           [0, 2*pi*lcm(m,n)], 'periodic');</pre>
+                           [0, 2*pi*lcm(m,n)], 'trig');</pre>
 
-<p>The above command employs the new <code>'periodic'</code> flag for Fourier-based chebfuns, which for smooth periodic functions reduces the average number of terms necessary to represent the function by a factor of about $\pi/2$:</p>
+<p>The above command employs the new <code>'trig'</code> flag for Fourier-based chebfuns, which for smooth periodic functions reduces the average number of terms necessary to represent the function by a factor of about $\pi/2$:</p>
 <pre class="mcode-input">m = 50;  n = 51;
 f = roseCurve(m, n);
 g = chebfun(@(x) f(x), [0, 2*pi*lcm(m,n)]);
@@ -116,7 +116,7 @@ time = toc;</pre>
 <pre class="mcode-input">time</pre>
 
 <pre class="mcode-output">time =
-   8.025134592000001
+   8.936245373000000
 </pre>
 
 <h3 id="references">References</h3>

@@ -18,7 +18,7 @@ Begin by defining the domain $d$, chebfun variable $x$ and operator $N$.
 x = chebfun('x',d);
 N = chebop(d);</pre>The problem has a single Dirichlet boundary condition at $x=0$.
 
-<pre class="mcode-input">N.lbc = 0;</pre>Define the operator using Chebfun's overloaded DIFF and CUMSUM commands.
+<pre class="mcode-input">N.lbc = 0;</pre>Define the operator using Chebfun's overloaded `diff` and `cumsum` commands.
 
 <pre class="mcode-input">N.op = @(u) diff(u) + 2*u + 5*cumsum(u);</pre>Set the right-hand side of the integro-differential equation.
 

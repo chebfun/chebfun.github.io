@@ -2,7 +2,7 @@
 title: "Rose curves"
 layout: example
 authordate: "Hrothgar, June 2014"
-meta: "(Chebfun example geom/RoseCurves.m) [Tags: #sinewaves, #geometry, #polar, #periodic]"
+meta: "(Chebfun example geom/RoseCurves.m) [Tags: #sinewaves, #geometry, #polar, #trig]"
 ---
 
 A rose curve is a sinusoid in polar coordinates, that is, $$ r = \sin(k\theta). $$ Rational values of $k$ produce closed curves, while irrational values produce curves of infinite length that fill the unit disc. If $k = 1$, then the result is a circle. These figures can be likened to Lissajous curves as in the Example [geom/Lissajous](Lissajous.html) [1].
@@ -12,7 +12,7 @@ The Wikipedia page about rose curves [2] contains a nice image of many roses for
 In order to plot the roses, we will paramatrize them in the complex plane using Cartesian coordinates: $$ x(t) = \cos(k t) \sin(t), $$ $$ y(t) = i \cos(k t) \cos(t). $$ Here is a function that creates a chebfun of a rose based on the parameter $k = m/n$ for two integers $m$ and $n$. The domain must be at least as long as $2\pi$ times the least common multiple of $m$ and $n$.
 
 <pre class="mcode-input">roseCurve = @(m,n) chebfun(@(t) cos(m/n*t).*cos(t)+1i*cos(m/n*t).*sin(t), ...
-                           [0, 2*pi*lcm(m,n)], 'periodic');</pre>The above command employs the new `'periodic'` flag for Fourier-based chebfuns, which for smooth periodic functions reduces the average number of terms necessary to represent the function by a factor of about $\pi/2$:
+                           [0, 2*pi*lcm(m,n)], 'trig');</pre>The above command employs the new `'trig'` flag for Fourier-based chebfuns, which for smooth periodic functions reduces the average number of terms necessary to represent the function by a factor of about $\pi/2$:
 
 <pre class="mcode-input">m = 50;  n = 51;
 f = roseCurve(m, n);
@@ -53,7 +53,7 @@ time = toc;</pre><img src="img/RoseCurves_02.png" class="figure" alt="">
 The above image did not take long to produce:
 
 <pre class="mcode-input">time</pre><pre class="mcode-output">time =
-   8.025134592000001
+   8.936245373000000
 </pre>
 
 ## References

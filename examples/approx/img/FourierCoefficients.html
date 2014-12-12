@@ -35,9 +35,9 @@ The Fourier coefficients for many functions $u$ can be computed in Chebfun using
 
 ## Smooth periodic functions
 
-Typically, if $u$ and its periodic extension are twice continuously differentiable over $[-\pi,\pi]$ and $u'''(x)$ is piecewise continuous on $[-\pi,\pi]$ (or more specifically of bounded variation) then the Fourier coefficients of $u$ can be quickly computed by first constructing $u$ with the '`periodic`' flag in the Chebfun, then calling `trigcoeffs`. Here is an example for a simple Fourier polynomial:
+Typically, if $u$ and its periodic extension are twice continuously differentiable over $[-\pi,\pi]$ and $u'''(x)$ is piecewise continuous on $[-\pi,\pi]$ (or more specifically of bounded variation) then the Fourier coefficients of $u$ can be quickly computed by first constructing $u$ with the `'trig'` flag in the Chebfun, then calling `trigcoeffs`. Here is an example for a simple Fourier polynomial:
 
-<pre class="mcode-input">u = chebfun(@(x) 1 - 4*cos(x) + 6*sin(2*x),[-pi,pi],'periodic');
+<pre class="mcode-input">u = chebfun(@(x) 1 - 4*cos(x) + 6*sin(2*x),[-pi,pi],'trig');
 c = trigcoeffs(u);
 disp('Fourier coeffs of 1 + cos(x) + sin(2*x):')
 c</pre><pre class="mcode-output">Fourier coeffs of 1 + cos(x) + sin(2*x):
@@ -69,7 +69,7 @@ b =
 The default behavior of `trigcoeffs` is to return all the Fourier coefficients necessary to resolve the function to machine precision (assuming this number is less than 65537).  However, a specific number can be obtained with an additional input argument.  We illustrate this feature on the function $f(x) = 3/(5 - 4\cos(x))$, which is analytic in a strip in the complex plane and has exact Fourier coefficients given by $c_k = 2^{-|k|}$:
 
 <pre class="mcode-input">numCoeffs = 11;
-u = chebfun(@(x) 3./(5 - 4*cos(x)),[-pi,pi],'periodic');
+u = chebfun(@(x) 3./(5 - 4*cos(x)),[-pi,pi],'trig');
 c = trigcoeffs(u,numCoeffs);
 disp('Fourier coeffs of 3/(5-4cos(x)):')
 c</pre><pre class="mcode-output">Fourier coeffs of 3/(5-4cos(x)):
@@ -90,7 +90,7 @@ c =
 Here is an example for a less smooth function:
 
 <pre class="mcode-input">numCoeffs = 17;
-u = chebfun(@(x) abs(sin(x)).^3,[-pi,pi],'periodic');
+u = chebfun(@(x) abs(sin(x)).^3,[-pi,pi],'trig');
 c = trigcoeffs(u,numCoeffs); c = c(end:-1:1);
 disp('Fourier coeffs of |sin(x)|^3')
 c</pre><pre class="mcode-output">Fourier coeffs of |sin(x)|^3
@@ -178,7 +178,7 @@ The `trigcoeffs` function can also be used in combination with the Chebfun const
 
 <pre class="mcode-input">numModes = 15;
 c = trigcoeffs(u,2*numModes+1);
-u_trunc = chebfun(c,[-pi,pi],'periodic','coeffs');
+u_trunc = chebfun(c,[-pi,pi],'trig','coeffs');
 plot(u,'k-',u_trunc,'b-',LW,lw)</pre><img src="img/FourierCoefficients_02.png" class="figure" alt="">
 
 This represents the best 15-mode trigonometric approximation to the square wave over $[-\pi,\pi]$ in the $L^2$ sense. The oscillations in the approximation are called the Gibbs phenomenon.
@@ -186,7 +186,7 @@ This represents the best 15-mode trigonometric approximation to the square wave 
 To see the actual 'wave' it is useful to plot the approximation over a larger interval, which can be done for $-4\pi \leq x \leq 4\pi$ as follows:
 
 <pre class="mcode-input">u = chebfun(sq_wave,[-4*pi,4*pi],'splitting','on');
-u_trunc = chebfun(u_trunc,[-4*pi,4*pi],'periodic');
+u_trunc = chebfun(u_trunc,[-4*pi,4*pi],'trig');
 plot(u,'k-',u_trunc,'b-',LW,lw)</pre><img src="img/FourierCoefficients_03.png" class="figure" alt="">
 
 Note that in this case we don't recompute the Fourier coefficients over the larger domain, we simply construct `u_trunc` over the larger domain.
@@ -196,10 +196,10 @@ Here is one last example for the sawtooth wave, again computed over $[-\pi,\pi]$
 <pre class="mcode-input">sawtooth = @(x) (mod(x+pi,2*pi))/(2*pi);
 u = chebfun(sawtooth,[-pi,pi],'splitting','on');
 c = trigcoeffs(u,2*numModes+1);
-u_trunc = chebfun(c,[-pi,pi],'periodic','coeffs');
+u_trunc = chebfun(c,[-pi,pi],'trig','coeffs');
 
 u = chebfun(sawtooth,[-4*pi,4*pi],'splitting','on');
-u_trunc = chebfun(u_trunc,[-4*pi,4*pi],'periodic');
+u_trunc = chebfun(u_trunc,[-4*pi,4*pi],'trig');
 plot(u,'k-',u_trunc,'b-',LW,lw)</pre><img src="img/FourierCoefficients_04.png" class="figure" alt="">
 
 To hear this wave using try `chebtune(u_trunc,6)`.

@@ -136,14 +136,14 @@ compute_tau(f, 2)</pre>
 f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
 tic, roots(f); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.509681 seconds.
+<pre class="mcode-output">Elapsed time is 0.807681 seconds.
 </pre>
 
 <pre class="mcode-input">c = -1.0001;
 f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
 tic, roots(f); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.055354 seconds.
+<pre class="mcode-output">Elapsed time is 1.445259 seconds.
 </pre>
 
 <p>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.</p>
@@ -163,16 +163,16 @@ end</pre>
 g = chebfun(f);
 LW = 'linewidth'; lw = 2;
 for lvl = 0:levels
-    plot([-1 1],[lvl lvl],LW,lw), hold on,
+    plot([-1 1],[lvl lvl],'k',LW,lw), hold on,
     xx = linspace(-1,1,2^lvl+1);
     newg = chebfun(f, xx); j = 1;
     for x = xx(1:end-1)
-        plot([x x],[-.1 .1]+lvl,LW,lw)
+        plot([x x],[-.1 .1]+lvl,'k',LW,lw)
         funs = newg.funs;
         text(x+2.^(-lvl)-.09,lvl+.1,sprintf('N = %u',length(funs{j})-1));
         j = j + 1;
     end
-    plot([xx(end) xx(end)],[-.1 .1]+lvl,LW,lw)
+    plot([xx(end) xx(end)],[-.1 .1]+lvl,'k',LW,lw)
 end
 set(gca,'ytick',[])
 set(gca,'yticklabel',[])

@@ -108,14 +108,11 @@ ode-nonlin/BlowupFK.m
 ode-nonlin/BVPSystem.m
 ode-nonlin/Carrier.m
 ode-nonlin/ExactSolns.m
-ode-nonlin/FourBugs.m
 ode-nonlin/Logistic.m
 ode-nonlin/Logistic2.m
 ode-nonlin/LorenzAttractor.m
 ode-nonlin/ModellingDiseases.m
 ode-nonlin/Orbits.m
-ode-nonlin/ParamODEs.m
-ode-nonlin/ThreeBodyProblem.m
 opt/Catenary.m
 opt/ConstrainedOptimization.m
 opt/DixonSzego.m
@@ -129,14 +126,12 @@ opt/Rosenbrock2.m
 pde/BSExponential.m
 pde/Erosion.m
 pde/TrapezoidEigs.m
-quad/BatteryTest.m
 quad/GaussClenCurt.m
 quad/QuadratureConvergence.m
 quad/SpikeIntegral.m
 quad/SymbolicNumeric.m
 roots/AverageDegreeReduction1D.m
 roots/AverageDegreeReduction2D.m
-roots/BernoulliPolynomials.m
 roots/BesselRoots.m
 roots/BivariateRoots.m
 roots/ComplexRoots.m
@@ -144,7 +139,6 @@ roots/FundamentalTheoremOfAlgebra.m
 roots/MarchingSquares.m
 roots/NewtonRaphson.m
 roots/RandomPolynomials.m
-roots/RandomPolys.m
 roots/ResultantMethod.m
 roots/RootsNearAxis.m
 roots/RootsSpeed.m
@@ -172,4 +166,3 @@ temp/PeriodicSystem.m
 temp/ThreePlanets.m
 veccalc/AutonomousSystems.m
 veccalc/CheckingVectorCalculus.m
-veccalc/UndergraduateCalculus.m

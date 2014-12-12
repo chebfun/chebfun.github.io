@@ -61,7 +61,7 @@ len = cumsum(abs(diff(s)));
 for k = 1:N-1
     T(k+1) = roots(len-k*h);
 end
-toc</pre><pre class="mcode-output">Elapsed time is 8.830913 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 8.705962 seconds.
 </pre>Now that we have the coordinates of the points, and let's mark them on the curve.
 
 <pre class="mcode-input">P = s(T);
@@ -74,7 +74,7 @@ The rootfinding problems above, unfortunately, took quite a while, because the c
         1420
 </pre>A better approach is not to solve our own rootfinding problems but to first invert `len` with the Chebfun command `inv`:
 
-<pre class="mcode-input">tic, g = inv(len); toc</pre><pre class="mcode-output">Elapsed time is 2.095670 seconds.
+<pre class="mcode-input">tic, g = inv(len); toc</pre><pre class="mcode-output">Elapsed time is 2.534742 seconds.
 </pre>Here we put circles around the dots to confirm that we have the same result as before:
 
 <pre class="mcode-input">plot(s(g((0:N-1)*h)),'ok',MS,8)</pre><img src="img/ComplexArcLength_04.png" class="figure" alt="">

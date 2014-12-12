@@ -66,7 +66,7 @@ fprintf([ns, ts])
 semilogy(chebpts(length(f)), abs(f.values - cheb_vals))
 title('Absolute error', FS, fs), hold off
 axis([-1 1 1e-16 1e-12]), set(gca, FS, fs), hold off</pre><pre class="mcode-output">No. of evaluation points = 23945
-Evaluation time = 1.24s
+Evaluation time = 1.26s
 </pre><img src="img/FastChebyshevLegendreTransform_03.png" class="figure" alt="">
 
 
@@ -97,7 +97,7 @@ P = spdiags([(1:N-2) 1 1]',0,N,N);             % preconditioner
 c_leg = ( (P*A) \ (P*b) );                     % solve
 toc</pre><pre class="mcode-output">N =
        31709
-Elapsed time is 4.301824 seconds.
+Elapsed time is 3.783517 seconds.
 </pre>We can now form a chebfun from solution using `leg2cheb`:
 
 <pre class="mcode-input">tic
@@ -107,7 +107,7 @@ toc
 
 clf, plot(u{-0.001,0.001}) % plot u on [-0.001, 0.001]
 title('Computed solution (zoomed in)', FS, fs)
-set(gca, FS, fs), xlabel('x', FS, fs), shg</pre><pre class="mcode-output">Elapsed time is 0.910657 seconds.
+set(gca, FS, fs), xlabel('x', FS, fs), shg</pre><pre class="mcode-output">Elapsed time is 1.124345 seconds.
 </pre><img src="img/FastChebyshevLegendreTransform_04.png" class="figure" alt="">
 
 Here is the error between the computed and the true solutions:

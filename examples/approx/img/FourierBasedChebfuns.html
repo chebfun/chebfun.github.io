@@ -11,10 +11,10 @@ One of the new features of Chebfun version 5 is the ability to create chebfuns o
 
 ## Construction and comparison
 
-Fourier-based chebfuns, or "trigfuns" as we like to refer to them, can be created with the use of the `'periodic'` flag in the chebfun constructor. For, example, the function $f(x) = \cos(8\sin(x))$ for $-\pi \leq x \leq \pi$ can be constructed as follows:
+Fourier-based chebfuns, or "trigfuns" as we like to refer to them, can be created with the use of the `'trig'` flag in the chebfun constructor. For, example, the function $f(x) = \cos(8\sin(x))$ for $-\pi \leq x \leq \pi$ can be constructed as follows:
 
 <pre class="mcode-input">dom = [-pi,pi];
-f = chebfun(@(x) cos(8*sin(x)),dom,'periodic')
+f = chebfun(@(x) cos(8*sin(x)),dom,'trig')
 plot(f,LW,lw);</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values trig
@@ -42,7 +42,7 @@ theoretical =
    1.570796326794897
 </pre>Trying to construct a trigfun from a non-periodic or non-smooth function will typically result in a warning being issued and an "unhappy" trigfun, as illustrated for the unit step function below:
 
-<pre class="mcode-input">f = chebfun(@(x) 0.5*(1+sign(x)),dom,'periodic')
+<pre class="mcode-input">f = chebfun(@(x) 0.5*(1+sign(x)),dom,'trig')
 plot(f,LW,lw);</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried a non-trig
 representation? 
 f =
@@ -70,7 +70,7 @@ Many Chebfun operations can also be applied directly to a trigfun. Some of these
 
 Addition, subtraction, multiplication, division, and function composition can all be directly applied to a trigfun.  However one should be aware that operation should result in a smooth and periodic function. The following example illustrates some of these operations:
 
-<pre class="mcode-input">g = chebfun(@(x) sin(x),dom,'periodic');
+<pre class="mcode-input">g = chebfun(@(x) sin(x),dom,'trig');
 f = tanh(cos(1+2*g).^2)-0.5
 plot(f, LW, lw)</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
@@ -116,7 +116,7 @@ and the definite integral is computed using `sum`:
 </pre>Complex-valued trigfuns are also possible. For example:
 
 <pre class="mcode-input">f = chebfun(@(x) 1i*(13*cos(x)-5*cos(2*x)-2*cos(3*x)-cos(4*x)) + ...
-                 16*sin(x).^3, dom, 'periodic')
+                 16*sin(x).^3, dom, 'trig')
 plot(f, LW, lw), axis equal</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values trig
@@ -138,7 +138,7 @@ The area enclosed by this curve can be computed as
 n = 201;
 x = trigpts(n);
 func_vals = exp(sin(2*pi*x)) + 0.05*randn(n,1);
-f = chebfun(func_vals,dom,'periodic')</pre><pre class="mcode-output">f =
+f = chebfun(func_vals,dom,'trig')</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length   endpoint values trig
 [    -3.1,     3.1]      201         1        1 
@@ -146,7 +146,7 @@ Epslevel = 1.599777e-15.  Vscale = 2.775945e+00.
 </pre>Here $f$ interpolates the noisy `func_vals` at 201 equally spaced points from $[-\pi,\pi)$ using the Fourier basis. The high frequencies in this function can be smoothed by convolving it with a mollifier, in this case a (normalized) Gaussian with variance 0.1.
 
 <pre class="mcode-input">sigma = 0.1;
-g = chebfun(@(x) 1/(sigma*sqrt(2*pi))*exp(-0.5*(x/sigma).^2),dom,'periodic');</pre>Note that the resulting respresentation of $g$ is actually the periodic extension of the Gaussian over $[-\pi,\pi]$.  The convolution of $f$ and $g$ is computed and visualized using
+g = chebfun(@(x) 1/(sigma*sqrt(2*pi))*exp(-0.5*(x/sigma).^2),dom,'trig');</pre>Note that the resulting respresentation of $g$ is actually the periodic extension of the Gaussian over $[-\pi,\pi]$.  The convolution of $f$ and $g$ is computed and visualized using
 
 <pre class="mcode-input">h = circconv(f,g);
 plot(g,'b',LW,lw), hold on

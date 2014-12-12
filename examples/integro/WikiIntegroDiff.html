@@ -73,7 +73,7 @@ N = chebop(d);</pre>
 <p>The problem has a single Dirichlet boundary condition at $x=0$.</p>
 <pre class="mcode-input">N.lbc = 0;</pre>
 
-<p>Define the operator using Chebfun's overloaded DIFF and CUMSUM commands.</p>
+<p>Define the operator using Chebfun's overloaded <code>diff</code> and <code>cumsum</code> commands.</p>
 <pre class="mcode-input">N.op = @(u) diff(u) + 2*u + 5*cumsum(u);</pre>
 
 <p>Set the right-hand side of the integro-differential equation.</p>

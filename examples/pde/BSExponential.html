@@ -62,12 +62,6 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <p>The Black-Scholes partial differential equation is the foundation of much of modern finance. Suppose you have a European-style call option (right to buy) for a certain stock, to be exercised at a time $T$ in the future. Then, as a function of the stock price $s$, the value $v(t,s)$ of the option is governed by $$ v_t = -\frac{\sigma^2}{2}s^2v_{ss} -rsv_s + rv, \quad s&gt;0, \quad t &gt; 0, $$ subject to $$ v(0, T) = 0, \quad v(t, s)\rightarrow s \text{ as } s\rightarrow \infty. $$</p>
-<pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ v(0, T) = 0, \quad v(t, s)\rightarrow s \text{ as } s\rightarrow \infty. $$
-</pre>
-
 <p>It's much more convenient for us to work on a finite domain, so we will truncate and replace the asymptotic condition with a Neumann condition.</p>
 <pre class="mcode-input">d = [0 500];
 s = chebfun('s', d);
