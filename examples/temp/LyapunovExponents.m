@@ -9,8 +9,8 @@
 % Lyapunov exponents are characteristic quantities of dynamical systems.
 % For a continuous-time dynamical system, the maximal Lyapunov exponent
 % is defined as follows.
-% Consider a trajectory $\mathbf{x}(t)$ in phase space and a nearby
-% trajectory $\mathbf{x}(t) + \delta(t)$, where $\delta(t)$ is a
+% Consider a trajectory $\mathbf{x}(t)$, $t\geq0$ in phase space and a
+% nearby trajectory $\mathbf{x}(t) + \delta(t)$, where $\delta(t)$ is a
 % vector of very small initial length (perhaps $10^{-9}$). As the system
 % evolves, track how $\delta(t)$ changes. The *maximal Lyapunov exponent*
 % of the system is the number $\lambda$ such that
@@ -25,8 +25,8 @@
 % exponent is responsible for the dominant behavior of a system.
 
 %%
-% Negative Lyapunov exponents are associated with dissipative systems,
-% Lyapunov exponents equal to zero are associated with conservative systems,
+% Negative Lyapunov exponents are associated with dissipative systems;
+% Lyapunov exponents equal to zero are associated with conservative systems;
 % and positive Lyapunov exponents are associated with chaotic systems
 % (provided the system has an attractor).
 
@@ -98,3 +98,6 @@ legend('dist(x_1, x_2)', sprintf('exp(%1.2f x)', slope), ...
 %
 % 1. Strogatz, Steven H. _Nonlinear dynamics and chaos: with applications to
 %    physics, biology and chemistry._ Perseus publishing, 2001.
+%
+% 2. Seydel, Rüdiger. Practical bifurcation and stability analysis. New York:
+%    Springer, 2010.

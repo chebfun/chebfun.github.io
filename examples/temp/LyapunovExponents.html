@@ -61,9 +61,9 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>Lyapunov exponents are characteristic quantities of dynamical systems. For a continuous-time dynamical system, the maximal Lyapunov exponent is defined as follows. Consider a trajectory $\mathbf{x}(t)$ in phase space and a nearby trajectory $\mathbf{x}(t) + \delta(t)$, where $\delta(t)$ is a vector of very small initial length (perhaps $10^{-9}$). As the system evolves, track how $\delta(t)$ changes. The <em>maximal Lyapunov exponent</em> of the system is the number $\lambda$ such that $$ \| \delta(t) \| \approx \| \delta(0) \| e^{\lambda t} $$ if it exists.</p>
+<p>Lyapunov exponents are characteristic quantities of dynamical systems. For a continuous-time dynamical system, the maximal Lyapunov exponent is defined as follows. Consider a trajectory $\mathbf{x}(t)$, $t\geq0$ in phase space and a nearby trajectory $\mathbf{x}(t) + \delta(t)$, where $\delta(t)$ is a vector of very small initial length (perhaps $10^{-9}$). As the system evolves, track how $\delta(t)$ changes. The <em>maximal Lyapunov exponent</em> of the system is the number $\lambda$ such that $$ \| \delta(t) \| \approx \| \delta(0) \| e^{\lambda t} $$ if it exists.</p>
 <p>The reason we've used the word "maximal" is that dynamical systems don't just have a single Lyapunov exponent. Rather, every dynamical system has a spectrum of Lyapunov exponents, with one for each dimension of its phase space. Like the largest eigenvalue of a matrix, the largest Lyapunov exponent is responsible for the dominant behavior of a system.</p>
-<p>Negative Lyapunov exponents are associated with dissipative systems, Lyapunov exponents equal to zero are associated with conservative systems, and positive Lyapunov exponents are associated with chaotic systems (provided the system has an attractor).</p>
+<p>Negative Lyapunov exponents are associated with dissipative systems; Lyapunov exponents equal to zero are associated with conservative systems; and positive Lyapunov exponents are associated with chaotic systems (provided the system has an attractor).</p>
 <p>Let's estimate the maximal Lyapunov exponent of the Lorenz system, which is known to be chaotic. We will solve for two nearby trajectories on a reasonably large time interval, say $t\in[0,30]$. Here are the equations governing the system:</p>
 <pre class="mcode-input">dom = [0,30];
 N = chebop(@(t,x,y,z) [ diff(x) - 10*(y - x);
@@ -106,7 +106,12 @@ legend('dist(x_1, x_2)', sprintf('exp(%1.2f x)', slope), ...
 <p>This approximation isn't bad at all -- the maximal Lyapunov exponent for the Lorenz system is known to be about $0.906$. To calculate it accurately we could average over many trajectories.</p>
 <h3 id="references">References</h3>
 <ol>
-<li>Strogatz, Steven H. <em>Nonlinear dynamics and chaos: with applications to    physics, biology and chemistry.</em> Perseus publishing, 2001.</li>
+<li>
+<p>Strogatz, Steven H. <em>Nonlinear dynamics and chaos: with applications to    physics, biology and chemistry.</em> Perseus publishing, 2001.</p>
+</li>
+<li>
+<p>Seydel, R&Atilde;&frac14;diger. Practical bifurcation and stability analysis. New York:    Springer, 2010.</p>
+</li>
 </ol></div>
         </div>
     </div>
