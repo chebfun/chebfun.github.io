@@ -172,6 +172,7 @@ temp/FourierCollocationNonLin.m
 temp/FourierEigs.m
 temp/FourierExpm.m
 temp/Galleries.m
+temp/LyapunovExponents.m
 temp/NearestOrthFun.m
 temp/PeriodicSystem.m
 temp/ThreePlanets.m
