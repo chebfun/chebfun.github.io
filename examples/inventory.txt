@@ -147,6 +147,7 @@ roots/FundamentalTheoremOfAlgebra.m
 roots/MarchingSquares.m
 roots/NewtonRaphson.m
 roots/RandomPolynomials.m
+roots/RandomPolys.m
 roots/ResultantMethod.m
 roots/RootsNearAxis.m
 roots/RootsSpeed.m

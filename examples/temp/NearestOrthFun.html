@@ -61,15 +61,16 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<pre class="mcode-input">function nearestOrthFun()</pre>
+<pre class="mcode-input">function NearestOrthFun()</pre>
 
-<p>Suppose $A$ is a given $m \times n$ matrix. The problem of finding the orthonormal matrix $Q$ nearest to $A$ is well-known [4] (By an orthonormal matrix, we mean a matrix with orthonormal columns.). Specifically, it is the following problem:    $$ \mbox{argmin}_U ||A-U||_\mbox{fro} \quad\mbox{subject to}\quad U^T U = I. $$ This problem is a special case of the orthogonal Procrustes problem [3, p. 327]. There are different ways to find the unique solution to this problem. One way that expresses $Q$ explicitly requires finding a matrix inverse square root [5] as follows:</p>
+<h3 id="introduction">Introduction</h3>
+<p>Suppose $A$ is a given $m \times n$ matrix. The problem of finding the orthonormal matrix $Q$ nearest to $A$ is well-known [4] (by an orthonormal matrix, we mean a matrix with orthonormal columns). Specifically, it is the following problem:    $$ \mbox{argmin}_U ||A-U||_\mbox{fro} \quad\mbox{subject to}\quad U^T U = I. $$ This problem is a special case of the orthogonal Procrustes problem [3, p. 327]. There are different ways to find the unique solution to this problem. One way that expresses $Q$ explicitly requires finding a matrix inverse square root [5] as follows:</p>
 <p>$$ Q = A(A^T A)^{-1/2}. $$</p>
-<p>However, the simplest (and possibly a numerically more stable) way is to compute the singular value decomposition of $A$ and to replace the singular values with ones. In other words, if $A = U S V^T$, then $Q = U V^T$ is the nearest orthonormal matrix to $A$. This is actually the unitary factor in the polar decomposition of $A$ [4].</p>
-<p>Our goal is to generalize this situation to the continuous case. Suppose that a set of functions defined on a domain are given. We know how to use Chebfun's <code>qr</code> command to compute orthogonal functions (stored as the columns of a qusimatrix <code>Q2</code>) corresponding to our given functions. See e.g. [2, Ch. 6] for more details. Here, we are looking for the nearest set of orthonormal functions. In Chebfun this is also straightforward. We just need to create a quasimatrix out of our given set of functions and use Chebfun's overloaded <code>svd</code> command [1]. The function <code>[Q,Q2] = ortho(A)</code> in the following computes both <code>Q</code> and <code>Q2</code>.</p>
+<p>However, the simplest (and possibly a numerically more stable) way is to compute the singular value decomposition of $A$ and to replace the singular values by ones. In other words, if $A = U S V^T$, then $Q = U V^T$ is the nearest orthonormal matrix to $A$. This is actually the unitary factor in the polar decomposition of $A$ [4].</p>
+<p>Our goal is to generalize this situation to the continuous case. Suppose that a set of functions defined on a domain are given. We know how to use Chebfun's <code>qr</code> command to compute orthogonal functions (stored as the columns of a qusimatrix <code>Q2</code>) corresponding to our given functions. See e.g. [2, Ch. 6] for details. Here, we are looking for the nearest set of orthonormal functions. In Chebfun this is also straightforward. We just need to create a quasimatrix out of our given set of functions and use Chebfun's overloaded <code>svd</code> command [1]. The function <code>[Q,Q2] = nearestOrtho(A)</code> in the following computes both <code>Q</code> and <code>Q2</code>.</p>
 <h3 id="the-first-six-monomials">The first six monomials</h3>
-<pre class="mcode-input">A = cheb.gallery('vandermonde'); %A = [1, x, x.^2, x.^3, x.^4, x.^5];
-[Q,Q2] = ortho(A);</pre>
+<pre class="mcode-input">A = cheb.gallery('vandermonde'); % A = [1, x, x.^2, x.^3, x.^4, x.^5];
+[Q,Q2] = nearestOrtho(A);</pre>
 
 <pre class="mcode-output">Departure from orthogonality in the columns of A = 1.35
 Departure from orthogonality in the columns of Q = 2.1e-15
@@ -83,7 +84,7 @@ The distance between A and its closest orthonormal quasimatrix = 1.69
 <h3 id="chebyshev-vandermonde-quasimatrix-on-the-interval-0-1">Chebyshev-Vandermonde quasimatrix on the interval [0, 1]</h3>
 <pre class="mcode-input">A = cheb.gallery('vandercheb');
 A = restrict(A,[0,1]);
-[Q,Q2] = ortho(A);</pre>
+[Q,Q2] = nearestOrtho(A);</pre>
 
 <pre class="mcode-output">Departure from orthogonality in the columns of A = 1.00
 Departure from orthogonality in the columns of Q = 2.8e-15
@@ -93,9 +94,9 @@ The distance between A and its closest orthonormal quasimatrix = 1.62
 </pre>
 
 <p><img src="img/NearestOrthFun_02.png" class="figure" alt=""></p>
-<h3 id="another-example">Another example</h3>
+<h3 id="mixed-algebraic-and-trigonometric-example">Mixed algebraic and trigonometric example</h3>
 <pre class="mcode-input">x = chebfun('x'); A = [1, cos(x), sin(x.^2), x.^3, x.^4, x.^5];
-[Q,Q2] = ortho(A);</pre>
+[Q,Q2] = nearestOrtho(A);</pre>
 
 <pre class="mcode-output">Departure from orthogonality in the columns of A = 2.69
 Departure from orthogonality in the columns of Q = 5.1e-15
@@ -105,9 +106,9 @@ The distance between A and its closest orthonormal quasimatrix = 1.95
 </pre>
 
 <p><img src="img/NearestOrthFun_03.png" class="figure" alt=""></p>
-<h3 id="non-smooth-functions-on-the-interval-0-10">Non-smooth functions on the interval [0, 10]</h3>
+<h3 id="non-smooth-functions-on-the-interval-010">Non-smooth functions on the interval [0,10]</h3>
 <pre class="mcode-input">A = [cheb.gallery('stegosaurus'), cheb.gallery('wiggly'), cheb.gallery('blasius')];
-[Q,Q2] = ortho(A);</pre>
+[Q,Q2] = nearestOrtho(A);</pre>
 
 <pre class="mcode-output">Departure from orthogonality in the columns of A = 194.38
 Departure from orthogonality in the columns of Q = 1.4e-15
@@ -117,7 +118,7 @@ The distance between A and its closest orthonormal quasimatrix = 13.23
 </pre>
 
 <p><img src="img/NearestOrthFun_04.png" class="figure" alt=""></p>
-<pre class="mcode-input">function [Q,Q2] = ortho(A)
+<pre class="mcode-input">function [Q,Q2] = nearestOrtho(A)
 [U,S,V] = svd(A);
 Q = U*V'; % nearest quasimatrix to A with orthonormal columns
 
@@ -143,19 +144,19 @@ end</pre>
 <h3 id="references">References</h3>
 <ol>
 <li>
-<p>Z. Battles, L.N. Trefethen, An extension of MATLAB to continuous    functions and operators, SIAM J. Scientific Computing 25 (2004)    1743-1770.</p>
+<p>Z. Battles, and L.N. Trefethen, An extension of MATLAB to continuous    functions and operators, <em>SIAM J. Scientific Computing</em> 25 (2004)    1743-1770.</p>
 </li>
 <li>
 <p>T.A. Driscoll, N. Hale, and L.N. Trefethen, editors, <em>Chebfun Guide</em>,    Pafnuty Publications, Oxford, 2014.</p>
 </li>
 <li>
-<p>G.H. Golub, C.F. Van Loan, Matrix Computations, 4th edition, The Johns    Hopkins University Press, 2013.</p>
+<p>G.H. Golub, C.F. Van Loan, <em>Matrix Computations</em>, 4th edition, The Johns    Hopkins University Press, 2013.</p>
 </li>
 <li>
 <p>N.J. Higham, Matrix nearness problems and applications, pp. 1-27, in    Applications of Matrix Theory, Inst. Math. Appl. Conf. Ser. New Ser.,    Vol. 22, Oxford Univ. Press, New York, 1989.</p>
 </li>
 <li>
-<p>B.K.P. Horn, H.M. Hilden, S. Negahdaripour, Closed-form solution of    absolute orientation using orthonormal matrices, Journal of the Optical    Society A, 5 (1988) 1127-1135.</p>
+<p>B.K.P. Horn, H.M. Hilden, S. Negahdaripour, Closed-form solution of    absolute orientation using orthonormal matrices, <em>Journal of the Optical    Society A</em>, 5 (1988) 1127-1135.</p>
 </li>
 </ol>
 <pre class="mcode-input">end</pre></div>
