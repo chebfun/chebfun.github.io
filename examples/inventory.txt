@@ -16,6 +16,7 @@ approx/GreedyInterp.m
 approx/Halphen.m
 approx/LebesgueConst.m
 approx/Local.m
+approx/NearestOrthFun.m
 approx/NoisyNonsmooth.m
 approx/OrthPolys.m
 approx/OscError.m
@@ -117,6 +118,7 @@ ode-nonlin/FourierCollocationNonLin.m
 ode-nonlin/Logistic.m
 ode-nonlin/Logistic2.m
 ode-nonlin/LorenzAttractor.m
+ode-nonlin/LyapunovExponents.m
 ode-nonlin/ModellingDiseases.m
 ode-nonlin/Orbits.m
 ode-nonlin/ThreePlanets.m
@@ -154,6 +156,7 @@ roots/RootsSpeed.m
 roots/SecularRoots.m
 roots/Tiger.m
 roots/WhiteCurves.m
+stats/BayesianGradebook.m
 stats/BivariateNormalDistribution.m
 stats/CentralLimitTheorem.m
 stats/Expectations.m
