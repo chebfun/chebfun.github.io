@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chebfun's new IVP capabilities &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Chebfun's new IVP capabilities</h1>
+<h2>Asgeir Birkisson, February 2015<span><a href='/examples/ode-nonlin/IVPCapabilities.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-nonlin/IVPCapabilities.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>With the release of Chebfun v5.1 in December 2014, the IVP capabilities of Chebfun greatly improved. Here, we explore some of the new functionality.</p>
+<h3 id="chebfuns-new-ivp-solver">Chebfun's new IVP solver</h3>
+<p>Previously, Chebfun solved both initial value problems (IVPs) and boundary value problems (BVPs) globally with spectral methods. While spectral methods are often very effective for for BVPs, and also for linear IVPs, they are usually not very good for nonlinear IVPs, and indeed the Newton iteration often does not converge. The trouble is that global methods do not make use of the special structure of IVPs, which is that all information passes in one direction over the time interval, from the initial time $t=0$ to the final time $t=T$.</p>
+<p>The standard way to take advantage of this local structure of IVPs is to use time-stepping methods such as Runge-Kutta and Adams-Bashforth formulas. The MATLAB codes <code>ode45</code> and <code>ode113</code> are based on such formulas. Unfortunately, these codes require the user to rewrite a second- or higher-order ODE in first-order form.  This can be a time-consuming and error-prone task, and moreover, it is inconsistent with Chebfun's more convenient syntax for BVPs.</p>
+<p>Thanks to the recent Chebfun developments, discussed in [1], the chebop class is now capable of solving IVPs using time-stepping methods, while retaining the attractive chebop syntax and still returning the solutions as chebfuns. The solutions are now, by default, computed by <code>ode113</code> and then converted to chebfuns.</p>
+<h3 id="van-der-pol-oscillator">Van der Pol oscillator</h3>
+<p>A widely studied nonlinear IVP is the van der Pol oscillator, an oscillator with nonlinear damping [2]. Solutions evolves in time according to the ODE</p>
+<p>$$ u'' - \mu(1-u^2)u' + u = 0, $$</p>
+<p>where $\mu$ is a scalar parameter that governs the nonlinearity and strength of the damping.</p>
+<p>To solve this ODE with $\mu = 5$ for $t \in [0,50]$ with initial conditions $u(0) = 0.1, \, u'(0) = 0$, we proceed as follows. Note that the initial conditions are imposed via <code>N.lbc</code> field rather than <code>N.bc</code> as is common for BVPs.</p>
+<pre class="mcode-input">mu = 5;
+N = chebop(@(t, u) diff(u, 2) - mu*(1-u.^2).*diff(u) + u, [0 50]);
+N.lbc = @(u) [u-0.1; diff(u)];
+tic, u = N\0; toc</pre>
+
+<pre class="mcode-output">Elapsed time is 2.878833 seconds.
+</pre>
+
+<p>The output from an IVP solution is, of course, a chebfun. Unless the solution is quite simple, this will usually be a chebfun consisting of several pieces, i.e., several funs. We can see the pieces by plotting the solution with dots at the breakpoints:</p>
+<pre class="mcode-input">breaks = u.domain(2:end-1);
+LW = 'linewidth';
+plot(u,LW,1.2), hold on
+plot(breaks, u(breaks), 'k.', 'markersize', 14)
+hold off
+title('Van der Pol oscillator, with Chebfun breakpoints marked by dots')</pre>
+
+<p><img src="img/IVPCapabilities_01.png" class="figure" alt=""></p>
+<p>For a phase portrait, we plot $u'$ against $u$, revealing the limit cycle of the oscillator:</p>
+<pre class="mcode-input">plot(u, diff(u), 'm', LW, 1.2)
+title('Phase plane and limit cycle')</pre>
+
+<p><img src="img/IVPCapabilities_02.png" class="figure" alt=""></p>
+<p>If we solve the ODE again but now with a nonzero forcing function on the right, we see a solution lying near the limit cycle but not on it:</p>
+<pre class="mcode-input">t = chebfun(@(t) t, [0 50]);
+f = 5*sin(5*t);
+uForced = N\f;
+plot(uForced, diff(uForced), 'm', LW, 1.2)
+title('Van der Pol oscillator with a nonzero forcing function')</pre>
+
+<p><img src="img/IVPCapabilities_03.png" class="figure" alt=""></p>
+<h3 id="solving-ivps-globally">Solving IVPs globally</h3>
+<p>It is still possible to solve IVPs via global methods rather than time-stepping in Chebfun, if one wishes to do so, and for linear problems, this may often be advantageous.  For the nonlinear Van der Pol problem above, the Newton iteration will not converge, but it converges if we decrease $\mu$ and $T$:</p>
+<pre class="mcode-input">mu = 1;
+N = chebop(@(t, u) diff(u, 2) - mu*(1-u.^2).*diff(u) + u, [0 4]);
+N.lbc = @(u) [u-2; diff(u)];</pre>
+
+<p>Now, before solving, we set the preference for the IVP solver to be collocation rather <code>ode113</code> (see help cheboppref for details):</p>
+<pre class="mcode-input">cheboppref.setDefaults('ivpSolver', 'collocation')
+tic, u = N\0; toc
+plot(u, LW, 1.2)
+cheboppref.setDefaults('factory');</pre>
+
+<pre class="mcode-output">Elapsed time is 3.023760 seconds.
+</pre>
+
+<p><img src="img/IVPCapabilities_04.png" class="figure" alt=""></p>
+<p>This solution took as long as the previous one despite being a much simpler problem (it requires 8 Newton steps). It really can be beneficial to make use of the special structure of IVPs!</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>A. Birkisson, Automatic reformulation of higher order ODEs to first order    form, in preparation.</p>
+</li>
+<li>
+<p><a href="http://en.wikipedia.org/wiki/Van_der_Pol_oscillator">http://en.wikipedia.org/wiki/Van_der_Pol_oscillator</a></p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

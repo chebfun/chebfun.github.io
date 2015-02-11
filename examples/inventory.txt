@@ -115,6 +115,7 @@ ode-nonlin/BVPSystem.m
 ode-nonlin/Carrier.m
 ode-nonlin/ExactSolns.m
 ode-nonlin/FourierCollocationNonLin.m
+ode-nonlin/IVPCapabilities.m
 ode-nonlin/Logistic.m
 ode-nonlin/Logistic2.m
 ode-nonlin/LorenzAttractor.m
