@@ -80,6 +80,7 @@ linalg/NonnormalQuiz.m
 linalg/ResolventNorm.m
 linalg/SOR.m
 linalg/TransientGrowth.m
+ode-eig/ContourProjEig.m
 ode-eig/DoubleWell.m
 ode-eig/Drum.m
 ode-eig/Eigenstates.m
@@ -92,6 +93,7 @@ ode-eig/ThermoelasticRod.m
 ode-eig/WaveDecay.m
 ode-linear/AdvDiffJump.m
 ode-linear/BoundaryLayer.m
+ode-linear/ContourExpm.m
 ode-linear/DawsonIntegral.m
 ode-linear/DynamicalSystems.m
 ode-linear/Floquet.m

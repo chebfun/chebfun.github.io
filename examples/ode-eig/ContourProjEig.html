@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eigenvalues of Differential Operators by Contour Integral Projection &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Eigenvalues of Differential Operators by Contour Integral Projection</h1>
+<h2>Anthony Austin, May 2013<span><a href='/examples/ode-eig/ContourProjEig.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-eig/ContourProjEig.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>In many applications, one is confronted with the task of computing all of the eigenvalues of a large matrix which lie in a specified region of the complex plane.  A recently developed class of algorithms for approaching this problem works by projecting the matrix down onto the given region, giving an eigenvalue problem of much smaller dimension.  Of these algorithms, perhaps the best known is the FEAST algorithm due to Polizzi [3].  In this example, we will use Chebfun's powerful ODE capabilities to explore the application of a FEAST-like algorithm to the computation of eigenvalues of differential operators rather than matrices.</p>
+<h3 id="the-base-algorithm">The Base Algorithm</h3>
+<p>Let us first give a brief description of how these methods work.  For simplicity, let $A$ be a Hermitian matrix, and suppose we are interested in computing all of the eigenvalues of $A$ in a given real interval.  The basic idea is the following.  Suppose we were able to create a matrix $W$ whose columns form a basis for the eigenspace of $A$ corresponding to the eigenvalues of $A$ in the search interval.  If we had such an object, we could use a Rayleigh-Ritz procedure [4] to compute the desired eigenvalues and eigenvectors.  Indeed, a generalized eigenvalue $\mu$ and corresponding eigenvector $u$ of the pencil $(W^<em>AW, W^</em>W)$ correspond to an ordinary eigenvalue $\lambda$ and eigenvector $v$ of $A$ by $\lambda = \mu$ and $u = Wv$.</p>
+<p>The problem is therefore reduced to computing a basis for the eigenspace of interest.  This can be accomplished by first generating a set of $M$ random vectors, where $M$ is the number of eigenvalues of $A$ in the search interval.  Gather these as columns into a matrix $Y$.  We then project them onto this eigenspace by using a quadrature rule to discretize the contour integral identity [1, 2]</p>
+<p>$$ W = PY = \int_\gamma (zI - A)^{-1}Y \: dz $$</p>
+<p>where $\gamma$ is a simple piecewise smooth curve that encloses the eigenvalues inside our search interval and $P$ is the orthogonal projector onto the eigenspace of $A$ corresponding to these eigenvalues.  Here, an appropriate choice for $\gamma$ would be a circle centered on the interval of interest.  Unless we are very unlucky and the vectors in $Y$ turn out to be orthogonal to this subspace, the projected vectors will indeed form the basis we seek.</p>
+<p>Computing $PY$ requires solving $M$ linear systems at each quadrature node. Computing the eigenvectors and eigenvalues of $A$ then requires solving an $M \times M$ generalized eigenvalue problem.  Assuming that $M$ is much smaller than the dimension of $A$ (i.e., $A$ has relatively few eigenvalues in the search interval for its size), the computational savings by approaching the problem this way can be quite substantial!</p>
+<h3 id="a-continuous-analogue">A Continuous Analogue</h3>
+<p>We now consider, as we often do in Chebfun, what this algorithm looks like in the continuous case, replacing vectors by functions and the finite-dimensional matrix $A$ by an infinite-dimensional linear operator $L$. To be concrete, let us take $L$ to be the differential operator</p>
+<p>$$ L = -\frac{d^2}{dx^2} $$</p>
+<p>on $[0, \pi]$ with zero Dirichlet boundary conditions.  To represent this operator in Chebfun, we use a chebop object:</p>
+<pre class="mcode-input">L = chebop(0, pi);
+L.op = @(x, u) -diff(u, 2);
+L.lbc = 0;
+L.rbc = 0;
+L</pre>
+
+<pre class="mcode-output">L =
+   Linear operator:
+      -diff(u,2) = 0
+   operating on chebfun objects defined on:
+      [0 3.14159]
+   with
+    left boundary conditions:
+      u-BC = 0
+    right boundary conditions:
+      u-BC = 0
+</pre>
+
+<p>We will attempt to use the algorithm described above to compute the eigenvalues of $L$ inside the interval $[0, 10]$.  In this case, we know that the eigenvalues are given in closed form by $\lambda_n = n^2, n = 1, 2, \ldots$ with corresponding eigenfunctions $f_n(x) = \sin(nx)$.  Thus, there are three eigenvalues in $[0, 10]$, so we take $M = 3$.</p>
+<p>The first thing the algorithm calls for are $M$ random vectors.  The analogous objects to generate in the continuous case are $M$ arbitrary functions.   We generate these by building chebfuns from random data at a handful of Chebyshev points on $[0 \pi]$, gathering them as columns into a quasimatrix.  For later comparison, we start a timer as well so we can see how long it takes the algorithm to run.</p>
+<pre class="mcode-input">LW = 'LineWidth'; lw = 2; FS = 'FontSize'; fs = 14;
+
+tic
+
+rng(67714070);  % Seed the RNG for reproducibility.
+Y = chebfun(2*randn(32, 3), [0 pi]);
+plot(Y, LW, lw)
+title('Three arbitrary functions', FS, fs)
+xlim([0 pi])</pre>
+
+<p><img src="img/ContourProjEig_01.png" class="figure" alt=""></p>
+<p>Next, we must project these arbitrary functions onto the eigenspace spanned by the eigenfunctions of $A$ corresponding to the eigenvalues within our search interval of $[0, 10]$.  It turns out that the contour integral relationship from above still applies in an appropriate sense in the continuous setting, so we do the projection by discretizing it just as before.  The key difference is that instead of solving <em>linear systems</em> at each quadrature node, we must solve <em>differential equations</em> instead.</p>
+<p>For our contour, we choose a circle centered at $5$ with radius $5$ so that it encloses all of $[0, 10]$.  For the discretization, we use the 8-point midpoint rule, i.e., the 8-point trapezoid rule with the quadrature nodes rotated through an angle of $\pi/8$ to make them symmetric with respect to the real axis.  Since $L$ is self-adjoint and "real", we can exploit this symmetry to cut the total number of boundary value problems we need to solve in half.  We compute the quadrature nodes and weights:</p>
+<pre class="mcode-input">K = 8;
+omega_k = exp(2*pi*1i*(0:1:(K-1)).'/K + 1i*pi/K);
+zk = 5*omega_k + 5;
+wk = omega_k/5;</pre>
+
+<p>Now we simply loop through the quadrature nodes, solving the BVPs and adding up the contributions to the integral as we go:</p>
+<pre class="mcode-input">W = chebfun(zeros(2, 3), [0 pi]);
+for (k = 1:1:K/2)
+    Ls = chebop(0, pi);
+    Ls.op = @(x, u) zk(k)*u + diff(u, 2);
+    Ls.lbc = 0;
+    Ls.rbc = 0;
+
+    for (j = 1:1:size(Y, 2))
+        W(:, j) = W(:, j) + 2*5*real(wk(k)*(Ls \ Y(:, j)));
+    end
+end
+W = real(W / K);  % Take real part to discard imaginary rounding errors.</pre>
+
+<p>Finally, we set up and solve the generalized eigenvalue problem obtained via the Rayleigh-Ritz procedure described above.  Observe that we have obtained quite a reduction in size here:  this problem is of size 3-by-3, while L is infinite-dimensional!  Note also that the inner products involved here are between <em>functions</em> instead of vectors:</p>
+<pre class="mcode-input">[V, D] = eig(W'*(L*W), W'*W);</pre>
+
+<p>We're done!  The total amount of time taken was</p>
+<pre class="mcode-input">T = toc</pre>
+
+<pre class="mcode-output">T =
+   5.197291139000000
+</pre>
+
+<p>The eigenvalues of L are</p>
+<pre class="mcode-input">format long
+diag(D)</pre>
+
+<pre class="mcode-output">ans =
+   9.000022136839711
+   4.001071254848362
+   1.000904202687470
+</pre>
+
+<p>These are accurate to about 4-5 digits.  We can increase the accuracy by using more quadrature points; however, this comes at the cost of requiring the solution of more BVPs.  The corresponding ($L^2$-normalized) eigenfunctions are</p>
+<pre class="mcode-input">F = W*V;
+for (k = 1:1:size(F, 2))
+    F(:, k) = F(:, k) / norm(F(:, k));
+end
+
+plot(F, LW, lw)
+title('Eigenfunctions of L = -d^2/dx^2', FS, fs)
+xlim([0 pi])
+ylim([-1 1])</pre>
+
+<p><img src="img/ContourProjEig_02.png" class="figure" alt=""></p>
+<p>These are in excellent agreement with the known exact results from above.</p>
+<h3 id="comparison-with-eigs">Comparison with <code>eigs</code></h3>
+<p>Of course, one does not need to use this method to compute eigenvalues of differential operators in Chebfun.  A much easier way is available in the form of Chebfun's <code>eigs</code> function:</p>
+<pre class="mcode-input">tic
+eigs(L, 3)</pre>
+
+<pre class="mcode-output">ans =
+   1.000000000000424
+   4.000000000001219
+   9.000000000001151
+</pre>
+
+<p>These numbers are accurate to about 13 digits, which is excellent.  Moreover, the time taken was</p>
+<pre class="mcode-input">T = toc</pre>
+
+<pre class="mcode-output">T =
+   0.861498497000000
+</pre>
+
+<p>which is considerably less than that taken by the projection-based method we used above.  The projection-based method may therefore not be the most efficient method for computing eigenvalues of differential operators, but it is nonetheless interesting!</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>Chatelin, Francoise.  <em>Eigenvalues of Matrices</em> (Revised Edition).  SIAM,    2012.</p>
+</li>
+<li>
+<p>Kato, Tosio.  <em>Perturbation Theory for Linear Operators</em> (Second    Edition). New York:  Springer-Verlag, 1976.</p>
+</li>
+<li>
+<p>Polizzi, Eric.  Density-matrix-based algorithm for solving eigenvalue    problems.  <em>Physical Review B</em>, Vol. 79, No. 11, 2009.</p>
+</li>
+<li>
+<p>Stewart, G. W.  <em>Matrix Algorithms, Volume II:  Eigensystems</em>.  SIAM,    2001.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

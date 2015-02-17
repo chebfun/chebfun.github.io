@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Exponentials of Linear Operators via Contour Integration &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Exponentials of Linear Operators via Contour Integration</h1>
+<h2>Anthony Austin, May 2013<span><a href='/examples/ode-linear/ContourExpm.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-linear/ContourExpm.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">LW = 'LineWidth'; lw = 2; FS = 'FontSize'; fs = 14; MS = 'MarkerSize'; ms = 10;</pre>
+
+<p>In this example, we will illustrate how Chebfun can be used to compute the exponential of a linear operator using a complex contour integral.  To keep things concrete, we consider the heat equation $u_t = u_{xx}$ on $[0, \pi]$, subject to Dirichlet boundary conditions $u(0, t) = u(\pi, t) = 0$ for all $t$.  Let $u_0(x) = u(x, 0)$ be the initial condition.  If</p>
+<p>$$ L = \frac{d^2}{dx^2} $$</p>
+<p>is the second derivative operator with these boundary conditions, we can write this equation as $u_t = Lu$.  The solution at time $t$ is then given by $u(x, t) = e^{tL}u_0(x)$, so if we can compute $e^{tL}$ for any $t$, we have solved the problem.</p>
+<p>Chebfun already has an <code>expm</code> function that we can use to compute $e^{tL}$; this was considered for the exact same problem in the example [1].  Instead of using this, we will employ an approach based on the identity</p>
+<p>$$ e^{tL} = \frac{1}{2\pi i} \int_\gamma e^{tz} (zI - L)^{-1} \: dz, $$</p>
+<p>where $\gamma$ is a piecewise smooth contour in the complex plane that encloses all the eigenvalues of $L$ and $I$ is the identity operator. Specifically, we will discretize the integral for $e^{tL}u_0(x)$ using an appropriate quadrature rule.  At each quadrature node $z_k$, we solve the boundary value problem $(z_kI - L)u_k = u_0$ for a function $u_k$.  We can then combine all of these solutions, multiplying them by the quadrature weights, to get an approximation to the solution to the original problem at time $t$.</p>
+<p>From general theory, we know that the eigenvalues of our particular $L$ are $\lambda_n = -n^2, n = 1, 2, \ldots$.  Therefore, an appropriate choice for $\gamma$ is a Hankel contour, which wraps around the negative real axis, the two ends joining "at infinity".  There are many possible such contours; the one we shall employ is a particular Talbot contour (based on the cotangent function) whose parameters have been specially tuned so that the trapezoid rule converges very rapidly for integrals along it [3, 4].  The contour and corresponding quadrature nodes for a 32-point trapezoid rule, computed using code from Trefethen's gamma_talbot.m [2], are</p>
+<pre class="mcode-input">N = 32;                                        % Number of quadrature nodes
+th = (-N/2+.5:N/2-.5)*pi/(N/2);                % Trapezoid points in [-pi, pi]
+a = -.2407; b = .2387; c = .7409; d = .1349i;  % Weideman's special parameters
+zk = N*(a + b*th.*cot(c*th) + d*th);           % Quadrature nodes
+dzk = b*cot(c*th) - b*c*th./sin(c*th).^2 + d;  % N^(-1) times derivative
+
+gamma = chebfun(@(t) N*(a + b*t.*cot(c*t) + d*t), [-pi, pi]);
+plot(gamma, LW, lw)
+hold on
+plot(zk, 'rx', LW, lw, MS, ms)
+hold off
+grid on
+axis equal
+title('A Talbot contour', FS, fs)</pre>
+
+<p><img src="img/ContourExpm_01.png" class="figure" alt=""></p>
+<p>Let's use the following function for our initial data:</p>
+<pre class="mcode-input">u0 = chebfun(@(x) sign(x - 3*pi/8).*sign(-(x - 5*pi/8))/2 + 1/2, [0 pi], ...
+    'splitting', 'on');
+
+plot(u0, 'k', LW, lw)
+xlim([0 pi])
+ylim([-0.1, 1.1])
+title('Initial data', FS, fs)</pre>
+
+<p><img src="img/ContourExpm_02.png" class="figure" alt=""></p>
+<p>Now we just loop through the quadrature points, solving the systems and adding up the contributions from each node as we go.  We'll solve the system for four different final times:</p>
+<pre class="mcode-input">Tf = [0.01 0.1 0.5 1];
+uf = chebfun(zeros(2, length(Tf)), [0 pi]);
+for (m = 1:1:length(Tf))
+    for (k = 1:1:(N/2))
+        Ls = chebop(0, pi);
+        Ls.op = @(x, u) zk(k)*u - diff(u, 2);
+        Ls.lbc = 0;
+        Ls.rbc = 0;
+
+        uf(:, m) = uf(:, m) + exp(zk(k)*Tf(m))*(Ls \ u0)*dzk(k);
+    end
+end
+uf = 2*real(uf/1i);</pre>
+
+<p>Here are the results:</p>
+<pre class="mcode-input">plot(u0, 'k', LW, lw)
+hold on
+plot(uf, LW, lw)
+hold off
+xlim([0 pi])
+ylim([-0.1 1.1])
+legend('Initial Data', 'Tf = 0.01', 'Tf = 0.1', 'Tf = 0.5', 'Tf = 1');</pre>
+
+<p><img src="img/ContourExpm_03.png" class="figure" alt=""></p>
+<p>These solutions have all the right characteristics we would expect from this equation.  Note that the accuracy can be improved by increasing the number of quadrature nodes used at the cost of needing to solve more boundary-value problems.</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>Trefethen, L. N.  "Heat Equation via EXPM".    <a href="http://www2.maths.ox.ac.uk/chebfun/examples/pde/html/Erosion.shtml">http://www2.maths.ox.ac.uk/chebfun/examples/pde/html/Erosion.shtml</a></p>
+</li>
+<li>
+<p>Trefethen, L. N.  "Ten Digit Algorithms".    <a href="http://people.maths.ox.ac.uk/trefethen/tda.html">http://people.maths.ox.ac.uk/trefethen/tda.html</a></p>
+</li>
+<li>
+<p>Trefethen, L. N., Weideman, J. A. C., and Schmelzer, T.  Talbot    quadratures and rational approximations.  <em>BIT Num. Math.</em>, Vol. 46,    2006, pp. 653-670.</p>
+</li>
+<li>
+<p>Weideman, J. A. C.  Optimizing Talbot's contours for the inversion of the    Laplace transform.  SIAM J. Numer. Anal., Vol. 44, No. 6, 2006, pp.    2342-2362.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
