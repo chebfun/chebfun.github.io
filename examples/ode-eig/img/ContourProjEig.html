@@ -11,7 +11,7 @@ In many applications, one is confronted with the task of computing all of the ei
 
 ## The Base Algorithm
 
-Let us first give a brief description of how these methods work.  For simplicity, let $A$ be a Hermitian matrix, and suppose we are interested in computing all of the eigenvalues of $A$ in a given real interval.  The basic idea is the following.  Suppose we were able to create a matrix $W$ whose columns form a basis for the eigenspace of $A$ corresponding to the eigenvalues of $A$ in the search interval.  If we had such an object, we could use a Rayleigh-Ritz procedure [4] to compute the desired eigenvalues and eigenvectors.  Indeed, a generalized eigenvalue $\mu$ and corresponding eigenvector $u$ of the pencil $(W^*AW, W^*W)$ correspond to an ordinary eigenvalue $\lambda$ and eigenvector $v$ of $A$ by $\lambda = \mu$ and $u = Wv$.
+Let us first give a brief description of how these methods work.  For simplicity, let $A$ be a Hermitian matrix, and suppose we are interested in computing all of the eigenvalues of $A$ in a given real interval.  The basic idea is the following.  Suppose we were able to create a matrix $W$ whose columns form a basis for the eigenspace of $A$ corresponding to the eigenvalues of $A$ in the search interval.  If we had such an object, we could use a Rayleigh-Ritz procedure [4] to compute the desired eigenvalues and eigenvectors.  Indeed, a generalized eigenvalue $\mu$ and corresponding eigenvector $u$ of the pencil $(W^\*AW, W^\*W)$ correspond to an ordinary eigenvalue $\lambda$ and eigenvector $v$ of $A$ by $\lambda = \mu$ and $u = Wv$.
 
 The problem is therefore reduced to computing a basis for the eigenspace of interest.  This can be accomplished by first generating a set of $M$ random vectors, where $M$ is the number of eigenvalues of $A$ in the search interval.  Gather these as columns into a matrix $Y$.  We then project them onto this eigenspace by using a quadrature rule to discretize the contour integral identity [1, 2]
 
@@ -84,7 +84,7 @@ W = real(W / K);  % Take real part to discard imaginary rounding errors.</pre>Fi
 <pre class="mcode-input">[V, D] = eig(W'*(L*W), W'*W);</pre>We're done!  The total amount of time taken was
 
 <pre class="mcode-input">T = toc</pre><pre class="mcode-output">T =
-   5.197291139000000
+   5.241844803000000
 </pre>The eigenvalues of L are
 
 <pre class="mcode-input">format long
@@ -120,7 +120,7 @@ eigs(L, 3)</pre><pre class="mcode-output">ans =
 </pre>These numbers are accurate to about 13 digits, which is excellent.  Moreover, the time taken was
 
 <pre class="mcode-input">T = toc</pre><pre class="mcode-output">T =
-   0.861498497000000
+   0.867135049000000
 </pre>which is considerably less than that taken by the projection-based method we used above.  The projection-based method may therefore not be the most efficient method for computing eigenvalues of differential operators, but it is nonetheless interesting!
 
 

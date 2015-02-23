@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A nonlinear system of Guckenheimer and Holmes &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>A nonlinear system of Guckenheimer and Holmes</h1>
+<h2>Nick Trefethen, February 2015<span><a href='/examples/ode-nonlin/GuckenheimerHolmes.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-nonlin/GuckenheimerHolmes.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Here is a system of three nonlinear ODEs that has interesting behavior: with $0 &lt; b &lt; 1 &lt; c$, consider</p>
+<p>$$ u' = u(1-u^2-bv^2-cw^2), $$
+$$ v' = v(1-v^2-bw^2-cu^2), $$
+$$ w' = w(1-w^2-bu^2-cv^2). $$</p>
+<p>Notice that the three variables are all the same, treated cyclically.  The system has a fixed point whenever one variable is equal to $1$ and the others are equal to $0$.  Suppose, say, $u\approx 1$ and $v, w \approx 0$. Then $v$ will decay exponentially since $c&gt;1$, whereas $w$ will increase exponentially since $b &lt; 1$. For certain choices of $b$ and $c$ we end up with a kind of alternation, with $u, w, v, u, w, \dots$ taking values close to $1$ in turn.</p>
+<p>Here is an illustration with $b=0.55$, $c=1.5$, and initial conditions $u=0.5$, $v=w=0.49$.  The plot shows $v(t)$ for $t\in [0,800]$.</p>
+<pre class="mcode-input">a = 1; b = 0.5; c = 1.55;
+N = chebop(0,800);
+N.op = @(t,u,v,w) [ ...
+diff(u) - u.*(1 - a*u.^2 - b*v.^2 - c*w.^2)
+diff(v) - v.*(1 - a*v.^2 - b*w.^2 - c*u.^2)
+diff(w) - w.*(1 - a*w.^2 - b*u.^2 - c*v.^2)];
+N.lbc = @(u,v,w) [u-0.5; v-0.49; w-0.49];
+U = N\0; [u,v,w] = deal(U);
+LW = 'linewidth'; plot(v,LW,1.2)
+ylim([-0.5 1.5])</pre>
+
+<p><img src="img/GuckenheimerHolmes_01.png" class="figure" alt=""></p>
+<p>On a 3D plot, we can see how the orbit swings from one corner in the $u,v,w$ octant to the next to the next.  Most of the time is spent near the corners, where the velocity is low. The orbit is approaching a <em>heteroclinic limit cycle</em> between the three fixed points $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$.</p>
+<pre class="mcode-input">clf
+plot3(u,v,w,'k'), view(10,10), axis equal, grid on
+xlabel u, ylabel v, zlabel w</pre>
+
+<p><img src="img/GuckenheimerHolmes_02.png" class="figure" alt=""></p>
+<p>These equations come from [3], where a plot is given on p. 201 that is claimed to correspond to initial conditions $u=0.5$, $v=w=0.499$ (note not $0.49$). I suspect there is a misprint in the initial conditions. The discussion in [3] is adapted from the paper [2] by Guckenheimer and Holmes, which in turn gives credit to a related discussion by Busse and Heikes [1] in the context of Rayleigh-Benard convection.</p>
+<p>Let's compute a longer orbit, to $t=2000$:</p>
+<pre class="mcode-input">clf
+N.domain = [0 2000];
+U = N\0; [u,v,w] = deal(U);
+plot(v,LW,0.9)
+ylim([-0.5 1.5])</pre>
+
+<p><img src="img/GuckenheimerHolmes_03.png" class="figure" alt=""></p>
+<p>The intervals are getting exponentially longer as the orbit winds in towards the limit cycle.  To quantify this, we can compute three vectors of crossing times at which $u$, $v$, and $w$ pass through the value $0.5$ with positive derivative:</p>
+<pre class="mcode-input">tu = roots(u-0.5); up = diff(u); tu = tu(up(tu)&gt;0); nu = length(tu);
+tv = roots(v-0.5); vp = diff(v); tv = tv(vp(tv)&gt;0); nv = length(tv);
+tw = roots(w-0.5); wp = diff(w); tw = tw(wp(tw)&gt;0); nw = length(tw);</pre>
+
+<p>A semilog plot of the differences between these numbers reveals the exponential growth, with red, green, and blue corresponding to $u$, $v$, and $w$.</p>
+<pre class="mcode-input">clf, FS = 'fontsize'; MS = 'markersize';
+semilogy(-1/3+(2:nu),diff(tu),'.',MS,14,'color',[.9 0 0 ])
+hold on
+semilogy(1/3+(2:nv),diff(tv),'.',MS,14,'color',[0 .7 0 ])
+semilogy(3/3+(2:nw),diff(tw),'.',MS,14,'color',[0 0 1])
+xlabel('crossing number',FS,10)
+ylabel('time',FS,10)
+title ('Crossing times',FS,14), grid on
+axis([5 28 6 600])
+legend('u','v','w','location','southeast')</pre>
+
+<p><img src="img/GuckenheimerHolmes_04.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>F. H. Busse and K. E. Heikes, Convection in a rotating layer: a simple    case of turbulence, <em>Science</em> 208 (1980), 173-175.</p>
+</li>
+<li>
+<p>J. Guckenheimer and P. Holmes, Structurally stable hereroclinic cyles,    <em>Math. Proc. Camb. Phil. Soc.</em> 103 (1988), 189-192.</p>
+</li>
+<li>
+<p>P. Holmes, J. L. Lumley, G. Berkooz, and C. W. Rowley, <em>Turbulence,    Coherent Structues, Dynamical Systems and Symmetry</em>, 2nd ed., Cambridge,    2012.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
