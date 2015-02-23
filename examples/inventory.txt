@@ -40,6 +40,7 @@ calc/SurfaceRevolution.m
 cheb/ChebPolysHigham.m
 cheb/ChebyshevCoeffs.m
 cheb/Convergence.m
+cheb/DoublelengthFlag.m
 cheb/ExactChebCoeffs.m
 cheb/FastChebyshevLegendreTransform.m
 complex/Arguments.m

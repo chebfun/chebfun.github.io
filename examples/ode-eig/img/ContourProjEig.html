@@ -47,7 +47,7 @@ L</pre><pre class="mcode-output">L =
       u-BC = 0
 </pre>We will attempt to use the algorithm described above to compute the eigenvalues of $L$ inside the interval $[0, 10]$.  In this case, we know that the eigenvalues are given in closed form by $\lambda_n = n^2, n = 1, 2, \ldots$ with corresponding eigenfunctions $f_n(x) = \sin(nx)$.  Thus, there are three eigenvalues in $[0, 10]$, so we take $M = 3$.
 
-The first thing the algorithm calls for are $M$ random vectors.  The analogous objects to generate in the continuous case are $M$ arbitrary functions.   We generate these by building chebfuns from random data at a handful of Chebyshev points on $[0 \pi]$, gathering them as columns into a quasimatrix.  For later comparison, we start a timer as well so we can see how long it takes the algorithm to run.
+The first thing the algorithm calls for are $M$ random vectors.  The analogous objects to generate in the continuous case are $M$ arbitrary functions.   We generate these by building chebfuns from random data at a handful of Chebyshev points on $[0, \pi]$, gathering them as columns into a quasimatrix.  For later comparison, we start a timer as well so we can see how long it takes the algorithm to run.
 
 <pre class="mcode-input">LW = 'LineWidth'; lw = 2; FS = 'FontSize'; fs = 14;
 
@@ -84,7 +84,7 @@ W = real(W / K);  % Take real part to discard imaginary rounding errors.</pre>Fi
 <pre class="mcode-input">[V, D] = eig(W'*(L*W), W'*W);</pre>We're done!  The total amount of time taken was
 
 <pre class="mcode-input">T = toc</pre><pre class="mcode-output">T =
-   5.241844803000000
+   5.597531314000000
 </pre>The eigenvalues of L are
 
 <pre class="mcode-input">format long
@@ -120,7 +120,7 @@ eigs(L, 3)</pre><pre class="mcode-output">ans =
 </pre>These numbers are accurate to about 13 digits, which is excellent.  Moreover, the time taken was
 
 <pre class="mcode-input">T = toc</pre><pre class="mcode-output">T =
-   0.867135049000000
+   1.028643443000000
 </pre>which is considerably less than that taken by the projection-based method we used above.  The projection-based method may therefore not be the most efficient method for computing eigenvalues of differential operators, but it is nonetheless interesting!
 
 

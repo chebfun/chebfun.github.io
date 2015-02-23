@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Applications &raquo; Chebfun</title>
+    <title>The doublelength flag &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,47 +54,38 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Applications</h1>
+<h1>The doublelength flag</h1>
+<h2>Nick Trefethen, February 2015<span><a href='/examples/cheb/DoublelengthFlag.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/cheb/DoublelengthFlag.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li class='active'><a href="/examples/applics/index.html">Applications<span>1</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>28</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>4</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>6</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>10</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>9</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>2</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>10</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>11</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>18</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>17</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>4</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>4</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>11</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/applics/EuropeanCall.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/EuropeanCall_01.png' /></div>
-            <h3>Pricing of a European Call option</h3>
-            <p>Ricardo Pachon, November 2014
-                <span class='tags'><span href='#' class='tag'>#blackscholes</span>, <span href='#' class='tag'>#finance</span>, <span href='#' class='tag'>#option pricing</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Recently we've added a <code>doublelength</code> flag as an option to the Chebfun constructor.  A picture gives the idea. Here we see the usual Chebyshev coefficients for $\exp(x)$ plotted as red circles, together with blue dots for the coefficients of the same function constructed with <code>doublelength</code>.</p>
+<pre class="mcode-input">f = chebfun('exp(x)');
+f2 = chebfun('exp(x)','doublelength');
+MS = 'markersize'; LW = 'linewidth';
+hold off, plotcoeffs(f2,'.',MS,15)
+hold on, plotcoeffs(f,'or',MS,9,LW,1.2)</pre>
+
+<p><img src="img/DoublelengthFlag_01.png" class="figure" alt=""></p>
+<p>When you construct a chebfun with <code>doublelength</code>, it comes out with twice the expected length.  To be precise, here is what happens.  First, Chebfun silently constructs a chebfun in the usual way.  Then it does it again, but with the degree $d$ multiplied by 2. Thus the length, if it would ordinarily be $d+1$, actually comes out as the odd number $2d+1$.</p>
+<p>The purpose of this option is to give a nice way to illustrate how the Chebfun constructor chops a Chebyshev series. Why does the constructor stop when it does?  Basically because going any further would achieve nothing, because of rounding errors.  Here's another example, with doublelength coefficients in blue and ordinary ones in red:</p>
+<pre class="mcode-input">f = chebfun('sin(x)+sin(x.^2)',[0 10]);
+f2 = chebfun('sin(x)+sin(x.^2)',[0 10],'doublelength');
+hold off, plotcoeffs(f2,LW,1.2)
+hold on, plotcoeffs(f,'r',LW,1.2)</pre>
+
+<p><img src="img/DoublelengthFlag_02.png" class="figure" alt=""></p>
+<p>If you play around with <code>doublelength</code>, you'll probably notice that sometimes Chebfun doesn't seem to make the right decision about where to chop the Chebyshev series.  You are right, and we hope to improve this in a future release.</p>
+<p>What about trigfuns, i.e., periodic Chebfun representations of periodic functions?  The idea of <code>doublelength</code> here is analogous, and to be precise, it is again actually the degree that is doubled.  Here is an example:</p>
+<pre class="mcode-input">ff = @(t) 1./(2-cos(17*(t-1)));
+f = chebfun(ff,[-pi pi],'trig');
+f2 = chebfun(ff,[-pi pi],'trig','doublelength');
+hold off, plotcoeffs(f2,'.',MS,8)
+hold on, plotcoeffs(f,'.r',MS,8)</pre>
+
+<p><img src="img/DoublelengthFlag_03.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>
