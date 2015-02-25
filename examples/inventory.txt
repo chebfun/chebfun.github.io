@@ -3,6 +3,7 @@ approx/AbsoluteValue.m
 approx/BernsteinPolys.m
 approx/BestApprox.m
 approx/BestL2Approximation.m
+approx/BestTrigApprox.m
 approx/BSplineConv.m
 approx/CF30.m
 approx/DivergentSeries.m
