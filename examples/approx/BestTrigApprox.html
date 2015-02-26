@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Best trigonometric polynomial approximation with the <code>trigremez</code> command &raquo; Chebfun</title>
+    <title>Best trigonometric approximation with <code>trigremez</code> &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,8 +54,8 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1>Best trigonometric polynomial approximation with the <code>trigremez</code> command</h1>
-<h2>Mohsin Javed, February 2015<span><a href='/examples/approx/BestTrigApprox.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx/BestTrigApprox.m'>view on GitHub</a></span></h2>
+<h1>Best trigonometric approximation with <code>trigremez</code></h1>
+<h2>Mohsin Javed and Nick Trefethen, February 2015<span><a href='/examples/approx/BestTrigApprox.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx/BestTrigApprox.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
@@ -113,6 +113,12 @@ ylim(1.4*err*[-1 1]), hold off
 title('Degree 15 trigonometric error curve',FS,fs)</pre>
 
 <p><img src="img/BestTrigApprox_06.png" class="figure" alt=""></p>
+<p>Experienced best approximators are used to seeing error curves that look approximately like Chebyshev polynomials, and indeed, there are theorems to the effect that for functions satisfying appropriate smoothness conditions, the best polynomial approximation error curves approach Chebyshev polynomials as the degree approaches infinity.  In trigonometric rather than algebraic best approximation, however, the error curves tend to look like sine waves, not Chebyshev polynomials.  To the experienced eye, this can be quite a surprise. The following example illustrates this:</p>
+<pre class="mcode-input">f = chebfun('1./(1.01-cos(x))',[-pi,pi],'trig');
+plot(f-trigremez(f,40)), ylim([-1 1])
+title('Almost sinusoidal Error curve', FS, fs)</pre>
+
+<p><img src="img/BestTrigApprox_07.png" class="figure" alt=""></p>
 <p>The flavor of $\verb|trigremez|$ and the periodic Remez algorithm that it utilizes could not be more classical. Nevertheless, we are unaware of any previous computations of general periodic best approximations. Electrical engineers compute approximations all the time that appear to be periodic---the Parks-McClellan algorithm---but because of a symmetry, these computations are carried out using the ordinary polynomial Remez algorithm.</p>
 <h3 id="references">References</h3>
 <ol>
