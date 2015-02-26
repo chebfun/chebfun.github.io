@@ -59,7 +59,7 @@ Experienced best approximators are used to seeing error curves that look approxi
 
 <pre class="mcode-input">f = chebfun('1./(1.01-cos(x))',[-pi,pi],'trig');
 plot(f-trigremez(f,40)), ylim([-1 1])
-title('Almost sinusoidal Error curve', FS, fs)</pre><img src="img/BestTrigApprox_07.png" class="figure" alt="">
+title('Almost sinusoidal error curve', FS, fs)</pre><img src="img/BestTrigApprox_07.png" class="figure" alt="">
 
 The flavor of $\verb|trigremez|$ and the periodic Remez algorithm that it utilizes could not be more classical. Nevertheless, we are unaware of any previous computations of general periodic best approximations. Electrical engineers compute approximations all the time that appear to be periodic---the Parks-McClellan algorithm---but because of a symmetry, these computations are carried out using the ordinary polynomial Remez algorithm.
 
