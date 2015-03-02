@@ -10,30 +10,30 @@ Chebfun's $\verb|trigremez|$ command can be used to find best (i.e. infinity-nor
 <pre class="mcode-input">f = chebfun(@(x) exp(sin(2*x)+cos(3*x)), [-pi, pi], 'trig');
 [p,err] = trigremez(f,5);
 LW = 'linewidth'; FS = 'fontsize'; fs = 14;
-plot(f,'b',p,'r',LW,1.6)
-title('Function and best trigonometric approximation',FS,fs)</pre><img src="img/BestTrigApprox_01.png" class="figure" alt="">
+plot(f,'k',p,'r',LW,1.6)
+title('Function (black) and best trigonometric approximation (red)',FS,fs)</pre><img src="img/BestTrigApprox_01.png" class="figure" alt="">
 
 The error equioscillates, and the number of equioscillating extreme points is at least one more than the dimension of the approximation space. In the present case of a degree $5$ trigonometric approximation, the dimension of the approximation space is $11$, and hence the error curve must have at least 12 points of equioscillation:
 
-<pre class="mcode-input">plot(f-p,LW,1.6, 'color', [0 .7 0]), hold on
+<pre class="mcode-input">plot(f-p,LW,1.6), hold on
 plot([-pi pi], err*[1 1],'--k',LW,1)
 plot([-pi pi],-err*[1 1],'--k',LW,1)
-ylim([-.7 .7]), hold off
+ylim(5*err*[-1, 1]), hold off
 title('Degree 5 trigonometric error curve',FS,fs)</pre><img src="img/BestTrigApprox_02.png" class="figure" alt="">
 
 The $\verb|trigremez|$ command works for any chebfun, even a chebfun that is constructed without the `trig` flag, as long as it is continuous in the interior of the domain and takes the same value at both endpoints. Here is an example:
 
 <pre class="mcode-input">fh = @(x) 10*abs(x) + sin(20*pi*x) + 10*exp(-50*(x-.1).^2);
 f = chebfun(fh, 'splitting', 'on' );</pre><pre class="mcode-input">[p, err] = trigremez(f, 8);
-plot(f,'b',p,'r',LW,1.6)
-title('Function and best trigonometric approximation',FS,fs)</pre><img src="img/BestTrigApprox_03.png" class="figure" alt="">
+plot(f,'k',p,'r',LW,1.6)
+title('Function (black) and best trigonometric approximation (red)',FS,fs)</pre><img src="img/BestTrigApprox_03.png" class="figure" alt="">
 
 And here is a plot of the error curve:
 
-<pre class="mcode-input">plot(f-p,LW,1.6, 'color', [0 .7 0]), hold on
+<pre class="mcode-input">plot(f-p,LW,1.6), hold on
 plot([-pi pi], err*[1 1],'--k',LW,1)
 plot([-pi pi],-err*[1 1],'--k',LW,1)
-ylim(1.4*err*[-1 1]), hold off
+ylim(5*err*[-1 1]), hold off
 title('Degree 8 trigonometric error curve',FS,fs)</pre><img src="img/BestTrigApprox_04.png" class="figure" alt="">
 
 Here is another example where we first define a zig-zag function, which is aperiodic, but then make it periodic by subtracting off an appropriate linear term:
@@ -44,15 +44,15 @@ m = (g(1) - g(-1))/2;
 y = m*(x - 1) + g(1);
 f = g - y;
 [p, err] = trigremez(f, 15);
-plot(f,'b',p,'r',LW,1.6)
-title('Function and best trigonometric approximation',FS,fs)</pre><img src="img/BestTrigApprox_05.png" class="figure" alt="">
+plot(f,'k',p,'r',LW,1.6)
+title('Function (black) and best trigonometric approximation (red)',FS,fs)</pre><img src="img/BestTrigApprox_05.png" class="figure" alt="">
 
 Again, the error plot equioscillates beautifully:
 
-<pre class="mcode-input">plot(f-p,LW,1.6, 'color', [0 .7 0]), hold on
+<pre class="mcode-input">plot(f-p,LW,1.6), hold on
 plot([-1 1], err*[1 1],'--k',LW,1)
 plot([-1 1],-err*[1 1],'--k',LW,1)
-ylim(1.4*err*[-1 1]), hold off
+ylim(5*err*[-1 1]), hold off
 title('Degree 15 trigonometric error curve',FS,fs)</pre><img src="img/BestTrigApprox_06.png" class="figure" alt="">
 
 Experienced best approximators are used to seeing error curves that look approximately like Chebyshev polynomials, and indeed, there are theorems to the effect that for functions satisfying appropriate smoothness conditions, the best polynomial approximation error curves approach Chebyshev polynomials as the degree approaches infinity.  In trigonometric rather than algebraic best approximation, however, the error curves tend to look like sine waves, not Chebyshev polynomials.  To the experienced eye, this can be quite a surprise. The following example illustrates this:
