@@ -19,6 +19,7 @@ approx/LebesgueConst.m
 approx/Local.m
 approx/NearestOrthFun.m
 approx/NoisyNonsmooth.m
+approx/OddEven.m
 approx/OrthPolys.m
 approx/OscError.m
 approx/RationalInterp.m
