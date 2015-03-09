@@ -177,6 +177,7 @@ stats/UniformExercises.m
 temp/BinousShaikhBellagi.m
 temp/CompactingColloids.m
 temp/EuropeanOptions.m
+temp/FracCalc.m
 temp/FracCalc2.m
 temp/TaylorsTheorem.m
 temp/VanillaOptions.m

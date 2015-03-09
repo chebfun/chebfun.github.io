@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fractional calculus in Chebfun &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Fractional calculus in Chebfun</h1>
+<h2>Nick Hale, October 2010<span><a href='/examples/temp/FracCalc.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/temp/FracCalc.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>We're all familiar with the standard definitions of differentiation and integration we learnt in high-school and at undergraduate level. For example, here is the function $x$ on the interval [0,4] along with its derivative (the constant function, $1$) and antiderivative ($x^2$).</p>
+<pre class="mcode-input">x = chebfun('x', [0, 4]);
+LW = 'LineWidth'; lw = 1.2; FS = 'FontSize'; fs = 14;
+plot(x, '-', diff(x), '-', cumsum(x), '-', LW, lw)
+legend('x', 'x''', 'x^2/2','location','northwest')
+axis([0 4 0 4]), xlabel('x', FS, fs)
+title('The function ''x'' with its derivative and antiderivative', FS, fs)</pre>
+
+<p><img src="img/FracCalc_01.png" class="figure" alt=""></p>
+<h3 id="half-derivative">Half-derivative</h3>
+<p>A natural question one might ask is whether there exists, say, a 'half-derivative' operator ${\cal H}$, such that ${\cal H}^2(f) = df(x)/dx$.</p>
+<p>It turns out that through a generalisation of the Cauchy formula for repeated integration we can define precisely such an operator as a "Riemann-Liouville derivative" [1].</p>
+<p>We omit here any rigorous definition of these operators, but instead demonstrate their behaviour when applied to some simple functions $f$, as well as Chebfun's ability to compute them.</p>
+<p>Continuing where we left off above, we might ask what is the half-derivative of the function $f(x) = x$. In Chebfun this is easily computed via</p>
+<pre class="mcode-input">xp05 = diff(x, 0.5);
+hold on, plot(xp05, '-', LW, lw), axis([0, 4, 0, 4])
+legend('x', 'x''', 'x^2/2', 'd^{1/2}x / dx^{1/2}','location','northwest')
+xlabel('x',FS,fs); title('The function ''x'' and its half-derivative',FS,fs)</pre>
+
+<p><img src="img/FracCalc_02.png" class="figure" alt=""></p>
+<p>Notice here that the second argument passed to diff, which for standard calculus is a positive integer specifying the number of times to differentiate the chebfun, indicates that we wish to compute the half-derivative of x.</p>
+<p>The plot of this half-derivative may look familiar, and in fact one can show that the half derivative of $x$ is precisely $2\sqrt{x/\pi}$, which we can verify:</p>
+<pre class="mcode-input">f = chebfun(@(x) 2*sqrt(x/pi), [0, 4], 'exps', [0.5, 0]);
+norm(f - xp05, inf)</pre>
+
+<pre class="mcode-output">ans =
+     4.440892098500626e-16
+</pre>
+
+<h3 id="fractional-differentiation">Fractional differentiation</h3>
+<p>The Riemann-Liouville derivative definition above applies not only to half-powers, but to $d^a/dx^a$ for any $a &gt; 0$.</p>
+<p>Below we demonstrate the ($a$)th derivative of $x$ for $a$ = 1/10, 2/10, ..., 1.</p>
+<pre class="mcode-input">close
+u = x;
+for alpha = 0.1:.1:1
+    u = [ u, diff(u(:,1), alpha) ];
+    plot(u, LW, lw), drawnow
+end
+title('Fractional derivatives of x', FS, fs)
+xlabel('x', FS, fs); ylabel('d^a x / d x ^a', FS, fs)
+legend(num2str((0:.1:1)'),'location','northwest')</pre>
+
+<p><img src="img/FracCalc_03.png" class="figure" alt=""></p>
+<p>Of course, these generalised derivatives can be applied to more complicated functions than simply the independent variable '$x$'. Here we demonstrate the behaviour of varying irrational derivatives of the trigonometric function $\sin(x)$.</p>
+<pre class="mcode-input">close
+u = chebfun('sin(x)', [0, 20]);
+for alpha = sqrt(2)*(0:2:10)/17
+    u = [ u, diff(u(:,1), alpha) ];
+    plot(u, LW, lw), ylim(1.2*[-1, 1]), drawnow,
+end
+title('Fractional derivatives of sin(x)', FS, fs)
+xlabel('x', FS, fs); ylabel('d^a sin(x) / d x ^a', FS, fs)
+legend(num2str(sqrt(2)*(0:2:10)'/17))</pre>
+
+<p><img src="img/FracCalc_04.png" class="figure" alt=""></p>
+<p>Far away from the left-hand boundary these derivatives are essentially shifts of $x \rightarrow x + a\pi/2$ (which is consistent with the case of $a$ being an integer), but near $x = 0$ the boundary effects are more interesting.</p>
+<pre class="mcode-input">axis([-0.5, pi, 0.0, 1.01])</pre>
+
+<p><img src="img/FracCalc_05.png" class="figure" alt=""></p>
+<h3 id="fractional-integration">Fractional integration</h3>
+<p>The definition of the Riemann-Liouville derivative can also to extended fractional integration (in fact it is sometimes referred to as the Riemann-Liouville 'differintegral' [2]). Chebfun can also handle these types of operators, here extending the definition of <code>cumsum</code> to allow non-integer degree.</p>
+<pre class="mcode-input">close
+x = chebfun('x', [0, 1]); u = [];
+for k = 1:10;
+    u = [ u, cumsum(x.^k, 0.5) ];
+    plot(u, LW, lw), drawnow, hold on
+end
+title('Half-integrals of x^k for k = 1, ..., 10', FS, fs)
+xlabel('x', FS, fs);
+legend(num2str((1:10)'),'location','northwest')</pre>
+
+<p><img src="img/FracCalc_06.png" class="figure" alt=""></p>
+<p>Here's another example:</p>
+<pre class="mcode-input">close
+u = chebfun('exp(x)-1', [0, 1]);
+for alpha = 0.1:.1:1
+    u = [ u, cumsum(u(:,1), alpha) ];
+    plot(u, LW, lw), drawnow
+end
+title('Fractional integrals of exp(x)-1', FS, fs)
+xlabel('x', FS, fs);
+legend(num2str((0:.1:1)'),'location','northwest')</pre>
+
+<p><img src="img/FracCalc_07.png" class="figure" alt=""></p>
+<h3 id="fractional-differential-equations">Fractional differential equations</h3>
+<p>Unfortunately there is not yet any functionality for fractional calculus operators in the Chebop system.</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>Lizorkin, P.I. (2001), "Fractional integration and differentiation",    <a href="http://eom.springer.de/f/f041230.htm">http://eom.springer.de/f/f041230.htm</a></p>
+</li>
+<li>
+<p><a href="http://en.wikipedia.org/wiki/Riemann-Liouville_differintegral">http://en.wikipedia.org/wiki/Riemann-Liouville_differintegral</a></p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
