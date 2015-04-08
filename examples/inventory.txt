@@ -8,6 +8,7 @@ approx/BSplineConv.m
 approx/CF30.m
 approx/DivergentSeries.m
 approx/Entire.m
+approx/EquispacedData.m
 approx/FiltersCF.m
 approx/FourierBasedChebfuns.m
 approx/FourierCoefficients.m
