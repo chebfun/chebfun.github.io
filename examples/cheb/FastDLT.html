@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The fast discrete Legendre transform &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The fast discrete Legendre transform</h1>
+<h2>Nick Hale and Alex Townsend, April 2015<span><a href='/examples/cheb/FastDLT.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/cheb/FastDLT.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">FS = 'FontSize';
+LW = 'LineWidth';</pre>
+
+<h3 id="the-forward-transform">The forward transform</h3>
+<p>The discrete (or finite) Legendre transform (DLT) evaluates a Legendre series expansion at Legendre nodes on $[-1,1]$, i.e.,</p>
+<p>$$ f(x_k^{leg}) = \sum_{n=0}^{N-1} c_n^{leg} P_n( x_k^{leg} ), \qquad 0\leq
+ k\leq N-1.$$</p>
+<p>It is considered an awkward task because the Legendre nodes are non-uniform and the Legendre polynomials have no explicit closed-form expression. Therefore, FFT-based algorithms do not immediately apply and until recently the transform required $O(N^2)$ operations. (See [3] for one of the earliest fast DLT algorithms.)</p>
+<p>In [2] we describe an algorithm to compute the transform in $O(N(\log N)^2/\log\log N)$ operations, which is implemented in the <code>dlt()</code> command in Chebfun. This allows us to compute the transform when N is 10000 or 100000, or a million. Here it is in action:</p>
+<pre class="mcode-input">c = randn( 1e4, 1);
+tic, chebfun.dlt( c ); toc</pre>
+
+<pre class="mcode-output">Elapsed time is 0.282956 seconds.
+</pre>
+
+<p>The transform computed above is still based on the FFT, but with a handful of tricks and approximations to make it applicable to the DLT. Two main facts are exploited.</p>
+<h3 id="a-legendre-polynomial-can-be-related-to-a-cosine">A Legendre polynomial can be related to a cosine</h3>
+<p>An asymptotic expansion of a Legendre polynomial of high degree shows that $P_n$ is not too far away from a cosine (after a change of variables and scaling). The precise statement is, as $n\rightarrow\infty$,</p>
+<p>$$ \sqrt{\sin(\theta)}P_n(\cos(\theta)) \sim \cos( (n+1/2)\theta +
+  (n-1/4)\pi ). $$</p>
+<p>A signal processing engineer would verify this as follows:</p>
+<pre class="mcode-input">P = legpoly(1e4);                                  % Legendre polynomial
+theta = linspace(0, 2*pi, 4e4);                    % time samples
+modifiedSignal = sqrt(sin(theta)).*P(cos(theta));  % modify signal
+modes = abs( fft( modifiedSignal ) );              % amplitude
+plot( modes(1:2e4), LW, 2 ),                       % freq-domain plot
+xlabel('Frequency bins', FS, 14)
+ylabel('Magitude', FS, 14)
+title('Frequency analysis of modified Legendre polynomial', FS, 10)
+set(gca, FS, 14)</pre>
+
+<p><img src="img/FastDLT_01.png" class="figure" alt=""></p>
+<p>The engineer would go on to say that since only a handful of modes near 1e4 are excited, the signal $\sqrt{\sin(\theta)}P_n(\cos(\theta))$ can be well-approximated by a handful of sinusoidal waves.</p>
+<h3 id="legendre-nodes-are-nearly-uniform-on-the-unit-circle">Legendre nodes are nearly uniform on the unit circle</h3>
+<p>Another fact is that Legendre nodes are well-approximated by Chebyshev nodes (Chebyshev points of the first kind), as we can see below:</p>
+<pre class="mcode-input">NN = floor(logspace(1, 4, 50));
+for N = NN
+    t_leg = acos(legpts( N ));
+    t_cheb = acos(chebpts( N, 1));
+    maxDiff(N) = norm( t_leg - t_cheb, inf );
+end
+
+loglog( NN, maxDiff(NN), '-', LW, 2 ), hold on
+loglog( NN, 0.83845./NN, '--', LW, 2); hold off
+legend('||x^{leg} - x^{cheb}||_\infty', 'Theoretical bound')
+xlabel('N', FS, 14), ylabel('Max abs diff', FS, 14), grid on</pre>
+
+<p><img src="img/FastDLT_02.png" class="figure" alt=""></p>
+<p>These two facts mean that the DLT can be carefully related to a handful of discrete cosine transforms, allowing it be calculated via the FFT, requiring $O(N(\log N)^2/\log\log N)$ operations. The odd-looking complexity comes about because of a balancing of computation costs, see [1].</p>
+<h3 id="the-inverse-transform">The inverse transform</h3>
+<p>The inverse discrete Legendre transform takes samples of a function from Legendre nodes and computes the associated Legendre expansion coefficients.</p>
+<pre class="mcode-input">f = chebfun( @(x) 1./(1 + 10000*x.^2) );
+c_leg = legcoeffs(f);
+tic, f_leg = chebfun.dlt( c_leg ); toc
+backToTheCoeffs = chebfun.idlt( f_leg );
+norm( backToTheCoeffs - c_leg, inf )</pre>
+
+<pre class="mcode-output">Elapsed time is 0.155084 seconds.
+ans =
+     1.152327861707903e-13
+</pre>
+
+<p>The IDLT can be related to a (transposed) DLT by a discrete orthogonality relation. It has the same $O(N(\log N)^2/\log\log N)$ complexity.</p>
+<p>DLT and IDLT complete the Chebyshev--Legendre cycle: (In the diagram below we give the Chebfun commands that compute each particular transform.)</p>
+<pre class="mcode">                  --&gt;--&gt;-- coeffs2vals() --&gt;--&gt;--
+     CHEBCOEFFS   --&lt;--&lt;-- vals2coeffs() --&lt;--&lt;--   CHEBVALUES
+       ^  |
+       |  |
+       |  v
+     cheb2leg()
+     leg2cheb()
+       |  |
+       |  |
+     LEGCOEFFS       --&gt;--&gt;-- dlt()  --&gt;--&gt;--       LEGVALUES
+                     --&lt;--&lt;-- idlt() --&lt;--&lt;--</pre>
+
+<p>One can now move freely between Chebyshev and Legendre modes and values with fast algorithms in Chebfun. Hooray!</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>N. Hale and A. Townsend, A fast, simple, and stable Chebyshev--Legendre    transform using an asymptotic formula, SISC, 36 (2014), pp. A148--A167.</p>
+</li>
+<li>
+<p>N. Hale and A. Townsend, A fast FFT-based discrete Legendre transform, in    preparation.</p>
+</li>
+<li>
+<p>D. Potts, Fast algorithms for discrete polynomial transforms on arbitrary    grids, Linear Algebra and its Applications, 336 (2003), pp. 353--370.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

@@ -46,6 +46,7 @@ cheb/Convergence.m
 cheb/DoublelengthFlag.m
 cheb/ExactChebCoeffs.m
 cheb/FastChebyshevLegendreTransform.m
+cheb/FastDLT.m
 complex/Arguments.m
 complex/ClosedContours.m
 complex/ComplexArcLength.m
