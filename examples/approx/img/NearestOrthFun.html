@@ -23,11 +23,11 @@ Our goal is to generalize this situation to the continuous case. Suppose that a 
 
 <pre class="mcode-input">A = cheb.gallery('vandermonde'); % A = [1, x, x.^2, x.^3, x.^4, x.^5];
 [Q,Q2] = nearestOrtho(A);</pre><pre class="mcode-output">Departure from orthogonality in the columns of A = 1.35
-Departure from orthogonality in the columns of Q = 2.1e-15
-Departure from orthogonality in the columns of Q2 = 1.7e-15
+Departure from orthogonality in the columns of Q = 2.3e-15
+Departure from orthogonality in the columns of Q2 = 1.9e-15
 The distance between A and Q2 = 1.92
 The distance between A and its closest orthonormal quasimatrix = 1.69
-</pre><img src="img/NearestOrthFun_01.png" class="figure" alt="">
+</pre><img src="img/NearestOrthFun_01.png" class="figure" alt=""/>
 
 Here, we see Legendre polynomials scaled to have norm 1 (left) and the nearest set of orthonormal functions (right). The first polynomial among these nearest orthonormal polynomials is approximately the following: $ p(x) = 0.9200 - 0.9035 x^2 + 0.3084 x^4$.
 
@@ -38,11 +38,11 @@ Here, we see Legendre polynomials scaled to have norm 1 (left) and the nearest s
 <pre class="mcode-input">A = cheb.gallery('vandercheb');
 A = restrict(A,[0,1]);
 [Q,Q2] = nearestOrtho(A);</pre><pre class="mcode-output">Departure from orthogonality in the columns of A = 1.00
-Departure from orthogonality in the columns of Q = 2.8e-15
-Departure from orthogonality in the columns of Q2 = 1.7e-15
+Departure from orthogonality in the columns of Q = 2.2e-15
+Departure from orthogonality in the columns of Q2 = 1.6e-15
 The distance between A and Q2 = 2.48
 The distance between A and its closest orthonormal quasimatrix = 1.62
-</pre><img src="img/NearestOrthFun_02.png" class="figure" alt="">
+</pre><img src="img/NearestOrthFun_02.png" class="figure" alt=""/>
 
 
 
@@ -50,11 +50,11 @@ The distance between A and its closest orthonormal quasimatrix = 1.62
 
 <pre class="mcode-input">x = chebfun('x'); A = [1, cos(x), sin(x.^2), x.^3, x.^4, x.^5];
 [Q,Q2] = nearestOrtho(A);</pre><pre class="mcode-output">Departure from orthogonality in the columns of A = 2.69
-Departure from orthogonality in the columns of Q = 5.1e-15
-Departure from orthogonality in the columns of Q2 = 5.7e-15
+Departure from orthogonality in the columns of Q = 4.8e-15
+Departure from orthogonality in the columns of Q2 = 5.6e-15
 The distance between A and Q2 = 2.43
 The distance between A and its closest orthonormal quasimatrix = 1.95
-</pre><img src="img/NearestOrthFun_03.png" class="figure" alt="">
+</pre><img src="img/NearestOrthFun_03.png" class="figure" alt=""/>
 
 
 
@@ -62,11 +62,11 @@ The distance between A and its closest orthonormal quasimatrix = 1.95
 
 <pre class="mcode-input">A = [cheb.gallery('stegosaurus'), cheb.gallery('wiggly'), cheb.gallery('blasius')];
 [Q,Q2] = nearestOrtho(A);</pre><pre class="mcode-output">Departure from orthogonality in the columns of A = 194.38
-Departure from orthogonality in the columns of Q = 1.4e-15
-Departure from orthogonality in the columns of Q2 = 3.8e-16
+Departure from orthogonality in the columns of Q = 1.3e-15
+Departure from orthogonality in the columns of Q2 = 1.2e-15
 The distance between A and Q2 = 13.63
 The distance between A and its closest orthonormal quasimatrix = 13.23
-</pre><img src="img/NearestOrthFun_04.png" class="figure" alt="">
+</pre><img src="img/NearestOrthFun_04.png" class="figure" alt=""/>
 
 
 

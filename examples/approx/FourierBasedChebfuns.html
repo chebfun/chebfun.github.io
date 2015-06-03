@@ -72,9 +72,9 @@ plot(f,LW,lw);</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]       61         1        1 
-Epslevel = 2.675450e-15.  Vscale = 1.000000e+00.
+vscale = 1.000000e+00.
 </pre>
 
 <p><img src="img/FourierBasedChebfuns_01.png" class="figure" alt=""></p>
@@ -87,9 +87,9 @@ Epslevel = 2.675450e-15.  Vscale = 1.000000e+00.
 
 <pre class="mcode-output">f_cheby =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
+       interval       length     endpoint values  
 [    -3.1,     3.1]      101         1        1 
-Epslevel = 3.552714e-15.  Vscale = 1.
+vscale = 1.
 </pre>
 
 <p>The ratio of length of the Chebyshev series to the Fourier series should be approximately $\pi/2$ since the former has a resolution power of $\pi$ points per wavelength and the latter of 2 points per wavelength. We can check this numerically as</p>
@@ -110,9 +110,9 @@ plot(f,LW,lw);</pre>
 representation? 
 f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]    65536       0.5      0.5 
-Epslevel = 1.818989e-12.  Vscale = 1.
+vscale = 1.
 </pre>
 
 <p><img src="img/FourierBasedChebfuns_03.png" class="figure" alt=""></p>
@@ -121,10 +121,10 @@ Epslevel = 1.818989e-12.  Vscale = 1.
 
 <pre class="mcode-output">f =
    chebfun column (2 smooth pieces)
-       interval       length   endpoint values  
+       interval       length     endpoint values  
 [    -3.1,       0]        1         0        0 
 [       0,     3.1]        1         1        1 
-Epslevel = 1.110223e-15.  Vscale = 1.  Total length = 2.
+vscale = 1.   Total length = 2
 </pre>
 
 <p>Splitting is not an option for trigfuns.</p>
@@ -137,9 +137,9 @@ plot(f, LW, lw)</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
-[    -3.1,     3.1]      141     -0.22    -0.22 
-Epslevel = 2.220446e-16.  Vscale = 4.999998e-01.
+       interval       length     endpoint values trig
+[    -3.1,     3.1]      153     -0.22    -0.22 
+vscale = 4.999859e-01.
 </pre>
 
 <p><img src="img/FourierBasedChebfuns_04.png" class="figure" alt=""></p>
@@ -152,16 +152,16 @@ minf
 rootsf</pre>
 
 <pre class="mcode-output">maxf =
-   0.261594155955768
+   0.261594155955764
 minf =
-  -0.500000000000005
+  -0.500000000000002
 rootsf =
-  -3.009212218006478
-  -2.090420462897019
-  -1.051172190692773
-  -0.132380435583315
-   0.779312428506052
-   2.362280225083741
+  -3.009212218006480
+  -2.090420462897022
+  -1.051172190692771
+  -0.132380435583312
+   0.779312428506054
+   2.362280225083739
 </pre>
 
 <p>These can be visualized as</p>
@@ -180,7 +180,7 @@ plot(df, LW, lw)</pre>
 <pre class="mcode-input">intf = sum(f)</pre>
 
 <pre class="mcode-output">intf =
-  -0.074010812957416
+  -0.074010812957415
 </pre>
 
 <p>Complex-valued trigfuns are also possible. For example:</p>
@@ -190,9 +190,9 @@ plot(f, LW, lw), axis equal</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]        9    complex values 
-Epslevel = 6.661338e-16.  Vscale = 17.
+vscale = 17.
 </pre>
 
 <p><img src="img/FourierBasedChebfuns_07.png" class="figure" alt=""></p>
@@ -219,9 +219,9 @@ f = chebfun(func_vals,dom,'trig')</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]      201         1        1 
-Epslevel = 1.599777e-15.  Vscale = 2.775945e+00.
+vscale = 2.775945e+00.
 </pre>
 
 <p>Here $f$ interpolates the noisy <code>func_vals</code> at 201 equally spaced points from $[-\pi,\pi)$ using the Fourier basis. The high frequencies in this function can be smoothed by convolving it with a mollifier, in this case a (normalized) Gaussian with variance 0.1.</p>

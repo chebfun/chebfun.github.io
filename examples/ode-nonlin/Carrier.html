@@ -90,11 +90,11 @@ xlim([1 length(nrmdu)]), grid on</pre>
  03     2.85e-02     1.07e-01      1.0000      64        64 
  04     3.92e-04     1.38e-02      1.0000      64        64 
  05     7.98e-08     2.03e-04      1.0000      64        64 
- 06     3.57e-15     4.48e-08      1.0000     128       128 
+ 06     3.32e-15     4.17e-08      1.0000     128       128 
 --------------------------------------------------------------
 Newton's method converged in 6 iterations.
 Discretization method used: Collocation. 
-Final error estimate: 3.57e-15 (differential equation) 
+Final error estimate: 3.32e-15 (differential equation) 
                       0.00e+00 (boundary conditions).
 
 </pre>
@@ -104,7 +104,7 @@ Final error estimate: 3.57e-15 (differential equation)
 <pre class="mcode-input">accuracy = norm(N(u)-1)</pre>
 
 <pre class="mcode-output">accuracy =
-     8.463254780629571e-14
+     6.314240155598692e-14
 </pre>
 
 <p>Running from a different initial guess gives a different solution:</p>
@@ -118,7 +118,7 @@ xlim([1 length(nrmdu)]), grid on
 accuracy = norm(N(u)-1)</pre>
 
 <pre class="mcode-output">accuracy =
-     3.126829037542067e-10
+     1.119603101744991e-11
 </pre>
 
 <p><img src="img/Carrier_02.png" class="figure" alt=""></p>
@@ -136,7 +136,7 @@ xlim([1 length(nrmdu)]), grid on
 accuracy = norm(N(u)-1)</pre>
 
 <pre class="mcode-output">accuracy =
-     3.111051709972451e-10
+     1.240673467757007e-11
 </pre>
 
 <p><img src="img/Carrier_03.png" class="figure" alt=""></p>

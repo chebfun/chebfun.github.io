@@ -24,7 +24,7 @@ plot(z,LW,lw), axis equal</pre><img src="img/ComplexArcLength_01.png" class="fig
 The total length of the contour can be calculated with one command:
 
 <pre class="mcode-input">L = arcLength(z)</pre><pre class="mcode-output">L =
-  17.179598985403512
+  17.179598985403484
 </pre>If the length of each patch is what you want to know, then you can make the input a quasimatrix whose columns are the different pieces.
 
 <pre class="mcode-input">z = [ c(1) + t*(c(2)-c(1))...           % Top of the keyhole
@@ -33,9 +33,9 @@ The total length of the contour can be calculated with one command:
       c(4)*c(1).^t ./ c(4).^t];         % Outer circle
 L = arcLength(z)</pre><pre class="mcode-output">L =
   Columns 1 through 3
-   1.800000000000000   1.197613431941939   1.800000000000000
+   1.800000000000000   1.197613431941936   1.800000000000000
   Column 4
-  12.381985553461572
+  12.381985553461547
 </pre>
 
 ## 2. Equidistributing points along a contour
@@ -49,7 +49,7 @@ plot(s,LW,lw), axis equal, hold on</pre><img src="img/ComplexArcLength_02.png" c
 First, we calculate the total arc length of this closed curve.
 
 <pre class="mcode-input">L = arcLength(s)</pre><pre class="mcode-output">L =
-   9.634012138198036
+   9.634012138198029
 </pre>Suppose, for example, that we want to equidistribute 64 points.
 
 <pre class="mcode-input">N = 64;
@@ -61,7 +61,7 @@ len = cumsum(abs(diff(s)));
 for k = 1:N-1
     T(k+1) = roots(len-k*h);
 end
-toc</pre><pre class="mcode-output">Elapsed time is 8.705962 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 4.727527 seconds.
 </pre>Now that we have the coordinates of the points, and let's mark them on the curve.
 
 <pre class="mcode-input">P = s(T);
@@ -71,10 +71,10 @@ plot(P,'.r',MS,ms)</pre><img src="img/ComplexArcLength_03.png" class="figure" al
 The rootfinding problems above, unfortunately, took quite a while, because the chebfun `len` is rather long:
 
 <pre class="mcode-input">length(len)</pre><pre class="mcode-output">ans =
-        1420
+        1918
 </pre>A better approach is not to solve our own rootfinding problems but to first invert `len` with the Chebfun command `inv`:
 
-<pre class="mcode-input">tic, g = inv(len); toc</pre><pre class="mcode-output">Elapsed time is 2.534742 seconds.
+<pre class="mcode-input">tic, g = inv(len); toc</pre><pre class="mcode-output">Elapsed time is 2.360188 seconds.
 </pre>Here we put circles around the dots to confirm that we have the same result as before:
 
 <pre class="mcode-input">plot(s(g((0:N-1)*h)),'ok',MS,8)</pre><img src="img/ComplexArcLength_04.png" class="figure" alt="">

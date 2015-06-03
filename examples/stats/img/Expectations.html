@@ -34,7 +34,7 @@ xlabel('x'), ylabel('f(x)','rotation',0)</pre><img src="img/Expectations_01.png"
 If $f$ is a density function, its integral should be $1$, and we find that this is indeed the case to within rounding errors.
 
 <pre class="mcode-input">sum(f)</pre><pre class="mcode-output">ans =
-   1.000000000000001
+   1.000000000000000
 </pre>The expectation of a continuous random variable is defined as the integral over of $xf(x)$.
 
 <pre class="mcode-input">xf = x.*f;
@@ -46,7 +46,7 @@ We can use the chebfun command `sum` to compute this integral The correct answer
 
 <pre class="mcode-input">format long
 sum(xf)</pre><pre class="mcode-output">ans =
-   0.500000000000006
+   0.500000000000008
 </pre>b) For $E(X^2)$, the answer is again $1/2$ and we compute this in the same way as before.
 
 <pre class="mcode-input">xxf = x.^2.*f;
@@ -55,7 +55,7 @@ ylim([-0.03 0.31])
 xlabel('x'), ylabel('x^2 f(x)','rotation',0)</pre><img src="img/Expectations_03.png" class="figure" alt="">
 
 <pre class="mcode-input">sum(xxf)</pre><pre class="mcode-output">ans =
-   0.500000000000144
+   0.499999999999932
 </pre>
 
 ## 2. Mean, median and mode of a probability distribution

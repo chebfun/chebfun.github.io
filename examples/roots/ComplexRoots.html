@@ -76,7 +76,7 @@
 s1 = sum(z.*diff(f)./f)/(2i*pi)</pre>
 
 <pre class="mcode-output">s1 =
- -0.000000000000003 + 0.500000000000002i
+ -0.000000000000000 + 0.500000000000000i
 </pre>
 
 <p>There is nothing in this computation that depends on the use of the unit disk. Other contours are equally tracatable in Chebfun, as illustrated in the Example <a href="../complex/KeyholeContour.html">complex/KeyholeContour</a> and in <a href="../../docs/guide/guide5.html">Chapter 5</a> of the Chebfun Guide.</p>
@@ -90,7 +90,7 @@ f = ff(z);
 s0 = sum(diff(f)./f)/(2i*pi)</pre>
 
 <pre class="mcode-output">s0 =
-  2.000000000000000 - 0.000000000000000i
+  1.999999999999999 - 0.000000000000000i
 </pre>
 
 <p>Here are the sum of the roots and the sum of their squares:</p>
@@ -98,7 +98,7 @@ s0 = sum(diff(f)./f)/(2i*pi)</pre>
 s2 = sum(z.^2.*diff(f)./f)/(2i*pi)</pre>
 
 <pre class="mcode-output">s1 =
-      4.330727237839987e-20 - 1.370796878478212e-17i
+      4.307001131148512e-17 + 4.279903498196427e-16i
 s2 =
  -0.499999999999999 + 0.000000000000000i
 </pre>
@@ -108,8 +108,8 @@ s2 =
 roots(p)</pre>
 
 <pre class="mcode-output">ans =
- -0.000000000000000 - 0.499999999999999i
-  0.000000000000000 + 0.499999999999999i
+  0.000000000000000 + 0.500000000000000i
+  0.000000000000000 - 0.499999999999999i
 </pre>
 
 <p>Generalization to higher numbers of roots can be done via Newton's identities. We don't pursue the general case here but instead write a code that finds three roots of an analytic function in the unit disk:</p>
@@ -131,9 +131,9 @@ plot(chebfun2(ff)), hold on
 plot(z, 'k-'), axis equal</pre>
 
 <pre class="mcode-output">ans =
- -0.000000000000000 + 0.500000000000000i
-  0.000000000000000 - 0.499999999999999i
-  0.299999999999999 - 0.000000000000000i
+  0.000000000000000 + 0.500000000000001i
+  0.000000000000000 - 0.500000000000001i
+  0.300000000000000 - 0.000000000000000i
 </pre>
 
 <p><img src="img/ComplexRoots_01.png" class="figure" alt=""></p>
@@ -144,9 +144,9 @@ plot(chebfun2(ff)), hold on
 plot(z, 'k-'), axis equal</pre>
 
 <pre class="mcode-output">ans =
- -0.250000000000002 + 0.433012701892223i
-  0.500000000000001 + 0.000000000000005i
- -0.249999999999994 - 0.433012701892219i
+ -0.250000000000001 + 0.433012701892222i
+  0.500000000000002 - 0.000000000000001i
+ -0.250000000000001 - 0.433012701892220i
 </pre>
 
 <p><img src="img/ComplexRoots_02.png" class="figure" alt=""></p>

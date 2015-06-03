@@ -82,7 +82,7 @@ title('Bivariate normal distribution', FS, fs)</pre>
 <p>A joint density function is still a pdf, so it must integrate to 1:</p>
 <pre class="mcode-input">fprintf('Integral of pdf %1.16f\n', integral2(p))</pre>
 
-<pre class="mcode-output">Integral of pdf 0.9999999999999991
+<pre class="mcode-output">Integral of pdf 0.9999999999999979
 </pre>
 
 <p>The value above is less than 1 because of numerical error, not because we have restricted the domain of the probability density function to $[-10,10]\times [,10,-10]$.</p>
@@ -98,7 +98,7 @@ title('Marginal distribution', FS, fs)</pre>
                               exp(-(x-mu1).^2./sigma1^2/2),d(1:2));
 fprintf('Error of marginal = %1.3e\n',norm(px-exact'))</pre>
 
-<pre class="mcode-output">Error of marginal = 3.518e-15
+<pre class="mcode-output">Error of marginal = 1.687e-15
 </pre>
 
 <h3 id="conditional-probability-distributions">Conditional probability distributions</h3>
@@ -115,7 +115,7 @@ exact = chebfun(@(x) 1/(sqrt(2*pi*sigmasq))*...
                                  exp(-(x-mu).^2./sigmasq/2),d(1:2));
 fprintf('Error in conditional pdf is %1.5e\n',norm(fy(x,:)-exact));</pre>
 
-<pre class="mcode-output">Error in conditional pdf is 1.72302e-15
+<pre class="mcode-output">Error in conditional pdf is 1.44667e-15
 </pre>
 
 <h3 id="references">References</h3>

@@ -36,12 +36,12 @@ The eigenfunctions returned by `eigs` are orthonormal.
 
 <pre class="mcode-input">format short
 Psi(:,1:6)'*Psi(:,1:6)</pre><pre class="mcode-output">ans =
-    1.0000   -0.0000    0.0000   -0.0000   -0.0000   -0.0000
-   -0.0000    1.0000   -0.0000   -0.0000   -0.0000    0.0000
-    0.0000   -0.0000    1.0000   -0.0000    0.0000    0.0000
-   -0.0000   -0.0000   -0.0000    1.0000    0.0000   -0.0000
+    1.0000    0.0000    0.0000   -0.0000   -0.0000    0.0000
+    0.0000    1.0000    0.0000   -0.0000   -0.0000    0.0000
+    0.0000    0.0000    1.0000    0.0000    0.0000    0.0000
+   -0.0000   -0.0000    0.0000    1.0000    0.0000   -0.0000
    -0.0000   -0.0000    0.0000    0.0000    1.0000   -0.0000
-   -0.0000    0.0000    0.0000   -0.0000   -0.0000    1.0000
+    0.0000    0.0000    0.0000   -0.0000   -0.0000    1.0000
 </pre>The truncation of the Mercer sum does lead to an underestimate of the values of the kernel $K(s,t)$. For our example, we should get $K(s,s)=1$, but we get noticeably less.
 
 <pre class="mcode-input">Psi(0,:)*diag(lambda)*Psi(0,:)'

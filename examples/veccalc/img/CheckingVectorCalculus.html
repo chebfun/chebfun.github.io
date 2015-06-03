@@ -34,8 +34,10 @@ The gradient of a chebfun2 is represented by a chebfun2v and is a vector that po
 F = grad(f);                                 % gradient (chebfun2v)
 C = chebfun(@(t) t.*exp(100i*t),[0 pi/10]);  % spiral curve
 v = integral(F,C); ends = f(pi/10,0)-f(0,0); % line integral
-abs(v-ends)                                  % gradient theorem</pre><pre class="mcode-output">ans =
-     3.330669073875470e-16
+abs(v-ends)                                  % gradient theorem</pre><pre class="mcode-output">Warning: f.epslevel and get(f,'epslevel') now always returns machine
+epsilon, and is likely to be removed from Chebfun in the future. 
+ans =
+     5.551115123125783e-16
 </pre>Another consequence of the gradient theorem is that the integral of $\mathrm{grad}(f)$ over any closed curve is zero. For example, here is an exotic closed curve, which we plot superimposed on the vector field $\mathrm{grad}(f)$.
 
 <pre class="mcode-input">circ = @(p) chebfun(@(x) exp(2i*p*pi*x + 0.8i));
@@ -46,8 +48,10 @@ plot(C, 'r'), axis equal off</pre><img src="img/CheckingVectorCalculus_01.png" c
 
 Its integral should be zero.
 
-<pre class="mcode-input">v = integral(F,C)</pre><pre class="mcode-output">v =
-    -2.685583934679247e-15
+<pre class="mcode-input">v = integral(F,C)</pre><pre class="mcode-output">Warning: f.epslevel and get(f,'epslevel') now always returns machine
+epsilon, and is likely to be removed from Chebfun in the future. 
+v =
+    -1.110223024625157e-15
 </pre>
 
 ## Curl of the gradient
@@ -55,7 +59,7 @@ Its integral should be zero.
 If the chebfun2v $F$ describes a vector velocity field of fluid flow, then $\mathrm{curl}(F)$ is a scalar function equal to twice the angular speed of a particle in the flow at each point. A particle moving in a gradient field has zero angular speed and hence, $\mathrm{curl}(\mathrm{grad}(f))=0$, a well known identity that can also be checked numerically. For example,
 
 <pre class="mcode-input">norm(curl(grad(f)))</pre><pre class="mcode-output">ans =
-     1.502979114793980e-15
+     2.333447814165596e-15
 </pre>
 
 ## More information

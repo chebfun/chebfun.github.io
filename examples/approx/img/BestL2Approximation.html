@@ -84,7 +84,7 @@ f = 1./(1+1e6*x.^2);                 % Runge function
 s = tic; pn = polyfit(f,n); t = toc(s);
 fprintf('L^2 error is %1.3e\n',norm(f - pn))
 fprintf('L^2 approximation of degree %u in t = %1.3f\n',n,t)</pre><pre class="mcode-output">L^2 error is 1.797e-06
-L^2 approximation of degree 10000 in t = 1.494
+L^2 approximation of degree 10000 in t = 0.995
 </pre>
 
 ## Piecewise smooth functions

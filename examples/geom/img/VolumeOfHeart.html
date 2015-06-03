@@ -42,7 +42,7 @@ $$ A = \oint_C F\cdot n \ ds = \frac{1}{2} \int_0^{2\pi} x(t)y'(t)-y(t)x'(t)
 And that is what we get using chebfuns:
 
 <pre class="mcode-input">0.5*sum(x.*diff(y)-y.*diff(x))</pre><pre class="mcode-output">ans =
-   6.283185307179585
+   6.283185307179586
 </pre>We now apply the same procedure to compute the area of the heart region in the Chebfun Happy Valentines Day! example [1]. In the plot below, we include the normal vector field $[y(t),-x'(t)]^T$ at the boundary.
 
 <pre class="mcode-input">t = -chebfun('t',[0 2*pi]);
@@ -56,7 +56,7 @@ fill(x,y,'.-r',lw,3), axis equal off, hold off</pre><img src="img/VolumeOfHeart_
 The area of this heart-shaped region is:
 
 <pre class="mcode-input">0.5*sum(x.*diff(y)-y.*diff(x))</pre><pre class="mcode-output">ans =
-     5.654866776461627e+02
+     5.654866776461628e+02
 </pre>
 
 ## Volume of a torus
@@ -102,7 +102,7 @@ The colors used in the surface of the torus show the integrand of the surface in
 
 <pre class="mcode-input">Vol = integral2(F'*v)
 Exact = 2*pi^2*3*1^2</pre><pre class="mcode-output">Vol =
-  59.217626406536070
+  59.217626406536297
 Exact =
   59.217626406536148
 </pre>This computation is accurate to about 14 digits.
@@ -111,7 +111,7 @@ We can also easily compute the area of the torus with using the magnitude of the
 
 <pre class="mcode-input">Area = integral2(sqrt(v'*v))
 Exact = 4*pi^2*3*1</pre><pre class="mcode-output">Area =
-     1.184352528130720e+02
+     1.184352528130723e+02
 Exact =
      1.184352528130723e+02
 </pre>
@@ -139,12 +139,12 @@ colorbar</pre><img src="img/VolumeOfHeart_05.png" class="figure" alt="">
 Finally, we compute the volume of the heart.
 
 <pre class="mcode-input">Vol = integral2(F'*v)</pre><pre class="mcode-output">Vol =
-   2.199114857512854
+   2.199114857512857
 </pre>For comparison, here is the volume  the bounding box that encloses the heart region.
 
 <pre class="mcode-input">lx = (max2(x)-min2(x)); ly = (max2(y)-min2(y)); lz = (max2(z)-min2(z));
 VolBox = lx*ly*lz</pre><pre class="mcode-output">VolBox =
-   5.973333333333351
+   5.973333333333366
 </pre>
 
 ## Volume of a seashell
@@ -173,16 +173,16 @@ As in the previous examples, therefore, the net flux across this surface gives t
 <pre class="mcode-input">r = [x;y;z];
 v = -normal(r);
 Vol = integral2(F'*v)</pre><pre class="mcode-output">Vol =
-  55.256380423124448
+  55.256380423124469
 </pre>For comparison, here is the volume  the bounding box that encloses the seashell.
 
 <pre class="mcode-input">lx = (max2(x)-min2(x)); ly = (max2(y)-min2(y)); lz = (max2(z)-min2(z));
 VolBox = lx*ly*lz</pre><pre class="mcode-output">VolBox =
-     2.579395508775307e+02
+     2.579395508775306e+02
 </pre>This solid fills about $21\%$ of its bounding box:
 
 <pre class="mcode-input">Vol/VolBox</pre><pre class="mcode-output">ans =
-   0.214222209177064
+   0.214222209177065
 </pre>
 
 ## References

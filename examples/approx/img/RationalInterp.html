@@ -79,15 +79,15 @@ xx = chebpts(17); plot(xx,exp(xx),'.k',MS,16)</pre><img src="img/RationalInterp_
 spurious_zeros = roots(p)
 spurious_poles = roots(q)
 separation = spurious_poles - spurious_zeros</pre><pre class="mcode-output">spurious_zeros =
-  -0.705459053873448
-   0.374674058140232
+  -0.705459037713853
+   0.374674000347488
 spurious_poles =
-  -0.705459053873448
-   0.374674058140232
+  -0.705459037713853
+   0.374674000347488
 separation =
    1.0e-15 *
+  -0.444089209850063
                    0
-  -0.499600361081320
 </pre>The computation of the first panel, by contrast, had no spurious poles. To achieve this, `ratinterp` actually returned an approximation of type less than the allowed $(8,8)$, as we can see like this:
 
 <pre class="mcode-input">[p,q,rh,mu,nu] = ratinterp(f,8,8);

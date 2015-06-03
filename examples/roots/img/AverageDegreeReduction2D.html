@@ -45,7 +45,7 @@ A function $f(x,y)$ on $[-1,1]\times[-1,1]$ is defined as Toeplitz if there is a
 
 <pre class="mcode-input">M = 20;
 f = @(x,y) sin(M*(x-y));
-compute_tau(f, 2)          % Expected to be approximately 1/sqrt(2) = 0.707</pre><pre class="mcode-output">Tau = 1.30609</pre>The average $\tau$ parameter can be explained since all the oscillations of $f$ occur along diagonals, i.e., $y=-x$ (rather than in the coordinate directions). Two subdivisions, one in the $x$ and one in the $y$ direction are required to halve the length of the diagonal lines and hence, $\tau^2 \approx 1/2$ and $\tau = 1/\sqrt{2}$.
+compute_tau(f, 2)          % Expected to be approximately 1/sqrt(2) = 0.707</pre><pre class="mcode-output">Tau = 0.72761</pre>The average $\tau$ parameter can be explained since all the oscillations of $f$ occur along diagonals, i.e., $y=-x$ (rather than in the coordinate directions). Two subdivisions, one in the $x$ and one in the $y$ direction are required to halve the length of the diagonal lines and hence, $\tau^2 \approx 1/2$ and $\tau = 1/\sqrt{2}$.
 
 Here is a diagram that shows the numerical degrees after each level of subdivision:
 

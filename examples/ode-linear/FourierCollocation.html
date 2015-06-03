@@ -76,9 +76,9 @@ figure, plot(u, LW, 2)</pre>
 
 <pre class="mcode-output">u =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [       0,     6.3]      257      0.65     0.65 
-Epslevel = 1.859047e-15.  Vscale = 2.389734e+00.
+vscale = 2.389734e+00.
 </pre>
 
 <p><img src="img/FourierCollocation_01.png" class="figure" alt=""></p>
@@ -86,7 +86,7 @@ Epslevel = 1.859047e-15.  Vscale = 2.389734e+00.
 <pre class="mcode-input">norm(L*u - f, inf)</pre>
 
 <pre class="mcode-output">ans =
-     3.352183690606336e-11
+     3.323984701218404e-11
 </pre>
 
 <p>We can solve the same ODE with Chebyshev collocation on 2nd-kind points using a <code>cheboppref</code> object with <code>chebcolloc2</code> discretization. (Chebyshev collocation on 1st-kind points is also possible, use <code>chebcolloc1</code>.)</p>
@@ -97,9 +97,9 @@ hold on, plot(v, 'r', LW, 2)</pre>
 
 <pre class="mcode-output">v =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
+       interval       length     endpoint values  
 [       0,     6.3]      412      0.65     0.65 
-Epslevel = 1.858519e-15.  Vscale = 2.389479e+00.
+vscale = 2.389479e+00.
 </pre>
 
 <p><img src="img/FourierCollocation_02.png" class="figure" alt=""></p>
@@ -107,7 +107,7 @@ Epslevel = 1.858519e-15.  Vscale = 2.389479e+00.
 <pre class="mcode-input">norm(L*v - f, inf)</pre>
 
 <pre class="mcode-output">ans =
-     1.661555792297327e-10
+     1.908048586603028e-10
 </pre>
 
 <p>but is about $\pi/2$ times longer.</p>
@@ -133,9 +133,9 @@ figure, plot(u, LW, 2)</pre>
 
 <pre class="mcode-output">u =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [       0,     6.3]      109        18       18 
-Epslevel = 1.679982e-15.  Vscale = 2.114729e+01.
+vscale = 2.114729e+01.
 </pre>
 
 <p><img src="img/FourierCollocation_03.png" class="figure" alt=""></p>
@@ -143,7 +143,7 @@ Epslevel = 1.679982e-15.  Vscale = 2.114729e+01.
 <pre class="mcode-input">norm(L*u - f, inf)</pre>
 
 <pre class="mcode-output">ans =
-     1.595233571306575e-10
+     1.676775466936080e-10
 </pre>
 
 <p>The solution with Chebyshev collocation on 2nd-kind points</p>
@@ -154,9 +154,9 @@ hold on, plot(v, 'r', LW, 2)</pre>
 
 <pre class="mcode-output">v =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
+       interval       length     endpoint values  
 [       0,     6.3]      256        18       18 
-Epslevel = 1.679919e-15.  Vscale = 2.114813e+01.
+vscale = 2.114813e+01.
 </pre>
 
 <p><img src="img/FourierCollocation_04.png" class="figure" alt=""></p>
@@ -176,7 +176,7 @@ s = L \ 0;
 HillDiscr = 1/2*(c(2*pi) + feval(diff(s), 2*pi))</pre>
 
 <pre class="mcode-output">HillDiscr =
-   0.146112728897976
+   0.146112733197895
 </pre>
 
 <h3 id="references">References</h3>

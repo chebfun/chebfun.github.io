@@ -5,7 +5,7 @@ authordate: "Toby Driscoll, May 2011"
 meta: "(Chebfun example ode-eig/SolarQDA.m) [Tags: #eigenvalues, #piecewise, #quantum]"
 ---
 
-Researchers at the University of Delaware are exploring the use of quantum dot arrays (QDA) to capture solar energy. One simplified model of a QDA is as a 1D Schr&ouml;dinger eigenvalue problem. The governing equation is
+Researchers at the University of Delaware are exploring the use of quantum dot arrays (QDA) to capture solar energy. One simplified model of a QDA is as a 1D Schr&#65533;dinger eigenvalue problem. The governing equation is
 
 $$ -\frac{\hbar^2}{2m} \psi'' + U(x) \psi = E \psi, $$
 
@@ -33,7 +33,7 @@ The effective mass is also piecewise constant, so we go through the same motions
 
 <pre class="mcode-input">vals = [repmat(m,1,numwell) m(1)];
 vals = mat2cell(vals,1,ones(1,2*numwell+1));  % convert to cell
-emass = chebfun(vals,x);</pre>Now we are ready to define the Schr&ouml;dinger operator.
+emass = chebfun(vals,x);</pre>Now we are ready to define the Schr&#65533;dinger operator.
 
 <pre class="mcode-input">N = chebop(@(psi) -hbar^2./(2*emass).*diff(psi,2) + U.*psi, x);
 N.lbc = 0; N.rbc = 0;</pre>We find the `numwell` lowest allowed energies and their wavefunctions. Rather than getting one isolated wavefunction "bump" per well, we see that the wells influence one another strongly.
@@ -44,10 +44,10 @@ subplot(2,1,1)
 plot(U,LW,lw), ylabel('potential'), xlim(x([1 end]))
 subplot(2,1,2)
 plot(Psi,LW,lw), ylabel('wavefunction'), xlim(x([1 end]))</pre><pre class="mcode-output">energies =
-   0.237600942577894
-   0.241689420351228
-   0.246929983909500
-   0.251332910862716
+   0.237600942577988
+   0.241689420351716
+   0.246929983909287
+   0.251332910862796
 </pre><img src="img/SolarQDA_02.png" class="figure" alt="">
 
 If we look at probability, we find that the first four modes extend significantly over all wells. This is "delocalization" or quantum tunnelling, and it means the device can conduct electricity.
@@ -71,10 +71,10 @@ U = chebfun(vals,x);</pre>Now we find that the wavefunctions extend significantl
 energies = diag(E)
 semilogy(Psi.^2,LW,lw), ylabel('probability'),
 axis( [x([2 end-1]) 1e-3 1e-0]  )</pre><pre class="mcode-output">energies =
-   0.218256274770184
-   0.232110036472121
-   0.256879388748077
-   0.269586365175261
+   0.218256274770307
+   0.232110036472364
+   0.256879388748553
+   0.269586365175026
 </pre><img src="img/SolarQDA_04.png" class="figure" alt="">
 
 

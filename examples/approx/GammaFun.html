@@ -70,13 +70,13 @@ title('Gamma function',FS,12)</pre>
 
 <pre class="mcode-output">gam =
    chebfun column (5 smooth pieces)
-       interval       length   endpoint values   endpoint exponents
+       interval       length     endpoint values   endpoint exponents
 [      -4,      -3]       20       Inf      Inf         [-1      -1]  
 [      -3,      -2]       21      -Inf     -Inf         [-1      -1]  
 [      -2,      -1]       24       Inf      Inf         [-1      -1]  
-[      -1,       0]       20      -Inf     -Inf         [-1      -1]  
-[       0,       4]       35       Inf        6         [-1      0]  
-Epslevel = 6.958400e-14.  Vscale = Inf.  Total length = 120.
+[      -1,-2.2e-308]       20      -Inf     -Inf         [-1      -1]  
+[-2.2e-308,       4]       35       Inf        6         [-1      0]  
+vscale = Inf.   Total length = 120
 </pre>
 
 <p><img src="img/GammaFun_01.png" class="figure" alt=""></p>
@@ -87,13 +87,13 @@ title('Gamma function again',FS,12)</pre>
 
 <pre class="mcode-output">gam =
    chebfun column (5 smooth pieces)
-       interval       length   endpoint values   endpoint exponents
+       interval       length     endpoint values   endpoint exponents
 [      -4,      -3]       20       Inf      Inf         [-1      -1]  
 [      -3,      -2]       21      -Inf     -Inf         [-1      -1]  
 [      -2,      -1]       24       Inf      Inf         [-1      -1]  
 [      -1,       0]       20      -Inf     -Inf         [-1      -1]  
 [       0,       4]       35       Inf        6         [-1      0]  
-Epslevel = 1.000000e-14.  Vscale = Inf.  Total length = 120.
+vscale = Inf.   Total length = 120
 </pre>
 
 <p><img src="img/GammaFun_02.png" class="figure" alt=""></p>

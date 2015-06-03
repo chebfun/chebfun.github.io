@@ -88,7 +88,7 @@ hold on, plot([-2.6 0],[0 0],'-r',LW,lw); hold off, xlim([-2.6 2.6])</pre>
 <pre class="mcode-input">I = sum(f(z).*diff(z))</pre>
 
 <pre class="mcode-output">I =
- -0.000000000000004 + 5.674755637702207i
+  0.000000000000043 + 5.674755637702217i
 </pre>
 
 <p>For the function we chose above, one can compute this integral exactly.</p>
@@ -102,7 +102,7 @@ hold on, plot([-2.6 0],[0 0],'-r',LW,lw); hold off, xlim([-2.6 2.6])</pre>
 <pre class="mcode-input">error = abs(I - Iexact)</pre>
 
 <pre class="mcode-output">error =
-     1.735773862881141e-14
+     4.326292731793684e-14
 </pre></div>
         </div>
     </div>

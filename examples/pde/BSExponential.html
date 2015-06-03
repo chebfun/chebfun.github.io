@@ -81,7 +81,7 @@ clf
 plot(vT, [40 60]), hold on, ylim([-.5 14])
 wT = vT - u;  % Adjusted variable - satisfies w_t = A*w, B*w = 0.</pre>
 
-<p><img src="img/BSExponential_01.png" class="figure" alt=""></p>
+<p><img src="img/BSExponential_01.png" class="figure" alt=""/></p>
 <p>We can now evaluate at any time directly (not by marching) using the operator exponential implemented by <code>expm</code>. Advance in time to $t = 0.1, 0.2, ..., 0.5$ using <code>expm</code>:</p>
 <pre class="mcode-input">for t = 0.1:0.1:0.5
    w = expm(A, -t, wT);
@@ -89,22 +89,23 @@ wT = vT - u;  % Adjusted variable - satisfies w_t = A*w, B*w = 0.</pre>
    plot(v, [40 60], 'k')
 end</pre>
 
-<p><img src="img/BSExponential_02.png" class="figure" alt=""></p>
+<p><img src="img/BSExponential_02.png" class="figure" alt=""/></p>
 <p>The value of this option if $s=55$, six months before the maturity date, is</p>
 <pre class="mcode-input">v(55)</pre>
 
 <pre class="mcode-output">ans =
-   9.849887661936435
+   9.849887661976446
 </pre>
 
 <p>Note that the initial condition for $w$ is piecewise defined. Thus, <code>w</code> will be piecewise at all times in Chebfun.</p>
 <pre class="mcode-input">w</pre>
 
 <pre class="mcode-output">w =
-   chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[       0,   5e+02]       97     5e-11  7.9e-12 
-Epslevel = 4.510522e-13.  Vscale = 4.925018e+01.
+   chebfun column (2 smooth pieces)
+       interval       length     endpoint values  
+[       0,      50]       31  -1.2e-11      -43 
+[      50,   5e+02]       43       -43 -5.5e-12 
+vscale = 4.925016e+01.   Total length = 74
 </pre>
 
 <p>However, the solution is actually smooth.</p>
@@ -112,7 +113,7 @@ Epslevel = 4.510522e-13.  Vscale = 4.925018e+01.
 jump2 = wss(50+100*eps) - wss(50-100*eps)</pre>
 
 <pre class="mcode-output">jump2 =
-    -2.428612866367530e-17
+    -1.020970812753985e-08
 </pre></div>
         </div>
     </div>

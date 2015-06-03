@@ -78,9 +78,9 @@ A = abs(sum(x.*diff(y)))
 err = A - 180*pi</pre>
 
 <pre class="mcode-output">A =
-     5.654866776461629e+02
+     5.654866776461625e+02
 err =
-     1.136868377216160e-13
+    -2.273736754432321e-13
 </pre>
 
 <p>Here are some more heart curves that can be found in [1]:</p>
@@ -94,9 +94,9 @@ A1 = abs(sum(x1.*diff(y1)))
 err = A1-3*pi/2 % Note, this is A2 on [1]!</pre>
 
 <pre class="mcode-output">A1 =
-   4.712388980384687
+   4.712388980384688
 err =
-    -2.664535259100376e-15
+    -1.776356839400250e-15
 </pre>
 
 <p><img src="img/ValentinesDay_02.png" class="figure" alt=""></p>
@@ -109,7 +109,7 @@ axis equal off
 A5 = abs(sum(x5.*diff(y5))) % Note, different from [1] was we include .1 in sqrt</pre>
 
 <pre class="mcode-output">A5 =
-  11.645555308722981
+  11.645555308722972
 </pre>
 
 <p><img src="img/ValentinesDay_03.png" class="figure" alt=""></p>

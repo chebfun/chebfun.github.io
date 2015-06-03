@@ -20,7 +20,7 @@ It is considered an awkward task because the Legendre nodes are non-uniform and 
 In [2] we describe an algorithm to compute the transform in $O(N(\log N)^2/\log\log N)$ operations, which is implemented in the `dlt()` command in Chebfun. This allows us to compute the transform when N is 10000 or 100000, or a million. Here it is in action:
 
 <pre class="mcode-input">c = randn( 1e4, 1);
-tic, chebfun.dlt( c ); toc</pre><pre class="mcode-output">Elapsed time is 0.282956 seconds.
+tic, chebfun.dlt( c ); toc</pre><pre class="mcode-output">Elapsed time is 0.454423 seconds.
 </pre>The transform computed above is still based on the FFT, but with a handful of tricks and approximations to make it applicable to the DLT. Two main facts are exploited.
 
 
@@ -76,9 +76,9 @@ The inverse discrete Legendre transform takes samples of a function from Legendr
 c_leg = legcoeffs(f);
 tic, f_leg = chebfun.dlt( c_leg ); toc
 backToTheCoeffs = chebfun.idlt( f_leg );
-norm( backToTheCoeffs - c_leg, inf )</pre><pre class="mcode-output">Elapsed time is 0.155084 seconds.
+norm( backToTheCoeffs - c_leg, inf )</pre><pre class="mcode-output">Elapsed time is 0.146416 seconds.
 ans =
-     1.152327861707903e-13
+     1.398044284985071e-13
 </pre>The IDLT can be related to a (transposed) DLT by a discrete orthogonality relation. It has the same $O(N(\log N)^2/\log\log N)$ complexity.
 
 DLT and IDLT complete the Chebyshev--Legendre cycle: (In the diagram below we give the Chebfun commands that compute each particular transform.)

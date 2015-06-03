@@ -32,7 +32,7 @@ To solve this ODE with $\mu = 5$ for $t \in [0,50]$ with initial conditions $u(0
 <pre class="mcode-input">mu = 5;
 N = chebop(@(t, u) diff(u, 2) - mu*(1-u.^2).*diff(u) + u, [0 50]);
 N.lbc = @(u) [u-0.1; diff(u)];
-tic, u = N\0; toc</pre><pre class="mcode-output">Elapsed time is 2.878833 seconds.
+tic, u = N\0; toc</pre><pre class="mcode-output">Elapsed time is 1.758745 seconds.
 </pre>The output from an IVP solution is, of course, a chebfun. Unless the solution is quite simple, this will usually be a chebfun consisting of several pieces, i.e., several funs. We can see the pieces by plotting the solution with dots at the breakpoints:
 
 <pre class="mcode-input">breaks = u.domain(2:end-1);
@@ -68,7 +68,7 @@ N.lbc = @(u) [u-2; diff(u)];</pre>Now, before solving, we set the preference for
 <pre class="mcode-input">cheboppref.setDefaults('ivpSolver', 'collocation')
 tic, u = N\0; toc
 plot(u, LW, 1.2)
-cheboppref.setDefaults('factory');</pre><pre class="mcode-output">Elapsed time is 3.023760 seconds.
+cheboppref.setDefaults('factory');</pre><pre class="mcode-output">Elapsed time is 3.486781 seconds.
 </pre><img src="img/IVPCapabilities_04.png" class="figure" alt="">
 
 This solution took as long as the previous one despite being a much simpler problem (it requires 8 Newton steps). It really can be beneficial to make use of the special structure of IVPs!

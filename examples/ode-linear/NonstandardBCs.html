@@ -90,9 +90,9 @@
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 disp(['Residual of interior condition:    ', num2str(abs(sum(u)))])</pre>
 
-<pre class="mcode-output">Residual of differential equation: 3.4816e-12
-Residual of left BC:               1.2212e-15
-Residual of interior condition:    3.7919e-17
+<pre class="mcode-output">Residual of differential equation: 4.0565e-12
+Residual of left BC:               4.4409e-16
+Residual of interior condition:    1.3434e-17
 </pre>
 
 <p>We could also require the mean of $u$ to take another value, e.g. $1$, via</p>
@@ -102,7 +102,7 @@ Residual of interior condition:    3.7919e-17
 <pre class="mcode-input">u = N\1;
 disp(['Residual of Interior condition: ', num2str(abs(mean(u)-1))])</pre>
 
-<pre class="mcode-output">Residual of Interior condition: 3.3307e-16
+<pre class="mcode-output">Residual of Interior condition: 5.5511e-16
 </pre>
 
 <p>Finally, we could also introduce some weighting, for example, we could look for a solution which is orthogonal to $\sin(4\pi x)$:</p>
@@ -116,9 +116,9 @@ disp(['Residual of left BC:               ',  num2str(abs(u(-1)-1))])
 x = chebfun('x');
 disp(['Residual of interior condition:    ', num2str(abs(sum(sin(4*pi*x).*u)))])</pre>
 
-<pre class="mcode-output">Residual of differential equation: 1.7589e-12
+<pre class="mcode-output">Residual of differential equation: 1.2721e-12
 Residual of left BC:               1.4433e-15
-Residual of interior condition:    2.5752e-16
+Residual of interior condition:    8.6029e-17
 </pre>
 
 <h3 id="example-2-interior-point-conditions">Example 2: Interior point conditions</h3>
@@ -137,9 +137,9 @@ disp(['Residual of differential equation: ', num2str(norm(N(u)-1))])
 disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 disp(['Residual of interior condition:    ', num2str(abs(u(0)-.5))])</pre>
 
-<pre class="mcode-output">Residual of differential equation: 2.0169e-12
-Residual of left BC:               1.1102e-15
-Residual of interior condition:    4.4409e-16
+<pre class="mcode-output">Residual of differential equation: 1.4619e-12
+Residual of left BC:               7.7716e-16
+Residual of interior condition:    1.1102e-15
 </pre>
 
 <p><img src="img/NonstandardBCs_03.png" class="figure" alt=""></p>
@@ -158,9 +158,9 @@ disp(['Residual of left BC:               ', num2str(abs(u(-1)-1))])
 up = diff(u);
 disp(['Residual of interior condition:    ', num2str(abs(up(0)-1))])</pre>
 
-<pre class="mcode-output">Residual of differential equation: 5.1635e-12
-Residual of left BC:               1.1102e-15
-Residual of interior condition:    2.1094e-14
+<pre class="mcode-output">Residual of differential equation: 5.1828e-12
+Residual of left BC:               7.7716e-16
+Residual of interior condition:    1.843e-14
 </pre></div>
         </div>
     </div>

@@ -99,7 +99,7 @@ ylim([-10 K])</pre>
 <pre class="mcode-input">probOOM = 1-lognCDF(K)</pre>
 
 <pre class="mcode-output">probOOM =
-   0.078148029367345
+   0.078148029367943
 </pre>
 
 <p>As we have seen in our previous example, the contribution of the OOM region to the payoff PDF is a Dirac delta with weight equal to the probability of expiring OOM and located at zero (the constant OOM payoff).</p>
@@ -171,7 +171,7 @@ xlim([-0.5 1.5])
 plot([approx approx],[0 0.3],'b--',LW,1.6), hold off
 disp(['approx = ', num2str(approx,'%10.15f')])</pre>
 
-<pre class="mcode-output">approx = 0.440783414442586
+<pre class="mcode-output">approx = 0.440783414443270
 </pre>
 
 <p><img src="img/EuropeanOptions_05.png" class="figure" alt=""></p>
@@ -184,7 +184,7 @@ disp(['exact  = ', num2str(exact,'%10.15f')])
 disp(['approx = ', num2str(approx,'%10.15f')])</pre>
 
 <pre class="mcode-output">exact  = 0.440783414443270
-approx = 0.440783414442586
+approx = 0.440783414443270
 </pre>
 
 <h3 id="power-options">Power Options</h3>
@@ -217,7 +217,7 @@ xlim([-.5 10])
 plot([approx approx],[0 0.3],'b--',LW,1.6), hold off
 disp(['approx = ', num2str(approx,'%10.15f')])</pre>
 
-<pre class="mcode-output">approx = 1.078491451154436
+<pre class="mcode-output">approx = 1.078491451154435
 </pre>
 
 <p><img src="img/EuropeanOptions_07.png" class="figure" alt=""></p>
@@ -230,7 +230,7 @@ disp(['exact  = ', num2str(exact,'%10.15f')])
 disp(['approx = ', num2str(approx,'%10.15f')])</pre>
 
 <pre class="mcode-output">exact  = 1.078491451154441
-approx = 1.078491451154436
+approx = 1.078491451154435
 </pre>
 
 <h3 id="references">References</h3>

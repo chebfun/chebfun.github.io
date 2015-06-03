@@ -74,7 +74,9 @@ c = chebfun(@(t) cos(pi*t) + 1i*sin(2*pi*t),[-.5 .5]);
 plot(c,'k',LW,lw), hold on, contour(f), axis equal tight
 fprintf('Volume enclosed by curve = %1.3f\n',integral2(f,c))</pre>
 
-<pre class="mcode-output">Volume enclosed by curve = 0.838
+<pre class="mcode-output">Warning: f.epslevel and get(f,'epslevel') now always returns machine
+epsilon, and is likely to be removed from Chebfun in the future. 
+Volume enclosed by curve = 0.838
 </pre>
 
 <p><img src="img/Other2DDomains_01.png" class="figure" alt=""></p>
@@ -108,7 +110,7 @@ title('Function on sector domain',FS,fs)</pre>
 <pre class="mcode-input">integral2(f.*jacobian([x;y]))</pre>
 
 <pre class="mcode-output">ans =
-   0.816092631378351
+   0.816092631378346
 </pre>
 
 <h3 id="warping-the-sector-domain">Warping the sector domain</h3>

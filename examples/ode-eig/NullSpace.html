@@ -84,18 +84,18 @@ norm(L(V))</pre>
 
 <pre class="mcode-output">V =
    chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[      -1,       1]        4      -1.4     0.44 
-Epslevel = 4.009500e-16.  Vscale = 1.384490e+00.
+       interval       length     endpoint values  
+[      -1,       1]        5      -1.4     0.44 
+vscale = 1.384490e+00.
    chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[      -1,       1]        4     -0.29      1.3 
-Epslevel = 4.132711e-16.  Vscale = 1.343214e+00.
+       interval       length     endpoint values  
+[      -1,       1]        5     -0.29      1.3 
+vscale = 1.343214e+00.
 ans =
-   1.000000000000000  -0.000000000000000
+   0.999999999999999  -0.000000000000000
   -0.000000000000000   1.000000000000000
 ans =
-     2.644251170154956e-13
+     2.500477017898166e-13
 </pre>
 
 <p><img src="img/NullSpace_01.png" class="figure" alt=""></p>
@@ -104,7 +104,7 @@ ans =
 <pre class="mcode-input">subspace(v, V)</pre>
 
 <pre class="mcode-output">ans =
-     1.385544576431027e-14
+     4.823331265510716e-15
 </pre>
 
 <h3 id="2-incomplete-boundary-conditions">2. Incomplete boundary conditions</h3>
@@ -122,18 +122,18 @@ norm(L(V))</pre>
 
 <pre class="mcode-output">V =
    chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[    -3.1,     3.1]       64       1.8    0.043 
-Epslevel = 1.753455e-16.  Vscale = 1.786120e+00.
+       interval       length     endpoint values  
+[    -3.1,     3.1]       48       1.8    0.043 
+vscale = 1.786120e+00.
    chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[    -3.1,     3.1]       64    -0.011      1.3 
-Epslevel = 2.468482e-16.  Vscale = 1.268748e+00.
+       interval       length     endpoint values  
+[    -3.1,     3.1]       48    -0.011      1.3 
+vscale = 1.268748e+00.
 ans =
-   0.999999999999998   0.000000000000000
-   0.000000000000000   1.000000000000000
+   0.999999999999999  -0.000000000000000
+  -0.000000000000000   0.999999999999999
 ans =
-     3.096261776816828e-11
+     3.394551560075490e-11
 </pre>
 
 <p><img src="img/NullSpace_02.png" class="figure" alt=""></p>
@@ -147,13 +147,13 @@ norm(L(v))</pre>
 
 <pre class="mcode-output">v =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[    -3.1,     3.1]       64  -1.7e-16      1.3 
-Epslevel = 1.708133e-15.  Vscale = 1.268983e+00.
+       interval       length     endpoint values  
+[    -3.1,     3.1]       60   2.2e-16      1.3 
+vscale = 1.268983e+00.
 ans =
    1.000000000000000
 ans =
-     1.427155766422003e-11
+     1.109815458950904e-11
 </pre>
 
 <p><img src="img/NullSpace_03.png" class="figure" alt=""></p>
@@ -161,7 +161,7 @@ ans =
 <pre class="mcode-input">v(-pi)</pre>
 
 <pre class="mcode-output">ans =
-    -1.665334536937735e-16
+     9.562902396880676e-17
 </pre>
 
 <h3 id="3-an-application">3. An application</h3>
@@ -182,14 +182,14 @@ u_star = u + c_star*v
 plot(u_star,LW,lw)</pre>
 
 <pre class="mcode-output">minE =
-   4.121950420615883
+   4.121950420617168
 c_star =
-   3.143771420957320
+   3.143771420955304
 u_star =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[    -3.1,     3.1]       64    -4e-15        4 
-Epslevel = 1.776357e-15.  Vscale = 3.989391e+00.
+       interval       length     endpoint values  
+[    -3.1,     3.1]       60  -3.2e-15        4 
+vscale = 3.989391e+00.
 </pre>
 
 <p><img src="img/NullSpace_06.png" class="figure" alt=""></p>
@@ -197,7 +197,7 @@ Epslevel = 1.776357e-15.  Vscale = 3.989391e+00.
 <pre class="mcode-input">bc_star = u_star(pi)</pre>
 
 <pre class="mcode-output">bc_star =
-   3.989391428267542
+   3.989391428264921
 </pre>
 
 <h3 id="4-exotic-constraints">4. Exotic constraints</h3>
@@ -216,16 +216,16 @@ V'*V</pre>
 
 <pre class="mcode-output">V =
    chebfun column1 (1 smooth piece)
-       interval       length   endpoint values  
-[      -1,       1]       64       1.1     -1.2 
-Epslevel = 2.269192e-16.  Vscale = 1.223148e+00.
+       interval       length     endpoint values  
+[      -1,       1]       64     -0.83      1.1 
+vscale = 1.135264e+00.
    chebfun column2 (1 smooth piece)
-       interval       length   endpoint values  
-[      -1,       1]       64      0.77    -0.15 
-Epslevel = 2.567754e-16.  Vscale = 1.080928e+00.
+       interval       length     endpoint values  
+[      -1,       1]       64         1    -0.48 
+vscale = 1.034334e+00.
 ans =
-   1.000000000000000  -0.000000000000000
-  -0.000000000000000   1.000000000000001
+   1.000000000000000   0.000000000000000
+   0.000000000000000   1.000000000000000
 </pre>
 
 <p><img src="img/NullSpace_07.png" class="figure" alt=""></p>
@@ -234,9 +234,9 @@ norm(L(V), 1)</pre>
 
 <pre class="mcode-output">ans =
    1.0e-15 *
-  -0.111022302462516   0.666133814775094
+  -0.444089209850063   0.333066907387547
 ans =
-     9.372923955371351e-09
+     8.234329725343540e-09
 </pre>
 
 <h3 id="5-references">5. References</h3>

@@ -19,7 +19,7 @@ L.op = @(x,f) diff(f,1) + 2*x.*f;   % ODE
 L.bc = @(x,f) f(0);                 % interior point condition
 f = L\1;
 toc
-plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre><pre class="mcode-output">Elapsed time is 2.369714 seconds.
+plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre><pre class="mcode-output">Elapsed time is 1.495542 seconds.
 </pre><img src="img/DawsonIntegral_01.png" class="figure" alt="">
 
 The problem can be solved analytically:
@@ -45,10 +45,11 @@ fl = newDomain(-flipud(fr),[-W 0]);  % left of x=0
 f = join(fl,fr);                     % must be an easier way to do this!
 f = merge(f)
 plot(f,LW,lw), grid on</pre><pre class="mcode-output">f =
-   chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[      -5,       5]       38      -0.1      0.1 
-Epslevel = 9.665300e-07.  Vscale = 5.396731e-01.
+   chebfun column (2 smooth pieces)
+       interval       length     endpoint values  
+[      -5,       0]       87      -0.1 -9.8e-07 
+[       0,       5]       87   9.8e-07      0.1 
+vscale = 5.407475e-01.   Total length = 174
 </pre><img src="img/DawsonIntegral_02.png" class="figure" alt="">
 
 How big is the discrepancy between $F$ and $f$? You can find out by running these three lines:
@@ -62,7 +63,7 @@ An elegant way to evaluate Dawson's integral as well as several others in the co
 <pre class="mcode-input">N = 36;
 tic
 f = chebfun(@(x) real(sqrt(pi)*(cef(x,N)-exp(-x.^2))/2i), [-W W]);
-toc</pre><pre class="mcode-output">Elapsed time is 0.051382 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 0.018132 seconds.
 </pre>If you have the Symbolic Toolbox...
 
 <pre class="mcode">semilogy(abs(f-fexact)), grid on</pre><pre class="mcode-input">function w = cef(z,N)      % Weideman's complex error function routine

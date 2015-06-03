@@ -77,11 +77,11 @@ w = cumsum( fprime(z) )</pre>
 
 <pre class="mcode-output">w =
    chebfun column (3 smooth pieces)
-       interval       length   endpoint values  
-[       0,    0.57]       20    complex values 
-[    0.57,    0.92]       31    complex values 
+       interval       length     endpoint values  
+[       0,    0.57]       21    complex values 
+[    0.57,    0.92]       33    complex values 
 [    0.92,       1]    65537    complex values 
-Epslevel = 1.636364e-12.  Vscale = 1.311029e+00.  Total length = 65588.
+vscale = 1.311029e+00.   Total length = 65591
 </pre>
 
 <p>In fact, the resulting expression is essentially real.</p>
@@ -124,14 +124,14 @@ end</pre>
 <pre class="mcode-input">f = w(1) + cumsum( fprime(zcirc).*diff(zcirc) );
 subplot(1,2,2), plot(f,'k',LW,2)</pre>
 
-<pre class="mcode-output">Warning: Non-integer difference in the exponents of the two SINGFUN objects: The
-result may not be accurate. 
-Warning: Non-integer difference in the exponents of the two SINGFUN objects: The
-result may not be accurate. 
-Warning: Non-integer difference in the exponents of the two SINGFUN objects: The
-result may not be accurate. 
-Warning: Non-integer difference in the exponents of the two SINGFUN objects: The
-result may not be accurate. 
+<pre class="mcode-output">Warning: Non-integer difference in the exponents of the two SINGFUN objects:
+The result may not be accurate. 
+Warning: Non-integer difference in the exponents of the two SINGFUN objects:
+The result may not be accurate. 
+Warning: Non-integer difference in the exponents of the two SINGFUN objects:
+The result may not be accurate. 
+Warning: Non-integer difference in the exponents of the two SINGFUN objects:
+The result may not be accurate. 
 </pre>
 
 <p><img src="img/ConformalSquare_05.png" class="figure" alt=""></p>

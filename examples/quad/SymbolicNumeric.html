@@ -92,12 +92,6 @@
    \text{PolyLog}[2, -2 - x] + \\
   288 (-563 + 780 \text{Log}[2 + x]) \text{PolyLog}[3, -2 - x] - \\
   224640 \text{PolyLog}[4, -2 - x]) / 2304 $$</p>
-<pre class="mcode-error">Error updating Text. Following is the chain of causes of the error:
-
- String must have valid interpreter syntax: 
-$$ (-759744 - 558290 x + 17705 x  - 1050 x  + 54 x  + \\\\   910528 \text{Log}[2 + x] + 400008 x \text{Log}[2 + x] - \\\\   22836 x^2  \text{Log}[2 + x] + 2072 x^3  \text{Log}[2 + x] - \\\\   162 x^4  \text{Log}[2 + x] - 302016 \text{Log}[2 + x]^2  - \\\\   118800 x \text{Log}[2 + x]^2  + 11880 x^2  \text{Log}[2 + x]^2  - \\\\   1680 x^3  \text{Log}[2 + x]^2  + 216 x^4  \text{Log}[2 + x]^2  + \\\\   48384 \text{Log}[2 + x]^3  + 15552 x \text{Log}[2 + x]^3  - \\\\   2592 x^2  \text{Log}[2 + x]^3  + 576 x^3  \text{Log}[2 + x]^3  - \\\\   144 x^4  \text{Log}[2 + x]^3  + 309078 \text{Log}[3 + x] + \\\\   79680 x \text{Log}[3 + x] - 5520 x^2  \text{Log}[3 + x] + \\\\   592 x^3  \text{Log}[3 + x] - 54 x^4  \text{Log}[3 + x] - \\\\   293976 \text{Log}[2 + x] \text{Log}[3 + x] - \\\\   57600 x \text{Log}[2 + x] \text{Log}[3 + x] + \\\\   7488 x^2  \text{Log}[2 + x] \text{Log}[3 + x] - \\\\   1344 x^3  \text{Log}[2 + x] \text{Log}[3 + x] + \\\\   216 x^4  \text{Log}[2 + x] \text{Log}[3 + x] + \\\\   138672 \text{Log}[2 + x]^2  \text{Log}[3 + x] + \\\\   13824 x \text{Log}[2 + x]^2  \text{Log}[3 + x] - \\\\   3456 x^2  \text{Log}[2 + x]^2  \text{Log}[3 + x] + \\\\   1152 x^3  \text{Log}[2 + x]^2  \text{Log}[3 + x] - \\\\   432 x^4  \text{Log}[2 + x]^2  \text{Log}[3 + x] - \\\\   46656 \text{Log}[2 + x]^3  \text{Log}[3 + x] + \\\\   576 x^4  \text{Log}[2 + x]^3  \text{Log}[3 + x] - \\\\   24 (5609 - 6756 \text{Log}[2 + x] + 4680 \text{Log}[2 + x]^2 ) \\\\    \text{PolyLog}[2, -2 - x] + \\\\   288 (-563 + 780 \text{Log}[2 + x]) \text{PolyLog}[3, -2 - x] - \\\\   224640 \text{PolyLog}[4, -2 - x]) / 2304 $$
-</pre>
-
 <p>In Chebfun, more prosaically, we could do this:</p>
 <pre class="mcode-input">LW = 'LineWidth'; CO = 'Color'; FS = 'FontSize';
 f = chebfun(@(x) log(2+x).^3.*log(3+x).*x.^3);
@@ -107,12 +101,12 @@ title('symbolically integrable',FS,14)</pre>
 
 <pre class="mcode-output">fi =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[      -1,       1]       25   3.5e-18     0.36 
-Epslevel = 1.004348e-15.  Vscale = 3.642639e-01.
+       interval       length     endpoint values  
+[      -1,       1]       26   2.9e-18     0.36 
+vscale = 3.642639e-01.
 </pre>
 
-<p><img src="img/SymbolicNumeric_01.png" class="figure" alt=""></p>
+<p><img src="img/SymbolicNumeric_01.png" class="figure" alt=""/></p>
 <p>These two results are so utterly different! -- and each would be superior in some applications.</p>
 <p>The definite integral from $-1$ to $1$ could be computed in Chebfun like this,</p>
 <pre class="mcode-input">sum(f)</pre>
@@ -139,12 +133,12 @@ title('not symbolically integrable',FS,14)</pre>
 
 <pre class="mcode-output">gi =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[      -1,       1]       23         0     0.49 
-Epslevel = 1.956853e-15.  Vscale = 4.905198e-01.
+       interval       length     endpoint values  
+[      -1,       1]       25   1.2e-18     0.49 
+vscale = 4.905198e-01.
 </pre>
 
-<p><img src="img/SymbolicNumeric_02.png" class="figure" alt=""></p>
+<p><img src="img/SymbolicNumeric_02.png" class="figure" alt=""/></p>
 <h3 id="references">References</h3>
 <ol>
 <li>L. N. Trefethen, Computing numerically with functions     instead of numbers, <em>Communications of the ACM</em>, to appear.</li>

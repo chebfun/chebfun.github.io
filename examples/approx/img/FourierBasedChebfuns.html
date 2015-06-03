@@ -17,9 +17,9 @@ Fourier-based chebfuns, or "trigfuns" as we like to refer to them, can be create
 f = chebfun(@(x) cos(8*sin(x)),dom,'trig')
 plot(f,LW,lw);</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]       61         1        1 
-Epslevel = 2.675450e-15.  Vscale = 1.000000e+00.
+vscale = 1.000000e+00.
 </pre><img src="img/FourierBasedChebfuns_01.png" class="figure" alt="">
 
 Here $f$ is represented to machine precision using a Fourier interpolant rather than a Chebyshev interpolant. The displayed information for $f$ above shows that it is of length 61, meaning that $f$ is resolved to machine precision using 61 samples, or $(61-1)/2=30$ (complex) Fourier modes. These coefficients can be displayed graphically by
@@ -30,9 +30,9 @@ Since $f$ is smooth and periodic, a Fourier representation requires fewer terms 
 
 <pre class="mcode-input">f_cheby = chebfun(@(x) cos(8*sin(x)),dom)</pre><pre class="mcode-output">f_cheby =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
+       interval       length     endpoint values  
 [    -3.1,     3.1]      101         1        1 
-Epslevel = 3.552714e-15.  Vscale = 1.
+vscale = 1.
 </pre>The ratio of length of the Chebyshev series to the Fourier series should be approximately $\pi/2$ since the former has a resolution power of $\pi$ points per wavelength and the latter of 2 points per wavelength. We can check this numerically as
 
 <pre class="mcode-input">ratio = length(f_cheby)/length(f)
@@ -47,19 +47,19 @@ plot(f,LW,lw);</pre><pre class="mcode-output">Warning: Function not resolved usi
 representation? 
 f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]    65536       0.5      0.5 
-Epslevel = 1.818989e-12.  Vscale = 1.
+vscale = 1.
 </pre><img src="img/FourierBasedChebfuns_03.png" class="figure" alt="">
 
 The length of $f$ is 65536, which is the maximum number of samples used in the construction process to try to resolve $f$. The famous Gibbs' phenomenon can be seen near the discontinuity in the plot of $f$. Chebfun can be used to represent this function in non-periodic mode (i.e. using Chebyshev series) with the option of `splitting on`:
 
 <pre class="mcode-input">f = chebfun(@(x) 0.5*(1+sign(x)),dom,'splitting','on')</pre><pre class="mcode-output">f =
    chebfun column (2 smooth pieces)
-       interval       length   endpoint values  
+       interval       length     endpoint values  
 [    -3.1,       0]        1         0        0 
 [       0,     3.1]        1         1        1 
-Epslevel = 1.110223e-15.  Vscale = 1.  Total length = 2.
+vscale = 1.   Total length = 2
 </pre>Splitting is not an option for trigfuns.
 
 
@@ -74,9 +74,9 @@ Addition, subtraction, multiplication, division, and function composition can al
 f = tanh(cos(1+2*g).^2)-0.5
 plot(f, LW, lw)</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
-[    -3.1,     3.1]      141     -0.22    -0.22 
-Epslevel = 2.220446e-16.  Vscale = 4.999998e-01.
+       interval       length     endpoint values trig
+[    -3.1,     3.1]      153     -0.22    -0.22 
+vscale = 4.999859e-01.
 </pre><img src="img/FourierBasedChebfuns_04.png" class="figure" alt="">
 
 The max, min, and roots of $f$ can be computed by
@@ -87,16 +87,16 @@ rootsf = roots(f);
 maxf
 minf
 rootsf</pre><pre class="mcode-output">maxf =
-   0.261594155955768
+   0.261594155955764
 minf =
-  -0.500000000000005
+  -0.500000000000002
 rootsf =
-  -3.009212218006478
-  -2.090420462897019
-  -1.051172190692773
-  -0.132380435583315
-   0.779312428506052
-   2.362280225083741
+  -3.009212218006480
+  -2.090420462897022
+  -1.051172190692771
+  -0.132380435583312
+   0.779312428506054
+   2.362280225083739
 </pre>These can be visualized as
 
 <pre class="mcode-input">plot(f, LW, lw), hold on
@@ -112,16 +112,16 @@ plot(df, LW, lw)</pre><img src="img/FourierBasedChebfuns_06.png" class="figure" 
 and the definite integral is computed using `sum`:
 
 <pre class="mcode-input">intf = sum(f)</pre><pre class="mcode-output">intf =
-  -0.074010812957416
+  -0.074010812957415
 </pre>Complex-valued trigfuns are also possible. For example:
 
 <pre class="mcode-input">f = chebfun(@(x) 1i*(13*cos(x)-5*cos(2*x)-2*cos(3*x)-cos(4*x)) + ...
                  16*sin(x).^3, dom, 'trig')
 plot(f, LW, lw), axis equal</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]        9    complex values 
-Epslevel = 6.661338e-16.  Vscale = 17.
+vscale = 17.
 </pre><img src="img/FourierBasedChebfuns_07.png" class="figure" alt="">
 
 The area enclosed by this curve can be computed as
@@ -140,9 +140,9 @@ x = trigpts(n);
 func_vals = exp(sin(2*pi*x)) + 0.05*randn(n,1);
 f = chebfun(func_vals,dom,'trig')</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]      201         1        1 
-Epslevel = 1.599777e-15.  Vscale = 2.775945e+00.
+vscale = 2.775945e+00.
 </pre>Here $f$ interpolates the noisy `func_vals` at 201 equally spaced points from $[-\pi,\pi)$ using the Fourier basis. The high frequencies in this function can be smoothed by convolving it with a mollifier, in this case a (normalized) Gaussian with variance 0.1.
 
 <pre class="mcode-input">sigma = 0.1;

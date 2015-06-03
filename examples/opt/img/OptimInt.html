@@ -22,8 +22,8 @@ $$ I(a) = \int_{-1}^1 \sin(x) + \sin(a x^2) dx = 1 ? $$
 We use Chebfun's `roots` command to find where $I(a)=1$.
 
 <pre class="mcode-input">r = roots(Ia-1)</pre><pre class="mcode-output">r =
-   2.011698636650794
-   3.199526913460082
+   2.011698636650816
+   3.199526913460071
 </pre>We plot this, to make sure it looks sensible.
 
 <pre class="mcode-input">LW = 'linewidth'; MS = 'markersize';
@@ -36,10 +36,10 @@ Since we have $I(a)$ as a chebfun, we can do other things, like find where $I(a)
 <pre class="mcode-input">r = roots(Ia-0.25)
 plot(r,Ia(r),'.k',MS,20), hold off</pre><pre class="mcode-output">r =
    0.378866771015907
-  18.225950880000603
-  19.761174831761753
+  18.225950880000596
+  19.761174831761764
   23.753831561562048
-  26.956276286229929
+  26.956276286229937
   29.291546747613694
 </pre><img src="img/OptimInt_02.png" class="figure" alt="">
 

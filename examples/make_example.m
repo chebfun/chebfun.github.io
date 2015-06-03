@@ -11,7 +11,8 @@ if exist(folder) ~= 7
     mkdir(folder)
 end
 
-pathpath = '/Users/hrothgar/chebfun/examples/';
+%pathpath = '/Users/hrothgar/chebfun/examples/';
+pathpath = '/home/austin/dphil/git/examples/';
 egname = [folder '/' examplename '.m'];
 copyfile([pathpath egname], egname);
 
@@ -50,6 +51,10 @@ cd(folder)
 
 try
     mypublish(examplename, opts);
+
+    % Strip any MATLAB error messages from the output.
+    system(['../strip-mcode-errors.pl img/' examplename '.' opts.format]);
+
     cd('..')
 
     % Let the user know we're done.

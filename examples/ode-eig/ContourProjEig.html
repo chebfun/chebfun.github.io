@@ -80,14 +80,14 @@ L</pre>
 
 <pre class="mcode-output">L =
    Linear operator:
-      -diff(u,2) = 0
+      u |--&gt; -diff(u,2)
    operating on chebfun objects defined on:
-      [0 3.14159]
+      [0, 3.14159]
    with
-    left boundary conditions:
-      u-BC = 0
-    right boundary conditions:
-      u-BC = 0
+    left boundary condition(s):
+      u = 0
+    right boundary condition(s):
+      u = 0
 </pre>
 
 <p>We will attempt to use the algorithm described above to compute the eigenvalues of $L$ inside the interval $[0, 10]$.  In this case, we know that the eigenvalues are given in closed form by $\lambda_n = n^2, n = 1, 2, \ldots$ with corresponding eigenfunctions $f_n(x) = \sin(nx)$.  Thus, there are three eigenvalues in $[0, 10]$, so we take $M = 3$.</p>
@@ -102,7 +102,7 @@ plot(Y, LW, lw)
 title('Three arbitrary functions', FS, fs)
 xlim([0 pi])</pre>
 
-<p><img src="img/ContourProjEig_01.png" class="figure" alt=""></p>
+<p><img src="img/ContourProjEig_01.png" class="figure" alt=""/></p>
 <p>Next, we must project these arbitrary functions onto the eigenspace spanned by the eigenfunctions of $A$ corresponding to the eigenvalues within our search interval of $[0, 10]$.  It turns out that the contour integral relationship from above still applies in an appropriate sense in the continuous setting, so we do the projection by discretizing it just as before.  The key difference is that instead of solving <em>linear systems</em> at each quadrature node, we must solve <em>differential equations</em> instead.</p>
 <p>For our contour, we choose a circle centered at $5$ with radius $5$ so that it encloses all of $[0, 10]$.  For the discretization, we use the 8-point midpoint rule, i.e., the 8-point trapezoid rule with the quadrature nodes rotated through an angle of $\pi/8$ to make them symmetric with respect to the real axis.  Since $L$ is self-adjoint and "real", we can exploit this symmetry to cut the total number of boundary value problems we need to solve in half.  We compute the quadrature nodes and weights:</p>
 <pre class="mcode-input">K = 8;
@@ -131,7 +131,7 @@ W = real(W / K);  % Take real part to discard imaginary rounding errors.</pre>
 <pre class="mcode-input">T = toc</pre>
 
 <pre class="mcode-output">T =
-   5.597531314000000
+   3.105303000000000
 </pre>
 
 <p>The eigenvalues of L are</p>
@@ -139,9 +139,9 @@ W = real(W / K);  % Take real part to discard imaginary rounding errors.</pre>
 diag(D)</pre>
 
 <pre class="mcode-output">ans =
-   9.000022136839711
-   4.001071254848362
-   1.000904202687470
+   9.000022136839718
+   4.001071254848481
+   1.000904202687537
 </pre>
 
 <p>These are accurate to about 4-5 digits.  We can increase the accuracy by using more quadrature points; however, this comes at the cost of requiring the solution of more BVPs.  The corresponding ($L^2$-normalized) eigenfunctions are</p>
@@ -155,7 +155,7 @@ title('Eigenfunctions of L = -d^2/dx^2', FS, fs)
 xlim([0 pi])
 ylim([-1 1])</pre>
 
-<p><img src="img/ContourProjEig_02.png" class="figure" alt=""></p>
+<p><img src="img/ContourProjEig_02.png" class="figure" alt=""/></p>
 <p>These are in excellent agreement with the known exact results from above.</p>
 <h3 id="comparison-with-eigs">Comparison with <code>eigs</code></h3>
 <p>Of course, one does not need to use this method to compute eigenvalues of differential operators in Chebfun.  A much easier way is available in the form of Chebfun's <code>eigs</code> function:</p>
@@ -163,16 +163,16 @@ ylim([-1 1])</pre>
 eigs(L, 3)</pre>
 
 <pre class="mcode-output">ans =
-   1.000000000000424
-   4.000000000001219
-   9.000000000001151
+   1.000000000000028
+   4.000000000000513
+   8.999999999999799
 </pre>
 
 <p>These numbers are accurate to about 13 digits, which is excellent.  Moreover, the time taken was</p>
 <pre class="mcode-input">T = toc</pre>
 
 <pre class="mcode-output">T =
-   1.028643443000000
+   0.593726000000000
 </pre>
 
 <p>which is considerably less than that taken by the projection-based method we used above.  The projection-based method may therefore not be the most efficient method for computing eigenvalues of differential operators, but it is nonetheless interesting!</p>

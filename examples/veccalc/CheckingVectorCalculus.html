@@ -86,8 +86,10 @@ C = chebfun(@(t) t.*exp(100i*t),[0 pi/10]);  % spiral curve
 v = integral(F,C); ends = f(pi/10,0)-f(0,0); % line integral
 abs(v-ends)                                  % gradient theorem</pre>
 
-<pre class="mcode-output">ans =
-     3.330669073875470e-16
+<pre class="mcode-output">Warning: f.epslevel and get(f,'epslevel') now always returns machine
+epsilon, and is likely to be removed from Chebfun in the future. 
+ans =
+     5.551115123125783e-16
 </pre>
 
 <p>Another consequence of the gradient theorem is that the integral of $\mathrm{grad}(f)$ over any closed curve is zero. For example, here is an exotic closed curve, which we plot superimposed on the vector field $\mathrm{grad}(f)$.</p>
@@ -101,8 +103,10 @@ plot(C, 'r'), axis equal off</pre>
 <p>Its integral should be zero.</p>
 <pre class="mcode-input">v = integral(F,C)</pre>
 
-<pre class="mcode-output">v =
-    -2.685583934679247e-15
+<pre class="mcode-output">Warning: f.epslevel and get(f,'epslevel') now always returns machine
+epsilon, and is likely to be removed from Chebfun in the future. 
+v =
+    -1.110223024625157e-15
 </pre>
 
 <h3 id="curl-of-the-gradient">Curl of the gradient</h3>
@@ -110,7 +114,7 @@ plot(C, 'r'), axis equal off</pre>
 <pre class="mcode-input">norm(curl(grad(f)))</pre>
 
 <pre class="mcode-output">ans =
-     1.502979114793980e-15
+     2.333447814165596e-15
 </pre>
 
 <h3 id="more-information">More information</h3>

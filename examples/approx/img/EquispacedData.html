@@ -32,7 +32,7 @@ The error is encouragingly small.  It would be bigger with fewer data points, sm
 
 <pre class="mcode-input">fexact = chebfun(ff);
 error = norm(f-fexact,inf)</pre><pre class="mcode-output">error =
-     3.537098261522557e-06
+     3.537098266021654e-06
 </pre>For comparison, this is what we get with polynomial interpolation of the same data. Of course, any Chebfun user knows that polynomial interpolation in equispaced points is a bad idea (the Runge phenomenon).
 
 <pre class="mcode-input">runge = chebfun.interp1(grid,data);
@@ -45,9 +45,9 @@ The answer is that it is a polynomial approximant, but not simply the polynomial
 
 <pre class="mcode-input">f</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
+       interval       length     endpoint values  
 [      -1,       1]       99      0.31     -2.3 
-Epslevel = 3.552714e-15.  Vscale = 2.575480e+00.
+vscale = 2.575480e+00.
 </pre>To construct this function, Chebfun has first constructed a rational function $g$ known as a Floater-Hormann interpolant [1] that has good properties with equispaced data, and it has picked the order of this approximation in an adaptive fashion. Then, since Chebfun works with polynomials rather than rational functions, it has approximated $g$ by a chebfun $f$ of the usual polynomial kind.
 
 Here is a plot of the Chebyshev coefficients of $f$:
@@ -61,7 +61,7 @@ Note that about half of them are below the level of the accuracy of the approxim
 error50 = norm(f50-fexact,inf)
 plotcoeffs(f50,'color',purple), axis([0 100 1e-16 10])
 title('Chebyshev coefficients up to degree 50',FS,10)</pre><pre class="mcode-output">error50 =
-     3.526801935780328e-06
+     3.526801940675228e-06
 </pre><img src="img/EquispacedData_04.png" class="figure" alt="">
 
 Another approach would be construct the original chebfun with a loosened value of `eps`:
@@ -70,7 +70,7 @@ Another approach would be construct the original chebfun with a loosened value o
 errorloose = norm(floose-fexact,inf)
 plotcoeffs(floose,'color',purple), axis([0 100 1e-16 10])
 title('Chebyshev coefficients with loosened tolerance',FS,10)</pre><pre class="mcode-output">errorloose =
-     1.693971107830095e-08
+     3.536842150029010e-06
 </pre><img src="img/EquispacedData_05.png" class="figure" alt="">
 
 

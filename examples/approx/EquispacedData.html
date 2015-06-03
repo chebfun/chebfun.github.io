@@ -82,7 +82,7 @@ title('chebfun constructed from 40 equispaced data values',FS,10)</pre>
 error = norm(f-fexact,inf)</pre>
 
 <pre class="mcode-output">error =
-     3.537098261522557e-06
+     3.537098266021654e-06
 </pre>
 
 <p>For comparison, this is what we get with polynomial interpolation of the same data. Of course, any Chebfun user knows that polynomial interpolation in equispaced points is a bad idea (the Runge phenomenon).</p>
@@ -97,9 +97,9 @@ hold on, plot(grid,data,'.k',MS,8), hold off</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
+       interval       length     endpoint values  
 [      -1,       1]       99      0.31     -2.3 
-Epslevel = 3.552714e-15.  Vscale = 2.575480e+00.
+vscale = 2.575480e+00.
 </pre>
 
 <p>To construct this function, Chebfun has first constructed a rational function $g$ known as a Floater-Hormann interpolant [1] that has good properties with equispaced data, and it has picked the order of this approximation in an adaptive fashion. Then, since Chebfun works with polynomials rather than rational functions, it has approximated $g$ by a chebfun $f$ of the usual polynomial kind.</p>
@@ -115,7 +115,7 @@ plotcoeffs(f50,'color',purple), axis([0 100 1e-16 10])
 title('Chebyshev coefficients up to degree 50',FS,10)</pre>
 
 <pre class="mcode-output">error50 =
-     3.526801935780328e-06
+     3.526801940675228e-06
 </pre>
 
 <p><img src="img/EquispacedData_04.png" class="figure" alt=""></p>
@@ -126,7 +126,7 @@ plotcoeffs(floose,'color',purple), axis([0 100 1e-16 10])
 title('Chebyshev coefficients with loosened tolerance',FS,10)</pre>
 
 <pre class="mcode-output">errorloose =
-     1.693971107830095e-08
+     3.536842150029010e-06
 </pre>
 
 <p><img src="img/EquispacedData_05.png" class="figure" alt=""></p>

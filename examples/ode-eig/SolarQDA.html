@@ -61,7 +61,7 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>Researchers at the University of Delaware are exploring the use of quantum dot arrays (QDA) to capture solar energy. One simplified model of a QDA is as a 1D Schr&ouml;dinger eigenvalue problem. The governing equation is</p>
+<p>Researchers at the University of Delaware are exploring the use of quantum dot arrays (QDA) to capture solar energy. One simplified model of a QDA is as a 1D Schr&#65533;dinger eigenvalue problem. The governing equation is</p>
 <p>$$ -\frac{\hbar^2}{2m} \psi'' + U(x) \psi = E \psi, $$</p>
 <p>where $\psi(x)$ is the wavefunction, $\hbar$ is Planck's constant divided by $2\pi$, $m$ is an effective mass, $E$ is an allowed energy, and $U(x)$ is a potential with wells representing the quantum dots. We will take $\psi=0$ far from the wells to supply boundary conditions.</p>
 <p>Here are some dimensional parameters corresponding to physical experiments. Space is measured in nanometers and energy is in electron volts.</p>
@@ -89,7 +89,7 @@ xlim(x([1 end]))</pre>
 vals = mat2cell(vals,1,ones(1,2*numwell+1));  % convert to cell
 emass = chebfun(vals,x);</pre>
 
-<p>Now we are ready to define the Schr&ouml;dinger operator.</p>
+<p>Now we are ready to define the Schr&#65533;dinger operator.</p>
 <pre class="mcode-input">N = chebop(@(psi) -hbar^2./(2*emass).*diff(psi,2) + U.*psi, x);
 N.lbc = 0; N.rbc = 0;</pre>
 
@@ -102,10 +102,10 @@ subplot(2,1,2)
 plot(Psi,LW,lw), ylabel('wavefunction'), xlim(x([1 end]))</pre>
 
 <pre class="mcode-output">energies =
-   0.237600942577894
-   0.241689420351228
-   0.246929983909500
-   0.251332910862716
+   0.237600942577988
+   0.241689420351716
+   0.246929983909287
+   0.251332910862796
 </pre>
 
 <p><img src="img/SolarQDA_02.png" class="figure" alt=""></p>
@@ -132,10 +132,10 @@ semilogy(Psi.^2,LW,lw), ylabel('probability'),
 axis( [x([2 end-1]) 1e-3 1e-0]  )</pre>
 
 <pre class="mcode-output">energies =
-   0.218256274770184
-   0.232110036472121
-   0.256879388748077
-   0.269586365175261
+   0.218256274770307
+   0.232110036472364
+   0.256879388748553
+   0.269586365175026
 </pre>
 
 <p><img src="img/SolarQDA_04.png" class="figure" alt=""></p>

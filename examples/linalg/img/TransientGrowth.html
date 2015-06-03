@@ -34,7 +34,7 @@ A = [-1 0 0 0 0 0 -625; 0 -1 -30 400 0 0 250; -2 0 -1 0 0 0 30;
 <pre class="mcode-input">e = chebfun(@(t) norm(expm(t*A)),[0 2.5],'vectorize','splitting','on');
 LW = 'linewidth'; FS = 'fontsize'; plot(e,'b',LW,2)
 xlabel('t',FS,14), ylabel('||e^{tA}||',FS,14)
-title('amplitude',FS,16)</pre><pre class="mcode-output">Warning: Function not resolved using 6050 pts. 
+title('amplitude',FS,16)</pre><pre class="mcode-output">Warning: Function not resolved using 6103 pts. 
 </pre><img src="img/TransientGrowth_01.png" class="figure" alt="">
 
 Actually Whidborne and Amar plot the square of this function. The following figure matches their Figure 1.
@@ -49,7 +49,7 @@ They are interested in calculating the maximum energy:
 <pre class="mcode-input">fprintf('Maximum energy = %15.8f\n',max(e2))</pre><pre class="mcode-output">Maximum energy = 358147.98785176
 </pre>Here's the time for this Example:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 11.016822 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 7.844005 seconds.
 </pre>
 
 ## References

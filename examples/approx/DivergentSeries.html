@@ -66,7 +66,7 @@
 sum(chebfun(@(t) exp(-t)./(1+t),[0 inf]))</pre>
 
 <pre class="mcode-output">ans =
-   0.596347362323151
+   0.596347362323192
 </pre>
 
 <p>It's not hard to make a Chebfun of the result, like this:</p>
@@ -83,12 +83,12 @@ title('The integral f as a function of parameter x','fontsize',12)</pre>
 end</pre>
 
 <pre class="mcode-output">       1.000000000000  (should be       1)
-      -0.999999999985  (should be      -1)
-       3.999999973601  (should be       4)
-     -35.999978174795  (should be     -36)
-     575.988230856771  (should be     576)
-  -14395.268464737528  (should be  -14400)
-  516870.744292268530  (should be  518400)
+      -0.999999999995  (should be      -1)
+       3.999999989946  (should be       4)
+     -35.999992203048  (should be     -36)
+     575.995779487813  (should be     576)
+  -14398.207144211166  (should be  -14400)
+  517767.010668066214  (should be  518400)
 </pre>
 
 <p>In other words, at $x=0$, $f$ has the asymptotic series $$ f(x) \sim 0! - 1!x + 2!x^2 - 3! x^3 + \cdots . $$ It can't be a Taylor series, because the terms increase too fast: the radius of convergence is zero.</p>
@@ -96,7 +96,7 @@ end</pre>
 <pre class="mcode-input">f(1)</pre>
 
 <pre class="mcode-output">ans =
-   0.596347362323194
+   0.596347362323192
 </pre>
 
 <p>Suppose we try to estimate this limit from those not-quite-Taylor coefficients.  We could use the epsilon algorithm, which amounts to constructing a Pade approximation and evaluating it at $z=1$. Here's the result, showing 2 digits of accuracy:</p>
@@ -104,7 +104,7 @@ end</pre>
 r(1)</pre>
 
 <pre class="mcode-output">ans =
-   0.597383362132809
+   0.597383362132806
 </pre>
 
 <p>At $z=1/2$ we get 3 or 4 digits:</p>
@@ -112,9 +112,9 @@ r(1)</pre>
 r(0.5)</pre>
 
 <pre class="mcode-output">ans =
-   0.722657233776450
+   0.722657233776446
 ans =
-   0.722739361702128
+   0.722739361702127
 </pre>
 
 <h3 id="references">References</h3>

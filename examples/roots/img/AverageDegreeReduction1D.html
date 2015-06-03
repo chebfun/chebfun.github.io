@@ -54,7 +54,7 @@ For functions that are analytic on the real line with simple poles in the comple
 
 <pre class="mcode-input">f = @(x) 1./(x-1.0001);
 compute_tau(f, 8)
-subdivisionDiagram(f,3)</pre><pre class="mcode-output">tau = 0.37094</pre><img src="img/AverageDegreeReduction1D_03.png" class="figure" alt="">
+subdivisionDiagram(f,3)</pre><pre class="mcode-output">tau = 0.37722</pre><img src="img/AverageDegreeReduction1D_03.png" class="figure" alt="">
 
 This function is meromorphic in the complex $x$-plane with a simple pole at $x=1.0001$, and for these types of functions the Chebyshev coefficient are explicitly known (see [4,5]). In this case it can be shown that the numerical degrees of $f$ on the subinterval $[a,1]$, for $a = -1,0,1/2,1/4$, are the following integers:
 
@@ -79,7 +79,7 @@ m = m'</pre><pre class="mcode-output">m =
 Some functions have values of $\tau$ larger than $1/2$, at least for the first few subdivisions. These functions tend to be difficult at many points on the interval. For example,
 
 <pre class="mcode-input">f = chebfun(@(x) abs(prod(x-linspace(-1,1,10)).^3),'vectorise');
-compute_tau(f, 2)</pre><pre class="mcode-output">tau = 0.70761</pre>
+compute_tau(f, 2)</pre><pre class="mcode-output">tau = 0.71065</pre>
 
 ## Conclusion
 
@@ -87,10 +87,10 @@ The average degree reduction parameter $\tau$ can take almost any value between 
 
 <pre class="mcode-input">M = 2000;
 f = chebfun(@(x) sin(M*x));   % example with tau approximately 1/2.
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.807681 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.399425 seconds.
 </pre><pre class="mcode-input">c = -1.0001;
 f = chebfun(@(x) 1./(x+c));   % example with tau approximately 0.375
-tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 1.445259 seconds.
+tic, roots(f); toc</pre><pre class="mcode-output">Elapsed time is 0.893164 seconds.
 </pre>The reason is that the overhead of each subdivision (as implemented) is high, and many more levels of subdivision are required for $1/(x+c)$.
 
 Here are the functions used above to compute $\tau$ and plot the subdivision diagrams.

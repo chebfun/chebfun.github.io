@@ -73,7 +73,7 @@ LW = 'LineWidth';</pre>
 <pre class="mcode-input">c = randn( 1e4, 1);
 tic, chebfun.dlt( c ); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.282956 seconds.
+<pre class="mcode-output">Elapsed time is 0.454423 seconds.
 </pre>
 
 <p>The transform computed above is still based on the FFT, but with a handful of tricks and approximations to make it applicable to the DLT. Two main facts are exploited.</p>
@@ -118,9 +118,9 @@ tic, f_leg = chebfun.dlt( c_leg ); toc
 backToTheCoeffs = chebfun.idlt( f_leg );
 norm( backToTheCoeffs - c_leg, inf )</pre>
 
-<pre class="mcode-output">Elapsed time is 0.155084 seconds.
+<pre class="mcode-output">Elapsed time is 0.146416 seconds.
 ans =
-     1.152327861707903e-13
+     1.398044284985071e-13
 </pre>
 
 <p>The IDLT can be related to a (transposed) DLT by a discrete orthogonality relation. It has the same $O(N(\log N)^2/\log\log N)$ complexity.</p>

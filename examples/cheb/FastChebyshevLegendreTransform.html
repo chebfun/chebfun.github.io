@@ -108,8 +108,8 @@ semilogy(chebpts(length(f)), abs(f.values - cheb_vals))
 title('Absolute error', FS, fs), hold off
 axis([-1 1 1e-16 1e-12]), set(gca, FS, fs), hold off</pre>
 
-<pre class="mcode-output">No. of evaluation points = 23945
-Evaluation time = 1.26s
+<pre class="mcode-output">No. of evaluation points = 28947
+Evaluation time = 1.14s
 </pre>
 
 <p><img src="img/FastChebyshevLegendreTransform_03.png" class="figure" alt=""></p>
@@ -135,8 +135,8 @@ c_leg = ( (P*A) \ (P*b) );                     % solve
 toc</pre>
 
 <pre class="mcode-output">N =
-       31709
-Elapsed time is 3.783517 seconds.
+       31713
+Elapsed time is 2.270565 seconds.
 </pre>
 
 <p>We can now form a chebfun from solution using <code>leg2cheb</code>:</p>
@@ -149,7 +149,7 @@ clf, plot(u{-0.001,0.001}) % plot u on [-0.001, 0.001]
 title('Computed solution (zoomed in)', FS, fs)
 set(gca, FS, fs), xlabel('x', FS, fs), shg</pre>
 
-<pre class="mcode-output">Elapsed time is 1.124345 seconds.
+<pre class="mcode-output">Elapsed time is 0.891865 seconds.
 </pre>
 
 <p><img src="img/FastChebyshevLegendreTransform_04.png" class="figure" alt=""></p>
@@ -158,9 +158,9 @@ set(gca, FS, fs), xlabel('x', FS, fs), shg</pre>
 norm(u - f)</pre>
 
 <pre class="mcode-output">ans =
-     4.827388488948259e-14
+     4.630952739337335e-14
 ans =
-     0
+     1.352978051829866e-12
 </pre>
 
 <h3 id="conclusion">Conclusion</h3>

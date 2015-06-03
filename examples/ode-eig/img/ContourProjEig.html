@@ -37,14 +37,14 @@ L.lbc = 0;
 L.rbc = 0;
 L</pre><pre class="mcode-output">L =
    Linear operator:
-      -diff(u,2) = 0
+      u |--&gt; -diff(u,2)
    operating on chebfun objects defined on:
-      [0 3.14159]
+      [0, 3.14159]
    with
-    left boundary conditions:
-      u-BC = 0
-    right boundary conditions:
-      u-BC = 0
+    left boundary condition(s):
+      u = 0
+    right boundary condition(s):
+      u = 0
 </pre>We will attempt to use the algorithm described above to compute the eigenvalues of $L$ inside the interval $[0, 10]$.  In this case, we know that the eigenvalues are given in closed form by $\lambda_n = n^2, n = 1, 2, \ldots$ with corresponding eigenfunctions $f_n(x) = \sin(nx)$.  Thus, there are three eigenvalues in $[0, 10]$, so we take $M = 3$.
 
 The first thing the algorithm calls for are $M$ random vectors.  The analogous objects to generate in the continuous case are $M$ arbitrary functions.   We generate these by building chebfuns from random data at a handful of Chebyshev points on $[0, \pi]$, gathering them as columns into a quasimatrix.  For later comparison, we start a timer as well so we can see how long it takes the algorithm to run.
@@ -57,7 +57,7 @@ rng(67714070);  % Seed the RNG for reproducibility.
 Y = chebfun(2*randn(32, 3), [0 pi]);
 plot(Y, LW, lw)
 title('Three arbitrary functions', FS, fs)
-xlim([0 pi])</pre><img src="img/ContourProjEig_01.png" class="figure" alt="">
+xlim([0 pi])</pre><img src="img/ContourProjEig_01.png" class="figure" alt=""/>
 
 Next, we must project these arbitrary functions onto the eigenspace spanned by the eigenfunctions of $A$ corresponding to the eigenvalues within our search interval of $[0, 10]$.  It turns out that the contour integral relationship from above still applies in an appropriate sense in the continuous setting, so we do the projection by discretizing it just as before.  The key difference is that instead of solving _linear systems_ at each quadrature node, we must solve _differential equations_ instead.
 
@@ -84,14 +84,14 @@ W = real(W / K);  % Take real part to discard imaginary rounding errors.</pre>Fi
 <pre class="mcode-input">[V, D] = eig(W'*(L*W), W'*W);</pre>We're done!  The total amount of time taken was
 
 <pre class="mcode-input">T = toc</pre><pre class="mcode-output">T =
-   5.597531314000000
+   3.105303000000000
 </pre>The eigenvalues of L are
 
 <pre class="mcode-input">format long
 diag(D)</pre><pre class="mcode-output">ans =
-   9.000022136839711
-   4.001071254848362
-   1.000904202687470
+   9.000022136839718
+   4.001071254848481
+   1.000904202687537
 </pre>These are accurate to about 4-5 digits.  We can increase the accuracy by using more quadrature points; however, this comes at the cost of requiring the solution of more BVPs.  The corresponding ($L^2$-normalized) eigenfunctions are
 
 <pre class="mcode-input">F = W*V;
@@ -102,7 +102,7 @@ end
 plot(F, LW, lw)
 title('Eigenfunctions of L = -d^2/dx^2', FS, fs)
 xlim([0 pi])
-ylim([-1 1])</pre><img src="img/ContourProjEig_02.png" class="figure" alt="">
+ylim([-1 1])</pre><img src="img/ContourProjEig_02.png" class="figure" alt=""/>
 
 These are in excellent agreement with the known exact results from above.
 
@@ -114,13 +114,13 @@ Of course, one does not need to use this method to compute eigenvalues of differ
 
 <pre class="mcode-input">tic
 eigs(L, 3)</pre><pre class="mcode-output">ans =
-   1.000000000000424
-   4.000000000001219
-   9.000000000001151
+   1.000000000000028
+   4.000000000000513
+   8.999999999999799
 </pre>These numbers are accurate to about 13 digits, which is excellent.  Moreover, the time taken was
 
 <pre class="mcode-input">T = toc</pre><pre class="mcode-output">T =
-   1.028643443000000
+   0.593726000000000
 </pre>which is considerably less than that taken by the projection-based method we used above.  The projection-based method may therefore not be the most efficient method for computing eigenvalues of differential operators, but it is nonetheless interesting!
 
 

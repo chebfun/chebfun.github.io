@@ -24,7 +24,8 @@ Now we solve the problem to time $t=100$:
 N = chebop(@planetfun, dom);
 N.lbc = @(x,y,z) [x-x0; y-y0; z-z0; diff(x); diff(y); diff(z)];
 u = N\0;
-[x,y,z] = deal(u);</pre>Here is a typical configuration for $t &lt; t_c$:
+[x,y,z] = deal(u);</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+</pre>Here is a typical configuration for $t &lt; t_c$:
 
 <pre class="mcode-input">t = 50;
 plotframe(x(t),y(t),z(t))

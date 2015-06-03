@@ -30,7 +30,7 @@ Now to integrate around the contour, one parametrises by a real variable, say $t
 In Chebfun, this is easy:
 
 <pre class="mcode-input">I = sum(f(z).*diff(z))</pre><pre class="mcode-output">I =
- -0.000000000000004 + 5.674755637702207i
+  0.000000000000043 + 5.674755637702217i
 </pre>For the function we chose above, one can compute this integral exactly.
 
 <pre class="mcode-input">Iexact = 4i*pi*log(pi/2)</pre><pre class="mcode-output">Iexact =
@@ -38,5 +38,5 @@ In Chebfun, this is easy:
 </pre>How does this compare with our computation?
 
 <pre class="mcode-input">error = abs(I - Iexact)</pre><pre class="mcode-output">error =
-     1.735773862881141e-14
+     4.326292731793684e-14
 </pre>

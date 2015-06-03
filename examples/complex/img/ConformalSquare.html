@@ -22,11 +22,11 @@ One cannot choose the prevertices arbitrarily in general, as they are nonlinearl
 <pre class="mcode-input">z = chebfun('z',[0 1]);
 w = cumsum( fprime(z) )</pre><pre class="mcode-output">w =
    chebfun column (3 smooth pieces)
-       interval       length   endpoint values  
-[       0,    0.57]       20    complex values 
-[    0.57,    0.92]       31    complex values 
+       interval       length     endpoint values  
+[       0,    0.57]       21    complex values 
+[    0.57,    0.92]       33    complex values 
 [    0.92,       1]    65537    complex values 
-Epslevel = 1.636364e-12.  Vscale = 1.311029e+00.  Total length = 65588.
+vscale = 1.311029e+00.   Total length = 65591
 </pre>In fact, the resulting expression is essentially real.
 
 <pre class="mcode-input">zcirc = exp(1i*chebfun('t',[0 2*pi]));
@@ -68,14 +68,14 @@ Thanks to conformality, both networks of curves make orthogonal intersections.
 The boundary is interesting. The map can't be conformal there, because the smooth curve obtains 90 degree corners. In fact, this observation shows that the mapping will have square-root singularities at those points. Nevertheless, Chebfun's built-in integration is able to handle those singularities, because we constructed them from smooth Chebfun objects.
 
 <pre class="mcode-input">f = w(1) + cumsum( fprime(zcirc).*diff(zcirc) );
-subplot(1,2,2), plot(f,'k',LW,2)</pre><pre class="mcode-output">Warning: Non-integer difference in the exponents of the two SINGFUN objects: The
-result may not be accurate. 
-Warning: Non-integer difference in the exponents of the two SINGFUN objects: The
-result may not be accurate. 
-Warning: Non-integer difference in the exponents of the two SINGFUN objects: The
-result may not be accurate. 
-Warning: Non-integer difference in the exponents of the two SINGFUN objects: The
-result may not be accurate. 
+subplot(1,2,2), plot(f,'k',LW,2)</pre><pre class="mcode-output">Warning: Non-integer difference in the exponents of the two SINGFUN objects:
+The result may not be accurate. 
+Warning: Non-integer difference in the exponents of the two SINGFUN objects:
+The result may not be accurate. 
+Warning: Non-integer difference in the exponents of the two SINGFUN objects:
+The result may not be accurate. 
+Warning: Non-integer difference in the exponents of the two SINGFUN objects:
+The result may not be accurate. 
 </pre><img src="img/ConformalSquare_05.png" class="figure" alt="">
 
 For more on Schwarz-Christoffel mapping, see [1]. For general-purpose SC mapping software, refer to [2] and [3].

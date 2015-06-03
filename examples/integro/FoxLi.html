@@ -73,7 +73,7 @@ L = sqrt(1i*F/pi) * chebop(@(u) fred(K,u));    % Fredholm integral operator</pre
 <p>Computing the $80$ eigenvalues of largest complex magnitude requires just a call to <code>eigs</code> with the <code>'lm'</code> option:</p>
 <pre class="mcode-input">tic, lam = eigs(L,80,'lm'); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 13.501380 seconds.
+<pre class="mcode-output">Elapsed time is 10.213196 seconds.
 </pre>
 
 <p>Finally, a beautiful pattern emerges when we plot the results:</p>

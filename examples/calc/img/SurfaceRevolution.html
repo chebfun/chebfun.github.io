@@ -46,9 +46,9 @@ This is a basic computation in Chebfun and we compare the result with the exact 
 
 <pre class="mcode-input">V = pi*sum(f.^2)
 error = V - 8*pi^2</pre><pre class="mcode-output">V =
-  78.956835208714836
+  78.956835208714864
 error =
-    -2.842170943040401e-14
+     0
 </pre>The area of the surface is given by
 
 $$ A = 2\pi \int_a^b f(x)\sqrt{1+|f'(x)|^2}\, \mathrm{d}x. $$
@@ -73,7 +73,7 @@ Finally we compute the moment of inertia, assuming that the object is homogeneou
 $$ J = \frac{\pi}{2} \int_a^b f^4(x)\, \mathrm{d}x. $$
 
 <pre class="mcode-input">J = pi/2*sum(f.^4)</pre><pre class="mcode-output">J =
-     1.776528792196084e+02
+     1.776528792196085e+02
 </pre>And a last one:
 
 <pre class="mcode-input">fls = chebfun('1./(1+8*x.^2)');

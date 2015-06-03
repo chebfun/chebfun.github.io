@@ -21,9 +21,9 @@ Here is a simple example. Consider the function:
 LW = 'linewidth'; lw = 1.6;
 plot(f, LW, lw), axis equal</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
-[       0,       1]      159    complex values 
-Epslevel = 3.552714e-15.  Vscale = 1.500000e+00.
+       interval       length     endpoint values trig
+[       0,       1]      173    complex values 
+vscale = 1.500000e+00.
 </pre><img src="img/ClosedContours_01.png" class="figure" alt="">
 
 This is how the real and imaginary parts of the integrand look on the contour:
@@ -44,11 +44,11 @@ We therefore first compute $z'(t)$:
 <pre class="mcode-input">dz = diff(z);</pre>Computing the integral now could not be easier:
 
 <pre class="mcode-input">s = sum(f.*dz)</pre><pre class="mcode-output">s =
-  0.000000000000000 + 5.235987755982982i
+  0.000000000000000 + 5.235987755982987i
 </pre>The true answer is $5 \pi i/3$, and we see that Chebfun has done a very good job:
 
 <pre class="mcode-input">norm(s - 5/3*pi*1i)</pre><pre class="mcode-output">ans =
-     7.107957451160264e-15
+     1.835895766336091e-15
 </pre>Here is another example. Consider the sinc function
 
 <pre class="mcode-input">ff = @(z) sin(5*z)./(5*z);</pre>This analytic function has a removable singularity at the origin. Therefore, the integral of the function on any closed contour should be zero according to Cauchy's theorem.
@@ -63,7 +63,7 @@ plot(f, LW, lw), axis equal</pre><img src="img/ClosedContours_03.png" class="fig
 And here is the integral, which is numerically zero:
 
 <pre class="mcode-input">s = sum(f.*dz)</pre><pre class="mcode-output">s =
-      1.409807015397024e-15 + 3.622499126062654e-14i
+      3.867717433803274e-15 + 3.853355024833916e-14i
 </pre>As our final example, we pick a function with an essential singularity at the origin and compute its integral on the unit circle.
 
 <pre class="mcode-input">ff = @(z) exp(1./z).*sin(1./z);
@@ -71,7 +71,7 @@ z = chebfun(@(t) exp(2*pi*1i*t), [0, 1], 'periodic');
 f = ff(z);
 dz = diff(z);
 s = sum(f.*dz)</pre><pre class="mcode-output">s =
-  0.000000000000000 + 6.283185307179585i
+  0.000000000000001 + 6.283185307179588i
 </pre>The result nicely matches $2\pi i$:
 
 <pre class="mcode-input">exact = 2i*pi</pre><pre class="mcode-output">exact =

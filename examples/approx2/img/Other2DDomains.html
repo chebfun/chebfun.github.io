@@ -22,7 +22,9 @@ You may be surprised to learn that Chebfun2 can already do some operations on no
 <pre class="mcode-input">f = chebfun2(@(x,y) x.^2 + y.^2);
 c = chebfun(@(t) cos(pi*t) + 1i*sin(2*pi*t),[-.5 .5]);
 plot(c,'k',LW,lw), hold on, contour(f), axis equal tight
-fprintf('Volume enclosed by curve = %1.3f\n',integral2(f,c))</pre><pre class="mcode-output">Volume enclosed by curve = 0.838
+fprintf('Volume enclosed by curve = %1.3f\n',integral2(f,c))</pre><pre class="mcode-output">Warning: f.epslevel and get(f,'epslevel') now always returns machine
+epsilon, and is likely to be removed from Chebfun in the future. 
+Volume enclosed by curve = 0.838
 </pre><img src="img/Other2DDomains_01.png" class="figure" alt="">
 
 Chebfun2v objects can also represent surfaces. Of course, these surfaces must be expressed in terms of a rectangular coordinate system. For example, we can take a chebfun and revolve it around the z-axis:
@@ -58,7 +60,7 @@ title('Function on sector domain',FS,fs)</pre><img src="img/Other2DDomains_04.pn
 Since the Jacobian of the change of variables is well-behaved we can, for example, calculate the integral of $f$ over the sector domain:
 
 <pre class="mcode-input">integral2(f.*jacobian([x;y]))</pre><pre class="mcode-output">ans =
-   0.816092631378351
+   0.816092631378346
 </pre>
 
 ## Warping the sector domain

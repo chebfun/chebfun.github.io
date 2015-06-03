@@ -98,7 +98,7 @@ title('Close-up of Weierstrass approximant', FS, 16)</pre>
 <pre class="mcode-input">error = sum(F{9}) - 4/pi</pre>
 
 <pre class="mcode-output">error =
-     3.330669073875470e-15
+     3.552713678800501e-15
 </pre>
 
 <p>A more difficult problem is to find the global minimum of $F(x)$ on the interval $[-1, 1]$. Even if it were possible to differentiate $F$ to find where $F'(x) = 0$, we would discover infinitely many local extrema. Of course, Chebfun's representation of $F$ is a polynomial approximant, so we can locate the roots of the derivative for any iterate. As we may expect, performance rapidly gets worse as we take more terms.</p>
@@ -116,10 +116,10 @@ disp(str)</pre>
 
 <pre class="mcode-output"> k       x_min       F_k(x_min)    computation time
 ----------------------------------------------------
- 2   -1.0000000      +0.0000000        0.10 sec
- 4   -0.6196232      -0.0504416        0.06 sec
- 6    0.6010220      -0.1761766        0.05 sec
- 8   -0.6000610      -0.2098447        1.91 sec
+ 2   -1.0000000      +0.0000000        0.05 sec
+ 4   -0.6196232      -0.0504416        0.04 sec
+ 6   -0.6010220      -0.1761766        0.04 sec
+ 8   -0.6000610      -0.2098447        1.77 sec
 
 </pre>
 
