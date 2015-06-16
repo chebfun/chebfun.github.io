@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Applications &raquo; Chebfun</title>
+    <title>Exponential, logistic, and Gompertz growth &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,56 +54,62 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Applications</h1>
+<h1>Exponential, logistic, and Gompertz growth</h1>
+<h2>Toby Driscoll, June 15, 2015<span><a href='/examples/applics/Gompertz.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/applics/Gompertz.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li class='active'><a href="/examples/applics/index.html">Applications<span>2</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>31</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>4</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>7</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>10</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>9</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>2</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>10</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>11</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>18</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>17</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>4</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>4</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>11</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/applics/Gompertz.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/Gompertz_01.png' /></div>
-            <h3>Exponential, logistic, and Gompertz growth</h3>
-            <p>Toby Driscoll, June 15, 2015
-                <span class='tags'><span href='#' class='tag'>#ivp</span>, <span href='#' class='tag'>#ode</span></span>
-            </p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/applics/EuropeanCall.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/EuropeanCall_01.png' /></div>
-            <h3>Pricing of a European Call option</h3>
-            <p>Ricardo Pachon, November 2014
-                <span class='tags'><span href='#' class='tag'>#blackscholes</span>, <span href='#' class='tag'>#finance</span>, <span href='#' class='tag'>#option pricing</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>If the per-capita growth rate of a population is held constant, exponential growth of the population results.</p>
+<pre class="mcode-input">exponentialPCRate = @(P) 0.5;
+N = chebop( @(t,P) diff(P) - P.*exponentialPCRate(P), [0 25] );
+N.lbc = 0.2;
+exponentialResult = N\0;
+plot( exponentialResult )
+xlabel('t'), ylabel('P(t)'), title('Exponential growth')</pre>
+
+<p><img src="img/Gompertz_01.png" class="figure" alt=""/></p>
+<p>The result is unbounded growth, which is not biologically realistic. A common way to remedy this defect is the <em>logistic model</em>. In this model, the per capita growth rate decreases linearly to zero as the population $P$ approaches a fixed value, known as the <em>carrying capacity</em>. For example, a carrying capacity of $P=6$ is imposed through</p>
+<pre class="mcode-input">logisticPCRate = @(P) 0.5*(6-P)/5.8;</pre>
+
+<p>Here is the resulting growth.</p>
+<pre class="mcode-input">N = chebop( @(t,P) diff(P) - P.*logisticPCRate(P), [0 25] );
+N.lbc = 0.2;
+logisticResult = N\0;
+plot( [exponentialResult, logisticResult] )
+ylim([0 8])
+xlabel('t'), ylabel('P(t)'), legend('exp','logistic')</pre>
+
+<p><img src="img/Gompertz_02.png" class="figure" alt=""/></p>
+<p>The logistic model is appealingly simple and adequate for some situations, but it is far too generic to capture other phenomena. Another way to limit growth is the <em>Gompertz model</em>, in which, for example,</p>
+<pre class="mcode-input">GompertzPCRate = @(P) 0.5*log(6./P)/log(6/0.2);</pre>
+
+<p>Compared to the logistic model, the Gompertz model shuts down growth more rapidly until $P$ gets close to the carrying capacity.</p>
+<pre class="mcode-input">plot( chebfun(logisticPCRate,[0.2 6]) ), hold on
+plot( chebfun(GompertzPCRate,[0.2 6]) )
+xlabel('P'), ylabel('P''/P')</pre>
+
+<p><img src="img/Gompertz_03.png" class="figure" alt=""/></p>
+<p>The solutions reflect this difference, of course.</p>
+<pre class="mcode-input">N = chebop( @(t,P) diff(P) - P.*GompertzPCRate(P), [0 25] );
+N.lbc = 0.2;
+GompertzResult = N\0;
+clf, plot( [exponentialResult, logisticResult, GompertzResult] )
+ylim([0 8])
+xlabel('t'), ylabel('P(t)'), legend('exp','logistic','Gompertz')</pre>
+
+<p><img src="img/Gompertz_04.png" class="figure" alt=""/></p>
+<p>The Gompertz model has been recognized for some time as a reasonable model for some tumors [1-2]. However, it too is considered inadequate for many realistic uses. At least some of the attention paid to the logistic and Gompertz models has to be attributed to the fact that they have analytic solutions.</p>
+<p>References:</p>
+<ol>
+<li>
+<p>Laird, A. K. Dynamics of growih in tumors and in normal organisms. Nati. Cancer Inst. Monogr. 30: 15-28, 1969.</p>
+</li>
+<li>
+<p>Winsor, C. P. The Gompertz curve as a growih curve. Proc. Natl. Acad. Sci. USA 18: 1-7, 1932.</p>
+</li>
+</ol></div>
         </div>
     </div>
 </div>
