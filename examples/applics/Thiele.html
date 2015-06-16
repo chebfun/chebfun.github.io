@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Thiele's life insurance equation &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Thiele's life insurance equation</h1>
+<h2>Toby Driscoll, June 16, 2015<span><a href='/examples/applics/Thiele.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/applics/Thiele.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>A simple form of life insurance is purchased for a length of time $\tau$ (the term of the policy) and costs the insured party a fixed amount $P$ per year (the premium). If the insured dies during the term of the policy, the insurer must pay a benefit of $S$. Otherwise, the insured receives nothing.</p>
+<p>The insurer is required to keep an amount of capital in reserve for this policy, in order to be able to pay out all the claims likely to result from a pooled group of individuals. This is done via the celebrated <em>Thiele differential equation</em>, first derived in 1875 and published in 1910 [1].</p>
+<p>Let $V(t)$ for $0\le t \le \tau$ be the amount of the reserve. Obviously, once the policy expires, no reserve is needed; hence, $V(\tau)=0$. Let the <em>force of interest</em> (more widely known as the continuously compounded interest rate) be denoted $\delta$, and let the <em>force of mortality</em>, a measure of the probability of a person dying in a small increment of time, be denoted as a function of age $x$ by $\mu(x)$. If the policy is issued at $t=0$ to an individual of age $A$, then</p>
+<p>$$\frac{dV}{dt} = P + \delta V(t) - \mu(A+t) \bigl(S-V(t)\bigr).$$</p>
+<h3 id="force-of-mortality">Force of mortality</h3>
+<p>According to a study by the U.S. Social Security Administration, the force of mortality (using years as the unit of time) for an individual born in the U.S. in 1969 takes on the values [2]</p>
+<pre class="mcode-input">mu_values = [0.02350 0.00211 0.02376 0.03429 0.04938 0.38292];</pre>
+
+<p>at the ages</p>
+<pre class="mcode-input">mu_ages = [0 30 60 65 70 100];</pre>
+
+<p>In order to represent $\mu$ as a smooth function of time, we'll use Chebfun's <code>spline</code> command.</p>
+<pre class="mcode-input">mu = chebfun.spline( mu_ages, mu_values );
+plot(mu)
+xlabel('age'), ylabel('force of mortality')</pre>
+
+<p><img src="img/Thiele_01.png" class="figure" alt=""/></p>
+<p>What is the age of minimum mortality, according to these data?</p>
+<pre class="mcode-input">[~,agemin] = min(mu)</pre>
+
+<pre class="mcode-output">agemin =
+  33.649597889012959
+</pre>
+
+<h3 id="calculating-the-reserve">Calculating the reserve</h3>
+<p>Let's get ready to issue a life insurance policy. We set a constant interest rate of 3 percent, an annual premium of 800 dollars, and a policy value of a million dollars. The term of the policy is set at 10 years.</p>
+<pre class="mcode-input">delta = 0.03;  P = 800;  S = 1e6;  tau = 10;</pre>
+
+<p>Given any starting age $A$, we can define a differential operator that encodes the Thiele equation:</p>
+<pre class="mcode-input">thiele = @(A) @(t,V) diff(V) - (P + 0.03*V - mu(A+t)*(S-V));</pre>
+
+<p>Then we can also define a function of $A$ that returns the solution of the equation.</p>
+<pre class="mcode-input">reserve = @(A) (chebop( thiele(A), [0 tau], [], 0 )) \ 0;</pre>
+
+<p>Here are the reserve amounts for policies issued to individuals of ages 25, 45, and 65:</p>
+<pre class="mcode-input">plot( [reserve(25),reserve(45),reserve(65)] )
+xlabel('time'), ylabel('reserve amount')
+legend('25 yr old','45 yr old','65 yr old')</pre>
+
+<p><img src="img/Thiele_02.png" class="figure" alt=""/></p>
+<p>As you would expect, the amount of cash kept on hand is much higher for the older policy holders. Alternatively, the insurer could decide on a maximum amount of cash to keep on hand and charge higher premiums for older customers.</p>
+<h3 id="calculating-premiums">Calculating premiums</h3>
+<p>Instead of calculating the reserve for a given premium, we might want to invert the calculation. Suppose the maximum cash reserve we wish to allocate is $V_0$. If, as in our previous solutions, the maximum of $V(t)$ occurs at the initial time, then we should add the condition $V(0)=V_0$.</p>
+<p>We now have a first-order equation and two boundary conditions. However, we also allow the premium $P$ to be a degree of freedom. Chebfun can solve for the value of a scalar parameter in this situation.</p>
+<p>Let's fix $A=45$ this time. When we chose the premium to be 800, we found the reserve to be highest at the initial time and that about 74e3 dollars were required. What premium would we need to charge to lower that amount to say, $V_0=70000$ dollars? The BVP we need is</p>
+<pre class="mcode-input">thiele = @(t,V,P) diff(V) - (P + 0.03*V - mu(45+t)*(S-V));
+L = chebop( thiele, [0 tau] );
+L.lbc = @(V,P) V-70000;
+L.rbc = @(V,P) V;</pre>
+
+<p>The solution for the reserve barely changes...</p>
+<pre class="mcode-input">u = L\0;  [V,P] = deal(u);
+hold on, plot(V,'k')</pre>
+
+<p><img src="img/Thiele_03.png" class="figure" alt=""/></p>
+<p>...yet the premium has increased by 50 percent.</p>
+<pre class="mcode-input">P</pre>
+
+<pre class="mcode-output">P =
+     1.225699799950009e+03
+</pre>
+
+<p>References:</p>
+<ol>
+<li>
+<p>J.P. Gram, "Professor Thiele som aktuar." Dansk Forsikringsarbog (1910), pp. 26?37.</p>
+</li>
+<li>
+<p>Life tables for the United States Social Security, Area 1900-2100, <a href="http://www.ssa.gov/OACT/NOTES/as120/LifeTables_Tbl_8.html#wp1004907">http://www.ssa.gov/OACT/NOTES/as120/LifeTables_Tbl_8.html#wp1004907</a>.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
