@@ -105,7 +105,7 @@ legend('25 yr old','45 yr old','65 yr old')</pre>
 <h3 id="calculating-premiums">Calculating premiums</h3>
 <p>Instead of calculating the reserve for a given premium, we might want to invert the calculation. Suppose the maximum cash reserve we wish to allocate is $V_0$. If, as in our previous solutions, the maximum of $V(t)$ occurs at the initial time, then we should add the condition $V(0)=V_0$.</p>
 <p>We now have a first-order equation and two boundary conditions. However, we also allow the premium $P$ to be a degree of freedom. Chebfun can solve for the value of a scalar parameter in this situation.</p>
-<p>Let's fix $A=45$ this time. When we chose the premium to be 800, we found the reserve to be highest at the initial time and that about 74e3 dollars were required. What premium would we need to charge to lower that amount to say, $V_0=70000$ dollars? The BVP we need is</p>
+<p>Let's fix $A=45$ this time. When we chose the premium to be 800, we found the reserve to be highest at the initial time and that about 74000 dollars were required. What premium would we need to charge to lower that amount to say, $V_0=70000$ dollars? The BVP we solve for this is</p>
 <pre class="mcode-input">thiele = @(t,V,P) diff(V) - (P + 0.03*V - mu(45+t)*(S-V));
 L = chebop( thiele, [0 tau] );
 L.lbc = @(V,P) V-70000;
@@ -126,7 +126,7 @@ hold on, plot(V,'k')</pre>
 <p>References:</p>
 <ol>
 <li>
-<p>J.P. Gram, "Professor Thiele som aktuar." Dansk Forsikringsarbog (1910), pp. 26?37.</p>
+<p>J.P. Gram, "Professor Thiele som aktuar." Dansk Forsikringsarbog (1910), pp. 26-37.</p>
 </li>
 <li>
 <p>Life tables for the United States Social Security, Area 1900-2100, <a href="http://www.ssa.gov/OACT/NOTES/as120/LifeTables_Tbl_8.html#wp1004907">http://www.ssa.gov/OACT/NOTES/as120/LifeTables_Tbl_8.html#wp1004907</a>.</p>
