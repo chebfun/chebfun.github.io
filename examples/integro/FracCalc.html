@@ -108,7 +108,7 @@ legend(num2str((0:.1:1)'),'location','northwest')</pre>
 <p>Of course, these generalised derivatives can be applied to more complicated functions than simply the independent variable $x$. Here we demonstrate the behaviour of varying irrational derivatives of the trigonometric function $\sin(x)$.</p>
 <pre class="mcode-input">close
 u = chebfun('sin(x)', [0, 20]);
-for alpha = sqrt(2)*(0:2:10)/17
+for alpha = sqrt(2)*(2:2:10)/17
     u = [ u, diff(u(:,1), alpha) ];
     plot(u, LW, lw), ylim(1.2*[-1, 1]), drawnow,
 end

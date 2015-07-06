@@ -1,4 +1,5 @@
 applics/EuropeanCall.m
+applics/Gompertz.m
 approx/AbsoluteValue.m
 approx/BernsteinPolys.m
 approx/BestApprox.m
@@ -47,16 +48,19 @@ cheb/DoublelengthFlag.m
 cheb/ExactChebCoeffs.m
 cheb/FastChebyshevLegendreTransform.m
 cheb/FastDLT.m
+cheb/Turbo.m
 complex/Arguments.m
 complex/ClosedContours.m
 complex/ComplexArcLength.m
 complex/ConformalSquare.m
 complex/Hyperfuns.m
+complex/KeyholeAblowitzFokas.m
 complex/KeyholeContour.m
 complex/PhasePortraits.m
 complex/PortraitsWithPoles.m
 complex/RoucheTheorem.m
 complex/Singularities.m
+complex/ZetaZeros.m
 fun/Birthday.m
 fun/BirthdayOdds.m
 fun/Encryption.m
@@ -74,6 +78,8 @@ geom/RoseCurves.m
 geom/RoundingCorners.m
 geom/VolumeOfHeart.m
 integro/FoxLi.m
+integro/FracCalc.m
+integro/FracCalc2.m
 integro/WikiIntegroDiff.m
 linalg/CondNos.m
 linalg/Crouzeix.m
