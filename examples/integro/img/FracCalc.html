@@ -8,7 +8,7 @@ meta: "(Chebfun example integro/FracCalc.m) [Tags: #calculus, #fractionalderivat
 We're all familiar with the standard definitions of differentiation and integration we learnt in high-school and at undergraduate level. For example, here is the function $x$ on the interval [0,4] along with its derivative (the constant function, $1$) and antiderivative ($x^2/2$).
 
 <pre class="mcode-input">x = chebfun('x', [0, 4]);
-LW = 'LineWidth'; lw = 1.2; FS = 'FontSize'; fs = 14;
+LW = 'LineWidth'; lw = 1.2; FS = 'FontSize'; fs = 10;
 plot(x, '-', diff(x), '-', cumsum(x), '-', LW, lw)
 legend('x', 'x''', 'x^2/2','location','northwest')
 axis([0 4 0 4]), xlabel('x', FS, fs)
