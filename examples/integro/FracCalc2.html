@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fractional calculus in Chebfun: algorithms &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Fractional calculus in Chebfun: algorithms</h1>
+<h2>Nick Hale, February 2015<span><a href='/examples/integro/FracCalc2.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/integro/FracCalc2.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>In [1] we showed some examples of fractional calculus computing in Chebfun. Here we give some details of the implementation. The key is that fractional integrals of Legendre and Jacobi polynomials (and 'polyfractonomials') are known explicitly.</p>
+<pre class="mcode-input">LW = 'LineWidth'; lw = 1.2; FS = 'FontSize'; fs = 10;</pre>
+
+<p>These are some useful shorthands that we'll use later:</p>
+<pre class="mcode-input">x = chebfun('x');
+B = @(z, w) beta(z, w);                         % Beta function
+P = @(n) legpoly(n);                            % Legendre polynomial
+T = @(n) chebpoly(n);                           % Chebyshev polynomial
+J = @(n, alpha, beta) jacpoly(n, alpha, beta);  % Jacobi polynomial</pre>
+
+<h3 id="half-integral">Half-integral</h3>
+<p>We begin, as in [1], with the case of the half-integral. This is defined as</p>
+<p>$$(J^{1/2}f)(x) = \int_{-1}^x\frac{f(t)}{\sqrt{x-t}}dt.$$</p>
+<p>From [2, (18.17.45)] we have that</p>
+<p>$$(J^{1/2}P_n)(x) =
+                 \frac{T_n(x) + T_{n+1}(x)}{\Gamma(1/2)(n+1/2)\sqrt{1+x}},$$</p>
+<p>which is readily verified in Chebfun:</p>
+<pre class="mcode-input">n = 4;
+J1 = cumsum(P(n), 0.5);
+J2 = (T(n) + T(n+1)) ./ ( gamma(0.5) * (n+.5) * sqrt(1+x) );
+plot(J1, 'b', J2, '--r'), shg
+title('Half-integral of $P_4(x)$', 'Interpreter', 'latex')
+legend('J1', 'J2')</pre>
+
+<p><img src="img/FracCalc2_01.png" class="figure" alt=""/></p>
+<p>Hence, if</p>
+<p>$$f(x) = \sum_{n=0}^Nc_nP_n(x),$$</p>
+<p>we have</p>
+<p>$$(J^{1/2}f)(x)
+     = (1+x)^{-1/2}\sum_{n=0}^Nc_n\frac{T_n(x)+T_{n+1}(x)}{\Gamma(1/2)(n+1/2)}
+     = (1+x)^{-1/2}\sum_{n=0}^{N+1}b_nT_n(x).$$</p>
+<p>The Legendre polynomial coefficients, $c_n$, of a function $f$ can be computed using the <code>legcoeffs</code> method [3]:</p>
+<pre class="mcode-input">f = exp(x);
+n = length(f);
+c = legcoeffs(f, n);</pre>
+
+<p>From this, we can use the relation above to find the coefficients $b_n$ and construct a chebfun of the fractional integral:</p>
+<pre class="mcode-input">tmp = c ./ ( ((0:n-1)'+0.5) * gamma(0.5) );
+b = ( [tmp ; 0] + [0 ; tmp] );
+J1 = chebfun(b, 'coeffs')./sqrt(1+x);</pre>
+
+<p>We can see this coincides with the result from <code>cumsum</code>:</p>
+<pre class="mcode-input">J2 = cumsum(f, 0.5);
+plot(J1, 'b', J2, '--r'), shg
+title('Half-integral of $\exp(x)$', 'Interpreter', 'latex')
+legend('J1', 'J2');</pre>
+
+<p><img src="img/FracCalc2_02.png" class="figure" alt=""/></p>
+<h3 id="fractional-integrals">Fractional integrals</h3>
+<p>More generally, a little manipulation of the formula [2, (18.17.9)] yields the required expression for fractional integrals of Jacobi 'polyfractonomials' of the form</p>
+<p>$${\cal{P}}_n^{(0,\beta,\mu)}(x) :=
+                           (1+x)^{\beta+\mu}\beta P_n^{(-\mu, \beta+\mu)}(x)$$</p>
+<p>as</p>
+<p>$$(J^\mu{\cal{P}}_n^{(0,\beta,0)})(x) =
+          \frac{B(\beta+n+1, \mu)}{\Gamma(\mu)}{\cal{P}}^{(0,\beta,\mu)}(x).$$</p>
+<p>Again, we can verify this relation in Chebfun:</p>
+<pre class="mcode-input">n = 4;
+bet = .3;
+f = (1+x).^bet .* J(n, 0, bet);
+
+mu = 0.25;
+J1 = cumsum(f, mu);
+J2 = B(bet + n + 1, mu) / gamma(mu) * (1+x).^(bet + mu) .* J(n, -mu, bet + mu);
+plot(J1, 'b', J2, '--r'), shg
+title('Quarter-integral of $(1+x)^\beta P_n^{(0,\beta)}(x)$', ...
+    'Interpreter','latex')
+legend('J1', 'J2');</pre>
+
+<p><img src="img/FracCalc2_03.png" class="figure" alt=""/></p>
+<p>So, to compute a fractional integral of a chebfun, we first compute the required Jacobi coefficients with <code>jaccoeffs</code>, scale these by the Beta and Gamma functions given above, and then convert back to Chebyshev coefficients using <code>jac2cheb</code>.</p>
+<pre class="mcode-input">f = exp(x);
+n = length(f);
+c = jaccoeffs(f, n, 0, 0);
+tmp = (B(1:n, mu)' / gamma(mu)) .* c;
+b = jac2cheb(tmp, -mu, mu);
+J1 = chebfun(b, 'coeffs') .* (1+x).^mu;</pre>
+
+<p>Again, we can see this coincides with the result from <code>cumsum</code>:</p>
+<pre class="mcode-input">J2 = cumsum(f, mu);
+plot(J1, 'b', J2, '--r'), shg
+title('Quarter-integral of $\exp(x)$', 'Interpreter', 'latex')
+legend('J1', 'J2');</pre>
+
+<p><img src="img/FracCalc2_04.png" class="figure" alt=""/></p>
+<h3 id="fractional-derivatives">Fractional derivatives</h3>
+<p>Fractional derivatives are typically defined via fractional integrals, and since we can now compute the latter, it should be no problem to compute the former.</p>
+<pre class="mcode-input">mu = .25;
+n = ceil(mu);
+f = exp(x);</pre>
+
+<p>For the Caputo form of the fractional derivative, we first differentiate ceil($\mu$) times, and then compute the ceil($\mu$) - $\mu$ th integral.</p>
+<pre class="mcode-input">Df_Caputo = fracInt(diff(f, n), n - mu);</pre>
+
+<p>For the Riemann-Liouville form we do the opposite, namely compute the ceil($\mu$) - $\mu$ th integral and then differentiate the result ceil($\mu$) times.</p>
+<pre class="mcode-input">Df_RL = diff(fracInt(f, n - mu), n);</pre>
+
+<p>Although these two different definitions give different results,</p>
+<pre class="mcode-input">plot(Df_Caputo, 'b', Df_RL, '--r')
+legend('Caputo', 'Riemann-Liouville')
+title('Quarter-derivative of $\exp(x)$', 'Interpreter', 'latex')</pre>
+
+<p><img src="img/FracCalc2_05.png" class="figure" alt=""/></p>
+<p>we can see that they both satisfy <code>diff(diff(f, a), 1-a) = diff(f)</code>:</p>
+<pre class="mcode-input">plot(diff(Df_Caputo, 1-mu, 'Caputo'), 'b', ....
+     diff(Df_RL, 1-mu, 'RL'), '--r', ...,
+     diff(f), ':g');
+legend('Caputo', 'Riemann-Liouville', 'f''')
+title('diff(diff(f, a), 1-a) = diff(f)', 'Interpreter', 'latex')</pre>
+
+<p><img src="img/FracCalc2_06.png" class="figure" alt=""/></p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p><code>http://www.chebfun.org/examples/integro/FracCalc.html</code></p>
+</li>
+<li>
+<p>NIST Digital Library of Mathematical Functions. <code>http://dlmf.nist.gov/</code>,    Release 1.0.9 of 2014-08-29.</p>
+</li>
+<li>
+<p><code>http://www.chebfun.org/examples/cheb/FastChebyshevLegendreTransform.html</code></p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
