@@ -6,7 +6,7 @@
 % [Tags: #LEBESGUE]
 
 %%
-% Lebesgue constants are a standard notion of approximation theory. Suppose we
+% Lebesgue constants are one of the standard notions of approximation theory. Suppose we
 % have $n+1$ points $x_j$ in an interval $[a,b]$ with associated data values
 % $f_j$ with $|f_j| \leq 1$, and we interpolate this data by a polynomial
 % $p(x)$ of degree $n$. What's the maximum possible value of $|p(x)|$ at each
