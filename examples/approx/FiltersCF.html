@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <p>Digital filtering is one of the most important applications of approximation theory, used in telephones and radios and music players and innumerable other devices in our wired world.</p>
-<p>Mathematically, digital filters are polynomial ("FIR" or "finite impulse response") or rational ("IIR" or "infinite impulse response") approximations to prescribed functions. The classic method for computing FIR filters, called the Parks McLellan method by engineers, is the Remez algorithm, available in the <code>remez</code> command of Chebfun [1].  However, complicated filter designs are not always easy by this method, for the Remez algorithm is nonlinear and may fail to converge if there is not a good enough initial guess.</p>
+<p>Mathematically, digital filters are polynomial ("FIR" or "finite impulse response") or rational ("IIR" or "infinite impulse response") approximations to prescribed functions. The classic method for computing FIR filters, called the Parks-McLellan method by engineers, is the Remez algorithm, available in the <code>remez</code> command of Chebfun [1].  However, complicated filter designs are not always easy by this method, for the Remez algorithm is nonlinear and may fail to converge if there is not a good enough initial guess.</p>
 <p>It seems that CF (Caratheodory-Fejer) approximation may be a promising alternative, either for computing the filter itself or at least for generating an initial guess. (For a reference on CF approximations, see Chapter 20 of [2].) Here for example is a function with three "pass bands", together with polynomial approximations of degrees $100$ and $1000$:</p>
 <pre class="mcode-input">x = chebfun('x');
 LW = 'linewidth';
@@ -81,7 +81,7 @@ end</pre>
 <p>It didn't take long to produce these pictures:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.543851 seconds.
+<pre class="mcode-output">Elapsed time is 1.722540 seconds.
 </pre>
 
 <p>In practice, filter specifications usually have "don't care" regions between pass and stop bands. Here to give an idea of the possibilities we make $f$ a little smoother by convolving it with a narrow hat function.  Now degrees $100$ and $200$ give good filters:</p>
@@ -100,7 +100,6 @@ end</pre>
 <pre class="mcode-input">plot(f2-p,LW,1.2), grid on</pre>
 
 <p><img src="img/FiltersCF_05.png" class="figure" alt=""/></p>
-<p>For applications, one would need to transplant such computations from a bounded to a periodic interval.</p>
 <h3 id="references">References</h3>
 <ol>
 <li>
