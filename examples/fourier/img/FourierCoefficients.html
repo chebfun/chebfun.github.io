@@ -2,7 +2,7 @@
 title: "Fourier coefficients"
 layout: example
 authordate: "Grady Wright, June 2014"
-meta: "[Tags: #trigfun, #periodic, #interpolation, #fourier, #gibbs, #leastsquares]"
+meta: "(Chebfun example fourier/FourierCoefficients.m) [Tags: #trigfun, #periodic, #interpolation, #fourier, #gibbs, #leastsquares]"
 ---
 
 <pre class="mcode-input">LW = 'linewidth'; lw = 1.6; MS = 'MarkerSize'; ms = 10;</pre>The Fourier series of a function $u \in L^{2}[-\pi,\pi]$ is given as
@@ -122,7 +122,7 @@ c =
 k = [100 length(u)/2];
 plot(k,10*k.^(-4),'k-',LW,lw)
 text(500,50*(500)^(-4),'O(k^{-4})','FontSize',12)
-hold off</pre><img src="img/FourierCoefficients_01.png" class="figure" alt="">
+hold off</pre><img src="img/FourierCoefficients_01.png" class="figure" alt=""/>
 
 
 
@@ -149,8 +149,8 @@ b =
   0.424413181578387 + 0.000000000000000i
   0.000000000000000 - 0.000000000000000i
   0.254647908947033 - 0.000000000000000i
- -0.000000000000000 - 0.000000000000000i
-  0.181891363533594 - 0.000000000000000i
+  0.000000000000000 + 0.000000000000000i
+  0.181891363533595 + 0.000000000000000i
 </pre>The exact values of the coefficients are
 
 $$ b_k = \frac{4}{k\pi} ~~(k \mbox{ odd}) $$
@@ -164,12 +164,12 @@ disp([(1:7)' pi/4*real(b)])</pre><pre class="mcode-output">            k        
    3.000000000000000   0.333333333333333
    4.000000000000000   0.000000000000000
    5.000000000000000   0.200000000000000
-   6.000000000000000  -0.000000000000000
+   6.000000000000000   0.000000000000000
    7.000000000000000   0.142857142857143
 </pre>The computed cosine coefficients are numerically zero, as expected:
 
 <pre class="mcode-input">norm(a,inf)</pre><pre class="mcode-output">ans =
-     4.165152823363421e-17
+     2.942993345750152e-17
 </pre>
 
 ## Truncated Fourier approximations
@@ -179,7 +179,7 @@ The `trigcoeffs` function can also be used in combination with the Chebfun const
 <pre class="mcode-input">numModes = 15;
 c = trigcoeffs(u,2*numModes+1);
 u_trunc = chebfun(c,[-pi,pi],'trig','coeffs');
-plot(u,'k-',u_trunc,'b-',LW,lw)</pre><img src="img/FourierCoefficients_02.png" class="figure" alt="">
+plot(u,'k-',u_trunc,'b-',LW,lw)</pre><img src="img/FourierCoefficients_02.png" class="figure" alt=""/>
 
 This represents the best 15-mode trigonometric approximation to the square wave over $[-\pi,\pi]$ in the $L^2$ sense. The oscillations in the approximation are called the Gibbs phenomenon.
 
@@ -187,7 +187,7 @@ To see the actual 'wave' it is useful to plot the approximation over a larger in
 
 <pre class="mcode-input">u = chebfun(sq_wave,[-4*pi,4*pi],'splitting','on');
 u_trunc = chebfun(u_trunc,[-4*pi,4*pi],'trig');
-plot(u,'k-',u_trunc,'b-',LW,lw)</pre><img src="img/FourierCoefficients_03.png" class="figure" alt="">
+plot(u,'k-',u_trunc,'b-',LW,lw)</pre><img src="img/FourierCoefficients_03.png" class="figure" alt=""/>
 
 Note that in this case we don't recompute the Fourier coefficients over the larger domain, we simply construct `u_trunc` over the larger domain.
 
@@ -200,7 +200,7 @@ u_trunc = chebfun(c,[-pi,pi],'trig','coeffs');
 
 u = chebfun(sawtooth,[-4*pi,4*pi],'splitting','on');
 u_trunc = chebfun(u_trunc,[-4*pi,4*pi],'trig');
-plot(u,'k-',u_trunc,'b-',LW,lw)</pre><img src="img/FourierCoefficients_04.png" class="figure" alt="">
+plot(u,'k-',u_trunc,'b-',LW,lw)</pre><img src="img/FourierCoefficients_04.png" class="figure" alt=""/>
 
 To hear this wave using try `chebtune(u_trunc,6)`.
 
