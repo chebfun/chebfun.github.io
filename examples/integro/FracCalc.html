@@ -64,7 +64,7 @@
 <p>We're all familiar with the standard definitions of differentiation and integration we learnt in high-school and at undergraduate level. For example, here is the function $x$ on the interval [0,4] along with its derivative (the constant function, $1$) and antiderivative ($x^2/2$).</p>
 <pre class="mcode-input">x = chebfun('x', [0, 4]);
 LW = 'LineWidth'; lw = 1.2; FS = 'FontSize'; fs = 10;
-plot(x, '-', diff(x), '-', cumsum(x), '-', LW, lw)
+h1 = plot(x, '-', diff(x), '-', cumsum(x), '-', LW, lw);
 legend('x', 'x''', 'x^2/2','location','northwest')
 axis([0 4 0 4]), xlabel('x', FS, fs)
 title('The function ''x'' with its derivative and antiderivative', FS, fs)</pre>
@@ -76,8 +76,8 @@ title('The function ''x'' with its derivative and antiderivative', FS, fs)</pre>
 <p>We omit here any rigorous definition of these operators, but instead demonstrate their behaviour when applied to some simple functions $f$, as well as Chebfun's ability to compute them.</p>
 <p>Continuing where we left off above, we might ask what is the half-derivative of the function $f(x) = x$. In Chebfun this is easily computed via</p>
 <pre class="mcode-input">xp05 = diff(x, 0.5);
-hold on, plot(xp05, '-', LW, lw), axis([0, 4, 0, 4])
-legend('x', 'x''', 'x^2/2', 'd^{1/2}x / dx^{1/2}','location','northwest')
+hold on, h2 = plot(xp05, '-', LW, lw); axis([0, 4, 0, 4]),
+leg1 = legend([h1; h2],'x', 'x''', 'x^2/2', 'd^{1/2}x / dx^{1/2}','location','northwest');
 xlabel('x',FS,fs)
 title('The function ''x'' and its half-derivative',FS,fs)</pre>
 
@@ -124,11 +124,9 @@ legend(num2str(sqrt(2)*(0:2:10)'/17))</pre>
 <h3 id="fractional-integration">Fractional integration</h3>
 <p>The definition of the Riemann-Liouville derivative can also be extended to fractional integration (in fact it is sometimes referred to as the Riemann-Liouville 'differintegral' [2]). Chebfun can also handle these types of operators, here extending the definition of <code>cumsum</code> to allow non-integer degree.</p>
 <pre class="mcode-input">close
-x = chebfun('x', [0, 1]); u = [];
-for k = 1:10;
-    u = [ u, cumsum(x.^k, 0.5) ];
-    plot(u, LW, lw), drawnow, hold on
-end
+x = chebfun('x', [0, 1]);
+u =  cumsum(x.^(1:10), 0.5);
+plot(u, LW, lw),
 title('Half-integrals of x^k for k = 1, ..., 10', FS, fs)
 xlabel('x', FS, fs);
 legend(num2str((1:10)'),'location','northwest')</pre>

@@ -9,7 +9,7 @@ We're all familiar with the standard definitions of differentiation and integrat
 
 <pre class="mcode-input">x = chebfun('x', [0, 4]);
 LW = 'LineWidth'; lw = 1.2; FS = 'FontSize'; fs = 10;
-plot(x, '-', diff(x), '-', cumsum(x), '-', LW, lw)
+h1 = plot(x, '-', diff(x), '-', cumsum(x), '-', LW, lw);
 legend('x', 'x''', 'x^2/2','location','northwest')
 axis([0 4 0 4]), xlabel('x', FS, fs)
 title('The function ''x'' with its derivative and antiderivative', FS, fs)</pre><img src="img/FracCalc_01.png" class="figure" alt=""/>
@@ -27,8 +27,8 @@ We omit here any rigorous definition of these operators, but instead demonstrate
 Continuing where we left off above, we might ask what is the half-derivative of the function $f(x) = x$. In Chebfun this is easily computed via
 
 <pre class="mcode-input">xp05 = diff(x, 0.5);
-hold on, plot(xp05, '-', LW, lw), axis([0, 4, 0, 4])
-legend('x', 'x''', 'x^2/2', 'd^{1/2}x / dx^{1/2}','location','northwest')
+hold on, h2 = plot(xp05, '-', LW, lw); axis([0, 4, 0, 4]),
+leg1 = legend([h1; h2],'x', 'x''', 'x^2/2', 'd^{1/2}x / dx^{1/2}','location','northwest');
 xlabel('x',FS,fs)
 title('The function ''x'' and its half-derivative',FS,fs)</pre><img src="img/FracCalc_02.png" class="figure" alt=""/>
 
@@ -80,11 +80,9 @@ Far away from the left-hand boundary these derivatives are essentially shifts of
 The definition of the Riemann-Liouville derivative can also be extended to fractional integration (in fact it is sometimes referred to as the Riemann-Liouville 'differintegral' [2]). Chebfun can also handle these types of operators, here extending the definition of `cumsum` to allow non-integer degree.
 
 <pre class="mcode-input">close
-x = chebfun('x', [0, 1]); u = [];
-for k = 1:10;
-    u = [ u, cumsum(x.^k, 0.5) ];
-    plot(u, LW, lw), drawnow, hold on
-end
+x = chebfun('x', [0, 1]);
+u =  cumsum(x.^(1:10), 0.5);
+plot(u, LW, lw),
 title('Half-integrals of x^k for k = 1, ..., 10', FS, fs)
 xlabel('x', FS, fs);
 legend(num2str((1:10)'),'location','northwest')</pre><img src="img/FracCalc_06.png" class="figure" alt=""/>
