@@ -33,6 +33,7 @@ pde/Erosion.m
 pde/FourierExpm.m
 pde/BSExponential.m
 fourier/BestTrigApprox.m
+fourier/FejerJackson.m
 fourier/FourierCoefficients.m
 fourier/FourierBasedChebfuns.m
 opt/ConstrainedOptimization.m
