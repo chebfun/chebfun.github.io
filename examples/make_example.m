@@ -3,15 +3,15 @@ function make_example(folder, examplename, varargin)
 %   MAKE_EXAMPLE(FOLDER, NAME) publishes the example FOLDER/NAME.
 %   For instance,
 %       >> make_example('linalg', 'NonnormalQuiz');
+%
+%   This function works as part of the Chebfun website suite, and
+%   it assumes that directory structure.
 
-% TODO: make this robust to other people's machines
-%       and figure out the process for updating existing examples.
-
-if exist(folder) ~= 7
+if exist(folder, 'dir') ~= 7
     mkdir(folder)
 end
 
-pathpath = '/Users/hrothgar/chebfun/examples/';
+pathpath = '../../examples/';
 egname = [folder '/' examplename '.m'];
 copyfile([pathpath egname], egname);
 
@@ -50,6 +50,10 @@ cd(folder)
 
 try
     mypublish(examplename, opts);
+
+    % Strip any MATLAB error messages from the output.
+    system(['../strip-mcode-errors.pl img/' examplename '.' opts.format]);
+
     cd('..')
 
     % Let the user know we're done.
