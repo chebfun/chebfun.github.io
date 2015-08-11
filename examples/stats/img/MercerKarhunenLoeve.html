@@ -23,25 +23,25 @@ For example, suppose we have an exponentially decaying kernel:
 
 <pre class="mcode-input">K = @(s,t) exp(-abs(s-t));</pre>We can create the integral operator and find the leading terms of its Mercer decomposition numerically.
 
-<pre class="mcode-input">F = fred( K, domain([-1,1]) );
+<pre class="mcode-input">F = chebop(@(u) fred(K, u));
 [Psi,Lambda] = eigs(F,20,'lm');
 Psi = chebfun(Psi);
 [lambda,idx] = sort(diag(Lambda),'descend');
 Psi = Psi(:,idx);</pre><pre class="mcode-input">plot(Psi(:,[1 2 5 10]),plotopt{:})
 title('First four Mercer eigenfunctions')
 xlabel('x')
-ylabel('\Psi(x)')</pre><img src="img/MercerKarhunenLoeve_01.png" class="figure" alt="">
+ylabel('\Psi(x)')</pre><img src="img/MercerKarhunenLoeve_01.png" class="figure" alt=""/>
 
 The eigenfunctions returned by `eigs` are orthonormal.
 
 <pre class="mcode-input">format short
 Psi(:,1:6)'*Psi(:,1:6)</pre><pre class="mcode-output">ans =
-    1.0000   -0.0000    0.0000   -0.0000   -0.0000   -0.0000
-   -0.0000    1.0000   -0.0000   -0.0000   -0.0000    0.0000
-    0.0000   -0.0000    1.0000   -0.0000    0.0000    0.0000
-   -0.0000   -0.0000   -0.0000    1.0000    0.0000   -0.0000
-   -0.0000   -0.0000    0.0000    0.0000    1.0000   -0.0000
-   -0.0000    0.0000    0.0000   -0.0000   -0.0000    1.0000
+    1.0000    0.0000   -0.0000   -0.0000    0.0000    0.0000
+    0.0000    1.0000   -0.0000   -0.0000   -0.0000    0.0000
+   -0.0000   -0.0000    1.0000   -0.0000   -0.0000    0.0000
+   -0.0000   -0.0000   -0.0000    1.0000   -0.0000   -0.0000
+    0.0000   -0.0000   -0.0000   -0.0000    1.0000    0.0000
+    0.0000    0.0000    0.0000   -0.0000    0.0000    1.0000
 </pre>The truncation of the Mercer sum does lead to an underestimate of the values of the kernel $K(s,t)$. For our example, we should get $K(s,s)=1$, but we get noticeably less.
 
 <pre class="mcode-input">Psi(0,:)*diag(lambda)*Psi(0,:)'
@@ -53,7 +53,7 @@ ans =
 
 <pre class="mcode-input">loglog(lambda,'.',plotopt{:}), axis tight
 xlabel('n')
-ylabel('| \lambda_n |')</pre><img src="img/MercerKarhunenLoeve_02.png" class="figure" alt="">
+ylabel('| \lambda_n |')</pre><img src="img/MercerKarhunenLoeve_02.png" class="figure" alt=""/>
 
 
 
@@ -80,7 +80,7 @@ X = Psi(:,1:10)*(L*Z);
 plot(X(:,1:40))
 mu = sum(X,2)/400;
 hold on, plot(mu,'k',plotopt{:})
-title('Random realizations, and the mean')</pre><img src="img/MercerKarhunenLoeve_03.png" class="figure" alt="">
+title('Random realizations, and the mean')</pre><img src="img/MercerKarhunenLoeve_03.png" class="figure" alt=""/>
 
 We should get roughly the original covariance function back. (We'll discretize the computation for speed.)
 
@@ -88,12 +88,12 @@ We should get roughly the original covariance function back. (We'll discretize t
 [S,T] = meshgrid(points);
 C = cov( X(points,:)' );  % covariance at discrete locations
 clf, mesh(S,T,C)
-hold on, plot3(S,T,K(S,T),'k.',plotopt{:})</pre><img src="img/MercerKarhunenLoeve_04.png" class="figure" alt="">
+hold on, plot3(S,T,K(S,T),'k.',plotopt{:})</pre><img src="img/MercerKarhunenLoeve_04.png" class="figure" alt=""/>
 
 If we shorten the correlation length of the process relative to the domain (i.e., more randomness), the amount of variance captured by the first $10$ modes will decrease.
 
 <pre class="mcode-input">K = @(s,t) exp(-4*abs(s-t));     % decrease correlation faster, then...
-F = fred( K, domain([-1,1]) );
+F = chebop(@(u) fred(K, u) );
 lambdaShort = sort( eigs(F,24,'lm'), 'descend' );</pre><pre class="mcode-input">clf
 loglog(lambda,'b.',plotopt{:})
 hold on
@@ -103,7 +103,7 @@ ylabel('| \lambda_n |')
 
 captured = sum(lambdaShort(1:10)) / 2    % ... a smaller fraction is captured</pre><pre class="mcode-output">captured =
     0.6744
-</pre><img src="img/MercerKarhunenLoeve_05.png" class="figure" alt="">
+</pre><img src="img/MercerKarhunenLoeve_05.png" class="figure" alt=""/>
 
 
 
