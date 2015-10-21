@@ -28,10 +28,6 @@
   ga('create', 'UA-4297200-10', 'chebfun.org');
   ga('require', 'displayfeatures');
   ga('send', 'pageview');
-
-  window.onload = function () {
-      document.getElementById('download').onclick = function () { ga('send', 'event', 'Download', 'clicked'); };
-  };
 </script>  </head>
   <body>
     <!-- Fixed navbar -->
@@ -70,7 +66,7 @@ releases, events, and other Chebfun-related, <a href="https://groups.google.com/
 list</a>.</p>
 <h3 id="direct-download">Direct download</h3>
 <ul>
-    <li><b><a href="https://github.com/chebfun/chebfun/archive/master.zip" id="download">Download Chebfun v5.2.1 (zip)</a></b></li>
+    <li><strong><a href="https://github.com/chebfun/chebfun/archive/master.zip" id="download">Download Chebfun v5.2.1 (.zip)</a></strong></li>
 </ul>
 
 <p>Alternatively you can install Chebfun to your current directory by pasting the
@@ -124,5 +120,8 @@ prefer to clone the Chebfun repository from Github. If you don't have Git,
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+    <script>
+        $("#download").click(function () { ga('send', 'event', 'Download', 'clicked'); });
+    </script>
   </body>
 </html>
