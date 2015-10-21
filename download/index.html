@@ -28,6 +28,10 @@
   ga('create', 'UA-4297200-10', 'chebfun.org');
   ga('require', 'displayfeatures');
   ga('send', 'pageview');
+
+  window.onload = function () {
+      document.getElementById('download').onclick = function () { ga('send', 'event', 'Download', 'clicked'); };
+  };
 </script>  </head>
   <body>
     <!-- Fixed navbar -->
@@ -66,8 +70,9 @@ releases, events, and other Chebfun-related, <a href="https://groups.google.com/
 list</a>.</p>
 <h3 id="direct-download">Direct download</h3>
 <ul>
-<li><strong><a href="https://github.com/chebfun/chebfun/archive/master.zip">Download Chebfun v5.2.1 (.zip)</a></strong></li>
+    <li><b><a href="https://github.com/chebfun/chebfun/archive/master.zip" id="download">Download Chebfun v5.2.1 (zip)</a></b></li>
 </ul>
+
 <p>Alternatively you can install Chebfun to your current directory by pasting the
 code below to your MATLAB command window:</p>
 <pre><code>unzip('https://github.com/chebfun/chebfun/archive/master.zip')
