@@ -56,7 +56,7 @@
     <div class='page-header'>
 <span class='chapter_number'>10</span>
 <h1>Nonlinear ODEs, IVPs, and Chebgui</h1>
-<h2>Lloyd N. Trefethen, November 2009, latest revision December 2014<span>
+<h2>Lloyd N. Trefethen, November 2009, latest revision December 2015<span>
     
         <a href='/docs/guide/guide09.html'
 >previous</a><span class='sep-sm
@@ -89,14 +89,14 @@ plot(u, 'm', LW, lw)</pre>
 
 <pre class="mcode-output">L =
    Linear operator:
-      0.0001*diff(u,2)+x.*u = 0
+      u |--&gt; 0.0001.*diff(u,2)+x.*u
    operating on chebfun objects defined on:
-      [-1 1]
+      [-1,1]
    with
-    left boundary conditions:
-      u-BC = 0
-    right boundary conditions:
-      u-BC = 0
+    left boundary condition(s):
+      u = 0
+    right boundary condition(s):
+      u = 1
 </pre>
 
 <p>Notice that Chebfun has detected that the chebop is linear. Doing this automatically is not a triviality! --- see [Birkisson &amp; Driscoll 2013].</p>
@@ -109,14 +109,14 @@ N.lbc = 1; N.rbc = -1;</pre>
 
 <pre class="mcode-output">N =
    Nonlinear operator:
-      0.001*diff(u,2)-u.^3 = 0
+      u |--&gt; 0.001.*diff(u,2)-u.^3
    operating on chebfun objects defined on:
-      [-1 1]
+      [-1,1]
    with
-    left boundary conditions:
-      u-BC = 0
-    right boundary conditions:
-      u-BC = 0
+    left boundary condition(s):
+      u = 1
+    right boundary condition(s):
+      u = -1
 </pre>
 
 <p>To solve the BVP, we can write</p>
@@ -164,12 +164,12 @@ N.lbc = 0.95</pre>
 
 <pre class="mcode-output">N =
    Nonlinear operator:
-      diff(u)-u.^2 = 0
+      u |--&gt; diff(u)-u.^2
    operating on chebfun objects defined on:
-      [0 1]
+      [0,1]
    with
-    left boundary conditions:
-      u-BC = 0
+    left boundary condition(s):
+      u = 0.95
 </pre>
 
 <p>Since boundary conditions have been specified at only one end of the domain, Chebfun knows that this is an initial value problem.  We solve it and plot the solution:</p>
@@ -184,14 +184,14 @@ plot(u,'m',LW,lw)</pre>
 <pre class="mcode-input">norm(u-u2)</pre>
 
 <pre class="mcode-output">ans =
-     2.248226334417090e-09
+     2.252258906552143e-09
 </pre>
 
 <p>For many nonlinear IVPs, however, the <code>solvebvp</code> approach would not converge.</p>
-<p>Here is an example of an IVP with two components; the equation happens to be linear. To impose two boundary conditions at the left, we make <code>N.lbc</code> a function returning an array.</p>
+<p>Here is an example of an IVP with two components; the equation happens to be linear.</p>
 <pre class="mcode-input">N = chebop(0, 100);
 N.op = @(t,u) diff(u,2) + u;
-N.lbc = @(u) [u-1; diff(u)];
+N.lbc = [1; 0];
 u = N\0;
 plot(u, 'm', diff(u), 'c', LW, lw), ylim([-1.5 1.5])</pre>
 
@@ -199,7 +199,7 @@ plot(u, 'm', diff(u), 'c', LW, lw), ylim([-1.5 1.5])</pre>
 <p>As a third example, let us solve a van der Pol equation for a nonlinear oscillator, $$ \varepsilon u'' = (1-u^2)u' - u , \qquad t\in [0,20], ~~ u(0) = 3, ~~u'(0) = 0. $$ Here is a solution with $\varepsilon = 0.05$:</p>
 <pre class="mcode-input">N = chebop(0,20);
 N.op = @(t,u) 0.05*diff(u,2) - (1-u.^2).*diff(u) + u;
-N.lbc = @(u) [u-3; diff(u)];
+N.lbc = [3; 0];
 u = N\0;
 plot(u), shg</pre>
 
@@ -210,10 +210,7 @@ N.op = @(t,u,v,w) [diff(u)-10.*(v-u);
                    diff(v)-u.*(28-w)+v;
                    diff(w)-u.*v+8./3.*w];
 N.lbc = @(u,v,w) [u+14; v+15; w-20];
-U = N\0;</pre>
-
-<p>The solution $U$ has three components, which we could extract with <code>u = U{1}</code>, <code>v = U{2}</code>, and <code>w = U{3}</code>.  However, a more elegant extraction method is to use the overloaded <code>deal</code> command. Here we suppress the axes to make a pretty picture.</p>
-<pre class="mcode-input">[u,v,w] = deal(U);
+[u,v,w] = N\0;
 plot3(u,v,w,LW,1), view(-5,9), axis off</pre>
 
 <p><img src="img/guide10_09.png" class="figure" alt=""></p>
@@ -226,7 +223,7 @@ pref = cheboppref; pref.ivpSolver = 'ode15s';
 tic, u = solveivp(N,0,pref); toc
 plot(u, LW, lw), ylim([-1.5 1.5])</pre>
 
-<pre class="mcode-output">Elapsed time is 3.807950 seconds.
+<pre class="mcode-output">Elapsed time is 1.009338 seconds.
 </pre>
 
 <p><img src="img/guide10_10.png" class="figure" alt=""></p>
@@ -247,9 +244,9 @@ f = L\1;</pre>
 
 <pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]      109   -0.0043  -0.0043 
-Epslevel = 1.648339e-15.  Vscale = 1.691765e-01.
+vertical scale = 0.17 
 </pre>
 
 <h3 id="105-ultraspherical-discretizations">10.5 Ultraspherical discretizations</h3>

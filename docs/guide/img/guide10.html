@@ -1,7 +1,7 @@
 ---
 title: "10. Nonlinear ODEs, IVPs, and Chebgui"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, November 2009, latest revision December 2014"
+authordate: "Lloyd N. Trefethen, November 2009, latest revision December 2015"
 ---
 
 Chapter 7 described Chebfun's "chebop" capabilities for solving linear ordinary differential equations by the backslash command.  We will now describe extensions of chebops to nonlinear problems, as well as special methods used for ODE initial-value problems (IVPs) as opposed to boundary-value problems (BVPs).  Most of the design and implementation of these features was done by Asgeir Birkisson in collaboration with Toby Driscoll.
@@ -29,14 +29,14 @@ The object `L` is a chebop:
 
 <pre class="mcode-input">L</pre><pre class="mcode-output">L =
    Linear operator:
-      0.0001*diff(u,2)+x.*u = 0
+      u |--&gt; 0.0001.*diff(u,2)+x.*u
    operating on chebfun objects defined on:
-      [-1 1]
+      [-1,1]
    with
-    left boundary conditions:
-      u-BC = 0
-    right boundary conditions:
-      u-BC = 0
+    left boundary condition(s):
+      u = 0
+    right boundary condition(s):
+      u = 1
 </pre>Notice that Chebfun has detected that the chebop is linear. Doing this automatically is not a triviality! --- see [Birkisson &amp; Driscoll 2013].
 
 The same approach also works for nonlinear problems. For example, in Section 7.9 we hand-coded a Newton iteration to solve the nonlinear BVP $$ 0.001u''-u^3 = 0,\qquad  u(-1) = 1,~~ u(1) = -1. $$ Chebfun solves such problems automatically in response to the same syntax as above. Switching from `L` to `N` to suggest nonlinearity, let us write
@@ -46,14 +46,14 @@ N.lbc = 1; N.rbc = -1;</pre>This gives us a chebop which Chebfun recognizes as n
 
 <pre class="mcode-input">N</pre><pre class="mcode-output">N =
    Nonlinear operator:
-      0.001*diff(u,2)-u.^3 = 0
+      u |--&gt; 0.001.*diff(u,2)-u.^3
    operating on chebfun objects defined on:
-      [-1 1]
+      [-1,1]
    with
-    left boundary conditions:
-      u-BC = 0
-    right boundary conditions:
-      u-BC = 0
+    left boundary condition(s):
+      u = 1
+    right boundary condition(s):
+      u = -1
 </pre>To solve the BVP, we can write
 
 <pre class="mcode-input">u = N\0;
@@ -101,12 +101,12 @@ For example, suppose we want to solve the nonlinear IVP $$ u' = u^2, \qquad t\in
 N.op = @(t,u) diff(u) - u.^2;
 N.lbc = 0.95</pre><pre class="mcode-output">N =
    Nonlinear operator:
-      diff(u)-u.^2 = 0
+      u |--&gt; diff(u)-u.^2
    operating on chebfun objects defined on:
-      [0 1]
+      [0,1]
    with
-    left boundary conditions:
-      u-BC = 0
+    left boundary condition(s):
+      u = 0.95
 </pre>Since boundary conditions have been specified at only one end of the domain, Chebfun knows that this is an initial value problem.  We solve it and plot the solution:
 
 <pre class="mcode-input">u = N\0;
@@ -117,14 +117,14 @@ A major change was introduced in Version 5.1 in how initial-value (and final-val
 <pre class="mcode-input">u2 = solvebvp(N,0);</pre>(With `cheboppref.setDefaults('ivpSolver','collocation')` you could make this switch globally.) For this problem the method converges, giving a solution that is close but not the same:
 
 <pre class="mcode-input">norm(u-u2)</pre><pre class="mcode-output">ans =
-     2.248226334417090e-09
+     2.252258906552143e-09
 </pre>For many nonlinear IVPs, however, the `solvebvp` approach would not converge.
 
-Here is an example of an IVP with two components; the equation happens to be linear. To impose two boundary conditions at the left, we make `N.lbc` a function returning an array.
+Here is an example of an IVP with two components; the equation happens to be linear.
 
 <pre class="mcode-input">N = chebop(0, 100);
 N.op = @(t,u) diff(u,2) + u;
-N.lbc = @(u) [u-1; diff(u)];
+N.lbc = [1; 0];
 u = N\0;
 plot(u, 'm', diff(u), 'c', LW, lw), ylim([-1.5 1.5])</pre><img src="img/guide10_07.png" class="figure" alt="">
 
@@ -132,7 +132,7 @@ As a third example, let us solve a van der Pol equation for a nonlinear oscillat
 
 <pre class="mcode-input">N = chebop(0,20);
 N.op = @(t,u) 0.05*diff(u,2) - (1-u.^2).*diff(u) + u;
-N.lbc = @(u) [u-3; diff(u)];
+N.lbc = [3; 0];
 u = N\0;
 plot(u), shg</pre><img src="img/guide10_08.png" class="figure" alt="">
 
@@ -143,9 +143,7 @@ N.op = @(t,u,v,w) [diff(u)-10.*(v-u);
                    diff(v)-u.*(28-w)+v;
                    diff(w)-u.*v+8./3.*w];
 N.lbc = @(u,v,w) [u+14; v+15; w-20];
-U = N\0;</pre>The solution $U$ has three components, which we could extract with `u = U{1}`, `v = U{2}`, and `w = U{3}`.  However, a more elegant extraction method is to use the overloaded `deal` command. Here we suppress the axes to make a pretty picture.
-
-<pre class="mcode-input">[u,v,w] = deal(U);
+[u,v,w] = N\0;
 plot3(u,v,w,LW,1), view(-5,9), axis off</pre><img src="img/guide10_09.png" class="figure" alt="">
 
 
@@ -159,7 +157,7 @@ N.op = @(t,u) diff(u) + sin(t) + 10000*(u-cos(t));
 N.lbc = 1;
 pref = cheboppref; pref.ivpSolver = 'ode15s';
 tic, u = solveivp(N,0,pref); toc
-plot(u, LW, lw), ylim([-1.5 1.5])</pre><pre class="mcode-output">Elapsed time is 3.807950 seconds.
+plot(u, LW, lw), ylim([-1.5 1.5])</pre><pre class="mcode-output">Elapsed time is 1.009338 seconds.
 </pre><img src="img/guide10_10.png" class="figure" alt="">
 
 If we don't specify `ode15s`, the solution takes minutes instead of seconds.
@@ -181,9 +179,9 @@ f = L\1;</pre>which corresponds to the problem $$ u'' + u' + 600(1+\sin(x)) = 0,
 
 <pre class="mcode-input">f</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
+       interval       length     endpoint values trig
 [    -3.1,     3.1]      109   -0.0043  -0.0043 
-Epslevel = 1.648339e-15.  Vscale = 1.691765e-01.
+vertical scale = 0.17 
 </pre>
 
 ## 10.5 Ultraspherical discretizations
