@@ -34,12 +34,12 @@ hold on
 for init = 0.2:0.4:0.2
     N.lbc = [init; 1];
     u = N\0;
-    plot(u, diff(u),'linewidth',2)
+    plot(u, diff(u))
 end
 title('Phase portrait of the van der Pol oscillator','interpreter','latex', ...
-    'fontsize',16)
-xlabel('$u$','interpreter','latex','fontsize',14)
-ylabel('$u''$','interpreter','latex','fontsize',14)
+    'fontsize',11)
+xlabel('$u$','interpreter','latex', 'fontsize',10)
+ylabel('$u''$','interpreter','latex', 'fontsize',10)
 hold off</pre><img src="img/ChebopQuiver_01.png" class="figure" alt=""/>
 
 
@@ -59,14 +59,14 @@ hold on
 for init = 0:0.5:5
     N.lbc = [0, init];
     u = N\0;
-    plot(u, diff(u),'linewidth',2)
+    plot(u, diff(u))
 end
 hold off
 xlim([-2.5 25])
-title('Phase portrait for an undamped nonlinear pendulum','interpreter','latex', ...
-    'fontsize',16)
-xlabel('$u$','interpreter','latex','fontsize',14)
-ylabel('$u''$','interpreter','latex','fontsize',14)</pre><img src="img/ChebopQuiver_02.png" class="figure" alt=""/>
+title('Phase portrait for an undamped nonlinear pendulum','interpreter', ...
+    'latex', 'fontsize',11)
+xlabel('$u$','interpreter','latex','fontsize',10)
+ylabel('$u''$','interpreter','latex', 'fontsize',10)</pre><img src="img/ChebopQuiver_02.png" class="figure" alt=""/>
 
 We see that for small enough initial velocities, the pendulum swings back and forth around the equilibria $u=0$, while for larger initial velocities, it swings over and over the top position. However, if we introduce damping, all trajectories will eventually end up at rest:
 
@@ -76,13 +76,13 @@ hold on
 for init = 0:0.5:5
     N.lbc = [0, init];
     u = N\0;
-    plot(u, diff(u),'linewidth',2)
+    plot(u, diff(u))
 end
 hold off
 title('Phase portrait for a damped nonlinear pendulum','interpreter','latex', ...
-    'fontsize',16)
-xlabel('$u$','interpreter','latex','fontsize',14)
-ylabel('$u''$','interpreter','latex','fontsize',14)</pre><img src="img/ChebopQuiver_03.png" class="figure" alt=""/>
+    'fontsize',11)
+xlabel('$u$','interpreter','latex','fontsize',10)
+ylabel('$u''$','interpreter','latex','fontsize',10)</pre><img src="img/ChebopQuiver_03.png" class="figure" alt=""/>
 
 
 
@@ -102,13 +102,13 @@ hold on
 for rabbits = 0.1:.2:1.9
     N.lbc = @(u,v) [u - rabbits; v - 1]; % Initial populations
     [u, v] = N\0;
-    plot(u, v, 'linewidth', 2)
+    plot(u, v)
 end
 hold off
 title('Phase portrait for Lotka-Volterra equations', 'interpreter','latex', ...
-    'fontsize',16)
-xlabel('Rabbits','interpreter','latex','fontsize',14)
-ylabel('Foxes','interpreter','latex','fontsize',14)</pre><img src="img/ChebopQuiver_04.png" class="figure" alt=""/>
+    'fontsize',11)
+xlabel('Rabbits','interpreter','latex','fontsize',10)
+ylabel('Foxes','interpreter','latex','fontsize',10)</pre><img src="img/ChebopQuiver_04.png" class="figure" alt=""/>
 
 The cyclical behaviour of the populations is evident. What happens if we increase the reproduction rate of the rabbits by 50%?
 
@@ -118,14 +118,14 @@ hold on
 for rabbits = 0.1:.2:1.9
     N.lbc = @(u,v) [u - rabbits; v - 1]; % Initial populations
     [u, v] = N\0;
-    plot(u, v, 'linewidth', 2)
+    plot(u, v)
 end
 xlim([0 5]), ylim([0 5])
 hold off
 title('Phase portrait for L-V eqns., increased rabbit reproduction',...
-    'interpreter','latex', 'fontsize',16)
-xlabel('Rabbits','interpreter','latex','fontsize',14)
-ylabel('Foxes','interpreter','latex','fontsize',14)</pre><img src="img/ChebopQuiver_05.png" class="figure" alt=""/>
+    'interpreter','latex','fontsize',11)
+xlabel('Rabbits','interpreter','latex','fontsize',10)
+ylabel('Foxes','interpreter','latex','fontsize',10)</pre><img src="img/ChebopQuiver_05.png" class="figure" alt=""/>
 
 Comparing the phase portraits, we observe that while the maximum rabbit population increased, it was by much less than 50%. In fact, the maximum population of foxes grew more than that of rabbits.
 
@@ -133,9 +133,9 @@ Comparing the phase portraits, we observe that while the maximum rabbit populati
 
 ## References
 
-1. https://en.wikipedia.org/wiki/Phase_portrait
+1. <http://en.wikipedia.org/wiki/Phase_portrait>
 
-2. https://en.wikipedia.org/wiki/Van_der_Pol_oscillator
+2. <http://en.wikipedia.org/wiki/Van_der_Pol_oscillator>
 
-3. https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations
+3. <http://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations>
 
