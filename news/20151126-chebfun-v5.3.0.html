@@ -64,8 +64,8 @@
 <p>The Chebfun team is pleased to release Version 5.3, incorporating
 many speedups and other improvements and new capabilities.
 Here is a summary of some of the main items.</p>
-<h3 id="general">General</h3>
-<h4 id="fast-discrete-legendre-transforms-legcoeffs2legvals-etc">Fast discrete Legendre transforms (<code>legcoeffs2legvals</code> etc.)</h4>
+<h2 id="general">General</h2>
+<h3 id="fast-discrete-legendre-transforms-legcoeffs2legvals-etc">Fast discrete Legendre transforms (<code>legcoeffs2legvals</code> etc.)</h3>
 <p>For several years Chebfun has had codes <code>leg2cheb</code> and <code>cheb2leg</code>
 for fast conversion between Legendre and Chebyshev expansion coefficients.
 We now also have fast conversion between Legendre coefficients and
@@ -81,7 +81,7 @@ x2 = chebvals2legcoeffs(y);
 </code></pre>
 
 <p>[Thanks to Nick Hale and Alex Townsend.]</p>
-<h4 id="new-chopping-algorithm-removal-of-epslevel-and-doublelength">New chopping algorithm, removal of <code>epslevel</code>, and `doublelength'</h4>
+<h3 id="new-chopping-algorithm-removal-of-epslevel-and-doublelength">New chopping algorithm, removal of <code>epslevel</code>, and `doublelength'</h3>
 <p>The Chebfun constructor has been redesigned (a paper
 is in preparation).  Most users won't notice a difference,
 but one change is that the accuracy estimate <code>epslevel</code>, which
@@ -94,7 +94,7 @@ To explore how Chebfun chops a Chebyshev series, try e.g.</p>
 revealing a plateau of rounding errors.
 [Thanks to Jared Aurentz, Anthony Austin, Nick Hale,
 and Nick Trefethen.]</p>
-<h4 id="turbo-for-higher-accuracy-chebyshev-coefficients"><code>'turbo'</code> for higher accuracy Chebyshev coefficients</h4>
+<h3 id="turbo-for-higher-accuracy-chebyshev-coefficients"><code>'turbo'</code> for higher accuracy Chebyshev coefficients</h3>
 <p>Though most Chebfun computations remain limited to about 15 digits
 of accuracy relative to the scale of the function, you can construct
 certain Chebyshev coefficients beneath this level with the experimental
@@ -104,7 +104,7 @@ integrals investigated by Bornemann, Huybrechs, and Wang.  Try e.g.</p>
 </code></pre>
 
 <p>[Thanks to Anthony Austin and Nick Trefethen.]</p>
-<h4 id="plotregion-for-ellipses-and-strips-of-analyticity"><code>plotregion</code> for ellipses and strips of analyticity</h4>
+<h3 id="plotregion-for-ellipses-and-strips-of-analyticity"><code>plotregion</code> for ellipses and strips of analyticity</h3>
 <p>The command <code>chebellipseplot</code> used to plot the "Chebfun ellipse"
 of a chebfun, an estimate of its region of analyticity in
 the complex plane (see Chapter 8 of <em>Approximation Theory and
@@ -125,8 +125,8 @@ is constructed and represented.  Try e.g.
 <code>explain(cheb.gallery2('smokering'))</code>, or add a second argument
 <code>explain(...,4)</code> to make it faster.
 [Thanks to Asgeir Birkisson and Alex Townsend.]</p>
-<h3 id="differential-equations">Differential equations</h3>
-<h4 id="quiver-for-displaying-the-phase-plane-of-a-chebop"><code>quiver</code> for displaying the phase plane of a chebop</h4>
+<h2 id="differential-equations">Differential equations</h2>
+<h3 id="quiver-for-displaying-the-phase-plane-of-a-chebop"><code>quiver</code> for displaying the phase plane of a chebop</h3>
 <p>The new command <code>quiver</code> displays the phase plane for a chebop
 (<code>help quiver</code>).
 Try e.g. the simple harmonic oscillator</p>
@@ -140,7 +140,7 @@ quiver(N,[0 3 0 4],'normalize',true)
 </code></pre>
 
 <p>[Thanks to Asgeir Birkisson.]</p>
-<h4 id="simpler-format-u-v-for-multiple-outputs-both-odes-and-pdes">Simpler format <code>[u, v]</code> for multiple outputs (both ODEs and PDEs)</h4>
+<h3 id="simpler-format-u-v-for-multiple-outputs-both-odes-and-pdes">Simpler format <code>[u, v]</code> for multiple outputs (both ODEs and PDEs)</h3>
 <p>In solving a system of differential equations, the output
 used to be a chebmatrix, from which one could extract
 components via the command <code>deal</code> (<code>help chebmatrix/deal</code>).
@@ -157,13 +157,13 @@ plot(u,w), ylim([2 48])
 <p>A similar change has been made in <code>pde15s</code> for time-dependent PDEs.
 See <code>help chebop/solvebvp</code> or <code>help chebop/solveivp</code> and
 <code>help chebfun/pde15s</code>.  [Thanks to Asgeir Birkisson.]</p>
-<h4 id="simpler-format-a-b-for-specifying-derivative-bcs">Simpler format <code>[a; b]</code> for specifying derivative BCs</h4>
+<h3 id="simpler-format-a-b-for-specifying-derivative-bcs">Simpler format <code>[a; b]</code> for specifying derivative BCs</h3>
 <p>Before, to specify $u=a$ and $u'=b$ at a left boundary,
 say, you had to write e.g. <code>L.lbc = @(u) [u-a; diff(u)-b]</code>.
 Now, for scalar problems, you can write <code>L.lbc = [a; b]</code>.
 See the boundary conditions section under <code>help chebop</code>.
 [Thanks to Asgeir Birkisson.]</p>
-<h4 id="new-command-deriv-for-evaluating-derivatives">New command <code>deriv</code> for evaluating derivatives</h4>
+<h3 id="new-command-deriv-for-evaluating-derivatives">New command <code>deriv</code> for evaluating derivatives</h3>
 <p>To evaluate the derivative of a chebfun, you used to have
 to write e.g. <code>fp = diff(f);</code> <code>fp(0)</code>.  Now you can also
 use <code>deriv(f,0)</code>.  This makes specification of
@@ -173,11 +173,11 @@ convenient.  You used to have to write e.g.
 you can write <code>L.bc = @(x,u) deriv(u,0) - 1</code>.
 See <code>help chebfun/deriv</code>.
 [Thanks to Asgeir Birkisson.]</p>
-<h4 id="followpath-for-pseudo-arclength-continuation-of-ode-solutions"><code>followpath</code> for pseudo-arclength continuation of ODE solutions</h4>
+<h3 id="followpath-for-pseudo-arclength-continuation-of-ode-solutions"><code>followpath</code> for pseudo-arclength continuation of ODE solutions</h3>
 <p>A new code <code>followpath</code> enables one to track solutions of ODEs
 as a parameter is varied.  Type <code>help followpath</code> for syntax and
 examples.  [Thanks to Asgeir Birkisson.]</p>
-<h4 id="coefficients-or-values-spectral-options-both-chebyshev-and-fourier">Coefficients or values spectral options, both Chebyshev and Fourier</h4>
+<h3 id="coefficients-or-values-spectral-options-both-chebyshev-and-fourier">Coefficients or values spectral options, both Chebyshev and Fourier</h3>
 <p>Chebfun uses spectral methods to solve ODE BVPs.  The default is
 spectral collocation ("pseudospectral" methods), but coefficient-based
 methods are also available.  On Chebyshev grids, this is the
