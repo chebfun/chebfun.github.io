@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Release notes for v5.3.0 &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1><a href='/news/index.html'>News</a><span class='sep'>&raquo;</span>Release notes for v5.3.0</h1>
+<h2>26 November 2015</h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<p>The Chebfun team is pleased to release Version 5.3, incorporating
+many speedups and other improvements and new capabilities.
+Here is a summary of some of the main items.</p>
+<h3 id="general">General</h3>
+<h4 id="fast-discrete-legendre-transforms-legcoeffs2legvals-etc">Fast discrete Legendre transforms (<code>legcoeffs2legvals</code> etc.)</h4>
+<p>For several years Chebfun has had codes <code>leg2cheb</code> and <code>cheb2leg</code>
+for fast conversion between Legendre and Chebyshev expansion coefficients.
+We now also have fast conversion between Legendre coefficients and
+values at Legendre points.  In fact there is now a suite of 12
+codes with names <code>legcoeffs2legvals</code>, <code>legcoeffs2chebcoeffs</code>,
+<code>chebcoeffs2legvals</code>, etc., all of which compute the corresponding
+transforms in close to linear time.
+For example, the following takes less than 1 second on a desktop
+machine and produces vectors <code>x</code> and <code>x2</code> that differ by about 1e-11.</p>
+<pre><code>x = randn(1e4,1);
+y = legcoeffs2chebvals(x);
+x2 = chebvals2legcoeffs(y);
+</code></pre>
+
+<p>[Thanks to Nick Hale and Alex Townsend.]</p>
+<h4 id="new-chopping-algorithm-removal-of-epslevel-and-doublelength">New chopping algorithm, removal of <code>epslevel</code>, and `doublelength'</h4>
+<p>The Chebfun constructor has been redesigned (a paper
+is in preparation).  Most users won't notice a difference,
+but one change is that the accuracy estimate <code>epslevel</code>, which
+wasn't as reliable as we had hoped, has been removed.
+To explore how Chebfun chops a Chebyshev series, try e.g.</p>
+<pre><code>f = chebfun('exp(x)','doublelength'); plotcoeffs(f,'.')
+</code></pre>
+
+<p>which constructs a chebfun with twice the usual number of coefficients,
+revealing a plateau of rounding errors.
+[Thanks to Jared Aurentz, Anthony Austin, Nick Hale,
+and Nick Trefethen.]</p>
+<h4 id="turbo-for-higher-accuracy-chebyshev-coefficients"><code>'turbo'</code> for higher accuracy Chebyshev coefficients</h4>
+<p>Though most Chebfun computations remain limited to about 15 digits
+of accuracy relative to the scale of the function, you can construct
+certain Chebyshev coefficients beneath this level with the experimental
+new flag <code>'turbo'</code>, based on a very simple form of the complex contour
+integrals investigated by Bornemann, Huybrechs, and Wang.  Try e.g.</p>
+<pre><code>f = chebfun('exp(x)','turbo'); plotcoeffs(f,'.')
+</code></pre>
+
+<p>[Thanks to Anthony Austin and Nick Trefethen.]</p>
+<h4 id="plotregion-for-ellipses-and-strips-of-analyticity"><code>plotregion</code> for ellipses and strips of analyticity</h4>
+<p>The command <code>chebellipseplot</code> used to plot the "Chebfun ellipse"
+of a chebfun, an estimate of its region of analyticity in
+the complex plane (see Chapter 8 of <em>Approximation Theory and
+Approximation Practice</em>).  This is now deprecated in favor of a new
+command <code>plotregion</code> that will also plot a "Chebfun strip"
+of analyticity for a periodic chebfun.  Try e.g.</p>
+<pre><code>f = chebfun('1./(1+25*x.^2)'); plotregion(f), axis equal
+</code></pre>
+
+<p>or</p>
+<pre><code>f = chebfun('exp(cos(5*pi*x))','trig'); plotregion(f), axis equal
+</code></pre>
+
+<p>[Thanks to Kuan Xu.]</p>
+<h4 id="explain-for-a-movie-describing-a-chebfun2"><code>explain</code> for a movie describing a chebfun2</h4>
+<p>If <code>f</code> is a chebfun2, <code>explain(f)</code> shows a movie of how <code>f</code>
+is constructed and represented.  Try e.g.
+<code>explain(cheb.gallery2('smokering'))</code>, or add a second argument
+<code>explain(...,4)</code> to make it faster.
+[Thanks to Asgeir Birkisson and Alex Townsend.]</p>
+<h3 id="differential-equations">Differential equations</h3>
+<h4 id="quiver-for-displaying-the-phase-plane-of-a-chebop"><code>quiver</code> for displaying the phase plane of a chebop</h4>
+<p>The new command <code>quiver</code> displays the phase plane for a chebop
+(<code>help quiver</code>).
+Try e.g. the simple harmonic oscillator</p>
+<pre><code>L = chebop(@(u) diff(u,2) + u,[0 1]);
+quiver(L,[-1 1 -1 1])
+</code></pre>
+
+<p>or the Lotka-Volterra predator-prey system</p>
+<pre><code>N = chebop(@(t,u,v) [diff(u)-2*u+u*v; diff(v)+v-u*v],[0 10]);
+quiver(N,[0 3 0 4],'normalize',true)
+</code></pre>
+
+<p>[Thanks to Asgeir Birkisson.]</p>
+<h4 id="simpler-format-u-v-for-multiple-outputs-both-odes-and-pdes">Simpler format <code>[u, v]</code> for multiple outputs (both ODEs and PDEs)</h4>
+<p>In solving a system of differential equations, the output
+used to be a chebmatrix, from which one could extract
+components via the command <code>deal</code> (<code>help chebmatrix/deal</code>).
+This is no longer necessary.  To find solutions $u,v,w$ for
+the Lorentz equations, for example, one can now execute</p>
+<pre><code>N = chebop(0,30);
+N.op = @(t,u,v,w) [diff(u)-10*(v-u); ...
+    diff(v)-u*(28-w)+v; diff(w)-u*v+(8/3)*w];
+N.lbc = @(u,v,w) [u+15; v+15; w-20];
+[u,v,w] = N\0;
+plot(u,w), ylim([2 48])
+</code></pre>
+
+<p>A similar change has been made in <code>pde15s</code> for time-dependent PDEs.
+See <code>help chebop/solvebvp</code> or <code>help chebop/solveivp</code> and
+<code>help chebfun/pde15s</code>.  [Thanks to Asgeir Birkisson.]</p>
+<h4 id="simpler-format-a-b-for-specifying-derivative-bcs">Simpler format <code>[a; b]</code> for specifying derivative BCs</h4>
+<p>Before, to specify $u=a$ and $u'=b$ at a left boundary,
+say, you had to write e.g. <code>L.lbc = @(u) [u-a; diff(u)-b]</code>.
+Now, for scalar problems, you can write <code>L.lbc = [a; b]</code>.
+See the boundary conditions section under <code>help chebop</code>.
+[Thanks to Asgeir Birkisson.]</p>
+<h4 id="new-command-deriv-for-evaluating-derivatives">New command <code>deriv</code> for evaluating derivatives</h4>
+<p>To evaluate the derivative of a chebfun, you used to have
+to write e.g. <code>fp = diff(f);</code> <code>fp(0)</code>.  Now you can also
+use <code>deriv(f,0)</code>.  This makes specification of
+internal "boundary" conditions for ODEs much more
+convenient.  You used to have to write e.g.
+<code>L.bc = @(x,u) feval(diff(u),0) - 1</code>, but now
+you can write <code>L.bc = @(x,u) deriv(u,0) - 1</code>.
+See <code>help chebfun/deriv</code>.
+[Thanks to Asgeir Birkisson.]</p>
+<h4 id="followpath-for-pseudo-arclength-continuation-of-ode-solutions"><code>followpath</code> for pseudo-arclength continuation of ODE solutions</h4>
+<p>A new code <code>followpath</code> enables one to track solutions of ODEs
+as a parameter is varied.  Type <code>help followpath</code> for syntax and
+examples.  [Thanks to Asgeir Birkisson.]</p>
+<h4 id="coefficients-or-values-spectral-options-both-chebyshev-and-fourier">Coefficients or values spectral options, both Chebyshev and Fourier</h4>
+<p>Chebfun uses spectral methods to solve ODE BVPs.  The default is
+spectral collocation ("pseudospectral" methods), but coefficient-based
+methods are also available.  On Chebyshev grids, this is the
+ultraspherical technology of Olver and Townsend.  On Fourier grids,
+this is a new option based on classical Fourier expansions.
+The default, factory discretizations are equivalent to what
+you get with</p>
+<pre><code>cheboppref.setDefaults('discretization','values')
+</code></pre>
+
+<p>and for the alternative discretizations you can specify</p>
+<pre><code>cheboppref.setDefaults('discretization','coeffs')
+</code></pre>
+
+<p>See <code>help cheboppref</code>.
+[Thanks to Hadrien Montanelli.]</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
