@@ -56,7 +56,7 @@
     <div class='page-header'>
 <span class='chapter_number'>8</span>
 <h1>Chebfun Preferences</h1>
-<h2>Lloyd N. Trefethen, November 2009, last revised December 2014<span>
+<h2>Lloyd N. Trefethen, November 2009, latest revision December 2015<span>
     
         <a href='/docs/guide/guide07.html'
 >previous</a><span class='sep-sm
@@ -91,7 +91,7 @@
         maxRank:                  513
         sampleTest:               1
     tech:                         @chebtech2
-    techPrefs
+    &lt;a href="matlab: help chebtech2/techPref"&gt;techPrefs&lt;/a&gt;
         eps:                      2.220446049250313e-16
         minSamples:               17
         maxLength:                65537
@@ -99,7 +99,8 @@
         extrapolate:              0
         sampleTest:               1
         refinementFunction:       'nested'
-        happinessCheck:           'classic'
+        happinessCheck:           'standard'
+        useTurbo:                 0
 </pre>
 
 <p>More detailed information from further down in the preference structure will come from, for example, <code>help chebtech/techpref</code>.</p>
@@ -166,13 +167,13 @@ chebfunpref.setDefaults('splitting',false)</pre>
   format long, f((.1:.1:.5)'.^2)</pre>
 
 <pre class="mcode-output">ans =
-   515
+   588
 ans =
-   0.100000000057989
-   0.200000000011776
-   0.300000000012712
-   0.400000000008074
-   0.500000000010248
+   0.100000000000001
+   0.200000000000000
+   0.300000000000000
+   0.400000000000000
+   0.500000000000000
 </pre>
 
 <p>Inspection reveals that Chebfun has broken the interval into a succession of pieces, each 100 times smaller than the next:</p>
@@ -180,10 +181,12 @@ ans =
 
 <pre class="mcode-output">ans =
   Columns 1 through 3
-                   0   0.000000000100000   0.000000010000000
+                   0   0.000000000001000   0.000000000100000
   Columns 4 through 6
-   0.000001000000000   0.000100000000000   0.010000000000000
-  Column 7
+   0.000000010000000   0.000001000000000   0.000100000000000
+  Columns 7 through 9
+   0.005050000000000   0.010000000000000   0.505000000000000
+  Column 10
    1.000000000000000
 </pre>
 
@@ -196,7 +199,7 @@ ans =
   plot(f)</pre>
 
 <pre class="mcode-output">ans =
-        1346
+        1465
 </pre>
 
 <p><img src="img/guide08_03.png" class="figure" alt=""></p>
@@ -206,12 +209,12 @@ ans =
   format short, f.ends</pre>
 
 <pre class="mcode-output">ans =
-   825
+   827
 ans =
   Columns 1 through 7
-   -1.0000   -0.7500   -0.5000   -0.2500         0    0.2500    0.3750
-  Columns 8 through 12
-    0.5000    0.6250    0.8125    0.8750    1.0000
+   -1.0000   -0.7500   -0.5000   -0.2500         0    0.1250    0.2500
+  Columns 8 through 13
+    0.3750    0.5000    0.6250    0.8125    0.8750    1.0000
 </pre>
 
 <p>When should one use splitting off, and when splitting on?  If the goal is simply to represent complicated functions, especially when they are more complicated in some regions than others, splitting on sometimes has advantages. An example is given by the function above posed on $[-3,3]$ instead of $[-1,1]$. With splitting off, the global polynomial has a degree in the tens of thousands:</p>
@@ -220,7 +223,7 @@ ans =
   plot(f3)</pre>
 
 <pre class="mcode-output">ans =
-       16009
+       17603
 </pre>
 
 <p><img src="img/guide08_04.png" class="figure" alt=""></p>
@@ -229,7 +232,7 @@ ans =
   length(f3)</pre>
 
 <pre class="mcode-output">ans =
-        2828
+        2755
 </pre>
 
 <p>On the other hand, splitting off mode has advantages of robustness.  In particular, operations involving derivatives generally work better when functions are represented by global polynomials, and chebops for the most part require this.  Also, for educational purposes, it is very convenient that Chebfun can be used so easily to study the properties of pure polynomial representations even of very high degree.</p>
@@ -239,11 +242,11 @@ ans =
 
 <pre class="mcode-output">ans = 
   Columns 1 through 4
-    [66x1 bndfun]    [78x1 bndfun]    [90x1 bndfun]    [90x1 bndfun]
+    [66x1 bndfun]    [78x1 bndfun]    [90x1 bndfun]    [93x1 bndfun]
   Columns 5 through 8
-    [124x1 bndfun]    [31x1 bndfun]    [96x1 bndfun]    [62x1 bndfun]
-  Columns 9 through 11
-    [79x1 bndfun]    [74x1 bndfun]    [35x1 bndfun]
+    [47x1 bndfun]    [81x1 bndfun]    [31x1 bndfun]    [96x1 bndfun]
+  Columns 9 through 12
+    [55x1 bndfun]    [79x1 bndfun]    [76x1 bndfun]    [35x1 bndfun]
 </pre>
 
 <p>Alternatively, suppose we wish to allow individual funs to have length up to 513.  We can do that like this:</p>
@@ -253,11 +256,11 @@ ans =
   f.funs</pre>
 
 <pre class="mcode-output">ans =
-        1183
+        1202
 ans =
    -1.0000         0    0.5000    0.7500    1.0000
 ans = 
-    [353x1 bndfun]    [307x1 bndfun]    [246x1 bndfun]    [277x1 bndfun]
+    [367x1 bndfun]    [318x1 bndfun]    [240x1 bndfun]    [277x1 bndfun]
 </pre>
 
 <h3 id="85-maxlength-maximum-length">8.5  <code>maxLength</code>: maximum length</h3>
@@ -268,26 +271,26 @@ ans =
 <pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
 </pre>
 
-<p>Suppose we wish to examine the interpolant to this function through 50 points instead of 65537.  One way is like this:</p>
-<pre class="mcode-input">  f = chebfun('sign(x)',50);
+<p>Suppose we wish to examine the interpolant to this function through 65 points instead of 65537.  One way is like this:</p>
+<pre class="mcode-input">  f = chebfun('sign(x)',65);
   length(f)
   plot(f)</pre>
 
 <pre class="mcode-output">ans =
-    50
+    65
 </pre>
 
 <p><img src="img/guide08_05.png" class="figure" alt=""></p>
-<p>Notice that no warning message is produced since we have asked explicitly for exactly 50 points.  On the other hand we could also change the default maximum to this number, giving the same effect though now with another warning message:</p>
-<pre class="mcode-input">  f = chebfun('sign(x)','maxLength',50);
+<p>Notice that no warning message is produced since we have asked explicitly for exactly 65 points.  On the other hand we could also change the default maximum to this number, giving another short chebfun though now with another warning message:</p>
+<pre class="mcode-input">  f = chebfun('sign(x)','maxLength',65);
   length(f)</pre>
 
-<pre class="mcode-output">Warning: Function not resolved using 50 pts. Have you tried 'splitting on'? 
+<pre class="mcode-output">Warning: Function not resolved using 65 pts. Have you tried 'splitting on'? 
 ans =
-    33
+    65
 </pre>
 
-<p>Perhaps more often one might wish to adjust this preference to enable use of especially high degrees.  On the machines of 2014, Chebfun is perfectly capable of working with polynomials of degrees in the millions. The function $|x|^{5/4}$ on $[-1,1]$ provides an example, for it is smooth enough to be resolved by a global polynomial, provided it is of rather high degree:</p>
+<p>Perhaps more often one might wish to adjust this preference to enable use of especially high degrees.  On the machines of 2015, Chebfun is perfectly capable of working with polynomials of degrees in the millions. The function $|x|^{5/4}$ on $[-1,1]$ provides an example, for it is smooth enough to be resolved by a global polynomial, provided it is of rather high degree:</p>
 <pre class="mcode-input">  tic
   f = chebfun('abs(x).^1.25','maxLength',1e6);
   lengthf = length(f)
@@ -296,10 +299,10 @@ ans =
   toc</pre>
 
 <pre class="mcode-output">lengthf =
-      105185
+       44987
 sumf =
-   0.888888888881000
-Elapsed time is 2.303346 seconds.
+   0.888888888888044
+Elapsed time is 0.629731 seconds.
 </pre>
 
 <p><img src="img/guide08_06.png" class="figure" alt=""></p>
@@ -320,7 +323,7 @@ Elapsed time is 2.303346 seconds.
   plot(f)</pre>
 
 <pre class="mcode-output">ans =
-   309
+   317
 </pre>
 
 <p><img src="img/guide08_07.png" class="figure" alt=""></p>
@@ -341,11 +344,11 @@ Elapsed time is 2.303346 seconds.
   plot(f)</pre>
 
 <pre class="mcode-output">ans =
-        1021
+        1087
 </pre>
 
 <p><img src="img/guide08_09.png" class="figure" alt=""></p>
-<p>Incidentally, if the value of <code>minSamples</code> specified is not one greater than a power of 2, it is rounded up to the next such value.</p>
+<p>Incidentally, if the value of <code>minSamples</code> specified is not one greater than a power of 2, it is rounded up to the next such value. Values less than 17 will be treated as if the value were 17.</p>
 <p>The factory value <code>minSamples=17</code> was chosen as a compromise between efficiency and reliability.  (Until Version 5, the choice was <code>minSamples=9</code>.)  In practice it rarely seems to fail, but perhaps it is most vulnerable when applied in splitting on mode to functions with narrow spikes.  For example, the following chebfun is missing most of the spikes that should be there:</p>
 <pre class="mcode-input">  ff = @(x) max(.85,sin(x+x.^2)) - x/20;
   f = chebfun(ff,[0,10],'splitting','on');
@@ -367,18 +370,18 @@ Elapsed time is 2.303346 seconds.
 
 <pre class="mcode-output">ff = 
     @(x)besselj(x,exp(x))
-Elapsed time is 0.101563 seconds.
+Elapsed time is 0.040536 seconds.
 ans =
-        3777
+        3790
 </pre>
 
-<p>There is little difference, even in the timing, if we set 'resampling on', so that previously computed values are not reused:</p>
+<p>There is a little if we set 'resampling on', so that previously computed values are not reused:</p>
 <pre class="mcode-input">  tic, f = chebfun(ff,[0 8],'resampling','on'); toc
   length(f)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.070702 seconds.
+<pre class="mcode-output">Elapsed time is 0.081559 seconds.
 ans =
-        3782
+        3788
 </pre>
 
 <p>One might wonder why 'resampling on' is an option at all, but in fact, it introduces some very interesting possibilities.  What if the "function" being sampled is not actually a fixed function, but depends on the grid? For example, consider this prescription:</p>
@@ -393,7 +396,7 @@ plot(f,'.-')</pre>
 <pre class="mcode-output">ans =
     44
 ans =
-    65
+  65.000000000000014
 </pre>
 
 <p><img src="img/guide08_12.png" class="figure" alt=""></p>
@@ -415,7 +418,7 @@ plot(k,'.-')</pre>
 </pre>
 
 <p><img src="img/guide08_13.png" class="figure" alt=""></p>
-<p>Are such curious effects of any use?  Yes indeed, they are at the heart of Chebop.  When the chebop system solves a differential equation by a command like <code>u = L\f</code>, for example, the chebfun <code>u</code> is determined by a "sampling" process in which a matrix problem obtained by Chebyshev spectral discretization is solved on grids of increasing sizes. The matrices change with the grids, so the sample values for $u$ are crucially grid-dependent.  Without resampling, chebops would not work.</p>
+<p>Are such curious effects of any use?  Yes indeed, they are at the heart of Chebop.  When Chebfun solves an ODE boundary-value problem by a command like <code>u = L\f</code>, the chebfun <code>u</code> is determined by a "sampling" process in which a matrix problem obtained by Chebyshev spectral discretization is solved on grids of increasing sizes. The matrices change with the grids, so the sample values for $u$ are crucially grid-dependent.  Without resampling, chebops would not work.</p>
 <h3 id="88-eps-chebfun-constructor-tolerance">8.8 <code>eps</code>: Chebfun constructor tolerance</h3>
 <p>One of the controllable preferences is all too tempting: you can weaken the tolerance used in constructing a chebfun. The chebfunpref parameter <code>eps</code> is set by default to machine precision:</p>
 <pre class="mcode-input">p = chebfunpref;
@@ -451,11 +454,23 @@ p.eps</pre>
 <p>Chebfun's factory default for spectral discretizations is rectangular collocation in Chebyshev points of the second kind, which corresponds to</p>
 <pre class="mcode-input">cheboppref.setDefaults('discretization','chebcolloc2')</pre>
 
+<pre class="mcode-output">Warning: 'COLLOCATION'/'COLLOC2'/'CHEBCOLLOC2' is deprecated.
+Please use 'VALUES'/@chebcolloc2. 
+</pre>
+
 <p>To change the preference to first-kind points, one can execute</p>
 <pre class="mcode-input">cheboppref.setDefaults('discretization','chebcolloc1')</pre>
 
+<pre class="mcode-output">Warning: 'COLLOC1'/'CHEBCOLLOC1' is deprecated.
+Please use 'VALUES'/@chebcolloc2. 
+</pre>
+
 <p>and for Olver-Townsend ultraspherical discretizations,</p>
 <pre class="mcode-input">cheboppref.setDefaults('discretization','ultraspherical')</pre>
+
+<pre class="mcode-output">Warning: 'ULTRAS'/'ULTRASPHERICAL' is deprecated.
+Please use 'COEFFS'/@ultraS. 
+</pre>
 
 <p>Let us undo these changes:</p>
 <pre class="mcode-input">cheboppref.setDefaults('factory')</pre>
@@ -467,10 +482,13 @@ p.eps</pre>
 <p>Let us undo this change:</p>
 <pre class="mcode-input">chebfunpref.setDefaults('factory')</pre>
 
-<h3 id="812-additional-preferences">8.12 Additional preferences</h3>
+<h3 id="812-additional-preferences-and-further-information">8.12 Additional preferences and further information</h3>
 <p>Information about additional Chebfun preferences can be found by executing <code>chebfunpref</code> or <code>help chebfunpref</code>.  In general the most reliable values to use in setting preferences are are <code>1</code> or <code>true</code> and <code>0</code> or <code>false</code> (not <code>'on'</code> and <code>'off'</code>).</p>
 <p>For example, <code>'sampleTest'</code> controls whether a function is evaluated at an extra point as a safety check of convergence.  With the default <code>'on'</code> value, this test is indeed carried out.</p>
-<p>Another example is that <code>'blowup'</code> relates to the construction of chebfuns that diverge to infinity, as described in Chapter 9. <code>blowup=0</code> is used for no singularities, <code>blowup=1</code> if for functions with poles (blowups with a negative integer power) and <code>blowup=2</code> for functions with branch points (blowups with an arbitrary power).</p></div>
+<p>Another example is that <code>'blowup'</code> relates to the construction of chebfuns that diverge to infinity, as described in Chapter 9. <code>blowup=0</code> is used for no singularities, <code>blowup=1</code> if for functions with poles (blowups with a negative integer power) and <code>blowup=2</code> for functions with branch points (blowups with an arbitrary power).</p>
+<p>For more information about the details of the Chebfun function construction process, see [1].</p>
+<h3 id="813-references">8.13 References</h3>
+<p>[Aurentz &amp; Trefethen 2015] J. L. Aurentz and L. N. Trefethen, Chopping a Chebyshev series, <code>http://arxiv.org/abs/1512.01803</code>.</p></div>
         </div>
     </div>
 </div>
