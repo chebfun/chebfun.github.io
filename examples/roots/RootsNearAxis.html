@@ -67,7 +67,7 @@ f = 3 + sin(x) + sin(pi*x);
 LW = 'linewidth';
 plot(f,LW,2)</pre>
 
-<p><img src="img/RootsNearAxis_01.png" class="figure" alt=""></p>
+<p><img src="img/RootsNearAxis_01.png" class="figure" alt=""/></p>
 <p>The chebfun has no roots on the interval:</p>
 <pre class="mcode-input">roots(f)</pre>
 
@@ -75,17 +75,17 @@ plot(f,LW,2)</pre>
    Empty matrix: 0-by-1
 </pre>
 
-<p>It has some roots near the interval in the complex plane, however, and the chebfun will have some accuracy for these complex values. We can get an idea of the relevant region with <code>chebellipseplot</code>, which plots the "Chebfun ellipse" for <code>f</code>:</p>
-<pre class="mcode-input">clf, chebellipseplot(f,LW,2), grid on
+<p>It has some roots near the interval in the complex plane, however, and the chebfun will have some accuracy for these complex values. We can get an idea of the relevant region with <code>plotregion</code>, which plots the "Chebfun ellipse" for <code>f</code>:</p>
+<pre class="mcode-input">clf, plotregion(f,LW,2), grid on
 xlim([-5 35]), axis equal
 hold on, plot(x,0*x,'k',LW,1.5)</pre>
 
-<p><img src="img/RootsNearAxis_02.png" class="figure" alt=""></p>
+<p><img src="img/RootsNearAxis_02.png" class="figure" alt=""/></p>
 <p>The number of digits of accuracy of the chebfun can be expected to reduce smoothly from 15 or so along the interval down to 0 on the ellipse.</p>
 <p>This provides an easy way to calculate roots of functions in the complex plane near the interval of definition, using <code>roots</code> with the flag <code>'complex'</code>:</p>
 <pre class="mcode-input">r = roots(f,'complex'); plot(r,'.r','markersize',18)</pre>
 
-<p><img src="img/RootsNearAxis_03.png" class="figure" alt=""></p>
+<p><img src="img/RootsNearAxis_03.png" class="figure" alt=""/></p>
 <p>Notice that the number of roots is less than the polynomial degree of the chebfun:</p>
 <pre class="mcode-input">number_of_roots = length(r)
 degree = length(f)-1</pre>
@@ -99,11 +99,11 @@ degree =
 <p>That's because there are quite a few additional roots of the chebfun that have nothing to do with roots of the underlying function.  We can see them with the flag <code>'all'</code>:</p>
 <pre class="mcode-input">plot(roots(f,'all'),'or'), axis auto, axis equal</pre>
 
-<p><img src="img/RootsNearAxis_04.png" class="figure" alt=""></p>
+<p><img src="img/RootsNearAxis_04.png" class="figure" alt=""/></p>
 <p>For more details about computations like these, see Section 3.6 of the Chebfun Guide, and for more on the mathematics, see Chapters 8 and 18 of [1].</p>
 <h3 id="references">References</h3>
 <ol>
-<li>L. N. Trefethen, Approximation Theory and Approximation Practice, SIAM,    2013.</li>
+<li>L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>, SIAM,    2013.</li>
 </ol></div>
         </div>
     </div>

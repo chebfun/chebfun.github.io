@@ -100,6 +100,7 @@ ode-nonlin/Bloodhound.m
 ode-nonlin/Logistic.m
 ode-nonlin/Orbits.m
 ode-nonlin/BlowupFK.m
+ode-nonlin/ThreeBodyProblem.m
 ode-nonlin/BVPSystem.m
 ode-nonlin/LorenzAttractor.m
 ode-nonlin/ThreePlanets.m

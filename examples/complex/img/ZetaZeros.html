@@ -25,10 +25,10 @@ exact =
    chebfun column (1 smooth piece)
        interval       length     endpoint values  
 [       5,      50]       75    complex values 
-vscale = 1.077944e+00.
+vertical scale = 1.1 
 </pre>Here is the Chebfun ellipse of $f$ (see Chapter 8 of [Trefethen 2013]) together with the numerically computed roots of $f$ in in the ellipse.  A black X is also marked to show the pole of the zeta function.
 
-<pre class="mcode-input">chebellipseplot(f), xlim([-5 60]), axis equal, grid on
+<pre class="mcode-input">plotregion(f), xlim([-5 60]), axis equal, grid on
 zeros_t = roots(f,'complex','norecursion'); MS = 'markersize';
 hold on, plot(zeros_t,'.r',MS,15)
 plot(0,3,'xk','markersize',12), hold off
@@ -49,8 +49,8 @@ fprintf(ss,[real(zeros_s) imag(zeros_s) ...
  0.5000000000 + 30.4248761259i    0.5000000000 + 30.4248761259i
  0.5000000000 + 32.9350615877i    0.5000000000 + 32.9350615877i
  0.5000000000 + 37.5861781588i    0.5000000000 + 37.5861781588i
- 0.4999999999 + 40.9187190121i    0.5000000000 + 40.9187190121i
- 0.5000000002 + 43.3270732806i    0.5000000000 + 43.3270732809i
+ 0.4999999999 + 40.9187190122i    0.5000000000 + 40.9187190121i
+ 0.5000000001 + 43.3270732805i    0.5000000000 + 43.3270732809i
 </pre>Here is a plot of the real and imaginary parts along the critical line.  The black dots at their intersections are the computed zeros.
 
 <pre class="mcode-input">t = chebfun('3.5i+t',[5 50]);
@@ -64,7 +64,7 @@ The mathematics of what we have done in this Example is nothing more than polyno
 
 Total time taken by this example:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 3.435150 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 3.360643 seconds.
 </pre>Reference:
 
 1. L. N. Trefethen, _Approximation Theory and Approximation Practice_, SIAM, 2013.
