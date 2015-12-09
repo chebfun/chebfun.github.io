@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Analytic continuation via rational approximation &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Analytic continuation via rational approximation</h1>
+<h2>Nick Trefethen, March 2013<span><a href='/examples/complex/AnalyticContinuation.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/complex/AnalyticContinuation.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Suppose we have an analytic function on $[-1,1]$, like</p>
+<pre class="mcode-input">f = @(z) tanh(z);</pre>
+
+<p>In principle, $f$ can be analytically continued to a larger domain in the complex plane that includes a neighborhood of $[-1,1]$.  In practice, computing such an analytic continuation is a notoriously ill-posed problem.</p>
+<p>Now of course for this function, we know what the analytic continuation should look like.  Here is a picture of level curves of $|f(z)|$ in the complex plane:</p>
+<pre class="mcode-input">x = -6:.05:6; y = -6:.05:6; [xx, yy] = meshgrid(x,y);
+zz = xx+1i*yy; ff = f(zz);
+lev1 = .25:.25:2; lev2 = 10.^(1:2:19);
+hold off, contour(x,y,abs(ff),lev1,'k')
+hold on, contour(x,y,abs(ff),lev2,'r')
+axis(6*[-1 1 -1 1]), axis square</pre>
+
+<p><img src="img/AnalyticContinuation_01.png" class="figure" alt=""/></p>
+<p>How might we calculate some of this structure based on the values of $f$ on $[-1,1]$? One idea would be to use polynomials.  The chebfun for $f$ is a polynomial $p$ that matches $f$ to about 16 digits:</p>
+<pre class="mcode-input">z = chebfun('z');
+p = f(z);
+length(p)</pre>
+
+<pre class="mcode-output">ans =
+    30
+</pre>
+
+<p>As is discussed in Chapter 8 of [1], one can expect $p$ to approximate $f$ roughly within the Chebfun ellipse for $f$, which is approximately the smallest Bernstein ellipse around $[-1,1]$ passing through a singularity of $f$:</p>
+<pre class="mcode-input">hold off, plotregion(p), axis(6*[-1 1 -1 1]), axis square</pre>
+
+<p><img src="img/AnalyticContinuation_02.png" class="figure" alt=""/></p>
+<p>To confirm this prediction, here is a contour plot of the absolute value $|p(z)|$ in the complex plane, following Chapter 28 of [1].  Inside the Chebfun ellipse it matches $|\tanh(z)|$ beautifully, but outside it bears no relation.  The zeros of $p$ line up along the boundary curve, illustrating a theorem of Walsh discussed in Chapter 18 of [1].</p>
+<pre class="mcode-input">pp = p(zz);
+hold off, contour(x,y,abs(pp),lev1,'k')
+hold on, contour(x,y,abs(pp),lev2,'r')
+plotregion(p), axis(6*[-1 1 -1 1]), axis square</pre>
+
+<p><img src="img/AnalyticContinuation_03.png" class="figure" alt=""/></p>
+<p>How can we compute $f$ further out in the complex plane?  The classic idea is to use rational approximations.  Suppose we use the Chebfun <code>ratinterp</code> command to compute a type (7,8) rational approximation to $f$ based on rational interpolation in Chebyshev points in $[-1,1]$:</p>
+<pre class="mcode-input">[p,q,r,mu,nu,poles] = ratinterp(f,7,8);
+rr = r(zz);
+hold off, contour(x,y,abs(rr),lev1,'k')
+hold on, contour(x,y,abs(rr),lev2,'r')
+axis(6*[-1 1 -1 1]), axis square</pre>
+
+<p><img src="img/AnalyticContinuation_04.png" class="figure" alt=""/></p>
+<p>The rational function has evidently done a far better job of analytic continuation than the polynomial.  (Admittedly, the choice of the parameters (7,8) is something of an art.) Here are the first eight exact poles of $f$ compared with those of $r$:</p>
+<pre class="mcode-input">format long
+exact = 0.5i*pi*(-7:2:7)';
+disp('   Exact     rational approx')
+disp([sort(exact) sort(poles)])</pre>
+
+<pre class="mcode-output">   Exact     rational approx
+  Column 1
+  0.000000000000000 - 1.570796326794897i
+  0.000000000000000 + 1.570796326794897i
+  0.000000000000000 - 4.712388980384690i
+  0.000000000000000 + 4.712388980384690i
+  0.000000000000000 - 7.853981633974483i
+  0.000000000000000 + 7.853981633974483i
+  0.000000000000000 -10.995574287564276i
+  0.000000000000000 +10.995574287564276i
+  Column 2
+  0.000000000000000 - 1.570796321633934i
+  0.000000000000000 + 1.570796321633934i
+ -0.000000000000000 - 4.706336152552645i
+ -0.000000000000000 + 4.706336152552645i
+ -0.000000000000003 - 7.712081076679963i
+ -0.000000000000003 + 7.712081076679963i
+  0.000000000000000 -19.750240823907543i
+  0.000000000000000 +19.750240823907543i
+</pre>
+
+<p>For much more on these matters, see [1], [2] and [3].</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>L. N. Trefethen, Approximation Theory and Approximation Practice,    SIAM, 2013.</p>
+</li>
+<li>
+<p>M. Webb, Computing complex singularities of differential    equations with Chebfun, SIAM Undergraduate Research Online, 2013.</p>
+</li>
+<li>
+<p>M. Webb, L. N. Trefethen, and P. Gonnet, Stability of barycentric    interpolation formulas for extrapolation, SIAM J. Sci. Comput. 34    (2012), A3009--A3015.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
