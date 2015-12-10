@@ -61,14 +61,13 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<pre class="mcode-input">LW = 'linewidth'; dom = [0 2*pi];</pre>
-
-<p>A Fourier spectral collocation method is now available in Chebfun to solve ODEs with periodic boundary conditions. The solution is a chebfun using a <code>trigtech</code> representation, that is, a trigonometric interpolant on equispaced points. This is the default method for periodic boundary conditions.</p>
-<p>Consider the following first-order ODE:</p>
+<p>A Fourier spectral collocation method is now available in Chebfun to solve ODEs with periodic boundary conditions. The solution is a chebfun using a <code>trigtech</code> representation, that is, a trigonometric interpolant in equispaced points. This is the default method for periodic boundary conditions.</p>
+<p>Consider the first-order ODE</p>
 <p>$$ u'(x) + a(x)u(x) = f(x) $$</p>
-<p>on $[0,2\pi]$, with periodic boundary conditions, and where $a(x)$ and $f(x)$ are continuous and periodic complex-valued functions. This equation has a unique periodic solution if $\overline{a}=\frac{1}{2\pi}\int_0^{2\pi}a(x)dx\neq ik$ for all integers k. In particular, if $a(x)=a$ is a constant coefficient, this means $a\neq ik$ for all $k$.</p>
+<p>on $[0,2\pi]$ with periodic boundary conditions, where $a(x)$ and $f(x)$ are continuous, periodic complex-valued functions. This equation has a unique periodic solution if $\overline{a}=\frac{1}{2\pi}\int_0^{2\pi}a(x)dx\neq ik$ for all integers $k$. In particular, if $a(x)=a$ is a constant coefficient, this means $a\neq ik$ for all $k$.</p>
 <p>Take for example $a(x)=1+\sin(\cos(10x))$ and $f(x)=\exp(\sin(x))$, and solve it with Fourier collocation. Since $\overline{a}=1$, this a well-posed problem.</p>
-<pre class="mcode-input">L = chebop(@(x,u) diff(u) + (1+sin(cos(10*x))).*u, dom);
+<pre class="mcode-input">LW = 'linewidth'; dom = [0 2*pi];
+L = chebop(@(x,u) diff(u) + (1+sin(cos(10*x))).*u, dom);
 L.bc = 'periodic';
 f = chebfun(@(x) exp(sin(x)), dom);
 u = L \ f
@@ -76,50 +75,50 @@ figure, plot(u, LW, 2)</pre>
 
 <pre class="mcode-output">u =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
-[       0,     6.3]      257      0.65     0.65 
-Epslevel = 1.859047e-15.  Vscale = 2.389734e+00.
+       interval       length     endpoint values trig
+[       0,     6.3]      263      0.65     0.65 
+vertical scale = 2.4 
 </pre>
 
-<p><img src="img/FourierCollocation_01.png" class="figure" alt=""></p>
+<p><img src="img/FourierCollocation_01.png" class="figure" alt=""/></p>
 <p>The periodic solution $u$ satisfies the differential equation to high accuracy:</p>
 <pre class="mcode-input">norm(L*u - f, inf)</pre>
 
 <pre class="mcode-output">ans =
-     3.352183690606336e-11
+     8.749556720100966e-11
 </pre>
 
-<p>We can solve the same ODE with Chebyshev collocation on 2nd-kind points using a <code>cheboppref</code> object with <code>chebcolloc2</code> discretization. (Chebyshev collocation on 1st-kind points is also possible, use <code>chebcolloc1</code>.)</p>
-<pre class="mcode-input">pref = cheboppref();
-pref.discretization = 'chebcolloc2';
+<p>We can solve the same ODE with 2nd kind Chebyshev collocation using a <code>cheboppref</code> object with <code>chebcolloc2</code> discretization.</p>
+<pre class="mcode-input">pref = cheboppref;
+pref.discretization = @chebcolloc2;
 v = solvebvp(L, f, pref)
 hold on, plot(v, 'r', LW, 2)</pre>
 
 <pre class="mcode-output">v =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
+       interval       length     endpoint values  
 [       0,     6.3]      412      0.65     0.65 
-Epslevel = 1.858519e-15.  Vscale = 2.389479e+00.
+vertical scale = 2.4 
 </pre>
 
-<p><img src="img/FourierCollocation_02.png" class="figure" alt=""></p>
-<p>The solution $v$ is now a chebfun with a <code>chebtech2</code> representation, that is, a polynomial interpolant on on 2nd-kind Chebyshev points. It satisfies the differential to high accuracy too</p>
+<p><img src="img/FourierCollocation_02.png" class="figure" alt=""/></p>
+<p>The solution $v$ is now a chebfun with a <code>chebtech2</code> representation, that is, a polynomial interpolant in 2nd-kind Chebyshev points. It satisfies the differential equation to high accuracy too,</p>
 <pre class="mcode-input">norm(L*v - f, inf)</pre>
 
 <pre class="mcode-output">ans =
-     1.661555792297327e-10
+     1.841320778138919e-10
 </pre>
 
 <p>but is about $\pi/2$ times longer.</p>
 <pre class="mcode-input">length(v)/length(u)</pre>
 
 <pre class="mcode-output">ans =
-   1.603112840466926
+   1.566539923954373
 </pre>
 
 <p>Consider now the second-order ODE</p>
 <p>$$ u''(x) +  a_1(x)u'(x) + a_0(x)u(x) = f(x) $$</p>
-<p>on $[0,2\pi]$, with periodic boundary conditions, and where $a_0(x)$, $a_1(x)$, and $f(x)$ are continuous and periodic complex-valued functions. Let $\Delta$ be the Hill discriminant of this equation</p>
+<p>on $[0,2\pi]$ with periodic boundary conditions, where $a_0(x)$, $a_1(x)$, and $f(x)$ are continuous, periodic complex-valued functions. Let $\Delta$ be the Hill discriminant of this equation</p>
 <p>$$ \Delta = \frac{c(2\pi) + s'(2\pi)}{2}, $$</p>
 <p>where $c(x)$ and $s(x)$ are the solutions of the homogeneous version of this equation, corresponding to the initial conditions $c(0)=1$, $c'(0)=0$ and $s(0)=0$, $s'(0)=1$. The nonhomogeneous equation has a unique periodic solution if $\Delta \neq 1$ [1].</p>
 <p>Take $a_1(x)=\sin(\cos(x/2)^2)$, $a_0(x)=\cos(12\sin(x))$, and $f(x)=\exp(\cos(2x))$, and solve it with Fourier collocation.</p>
@@ -133,41 +132,41 @@ figure, plot(u, LW, 2)</pre>
 
 <pre class="mcode-output">u =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values trig
-[       0,     6.3]      109        18       18 
-Epslevel = 1.679982e-15.  Vscale = 2.114729e+01.
+       interval       length     endpoint values trig
+[       0,     6.3]      105        18       18 
+vertical scale =  21 
 </pre>
 
-<p><img src="img/FourierCollocation_03.png" class="figure" alt=""></p>
-<p>Again, the periodic solution $u$ satisfies the differential equation to high accuracy</p>
+<p><img src="img/FourierCollocation_03.png" class="figure" alt=""/></p>
+<p>Again, the periodic solution $u$ satisfies the differential equation to high accuracy:</p>
 <pre class="mcode-input">norm(L*u - f, inf)</pre>
 
 <pre class="mcode-output">ans =
-     1.595233571306575e-10
+     4.672183783338909e-10
 </pre>
 
-<p>The solution with Chebyshev collocation on 2nd-kind points</p>
-<pre class="mcode-input">pref = cheboppref();
-pref.discretization = 'chebcolloc2';
+<p>The solution with Chebyshev collocation in 2nd-kind points</p>
+<pre class="mcode-input">pref = cheboppref;
+pref.discretization = @chebcolloc2;
 v = solvebvp(L, f, pref)
 hold on, plot(v, 'r', LW, 2)</pre>
 
 <pre class="mcode-output">v =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[       0,     6.3]      256        18       18 
-Epslevel = 1.679919e-15.  Vscale = 2.114813e+01.
+       interval       length     endpoint values  
+[       0,     6.3]      161        18       18 
+vertical scale =  21 
 </pre>
 
-<p><img src="img/FourierCollocation_04.png" class="figure" alt=""></p>
-<p>is about 2.35 times longer:</p>
+<p><img src="img/FourierCollocation_04.png" class="figure" alt=""/></p>
+<p>is again about $\pi/2$ times longer:</p>
 <pre class="mcode-input">length(v)/length(u)</pre>
 
 <pre class="mcode-output">ans =
-   2.348623853211009
+   1.533333333333333
 </pre>
 
-<p>The second-order ODE we have solved is well-posed, and we can check that computing the Hill discriminant, and verifying that it is not 1:</p>
+<p>The second-order ODE we have solved is well-posed, and we can check this by computing the Hill discriminant and verifying that it is not 1:</p>
 <pre class="mcode-input">L.bc = [];
 L.lbc = @(c) [ c - 1 ; diff(c) ];
 c = L \ 0;
@@ -176,12 +175,12 @@ s = L \ 0;
 HillDiscr = 1/2*(c(2*pi) + feval(diff(s), 2*pi))</pre>
 
 <pre class="mcode-output">HillDiscr =
-   0.146112728897976
+   0.146112733327400
 </pre>
 
 <h3 id="references">References</h3>
 <ol>
-<li>M. S. P. Eastham, <em>The spectral theory of periodic differential    equations</em>, Scottish Academic Press, 1973.</li>
+<li>M. S. P. Eastham, <em>The Spectral Theory of Periodic Differential    Equations</em>, Scottish Academic Press, 1973.</li>
 </ol></div>
         </div>
     </div>
