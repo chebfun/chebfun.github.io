@@ -5,8 +5,7 @@ authordate: "Nick Hale and Alex Townsend, April 2015"
 meta: "(Chebfun example cheb/FastDLT.m) [Tags: #Legendre, #transform, #DCT]"
 ---
 
-<pre class="mcode-input">FS = 'FontSize';
-LW = 'LineWidth';</pre>
+
 
 ## The forward transform
 
@@ -15,12 +14,13 @@ The discrete (or finite) Legendre transform (DLT) evaluates a Legendre series ex
 $$ f(x_k^{leg}) = \sum_{n=0}^{N-1} c_n^{leg} P_n( x_k^{leg} ), \qquad 0\leq
  k\leq N-1.$$
 
-It is considered an awkward task because the Legendre nodes are non-uniform and the Legendre polynomials have no explicit closed-form expression. Therefore, FFT-based algorithms do not immediately apply and until recently the transform required $O(N^2)$ operations. (See [3] for one of the earliest fast DLT algorithms.)
+This is an awkward task because the Legendre nodes are non-uniform and the Legendre polynomials have no explicit closed-form expression. Therefore, FFT-based algorithms do not immediately apply, and until recently, the transform required $O(N^2)$ operations. (See [3] for one of the earliest fast DLT algorithms.)
 
-In [2] we describe an algorithm to compute the transform in $O(N(\log N)^2/\log\log N)$ operations, which is implemented in the `dlt()` command in Chebfun. This allows us to compute the transform when N is 10000 or 100000, or a million. Here it is in action:
+In [2] we describe an algorithm to compute the transform in $O(N(\log N)^2/\log\log N)$ operations, which is implemented in the command `legcoeffs2legvals` in Chebfun, which is part of a suite of 12 codes with hopefully self-explanatory names `legcoeffs2chebcoeffs`, `chebcoeffs2legvals`, etc.  (The actual implementation of `legcoeffs2legvals` is in `chebfun.dlt`, which the user can also call if preferred.)  This allows us to compute the transform when $N$ is 10000 or 100000, or a million. Here it is in action:
 
-<pre class="mcode-input">c = randn( 1e4, 1);
-tic, chebfun.dlt( c ); toc</pre><pre class="mcode-output">Elapsed time is 0.282956 seconds.
+<pre class="mcode-input">FS = 'FontSize'; LW = 'LineWidth';
+c = randn( 1e4, 1);
+tic, legcoeffs2legvals( c ); toc</pre><pre class="mcode-output">Elapsed time is 0.529474 seconds.
 </pre>The transform computed above is still based on the FFT, but with a handful of tricks and approximations to make it applicable to the DLT. Two main facts are exploited.
 
 
@@ -42,7 +42,7 @@ plot( modes(1:2e4), LW, 2 ),                       % freq-domain plot
 xlabel('Frequency bins', FS, 14)
 ylabel('Magitude', FS, 14)
 title('Frequency analysis of modified Legendre polynomial', FS, 10)
-set(gca, FS, 14)</pre><img src="img/FastDLT_01.png" class="figure" alt="">
+set(gca, FS, 14)</pre><img src="img/FastDLT_01.png" class="figure" alt=""/>
 
 The engineer would go on to say that since only a handful of modes near 1e4 are excited, the signal $\sqrt{\sin(\theta)}P_n(\cos(\theta))$ can be well-approximated by a handful of sinusoidal waves.
 
@@ -62,23 +62,23 @@ end
 loglog( NN, maxDiff(NN), '-', LW, 2 ), hold on
 loglog( NN, 0.83845./NN, '--', LW, 2); hold off
 legend('||x^{leg} - x^{cheb}||_\infty', 'Theoretical bound')
-xlabel('N', FS, 14), ylabel('Max abs diff', FS, 14), grid on</pre><img src="img/FastDLT_02.png" class="figure" alt="">
+xlabel('N', FS, 14), ylabel('Max abs diff', FS, 14), grid on</pre><img src="img/FastDLT_02.png" class="figure" alt=""/>
 
-These two facts mean that the DLT can be carefully related to a handful of discrete cosine transforms, allowing it be calculated via the FFT, requiring $O(N(\log N)^2/\log\log N)$ operations. The odd-looking complexity comes about because of a balancing of computation costs, see [1].
+These two facts mean that the DLT can be carefully related to a handful of discrete cosine transforms, allowing it be calculated via the FFT, requiring $O(N(\log N)^2/\log\log N)$ operations. The odd-looking complexity comes about because of a balancing of computational costs, see [1].
 
 
 
 ## The inverse transform
 
-The inverse discrete Legendre transform takes samples of a function from Legendre nodes and computes the associated Legendre expansion coefficients.
+The inverse discrete Legendre transform `legvals2legcoeffs` takes samples of a function from Legendre nodes and computes the associated Legendre expansion coefficients. (The implementation happens in the code `cheb.idlt`.)
 
 <pre class="mcode-input">f = chebfun( @(x) 1./(1 + 10000*x.^2) );
 c_leg = legcoeffs(f);
-tic, f_leg = chebfun.dlt( c_leg ); toc
-backToTheCoeffs = chebfun.idlt( f_leg );
-norm( backToTheCoeffs - c_leg, inf )</pre><pre class="mcode-output">Elapsed time is 0.155084 seconds.
+tic, f_leg = legcoeffs2legvals( c_leg ); toc
+backToTheCoeffs = legvals2legcoeffs( f_leg );
+norm( backToTheCoeffs - c_leg, inf )</pre><pre class="mcode-output">Elapsed time is 0.182945 seconds.
 ans =
-     1.152327861707903e-13
+     1.961426270485212e-13
 </pre>The IDLT can be related to a (transposed) DLT by a discrete orthogonality relation. It has the same $O(N(\log N)^2/\log\log N)$ complexity.
 
 DLT and IDLT complete the Chebyshev--Legendre cycle: (In the diagram below we give the Chebfun commands that compute each particular transform.)
@@ -99,9 +99,9 @@ DLT and IDLT complete the Chebyshev--Legendre cycle: (In the diagram below we gi
 
 ## References
 
-1. N. Hale and A. Townsend, A fast, simple, and stable Chebyshev--Legendre    transform using an asymptotic formula, SISC, 36 (2014), pp. A148--A167.
+1. N. Hale and A. Townsend, A fast, simple, and stable Chebyshev--Legendre    transform using an asymptotic formula, _SIAM J.    Sci. Comput._,  36 (2014), A148--A167.
 
 2. N. Hale and A. Townsend, A fast FFT-based discrete Legendre transform, in    preparation.
 
-3. D. Potts, Fast algorithms for discrete polynomial transforms on arbitrary    grids, Linear Algebra and its Applications, 336 (2003), pp. 353--370.
+3. D. Potts, Fast algorithms for discrete polynomial transforms on arbitrary    grids, _Lin. Alg. and Applics._, 336 (2003), 353--370.
 
