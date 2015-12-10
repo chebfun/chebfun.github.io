@@ -73,10 +73,10 @@
 <p>To solve this ODE with $\mu = 5$ for $t \in [0,50]$ with initial conditions $u(0) = 0.1, \, u'(0) = 0$, we proceed as follows. Note that the initial conditions are imposed via <code>N.lbc</code> field rather than <code>N.bc</code> as is common for BVPs.</p>
 <pre class="mcode-input">mu = 5;
 N = chebop(@(t, u) diff(u, 2) - mu*(1-u.^2).*diff(u) + u, [0 50]);
-N.lbc = @(u) [u-0.1; diff(u)];
+N.lbc = [0.1; 0];
 tic, u = N\0; toc</pre>
 
-<pre class="mcode-output">Elapsed time is 2.878833 seconds.
+<pre class="mcode-output">Elapsed time is 1.928167 seconds.
 </pre>
 
 <p>The output from an IVP solution is, of course, a chebfun. Unless the solution is quite simple, this will usually be a chebfun consisting of several pieces, i.e., several funs. We can see the pieces by plotting the solution with dots at the breakpoints:</p>
@@ -87,12 +87,12 @@ plot(breaks, u(breaks), 'k.', 'markersize', 14)
 hold off
 title('Van der Pol oscillator, with Chebfun breakpoints marked by dots')</pre>
 
-<p><img src="img/IVPCapabilities_01.png" class="figure" alt=""></p>
+<p><img src="img/IVPCapabilities_01.png" class="figure" alt=""/></p>
 <p>For a phase portrait, we plot $u'$ against $u$, revealing the limit cycle of the oscillator:</p>
 <pre class="mcode-input">plot(u, diff(u), 'm', LW, 1.2)
 title('Phase plane and limit cycle')</pre>
 
-<p><img src="img/IVPCapabilities_02.png" class="figure" alt=""></p>
+<p><img src="img/IVPCapabilities_02.png" class="figure" alt=""/></p>
 <p>If we solve the ODE again but now with a nonzero forcing function on the right, we see a solution lying near the limit cycle but not on it:</p>
 <pre class="mcode-input">t = chebfun(@(t) t, [0 50]);
 f = 5*sin(5*t);
@@ -100,23 +100,23 @@ uForced = N\f;
 plot(uForced, diff(uForced), 'm', LW, 1.2)
 title('Van der Pol oscillator with a nonzero forcing function')</pre>
 
-<p><img src="img/IVPCapabilities_03.png" class="figure" alt=""></p>
+<p><img src="img/IVPCapabilities_03.png" class="figure" alt=""/></p>
 <h3 id="solving-ivps-globally">Solving IVPs globally</h3>
 <p>It is still possible to solve IVPs via global methods rather than time-stepping in Chebfun, if one wishes to do so, and for linear problems, this may often be advantageous.  For the nonlinear Van der Pol problem above, the Newton iteration will not converge, but it converges if we decrease $\mu$ and $T$:</p>
 <pre class="mcode-input">mu = 1;
 N = chebop(@(t, u) diff(u, 2) - mu*(1-u.^2).*diff(u) + u, [0 4]);
-N.lbc = @(u) [u-2; diff(u)];</pre>
+N.lbc = [2; 0];</pre>
 
-<p>Now, before solving, we set the preference for the IVP solver to be collocation rather <code>ode113</code> (see help cheboppref for details):</p>
-<pre class="mcode-input">cheboppref.setDefaults('ivpSolver', 'collocation')
+<p>Now, before solving, we set the preference for the IVP solver to be collocation rather than <code>ode113</code> (see help cheboppref for details):</p>
+<pre class="mcode-input">cheboppref.setDefaults('ivpSolver', @chebcolloc2)
 tic, u = N\0; toc
 plot(u, LW, 1.2)
 cheboppref.setDefaults('factory');</pre>
 
-<pre class="mcode-output">Elapsed time is 3.023760 seconds.
+<pre class="mcode-output">Elapsed time is 4.082028 seconds.
 </pre>
 
-<p><img src="img/IVPCapabilities_04.png" class="figure" alt=""></p>
+<p><img src="img/IVPCapabilities_04.png" class="figure" alt=""/></p>
 <p>This solution took as long as the previous one despite being a much simpler problem (it requires 8 Newton steps). It really can be beneficial to make use of the special structure of IVPs!</p>
 <h3 id="references">References</h3>
 <ol>
