@@ -11,7 +11,8 @@ Recently we've added a `doublelength` flag as an option to the Chebfun construct
 f2 = chebfun('exp(x)','doublelength');
 MS = 'markersize'; LW = 'linewidth';
 hold off, plotcoeffs(f2,'.',MS,15)
-hold on, plotcoeffs(f,'or',MS,9,LW,1.2)</pre><img src="img/DoublelengthFlag_01.png" class="figure" alt=""/>
+hold on, plotcoeffs(f,'or',MS,9,LW,1.2)
+plotcoeffs(f2,'.',MS,15) % needed to work around Matlab graphics bug</pre><img src="img/DoublelengthFlag_01.png" class="figure" alt=""/>
 
 When you construct a chebfun with `doublelength`, it comes out with twice the expected length.  To be precise, here is what happens.  First, Chebfun silently constructs a chebfun in the usual way.  Then it does it again, but with the degree $d$ multiplied by 2. Thus the length, if it would ordinarily be $d+1$, actually comes out as the odd number $2d+1$.
 
@@ -27,6 +28,6 @@ What about trigfuns, i.e., periodic Chebfun representations of periodic function
 <pre class="mcode-input">ff = @(t) 1./(2-cos(17*(t-1)));
 f = chebfun(ff,[-pi pi],'trig');
 f2 = chebfun(ff,[-pi pi],'trig','doublelength');
-hold off, plotcoeffs(f2,'.',MS,8)
-hold on, plotcoeffs(f,'.r',MS,8)</pre><img src="img/DoublelengthFlag_03.png" class="figure" alt=""/>
+hold off, plotcoeffs(f2,'.',MS,9)
+hold on, plotcoeffs(f,'.r',MS,6)</pre><img src="img/DoublelengthFlag_03.png" class="figure" alt=""/>
 
