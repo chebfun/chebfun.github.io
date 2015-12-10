@@ -16,34 +16,34 @@ To have some fun with this problem, it's nice to plot the configurations on a bl
 <pre class="mcode-input">x0 = 0; y0 = 3; z0 = 4i;
 MS = 'markersize'; FS = 'fontsize';
 plotframe(x0,y0,z0)
-title('t = 0',FS,18)</pre><img src="img/ThreePlanets_01.png" class="figure" alt="">
+title('t = 0',FS,18)</pre><img src="img/ThreePlanets_01.png" class="figure" alt=""/>
 
 Now we solve the problem to time $t=100$:
 
 <pre class="mcode-input">tmax = 100; dom = [0 tmax];
 N = chebop(@planetfun, dom);
 N.lbc = @(x,y,z) [x-x0; y-y0; z-z0; diff(x); diff(y); diff(z)];
-u = N\0;
-[x,y,z] = deal(u);</pre>Here is a typical configuration for $t &lt; t_c$:
+[x,y,z] = N\0;</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+</pre>Here is a typical configuration for $t &lt; t_c$:
 
 <pre class="mcode-input">t = 50;
 plotframe(x(t),y(t),z(t))
-title(['t = ' num2str(t) ],FS,18)</pre><img src="img/ThreePlanets_02.png" class="figure" alt="">
+title(['t = ' num2str(t) ],FS,18)</pre><img src="img/ThreePlanets_02.png" class="figure" alt=""/>
 
 Here is how it looks at the critical moment:
 
 <pre class="mcode-input">t = 86;
 plotframe(x(t),y(t),z(t))
-title(['t = ' num2str(t) ],FS,18)</pre><img src="img/ThreePlanets_03.png" class="figure" alt="">
+title(['t = ' num2str(t) ],FS,18)</pre><img src="img/ThreePlanets_03.png" class="figure" alt=""/>
 
-Of course, this problem really looks best in the form of movie!  To see the movie, you can execute this M-file. The final frame shows the system after it has split into two subsyestems, drifting apart forever.
+Of course, this problem really looks best in the form of movie!  To see the movie, you can execute this M-file. The final frame shows the system after it has split into two subsystems, drifting apart forever.
 
 <pre class="mcode-input">dt = .4; tmax = 100;
 for t = 0:dt:tmax
     plotframe(x(t),y(t),z(t))
     title(sprintf('t = %3.0f',t),FS,18),
     drawnow, pause(0.1)
-end</pre><img src="img/ThreePlanets_04.png" class="figure" alt="">
+end</pre><img src="img/ThreePlanets_04.png" class="figure" alt=""/>
 
 
 
