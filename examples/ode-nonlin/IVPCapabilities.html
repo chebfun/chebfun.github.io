@@ -70,30 +70,40 @@
 <p>A widely studied nonlinear IVP is the van der Pol oscillator, an oscillator with nonlinear damping [2]. Solutions evolves in time according to the ODE</p>
 <p>$$ u'' - \mu(1-u^2)u' + u = 0, $$</p>
 <p>where $\mu$ is a scalar parameter that governs the nonlinearity and strength of the damping.</p>
-<p>To solve this ODE with $\mu = 5$ for $t \in [0,50]$ with initial conditions $u(0) = 0.1, \, u'(0) = 0$, we proceed as follows. Note that the initial conditions are imposed via <code>N.lbc</code> field rather than <code>N.bc</code> as is common for BVPs.</p>
+<p>To solve this ODE with $\mu = 5$ for $t \in [0,50]$ with initial conditions $u(0) = 0.1, \, u'(0) = 0$, we proceed as follows.</p>
 <pre class="mcode-input">mu = 5;
 N = chebop(@(t, u) diff(u, 2) - mu*(1-u.^2).*diff(u) + u, [0 50]);
 N.lbc = [0.1; 0];
 tic, u = N\0; toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.928167 seconds.
+<pre class="mcode-output">Elapsed time is 2.026730 seconds.
 </pre>
 
-<p>The output from an IVP solution is, of course, a chebfun. Unless the solution is quite simple, this will usually be a chebfun consisting of several pieces, i.e., several funs. We can see the pieces by plotting the solution with dots at the breakpoints:</p>
+<p>The output from an IVP solution is, of course, a chebfun:</p>
 <pre class="mcode-input">breaks = u.domain(2:end-1);
 LW = 'linewidth';
 plot(u,LW,1.2), hold on
-plot(breaks, u(breaks), 'k.', 'markersize', 14)
-hold off
-title('Van der Pol oscillator, with Chebfun breakpoints marked by dots')</pre>
+plot(breaks, u(breaks), 'k.', 'markersize', 14), hold off
+title('Van der Pol oscillator')</pre>
 
 <p><img src="img/IVPCapabilities_01.png" class="figure" alt=""/></p>
-<p>For a phase portrait, we plot $u'$ against $u$, revealing the limit cycle of the oscillator:</p>
-<pre class="mcode-input">plot(u, diff(u), 'm', LW, 1.2)
+<p>Unless the solution is rather complicated, this solution to an IVP will usually be a chebfun consisting of a single piece, i.e., one fun. In a problem like this one the polynomial degree is rather high:</p>
+<pre class="mcode-input">u</pre>
+
+<pre class="mcode-output">u =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values  
+[       0,      50]     3765       0.1     -1.3 
+vertical scale =   2 
+</pre>
+
+<p>For a phase portrait, we plot $u'$ against $u$, revealing the limit cycle of the oscillator. We also superimpose a chebop "quiver" vector field on the plot:</p>
+<pre class="mcode-input">plot(u, diff(u), 'm', LW, 1.2), hold on
+quiver(N,[-2 2 -10 10]), hold off
 title('Phase plane and limit cycle')</pre>
 
 <p><img src="img/IVPCapabilities_02.png" class="figure" alt=""/></p>
-<p>If we solve the ODE again but now with a nonzero forcing function on the right, we see a solution lying near the limit cycle but not on it:</p>
+<p>If we solve the ODE again but now with a nonzero forcing function on the right, we see a solution lying near the limit cycle but not on it.  (The "quiver" plot is no longer relevant now that there is a forcing function.)</p>
 <pre class="mcode-input">t = chebfun(@(t) t, [0 50]);
 f = 5*sin(5*t);
 uForced = N\f;
@@ -113,7 +123,7 @@ tic, u = N\0; toc
 plot(u, LW, 1.2)
 cheboppref.setDefaults('factory');</pre>
 
-<pre class="mcode-output">Elapsed time is 4.082028 seconds.
+<pre class="mcode-output">Elapsed time is 4.096036 seconds.
 </pre>
 
 <p><img src="img/IVPCapabilities_04.png" class="figure" alt=""/></p>
