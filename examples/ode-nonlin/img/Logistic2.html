@@ -18,16 +18,13 @@ where $r$ is a parameter in the interval $[0,4]$. An earlier Example called "The
 The interesting behavior happens for $r\in [3,4]$ -- the famous phenomenon of period doubling to chaos.  Let's begin with the chaos, which you see, for example, for $r=3.75$. Here is what happens after ten iterations of the map:
 
 <pre class="mcode-input">tic
-r = 3.75;
-x0 = chebfun('x',[0 1]);
-n = 10;
-x = x0;
+r = 3.75; x0 = chebfun('x',[0 1]);
+n = 10; x = x0;
 for k = 1:n, x = r*x.*(1-x); end
 LW = 'linewidth'; FS = 'fontsize';
 plot(x,LW,1)
 ss = sprintf('r=%4.2f     n=%d     length(x)=%d', r, n, length(x));
-title(ss,FS,12)
-axis([0 1 0 1])</pre><img src="img/Logistic2_01.png" class="figure" alt="">
+title(ss,FS,12), axis([0 1 0 1])</pre><img src="img/Logistic2_01.png" class="figure" alt=""/>
 
 Note that the length of the chebfun is slightly less than the mathematically exact value of $1025$.  This appears to be due to an aliasing phenomenon, but we won't explore that here.
 
@@ -37,13 +34,11 @@ Note that the length of the chebfun is slightly less than the mathematically exa
 
 Here is the same plot except for $r=3.25$, where this dynamical system is of period 2:
 
-<pre class="mcode-input">r = 3.25;
-x = x0;
+<pre class="mcode-input">r = 3.25; x = x0;
 for k = 1:n, x = r*x.*(1-x); end
 plot(x,LW,1)
 ss = sprintf('r=%4.2f     n=%d     length(x)=%d', r, n, length(x));
-title(ss,FS,12)
-axis([0 1 0 1])</pre><img src="img/Logistic2_02.png" class="figure" alt="">
+title(ss,FS,12), axis([0 1 0 1])</pre><img src="img/Logistic2_02.png" class="figure" alt=""/>
 
 One can see that $x$ takes essentially just 2 values. If we truncate the interval a little bit to avoid the complexity at the edges, then Chebfun can take 20 steps without difficulty:
 
@@ -53,15 +48,14 @@ x = x0;
 for k = 1:n, x = r*x.*(1-x); end
 plot(x,LW,1)
 ss = sprintf('r=%4.2f     n=%d     length(x)=%d', r, n, length(x));
-title(ss,FS,12)
-axis([0 1 0 1])</pre><img src="img/Logistic2_03.png" class="figure" alt="">
+title(ss,FS,12), axis([0 1 0 1])</pre><img src="img/Logistic2_03.png" class="figure" alt=""/>
 
 Here are the two limiting values:
 
 <pre class="mcode-input">x(0.5), x(0.8)</pre><pre class="mcode-output">ans =
-   0.495265168245309
+   0.495265168245476
 ans =
-   0.812427139446746
+   0.812427139446847
 </pre>Can you compute these analytically, or semi-analytically using Chebfun `roots`?
 
 
@@ -70,27 +64,25 @@ ans =
 
 For $r=3.5$, the system has period 4:
 
-<pre class="mcode-input">r = 3.5;
-x = x0;
+<pre class="mcode-input">r = 3.5; x = x0;
 for k = 1:n, x = r*x.*(1-x); end
 plot(x,LW,1)
 ss = sprintf('r=%4.2f     n=%d     length(x)=%d', r, n, length(x));
-title(ss,FS,12)
-axis([0 1 0 1])</pre><img src="img/Logistic2_04.png" class="figure" alt="">
+title(ss,FS,12), axis([0 1 0 1])</pre><img src="img/Logistic2_04.png" class="figure" alt=""/>
 
 Here are the four limiting values, which again you may be able to compute with `roots`:
 
 <pre class="mcode-input">x(0.5), x(0.62), x(0.77), x(0.83)</pre><pre class="mcode-output">ans =
-   0.500884210319826
+   0.500884210318974
 ans =
-   0.382819683209624
+   0.382819683208548
 ans =
-   0.874997263532565
+   0.874997263532759
 ans =
-   0.826940706746559
+   0.826940706746710
 </pre>Time for this example:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 4.831787 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 3.709241 seconds.
 </pre>
 
 ## Reference
