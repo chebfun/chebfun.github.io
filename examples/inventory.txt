@@ -128,6 +128,7 @@ stats/LeastSquares.m
 stats/BivariateNormalDistribution.m
 stats/NormalExercises.m
 stats/CentralLimitTheorem.m
+approx/Noisy.m
 approx/NoisyNonsmooth.m
 approx/WeierstrassFunction.m
 approx/NearestOrthFun.m
