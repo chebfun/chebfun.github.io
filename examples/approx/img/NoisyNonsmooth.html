@@ -13,7 +13,7 @@ Chebfun user Tyler Jones has raised the question of how one can construct a cheb
 
 First let's take a function we know explicitly:
 
-$$ f(x) = \hbox{sign}(x-0.1)/2 + \cos(4x) + \hbox{white noise of scale 1e-8} . $$
+$$ f(x) = \hbox{sign}(x-0.1)/2+\cos(4x)+\hbox{white noise of scale } 10^{-8}. $$
 
 Here is an anonymous function that samples $f$:
 
@@ -22,12 +22,12 @@ ff = @(x) sign(x-0.1)/2 + cos(4*x) + 1e-8*randn(size(x));</pre>We can make a che
 
 <pre class="mcode-input">f = chebfun(ff, 'splitting', 'on', 'eps',1e-8);
 LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize';
-plot(f, 'm', LW, 1.6)</pre><img src="img/NoisyNonsmooth_01.png" class="figure" alt="">
+plot(f, 'm', LW, 1.6)</pre><img src="img/NoisyNonsmooth_01.png" class="figure" alt=""/>
 
 The command `plotcoeffs` shows that each piece has been resolved to about 8 digits:
 
 <pre class="mcode-input">plotcoeffs(f, '.-', LW, 1, MS, 14)
-title('Chebyshev coefficients of the two pieces',FS,12)</pre><img src="img/NoisyNonsmooth_02.png" class="figure" alt="">
+title('Chebyshev coefficients of the two pieces',FS,12)</pre><img src="img/NoisyNonsmooth_02.png" class="figure" alt=""/>
 
 The command `f.ends` shows the breakpoint that has been introduced:
 
@@ -53,22 +53,20 @@ B =
 <pre class="mcode-input">gg = @(t) max(abs(eig(t*A + (1-t)*B))) + 1e-8*randn;</pre>We can make a chebfun again with "splitting on":
 
 <pre class="mcode-input">g = chebfun(gg, [0 1], 'splitting', 'on', 'eps', 1e-8, 'vectorize');
-plot(g, 'm', LW, 1.6)</pre><img src="img/NoisyNonsmooth_03.png" class="figure" alt="">
+plot(g, 'm', LW, 1.6)</pre><img src="img/NoisyNonsmooth_03.png" class="figure" alt=""/>
 
 The figure leads us to expect two breakpoints, but in fact there are more:
 
 <pre class="mcode-input">g.ends'</pre><pre class="mcode-output">ans =
                    0
-   0.108127020928463
-   0.362698596142636
-   0.362698596352275
-   0.362708320666567
-   0.372656430574438
+   0.108127162489656
+   0.362698596232864
+   0.372656430654245
    1.000000000000000
 </pre>`plotcoeffs` confirms that there are more than three pieces:
 
 <pre class="mcode-input">plotcoeffs(g, '.-', LW, 1, MS, 10)
-title('Chebyshev coefficients',FS,12)</pre><img src="img/NoisyNonsmooth_04.png" class="figure" alt="">
+title('Chebyshev coefficients',FS,12)</pre><img src="img/NoisyNonsmooth_04.png" class="figure" alt=""/>
 
 The explanation is that this function happens to have a square root singularity, and Chebfun has introduced additional breakpoints to resolve it.
 
