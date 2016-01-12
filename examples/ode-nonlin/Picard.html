@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Picard iteration for ODE existence proof &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Picard iteration for ODE existence proof</h1>
+<h2>Nick Trefethen, January 2016<span><a href='/examples/ode-nonlin/Picard.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-nonlin/Picard.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>In the theory of ODEs, there is a basic theorem of existence and uniqueness that is the foundation for everything (see, e.g., [1]).</p>
+<p><em>Theorem.</em> <em>If $f$ is continuous with respect to $t$ and Lipschitz continuous with respect to $u$, the first-order IVP</em> $$ u'= f(t,u), \quad t\in [0,d], ~~ \quad u(0) = u_0 $$ <em>has a unique solution.</em></p>
+<p>This theorem applies to systems as well as scalars, and since a higher-order equation can be written as a system of first-order equations, it covers higher-order ODEs too.</p>
+<p>The standard proof of the theorem is based on Picard (= Picard-Lindelof) iteration, and it can be illustrated in Chebfun using the <code>cumsum</code> command.  The proof is based on noting that the ODE is equivalent to $$ u(t) = u_0 + \int_0^t f(s,u(s)) ds . $$ In the Picard iteration, we successively consider</p>
+<p>$$ u^{(0)} = u_0, ~~~
+u^{(1)} = u_0 + \int_0^t u^{(0)}(s) ds,  ~~~
+u^{(2)} = u_0 + \int_0^t u^{(1)}(s) ds, $$</p>
+<p>and so on.  One can prove with the given assumptions that this process converges to a unique solution of (1).</p>
+<p>Let us see the iteration in action for the problem $$ u' = \sin(u) + \sin(t), \quad t\in [0,8], ~~ u(0) = 1, $$ whose solution we can compute like this:</p>
+<pre class="mcode-input">d = 8; t = chebfun('t',[0 d]); u0 = 1;
+L = chebop(0,d); L.op = @(t,u) diff(u) - sin(u); L.lbc = u0;
+uexact = L\sin(t);</pre>
+
+<p>This first plot shows iterates $k = 0,\dots,4$, with the exact solution in red.</p>
+<pre class="mcode-input">u = u0 + 0*t;
+f = @(u,t) sin(u) + sin(t);
+LW = 'linewidth'; FS = 'fontsize'; IN = 'interpret'; LT = 'latex';
+hold off
+ss = @(k) ['$k = ' int2str(k) '$'];
+for k = 0:4
+  plot(u,'b',LW,1), hold on, ylim([-3 10])
+  text(1.015*d,u(end),ss(k),IN,LT)
+  u = u0 + cumsum(f(u,t));
+end
+plot(uexact,'r',LW,1), xlabel('t',FS,10), ylabel('u',FS,10)
+title('Picard iterates $k = 0,\dots,4$',FS,12,IN,LT)</pre>
+
+<p><img src="img/Picard_01.png" class="figure" alt=""/></p>
+<p>A second plot shows $k = 5,\dots,9$.</p>
+<pre class="mcode-input">hold off
+for k = 5:9
+  plot(u,'b',LW,1), hold on, ylim([0 7])
+  text(1.015*d,u(end),ss(k),IN,LT)
+  u = u0 + cumsum(f(u,t));
+end
+plot(uexact,'r',LW,1), xlabel('t',FS,10), ylabel('u',FS,10)
+title('Picard iterates $k = 5,\dots,9$',FS,12,IN,LT)</pre>
+
+<p><img src="img/Picard_02.png" class="figure" alt=""/></p>
+<p>A third plot shows $k = 10,\dots ,14$.</p>
+<pre class="mcode-input">hold off
+for k = 10:14
+  plot(u,'b',LW,1), hold on, ylim([1 6])
+  text(1.015*d,u(end),ss(k),IN,LT)
+  u = u0 + cumsum(f(u,t));
+end
+plot(uexact,'r',LW,1), xlabel('t',FS,10), ylabel('u',FS,10)
+title('Picard iterates $k = 10,\dots,14$',FS,12,IN,LT)</pre>
+
+<p><img src="img/Picard_03.png" class="figure" alt=""/></p>
+<p>These plots show vividly the kind of convergence one can expect from a Picard iteration: starting at the initial condition, sweeping slowly across the domain. There is a numerical method based on this idea, called <em>waveform relaxation</em>, but one can see immediately from the pictures that it is unlikely to be efficient when carried out over long time intervals.  Instead, standard numerical methods just march once rather than many times from left to right, but they march with a small discrete time step and a discrete formula of higher order.</p>
+<p>To see the convergence in a quantitative fashion, it is interesting plot the errors of iterates $0,\dots, 4$ as a function of $t$ on a loglog plot.  The zeroth iterate has accuracy $O(t)$, the first has accuracy $O(t^2)$, and so on:</p>
+<pre class="mcode-input">u = u0 + 0*t;
+ss = @(k) ['$k = ' int2str(k) '$'];
+tt = logspace(-2,log10(8),600); hold off
+for k = 0:4
+  errtt = abs(u(tt)-uexact(tt));
+  loglog(tt,errtt,'k',LW,.7), hold on
+  text(8.7,errtt(1),ss(k),IN,LT)
+  u = u0 + cumsum(f(u,t));
+end
+xlabel('t',FS,10), ylabel('error',FS,10)
+axis([1e-2 8 1e-16 1e3])
+title('Errors of iterates $0,\dots,4$',FS,12,IN,LT)</pre>
+
+<p><img src="img/Picard_04.png" class="figure" alt=""/></p>
+<p>Reference:</p>
+<p>[1] E. A. Coddington and N. Levinson, <em>Theory of Ordinary Differential Equations</em>, McGraw-Hill, 1955.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
