@@ -25,16 +25,16 @@ for ep = 10.^(-1:-1:-5)
 end
 grid on, axis([-0.03 1 0 1.03]), hold off
 title('Boundary layers for \epsilon = 1e-1, 1e-2,..., 1e-5',FS,12)</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
-     1.0e-01    0.230263049        23           1.93
-     1.0e-02    0.046051702        59           0.16
-     1.0e-03    0.006907755       170           0.21
-     1.0e-04    0.000921034       488           0.68
-     1.0e-05    0.000115129      1495           7.51
+     1.0e-01    0.230263049        23           2.21
+     1.0e-02    0.046051702        59           0.17
+     1.0e-03    0.006907755       170           0.22
+     1.0e-04    0.000921034       488           0.73
+     1.0e-05    0.000115129      1495           7.81
 </pre><img src="img/Breakpoints_01.png" class="figure" alt=""/>
 
 The lengths and timings are excellent for the first three values of $\varepsilon$ and not so bad for $\varepsilon = 10^{-4}$, but for $\varepsilon = 10^{-5}$, we need a grid with thousands of points and the method cannot be regarded as satisfactory. (This boundary layer is of width $O(\varepsilon)$, but because of the quadratic clustering of Chebyshev grids at boundaries, the length of the chebfuns only grows like $O(\varepsilon^{-1/2})$.)
 
-There is a standard method used in scientific computing for such problems, adaptive grid refinement, but Chebfun does not have such a capability at present. For many problems, however, it is remarkable what one can achieve by a method we might regard as ``poor man's grid refinement'': simply add a Chebfun breakpoint or two near the region of rapid change.  To make this happen, it is enough to define the domain of the chebop by a vector of three or more points in order, i.e., the endpoints of an interval plus one or more points in the interior.  For example, one might pass to the chebop constructor the domain vector `dom = [0 0.01 1]` rather than simply `dom = [0 1]`.
+There is a standard method used in scientific computing for such problems, adaptive grid refinement, but Chebfun does not have such a capability at present. For many problems, however, it is remarkable what one can achieve by a method we might regard as "poor man's grid refinement": simply add a Chebfun breakpoint or two near the region of rapid change.  To make this happen, it is enough to define the domain of the chebop by a vector of three or more points in order, i.e., the endpoints of an interval plus one or more points in the interior.  For example, one might pass to the chebop constructor the domain vector `dom = [0 0.01 1]` rather than simply `dom = [0 1]`.
 
 If an ODE BVP is solved on a domain with breakpoints, separate Chebyshev grids are used on subintervals, and that may provide a more efficient representation of the solution, which will then be a chebfun with several pieces, i.e., several "funs". For a discussion of some of the mathematics, see [1].
 
@@ -55,14 +55,14 @@ for ep = 10.^(-1:-1:-8)
 end
 grid on, axis([-0.03 1 0 1.03]), hold off
 title('The same computed with a breakpoint, \epsilon = 1e-3',FS,12)</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
-     1.0e-01    0.000115129        34           0.21
-     1.0e-02    0.230263049        41           0.19
-     1.0e-03    0.046051702        41           0.19
-     1.0e-04    0.006907755        41           0.28
-     1.0e-05    0.000921034        41           0.24
-     1.0e-06    0.000115129        41           0.20
-     1.0e-07    0.000013816        41           0.25
-     1.0e-08    0.000001612        41           1.86
+     1.0e-01    0.000115129        34           0.24
+     1.0e-02    0.230263049        41           0.21
+     1.0e-03    0.046051702        41           0.21
+     1.0e-04    0.006907755        41           0.30
+     1.0e-05    0.000921034        41           0.26
+     1.0e-06    0.000115129        41           0.22
+     1.0e-07    0.000013816        41           0.27
+     1.0e-08    0.000001612        41           1.93
 </pre><img src="img/Breakpoints_02.png" class="figure" alt=""/>
 
 Quite an amazing improvement!  Notice that the breakpoint at $x_b = 40 \varepsilon$ is well out of the boundary layer.  The reason for this choice is that the purpose of the breakpoint is not to optimize the representation of $u$ within the small region $[0, x_b]$, where a reasonable number of gridpoints will be required in any case, but rather to ensure that $u$ has no significant structure on a small length scale in the big interval $[x_b,1]$. In fact, the second piece of each chebfun constructed above, the representation of $u$ on $[x_b ,1]$, is just of length 2, i.e., a linear polynomial:
@@ -90,10 +90,10 @@ for ep = 10.^(-1:-1:-4)
 end
 grid on, axis([-2 2 -6 17]), hold off
 title('Interior layers for \epsilon = 1e-1, 1e-2,..., 1e-4',FS,12)</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
-     1.0e-01    0.456331114        57           0.25
-     1.0e-02    0.188033044       154           0.28
-     1.0e-03    0.073657588       460           0.86
-     1.0e-04    0.027481095      1398           8.50
+     1.0e-01    0.456331114        57           0.28
+     1.0e-02    0.188033044       154           0.29
+     1.0e-03    0.073657588       460           0.88
+     1.0e-04    0.027481095      1398           8.73
 </pre><img src="img/Breakpoints_03.png" class="figure" alt=""/>
 
 Inserting breakpoints on either side of $x=0$ improves matters greatly.  Again we plot just one of the curves, the one with $\varepsilon = 10^{-4}$.
@@ -113,14 +113,14 @@ for ep = 10.^(-1:-1:-8)
 end
 grid on, axis([-2 2 -6 17]), hold off
 title('The same computed with two breakpoints \epsilon = 1e-4',FS,12)</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
-     1.0e-01    0.456331114        76           0.34
-     1.0e-02    0.188033044       114           0.32
-     1.0e-03    0.073657588       136           0.42
-     1.0e-04    0.027481095       164           0.44
-     1.0e-05    0.009892469       195           0.62
-     1.0e-06    0.003473237       117           0.56
-     1.0e-07    0.001198204       188           0.49
-     1.0e-08    0.000408122       101           0.51
+     1.0e-01    0.456331114        76           0.38
+     1.0e-02    0.188033044       114           0.35
+     1.0e-03    0.073657588       136           0.45
+     1.0e-04    0.027481095       164           0.47
+     1.0e-05    0.009892469       195           0.66
+     1.0e-06    0.003473237       117           0.61
+     1.0e-07    0.001198204       188           0.54
+     1.0e-08    0.000408122       101           0.56
 </pre><img src="img/Breakpoints_04.png" class="figure" alt=""/>
 
 Here we see the sizes of the three pieces:
@@ -164,7 +164,7 @@ plot(breakpoint,u(breakpoint),'.r',MS,24), hold off</pre><pre class="mcode-outpu
 [    0.33,       1]      131  -3.7e-09      1.5 
 vertical scale = 1.5    Total length = 227
 t =
-   8.493608999999999
+   9.008673999999999
 </pre><img src="img/Breakpoints_06.png" class="figure" alt=""/>
 
 Note that the matrix size is now a good smaller, which is the main reason for the speedup.
@@ -185,7 +185,7 @@ plot(breakpoints,u(breakpoints),'.r',MS,24), hold off</pre><pre class="mcode-out
 [    0.36,       1]       73      0.84      1.5 
 vertical scale = 1.5    Total length = 171
 t =
-  10.401794000000001
+  11.105658000000000
 </pre><img src="img/Breakpoints_07.png" class="figure" alt=""/>
 
 As the illustrations of this Example probably make clear, inserting breakpoints is bit of an art, and some experimentation is generally worthwhile.
