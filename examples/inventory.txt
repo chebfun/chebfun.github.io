@@ -184,6 +184,7 @@ approx/DivergentSeries.m
 approx/OrthPolys.m
 approx/BernsteinPolys.m
 approx/BestL2Approximation.m
+approx/EightShades.m
 approx/RationalInterp.m
 approx/AbsoluteValue.m
 approx/Galleries.m
