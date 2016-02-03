@@ -14,8 +14,8 @@ This theorem applies to systems as well as scalars, and since a higher-order equ
 The standard proof of the theorem is based on Picard (= Picard-Lindelof) iteration, and it can be illustrated in Chebfun using the `cumsum` command.  The proof is based on noting that the ODE is equivalent to $$ u(t) = u_0 + \int_0^t f(s,u(s)) ds . $$ In the Picard iteration, we successively consider
 
 $$ u^{(0)} = u_0, ~~~
-u^{(1)} = u_0 + \int_0^t u^{(0)}(s) ds,  ~~~
-u^{(2)} = u_0 + \int_0^t u^{(1)}(s) ds, $$
+u^{(1)} = u_0 + \int_0^t f(s,u^{(0)}(s)) ds,  ~~~
+u^{(2)} = u_0 + \int_0^t f(s,u^{(1)}(s)) ds, $$
 
 and so on.  One can prove with the given assumptions that this process converges to a unique solution of (1).
 
