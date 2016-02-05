@@ -86,11 +86,11 @@ c</pre>
 
 <pre class="mcode-output">Fourier coeffs of 1 + cos(x) + sin(2*x):
 c =
-  0.000000000000000 + 3.000000000000000i
- -2.000000000000000 - 0.000000000000001i
+  0.000000000000000 + 3.000000000000001i
+ -2.000000000000000 - 0.000000000000000i
   1.000000000000000 + 0.000000000000000i
- -2.000000000000000 + 0.000000000000001i
-  0.000000000000000 - 3.000000000000000i
+ -2.000000000000000 + 0.000000000000000i
+  0.000000000000000 - 3.000000000000001i
 </pre>
 
 <p>Note that <code>trigcoeffs</code> follows the MATLAB convention of having the coefficients appear in order from highest degree to lowest degree. In the code above we have reversed this order to match the way the coefficients appear in the definitions above.</p>
@@ -105,11 +105,11 @@ b</pre>
 a =
    1.000000000000000
   -4.000000000000000
-   0.000000000000001
+   0.000000000000000
 Fourier sine coeffs of 1 + cos(x) + sin(2*x)
 b =
-  -0.000000000000002
-   6.000000000000001
+  -0.000000000000000
+   6.000000000000002
 </pre>
 
 <p>Note that <code>a</code> contains the constant term in the series as its first coefficient followed by the coefficients for $\cos(x)$ and $\cos(2x)$, while <code>b</code> starts with the coefficient for $\sin(x)$ followed by the coefficient for $\sin(2x)$.</p>
@@ -123,15 +123,15 @@ c</pre>
 <pre class="mcode-output">Fourier coeffs of 3/(5-4cos(x)):
 c =
   0.031250000000000 - 0.000000000000000i
-  0.062500000000000 - 0.000000000000000i
+  0.062500000000000 + 0.000000000000000i
   0.125000000000000 - 0.000000000000000i
   0.250000000000000 + 0.000000000000000i
-  0.500000000000000 + 0.000000000000000i
-  1.000000000000000 + 0.000000000000000i
   0.500000000000000 - 0.000000000000000i
+  1.000000000000000 + 0.000000000000000i
+  0.500000000000000 + 0.000000000000000i
   0.250000000000000 - 0.000000000000000i
   0.125000000000000 + 0.000000000000000i
-  0.062500000000000 + 0.000000000000000i
+  0.062500000000000 - 0.000000000000000i
   0.031250000000000 + 0.000000000000000i
 </pre>
 
@@ -168,7 +168,7 @@ c =
 <pre class="mcode-input">length(u)</pre>
 
 <pre class="mcode-output">ans =
-        5869
+        2513
 </pre>
 
 <p>The reason is that this function has only two continuous derivatives in $L^{2}[-\pi,\pi]$ and a piecewise continuous third derivative, so its Fourier coefficients decay as $O(|k|^{-4})$ [1].  This decay rate can be seen by plotting the Fourier coefficients on a log-log scale, which can be easily done for the positive mode coefficients (i.e. $k&gt;0$) using the <code>plotcoeffs</code> command:</p>
@@ -195,13 +195,13 @@ b</pre>
 
 <pre class="mcode-output">Fourier sine coeffs of unit step function:
 b =
-  1.273239544735163 + 0.000000000000000i
+  1.273239544735163 - 0.000000000000000i
  -0.000000000000000 - 0.000000000000000i
-  0.424413181578387 + 0.000000000000000i
+  0.424413181578388 - 0.000000000000000i
   0.000000000000000 - 0.000000000000000i
-  0.254647908947033 - 0.000000000000000i
-  0.000000000000000 + 0.000000000000000i
-  0.181891363533595 + 0.000000000000000i
+  0.254647908947033 + 0.000000000000000i
+  0.000000000000000 - 0.000000000000000i
+  0.181891363533594 - 0.000000000000000i
 </pre>
 
 <p>The exact values of the coefficients are</p>
@@ -217,14 +217,14 @@ disp([(1:7)' pi/4*real(b)])</pre>
    4.000000000000000   0.000000000000000
    5.000000000000000   0.200000000000000
    6.000000000000000   0.000000000000000
-   7.000000000000000   0.142857142857143
+   7.000000000000000   0.142857142857142
 </pre>
 
 <p>The computed cosine coefficients are numerically zero, as expected:</p>
 <pre class="mcode-input">norm(a,inf)</pre>
 
 <pre class="mcode-output">ans =
-     2.942993345750152e-17
+     1.017844372940613e-16
 </pre>
 
 <h3 id="truncated-fourier-approximations">Truncated Fourier approximations</h3>
