@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Zeros of rational harmonic functions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Zeros of rational harmonic functions</h1>
+<h2>Nick Trefethen, Olivier Sète, February 2016<span><a href='/examples/complex/RationalHarmonic.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/complex/RationalHarmonic.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">function RationalHarmonic</pre>
+
+<p>In astrophysics, the phenomenon of gravitational microlensing describes the bending of light from a light source around massive objects. This can lead to the observation of several images of the source by an observer. This effect can be modeled with rational harmonic functions of the form $f(z) = r(z)-\bar{z}$, where $r$ is a rational function in the complex variable $z$ and $\bar{z}$ is the complex conjugate of $z$. The positions of the observed images correspond to the zeros of $f$.</p>
+<p>The maximal possible number of observed images depends on the McMillan degree of the rational function, which is defined as the maximum of the degrees of the numerator and denominator. For degrees $\deg(r) \geq 2$, the maximal possible number of zeros is $5(\deg(r)-1)$ [1], and this bound is sharp. Let us consider the construction of the first examples of functions attaining this bound, which goes back to the astrophysicist Sun Hong Rhie (1955-2013) [3].</p>
+<p>The starting point is the rational harmonic funtion $f(z) = r(z) - \bar{z} = \frac{z^{n-1}}{z^n - a^n} - \bar{z}$, where $n \geq 2$ and $a$ are parameters. Let us pick</p>
+<pre class="mcode-input">format compact
+n = 3;
+a = 0.7;</pre>
+
+<p>We are interested in the zeros of $f$, which we compute with Chebfun2. Since $f$ has poles, we will rewrite the problem to involve finite functions only. The zeros of $f(z) = \frac{p(z)}{q(z)} - \bar{z}$ are the zeros of $p(z) - \bar{z} q(z)$, which can easily be computed in Chebfun2.</p>
+<pre class="mcode-input">dom = 1.4 * [-1, 1, -1, 1]; % set up domain
+chebfunpref.setDefaults('factory')
+z = chebfun2(@(z) z, dom);
+p = z.^(n-1);
+q = z.^n - a^n;
+
+f_poles = roots(q);
+f_zeros = roots(p - q.*conj(z));</pre>
+
+<p>Let us plot the phase of $f$. Here we cannot replace $f(z)$ by $p(z) - \bar{z} q(z)$, which has a different phase. Instead, we use the function <code>smash</code> from the Chebfun example "Phase portraits for functions with poles", which leaves the phase unchanged while removing the poles.</p>
+<pre class="mcode-input">function g = smash(f)
+    absf = abs(f);
+    g = f./(1+absf.^2);     % smooth function with same phase as f
+    g(isnan(g)) = 0;        % give 0 rather than NaN at poles
+end</pre>
+
+<p>We also mark the poles by white squares and the zeros by black dots.</p>
+<pre class="mcode-input">ff = @(z) z.^(n-1) ./ (z.^n - a^n) - conj(z);
+chebfunpref.setDefaults('eps', 1e-8)
+f = chebfun2(@(z) smash(ff(z)), dom);
+
+plot(f)
+hold on
+MFC = 'MarkerFaceColor'; MS = 'MarkerSize'; ms = 4;
+plot(real(f_poles), imag(f_poles), 'ws', MFC, 'w', MS, ms)
+plot(real(f_zeros), imag(f_zeros), 'ko', MFC, 'k', MS, ms)
+hold off</pre>
+
+<p><img src="img/RationalHarmonic_01.png" class="figure" alt=""/></p>
+<p>Note how the phase portrait differs from that of an analytic function: the phase of the zero at the origin is similar to the phase around a pole! Such zeros are called <em>sense-reversing</em>, while the zeros behaving as zeros of analytic functions are called <em>sense-preserving</em>. An example is the rightmost zero.</p>
+<p>Since $r$ has degree $n = 3$ and $10 = 5(n-1)$ zeros, $f$ has the maximal possible number of zeros. If we repeat the same experiment with $n = 4$, we obtain only 13 zeros, which is not not the maximal possible number of $5(n-1) = 15$ zeros in that case.</p>
+<p>To obtain a rational harmonic function of degree $4$ with $15$ zeros, we take again the function $f$ (with $n = 3$), and add a pole at the origin, i.e., we consider the function $f_\varepsilon(z) = f(z) + \frac{\varepsilon}{z}$. This construction was proposed by Rhie [3]. Let us compute its zeros for $\varepsilon = 0.01$. As for $f$, we multiply by the denominator to compute the roots.</p>
+<pre class="mcode-input">epsilon = 0.01;
+f_eps_poles = roots(q.*z);
+f_eps_zeros = roots(p.*z + epsilon*q - q .* z .* conj(z));</pre>
+
+<p>Now, $f_\varepsilon$ has the maximum possible number of 15 zeros:</p>
+<pre class="mcode-input">length(f_eps_zeros)</pre>
+
+<pre class="mcode-output">ans =
+    15
+</pre>
+
+<p>These show nicely in the phase portrait of $f_\varepsilon$, which we produce as before. To speed up the computation, we multiply $f_\varepsilon$ by $|zq(z)|^2$, which does not change the phase but removes the poles.</p>
+<pre class="mcode-input">f_eps = chebfun2(@(z) smash((ff(z) + epsilon./z).*(abs(z.*q(z)).^2)), dom);
+
+plot(f_eps)
+hold on
+plot(real(f_eps_poles), imag(f_eps_poles), 'ws', MFC, 'w', MS, ms)
+plot(real(f_eps_zeros), imag(f_eps_zeros), 'ko', MFC, 'k', MS, ms)
+hold off</pre>
+
+<p><img src="img/RationalHarmonic_02.png" class="figure" alt=""/></p>
+<p>The same construction can be done for all $n \geq 3$ and gives rational harmonic functions with the maximal number of zeros. Give it a try! In the construction, the parameter $\varepsilon$ must be chosen sufficiently small, and there are some restrictions on $a$ as well, depending on $n$. All eligible pairs $(a,\varepsilon)$ have been characterized in [2].</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>D. Khavinson, and G. Neumann, "On the number of zeros of certain rational    harmonic functions", Proceedings of the American Mathematical Society,    134(4) (2006), 1077-1085.</p>
+</li>
+<li>
+<p>R. Luce, O. S&egrave;te, and J. Liesen, "Sharp parameter bounds for certain    maximal point lenses", General Relativity and Gravitation, (2014) 46:1736.</p>
+</li>
+<li>
+<p>S. H. Rhie, n-point gravitational lenses with 5(n-1) images, ArXiv    e-prints: astro-ph/0305166v1, (2003).</p>
+</li>
+</ol>
+<pre class="mcode-input">end</pre></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

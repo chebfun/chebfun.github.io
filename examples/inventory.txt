@@ -26,6 +26,7 @@ complex/PhasePortraits.m
 complex/ZetaZeros.m
 complex/ComplexArcLength.m
 complex/ConformalSquare.m
+complex/RationalHarmonic.m
 complex/ClosedContours.m
 applics/EuropeanCall.m
 applics/Gompertz.m
