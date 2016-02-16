@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nearest positive semidefinite kernel &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Nearest positive semidefinite kernel</h1>
+<h2>Behnam Hashemi, February 2016<span><a href='/examples/approx2/NearestPSDKernel.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx2/NearestPSDKernel.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">function NearestPSDKernel()</pre>
+
+<h3 id="introduction">Introduction</h3>
+<p>Bivariate kernels are functions which play an important role in the context of integral equations. Symmetric positive definite kernels are ubiquitous e.g., in radial basis function (RBF) methods [Ch. 3-4, 2]. Suppose that $K(x,y)$ is a given symmetric kernel  defined on a domain $[a, b] \times [a, b]$, where symmetric means $K(x,y) = K(y,x)$. Then $K$ has a spectral expansion</p>
+<p>$$ K(x,y) = \sum_{i=1}^{\infty} \lambda_i\ q_i(x)\ q_i(y),\ \ \ \ \ (1)$$</p>
+<p>where ${ q_1, q_2, \cdots }$ are orthonormal eigenfunctions and $|\lambda_1| \geq |\lambda_2| \geq ... $ are eigenvalues of $K$. Although mathematically, $K(x,y)$ has an infinite number of eigenvalues, our focus is on kernels that numerically have a finite number of eigenvalues. Note that the eigenvalues of an analytic kernel on a finite interval tend to zero at least as fast as $R^{-n}$ for some fixed $R&lt;1$ which depends on the domain of analyticity of the kernel [5]. We consider the problem of finding a nearest symmetric positive semidefinite (PSD) kernel $\hat{K}(x,y)$, i.e., one that minimizes $||K-\hat{K}||_2$. A solution to this problem is</p>
+<p>$$ \hat{K}(x,y) = \sum_{i=1}^{\infty} \max { \lambda_i,0 }\ q_i(x)\ q_i(y). $$</p>
+<p>In other words, in order to get a nearest positive semidefinite kernel, we just need to remove terms in the spectral expansion of $K$ that correspond to negative eigenvalues. The function $\hat{K}$ is also called the <em>positive semidefinite part</em> of $K$. This is a continuous analogue of the problem of finding a nearest positive semidefinite matrix [1]. See also [4], where the problem is solved for a general (not necessarily symmetric) matrix.</p>
+<p>In practice, we assume that $K$ can be approximated to accuracy $\epsilon_M$ by a finite rank function [7-8]. One can easily compute such an approximation in Chebfun, even though Chebfun2 has no <em>eig</em> command currently. The point is that the singular value expansion</p>
+<p>$$ K(x,y) = U \Sigma V^T = \sum_{i=1}^{\infty} \sigma_i\ u_i(x)\ v_i(y), $$</p>
+<p>is related to the spectral expansion (1) as follows:</p>
+<p>$$ \Sigma = \mbox{diag}(|\lambda_1|, |\lambda_2|, \cdots), \mbox{ and } V
+= (\mbox{sign}(\lambda_1) u_1, \mbox{sign}(\lambda_2) u_2, \cdots ). $$</p>
+<p>See e.g., [p. 31, 3] for details in the discrete case. Let us try some symmetric indefinite kernels in Chebfun. The function <code>KHat = nearestPSD(K)</code> in the following computes $\hat{K}$.</p>
+<h3 id="a-multiquadric-kernel">A multiquadric kernel</h3>
+<p>One of the famous kernels used in the field of RBFs is the multiquadric. This kernel is indefinite in general [6], so its approximation by a positive semidefinite kernel is nontrivial.</p>
+<pre class="mcode-input">sigma = 0.7; c = 1.5;
+mq = @(x,y) sqrt((x.^2+y.^2)./sigma + c^2);
+K = chebfun2(mq,[-2 2 -2 2])
+KHat = nearestPSD(K)</pre>
+
+<pre class="mcode-output">K =
+   chebfun2 object (1 smooth surface)
+       domain                 rank       corner values
+[  -2,   2] x [  -2,   2]       10     [ 3.7  3.7  3.7  3.7]
+vertical scale = 3.7 
+KHat =
+   chebfun2 object (1 smooth surface)
+       domain                 rank       corner values
+[  -2,   2] x [  -2,   2]        1     [   4    4    4    4]
+vertical scale =   4 
+</pre>
+
+<p>As we see, $9$ negative eigenvalues of $K$ have been removed to form $\hat{K}$.</p>
+<pre class="mcode-input">subplot(1,2,1), contourf(K), axis equal, title('Multiquadric kernel')
+subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre>
+
+<p><img src="img/NearestPSDKernel_01.png" class="figure" alt=""/></p>
+<h3 id="a-symmetric-positive-semidefinite-kernel-of-gaussian-bumps">A symmetric positive semidefinite kernel of Gaussian bumps</h3>
+<p>Here we add $20$ Gaussian bumps with centers at the diagoanl of the domain, so that the kernel itself is positive semidefinite and therefore we expect $\hat{K}$ to be the same as $\hat{K}$.</p>
+<pre class="mcode-input">gam = 50;
+K = chebfun2(0);
+rng(1)
+for n = 1:20
+    x0 = 2*rand-1;
+    dK = chebfun2(@(x,y) exp(-gam*((x-x0).^2+(y-x0).^2)));
+    K = K + dK;
+end
+K, KHat = nearestPSD(K)
+subplot(1,2,1), plot(K), title('A PSD sum of 20 bumps')
+subplot(1,2,2), plot(KHat), title('Nearest PSD kernel')
+snapnow
+subplot(1,2,1), contourf(K), axis equal, title('A PSD sum of 20 bumps')
+subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre>
+
+<pre class="mcode-output">K =
+   chebfun2 object (1 smooth surface)
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]       20     [ 1.8 -4.4e-16 -1.4e-15 0.0026]
+vertical scale =   4 
+KHat =
+   chebfun2 object (1 smooth surface)
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]       20     [ 1.8 -3e-16 -1.2e-15 0.0026]
+vertical scale =   4 
+</pre>
+
+<p><img src="img/NearestPSDKernel_02.png" class="figure" alt=""/></p>
+<p><img src="img/NearestPSDKernel_03.png" class="figure" alt=""/></p>
+<p>Let's see how different $K$ and $\hat{K}$ are:</p>
+<pre class="mcode-input">norm(K-KHat,'fro')</pre>
+
+<pre class="mcode-output">ans =
+     0
+</pre>
+
+<h3 id="a-symmetric-indefinite-kernel-of-gaussian-bumps">A symmetric indefinite kernel of Gaussian bumps</h3>
+<p>Next we add $20$ Gaussian bumps with centers off the diagonal of the domain such that each two of them make a symmetric kernel.</p>
+<pre class="mcode-input">gam = 100;
+K = chebfun2(0);
+rng(3)
+for n = 1:10
+    x0 = 2*rand-1; y0 = 2*rand-1;
+    dK = chebfun2(@(x,y) exp(-gam*((x-x0).^2+(y-y0).^2)) ...
+                       + exp(-gam*((x-y0).^2+(y-x0).^2)));
+    K = K + dK;
+end
+K, KHat = nearestPSD(K)
+subplot(1,2,1), plot(K), title('An indefinite sum of bumps')
+subplot(1,2,2), plot(KHat), title('Nearest PSD kernel')
+snapnow
+subplot(1,2,1), contourf(K), axis equal, title('An indefinite sum of bumps')
+subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre>
+
+<pre class="mcode-output">K =
+   chebfun2 object (1 smooth surface)
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]       20     [1.3e-10 -1.5e-15 7.3e-16 0.00028]
+vertical scale =   2 
+KHat =
+   chebfun2 object (1 smooth surface)
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]       10     [ 0.4 -1.1e-06 -1.1e-06 0.00028]
+vertical scale =   2 
+</pre>
+
+<p><img src="img/NearestPSDKernel_04.png" class="figure" alt=""/></p>
+<p><img src="img/NearestPSDKernel_05.png" class="figure" alt=""/></p>
+<h3 id="a-function-with-horizontal-and-vertical-ridges">A function with horizontal and vertical ridges</h3>
+<pre class="mcode-input">K = cheb.gallery2('waffle')
+KHat = nearestPSD(K)</pre>
+
+<pre class="mcode-output">K =
+   chebfun2 object (1 smooth surface)
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]       29     [0.0032 0.0032 0.0032 0.0032]
+vertical scale =   1 
+KHat =
+   chebfun2 object (1 smooth surface)
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]       15     [0.24 0.24 0.24 0.24]
+vertical scale = 1.9 
+</pre>
+
+<p>Here, $14$ negative eigenvalues of $K$ are removed to compute a nearest symmetric positive semidefinite kernel.</p>
+<pre class="mcode-input">subplot(1,2,1), plot(K), title('Waffle')
+subplot(1,2,2), plot(KHat), title('Nearest PSD kernel')
+snapnow
+subplot(1,2,1), contourf(K), axis equal, title('Waffle')
+subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre>
+
+<p><img src="img/NearestPSDKernel_06.png" class="figure" alt=""/></p>
+<p><img src="img/NearestPSDKernel_07.png" class="figure" alt=""/></p>
+<pre class="mcode-input">function KHat = nearestPSD(K)
+[U,S,V] = svd(K);
+s = zeros(size(U,2),1);
+for i=1:size(U,2)
+    s(i) = U(:,i)'*V(:,i); % inner product of eigenfunctions
+end
+Lambda = sign(s).*diag(S); % eigenvalues of the kernel K
+
+% Nearest positive semidefinite function to K
+ind = find(~(Lambda&lt;0)); % indices of nonnegative eigenvalues
+LambdaHat = Lambda(ind); % keep only nonnegative eigenvalues
+U = U(:,ind); % keep only the corresponding eigefunctions
+V = V(:,ind);
+KHat = U*diag(LambdaHat)*V'; % form the solution
+end</pre>
+
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>S. Boyd, Low rank approximation and extremal gain problems, Lecture    notes for Introduction to Linear Dynamical Systems, Stanford    University, 2015.</p>
+</li>
+<li>
+<p>G. Fasshauer, <em>Meshfree Approximation Methods with MATLAB</em>, World    Scientific, 2007.</p>
+</li>
+<li>
+<p>P.C. Hansen, <em>Discrete Inverse Problems: Insight and Algorithms</em>,    SIAM, 2010.</p>
+</li>
+<li>
+<p>N.J. Higham, Computing a nearest symmetric positive semidefinite    matrix, <em>Linear Algebra and its Applications</em>, 103 (1988) 103-118.</p>
+</li>
+<li>
+<p>G. Little and J.B. Reade, Eigenvalues of analytic kernels, <em>SIAM    Journal on Mathematical Analysis</em> 15 (1984) 133-136.</p>
+</li>
+<li>
+<p>C. S. Ong, X. Mary, S. Canu and  A. J. Smola, Learning with    non-positive kernels, <em>Proceedings of the 21st International    Conference on Machine Learning</em>, Banff, Canada, 2004.</p>
+</li>
+<li>
+<p>A. Townsend, <em>Computing with functions in two dimensions</em>, DPhil    Thesis, University of Oxford, 2014.</p>
+</li>
+<li>
+<p>A. Townsend and L.N. Trefethen, An extension of Chebfun to two    dimensions, <em>SIAM Journal on Scientific Computing</em> 35 (2013) C495-C518.</p>
+</li>
+</ol>
+<pre class="mcode-input">end</pre></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
