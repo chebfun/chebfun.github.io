@@ -55,7 +55,7 @@
 
     <div class='page-header'>
 <h1>Zeros of rational harmonic functions</h1>
-<h2>Nick Trefethen, Olivier Sète, February 2016<span><a href='/examples/complex/RationalHarmonic.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/complex/RationalHarmonic.m'>view on GitHub</a></span></h2>
+<h2>Olivier Sète, February 2016<span><a href='/examples/complex/RationalHarmonic.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/complex/RationalHarmonic.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
@@ -94,7 +94,7 @@ f = chebfun2(@(z) smash(ff(z)), dom);
 
 plot(f)
 hold on
-MFC = 'MarkerFaceColor'; MS = 'MarkerSize'; ms = 4;
+MFC = 'MarkerFaceColor'; MS = 'MarkerSize'; ms = 3;
 plot(real(f_poles), imag(f_poles), 'ws', MFC, 'w', MS, ms)
 plot(real(f_zeros), imag(f_zeros), 'ko', MFC, 'k', MS, ms)
 hold off</pre>
@@ -134,7 +134,7 @@ hold off</pre>
 <p>R. Luce, O. S&egrave;te, and J. Liesen, "Sharp parameter bounds for certain    maximal point lenses", General Relativity and Gravitation, (2014) 46:1736.</p>
 </li>
 <li>
-<p>S. H. Rhie, n-point gravitational lenses with 5(n-1) images, ArXiv    e-prints: astro-ph/0305166v1, (2003).</p>
+<p>S. H. Rhie, "n-point gravitational lenses with 5(n-1) images", ArXiv    e-prints: astro-ph/0305166v1, (2003).</p>
 </li>
 </ol>
 <pre class="mcode-input">end</pre></div>
