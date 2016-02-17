@@ -67,7 +67,7 @@
 <p>Bivariate kernels are functions which play an important role in the context of integral equations. Symmetric positive definite kernels are ubiquitous e.g., in radial basis function (RBF) methods [Ch. 3-4, 2]. Suppose that $K(x,y)$ is a given symmetric kernel  defined on a domain $[a, b] \times [a, b]$, where symmetric means $K(x,y) = K(y,x)$. Then $K$ has a spectral expansion</p>
 <p>$$ K(x,y) = \sum_{i=1}^{\infty} \lambda_i\ q_i(x)\ q_i(y),\ \ \ \ \ (1)$$</p>
 <p>where ${ q_1, q_2, \cdots }$ are orthonormal eigenfunctions and $|\lambda_1| \geq |\lambda_2| \geq ... $ are eigenvalues of $K$. Although mathematically, $K(x,y)$ has an infinite number of eigenvalues, our focus is on kernels that numerically have a finite number of eigenvalues. Note that the eigenvalues of an analytic kernel on a finite interval tend to zero at least as fast as $R^{-n}$ for some fixed $R&lt;1$ which depends on the domain of analyticity of the kernel [5]. We consider the problem of finding a nearest symmetric positive semidefinite (PSD) kernel $\hat{K}(x,y)$, i.e., one that minimizes $||K-\hat{K}||_2$. A solution to this problem is</p>
-<p>$$ \hat{K}(x,y) = \sum_{i=1}^{\infty} \max { \lambda_i,0 }\ q_i(x)\ q_i(y). $$</p>
+<p>$$ \hat{K}(x,y) = \sum_{i=1}^{\infty} \max ( \lambda_i,0 ) \ q_i(x)\ q_i(y). $$</p>
 <p>In other words, in order to get a nearest positive semidefinite kernel, we just need to remove terms in the spectral expansion of $K$ that correspond to negative eigenvalues. The function $\hat{K}$ is also called the <em>positive semidefinite part</em> of $K$. This is a continuous analogue of the problem of finding a nearest positive semidefinite matrix [1]. See also [4], where the problem is solved for a general (not necessarily symmetric) matrix.</p>
 <p>In practice, we assume that $K$ can be approximated to accuracy $\epsilon_M$ by a finite rank function [7-8]. One can easily compute such an approximation in Chebfun, even though Chebfun2 has no <em>eig</em> command currently. The point is that the singular value expansion</p>
 <p>$$ K(x,y) = U \Sigma V^T = \sum_{i=1}^{\infty} \sigma_i\ u_i(x)\ v_i(y), $$</p>
@@ -100,7 +100,7 @@ subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre>
 
 <p><img src="img/NearestPSDKernel_01.png" class="figure" alt=""/></p>
 <h3 id="a-symmetric-positive-semidefinite-kernel-of-gaussian-bumps">A symmetric positive semidefinite kernel of Gaussian bumps</h3>
-<p>Here we add $20$ Gaussian bumps with centers at the diagoanl of the domain, so that the kernel itself is positive semidefinite and therefore we expect $\hat{K}$ to be the same as $\hat{K}$.</p>
+<p>Here we add $20$ Gaussian bumps with centers at the diagoanl of the domain, so that the kernel itself is positive semidefinite and therefore we expect $\hat{K}$ to be the same as $K$.</p>
 <pre class="mcode-input">gam = 50;
 K = chebfun2(0);
 rng(1)
@@ -134,7 +134,7 @@ vertical scale =   4
 <pre class="mcode-input">norm(K-KHat,'fro')</pre>
 
 <pre class="mcode-output">ans =
-     0
+     2.174698286245708e-15
 </pre>
 
 <h3 id="a-symmetric-indefinite-kernel-of-gaussian-bumps">A symmetric indefinite kernel of Gaussian bumps</h3>

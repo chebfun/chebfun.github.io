@@ -15,7 +15,7 @@ $$ K(x,y) = \sum_{i=1}^{\infty} \lambda_i\ q_i(x)\ q_i(y),\ \ \ \ \ (1)$$
 
 where $\{ q_1, q_2, \cdots \}$ are orthonormal eigenfunctions and $|\lambda_1| \geq |\lambda_2| \geq ... $ are eigenvalues of $K$. Although mathematically, $K(x,y)$ has an infinite number of eigenvalues, our focus is on kernels that numerically have a finite number of eigenvalues. Note that the eigenvalues of an analytic kernel on a finite interval tend to zero at least as fast as $R^{-n}$ for some fixed $R&lt;1$ which depends on the domain of analyticity of the kernel [5]. We consider the problem of finding a nearest symmetric positive semidefinite (PSD) kernel $\hat{K}(x,y)$, i.e., one that minimizes $||K-\hat{K}||_2$. A solution to this problem is
 
-$$ \hat{K}(x,y) = \sum_{i=1}^{\infty} \max \{ \lambda_i,0 \}\ q_i(x)\ q_i(y). $$
+$$ \hat{K}(x,y) = \sum_{i=1}^{\infty} \max ( \lambda_i,0 ) \ q_i(x)\ q_i(y). $$
 
 In other words, in order to get a nearest positive semidefinite kernel, we just need to remove terms in the spectral expansion of $K$ that correspond to negative eigenvalues. The function $\hat{K}$ is also called the _positive semidefinite part_ of $K$. This is a continuous analogue of the problem of finding a nearest positive semidefinite matrix [1]. See also [4], where the problem is solved for a general (not necessarily symmetric) matrix.
 
@@ -58,7 +58,7 @@ subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre><im
 
 ## A symmetric positive semidefinite kernel of Gaussian bumps
 
-Here we add $20$ Gaussian bumps with centers at the diagoanl of the domain, so that the kernel itself is positive semidefinite and therefore we expect $\hat{K}$ to be the same as $\hat{K}$.
+Here we add $20$ Gaussian bumps with centers at the diagoanl of the domain, so that the kernel itself is positive semidefinite and therefore we expect $\hat{K}$ to be the same as $K$.
 
 <pre class="mcode-input">gam = 50;
 K = chebfun2(0);
@@ -90,7 +90,7 @@ vertical scale =   4
 Let's see how different $K$ and $\hat{K}$ are:
 
 <pre class="mcode-input">norm(K-KHat,'fro')</pre><pre class="mcode-output">ans =
-     0
+     2.174698286245708e-15
 </pre>
 
 ## A symmetric indefinite kernel of Gaussian bumps
