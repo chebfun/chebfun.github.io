@@ -385,7 +385,7 @@ ends =
 </pre>
 
 <p><img src="img/guide18_13.png" class="figure" alt=""></p>
-<p>We can determine if a given vector field is conservative using 'curl':</p>
+<p>We can determine if a given vector field is conservative using <code>curl</code>:</p>
 <pre class="mcode-input">norm( curl(F) )</pre>
 
 <pre class="mcode-output">ans =
@@ -501,10 +501,10 @@ for ep = 10.^(-16:4:-4)
 end</pre>
 
 <pre class="mcode-output">   eps     time      rank m-length n-length p-length
- 1.0e-16  2.9786      24     351     351     353
- 1.0e-12  0.5874      17     253     253     253
- 1.0e-08  0.2978      10     137     137     137
- 1.0e-04  0.0632       3      59      59      59
+ 1.0e-16  3.2674      24     351     351     353
+ 1.0e-12  0.6355      17     253     253     253
+ 1.0e-08  0.3125      10     137     137     137
+ 1.0e-04  0.0640       3      59      59      59
 </pre>
 
 <p>As the above example indicates, one way to control the accuracy of a chebfun3 construction is by explicitly specifying <code>eps</code> in a call to the constructor.  Alternatively -- and necessarily, if you are doing follow-on operations on previously constructed chebfun3 objects -- you can change the parameter globally as described in Chapter 8.  For example, let us check the speed and accuracy of a certain computation using the factory value of <code>chebfun3eps</code>, i.e., machine precision. It runs slowly, and gives high accuracy:</p>
@@ -518,7 +518,7 @@ toc</pre>
 
 <pre class="mcode-output">error =
   -4.1633e-16
-Elapsed time is 10.024588 seconds.
+Elapsed time is 10.913196 seconds.
 </pre>
 
 <p>Now let us set <code>chebfun3eps</code> to 1e-10 and run the same computation. Faster and less accurate!</p>
@@ -532,7 +532,7 @@ toc</pre>
 
 <pre class="mcode-output">error =
    8.3653e-09
-Elapsed time is 2.577651 seconds.
+Elapsed time is 2.822238 seconds.
 </pre>
 
 <p>The following command reverts <code>chebfun3eps</code> to the factory value:</p>
@@ -553,14 +553,14 @@ tic, chebfun3t(ff), toc</pre>
    core: [2 x 2 x 2 double]
  domain: [ -1,  1] x [ -1,  1] x [ -1,  1]
  vertical scale =   1
-Elapsed time is 0.079467 seconds.
+Elapsed time is 0.086150 seconds.
 ans = 
   chebfun3t with properties:
 
     coeffs: [172x172x172 double]
     vscale: 1.0000
     domain: [-1 1 -1 1 -1 1]
-Elapsed time is 6.630141 seconds.
+Elapsed time is 7.165809 seconds.
 </pre>
 
 <p>On the other hand here is an example where we get no benefit:</p>
@@ -576,14 +576,14 @@ tic, chebfun3t(ff), toc</pre>
    core: [51 x 54 x 51 double]
  domain: [ -1,  1] x [ -1,  1] x [ -1,  1]
  vertical scale =   1
-Elapsed time is 4.131409 seconds.
+Elapsed time is 4.500326 seconds.
 ans = 
   chebfun3t with properties:
 
     coeffs: [72x75x75 double]
     vscale: 1.0000
     domain: [-1 1 -1 1 -1 1]
-Elapsed time is 0.648570 seconds.
+Elapsed time is 0.699304 seconds.
 </pre>
 
 <p>Let us emphasize that the main tool we are offering for computation with functions in 3D is Chebfun3, not Chebfun3t. The latter, only partially implemented, as only provided to enable certain comparisons.</p>
