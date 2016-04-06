@@ -89,6 +89,7 @@ temp/VanillaOptions.m
 temp/TaylorsTheorem.m
 temp/FracCalc.m
 temp/FracCalc2.m
+temp/AtmosphericTemperature.m
 approx/EquispacedData.m
 approx/NoisyNonsmooth.m
 approx/CF30.m
