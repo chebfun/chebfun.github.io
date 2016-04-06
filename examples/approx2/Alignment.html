@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Low-rank approximation and alignment with axes &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Low-rank approximation and alignment with axes</h1>
+<h2>Nick Trefethen, April 2016<span><a href='/examples/approx2/Alignment.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx2/Alignment.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Chebfun2 and Chebfun3 take advantage of the property that many multivariate functions can be approximated by functions of low rank.  Not all functions have this property, however.  In this Example we explore the significance of axis-alignment for low-rank approximability in 2D.</p>
+<p>For example, this bivariate function has rank 1 since it depends on $x$ only:</p>
+<pre class="mcode-input">k = 3;
+f = chebfun2(@(x,y) tanh(k*x));
+r = rank(f)</pre>
+
+<pre class="mcode-output">r =
+     1
+</pre>
+
+<p>Of course the dependence on $x$ is nontrivial despite the trivial rank, as we can see by looking at the lengths of the chebfuns representing $f$ in the $x$ and $y$ directions:</p>
+<pre class="mcode-input">[m,n] = length(f)</pre>
+
+<pre class="mcode-output">m =
+    72
+n =
+     1
+</pre>
+
+<p>If we rotate the function 45 degrees in the $x$-$y$ plane, however, the numerical rank becomes significant:</p>
+<pre class="mcode-input">f45 = chebfun2(@(x,y) tanh(k*(x+y)/sqrt(2)));
+r = rank(f45)
+[m,n] = length(f45)</pre>
+
+<pre class="mcode-output">r =
+    36
+m =
+    56
+n =
+    56
+</pre>
+
+<p>Let's explore how it depends on the angle of rotation:</p>
+<pre class="mcode-input">disp('    theta   rank     m     n')
+for theta = 0:.157:1.57
+    c = cos(theta); s = sin(theta);
+    ftheta = chebfun2(@(x,y) tanh(k*(c*x+s*y)));
+    r = rank(ftheta); [m n] = length(ftheta);
+    fprintf('%9.4f  %5d %5d %5d\n', theta, r, m, n)
+end</pre>
+
+<pre class="mcode-output">    theta   rank     m     n
+   0.0000      1    72     1
+   0.1570     17    78    20
+   0.3140     24    73    30
+   0.4710     30    69    39
+   0.6280     34    62    47
+   0.7850     36    55    56
+   0.9420     34    47    63
+   1.0990     30    40    70
+   1.2560     24    30    75
+   1.4130     17    20    79
+   1.5700      5     6    76
+</pre>
+
+<p>Notice that for $\theta = \pi/2 \approx 1.5708$, the rank would be 1, but for $\theta = 1.57$ it is 5. Let's plot this data:</p>
+<pre class="mcode-input">tt = linspace(0,pi/2); rr = [];
+for theta = tt
+    c = cos(theta); s = sin(theta);
+    ftheta = chebfun2(@(x,y) tanh(3*(c*x+s*y)));
+    rr = [rr rank(ftheta)];
+end
+plot(tt,rr,'.-'), grid on
+xlabel('theta'), ylabel('rank r')
+title('rank vs. angle')</pre>
+
+<p><img src="img/Alignment_01.png" class="figure" alt=""/></p>
+<p>Obviously low-rank compression is a big win for $\theta \approx 0$.  What about the 45-degree case, i.e., $\theta\approx \pi/4$?  Though low-rank compression is less effective here, is it still worthwhile?</p>
+<p>To shed light on this question we can fix the angle at 45 degrees and vary the parameter $k$.  Here are the ranks for various values of $k$, together with $m$ and $n$ and the ratio $r/m$:</p>
+<pre class="mcode-input">disp('       k      r     m     n     r/m')
+for k = 1:10
+    f45 = chebfun2(@(x,y) tanh(k*(x+y)/sqrt(2)));
+    r = rank(f45); [m n] = length(f45); ratio = r/m;
+    fprintf('%8.2f  %5d %5d %5d %7.2f\n', k, r, m, n, ratio)
+end</pre>
+
+<pre class="mcode-output">       k      r     m     n     r/m
+    1.00     16    26    26    0.62
+    2.00     26    42    42    0.62
+    3.00     36    56    56    0.64
+    4.00     46    74    72    0.62
+    5.00     55    89    89    0.62
+    6.00     65   103   104    0.63
+    7.00     74   122   124    0.61
+    8.00     84   137   139    0.61
+    9.00     96   154   156    0.62
+   10.00    103   172   171    0.60
+</pre>
+
+<p>There's no need for a plot -- clearly the rank $r$ increases linearly with $k$, and so do $m$ and $n$, making the ratio $r/m$ approximately constant.  It follows that for the function oriented at 45 degrees, the low-rank representation involves essentially the same amount of storage as a more prosaic tensor-product representation (differing by a constant factor).</p>
+<p>These experiments show the low-rank compression is not effective for all functions.  Nevertheless, years of experience by ourselves and many other researchers, in dimensions ranging at least up to the hundreds (e.g. with "tensor train" representations), show that low-rank compression is often effective for the functions that arise in practice.  For a discussion of these matters with many references see [1].</p>
+<p>In a companion to this Example, we will consider another kind of structure that low-rank approximations can take advantage: localized near-singularities, or to put it more abstractly, non-uniform behavior with respect to translation rather than rotatation [2].</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>L. N. Trefethen, Cubature, approximation, and isotropy in the hypercube, manuscript, March 2016.</p>
+</li>
+<li>
+<p>L. N. Trefethen, Low-rank approximation and localized near-singularities, Chebfun example, to appear.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
