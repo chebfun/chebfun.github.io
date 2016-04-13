@@ -121,6 +121,7 @@ approx/ScalingAndSquaring.m
 approx/BestApprox.m
 approx/Halphen.m
 approx2/Other2DDomains.m
+approx2/Localization.m
 approx2/PaduaPoints.m
 approx2/Alignment.m
 approx2/NearestPSDKernel.m
