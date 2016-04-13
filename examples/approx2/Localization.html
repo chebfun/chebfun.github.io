@@ -70,11 +70,11 @@ f = chebfun2(@(x,y) 1./(1+(x-.2).^2+(y-.5).^2),'eps',ep);
 r = rank(f), [m,n] = length(f)</pre>
 
 <pre class="mcode-output">r =
-    11
+     7
 m =
-    43
+    28
 n =
-    40
+    27
 </pre>
 
 <p>If we change $1$ to $0.001$ in the denominator, the spike becomes much more localized.  Now there is a dramatic difference between the rank and the length, showing excellent compression.</p>
@@ -82,11 +82,11 @@ n =
 r = rank(f), [m,n] = length(f)</pre>
 
 <pre class="mcode-output">r =
-    28
+    14
 m =
-        1136
+   666
 n =
-        1025
+   640
 </pre>
 
 <p>Let's make a plot.  Each red circle shows a pivot value chosen by Chebfun2's approximation to Gaussian elimination with complete pivoting, in which at each step, a rank-1 cross is subtracted corresponding to the largest function value still remaining. For a full explanation, see [1].</p>
@@ -102,7 +102,7 @@ set(gca,'xtick',[-1 0.2 1],'ytick',[-1 0.5 1])
 axis([-1 1 -1 1]), axis square, hold off</pre>
 
 <pre class="mcode-output">n =
-    28
+    14
 </pre>
 
 <p><img src="img/Localization_01.png" class="figure" alt=""/></p>
@@ -112,11 +112,11 @@ axis([-1 1 -1 1]), axis square, hold off</pre>
 r = rank(g), [m,n] = length(g)</pre>
 
 <pre class="mcode-output">r =
-    21
+    14
 m =
-    56
+    34
 n =
-    55
+    34
 </pre>
 
 <p>Changing 1.2 to 1.02 makes the compression striking:</p>
@@ -124,11 +124,11 @@ n =
 r = rank(g), [m,n] = length(g)</pre>
 
 <pre class="mcode-output">r =
-    32
+    17
 m =
-   171
+   103
 n =
-   172
+   103
 </pre>
 
 <p>Here is the analogous picture:</p>
@@ -144,7 +144,7 @@ set(gca,'xtick',[-1 0.2 1],'ytick',[-1 0.5 1])
 axis([-1 1 -1 1]), axis square, hold off</pre>
 
 <pre class="mcode-output">n =
-    32
+    17
 </pre>
 
 <p><img src="img/Localization_02.png" class="figure" alt=""/></p>
