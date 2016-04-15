@@ -177,6 +177,7 @@ approx2/NearestPSDKernel.m
 approx/Halphen.m
 approx/GammaFun.m
 approx/BSplineConv.m
+approx/EntireBound.m
 approx/GreedyInterp.m
 approx/Noisy.m
 approx/LebesgueConst.m
