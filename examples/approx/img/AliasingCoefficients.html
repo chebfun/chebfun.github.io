@@ -37,7 +37,7 @@ set(h_legend,FS,fs)</pre><img src="img/AliasingCoefficients_01.png" class="figur
 
 The green and blue dots show the absolute values of the Chebyshev coefficients for $f$ and the interpolant $p$. Our focus here is on the red dots, showing the error in Chebyshev coefficients. Two observations can be made: (i) the error grows geometrically with the degree until degree $n-1$, and (ii) (note the rightmost red dot) at the end the error is much much smaller. These effects clearly reflect the aliasing formulae given above.
 
-Let us note the connection between the aliasing in $\hat c_0$ and Gauss quadrature.  The exact integral of $f$ is equal to the degree 0 coefficient $d_0$ in its Legendre expansion $f(x)=\sum_{i=0}^\infty d_iP_i(x)$, where $P_i(x)$ is the Legendre polynomial of degree $i$.  Gauss quadrature approximates this by $\hat d_0$, the degree 0 coefficient of the degree $n$ polynomial interpolant.  The error in Gauss quadrature, $\hat d_0 - d_0,$ can accordingly  be interpreted as the result of aliasing the term $d_{2n}P_{2n}(x)$ and terms of higher degree. See section 8 of [2] for more details.
+Let us note the connection between the aliasing in $\hat c_0$ and Gauss quadrature.  The exact integral of $f$ is equal to the degree 0 coefficient $d_0$ in its Legendre expansion $f(x)=\sum_{i=0}^\infty d_iP_i(x)$, where $P_i(x)$ is the Legendre polynomial of degree $i$.  Gauss quadrature approximates this by $\hat d_0$, the degree 0 coefficient of the degree $n$ polynomial interpolant.  The error in Gauss quadrature, $\hat d_0 - d_0,$ can accordingly  be interpreted as the result of aliasing the term $d_{2n+2}P_{2n+2}(x)$ and terms of higher degree. See section 8 of [2] for more details.
 
 The extremely high accuracy of the $n\mbox{th}$ coefficient is peculiar to the Chebyshev interpolation process, and this coefficient is exact if $f$ is a polynomial of degree up to $3n-1$. Although we are unaware of a practical application of this fact, it does suggest that if only the $n\mbox{th}$ Chebyshev coefficient is of interest, then a $n+1$-point Chebyshev interpolation could suffice, even if the corresponding interpolant is rather poor.
 
@@ -77,12 +77,12 @@ ptc = chebcoeffs2(pt);
 
 format shortE
 ptc-pc(1:size(ptc,1),1:size(ptc,2))</pre><pre class="mcode-output">ans =
-  -8.0518e-10   7.5521e-09   1.4432e-07  -2.2991e-06  -3.2044e-05  -2.6287e-13
-   7.5521e-09   1.8437e-08   1.6345e-07  -2.6448e-06  -3.6856e-05   5.2321e-12
+  -8.0518e-10   7.5521e-09   1.4432e-07  -2.2991e-06  -3.2044e-05  -2.6284e-13
+   7.5521e-09   1.8437e-08   1.6345e-07  -2.6448e-06  -3.6856e-05   5.2322e-12
    1.4432e-07   1.6345e-07  -8.6613e-08   6.8312e-07   9.6245e-06   9.4133e-11
   -2.2991e-06  -2.6448e-06   6.8312e-07   2.3513e-07   1.6237e-06  -1.5009e-09
   -3.2044e-05  -3.6856e-05   9.6245e-06   1.6237e-06  -4.1310e-07  -2.0918e-08
-  -2.6289e-13   5.2321e-12   9.4133e-11  -1.5009e-09  -2.0918e-08  -9.8468e-20
+  -2.6281e-13   5.2322e-12   9.4133e-11  -1.5009e-09  -2.0918e-08  -2.5887e-20
 </pre>The $(i,j)$ entry of this matrix is the error in the coefficient for $T_{j-1}(x)T_{i-1}(y)$. Observations similar to the 1-d case can be made: looking horizontally or vertically, the low-degree coefficients are more accurate than the higher ones, except at the very ends, where the accuracy is much better. Note the exceptional accuracy at the lower-right corner.
 
 
