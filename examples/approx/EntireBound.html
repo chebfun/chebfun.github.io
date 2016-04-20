@@ -65,7 +65,7 @@
 <p>If $f$ is an analytic function on $[-1,1]$, its Chebyshev interpolants $p_n$ converge at least geometrically as the degree $n$ increases, i.e., at the rate $O(\rho^{-n})$ for some $\rho&gt;1$.  If $f$ is entire, the convergence is faster than geometric, namely $O(\rho^{-n})$ for <em>any</em> $\rho&gt;1$, though with worse constants in the big O as $\rho$ increases.  Here we show how this works for two examples.</p>
 <p>The mathematics originates with Sergey Bernstein around 1912 and is described in Chapter 8 of [1].  Specifically, if $f$ is analytic on $[-1,1]$, then it can be analytically continued to some neighborhood of $[-1,1]$ in the complex plane.  The neighborhoods of special interest for polynomial approximations are Bernstein ellipses, i.e., regions bounded by ellipses with foci at $1$ and $-1$.  The parameter $\rho$ for such an ellipse is the sum of its semimajor plus semiminor axis lengths, a number that approaches $\infty$ as the ellipse widens out to include the whole complex plane and approaches $1$ as it shrinks to the interval $[-1,1]$. Now suppose that $f$ is analytic and satisfies $|f(x)|\le M$ in the Bernstein $\rho$-ellipse for some numbers $\rho&gt;1$ and $M$. According to Theorem 8.1 of [1], the Chebyshev coefficients of $f$ satisfy $$ |a_k| \le 2 M \rho^{-k}. $$ According to Theorem 8.3, the Chebyshev interpolants (i.e., polynomial interpolants in Chebyshev points of Chebfun's usual second kind) satisfy $$ \| f - p_n \|_\infty \le {4 M \rho^{-n}\over \rho - 1}. $$</p>
 <h3 id="2-the-exponential-function">2. The exponential function</h3>
-<p>Let us see this latter bound in action for the entire function $f(x) = e^x$. Any $\rho$ is allowed, but $M$ must grow with $\rho$.  Since the rightmost point of the $\rho$-ellipse is the point $x = (\rho + \rho^{-1})/2$, we can take $$ M = \exp((\rho + \rho^{-1})/2). $$</p>
+<p>Let us see this bound in action for the entire function $f(x) = e^x$. Any $\rho$ is allowed, but $M$ must grow with $\rho$.  Since the rightmost point of the $\rho$-ellipse is the point $x = (\rho + \rho^{-1})/2$, we can take $$ M = \exp((\rho + \rho^{-1})/2). $$ Here are the Chebyshev coefficients of $f$ together with some straight lines above them corresponding to Bernstein bounds for $\rho = 2,4,8,16,32$.</p>
 <pre class="mcode-input">ff = @(x) exp(x);
 fexact = chebfun(ff); nmax = length(fexact)-2;
 nvec = 0:nmax; errvec = [];
@@ -85,7 +85,7 @@ axis([0 nmax 1e-16 1e3]), grid on, hold off</pre>
 
 <p><img src="img/EntireBound_01.png" class="figure" alt=""/></p>
 <h3 id="3-the-function-cos100x">3. The function cos(100x)</h3>
-<p>Now we try another entire function whose convergence curve is more interesting, $f(x) = \cos(100x)$. Since the topmost point of the $\rho$-ellipse is the point $x = i (\rho - \rho^{-1})/2$, we can take $$ M = \cosh(100(\rho - \rho^{-1})/2). $$</p>
+<p>Now we try another entire function whose convergence curve is more interesting, $f(x) = \cos(100x)$. Since the topmost point of the $\rho$-ellipse is $x = i (\rho - \rho^{-1})/2$, we can take $$ M = \cosh(100(\rho - \rho^{-1})/2). $$ Here are the Chebyshev coefficients of $f$ together with some lines corresponding to $\rho = 1.5, 2, 3, 3.5$.</p>
 <pre class="mcode-input">ff = @(x) cos(100*x);
 fexact = chebfun(ff); nmax = length(fexact)-2;
 nvec = 0:nmax; errvec = [];
