@@ -15,13 +15,13 @@ Our aim is to give a broad view of some practical methods of approximation of fu
 
 In a word, the "eight shades" come about as follows. We will discuss four types of approximation for nonperiodic functions (Chebyshev), and then their analogues for periodic functions (trigonometric).  Actually, each "four" is really a "four-and-a-half", since there is a least-squares option that inhabits the spectrum between the two extremes of interpolation (minimal number of data points) and projection (infinitely many data points).
 
-And if you like it's not just eight or ten shades but sixteen or twenty! -- because for clarity, we begin by describing the better-known and better-developed polynomial special cases, i.e., type $(m,n)$ rational approxinations with $n=0$.
+And if you like it's not just eight or ten shades but sixteen or twenty! -- because for clarity, we begin by describing the better-known and better-developed polynomial special cases, i.e., type $(m,n)$ rational approximations with $n=0$.
 
 
 
 ## 2. Polynomial approximation
 
-If $f$ is a continuous function on $[-1,1]$, four interesting methods of approximation of $f$ by a degree $m$ polynomial are as follows.  These approximants can all be computed in Chebfun, and the mathematics is presented in _Approximation Theory and Approximation Practice_ (ATAP).
+If $f$ is a continuous function on $[-1,1]$, four interesting methods of approximation of $f$ by a degree $m$ polynomial are as follows.  These approximants can all be computed in Chebfun, and the mathematics is presented in _Approximation Theory and Approximation Practice_ (ATAP) [1].
 
 _P1. Chebyshev interpolation_  (`chebfun` with `m+1` specified, _ATAP_ chap 4)
 
@@ -31,7 +31,7 @@ _P3. Minimax approximation_ (`remez`, _ATAP_ chap 10)
 
 _P4. CF approximation_ (`cf`, _ATAP_ chap 20)
 
-For example, here are degree 8 approximations of these kinds to $f(x) = \exp(-60(x-0.1)^2)$.
+For example, here are degree 8 approximations of these kinds to $f(x) = \exp(-50(x-0.1)^2)$.
 
 <pre class="mcode-input">f = chebfun(@(x) exp(-50*(x-.1).^2),'trig'); m = 8;
 FS = 'FontSize';
@@ -47,7 +47,7 @@ plot(f,'k',p4,'r'), ylim(yl), text(-.93,.9,'CF',FS,10)</pre><img src="img/EightS
 These curves show some properties that are typical of such approximations.  One is that the differences between them are not very great. Another (for smooth functions $f$, at least) is that the minimax and CF approximations, though mathematically distinct, are for practical purposes indisinguishable.  We can quantify this effect for the present example by measuring the maximal difference between the two:
 
 <pre class="mcode-input">CFerror = norm(p3-p4,inf)</pre><pre class="mcode-output">CFerror =
-     1.140056232503128e-04
+     1.140034870100448e-04
 </pre>Methods P1 and P2 represent two ends of a spectrum.  In between, there is a method we could label P1.5:
 
 _P1.5. Chebyshev least-squares_  (`ratinterp`, _ATAP_ chap 26)
@@ -82,7 +82,9 @@ plot(f,'k',t3,'b'), ylim(yl), text(-.93,.9,'minimax',FS,10)
 subplot(2,2,4)
 text(-.93,.9,'CF',FS,10)
 text(-.5,.2,'(not yet available)',FS,10), axis([-1 1 yl])
-set(gca,'xtick',[],'ytick',[])</pre><img src="img/EightShades_02.png" class="figure" alt=""/>
+set(gca,'xtick',[],'ytick',[])</pre><pre class="mcode-output">Warning: Remez algorithm did not converge after 100 iterations to the tolerance
+1.1e-10. 
+</pre><img src="img/EightShades_02.png" class="figure" alt=""/>
 
 
 
