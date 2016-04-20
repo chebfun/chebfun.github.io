@@ -43,7 +43,7 @@ The extremely high accuracy of the $n\mbox{th}$ coefficient is peculiar to the C
 
 Let's repeat the computation with a non-analytic function.
 
-<pre class="mcode-input">fori = @(x)abs((x-0.1).^3); % twice differentiable but not analytic
+<pre class="mcode-input">fori = @(x)abs((x - 0.5).^3); % twice differentiable but not analytic
 
 f = chebfun(fori);
 p = chebfun(fori,round(length(f)/6));
