@@ -26,6 +26,7 @@ approx/Noisy.m
 approx/Entire.m
 approx/EntireBound.m
 approx/EquispacedData.m
+approx/AliasingCoefficientsLeg.m
 approx/EightShades.m
 approx/NearestOrthFun.m
 approx/ScalingAndSquaring.m

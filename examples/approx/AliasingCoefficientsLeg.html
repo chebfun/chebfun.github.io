@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Accuracy of Legendre coefficients via Aliasing &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Accuracy of Legendre coefficients via Aliasing</h1>
+<h2>Yuji Nakatsukasa, April 2016<span><a href='/examples/approx/AliasingCoefficientsLeg.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx/AliasingCoefficientsLeg.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="legendre-interpolation-and-legendre-coefficients">Legendre interpolation and Legendre coefficients</h3>
+<p>This is a follow-up example of approx/AliasingCoefficients, to explore the accuracy in the Legendre coefficients instead of Chebyshev. A convenient way to obtain the Legendre coefficients of a Chebfun is to use cheb2leg, which implements the algorithm in [1]. cheb2leg converts the coefficients $\hat c_i$ in a Chebyshev expansion $$ p(x)=\sum_{i=0}^n \hat c_iT_i(x) $$ into a Legendre expansion $$ p(x)=\sum_{i=0}^n \hat d_iP_i(x) $$ where $P_i(x)$ is the Legendre polynomial of degree $i$.</p>
+<p>Let's examine the difference between the Legendre coefficients of $f$, and those of its low-degree Legendre interpolant, i.e, the degree $k$ polynomial interpolant at the roots of the $(k+1)$th Legendre polynomial $P_{k+1}$. Let's first try an analytic function $f$.</p>
+<pre class="mcode-input">clear, close all
+LW = 'linewidth'; MS = 'markersize'; FS = 'fontsize';
+CO = 'color'; green = [0 .7 0];
+lw = 2; ms = 10; fs = 16;
+
+fori = @(x) log(sin(10*x)+2);
+
+f = chebfun(fori);
+
+k = round(length(f)/3); % length=degree+1 of interpolant
+[s,w] = legpts(k); % Gauss points and weights
+p = chebfun.interp1(s,fori(s),[-1 1]);
+
+fc = cheb2leg(f.coeffs); % convert to Legendre coefficients
+pc = cheb2leg(p.coeffs);
+
+%[s,w] = legpts(k);pc = legcoeffs2legvals(fori(s));
+
+semilogy(abs(fc),'.',CO,green,LW,lw,MS,ms),hold on
+plot(abs(pc),'b.',LW,lw,MS,ms)
+plot(0:length(pc)-1,abs(pc-fc(1:length(pc)))+eps,'.r',LW,lw,MS,ms)
+
+h_legend = legend('f','p','f-p');
+set(h_legend,FS,fs)</pre>
+
+<p><img src="img/AliasingCoefficientsLeg_01.png" class="figure" alt=""/></p>
+<p>The green and blue dots show the absolute values of the Legendre coefficients for $f$ and the interpolant $p$. We focus on the red dots, showing the error in Legendre coefficients. We see that just as in the previous example (Chebyshev coefficients via Chebyshev interpolation), the error in Legendre coefficients grows geometrically with the degree. However, the exceptional accuracy in the last coefficient is now lost, and $\hat d_n$ has one of the worst absolute errors among the $\hat d_i$.</p>
+<p>Now let's repeat the computation with a non-analytic function.</p>
+<pre class="mcode-input">fori = @(x)abs((x-0.5).^3); % twice differentiable but not analytic
+
+f = chebfun(fori);
+
+k = round(length(f)/5);
+[s,w] = legpts(k);
+p = chebfun.interp1(s,fori(s),[-1 1]);
+
+fc = cheb2leg(f.coeffs);
+pc = cheb2leg(p.coeffs);
+
+clf
+semilogy(abs(fc),'.',CO,green,LW,lw,MS,ms),hold on
+plot(abs(pc),'b.',LW,lw,MS,ms)
+plot(0:k-1,abs(pc(1:k)-fc(1:k))+eps,'.r',LW,lw,MS,ms*2),hold on
+
+h_legend = legend('f','p','f-p');
+set(h_legend,FS,fs),shg</pre>
+
+<p><img src="img/AliasingCoefficientsLeg_02.png" class="figure" alt=""/></p>
+<p>While qualitatively the same observation holds, note that the red plots do not resemble a mirrored version of the green, as was in the Chebyshev case.</p>
+<h3 id="2-two-dimensions">2. Two dimensions</h3>
+<p>As before, let's try an analogous experiment in Chebfun2. To obtain an accurate bivariate Legendre expansion we form a chebfun2 and convert its Chebyshev coefficients into Legendre coefficients by applying cheb2leg from both sides. To obtain a bivariate polynomial interpolant at the Legendre grid, we convert from values at Legendre grid points to bivariate Legendre coefficients using the legvals2legcoeffs command.</p>
+<pre class="mcode-input">fori = @(x,y)(sin(x+y)+cos(x-y));
+
+f = chebfun2(@(x,y)fori(x,y));
+fc = cheb2leg(cheb2leg(chebcoeffs2(f))'); % Legendre coefficients
+
+k = 6;
+s = legpts(k);
+xx = [];yy = [];
+for ii = 1:k;
+xx = [xx;s']; yy = [yy s]; % Legendre grid
+end
+
+ptc = legvals2legcoeffs(legvals2legcoeffs(fori(xx,yy))'); % values at Legendre grid
+
+format short e
+abs(fc(1:k,1:k)-ptc)</pre>
+
+<pre class="mcode-output">ans =
+   1.2730e-12   2.2177e-11   6.2811e-10   1.4621e-08   2.9536e-07   5.1823e-06
+   2.2176e-11   4.9091e-11   6.6573e-10   1.5701e-08   3.1713e-07   5.5643e-06
+   6.2811e-10   6.6573e-10   4.6288e-10   5.3426e-09   1.0888e-07   1.9102e-06
+   1.4621e-08   1.5701e-08   5.3426e-09   2.1910e-09   2.1971e-08   3.8829e-07
+   2.9536e-07   3.1713e-07   1.0888e-07   2.1971e-08   6.3875e-09   5.5679e-08
+   5.1823e-06   5.5643e-06   1.9102e-06   3.8829e-07   5.5679e-08   1.2579e-08
+</pre>
+
+<p>As in the one-dimensional case the leading coefficient has the highest accuracy. We see some accuracy improvement in the last row and column with the lower-right corner being more accurate than the rest (though not as much as in the Chebyshev case). At the moment we do not have an explanation for this.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
