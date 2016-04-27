@@ -81,7 +81,7 @@ plot(S.init), hold on, plot(u), hold off</pre>
 <pre class="mcode-input">t</pre>
 
 <pre class="mcode-output">t =
-  65.497760000000000
+  65.626362000000000
 </pre>
 
 <p>For practical work we can often do much better by fixing the grid and the time step, like this.  Here we do this and see that the image looks the same:</p>
@@ -93,7 +93,7 @@ plot(S.init), hold on, plot(u), hold off</pre>
 <pre class="mcode-input">t</pre>
 
 <pre class="mcode-output">t =
-   1.386784000000000
+   1.486184000000000
 </pre>
 
 <h3 id="2-non-soliton-solutions">2. Non-soliton solutions</h3>
@@ -114,6 +114,10 @@ plot(S.init), hold on, plot(u), hold off</pre>
 <pre class="mcode-input">S.init = 3*A^2*sech(.05*A*(x-3)).^2;
 u = spin(S,spinpref('plot','off','N',800,'dt',.00001));
 plot(S.init), hold on, plot(u), hold off</pre>
+
+<pre class="mcode-output">Warning: Function not resolved using 65536 pts. Have you tried a non-trig
+representation? 
+</pre>
 
 <p><img src="img/KdV_05.png" class="figure" alt=""/></p>
 <p>Let's try something a little bit random:</p>

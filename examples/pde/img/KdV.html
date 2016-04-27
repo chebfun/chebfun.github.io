@@ -26,7 +26,7 @@ plot(S.init), hold on, plot(u), hold off</pre><img src="img/KdV_01.png" class="f
 When `spin` is run is this simple mode without extra arguments, it makes adaptive decisions along the way that may slow it down, especially for equations like this with no diffusion (the KdV) equation is dispersive, not diffusive). The calculation just carried out took quite a while:
 
 <pre class="mcode-input">t</pre><pre class="mcode-output">t =
-  65.497760000000000
+  65.626362000000000
 </pre>For practical work we can often do much better by fixing the grid and the time step, like this.  Here we do this and see that the image looks the same:
 
 <pre class="mcode-input">tic, u = spin(S,spinpref('plot','off','N',800,'dt',.00001)); t = toc;
@@ -35,7 +35,7 @@ plot(S.init), hold on, plot(u), hold off</pre><img src="img/KdV_02.png" class="f
 However, the computation is much faster:
 
 <pre class="mcode-input">t</pre><pre class="mcode-output">t =
-   1.386784000000000
+   1.486184000000000
 </pre>
 
 ## 2. Non-soliton solutions
@@ -58,7 +58,9 @@ If we make the pulse still wider, we get a beautiful train of solitons.
 
 <pre class="mcode-input">S.init = 3*A^2*sech(.05*A*(x-3)).^2;
 u = spin(S,spinpref('plot','off','N',800,'dt',.00001));
-plot(S.init), hold on, plot(u), hold off</pre><img src="img/KdV_05.png" class="figure" alt=""/>
+plot(S.init), hold on, plot(u), hold off</pre><pre class="mcode-output">Warning: Function not resolved using 65536 pts. Have you tried a non-trig
+representation? 
+</pre><img src="img/KdV_05.png" class="figure" alt=""/>
 
 Let's try something a little bit random:
 
