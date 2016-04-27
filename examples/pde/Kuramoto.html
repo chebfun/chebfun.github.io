@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kuramoto-Sivashinsky equation and chaos &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Kuramoto-Sivashinsky equation and chaos</h1>
+<h2>Nick Trefethen, April 2016<span><a href='/examples/pde/Kuramoto.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/pde/Kuramoto.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-a-symmetric-solution">1. A symmetric solution</h3>
+<p>The Kuramoto-Sivashinsky equation mixes a nonlinear convective term, fourth-order diffusion, and second-order <em>backward</em> diffusion, $$ u_t = -({1\over 2}u^2)<em xx="xx">x - u</em> - u_{xxxx} . $$ Its solutions have the remarkable property of being (provably) chaotic. For example, here is a calculation up to $t=100$ on $[-100,100]$ with an initial condition featuring two exponential bumps.  At $t=100$, we see a waveform whose details are essentially random though the general picture is dominated by oscillations with a wavelength of about $9$.</p>
+<pre class="mcode-input">tic, dom = [-100 100]; x = chebfun('x',dom); tspan = [0 100 200];
+S = spinop(dom,tspan);
+S.linearPart = @(u) - diff(u,2) - diff(u,4);
+S.nonlinearPart = @(u) -.5*diff(u.^2); % spin cannot parse "u.*diff(u)"
+S.init = exp(-((x+50)/10).^2) + exp(-((x-50)/10).^2);
+pause off
+tic, u = spin(S,spinpref('plot','off','N',800,'dt',.025)); t = toc;
+plot(S.init), hold on, plot(u{2}), ylim([-4 4]), hold off
+FS = 'fontsize'; text(42,3.4,'t=0 and t=100',FS,12)</pre>
+
+<p><img src="img/Kuramoto_01.png" class="figure" alt=""/></p>
+<p>At time $t=200$ it looks like this, different in detail, but qualitatively the same.  The general shape will persist forever, with the details constantly changing.</p>
+<pre class="mcode-input">plot(S.init), hold on, plot(u{3}), ylim([-4 4]), hold off
+text(42,3.4,'t=0 and t=200',FS,12)</pre>
+
+<p><img src="img/Kuramoto_02.png" class="figure" alt=""/></p>
+<p>By looking at the dispersion relation for the linear part of the equation, one can explain why the characteristic wavelength is about 9 [1]. In fact, the wave number $k$ most amplified by the linear terms in the equation is $k = 1/\sqrt 2$, which corresponds to a wavelength of $2\sqrt 2 \pi \approx 8.89$.</p>
+<h3 id="2-a-nonsymmetric-solution">2. A nonsymmetric solution</h3>
+<p>A hallmark of chaos is sensitive dependence on initial conditions.  To illustrate this, let us run the same experiment as before, but with the symmetry ever so slightly broken by moving the second Gaussian from $x=50$ to $x=49.9$. At $t=100$, one can see that the solution is slightly different from what it was before, and the symmetry in the solution is broken.</p>
+<pre class="mcode-input">S.init = exp(-((x+50)/10).^2) + exp(-((x-49.9)/10).^2);
+pause off
+tic, u = spin(S,spinpref('plot','off','N',800,'dt',.05)); t = toc;
+plot(S.init), hold on, plot(u{2}), ylim([-4 4]), hold off
+text(42,3.4,'t=0 and t=100',FS,12)</pre>
+
+<p><img src="img/Kuramoto_03.png" class="figure" alt=""/></p>
+<p>At time $t=200$, all trace of symmetry is gone.</p>
+<pre class="mcode-input">plot(S.init), hold on, plot(u{3}), ylim([-4 4]), hold off
+text(42,3.4,'t=0 and t=200',FS,12)</pre>
+
+<p><img src="img/Kuramoto_04.png" class="figure" alt=""/></p>
+<p>Here is the total time for this example:</p>
+<pre class="mcode-input">time_elapsed_in_seconds = toc</pre>
+
+<pre class="mcode-output">time_elapsed_in_seconds =
+   3.759806000000000
+</pre>
+
+<p>One can get a qualitatively correct picture faster, with coarse gridding in both time and space, but we chose large $N$ and small $dt$ so that the wave forms would be truly correct at $t=200$.</p>
+<h3 id="3-references">3. References</h3>
+<p>[1] <em>PDE Coffee Table Book</em>.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

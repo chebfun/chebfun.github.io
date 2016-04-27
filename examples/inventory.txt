@@ -50,6 +50,7 @@ pde/Erosion.m
 pde/KdV.m
 pde/TrapezoidEigs.m
 pde/BSExponential.m
+pde/Kuramoto.m
 pde/FourierExpm.m
 fourier/FejerJackson.m
 fourier/FourierBasedChebfuns.m
