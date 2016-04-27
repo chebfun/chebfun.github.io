@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-one-dimension">1. One dimension</h3>
-<p>This is a follow-up example of approx/AliasingCoefficients [1], to explore the accuracy in the Legendre coefficients instead of Chebyshev. A convenient way to obtain the Legendre coefficients of a Chebfun is to use cheb2leg, which implements the algorithm in [2]. cheb2leg converts the coefficients $\hat c_i$ in a Chebyshev expansion $$ p(x)=\sum_{i=0}^n \hat c_iT_i(x) $$ into a Legendre expansion $$ p(x)=\sum_{i=0}^n \hat d_iP_i(x) $$ where $P_i(x)$ is the Legendre polynomial of degree $i$.</p>
+<p>This is a follow-up example of approx/AliasingCoefficients [1], to explore the accuracy in the Legendre coefficients instead of Chebyshev. A convenient way to obtain the Legendre coefficients of a Chebfun is to use cheb2leg, which implements the algorithm in [2]. cheb2leg converts the coefficients $\hat c_i$ in a Chebyshev expansion $$ p(x)=\sum_{i=0}^n \hat c_iT_i(x) $$ into a Legendre expansion $$ p(x)=\sum_{i=0}^n \hat d_iP_i(x) $$ where $P_i(x)$ is the Legendre polynomial of degree $i$. Also useful is the legvals2legcoeffs command, described in [3], which converts a vector of values at Legendre points into a vector of Legendre coefficients of the polynomial interpolant at the Legendre points.</p>
 <p>Let's examine the difference between the Legendre coefficients of $f$, and those of its low-degree Legendre interpolant, i.e, the degree $k$ polynomial interpolant at the roots of the $(k+1)$th Legendre polynomial $P_{k+1}$. Let's first try an analytic function $f$.</p>
 <pre class="mcode-input">clear, close all
 LW = 'linewidth'; MS = 'markersize'; FS = 'fontsize';
@@ -72,13 +72,11 @@ lw = 2; ms = 10; fs = 16;
 fori = @(x) log(sin(10*x)+2);
 
 f = chebfun(fori);
+fc = cheb2leg(f.coeffs);
 
 k = round(length(f)/3); % length=degree+1 of interpolant
-s = legpts(k); % Gauss points and weights
-p = chebfun.interp1(s,fori(s),[-1 1]);
-
-fc = cheb2leg(f.coeffs); % convert to Legendre coefficients
-pc = cheb2leg(p.coeffs);
+s = legpts(k); % Legendre points
+pc = legvals2legcoeffs(fori(s));
 
 semilogy(abs(fc),'.',CO,green,LW,lw,MS,ms),hold on
 plot(abs(pc),'b.',LW,lw,MS,ms)
@@ -93,13 +91,11 @@ set(h_legend,FS,fs)</pre>
 <pre class="mcode-input">fori = @(x)abs((x-0.5).^3); % twice differentiable but not analytic
 
 f = chebfun(fori);
+fc = cheb2leg(f.coeffs);
 
 k = round(length(f)/5);
 s = legpts(k);
-p = chebfun.interp1(s,fori(s),[-1 1]);
-
-fc = cheb2leg(f.coeffs);
-pc = cheb2leg(p.coeffs);
+pc = legvals2legcoeffs(fori(s));
 
 clf
 semilogy(abs(fc),'.',CO,green,LW,lw,MS,ms),hold on
@@ -112,7 +108,7 @@ set(h_legend,FS,fs),shg</pre>
 <p><img src="img/AliasingCoefficientsLeg_02.png" class="figure" alt=""/></p>
 <p>While qualitatively the same observation holds, note that the red plots do not resemble a mirrored version of the green, as was in the Chebyshev case.</p>
 <h3 id="2-two-dimensions">2. Two dimensions</h3>
-<p>As before, let's try an analogous experiment in Chebfun2. To obtain an accurate bivariate Legendre expansion we form a chebfun2 and convert its Chebyshev coefficients into Legendre coefficients by applying cheb2leg from both sides (left and right). To obtain a bivariate polynomial interpolant at the Legendre grid, we convert from values at Legendre grid points to bivariate Legendre coefficients using the legvals2legcoeffs command, described in [3].</p>
+<p>As before, let's try an analogous experiment in Chebfun2. To obtain an accurate bivariate Legendre expansion we form a chebfun2 and convert its Chebyshev coefficients into Legendre coefficients by applying cheb2leg from both sides (left and right). To obtain a bivariate polynomial interpolant at the Legendre grid, we convert from values at Legendre grid points to bivariate Legendre coefficients, again using the legvals2legcoeffs command.</p>
 <pre class="mcode-input">fori = @(x,y)(sin(x+y)+cos(x-y));
 
 f = chebfun2(@(x,y)fori(x,y));
