@@ -182,7 +182,7 @@ u = L\1; plot(u, LW, 2), grid on</pre>
 <pre class="mcode-input">norm(L(u) - 1)</pre>
 
 <pre class="mcode-output">ans =
-     6.222328007811538e-11
+     1.695997141071460e-11
 </pre>
 
 <p>Let's change the right-hand boundary condition to $u'=0$ and see how this changes the solution:</p>
@@ -316,7 +316,7 @@ u = chebop(@(x, u) diff(u, 2) + u, [-10,10], cos(10), cos(10))\0;
 toc
 error = u(5) - cos(5)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.151859 seconds.
+<pre class="mcode-output">Elapsed time is 0.101609 seconds.
 error =
     -5.162537064506978e-15
 </pre>
@@ -329,7 +329,7 @@ toc
 error = u(5) - cos(5)
 cheboppref.setDefaults('factory')   % reset to standard mode</pre>
 
-<pre class="mcode-output">Elapsed time is 0.655180 seconds.
+<pre class="mcode-output">Elapsed time is 0.478815 seconds.
 error =
     -1.387778780781446e-15
 </pre>
@@ -403,9 +403,9 @@ size(V)</pre>
 normImagV = norm(imag(V))</pre>
 
 <pre class="mcode-output">normRealU =
-     1.362580931103944e-11
+     1.362577784903978e-11
 normImagV =
-     1.362800742450742e-11
+     1.362800902246168e-11
 </pre>
 
 <p>This fact makes it easy to plot them.</p>
@@ -436,7 +436,7 @@ clf, plot(u)</pre>
 nrmdu =
    0.164126069559937
 nrmdu =
-   0.098900892365438
+   0.098900892365439
 nrmdu =
    0.053787171683933
 nrmdu =
@@ -444,11 +444,11 @@ nrmdu =
 nrmdu =
    0.003586696693250
 nrmdu =
-     8.951602488737993e-05
+     8.951602488809509e-05
 nrmdu =
-     5.357404910375034e-08
+     5.357404819950645e-08
 nrmdu =
-     1.848828409319139e-14
+     1.810700324540136e-14
 </pre>
 
 <p><img src="img/guide07_17.png" class="figure" alt=""></p>
@@ -462,7 +462,7 @@ v = N\0;</pre>
 <pre class="mcode-input">norm(u - v)</pre>
 
 <pre class="mcode-output">ans =
-     1.200689728213127e-12
+     1.200346949179719e-12
 </pre>
 
 <h3 id="710-bvp-systems-with-unknown-parameters">7.10 BVP systems with unknown parameters</h3>
@@ -511,7 +511,7 @@ plot(u)</pre>
 <p>[Schmid &amp; Henningson 2001] P. J. Schmid and D. S. Henningson, <em>Stability and Transition in Shear Flows</em>, Springer, 2001.</p>
 <p>[Trefethen 2000] L. N. Trefethen, <em>Spectral Methods in MATLAB</em>, SIAM, 2000.</p>
 <p>[Trefethen, Birkisson &amp; Driscoll 2016] L. N. Trefethen, A. Birkisson, and T. A. Driscoll, <em>Exploring ODEs</em>, textbook in preparation.</p>
-<p>[Xu &amp; Hale 2015] K. Xu and N. Hale, "Explicit construction of rectangular differentiation matrices", <em>IMA Journal of Numerical Analysis</em>, to appear.</p></div>
+<p>[Xu &amp; Hale 2015] K. Xu and N. Hale, "Explicit construction of rectangular differentiation matrices", <em>IMA Journal of Numerical Analysis</em> 36 (2016), 618-632.</p></div>
         </div>
     </div>
 </div>
