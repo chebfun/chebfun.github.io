@@ -335,7 +335,7 @@ subplot(2,1,2), cheb.gallery('sinefun2'), ylim([0 3.5])</pre>
 <p><em>THEOREM 4</em>. $$ p(x) = \sum_{k=0}^N \mbox{''} {(-1)^k f(x_k)\over x-x_k} \left/ \sum_{k=0}^N \mbox{''}{(-1)^k\over x-x_k}. \right. $$</p>
 <p>See [Berrut &amp; Trefethen 2005] and [Trefethen 2013] for information about barycentric interpolation.</p>
 <p>The final theorem asserts that the barycentric formula has no difficulty with rounding errors.  Our "theorem" is really just an advertisement; see [Higham 2004] for a precise statement and proof.  Earlier work on this subject appeared in [Rack &amp; Reimer 1982].</p>
-<p><em>THEOREM 5</em>.  <em>The barycentric formula of Theorem</em> 4 <em>is numerically stable.</em></p>
+<p><em>THEOREM 5</em>.  <em>The barycentric formula of Theorem</em> 4 _is numerically stable._</p>
 <p>This stability result may seem surprising when one notes that for $x$ close to $x_k$, the barycentric formula involves divisions by numbers that are nearly zero.  Nevertheless it is provably stable.  If $x$ is exactly equal to some $x_k$, then one bypasses the formula and returns the exact value $p(x) = f(x_k)$.</p>
 <h3 id="46-best-approximations-and-the-remez-algorithm">4.6  Best approximations and the Remez algorithm</h3>
 <p>For practical computations, it is rarely worth the trouble to compute a best (minimax) approximation rather than simply a Chebyshev interpolant. Nevertheless best approximations are a beautiful and well-established idea, and it is certainly interesting to be able to compute them. Chebfun makes this possible with the command <code>remez</code>, named after Evgeny Remez, who devised the standard algorithm for computing these approximations in 1934. This capability is due to Ricardo Pachon; see [Pachon &amp; Trefethen 2009].</p>

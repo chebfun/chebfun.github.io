@@ -27,7 +27,7 @@ text(5,1500,'t = 0'), text(14.5,1500,'t = 0.015')</pre><img src="img/KdV_01.png"
 When `spin` is run is this simple mode without extra arguments, it makes adaptive decisions along the way that may slow it down, especially for equations like this with no diffusion (the KdV) equation is dispersive, not diffusive). The calculation just carried out took quite a while:
 
 <pre class="mcode-input">t</pre><pre class="mcode-output">t =
-  64.838677000000004
+  46.539315000000002
 </pre>For practical work we can often do much better by fixing the grid and the time step, like this.  Here we do this and see that the image looks the same:
 
 <pre class="mcode-input">tic, u = spin(S,spinpref('plot','off','N',800,'dt',.00001)); t = toc;
@@ -36,7 +36,7 @@ plot(S.init), hold on, plot(u), hold off</pre><img src="img/KdV_02.png" class="f
 However, the computation is much faster:
 
 <pre class="mcode-input">t</pre><pre class="mcode-output">t =
-   1.437652000000000
+   1.286295000000000
 </pre>Of course, the result of a spin computation is a chebfun. So we can for example easily compute the amplitude of this final function $u$:
 
 <pre class="mcode-input">max(u)</pre><pre class="mcode-output">ans =
@@ -90,7 +90,7 @@ conserved1(u), conserved1(u0)</pre><pre class="mcode-output">conserved1 =
 ans =
      3.160138817293045e-13
 ans =
-     3.641531520770513e-13
+     3.575813691433471e-13
 </pre>Another conserved quantity is $u^2$:
 
 <pre class="mcode-input">conserved2 = @(u) sum(u.^2)
@@ -99,7 +99,7 @@ conserved2(u), conserved2(u0)</pre><pre class="mcode-output">conserved2 =
 ans =
      7.833213352716355e+04
 ans =
-     7.833213358221893e+04
+     7.833213358221890e+04
 </pre>In fact, as a completely integrable system, the KdV equation has an infinite set of conserved quantities [2,3].  Another one is $u^3/3 - (u_x)^2$:
 
 <pre class="mcode-input">conserved3 = @(u) sum(u.^3/3 - diff(u).^2)
@@ -108,7 +108,7 @@ conserved3(u), conserved3(u0)</pre><pre class="mcode-output">conserved3 =
 ans =
     -2.349964045069835e+05
 ans =
-    -2.349964007466362e+05
+    -2.349964007466361e+05
 </pre>Another is  $u^4/4 - 3u(u_x)^2 + (9/5)(u_{xx})^2$:
 
 <pre class="mcode-input">conserved4 = @(u) sum(u.^4/4 - 3*u.*diff(u).^2 + (9/5)*diff(u,2).^2)
@@ -117,7 +117,7 @@ conserved4(u), conserved4(u0)</pre><pre class="mcode-output">conserved4 =
 ans =
      6.512069535782971e+08
 ans =
-     6.512069540223163e+08
+     6.512069540223162e+08
 </pre>
 
 ## 4. References

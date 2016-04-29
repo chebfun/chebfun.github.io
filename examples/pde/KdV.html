@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-soliton-solutions">1. Soliton solutions</h3>
-<p>Chebfun's <code>spin</code> command makes it easy to compute solutions of the KdV equation, $$ u_t = -0.5(u^2)<em xxx="xxx">x - u</em>. $$ For example, let's set to work on $[0,20]$ with a two-soliton initial condition $$ u_0(x) = 3A^2 \hbox{sech}(.5A(x-1))^2 + 3B^2 \hbox{sech}(.5B(x-2))^2 $$ where the amplitude parameters $A$ and $B$ are quite close to each other, taking values $25$ and $23$. We can set up for the calculation like this:</p>
+<p>Chebfun's <code>spin</code> command makes it easy to compute solutions of the KdV equation, $$ u_t = -0.5(u^2)_x - u_{xxx}. $$ For example, let's set to work on $[0,20]$ with a two-soliton initial condition $$ u_0(x) = 3A^2 \hbox{sech}(.5A(x-1))^2 + 3B^2 \hbox{sech}(.5B(x-2))^2 $$ where the amplitude parameters $A$ and $B$ are quite close to each other, taking values $25$ and $23$. We can set up for the calculation like this:</p>
 <pre class="mcode-input">A = 25; B = 23;
 dom = [0 20]; x = chebfun('x',dom);
 tspan = [0 .0156];
@@ -82,7 +82,7 @@ text(5,1500,'t = 0'), text(14.5,1500,'t = 0.015')</pre>
 <pre class="mcode-input">t</pre>
 
 <pre class="mcode-output">t =
-  64.838677000000004
+  46.539315000000002
 </pre>
 
 <p>For practical work we can often do much better by fixing the grid and the time step, like this.  Here we do this and see that the image looks the same:</p>
@@ -94,7 +94,7 @@ plot(S.init), hold on, plot(u), hold off</pre>
 <pre class="mcode-input">t</pre>
 
 <pre class="mcode-output">t =
-   1.437652000000000
+   1.286295000000000
 </pre>
 
 <p>Of course, the result of a spin computation is a chebfun. So we can for example easily compute the amplitude of this final function $u$:</p>
@@ -149,7 +149,7 @@ conserved1(u), conserved1(u0)</pre>
 ans =
      3.160138817293045e-13
 ans =
-     3.641531520770513e-13
+     3.575813691433471e-13
 </pre>
 
 <p>Another conserved quantity is $u^2$:</p>
@@ -161,7 +161,7 @@ conserved2(u), conserved2(u0)</pre>
 ans =
      7.833213352716355e+04
 ans =
-     7.833213358221893e+04
+     7.833213358221890e+04
 </pre>
 
 <p>In fact, as a completely integrable system, the KdV equation has an infinite set of conserved quantities [2,3].  Another one is $u^3/3 - (u_x)^2$:</p>
@@ -173,7 +173,7 @@ conserved3(u), conserved3(u0)</pre>
 ans =
     -2.349964045069835e+05
 ans =
-    -2.349964007466362e+05
+    -2.349964007466361e+05
 </pre>
 
 <p>Another is  $u^4/4 - 3u(u_x)^2 + (9/5)(u_{xx})^2$:</p>
@@ -185,7 +185,7 @@ conserved4(u), conserved4(u0)</pre>
 ans =
      6.512069535782971e+08
 ans =
-     6.512069540223163e+08
+     6.512069540223162e+08
 </pre>
 
 <h3 id="4-references">4. References</h3>

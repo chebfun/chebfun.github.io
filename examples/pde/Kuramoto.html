@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-a-symmetric-solution">1. A symmetric solution</h3>
-<p>The Kuramoto-Sivashinsky equation mixes a nonlinear convective term, fourth-order diffusion, and second-order <em>backward</em> diffusion, $$ u_t = -({1\over 2}u^2)<em xx="xx">x - u</em> - u_{xxxx} . $$ Its solutions have the remarkable property of being (provably) chaotic. For example, here is a calculation up to $t=100$ on $[-100,100]$ with an initial condition featuring two exponential bumps.  At $t=100$, we see a waveform whose details are essentially random though the general picture is dominated by oscillations with a wavelength of about $9$.</p>
+<p>The Kuramoto-Sivashinsky equation mixes a nonlinear convective term, fourth-order diffusion, and second-order <em>backward</em> diffusion, $$ u_t = -({1\over 2}u^2)_x - u_{xx} - u_{xxxx} . $$ Its solutions have the remarkable property of being (provably) chaotic. For example, here is a calculation up to $t=100$ on $[-100,100]$ with an initial condition featuring two exponential bumps.  At $t=100$, we see a waveform whose details are essentially random though the general picture is dominated by oscillations with a wavelength of about $9$.</p>
 <pre class="mcode-input">tic, dom = [-100 100]; x = chebfun('x',dom); tspan = [0 100 200];
 S = spinop(dom,tspan);
 S.linearPart = @(u) - diff(u,2) - diff(u,4);
