@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-soliton-solutions">1. Soliton solutions</h3>
-<p>Chebfun's <code>spin</code> command makes it easy to compute solutions of the KdV equation, $$ u_t = -0.5(u^2)<em xxx="xxx">x - u</em>. $$ For example, let's set to work on $[0, 20]$ with a two-soliton initial condition $$ u_0(x) = 3A^2 \hbox{sech}(.5A(x-1))^2 + 3B^2 \hbox{sech}(.5B(x-2))^2 $$ where the amplitude parameters $A$ and $B$ are quite close to each other, taking values $25$ and $23$. We can set up for the calculation like this:</p>
+<p>Chebfun's <code>spin</code> command makes it easy to compute solutions of the KdV equation, $$ u_t = -0.5(u^2)<em xxx="xxx">x - u</em>. $$ For example, let's set to work on $[0,20]$ with a two-soliton initial condition $$ u_0(x) = 3A^2 \hbox{sech}(.5A(x-1))^2 + 3B^2 \hbox{sech}(.5B(x-2))^2 $$ where the amplitude parameters $A$ and $B$ are quite close to each other, taking values $25$ and $23$. We can set up for the calculation like this:</p>
 <pre class="mcode-input">A = 25; B = 23;
 dom = [0 20]; x = chebfun('x',dom);
 tspan = [0 .0156];
@@ -74,14 +74,15 @@ S.init = 3*A^2*sech(.5*A*(x-3)).^2 + 3*B^2*sech(.5*B*(x-4)).^2;</pre>
 <p>Now let's perform the calculation. This initial condition corresponds to a pair of solitons with slightly different amplitudes and different speeds.  As $t$ increases, both pulses move right, with the taller one moving faster.  Around time $t=0.0078$, it overtakes the slower one, and around time $t=0.0156$, it is as far ahead at was originally behind.</p>
 <pre class="mcode-input">pause off
 tic, u = spin(S,spinpref('plot','off')); t = toc;
-plot(S.init), hold on, plot(u), hold off</pre>
+plot(S.init), hold on, plot(u), hold off
+text(5,1500,'t = 0'), text(14.5,1500,'t = 0.015')</pre>
 
 <p><img src="img/KdV_01.png" class="figure" alt=""/></p>
 <p>When <code>spin</code> is run is this simple mode without extra arguments, it makes adaptive decisions along the way that may slow it down, especially for equations like this with no diffusion (the KdV) equation is dispersive, not diffusive). The calculation just carried out took quite a while:</p>
 <pre class="mcode-input">t</pre>
 
 <pre class="mcode-output">t =
-  65.626362000000000
+  64.838677000000004
 </pre>
 
 <p>For practical work we can often do much better by fixing the grid and the time step, like this.  Here we do this and see that the image looks the same:</p>
@@ -93,9 +94,24 @@ plot(S.init), hold on, plot(u), hold off</pre>
 <pre class="mcode-input">t</pre>
 
 <pre class="mcode-output">t =
-   1.486184000000000
+   1.437652000000000
 </pre>
 
+<p>Of course, the result of a spin computation is a chebfun. So we can for example easily compute the amplitude of this final function $u$:</p>
+<pre class="mcode-input">max(u)</pre>
+
+<pre class="mcode-output">ans =
+     1.853246362348295e+03
+</pre>
+
+<p>This agrees reasonably well with the initial amplitude, as it should since it's the same soliton.</p>
+<pre class="mcode-input">initial_amplitude = 3*A^2</pre>
+
+<pre class="mcode-output">initial_amplitude =
+        1875
+</pre>
+
+<p>In fact, the KdV equation like other equations of completely integrable systems has an infinite collection of conservation laws. Chebfun could be used to explore these.</p>
 <h3 id="2-non-soliton-solutions">2. Non-soliton solutions</h3>
 <p>Soliton solutions are so celebrated that it is easy to forget that they are special.  Let us explore various other possibilities.</p>
 <p>First of all, here is the taller of the two solitons just as before.</p>
@@ -110,14 +126,10 @@ u = spin(S,spinpref('plot','off','N',800,'dt',.00001));
 plot(S.init), hold on, plot(u), hold off</pre>
 
 <p><img src="img/KdV_04.png" class="figure" alt=""/></p>
-<p>If we make the pulse still wider, we get a beautiful train of solitons.</p>
-<pre class="mcode-input">S.init = 3*A^2*sech(.05*A*(x-3)).^2;
+<p>If we make the pulse still wider, we get a beautiful train of solitons.  Note that a term centered at $x=23$ has been added to make this wider pulse numerically periodic.</p>
+<pre class="mcode-input">S.init = 3*A^2*( sech(.05*A*(x-3)).^2 + sech(.05*A*(x-23)).^2 );
 u = spin(S,spinpref('plot','off','N',800,'dt',.00001));
 plot(S.init), hold on, plot(u), hold off</pre>
-
-<pre class="mcode-output">Warning: Function not resolved using 65536 pts. Have you tried a non-trig
-representation? 
-</pre>
 
 <p><img src="img/KdV_05.png" class="figure" alt=""/></p>
 <p>Let's try something a little bit random:</p>
@@ -126,9 +138,61 @@ u = spin(S,spinpref('plot','off','N',800,'dt',.00001));
 plot(S.init), hold on, plot(u), hold off</pre>
 
 <p><img src="img/KdV_06.png" class="figure" alt=""/></p>
-<h3 id="3-references">3. References</h3>
-<p>The mathematics of solitons is thoroughly understood.  See for example [1].</p>
-<p>[1] M. J. Ablowitz and H. Segur, <em>Solitons and the Inverse Scattering Transform</em>, SIAM, 1981.</p></div>
+<h3 id="3-conservation-laws">3. Conservation laws</h3>
+<p>The function $u$ is a conserved quantity for the KdV equation in the sense that its integral remains constant.  Here we confirm this numerically (the integral is zero since the function is :</p>
+<pre class="mcode-input">u0 = S.init;
+conserved1 = @(u) sum(u)
+conserved1(u), conserved1(u0)</pre>
+
+<pre class="mcode-output">conserved1 = 
+    @(u)sum(u)
+ans =
+     3.160138817293045e-13
+ans =
+     3.641531520770513e-13
+</pre>
+
+<p>Another conserved quantity is $u^2$:</p>
+<pre class="mcode-input">conserved2 = @(u) sum(u.^2)
+conserved2(u), conserved2(u0)</pre>
+
+<pre class="mcode-output">conserved2 = 
+    @(u)sum(u.^2)
+ans =
+     7.833213352716355e+04
+ans =
+     7.833213358221893e+04
+</pre>
+
+<p>In fact, as a completely integrable system, the KdV equation has an infinite set of conserved quantities [2,3].  Another one is $u^3/3 - (u_x)^2$:</p>
+<pre class="mcode-input">conserved3 = @(u) sum(u.^3/3 - diff(u).^2)
+conserved3(u), conserved3(u0)</pre>
+
+<pre class="mcode-output">conserved3 = 
+    @(u)sum(u.^3/3-diff(u).^2)
+ans =
+    -2.349964045069835e+05
+ans =
+    -2.349964007466362e+05
+</pre>
+
+<p>Another is  $u^4/4 - 3u(u_x)^2 + (9/5)(u_{xx})^2$:</p>
+<pre class="mcode-input">conserved4 = @(u) sum(u.^4/4 - 3*u.*diff(u).^2 + (9/5)*diff(u,2).^2)
+conserved4(u), conserved4(u0)</pre>
+
+<pre class="mcode-output">conserved4 = 
+    @(u)sum(u.^4/4-3*u.*diff(u).^2+(9/5)*diff(u,2).^2)
+ans =
+     6.512069535782971e+08
+ans =
+     6.512069540223163e+08
+</pre>
+
+<h3 id="4-references">4. References</h3>
+<p>The mathematics of solitons is thoroughly understood.  See for example [1].  For a quick introduction to the KdV equation, see [2].</p>
+<p>[1] M. J. Ablowitz and H. Segur, <em>Solitons and the Inverse Scattering Transform</em>, SIAM, 1981.</p>
+<p>[2] L. N. Trefethen and K. Embree, editors, article on "The KdV equation", <em>The (Unfinished) PDE Coffee Table Book</em>, <code>https://people.maths.ox.ac.uk/trefethen/pdectb.html</code>.</p>
+<p>[3] G. Whitham, <em>Linear and Nonlinear Waves</em>, Wiley, 1974.</p></div>
         </div>
     </div>
 </div>
