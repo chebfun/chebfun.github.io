@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gray-Scott equations in 2D &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Gray-Scott equations in 2D</h1>
+<h2>Nick Trefethen, April 2016<span><a href='/examples/pde/GrayScott.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/pde/GrayScott.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-rolls">1. Rolls</h3>
+<p>The Gray-Scott equations are a pair of coupled reaction-diffusion equations that lead to interesting patterns [1,2]. Let us look at two examples in 2D.</p>
+<p>The equations are $$ u_t = \varepsilon_1\Delta u + b(1-u) - uv^2, \quad v_t = \varepsilon_2\Delta v - dv + uv^2, $$ where $\Delta$ is the Laplacian and $\varepsilon_1, \varepsilon_2,b,d$ are parameters. To begin with we choose these values.</p>
+<pre class="mcode-input">ep1 = 0.00002; ep2 = 0.00001;
+b = 0.04; d = 0.1;</pre>
+
+<p>We now solve up to $t=3500$ with <code>spin2</code> and plot the $v$ variable. What beautiful, random-seeming "rolls" appear!</p>
+<pre class="mcode-input">dom = [-1 1 -1 1]; x = chebfun('x',dom(1:2)); tspan = [0 3500];
+S = spinop2(dom,tspan);
+S.linearPart = @(u,v) [ep1*lap(u); ep2*lap(v)];
+S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
+S.init = chebfun2v(@(x,y) 1-exp(-80*((x+.05).^2+(y+.02).^2)), ...
+                   @(x,y) exp(-80*((x-.05).^2+(y-.02).^2)),dom);
+pause off
+tic, u = spin2(S,spinpref2('N',200,'dt',2,'plot','off'));
+plot(u{2}), view(0,90), axis equal, axis off
+time_in_seconds = toc</pre>
+
+<pre class="mcode-output">time_in_seconds =
+  61.399723999999999
+</pre>
+
+<p><img src="img/GrayScott_01.png" class="figure" alt=""/></p>
+<h3 id="2-spots">2. Spots</h3>
+<p>If we change the values of the parameters just a bit, the nature of the solution changes fundamentally.</p>
+<pre class="mcode-input">b = 0.025; d = 0.085;
+S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
+tic, u = spin2(S,spinpref2('N',200,'dt',2,'plot','off'));
+plot(u{2}), view(0,90), axis equal, axis off
+time_in_seconds = toc</pre>
+
+<pre class="mcode-output">time_in_seconds =
+  62.455948999999997
+</pre>
+
+<p><img src="img/GrayScott_02.png" class="figure" alt=""/></p>
+<h3 id="3-decay">3. Decay</h3>
+<p>Not all choices of parameters lead to interesting pictures. With $b = 0.02$ and $d = 0.08$, for example, the functions converge to constants.</p>
+<h3 id="4-speedups-on-coarser-grids">4. Speedups on coarser grids</h3>
+<p>The initial conditions in the simulations above were chosen with a line of symmetry tilted at a certain angle from the axis.  For a dynamical process so sensitive as this to small perturbations, this provides a challenging test of accuracy: is the symmetry preserved?  If we coarsen the grid to $100\times 100$, we can speed up the computations fourfold and still get plausible looking answers--which indeed can be argued to be in some sense scientifically correct.  They are clearly not mathematically correct, however, as the symmetry is broken.  Here we illustrate this effect with rolls.  Note that the solution looks approximately the same as before, but the details are different and the symmetry has been lost.</p>
+<pre class="mcode-input">b = 0.04; d = 0.1;
+S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
+tic, u = spin2(S,spinpref2('N',100,'dt',2,'plot','off'));
+plot(u{2}), view(0,90), axis equal, axis off
+time_in_seconds = toc</pre>
+
+<pre class="mcode-output">time_in_seconds =
+  16.446773000000000
+</pre>
+
+<p><img src="img/GrayScott_03.png" class="figure" alt=""/></p>
+<p>We get a similar effect with spots:</p>
+<pre class="mcode-input">b = 0.025; d = 0.085;
+S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
+tic, u = spin2(S,spinpref2('N',100,'dt',2,'plot','off'));
+plot(u{2}), view(0,90), axis equal, axis off
+time_in_seconds = toc</pre>
+
+<pre class="mcode-output">time_in_seconds =
+  15.987477000000000
+</pre>
+
+<p><img src="img/GrayScott_04.png" class="figure" alt=""/></p>
+<h3 id="5-references">5. References</h3>
+<p>[1] P. Gray and S. K. Scott, <em>Chemical Oscillations and Instabilities: Non-linear Chemical Kinetics</em>, v. 21 of International Series of Monographs on Chemistry, 1994.</p>
+<p>[2] L. N. Trefethen and K. Embree, editors, article 23 on "The Gray-Scott equations", <em>The (Unfinished) PDE Coffee Table Book</em>, <code>https://people.maths.ox.ac.uk/trefethen/pdectb.html</code>.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
