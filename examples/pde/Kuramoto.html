@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-a-symmetric-solution">1. A symmetric solution</h3>
-<p>The Kuramoto-Sivashinsky equation mixes a nonlinear convective term, fourth-order diffusion, and second-order <em>backward</em> diffusion, $$ u_t = -({1\over 2}u^2)_x - u_{xx} - u_{xxxx} . $$ Its solutions have the remarkable property of being (provably) chaotic. For example, here is a calculation up to $t=100$ on $[-100,100]$ with an initial condition featuring two exponential bumps.  At $t=100$, we see a waveform whose details are essentially random though the general picture is dominated by oscillations with a wavelength of about $9$.</p>
+<p>The Kuramoto-Sivashinsky equation mixes a nonlinear convective term, fourth-order diffusion, and second-order <em>backward</em> diffusion, $$ u_t = -({1\over 2}u^2)_x - u_{xx} - u_{xxxx}. $$ Its solutions have the remarkable property of being (provably) chaotic. For example, here is a calculation up to $t=100$ on $[-100,100]$ with an initial condition featuring two exponential bumps.  At $t=100$, we see a waveform whose details are essentially random though the general picture is dominated by oscillations with a wavelength of about $9$.</p>
 <pre class="mcode-input">tic, dom = [-100 100]; x = chebfun('x',dom); tspan = [0 100 200];
 S = spinop(dom,tspan);
 S.linearPart = @(u) - diff(u,2) - diff(u,4);
@@ -98,12 +98,12 @@ text(42,3.4,'t=0 and t=200',FS,12)</pre>
 <pre class="mcode-input">time_elapsed_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_elapsed_in_seconds =
-   3.759806000000000
+   3.793621000000000
 </pre>
 
 <p>One can get a qualitatively correct picture faster, with coarse gridding in both time and space, but we chose large $N$ and small $dt$ so that the wave forms would be truly correct at $t=200$.</p>
 <h3 id="3-references">3. References</h3>
-<p>[1] <em>PDE Coffee Table Book</em>.</p></div>
+<p>[1] L. N. Trefethen and K. Embree, editors, article on "The Kuramoto-Sivashinsky equation", <em>The (Unfinished) PDE Coffee Table Book</em>, <code>https://people.maths.ox.ac.uk/trefethen/pdectb.html</code>.</p></div>
         </div>
     </div>
 </div>

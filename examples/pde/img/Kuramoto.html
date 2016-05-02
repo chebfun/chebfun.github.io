@@ -9,7 +9,7 @@ meta: "(Chebfun Example pde/Kuramoto.m) [Tags: #Kuramoto-Sivashinsky, #spin]"
 
 ## 1. A symmetric solution
 
-The Kuramoto-Sivashinsky equation mixes a nonlinear convective term, fourth-order diffusion, and second-order _backward_ diffusion, $$ u_t = -({1\over 2}u^2)_x - u_{xx} - u_{xxxx} . $$ Its solutions have the remarkable property of being (provably) chaotic. For example, here is a calculation up to $t=100$ on $[-100,100]$ with an initial condition featuring two exponential bumps.  At $t=100$, we see a waveform whose details are essentially random though the general picture is dominated by oscillations with a wavelength of about $9$.
+The Kuramoto-Sivashinsky equation mixes a nonlinear convective term, fourth-order diffusion, and second-order _backward_ diffusion, $$ u_t = -({1\over 2}u^2)_x - u_{xx} - u_{xxxx}. $$ Its solutions have the remarkable property of being (provably) chaotic. For example, here is a calculation up to $t=100$ on $[-100,100]$ with an initial condition featuring two exponential bumps.  At $t=100$, we see a waveform whose details are essentially random though the general picture is dominated by oscillations with a wavelength of about $9$.
 
 <pre class="mcode-input">tic, dom = [-100 100]; x = chebfun('x',dom); tspan = [0 100 200];
 S = spinop(dom,tspan);
@@ -48,12 +48,12 @@ text(42,3.4,'t=0 and t=200',FS,12)</pre><img src="img/Kuramoto_04.png" class="fi
 Here is the total time for this example:
 
 <pre class="mcode-input">time_elapsed_in_seconds = toc</pre><pre class="mcode-output">time_elapsed_in_seconds =
-   3.759806000000000
+   3.793621000000000
 </pre>One can get a qualitatively correct picture faster, with coarse gridding in both time and space, but we chose large $N$ and small $dt$ so that the wave forms would be truly correct at $t=200$.
 
 
 
 ## 3. References
 
-[1] _PDE Coffee Table Book_.
+[1] L. N. Trefethen and K. Embree, editors, article on "The Kuramoto-Sivashinsky equation", _The (Unfinished) PDE Coffee Table Book_, `https://people.maths.ox.ac.uk/trefethen/pdectb.html`.
 
