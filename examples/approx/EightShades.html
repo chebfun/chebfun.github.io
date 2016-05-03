@@ -68,10 +68,10 @@
 <p>And if you like it's not just eight or ten shades but sixteen or twenty! -- because for clarity, we begin by describing the better-known and better-developed polynomial special cases, i.e., type $(m,n)$ rational approximations with $n=0$.</p>
 <h3 id="2-polynomial-approximation">2. Polynomial approximation</h3>
 <p>If $f$ is a continuous function on $[-1,1]$, four interesting methods of approximation of $f$ by a degree $m$ polynomial are as follows.  These approximants can all be computed in Chebfun, and the mathematics is presented in <em>Approximation Theory and Approximation Practice</em> (ATAP) [1].</p>
-<p>_P1. Chebyshev interpolation_  (<code>chebfun</code> with <code>m+1</code> specified, <em>ATAP</em> chap 4)</p>
-<p>_P2. Chebyshev projection_ (<code>chebfun</code> with <code>'trunc'</code> option, <em>ATAP</em> chap 4)</p>
-<p>_P3. Minimax approximation_ (<code>remez</code>, <em>ATAP</em> chap 10)</p>
-<p>_P4. CF approximation_ (<code>cf</code>, <em>ATAP</em> chap 20)</p>
+<p><em>P1. Chebyshev interpolation</em>  (<code>chebfun</code> with <code>m+1</code> specified, <em>ATAP</em> chap 4)</p>
+<p><em>P2. Chebyshev projection</em> (<code>chebfun</code> with <code>'trunc'</code> option, <em>ATAP</em> chap 4)</p>
+<p><em>P3. Minimax approximation</em> (<code>remez</code>, <em>ATAP</em> chap 10)</p>
+<p><em>P4. CF approximation</em> (<code>cf</code>, <em>ATAP</em> chap 20)</p>
 <p>For example, here are degree 8 approximations of these kinds to $f(x) = \exp(-50(x-0.1)^2)$.</p>
 <pre class="mcode-input">f = chebfun(@(x) exp(-50*(x-.1).^2),'trig'); m = 8;
 FS = 'FontSize';
@@ -93,16 +93,16 @@ plot(f,'k',p4,'r'), ylim(yl), text(-.93,.9,'CF',FS,10)</pre>
 </pre>
 
 <p>Methods P1 and P2 represent two ends of a spectrum.  In between, there is a method we could label P1.5:</p>
-<p>_P1.5. Chebyshev least-squares_  (<code>ratinterp</code>, <em>ATAP</em> chap 26)</p>
+<p><em>P1.5. Chebyshev least-squares</em>  (<code>ratinterp</code>, <em>ATAP</em> chap 26)</p>
 <p>The idea here is to determine a polynomial $p$ of the specified degree $m$ that is the least-squares approximation to $f$ on the $K$-point Chebyshev grid, where $K$ satisfies $m+1 \le K &lt; \infty$.  For $K=m+1$, this is the same as Chebyshev interpolation, and in the limit $K \to \infty$ the discrete least-squares problem becoming a continuous least-squares problem with the Chebyshev weight, i.e., Chebyshev projection.  Chebfun has no special code for computing Chebyshev least-squares approximation polynomials; the code <code>ratinterp</code> and the <em>ATAP</em> chapter cited above both apply more generally to the rational case.</p>
 <h3 id="3-trigonometric-polynomial-approximation">3. Trigonometric polynomial approximation</h3>
 <p>The four methods of polynomial approximation have trigonometric analogues for periodic functions.  Our favorite starting reference on this material is [2].  At present, Chebfun has a <code>trigremez</code> command for trigonometric minimax approximation, but not yet a <code>trigcf</code> command.  A <code>triginterp</code> command for the least-squares case is under development but not yet in the development or master branches of Chebfun.</p>
-<p>_TP1. Trigonometric interpolation_ (<code>chebfun</code> with <code>'trig'</code> specified, [2])</p>
-<p>_TP2. Trigonometric projection_ (<code>chebfun</code> with <code>'trunc'</code> and <code>'trig'</code>, [2])</p>
-<p>_TP3. Minimax trigonometric approximation_ (<code>trigremez</code>)</p>
-<p>_TP4. Fourier-CF approximation_ (<code>trigcf</code>, not yet available)</p>
+<p><em>TP1. Trigonometric interpolation</em> (<code>chebfun</code> with <code>'trig'</code> specified, [2])</p>
+<p><em>TP2. Trigonometric projection</em> (<code>chebfun</code> with <code>'trunc'</code> and <code>'trig'</code>, [2])</p>
+<p><em>TP3. Minimax trigonometric approximation</em> (<code>trigremez</code>)</p>
+<p><em>TP4. Fourier-CF approximation</em> (<code>trigcf</code>, not yet available)</p>
 <p>Again, TP1 and TP2 represent two ends of a spectrum:</p>
-<p>_TP1.5. Trigonometric least-squares_ (<code>triginterp</code>, in a branch)</p>
+<p><em>TP1.5. Trigonometric least-squares</em> (<code>triginterp</code>, in a branch)</p>
 <pre class="mcode-input">clf
 t1 = chebfun(f,m+1,'trig'); subplot(2,2,1)
 plot(f,'k',t1,'b'), ylim(yl), text(-.93,.9,'interpolation',FS,10)
@@ -122,12 +122,12 @@ set(gca,'xtick',[],'ytick',[])</pre>
 <p><img src="img/EightShades_02.png" class="figure" alt=""/></p>
 <h3 id="4-rational-approximation">4. Rational approximation</h3>
 <p>Discussion to be added here.</p>
-<p>_R1. Rational interpolation_ (<code>ratinterp</code>, chap 27 of <em>ATAP</em>)</p>
-<p>_R2. Chebyshev-Pade approximation_ (<code>chebpade</code>)</p>
-<p>_R3. Minimax rational approximation_ (<code>remez</code>, chap 24 of <em>ATAP</em>)</p>
-<p>_R4. CF rational approximation_  (<code>cf</code>, chap 20 of <em>ATAP</em>)</p>
+<p><em>R1. Rational interpolation</em> (<code>ratinterp</code>, chap 27 of <em>ATAP</em>)</p>
+<p><em>R2. Chebyshev-Pade approximation</em> (<code>chebpade</code>)</p>
+<p><em>R3. Minimax rational approximation</em> (<code>remez</code>, chap 24 of <em>ATAP</em>)</p>
+<p><em>R4. CF rational approximation</em>  (<code>cf</code>, chap 20 of <em>ATAP</em>)</p>
 <p>and</p>
-<p>_R1.5. Rational least-squares_ (<code>ratinterp</code>, chap 27 of <em>ATAP</em>)</p>
+<p><em>R1.5. Rational least-squares</em> (<code>ratinterp</code>, chap 27 of <em>ATAP</em>)</p>
 <pre class="mcode-input">clf
 m = 3; n = 3;
 [p,q] = ratinterp(f,m,n); r1 = p./q; subplot(2,2,1), yl = [-.5 1.2];
@@ -146,12 +146,12 @@ plot(f,'k',r4,'r'), ylim(yl), text(-.93,.9,'CF',FS,10)</pre>
 <p><img src="img/EightShades_03.png" class="figure" alt=""/></p>
 <h3 id="5-trigonometric-rational-approximation">5. Trigonometric rational approximation</h3>
 <p>Discussion to be added here.</p>
-<p>_TR1. Trigonometric rational interpolation_ (<code>triginterp</code>, in a branch)</p>
-<p>_TR2. Fourier-Pade approximation_ (<code>trigpade</code>, in a branch)</p>
-<p>_TR3. Minimax trigonometric rational approx_ (<code>trigremez</code>, not yet available)</p>
-<p>_TR4. Fourier-CF rational approximation_  (<code>trigcf</code>, not yet available)</p>
+<p><em>TR1. Trigonometric rational interpolation</em> (<code>triginterp</code>, in a branch)</p>
+<p><em>TR2. Fourier-Pade approximation</em> (<code>trigpade</code>, in a branch)</p>
+<p><em>TR3. Minimax trigonometric rational approx</em> (<code>trigremez</code>, not yet available)</p>
+<p><em>TR4. Fourier-CF rational approximation</em>  (<code>trigcf</code>, not yet available)</p>
 <p>and</p>
-<p>_TR1.5. Trigonometric rational least-squares_  (<code>triginterp</code>, in a branch)</p>
+<p><em>TR1.5. Trigonometric rational least-squares</em>  (<code>triginterp</code>, in a branch)</p>
 <pre class="mcode-input">clf
 subplot(2,2,1)
 text(-.93,.9,'interpolation',FS,10)

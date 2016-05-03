@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <p>In the theory of ODEs, there is a basic theorem of existence and uniqueness that is the foundation for everything (see, e.g., [1]).</p>
-<p><em>Theorem.</em> <em>If $f$ is continuous with respect to $t$ and Lipschitz continuous with respect to $u$, the first-order IVP</em> $$ u'= f(t,u), \quad t\in [0,d], ~~ \quad u(0) = u_0 $$ _has a unique solution._</p>
+<p><em>Theorem.</em> <em>If $f$ is continuous with respect to $t$ and Lipschitz continuous with respect to $u$, the first-order IVP</em> $$ u'= f(t,u), \quad t\in [0,d], ~~ \quad u(0) = u_0 $$ <em>has a unique solution.</em></p>
 <p>This theorem applies to systems as well as scalars, and since a higher-order equation can be written as a system of first-order equations, it covers higher-order ODEs too.</p>
 <p>The standard proof of the theorem is based on Picard (= Picard-Lindelof) iteration, and it can be illustrated in Chebfun using the <code>cumsum</code> command.  The proof is based on noting that the ODE is equivalent to $$ u(t) = u_0 + \int_0^t f(s,u(s)) ds . $$ In the Picard iteration, we successively consider</p>
 <p>$$ u^{(0)} = u_0, ~~~
