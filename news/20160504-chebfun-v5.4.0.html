@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Past versions &raquo; Chebfun</title>
+    <title>Release notes for v5.4.0 &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,34 +54,36 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-        <h1><a href='/download/index.html'>Download</a><span class='sep'>&raquo;</span>Past versions</h1></div>
+<h1><a href='/news/index.html'>News</a><span class='sep'>&raquo;</span>Release notes for v5.4.0</h1>
+<h2> 4 May 2016</h2>
+</div>
 
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<h3 id="past-versions">Past versions</h3>
-<p>All versions are compatible with MATLAB 7.4 (R2007a) through 7.12 (R2010b) and are freely available subject to <a href="https://raw.githubusercontent.com/chebfun/chebfun/master/LICENSE.txt">our license</a>.</p>
+<p>The Chebfun team is pleased to announce the release of Chebfun v5.4.0.
+This version comes with two major new features:</p>
 <ul>
-<li><strong>Chebfun Version 5.3.0</strong> (November 2015): <a href="https://github.com/chebfun/chebfun/archive/v5.3.0.zip">via GitHub</a></li>
-<li><strong>Chebfun Version 5.2.1</strong> (September 2015): <a href="https://github.com/chebfun/chebfun/archive/v5.2.1.zip">via GitHub</a></li>
-<li><strong>Chebfun Version 5.2.0</strong> (June 2015): <a href="https://github.com/chebfun/chebfun/archive/v5.2.0.zip">via GitHub</a></li>
-<li><strong>Chebfun Version 5.1.0</strong> (December 2014): <a href="https://github.com/chebfun/chebfun/archive/v5.1.0.zip">via GitHub</a></li>
-<li><strong>Chebfun Version 5.0.1</strong> (August 2014): <a href="https://github.com/chebfun/chebfun/archive/b852d15228558a4b8378a736138d98ff02036b97.zip">via GitHub</a></li>
-<li><strong>Chebfun Version 5.0.0</strong> (June 2014): <a href="https://github.com/chebfun/chebfun/archive/455ea3f88dfe5a0117fda53cba2a24f0d53f15cb.zip">via GitHub</a></li>
-<li><strong>Chebfun Version 4.3.2987</strong> (November 2013): <a href="chebfun_v4.3.2987.zip">chebfun_v4.3.2987.zip</a></li>
-<li><strong>Chebfun Version 4.2.2889</strong> (March 2012): <a href="chebfun_v4.2.2889.zip">chebfun_v4.2.2889.zip</a></li>
-<li><strong>Chebfun Version 4.1.1864</strong> (September 2011): <a href="chebfun_v4.1.1864.zip">chebfun_v4.1.1864.zip</a></li>
-<li><strong>Chebfun Version 4.0.1678</strong> (April 2011): <a href="chebfun_v4.0.1678.zip">chebfun_v4.0.1678.zip</a></li>
-<li><strong>Chebfun Version 4.0.1666</strong> (March 2011): <a href="chebfun_v4.0.1666.zip">chebfun_v4.0.1666.zip</a></li>
-<li><strong>Chebfun Version 3.1111</strong> (May 2009): <a href="chebfun_v3_1111.zip">chebfun_v3_1111.zip</a></li>
-<li><strong>Chebfun Version 3.1000</strong> (December 2009): <a href="chebfun_v3_1000.zip">chebfun_v3_1000.zip</a></li>
-<li><strong>Chebfun Version 2.0501</strong> (June 2009): <a href="chebfun_v2_0501.zip">chebfun_v2_0501.zip</a></li>
-<li><strong>Chebfun Version 2.0440</strong> (April 2009): <a href="chebfun_v2_0440.zip">chebfun_v2_0440.zip</a></li>
-<li><strong>Chebfun Version 2.0399</strong> (January 2009): <a href="chebfun_v2_0399.zip">chebfun_v2_0399.zip</a></li>
-<li><strong>Chebfun Version 2.0330</strong> (December 2008): <a href="chebfun_v2_0330.zip">chebfun_v2_0330.zip</a></li>
-<li><strong>Chebfun Version 2.0296</strong> (June 2008): <a href="chebfun_v2_0296.zip">chebfun_v2_0296.zip</a></li>
-<li><strong>Chebfun Version 1.0</strong> (2005): <a href="chebfun_v1.zip">chebfun_v1.zip</a></li>
-</ul></div>
+<li>
+<p><strong>SPHEREFUN FOR COMPUTING WITH FUNCTIONS ON THE UNIT SPHERE</strong></p>
+<p>See <a href="../docs/guide/guide17.html">Chapter 17</a> of the Chebfun Guide.  Spherefun was written by
+ Alex Townsend, Heather Wilber, and Grady Wright.</p>
+</li>
+<li>
+<p><strong>SPIN/SPIN2 FOR SOLVING STIFF TIME-DEPENDENT PDES IN 1D/2D</strong></p>
+<p>See <a href="../docs/guide/guide19.html">Chapter 19</a> of the Chebfun Guide and the new <a href="../examples/pde/KdV.html">KdV</a>,
+ <a href="../examples/pde/Kuramoto.html">Kuramoto-Sivashinsky</a>, <a href="../examples/pde/GrayScott.html">Gray-Scott</a>, and complex
+ <a href="../examples/pde/GinzburgLandau.html">Ginzburg-Landau</a> entries in the examples collection.  SPIN and SPIN2
+ were written by Hadrien Montanelli based on the ETDRK4 exponential
+ integrator formula of Cox and Matthews.  To give them a try, it's enough
+ to type e.g. <code>spin('kdv')</code> or <code>spin2('gl2')</code>.</p>
+</li>
+</ul>
+<p>In the coming weeks, we also plan to release CHEBFUN3 for computing with
+functions in three dimensions and SPIN3 for stiff time-dependent PDEs in
+3D.</p>
+<p>We hope you enjoy the new release.  Feel free to post any questions or comments
+to the Chebfun users' group <a href="https://groups.google.com/forum/#!forum/chebfun-users">chebfun-users</a>.</p></div>
         </div>
     </div>
 </div>
