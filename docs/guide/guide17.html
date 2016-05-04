@@ -516,7 +516,7 @@ plot( u )</pre>
 <p><img src="img/guide17_23.png" class="figure" alt=""></p>
 <p>See [Townsend, Wilber, &amp; Wright 2015] for a description of the fast algorithm used for solving Poisson's equation.</p>
 <h3 id="176-filtering">17.6 Filtering</h3>
-<p>Low-pass isotropic filtering for functions on the sphere can be performed using the command <code>smooth</code>.  For example, consider the spherefun constructed from random data on the sphere, given on a $101$-by-$200$ equally spaced grid of points in spherical coordinates</p>
+<p>Low-pass isotropic filtering for functions on the sphere can be performed using the command <code>gaussfilt</code>. For example, consider the spherefun constructed from random data on the sphere, given on a $101$-by-$200$ equally spaced grid of points in spherical coordinates</p>
 <pre class="mcode-input">rng(71)
 F = randn(101,200); F(1,:) = mean(F(1,:)); F(101,:) = mean(F(101,:));
 f = spherefun(F);
@@ -528,7 +528,7 @@ plot(f), colorbar</pre>
 plot(ff), colorbar</pre>
 
 <p><img src="img/guide17_25.png" class="figure" alt=""></p>
-<p>Mathematically, the <code>smooth</code> command amounts to convolving <code>f</code> with a Gaussian kernel.  This is implemented by numerically solving the diffusion equation on the sphere with <code>f</code> as the initial condition. The second input argument of <code>smooth</code> is an optional parameter $\sigma$ that determines the length scale (as measured in radians at the equator of the unit sphere) at which the smoothing occurs.  In the above example, this is set to $10\pi/180$, which corresponds to smoothing at a scale of 10 degrees.</p>
+<p>Mathematically, the <code>gaussfilt</code> command amounts to convolving <code>f</code> with a Gaussian kernel.  This is implemented by numerically solving the diffusion equation on the sphere with <code>f</code> as the initial condition. The second input argument of <code>gaussfilt</code> is an optional parameter $\sigma$ that determines the length scale (as measured in radians at the equator of the unit sphere) at which the smoothing occurs.  In the above example, this is set to $10\pi/180$, which corresponds to smoothing at a scale of 10 degrees.</p>
 <h3 id="177-vector-valued-functions-spherefunv">17.7 Vector-valued functions: Spherefunv</h3>
 <p>Vector valued functions on the sphere and <em>surface</em> vector calculus operations are supported through Spherefunv.  For example, the surface gradient of a spherefun returns a spherefunv object:</p>
 <pre class="mcode-input">f = spherefun.sphharm(6,0) + sqrt(14/11)*spherefun.sphharm(6,5);

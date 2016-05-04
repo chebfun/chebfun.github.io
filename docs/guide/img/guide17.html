@@ -483,7 +483,7 @@ See [Townsend, Wilber, &amp; Wright 2015] for a description of the fast algorith
 
 ## 17.6 Filtering
 
-Low-pass isotropic filtering for functions on the sphere can be performed using the command `smooth`.  For example, consider the spherefun constructed from random data on the sphere, given on a $101$-by-$200$ equally spaced grid of points in spherical coordinates
+Low-pass isotropic filtering for functions on the sphere can be performed using the command `gaussfilt`. For example, consider the spherefun constructed from random data on the sphere, given on a $101$-by-$200$ equally spaced grid of points in spherical coordinates
 
 <pre class="mcode-input">rng(71)
 F = randn(101,200); F(1,:) = mean(F(1,:)); F(101,:) = mean(F(101,:));
@@ -495,7 +495,7 @@ We can smooth `f` as follows:
 <pre class="mcode-input">ff = gaussfilt(f, 180*pi/180);
 plot(ff), colorbar</pre><img src="img/guide17_25.png" class="figure" alt="">
 
-Mathematically, the `smooth` command amounts to convolving `f` with a Gaussian kernel.  This is implemented by numerically solving the diffusion equation on the sphere with `f` as the initial condition. The second input argument of `smooth` is an optional parameter $\sigma$ that determines the length scale (as measured in radians at the equator of the unit sphere) at which the smoothing occurs.  In the above example, this is set to $10\pi/180$, which corresponds to smoothing at a scale of 10 degrees.
+Mathematically, the `gaussfilt` command amounts to convolving `f` with a Gaussian kernel.  This is implemented by numerically solving the diffusion equation on the sphere with `f` as the initial condition. The second input argument of `gaussfilt` is an optional parameter $\sigma$ that determines the length scale (as measured in radians at the equator of the unit sphere) at which the smoothing occurs.  In the above example, this is set to $10\pi/180$, which corresponds to smoothing at a scale of 10 degrees.
 
 
 
