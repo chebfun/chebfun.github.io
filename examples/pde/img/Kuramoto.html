@@ -9,7 +9,7 @@ meta: "(Chebfun Example pde/Kuramoto.m) [Tags: #Kuramoto-Sivashinsky, #spin]"
 
 ## 1. A symmetric solution
 
-The Kuramoto-Sivashinsky equation mixes a nonlinear convective term, fourth-order diffusion, and second-order _backward_ diffusion, $$ u_t = -({1\over 2}u^2)_x - u_{xx} - u_{xxxx}. $$ Its solutions have the remarkable property of being (provably) chaotic. For example, here is a calculation up to $t=100$ on $[-100,100]$ with an initial condition featuring two exponential bumps.  At $t=100$, we see a waveform whose details are essentially random though the general picture is dominated by oscillations with a wavelength of about $9$.
+The Kuramoto-Sivashinsky equation mixes a nonlinear convective term, fourth-order diffusion, and second-order _backward_ diffusion, $$ u_t = -({1\over 2}u^2)_x - u_{xx} - u_{xxxx}. $$ Its solutions have the remarkable property of being (provably) chaotic. For example, here is a calculation up to $t=100$ on $[-100,100]$ with an initial condition featuring two exponential bumps using `spin` [1].  At $t=100$, we see a waveform whose details are essentially random though the general picture is dominated by oscillations with a wavelength of about $9$.
 
 <pre class="mcode-input">tic, dom = [-100 100]; x = chebfun('x',dom); tspan = [0 100 200];
 S = spinop(dom,tspan);
@@ -17,7 +17,7 @@ S.linearPart = @(u) - diff(u,2) - diff(u,4);
 S.nonlinearPart = @(u) -.5*diff(u.^2); % spin cannot parse "u.*diff(u)"
 S.init = exp(-((x+50)/10).^2) + exp(-((x-50)/10).^2);
 pause off
-tic, u = spin(S,spinpref('plot','off','N',800,'dt',.025)); t = toc;
+tic, u = spin(S,'plot','off','N',800,'dt',.025); t = toc;
 plot(S.init), hold on, plot(u{2}), ylim([-4 4]), hold off
 FS = 'fontsize'; text(42,3.4,'t=0 and t=100',FS,12)</pre><img src="img/Kuramoto_01.png" class="figure" alt=""/>
 
@@ -26,7 +26,7 @@ At time $t=200$ it looks like this, different in detail, but qualitatively the s
 <pre class="mcode-input">plot(S.init), hold on, plot(u{3}), ylim([-4 4]), hold off
 text(42,3.4,'t=0 and t=200',FS,12)</pre><img src="img/Kuramoto_02.png" class="figure" alt=""/>
 
-By looking at the dispersion relation for the linear part of the equation, one can explain why the characteristic wavelength is about 9 [1]. In fact, the wave number $k$ most amplified by the linear terms in the equation is $k = 1/\sqrt 2$, which corresponds to a wavelength of $2\sqrt 2 \pi \approx 8.89$.
+By looking at the dispersion relation for the linear part of the equation, one can explain why the characteristic wavelength is about 9 [2]. In fact, the wave number $k$ most amplified by the linear terms in the equation is $k = 1/\sqrt 2$, which corresponds to a wavelength of $2\sqrt 2 \pi \approx 8.89$.
 
 
 
@@ -36,7 +36,7 @@ A hallmark of chaos is sensitive dependence on initial conditions.  To illustrat
 
 <pre class="mcode-input">S.init = exp(-((x+50)/10).^2) + exp(-((x-49.9)/10).^2);
 pause off
-tic, u = spin(S,spinpref('plot','off','N',800,'dt',.05)); t = toc;
+tic, u = spin(S,'plot','off','N',800,'dt',.05); t = toc;
 plot(S.init), hold on, plot(u{2}), ylim([-4 4]), hold off
 text(42,3.4,'t=0 and t=100',FS,12)</pre><img src="img/Kuramoto_03.png" class="figure" alt=""/>
 
@@ -48,12 +48,14 @@ text(42,3.4,'t=0 and t=200',FS,12)</pre><img src="img/Kuramoto_04.png" class="fi
 Here is the total time for this example:
 
 <pre class="mcode-input">time_elapsed_in_seconds = toc</pre><pre class="mcode-output">time_elapsed_in_seconds =
-   3.793621000000000
+   3.470795000000000
 </pre>One can get a qualitatively correct picture faster, with coarse gridding in both time and space, but we chose large $N$ and small $dt$ so that the wave forms would be truly correct at $t=200$.
 
 
 
 ## 3. References
 
-[1] L. N. Trefethen and K. Embree, editors, article on "The Kuramoto-Sivashinsky equation", _The (Unfinished) PDE Coffee Table Book_, `https://people.maths.ox.ac.uk/trefethen/pdectb.html`.
+[1] H. Montanelli and N. Bootland, Solving stiff PDEs in 1D, 2D and 3D with exponential integrators, submitted, 2016.
+
+[2] L. N. Trefethen and K. Embree, editors, article on "The Kuramoto-Sivashinsky equation", _The (Unfinished) PDE Coffee Table Book_, `https://people.maths.ox.ac.uk/trefethen/pdectb.html`.
 

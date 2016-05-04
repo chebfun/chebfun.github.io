@@ -6,7 +6,7 @@
 % [Tags: #KdV , #spin]
 
 %% 1. Soliton solutions
-% Chebfun's `spin` command makes it easy to compute solutions
+% Chebfun's `spin` command [1] makes it easy to compute solutions
 % of the KdV equation,
 % $$ u_t = -0.5(u^2)_x - u_{xxx}. $$
 % For example, let's set to work on $[0,20]$ with
@@ -32,7 +32,7 @@ S.init = 3*A^2*sech(.5*A*(x-3)).^2 + 3*B^2*sech(.5*B*(x-4)).^2;
 % $t=0.0078$, it overtakes the slower one, and around time
 % $t=0.0156$, it is as far ahead at was originally behind.
 pause off
-tic, u = spin(S,spinpref('plot','off')); time_in_seconds = toc;
+tic, u = spin(S,'plot','off'); time_in_seconds = toc;
 plot(S.init), hold on, plot(u), hold off
 text(4.4,1300,'t = 0'), text(13.5,1300,'t = 0.0156')
 
@@ -48,7 +48,7 @@ time_in_seconds
 % For practical work we can often do much better by fixing the grid and the
 % time step.  Here we do this and see that the image
 % looks the same:
-tic, u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+tic, u = spin(S,'plot','off','N',800,'dt',.000005);
 time_in_seconds = toc;
 plot(S.init), hold on, plot(u), hold off
 text(4.4,1300,'t = 0'), text(13.5,1300,'t = 0.0156')
@@ -61,7 +61,7 @@ time_in_seconds
 % Let's look at the propagation of a single soliton, the larger
 % one from the last experiment:
 S.init = 3*A^2*sech(.5*A*(x-3)).^2;
-u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+u = spin(S,'plot','off','N',800,'dt',.000005);
 plot(S.init), hold on, plot(u), hold off
 text(3.4,1300,'t = 0'), text(13.2,1300,'t = 0.0156')
 
@@ -94,7 +94,7 @@ observed_speed = (pos-3)/tmax
 % going much more slowly, plus some low-amplitude information that is
 % not in the form of solitons.
 S.init = 3*A^2*sech(.35*A*(x-3)).^2;
-u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+u = spin(S,'plot','off','N',800,'dt',.000005);
 plot(S.init), hold on, plot(u), hold off
 
 %%
@@ -102,13 +102,13 @@ plot(S.init), hold on, plot(u), hold off
 % of solitons.  Note that a term centered at $x=23$ has been
 % added to make this wider pulse numerically periodic.
 S.init = 3*A^2*( sech(.05*A*(x-3)).^2 + sech(.05*A*(x-23)).^2 );
-u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+u = spin(S,'plot','off','N',800,'dt',.000005);
 plot(S.init), hold on, plot(u), hold off
 
 %%
 % Let's try something a little bit random:
 S.init = 500*(x-12).*exp(-(x-12).^2);
-u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+u = spin(S,'plot','off','N',800,'dt',.000005);
 plot(S.init), hold on, plot(u), hold off
 
 %% 4. Conservation laws
@@ -127,7 +127,7 @@ conserved2(u), conserved2(u0)
 
 %%
 % In fact, as a completely integrable system, the KdV equation
-% has an infinite set of conserved quantities [2,3].  Another
+% has an infinite set of conserved quantities [3,4].  Another
 % one is $u^3/3 - (u_x)^2$:
 conserved3 = @(u) sum(u.^3/3 - diff(u).^2)
 conserved3(u), conserved3(u0)
@@ -142,16 +142,19 @@ conserved4(u), conserved4(u0)
 
 %% 5. References
 % The mathematics of solitons is thoroughly understood.  See
-% for example [1].  For a quick introduction to the KdV equation,
-% see [2].
+% for example [2].  For a quick introduction to the KdV equation,
+% see [3].
 %
-% [1] M. J. Ablowitz and H. Segur, _Solitons and the
+% [1] H. Montanelli and N. Bootland, Solving stiff PDEs
+% in 1D, 2D and 3D with exponential integrators, submitted, 2016.
+%
+% [2] M. J. Ablowitz and H. Segur, _Solitons and the
 % Inverse Scattering Transform_, SIAM, 1981.
 %
-% [2] L. N. Trefethen and K. Embree, editors, article on
+% [3] L. N. Trefethen and K. Embree, editors, article on
 % "The KdV equation",
 % _The (Unfinished) PDE Coffee Table Book_,
 % `https://people.maths.ox.ac.uk/trefethen/pdectb.html`.
 %
-% [3] G. Whitham, _Linear and Nonlinear Waves_, Wiley, 1974.
+% [4] G. Whitham, _Linear and Nonlinear Waves_, Wiley, 1974.
 

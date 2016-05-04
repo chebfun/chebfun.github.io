@@ -77,9 +77,9 @@ class='invisible'>next</a></span></h2>
 <p>Specifically, the Chebfun codes <code>spin</code>/<code>spin2</code>/<code>spin3</code> we shall describe-- which stand for "stiff PDE integrator"--are based on the numerical methods known as <em>exponential integrators</em>. As we shall describe, these are very general codes that can employ an arbitrary solver in this class; by default, they use the fourth-order stiff time-stepper known as ETDRK4, devised by Cox and Matthews [4]. They can also handle entirely general problems of the form (1), but again convenient defaults are in place, an in particular, one can quickly solve well-known problems by specifying (case-insensitive) flags such as <code>burg</code>, <code>kdv</code> and <code>ks</code>.</p>
 <p>As we shall describe, <code>spin</code>/<code>spin2</code>/<code>spin3</code> take as inputs an initial function in the form of a <code>chebfun</code>, <code>chebfun2</code>, or <code>chebfun3</code> (with appropriate generalizations for systems, i.e., <code>chebmatrix</code> objects), compute over a specified time interval, and output another <code>chebfun</code>, <code>chebfun2</code> or <code>chebfun3</code> corresponding to the final time (and also intermediate times if requested). By default they show movies of the computation as it goes.</p>
 <h3 id="192-computations-in-1d-with-spin">19.2 Computations in 1D with <code>spin</code></h3>
-<p>The simplest way to see <code>spin</code> in action is to type simply <code>spin('ks')</code> or <code>spin('kdv')</code> or another similar string to invoke an example computation involving a preloaded initial condition and time interval. (Other choices include <code>ac</code>, <code>burg</code>, <code>bz</code>, <code>ch</code>, <code>gs</code>, <code>niko</code>, and <code>nls</code>.) In interactive computing, this is all you need. <code>spin</code> will plot the initial condition and then pause, waiting for user input to start the time-integration, and then plot a movie of the solution. Here in a chapter of the guide, we override this behavior with <code>pause off</code> and a <code>spinpref</code> object with <code>plot off</code>. (See section 19.4 to learn how to manage preferences with <code>spinpref</code>.) Here we solve the KdV (Korteweg-de Vries equation) $u_t = -uu_x - u_{xxx}$:</p>
+<p>The simplest way to see <code>spin</code> in action is to type simply <code>spin('ks')</code> or <code>spin('kdv')</code> or another similar string to invoke an example computation involving a preloaded initial condition and time interval. (Other choices include <code>ac</code>, <code>burg</code>, <code>bz</code>, <code>ch</code>, <code>gs</code>, <code>niko</code>, and <code>nls</code>.) In interactive computing, this is all you need. <code>spin</code> will plot the initial condition and then pause, waiting for user input to start the time-integration, and then plot a movie of the solution. Here in a chapter of the guide, we override this behavior with <code>pause off</code> and <code>plot off</code>. (See section 19.4 to learn how to manage preferences.) Here we solve the KdV (Korteweg-de Vries equation) $u_t = -uu_x - u_{xxx}$:</p>
 <pre class="mcode-input">pause off
-u = spin('kdv', spinpref('plot', 'off'));</pre>
+u = spin('kdv', 'plot', 'off');</pre>
 
 <p>The output <code>u</code> is a <code>chebfun</code> at the final time:</p>
 <pre class="mcode-input">figure, plot(u, 'linewidth', 2)</pre>
@@ -100,23 +100,23 @@ u = spin('kdv', spinpref('plot', 'off'));</pre>
 </pre>
 
 <p>(To find what initial condition ws used, type <code>help spin</code>.) As a second example of a stiff PDE in 1D, here is the Allen-Cahn equation $u_t = 0.005u_{xx} + u - u^3$:</p>
-<pre class="mcode-input">u = spin('ac', spinpref('plot', 'off'));
+<pre class="mcode-input">u = spin('ac', 'plot', 'off');
 figure, plot(u, 'linewidth', 2)</pre>
 
 <p><img src="img/guide19_02.png" class="figure" alt=""></p>
 <p>The computation we just performed was on the time interval $[0,500]$. If we had wanted the interval $[0,100]$, we could have specified it like this:</p>
-<pre class="mcode-input">u = spin('ac', [0 100], spinpref('plot', 'off'));
+<pre class="mcode-input">u = spin('ac', [0 100], 'plot', 'off');
 figure, plot(u, 'linewidth', 2)</pre>
 
 <p><img src="img/guide19_03.png" class="figure" alt=""></p>
 <p>To specify a different initial condition, you can provide a chebfun as another argument. For example, here we use a simpler initial condition:</p>
 <pre class="mcode-input">u0 = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig');
-u = spin('ac', [0 100], u0, spinpref('plot', 'off'));
+u = spin('ac', [0 100], u0, 'plot', 'off');
 figure, plot(u, 'linewidth', 2)</pre>
 
 <p><img src="img/guide19_04.png" class="figure" alt=""></p>
 <p>Suppose we want Chebfun output at times $0,1,\dots, 30$. We could do this:</p>
-<pre class="mcode-input">U = spin('ac',0:1:30, u0, spinpref('plot', 'off'));</pre>
+<pre class="mcode-input">U = spin('ac', 0:1:30, u0, 'plot', 'off');</pre>
 
 <p>The output <code>U</code> from this command is a chebmatrix. Here for example is the initial condition and its plot:</p>
 <pre class="mcode-input">U{1}, plot(U{1}, 'linewidth', 2)</pre>
@@ -146,7 +146,7 @@ S.init = chebfun(@(x) cos(x), dom);</pre>
 <p>For example, here are the Ginzburg-Landau equations:</p>
 <p>$$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2, $$</p>
 <p>The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to time $t=100$. Here are stills at times $0,10,20,30$:</p>
-<pre class="mcode-input">U = spin2('gl2',0:10:30,spinpref2('plot', 'off'));
+<pre class="mcode-input">U = spin2('gl2', 0:10:30, 'plot', 'off');
 clf reset
 for k = 1:4
    plot(real(U{k})), view(0,90), snapnow
@@ -160,7 +160,18 @@ end</pre>
 <h3 id="194-using-different-exponential-integrators-and-managing-preferences-with-spinpref">19.4 Using different exponential integrators and managing preferences with <code>spinpref</code></h3>
 <p>The <code>spin</code>/<code>spin2</code>/<code>spin3</code> codes use the classes <code>spinpref</code>, <code>spinpref2</code> and <code>spinpref3</code> to manage preferences, including the choice of the exponential integrator for the time-stepping, the value of the time-step, the number of grid points and various other options. See <code>help spinpref</code>/<code>spinpref2</code>/ <code>spinpref3</code> for complete lists of preferences.</p>
 <p>For example, to solve the Kuramoto-Sivashinsky (KS) equation using the EXPRK5S8 scheme of Luan and Ostermann [9], one can type:</p>
-<pre class="mcode-input">u = spin('ks', spinpref('scheme', 'exprk5s8', 'plot', 'off'))</pre>
+<pre class="mcode-input">pref = spinpref('scheme', 'exprk5s8', 'plot', 'off');
+u = spin('ks', pref)</pre>
+
+<pre class="mcode-output">u =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values trig
+[       0,   1e+02]      255       1.8      1.8 
+vertical scale =   3 
+</pre>
+
+<p>Alternatively, one can type:</p>
+<pre class="mcode-input">u = spin('ks','scheme', 'exprk5s8', 'plot', 'off')</pre>
 
 <pre class="mcode-output">u =
    chebfun column (1 smooth piece)
@@ -170,13 +181,34 @@ vertical scale =   3
 </pre>
 
 <p>For a complete list of available schemes, type <code>help spinscheme</code>. By default, <code>spin</code> automatically chooses a time-step $dt$ and a number of grid points $N$ to reach an accuracy of $10^{-6}$. If one wants to use specific values for $dt$ and $N$, say $dt=5e-2$ and $N=300$, one can type:</p>
-<pre class="mcode-input">u = spin('ks', spinpref('dt', 5e-2, 'N', 300, 'plot', 'off'))</pre>
+<pre class="mcode-input">u = spin('ks', 'dt', 5e-2, 'N', 300, 'plot', 'off')</pre>
 
 <pre class="mcode-output">u =
    chebfun column (1 smooth piece)
        interval       length     endpoint values trig
 [       0,   1e+02]      301       1.7      1.7 
 vertical scale = 2.6 
+</pre>
+
+<p>Preferences in 2D and 3D use <code>spinpref2</code> and <code>spinpref3</code>, e.g.,</p>
+<pre class="mcode-input">pref = spinpref2('plot', 'off', 'N', 100);
+u = spin2('gl2', pref)</pre>
+
+<pre class="mcode-output">u =
+   chebfun2 object
+       domain                 rank       corner values
+[   0,1e+02] x [   0,1e+02]      100     [  complex values  ]
+vertical scale = 0.99 
+</pre>
+
+<p>or simply</p>
+<pre class="mcode-input">u = spin2('gl2', 'plot', 'off', 'N', 100)</pre>
+
+<pre class="mcode-output">u =
+   chebfun2 object
+       domain                 rank       corner values
+[   0,1e+02] x [   0,1e+02]      100     [  complex values  ]
+vertical scale =   1 
 </pre>
 
 <h3 id="195-a-quick-note-on-history">19.5 A quick note on history</h3>
@@ -195,7 +227,7 @@ vertical scale = 2.6
 <p>[8] A.-K. Kassam and L. N. Trefethen, <em>Fourth-order time-stepping for stiff     PDEs</em>, SIAM J. Sci. Comp., 26 (2005), pp. 1214--1233.</p>
 <p>[9] V. T. Luan and A. Ostermann, <em>Explicit exponential Runge-Kutta methods of     high order for parabolic problems</em>, J. Comput. Appl. Math., 256 (2014),     pp. 168-179.</p>
 <p>[10] B.V. Minchev and W. M. Wright, <em>A review of exponential integrators for      first order semi-linear problems</em>, Tech. Rep. 2/2005, Norwegian      University of Science and Technology, 2005.</p>
-<p>[11] H. Montanelli and N. J. Bootland, <em>Solving stiff PDEs in 1D, 2D and 3D      with exponential integrators</em>, manuscript, April 2016.</p>
+<p>[11] H. Montanelli and N. J. Bootland, <em>Solving stiff PDEs in 1D, 2D and 3D      with exponential integrators</em>, submitted, 2016.</p>
 <p>[12] A. M. Turing, <em>The chemical basis of morphogenesis</em>, Phil. Trans.      Roy. Soc. Lond. B, 237 (1952), pp. 37--72.</p></div>
         </div>
     </div>

@@ -39,19 +39,19 @@ For our first initial condition, suppose we take the complex function $$ u_0(x,y
 <pre class="mcode-input">x = chebfun2(@(x,y) x,dom); y = chebfun2(@(x,y) y,dom);
 u1 = (1i*x+y).*exp(-.03*(x.^2+y.^2)); S.init = u1;
 npts = 80; dt = 4/npts; tic
-u = spin2(S,spinpref2('N',npts,'dt',dt,'plot','off'));
+u = spin2(S,'N',npts,'dt',dt,'plot','off');
 plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_01.png" class="figure" alt=""/>
 
 Here is the analogous experiment with the real initial condition $$ u_0(x,y) = (x+y) \exp(-0.03(x^2+y^2)). $$
 
 <pre class="mcode-input">u2 = (x+y).*exp(-.03*(x.^2+y.^2)); S.init = u2;
-u = spin2(S,spinpref2('N',npts,'dt',dt,'plot','off'));
+u = spin2(S,'N',npts,'dt',dt,'plot','off');
 plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_02.png" class="figure" alt=""/>
 
 Time for the first pair of computations:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-   9.188300000000000
+   5.629085000000000
 </pre>
 
 ## 3. Beginnings of chaos
@@ -63,7 +63,7 @@ S = spinop2(dom,tspan);
 S.linearPart = @(u) lap(u);
 S.nonlinearPart = @(u) u - (1+1.5i)*u.*(abs(u).^2);
 S.init = u1; tic
-u = spin2(S,spinpref2('N',npts,'dt',dt,'plot','off'));
+u = spin2(S,'N',npts,'dt',dt,'plot','off');
 plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_03.png" class="figure" alt=""/>
 
 The picture reveals the remnants of the spiral in the middle but some more complicated behavior in the corners.  Experiments on a finer mesh show that this picture is correct.  The structures have somewhat of a random appearance, but they are not random.
@@ -71,13 +71,13 @@ The picture reveals the remnants of the spiral in the middle but some more compl
 Now we run the second function to $t=48$.  This image is also correct.  Note the preservation of the diagonal line of symmetry.
 
 <pre class="mcode-input">S.init = u2;
-u = spin2(S,spinpref2('N',npts,'dt',dt,'plot','off'));
+u = spin2(S,'N',npts,'dt',dt,'plot','off');
 plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_04.png" class="figure" alt=""/>
 
 Time for this second round of computations:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  11.403877000000000
+   8.402740000000000
 </pre>
 
 ## 4. Chaos
@@ -89,20 +89,20 @@ S = spinop2(dom,tspan);
 S.linearPart = @(u) lap(u);
 S.nonlinearPart = @(u) u - (1+1.5i)*u.*(abs(u).^2);
 S.init = u1;
-tic, u = spin2(S,spinpref2('N',npts,'dt',dt,'plot','off'));
+tic, u = spin2(S,'N',npts,'dt',dt,'plot','off');
 plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_05.png" class="figure" alt=""/>
 
 With the second function, we refine the grid enough to get a plausible picture, but it is not in fact converged. So this image is perhaps physically correct, but not mathematically correct.  Note that the symmetry line has been lost.
 
 <pre class="mcode-input">npts = 128; dt = 4/npts; tic
 S.init = u2;
-u = spin2(S,spinpref2('N',npts,'dt',dt,'plot','off'));
+u = spin2(S,'N',npts,'dt',dt,'plot','off');
 plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_06.png" class="figure" alt=""/>
 
 Time for the third round of computations:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  29.161875999999999
+  18.065356000000001
 </pre>
 
 ## 5. A bigger canvas
@@ -119,7 +119,7 @@ u1 = (1i*(x-8)+(y-2)).*exp(-.03*((x-8).^2+(y-2).^2)) + ...
      ((x+8)-(y+2)).*exp(-.03*((x+8).^2+(y+2).^2));
 S.init = u1;
 npts = 128; dt = 8/npts; tic
-u = spin2(S,spinpref2('N',npts,'dt',dt,'plot','off'));
+u = spin2(S,'N',npts,'dt',dt,'plot','off');
 plot(real(u{2})), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_07.png" class="figure" alt=""/>
 
 And at $t=60$, of questionable accuracy:
@@ -133,7 +133,7 @@ To close a psychedelic note here is a phase portrait, obtained by plotting $u$ r
 Time for the big canvas computation:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  16.515042000000001
+   7.687864000000000
 </pre>
 
 ## 6. References

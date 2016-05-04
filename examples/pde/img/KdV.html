@@ -9,7 +9,7 @@ meta: "(Chebfun Example pde/KdV.m) [Tags: #KdV , #spin]"
 
 ## 1. Soliton solutions
 
-Chebfun's `spin` command makes it easy to compute solutions of the KdV equation, $$ u_t = -0.5(u^2)_x - u_{xxx}. $$ For example, let's set to work on $[0,20]$ with a two-soliton initial condition $$ u_0(x) = 3A^2 \hbox{sech}(.5A(x-1))^2 + 3B^2 \hbox{sech}(.5B(x-2))^2 $$ where the amplitude parameters $A$ and $B$ are quite close to each other, taking values $25$ and $23$. We can set up for the calculation like this:
+Chebfun's `spin` command [1] makes it easy to compute solutions of the KdV equation, $$ u_t = -0.5(u^2)_x - u_{xxx}. $$ For example, let's set to work on $[0,20]$ with a two-soliton initial condition $$ u_0(x) = 3A^2 \hbox{sech}(.5A(x-1))^2 + 3B^2 \hbox{sech}(.5B(x-2))^2 $$ where the amplitude parameters $A$ and $B$ are quite close to each other, taking values $25$ and $23$. We can set up for the calculation like this:
 
 <pre class="mcode-input">A = 25; B = 23;
 dom = [0 20]; x = chebfun('x',dom);
@@ -20,17 +20,17 @@ S.nonlinearPart = @(u) -.5*diff(u.^2); % spin cannot parse "u.*diff(u)"
 S.init = 3*A^2*sech(.5*A*(x-3)).^2 + 3*B^2*sech(.5*B*(x-4)).^2;</pre>Now let's perform the calculation. This initial condition corresponds to a pair of solitons with slightly different amplitudes and different speeds.  As $t$ increases, both pulses move right, with the taller one moving faster.  Around time $t=0.0078$, it overtakes the slower one, and around time $t=0.0156$, it is as far ahead at was originally behind.
 
 <pre class="mcode-input">pause off
-tic, u = spin(S,spinpref('plot','off')); time_in_seconds = toc;
+tic, u = spin(S,'plot','off'); time_in_seconds = toc;
 plot(S.init), hold on, plot(u), hold off
 text(4.4,1300,'t = 0'), text(13.5,1300,'t = 0.0156')</pre><img src="img/KdV_01.png" class="figure" alt=""/>
 
 When `spin` is run is this simple mode without extra arguments, it makes adaptive decisions along the way that may slow it down, especially for equations like this with no diffusion (the KdV) equation is dispersive, not diffusive). The calculation just carried out took quite a while:
 
 <pre class="mcode-input">time_in_seconds</pre><pre class="mcode-output">time_in_seconds =
-  63.842888000000002
+  44.997467999999998
 </pre>For practical work we can often do much better by fixing the grid and the time step.  Here we do this and see that the image looks the same:
 
-<pre class="mcode-input">tic, u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+<pre class="mcode-input">tic, u = spin(S,'plot','off','N',800,'dt',.000005);
 time_in_seconds = toc;
 plot(S.init), hold on, plot(u), hold off
 text(4.4,1300,'t = 0'), text(13.5,1300,'t = 0.0156')</pre><img src="img/KdV_02.png" class="figure" alt=""/>
@@ -38,7 +38,7 @@ text(4.4,1300,'t = 0'), text(13.5,1300,'t = 0.0156')</pre><img src="img/KdV_02.p
 However, the computation is much faster:
 
 <pre class="mcode-input">time_in_seconds</pre><pre class="mcode-output">time_in_seconds =
-   2.487336000000000
+   2.287219000000000
 </pre>
 
 ## 2. Amplitude and speed
@@ -46,7 +46,7 @@ However, the computation is much faster:
 Let's look at the propagation of a single soliton, the larger one from the last experiment:
 
 <pre class="mcode-input">S.init = 3*A^2*sech(.5*A*(x-3)).^2;
-u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+u = spin(S,'plot','off','N',800,'dt',.000005);
 plot(S.init), hold on, plot(u), hold off
 text(3.4,1300,'t = 0'), text(13.2,1300,'t = 0.0156')</pre><img src="img/KdV_03.png" class="figure" alt=""/>
 
@@ -74,19 +74,19 @@ final_amplitude = val</pre><pre class="mcode-output">final_amplitude =
 Soliton solutions are so celebrated that it is easy to forget that they are special.  Let us explore various other possibilities. First of all, what if we make the initial pulse a bit wider, so that it is no longer a soliton? As $t$ increases, the wave now breaks into a big soliton travelling at about the same speed as before and a small one going much more slowly, plus some low-amplitude information that is not in the form of solitons.
 
 <pre class="mcode-input">S.init = 3*A^2*sech(.35*A*(x-3)).^2;
-u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+u = spin(S,'plot','off','N',800,'dt',.000005);
 plot(S.init), hold on, plot(u), hold off</pre><img src="img/KdV_04.png" class="figure" alt=""/>
 
 If we make the pulse still wider, we get a beautiful train of solitons.  Note that a term centered at $x=23$ has been added to make this wider pulse numerically periodic.
 
 <pre class="mcode-input">S.init = 3*A^2*( sech(.05*A*(x-3)).^2 + sech(.05*A*(x-23)).^2 );
-u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+u = spin(S,'plot','off','N',800,'dt',.000005);
 plot(S.init), hold on, plot(u), hold off</pre><img src="img/KdV_05.png" class="figure" alt=""/>
 
 Let's try something a little bit random:
 
 <pre class="mcode-input">S.init = 500*(x-12).*exp(-(x-12).^2);
-u = spin(S,spinpref('plot','off','N',800,'dt',.000005));
+u = spin(S,'plot','off','N',800,'dt',.000005);
 plot(S.init), hold on, plot(u), hold off</pre><img src="img/KdV_06.png" class="figure" alt=""/>
 
 
@@ -102,7 +102,7 @@ conserved1(u), conserved1(u0)</pre><pre class="mcode-output">conserved1 =
 ans =
      3.174349672008248e-13
 ans =
-     3.641531520770513e-13
+     3.575813691433471e-13
 </pre>Another conserved quantity is $u^2$:
 
 <pre class="mcode-input">conserved2 = @(u) sum(u.^2)
@@ -111,8 +111,8 @@ conserved2(u), conserved2(u0)</pre><pre class="mcode-output">conserved2 =
 ans =
      7.833213357987499e+04
 ans =
-     7.833213358221893e+04
-</pre>In fact, as a completely integrable system, the KdV equation has an infinite set of conserved quantities [2,3].  Another one is $u^3/3 - (u_x)^2$:
+     7.833213358221890e+04
+</pre>In fact, as a completely integrable system, the KdV equation has an infinite set of conserved quantities [3,4].  Another one is $u^3/3 - (u_x)^2$:
 
 <pre class="mcode-input">conserved3 = @(u) sum(u.^3/3 - diff(u).^2)
 conserved3(u), conserved3(u0)</pre><pre class="mcode-output">conserved3 = 
@@ -120,7 +120,7 @@ conserved3(u), conserved3(u0)</pre><pre class="mcode-output">conserved3 =
 ans =
     -2.349964008126106e+05
 ans =
-    -2.349964007466362e+05
+    -2.349964007466361e+05
 </pre>Another is  $u^4/4 - 3u(u_x)^2 + (9/5)(u_{xx})^2$:
 
 <pre class="mcode-input">conserved4 = @(u) sum(u.^4/4 - 3*u.*diff(u).^2 + (9/5)*diff(u,2).^2)
@@ -129,18 +129,20 @@ conserved4(u), conserved4(u0)</pre><pre class="mcode-output">conserved4 =
 ans =
      6.512069540200269e+08
 ans =
-     6.512069540223163e+08
+     6.512069540223162e+08
 </pre>And so on in an infinite sequence.
 
 
 
 ## 5. References
 
-The mathematics of solitons is thoroughly understood.  See for example [1].  For a quick introduction to the KdV equation, see [2].
+The mathematics of solitons is thoroughly understood.  See for example [2].  For a quick introduction to the KdV equation, see [3].
 
-[1] M. J. Ablowitz and H. Segur, _Solitons and the Inverse Scattering Transform_, SIAM, 1981.
+[1] H. Montanelli and N. Bootland, Solving stiff PDEs in 1D, 2D and 3D with exponential integrators, submitted, 2016.
 
-[2] L. N. Trefethen and K. Embree, editors, article on "The KdV equation", _The (Unfinished) PDE Coffee Table Book_, `https://people.maths.ox.ac.uk/trefethen/pdectb.html`.
+[2] M. J. Ablowitz and H. Segur, _Solitons and the Inverse Scattering Transform_, SIAM, 1981.
 
-[3] G. Whitham, _Linear and Nonlinear Waves_, Wiley, 1974.
+[3] L. N. Trefethen and K. Embree, editors, article on "The KdV equation", _The (Unfinished) PDE Coffee Table Book_, `https://people.maths.ox.ac.uk/trefethen/pdectb.html`.
+
+[4] G. Whitham, _Linear and Nonlinear Waves_, Wiley, 1974.
 

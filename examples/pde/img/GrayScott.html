@@ -9,7 +9,7 @@ meta: "(Chebfun Example pde/GrayScott.m) [Tags: #Gray-Scott, #spin2]"
 
 ## 1. Rolls
 
-The Gray-Scott equations are a pair of coupled reaction-diffusion equations that lead to interesting patterns [1,2]. Let us look at two examples in 2D.
+The Gray-Scott equations are a pair of coupled reaction-diffusion equations that lead to interesting patterns [1,2,3]. Let us look at two examples in 2D.
 
 The equations are $$ u_t = \varepsilon_1\Delta u + b(1-u) - uv^2, \quad v_t = \varepsilon_2\Delta v - dv + uv^2, $$ where $\Delta$ is the Laplacian and $\varepsilon_1, \varepsilon_2,b,d$ are parameters. To begin with we choose these values.
 
@@ -23,10 +23,10 @@ S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
 S.init = chebfun2v(@(x,y) 1-exp(-80*((x+.05).^2+(y+.02).^2)), ...
                    @(x,y) exp(-80*((x-.05).^2+(y-.02).^2)),dom);
 pause off
-tic, u = spin2(S,spinpref2('N',200,'dt',2,'plot','off'));
+tic, u = spin2(S,'N',200,'dt',2,'plot','off');
 plot(u{2}), view(0,90), axis equal, axis off
 time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  63.921748999999998
+  40.269827999999997
 </pre><img src="img/GrayScott_01.png" class="figure" alt=""/>
 
 
@@ -37,10 +37,10 @@ If we change the values of the parameters just a bit, the nature of the solution
 
 <pre class="mcode-input">b = 0.025; d = 0.085;
 S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
-tic, u = spin2(S,spinpref2('N',200,'dt',2,'plot','off'));
+tic, u = spin2(S,'N',200,'dt',2,'plot','off');
 plot(u{2}), view(0,90), axis equal, axis off
 time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  60.518642000000000
+  39.045220000000000
 </pre><img src="img/GrayScott_02.png" class="figure" alt=""/>
 
 
@@ -57,20 +57,20 @@ The initial conditions in the simulations above were chosen with a line of symme
 
 <pre class="mcode-input">b = 0.04; d = 0.1;
 S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
-tic, u = spin2(S,spinpref2('N',100,'dt',2,'plot','off'));
+tic, u = spin2(S,'N',100,'dt',2,'plot','off');
 plot(u{2}), view(0,90), axis equal, axis off
 time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  15.869873999999999
+  13.552111999999999
 </pre><img src="img/GrayScott_03.png" class="figure" alt=""/>
 
 We get a similar effect with spots:
 
 <pre class="mcode-input">b = 0.025; d = 0.085;
 S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
-tic, u = spin2(S,spinpref2('N',100,'dt',2,'plot','off'));
+tic, u = spin2(S,'N',100,'dt',2,'plot','off');
 plot(u{2}), view(0,90), axis equal, axis off
 time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  15.927412000000000
+  13.467203000000000
 </pre><img src="img/GrayScott_04.png" class="figure" alt=""/>
 
 
@@ -80,4 +80,6 @@ time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
 [1] P. Gray and S. K. Scott, _Chemical Oscillations and Instabilities: Non-linear Chemical Kinetics_, v. 21 of International Series of Monographs on Chemistry, 1994.
 
 [2] L. N. Trefethen and K. Embree, editors, article 23 on "The Gray-Scott equations", _The (Unfinished) PDE Coffee Table Book_, `https://people.maths.ox.ac.uk/trefethen/pdectb.html`.
+
+[3] H. Montanelli and N. Bootland, Solving stiff PDEs in 1D, 2D and 3D with exponential integrators, submitted, 2016.
 
