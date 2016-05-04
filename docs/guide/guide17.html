@@ -213,7 +213,7 @@ hold off</pre>
 
 <p><img src="img/guide17_04.png" class="figure" alt=""></p>
 <p>Contours of a function can also be visualized on the sphere using the
-\texttt{contour} function.  Here are the contours of $f$ from $-2$ to $2$ in
+<code>contour</code> function.  Here are the contours of $f$ from $-2$ to $2$ in
 increments of $0.25$</p>
 <pre class="mcode-input">contour(f,-2:0.25:2)</pre>
 
@@ -363,7 +363,7 @@ ylim([1e-20 1e2])</pre>
 <p><img src="img/guide17_16.png" class="figure" alt=""></p>
 <p>An approximation to the bivariate Fourier coefficients in the double
 trigonometric expansion \eqref{eq:2DFourierExpansion} can also be
-computed rapidly from \texttt{f}:</p>
+computed rapidly from <code>f</code>:</p>
 <pre class="mcode-input">X = coeffs2( f );
 [ m, n ] = length( f );
 [mm, nn] = meshgrid( -floor(m/2):ceil(m/2)-1, -floor(n/2):ceil(n/2)-1);
@@ -489,9 +489,9 @@ norm( Y - (-1/42)*laplacian( Y ), inf)</pre>
 <h3 id="175-poissons-equation">17.5 Poisson's equation</h3>
 <p>Spherefun also has a command for solving Poisson's equation on the
 sphere. For example, to solve
-[
+$$
   \nabla^2 u = f, \qquad \int_{\mathbb{S}^2} u\,d\Omega  = 0,
-]
+$$
 where $f = Y_{6}^{3}$, one can use these Spherefun commands:</p>
 <pre class="mcode-input">f = spherefun.sphharm(6, 3);              % forcing term
 u = spherefun.poisson(f, 0, 100, 100);     % fast Poisson solver</pre>
@@ -506,7 +506,7 @@ u = spherefun.poisson(f, 0, 100, 100);     % fast Poisson solver</pre>
 <p>Provided that the right-hand side $f$ satisfies the compatibility condition
 $\int_{\mathbb{S}^2} f\, d\Omega  = 0$, the solution to the above Poisson
 problem is unique up to a constant. One specifies the value of this
-constant as the second input argument to \texttt{poisson}. Here is a second
+constant as the second input argument to <code>poisson</code>. Here is a second
 example using a discretization size of $1000\times 1000$ and a value of
 1 for this constant.</p>
 <pre class="mcode-input">f = spherefun( @(x,y,z) sin(100*x.*y.*z) );  % forcing term

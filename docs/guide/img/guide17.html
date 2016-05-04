@@ -141,7 +141,7 @@ hold off</pre><img src="img/guide17_04.png" class="figure" alt="">
 
 
 Contours of a function can also be visualized on the sphere using the
-\texttt{contour} function.  Here are the contours of $f$ from $-2$ to $2$ in
+`contour` function.  Here are the contours of $f$ from $-2$ to $2$ in
 increments of $0.25$
 
 
@@ -319,7 +319,7 @@ ylim([1e-20 1e2])</pre><img src="img/guide17_16.png" class="figure" alt="">
 
 An approximation to the bivariate Fourier coefficients in the double
 trigonometric expansion \eqref{eq:2DFourierExpansion} can also be
-computed rapidly from \texttt{f}:
+computed rapidly from `f`:
 
 
 <pre class="mcode-input">X = coeffs2( f );
@@ -453,9 +453,9 @@ The $\ell=6$, $m=-3$ coefficient in the spherical harmonic expansion of $f(x) = 
 
 Spherefun also has a command for solving Poisson's equation on the
 sphere. For example, to solve
-\[
+$$
   \nabla^2 u = f, \qquad \int_{\mathbb{S}^2} u\,d\Omega  = 0,
-\]
+$$
 where $f = Y_{6}^{3}$, one can use these Spherefun commands:
 
 
@@ -468,7 +468,7 @@ u = spherefun.poisson(f, 0, 100, 100);     % fast Poisson solver</pre>Here Poiss
 Provided that the right-hand side $f$ satisfies the compatibility condition
 $\int_{\mathbb{S}^2} f\, d\Omega  = 0$, the solution to the above Poisson
 problem is unique up to a constant. One specifies the value of this
-constant as the second input argument to \texttt{poisson}. Here is a second
+constant as the second input argument to `poisson`. Here is a second
 example using a discretization size of $1000\times 1000$ and a value of
 1 for this constant.
 
