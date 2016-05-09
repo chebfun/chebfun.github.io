@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Applications &raquo; Chebfun</title>
+    <title>Gravitational attraction to a sphere &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,58 +54,73 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Applications</h1>
+<h1>Gravitational attraction to a sphere</h1>
+<h2>Nick Trefethen, May 2016<span><a href='/examples/sphere/Gravity.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/sphere/Gravity.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li class='active'><a href="/examples/applics/index.html">Applications<span>2</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>33</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>7</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>8</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>14</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>4</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>9</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>10</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>11</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>19</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>20</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>8</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>4</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>2</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>11</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/applics/Gompertz.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/Gompertz_01.png' /></div>
-            <h3>Exponential, logistic, and Gompertz growth</h3>
-            <p>Toby Driscoll, June 15, 2015
-                <span class='tags'><span href='#' class='tag'>#ivp</span>, <span href='#' class='tag'>#ode</span></span>
-            </p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/applics/EuropeanCall.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/EuropeanCall_01.png' /></div>
-            <h3>Pricing of a European Call option</h3>
-            <p>Ricardo Pachon, November 2014
-                <span class='tags'><span href='#' class='tag'>#blackscholes</span>, <span href='#' class='tag'>#finance</span>, <span href='#' class='tag'>#option pricing</span></span>
-            </p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-a-little-geometry">1. A little geometry</h3>
+<p>Here's a vector $X$ with 2-norm 1.5, which we will think of as a spacecraft in orbit around the unit sphere:</p>
+<pre class="mcode-input">X = [-1  -1.1, -.2];
+norm(X)</pre>
+
+<pre class="mcode-output">ans =
+   1.500000000000000
+</pre>
+
+<p>Let's use the vector-valued part of Spherefun to define the field of vector distances between $X$ and points on the sphere and $X$:</p>
+<pre class="mcode-input">d = spherefunv(@(x,y,z) X(1)-x, @(x,y,z) X(2)-y, @(x,y,z) X(3)-z);</pre>
+
+<p>Here is the scalar function representing $|d|$, that is, the the scalar distance between $X$ and points on the sphere:</p>
+<pre class="mcode-input">r = sqrt(d(1).^2 + d(2).^2 + d(3).^2);</pre>
+
+<p>Here we confirm that the closest point on the sphere to $X$ is at distance $0.5$:</p>
+<pre class="mcode-input">min_distance = min2(r)</pre>
+
+<pre class="mcode-output">min_distance =
+   0.500000000000013
+</pre>
+
+<p>Similarly, the farthest point is at distance $2.5$:</p>
+<pre class="mcode-input">max_distance = max2(r)</pre>
+
+<pre class="mcode-output">max_distance =
+   2.500000000000000
+</pre>
+
+<p>Here is a contour plot of $r$ on the sphere, together with a red dot showing our little spacecraft.</p>
+<pre class="mcode-input">contour(r,.6:.1:2,'k')
+hold on, plot3(X(1),X(2),X(3),'.r','markersize',25), hold off
+view(-10,35), axis equal, axis off</pre>
+
+<p><img src="img/Gravity_01.png" class="figure" alt=""></p>
+<h3 id="2-inverse-square-force">2. Inverse-square force</h3>
+<p>A great discovery of Newton (or was it Hooke?) is that the gravitational forces associated with a sphere of uniform mass distribution are the same as if all the mass were concentrated at the center. Accordingly, we know that if a unit mass is spread around the sphere and the spacecraft also has unit mass, then the inverse-square attraction between them should be $(1.5)^{-2}$:</p>
+<pre class="mcode-input">force_exact = 1/1.5^2</pre>
+
+<pre class="mcode-output">force_exact =
+   0.444444444444444
+</pre>
+
+<p>Let's confirm this prediction by computing the integral over the sphere. Since the area of the sphere is $4\pi$, the density of a uniformly distributed mass is</p>
+<pre class="mcode-input">rho = 1/(4*pi)</pre>
+
+<pre class="mcode-output">rho =
+   0.079577471545948
+</pre>
+
+<p>That gives us the following component of the force at each point, in the direction of $X$:</p>
+<pre class="mcode-input">Xnormalized = X/norm(X);
+force_function = rho*(Xnormalized*d)./r.^3;</pre>
+
+<p>Summing, we get the expected answer:</p>
+<pre class="mcode-input">force = sum2(force_function)</pre>
+
+<pre class="mcode-output">force =
+   0.444444444444479
+</pre></div>
         </div>
     </div>
 </div>

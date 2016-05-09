@@ -116,10 +116,6 @@ meta: "<xsl:value-of select="normalize-space($exMeta)" disable-output-escaping="
 <xsl:choose>
 <xsl:when test="@class='error'">
 
-<pre class='mcode-error'>
-<xsl:value-of select="."/>
-</pre>
-
 </xsl:when>
 <xsl:otherwise>
 

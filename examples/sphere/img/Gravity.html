@@ -1,0 +1,54 @@
+---
+title: "Gravitational attraction to a sphere"
+layout: example
+authordate: "Nick Trefethen, May 2016"
+meta: "(Chebfun example sphere/Gravity.m) [Tags: #spherefun]"
+---
+
+
+
+## 1. A little geometry
+
+Here's a vector $X$ with 2-norm 1.5, which we will think of as a spacecraft in orbit around the unit sphere:
+
+<pre class="mcode-input">X = [-1  -1.1, -.2];
+norm(X)</pre><pre class="mcode-output">ans =
+   1.500000000000000
+</pre>Let's use the vector-valued part of Spherefun to define the field of vector distances between $X$ and points on the sphere and $X$:
+
+<pre class="mcode-input">d = spherefunv(@(x,y,z) X(1)-x, @(x,y,z) X(2)-y, @(x,y,z) X(3)-z);</pre>Here is the scalar function representing $|d|$, that is, the the scalar distance between $X$ and points on the sphere:
+
+<pre class="mcode-input">r = sqrt(d(1).^2 + d(2).^2 + d(3).^2);</pre>Here we confirm that the closest point on the sphere to $X$ is at distance $0.5$:
+
+<pre class="mcode-input">min_distance = min2(r)</pre><pre class="mcode-output">min_distance =
+   0.500000000000013
+</pre>Similarly, the farthest point is at distance $2.5$:
+
+<pre class="mcode-input">max_distance = max2(r)</pre><pre class="mcode-output">max_distance =
+   2.500000000000000
+</pre>Here is a contour plot of $r$ on the sphere, together with a red dot showing our little spacecraft.
+
+<pre class="mcode-input">contour(r,.6:.1:2,'k')
+hold on, plot3(X(1),X(2),X(3),'.r','markersize',25), hold off
+view(-10,35), axis equal, axis off</pre><img src="img/Gravity_01.png" class="figure" alt="">
+
+
+
+## 2. Inverse-square force
+
+A great discovery of Newton (or was it Hooke?) is that the gravitational forces associated with a sphere of uniform mass distribution are the same as if all the mass were concentrated at the center. Accordingly, we know that if a unit mass is spread around the sphere and the spacecraft also has unit mass, then the inverse-square attraction between them should be $(1.5)^{-2}$:
+
+<pre class="mcode-input">force_exact = 1/1.5^2</pre><pre class="mcode-output">force_exact =
+   0.444444444444444
+</pre>Let's confirm this prediction by computing the integral over the sphere. Since the area of the sphere is $4\pi$, the density of a uniformly distributed mass is
+
+<pre class="mcode-input">rho = 1/(4*pi)</pre><pre class="mcode-output">rho =
+   0.079577471545948
+</pre>That gives us the following component of the force at each point, in the direction of $X$:
+
+<pre class="mcode-input">Xnormalized = X/norm(X);
+force_function = rho*(Xnormalized*d)./r.^3;</pre>Summing, we get the expected answer:
+
+<pre class="mcode-input">force = sum2(force_function)</pre><pre class="mcode-output">force =
+   0.444444444444479
+</pre>
