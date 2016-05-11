@@ -18,14 +18,14 @@ norm(X)</pre><pre class="mcode-output">ans =
 
 <pre class="mcode-input">d = spherefunv(@(x,y,z) X(1)-x, @(x,y,z) X(2)-y, @(x,y,z) X(3)-z);</pre>Here is the scalar function representing $|d|$, that is, the the scalar distance between $X$ and points on the sphere:
 
-<pre class="mcode-input">r = sqrt(d(1).^2 + d(2).^2 + d(3).^2);</pre>Here we confirm that the closest point on the sphere to $X$ is at distance $0.5$:
+<pre class="mcode-input">r = sqrt(dot(d,d));</pre>We confirm that the closest point on the sphere to $X$ is at distance $0.5$:
 
 <pre class="mcode-input">min_distance = min2(r)</pre><pre class="mcode-output">min_distance =
-   0.500000000000013
+   0.500000000000014
 </pre>Similarly, the farthest point is at distance $2.5$:
 
 <pre class="mcode-input">max_distance = max2(r)</pre><pre class="mcode-output">max_distance =
-   2.500000000000000
+   2.499999999999999
 </pre>Here is a contour plot of $r$ on the sphere, together with a red dot showing our little spacecraft.
 
 <pre class="mcode-input">contour(r,.6:.1:2,'k')
@@ -50,5 +50,5 @@ A great discovery of Newton (or was it Hooke?) is that the gravitational forces 
 force_function = rho*(Xnormalized*d)./r.^3;</pre>Summing, we get the expected answer:
 
 <pre class="mcode-input">force = sum2(force_function)</pre><pre class="mcode-output">force =
-   0.444444444444479
+   0.444444444444444
 </pre>
