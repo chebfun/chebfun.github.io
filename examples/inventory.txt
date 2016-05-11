@@ -78,6 +78,7 @@ ode-linear/DawsonIntegral.m
 ode-linear/MatchedAsymp.m
 ode-linear/ContourExpm.m
 sphere/Gravity.m
+sphere/HelmholtzDecomposition.m
 sphere/AtmosphericTemperature.m
 ode-nonlin/Orbits.m
 ode-nonlin/BlowupFK.m
