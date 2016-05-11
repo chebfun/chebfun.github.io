@@ -15,7 +15,7 @@ In mathematical notation, the Helmholtz-Hodge decomposition says that we can wri
 
 The components $\phi$ and $\psi$ give useful diagnostic information about a flow field.  For example, for winds in the upper atmosphere, $\psi$ gives information about cyclonic storms, while $\phi$ can be used to detect high and low pressure systems [1].
 
-To illustrate the Helmholtz-Hodge decomposition, we take the following vector field:
+To illustrate the decomposition, we take the following vector field:
 
 <pre class="mcode-input">f = spherefunv( @(x,y,z) y.*z.*cos(x.*y.*z), ...
                 @(x,y,z) x.*z.*sin(4*x+.1*y+5*z.^2), @(x,y,z) 1+x.*y.*z );
@@ -30,7 +30,7 @@ quiver3( f ), view([-36 8])</pre><img src="img/HelmholtzDecomposition_02.png" cl
 
 ## 2. Computing the curl-free component
 
-Since the divergence of a curl is zero, we know that $$ \nabla \dot \mathbf{f} =  \nabla \dot \nabla \phi = \nabla^2 \phi, $$ where the last equality holds because the divergence of a gradient is the Laplacian. Therefore, we can solve for $\phi$ in the Helmholtz-Hodge decomposition as follows:
+Since the divergence of a curl is zero, we know that $$ \nabla \cdot \mathbf{f} = \nabla \cdot \nabla \phi = \nabla^2 \phi, $$ where the last equality holds because the divergence of a gradient is the Laplacian. Therefore, we can solve for $\phi$ in the Helmholtz-Hodge decomposition as follows:
 
 <pre class="mcode-input">phi = spherefun.poisson( divergence(f), 0, 251 );
 quiver3( gradient( phi ) ), hold on,
@@ -72,7 +72,7 @@ quiver3( curl( psi ) ), title('Divergence-free'), view([-36 8])
 subplot(1,3,3)
 quiver3( f ), title('Tangent vector field'), view([-36 8])</pre><img src="img/HelmholtzDecomposition_05.png" class="figure" alt="">
 
-As a sanity check we confirm that the decomposition holds:
+As a sanity check we confirm that the decomposition has been successful:
 
 <pre class="mcode-input">h = grad( phi ) + curl( psi );
 norm( f - h )</pre><pre class="mcode-output">ans =
