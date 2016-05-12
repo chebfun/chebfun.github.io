@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-the-helmholtz-hodge-decomposition">1. The Helmholtz-Hodge decomposition</h3>
-<p>A special case of the Helmholtz-Hodge theorem states that any vector field that is tangent to the sphere can be uniquely decomposed into a sum of a surface divergence-free component and a surface curl-free component. In this Example, we show how this decomposition can be computed by Spherefun and introduce the command <code>helmholtzdecomp</code>.</p>
+<p>A special case of the Helmholtz-Hodge theorem states that any vector field that is tangent to the sphere can be uniquely decomposed into a sum of a surface divergence-free component and a surface curl-free component. In this Example, we show how this decomposition can be computed by Spherefun and introduce the command <code>helmholtzdecomp</code> [2].</p>
 <p>In mathematical notation, the Helmholtz-Hodge decomposition says that we can write any vector field tangent to the surface of the sphere as the sum $$ \mathbf{f} = \nabla \phi + \nabla \times \psi, $$ where $\phi$ and $\psi$ are scalar-valued potential functions that are unique up to a constant. Here $\nabla$ is the surface gradient on the sphere, and we use the standard abuse of notation that $\nabla \times \psi$ means the cross-product of the surface gradient of $\psi$ with the unit normal vector, $\hat{\mathbf{n}}$, to the sphere, i.e., $\hat{\mathbf{n}} \times \nabla \psi$.</p>
 <p>The components $\phi$ and $\psi$ give useful diagnostic information about a flow field.  For example, for winds in the upper atmosphere, $\psi$ gives information about cyclonic storms, while $\phi$ can be used to detect high and low pressure systems [1].</p>
 <p>To illustrate the decomposition, we take the following vector field:</p>
@@ -128,18 +128,18 @@ norm( f - h )</pre>
 </pre>
 
 <h3 id="5-the-helmholtzdecomp-command">5. The helmholtzdecomp command</h3>
-<p>Spherefun has a command command <code>helmholtzdecomp</code> that computes the Helmholtz-Hodge decomposition of a vector field that is tangent to the surface. Therefore, this example can be replicated with the following code:</p>
+<p>Spherefun has a command called <code>helmholtzdecomp</code> that computes the Helmholtz-Hodge decomposition of a vector field that is tangent to the surface. Therefore, this example can be replicated with the following code:</p>
 <pre class="mcode-input">[phi, psi] = helmholtzdecomp( f );
 clf, quiver( f ), hold on
 contour( phi, 'b-', LW , 2 )
 contour( psi, 'r-', LW , 2 )
-title('f (arrows), \phi (black), and \psi (red)')
+title('f (arrows), \phi (blue), and \psi (red)')
 view([-36 8])</pre>
 
 <p><img src="img/HelmholtzDecomposition_06.png" class="figure" alt=""></p>
 <h3 id="6-references">6. References</h3>
-<p>[1] E. J. Fuselier and G. B. Wright, Stability and error estimates for vector field interpolation and decomposition on the sphere with RBFs, <em>SIAM J. Numer. Anal.</em>, 47 (2009), 3213-3239.</p>
-<p>[2] A. Townsend, H. Wilber, and G. B. Wright, Computing with functions in spherical and poler geometries I. The sphere, <em>SIAM J. Sci. Comp.</em>, to appear in 2016</p></div>
+<p>[1] E. J. Fuselier and G. B. Wright, Stability and error estimates for vector field interpolation and decomposition on the sphere with RBFs, <em>SIAM J. Numer. Anal.</em>, 47 (2009), pp. 3213-3239.</p>
+<p>[2] A. Townsend, H. Wilber, and G. B. Wright, Computing with functions in spherical and polar geometries I. The sphere, <em>SIAM J. Sci. Comp.</em>, to appear in 2016</p></div>
         </div>
     </div>
 </div>
