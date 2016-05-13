@@ -169,6 +169,7 @@ fun/ValentinesDay2.m
 fun/BirthdayOdds.m
 quad/SymbolicNumeric.m
 quad/GaussClenCurt.m
+quad/TjTkDisk.m
 quad/QuadratureConvergence.m
 quad/SpikeIntegral.m
 integro/FracCalc2.m
