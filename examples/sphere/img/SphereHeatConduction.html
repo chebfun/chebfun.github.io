@@ -115,7 +115,7 @@ The difference between the true solution and the computed solution is
 
 <pre class="mcode-input">utrue = exp(-42*alpha*tfinal)*u0;
 norm(u-utrue)</pre><pre class="mcode-output">ans =
-     3.288443687653664e-05
+     2.325280830910560e-05
 </pre>The error here is dominated by temporal errors from the BDF2 method, as opposed to spatial discretization errors.
 
 
@@ -169,7 +169,7 @@ end</pre><img src="img/SphereHeatConduction_07.png" class="figure" alt="">
 The numerical scheme preserves the mean value property to machine precision:
 
 <pre class="mcode-input">norm(meanu0 - mean2(u))</pre><pre class="mcode-output">ans =
-     2.407796184655808e-15
+     1.762479051592436e-15
 </pre>
 
 ## 6. Future
