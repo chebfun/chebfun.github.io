@@ -55,6 +55,7 @@ opt/MercuryEarth.m
 sphere/SphereHeatConduction.m
 sphere/Gravity.m
 sphere/HelmholtzDecomposition.m
+sphere/SphericalHarmonics.m
 sphere/AtmosphericTemperature.m
 cheb/ExactChebCoeffs.m
 cheb/Convergence.m
