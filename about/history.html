@@ -80,14 +80,16 @@ Council (EPSRC). First to join the team was DPhil student Ricardo Pach&#243;n,
 from Colombia, who extended Chebfun to piecewise continuous functions and
 arbitrary intervals.  Automatic subdivision and edge detection were added by
 Pach&#243;n and further developed in collaboration with Rodrigo Platte, from
-Brazil, a post-doc who arrived in October 2007. Then beginning January 2008,
+Brazil, a post-doc who arrived in October 2007. Then, beginning January 2008,
 linear operators and solution of differential equations were added to Chebfun,
 together with integral operators, eigenvalue problems, and exponentials of
 operators.  This was the work of Toby Driscoll, of the University of Delaware,
-who has led the differential equations side of Chebfun since then.  A key
+who led the differential equations side of Chebfun for several years
+afterward.  A key
 collaborator at the beginning of this work was Folkmar Bornemann of the
 Technical University of Munich. All these developments came together with the
-release of Chebfun Version 2 in June 2008.</p>
+release of Chebfun Version 2 in June 2008.
+To see some of our inspiration, click on the photo below.</p>
 <p><center>
 <img class='thumbnail' title="Anticlockwise from top left: Trefethen, Driscoll, Pachon, Platte" src="/images/chebteamtaxi.jpg" name="team" width="330px" alt="Version 2 Team" 
 onmousedown="document.images['team'].src='../images/linpack.jpg'" 
@@ -99,11 +101,11 @@ logo, a version control system, an expanding test suite, a web site, eight
 chapters of a users guide, half a dozen publications, and quite a few users.
 Pach&#243;n added best approximation by the Remez algorithm and explorations
 of the complex plane via rational interpolants.  Platte introduced mappings
-that make it possible to treat infinite intervals.  Nick Hale joined the
+to make it possible to treat infinite intervals.  Nick Hale joined the
 Chebfun core team, first as a DPhil student of Trefethen's and then as a
 postdoc at the Oxford Center for Collaborative Applied Mathematics. Hale added
 Gauss and other quadrature formulas, even for millions of points, and
-developed PDE15S for solving nonlinear PDEs (with 1 space and 1 time
+developed <code>pde15s</code> for solving nonlinear PDEs (with 1 space and 1 time
 dimension) within the Chebfun framework. A capability of handling functions
 that diverge to infinity or have other singularities was added by Oxford DPhil
 student Mark Richardson, and automatic differentiation and related methods for
@@ -135,8 +137,14 @@ Chebgui (led by Birkisson and Hale), and a new collection of <a
 href="../examples">Examples</a> to serve as templates for all kinds of
 problems (led by Trefethen).</p>
 <h3 id="version-5">Version 5</h3>
-<p>In September 2012 the Chebfun Team organised a three day workshop at Oxford
-entitled Chebfun and Beyond. The theme was building on the success of Chebfun
+<p>Major new funding for the Chebfun project arrived in 2015 with a 
+five-year Advanced Grant to Trefethen from the European
+Research Council.  This enabled us to bring on
+board new DPhil students (Anthony Austin, Mohsin Javed,
+Hadrien Montanelli, Hrothgar) and postdocs (Kuan Xu, Behnam Hashemi, Jared Aurentz,
+Olivier S&egrave;te).
+In September 2012 the team organised a three day workshop at Oxford
+entitled "Chebfun and Beyond". The theme was building on the success of Chebfun
 and reaching towards computing with functions in higher dimensions. Below is a
 picture of (most of) the team present at the workshop.</p>
 <p><center>
@@ -152,18 +160,85 @@ Chebfun code had to be redesigned and made more modular.  Accordingly, we
 decided at the end of 2012 to rewrite Chebfun from the ground up, using much
 more coherent structures and a systematic code review and issue tracking
 process. This entailed a move to GitHub, initially as a private repository
-open to the dozen of us intensely involved in the redesign project. The effort
-proved enormous!  The result is a code we can be proud of, with a number of <a
-href="../news/20140621-whats-new-in-chebfun-v5.html">new features</a> and most
-importantly, a design more flexible for
-future extensions and enhancements.</p>
-<p>Chebfun Version 5 was released on June 21, 2014. The web site has been
-completely redesigned (by Hrothgar). The software is now publicly hosted on
-GitHub with already a sizeable development history and a issue tracker for
-input from all interested parties. We welcome new users and developers from
-around the world.</p>
-<p>Version 5.1 was released on December 12, 2014.</p>
-<p>For licensing and copyright purposes, we maintain a
+open to the dozen of us intensely involved in the redesign project. The effort,
+led by Nick Hale, proved enormous!
+Chebfun Version 5 was released on June 21, 2014, with a web site
+completely redesigned by Hrothgar.</p>
+<h3 id="approximation-theory-and-approximation-practice">Approximation Theory and Approximation Practice</h3>
+<p>Throughout the history of the project, Chebfun has 
+blended the practical and the theoretical.  Although it can be used
+simply as a tool for computing with functions, it also provides an excellent
+environment for exploring all kinds of issues of approximation theory and
+associated numerical algorithms such as rootfinding and quadrature, both
+for newcomers and experts.
+Prompted by this opportunity, in 2011 Trefethen began writing a textbook
+<em>Approximation Theory and Approximation Practice</em> to
+present approximation theory, and especially "Chebyshev technology",
+in a rigorous and historically-grounded way but with everything illustrated
+numerically.  The book was published by SIAM in 2013 and serves as the
+mathematical foundation of our work.</p>
+<h3 id="chebfun2">Chebfun2</h3>
+<p>In it first decade, Chebfun was restricted to one-dimensional
+functions, though we knew we had to move to multiple
+dimensions one day. In 2013, it finally happened.
+Graduate student Alex Townsend created Chebfun2, enabling
+computations with 2D functions defined on rectangles
+(explorable e.g. through
+<code>cheb.gallery2</code>).  Mathematically, Chebfun2
+makes use of low-rank representations, a big theme
+in scientific computing nowadays, together
+with special algorithms for optimization and rootfinding.</p>
+<h3 id="unifying-ode-ivps-and-bvps">Unifying ODE IVPs and BVPs</h3>
+<p>Numerical analysts solve boundary-value and initial-value problems
+by different algorithms (for good reasons) and using different
+codes (a headache for users).  We wanted Chebfun to be as
+headache-free as possible, so in 2013 we decided to unify the IVP 
+and BVP syntaxes at the user level, allowing <code>u = N\f</code> in both 
+cases to solve an ODE $N(u) = f$, even though BVPs are treated
+by spectral discretizations and IVPs by time-steppers.  This was done by
+&Aacute;sgeir Birkisson during 2014-15
+and it was a significant effort, requiring
+the automated conversion of higher-order IVPs to first-order form for
+calling Matlab's time-steppers.  The result is very satisfying and
+has opened the door to a new
+book being written by Trefethen, Birkisson, and Driscoll,
+<em>Exploring ODEs</em>, which will be Chebfun-enabled on
+every page but <em>not</em> a book of algorithms.
+<em>Exploring ODEs</em> will be published as a print book and also
+freely available online, probably from late 2017, and we hope
+it will become everyone's hands-on guide to ODEs.</p>
+<h3 id="periodic-functions-spherefun-and-diskfun">Periodic functions, Spherefun, and Diskfun</h3>
+<p>From the begining of the Chebfun project, we had been aware that
+in principle one might write an analogous "trigfun" package for periodic functions,
+based on trigonometric (=Fourier) rather than Chebyshev representations.
+In 2014, Grady Wright of Boise State Oxford visited Oxford for six months and
+did exactly this.  From this point, the Chebfun constructor
+has had a <code>'trig'</code> option,
+and it has surprises what interesting doors
+this has opened.  A big one has been Spherefun, for computing
+on spheres, based on periodic representations in two directions,
+written by Wright and Townsend and Wilber and released with Version 5.4 in
+May 2016.  Diskfun, for computing on a disk, by Heather Wilber,
+is on the way.</p>
+<h3 id="time-dependent-pdes">Time-dependent PDEs</h3>
+<p>For years, Chebfun has had a command <code>pde15s</code> for solving general time-dependent
+PDEs in one space dimension, which can be explored through
+<code>chebgui</code>.  With the release of Version 5.4, Chebfun additionally
+acquired more specialized state-of-the-art codes <code>spin</code>/<code>spin2</code>/<code>spin3</code>
+for solving reaction-diffusion and
+other stiff PDEs not just in 1D but also in 2D and 3D (the latter after
+Chebfun3 is released).  These capabilities, introduced by
+Hadrien Montanelli, are based on exponential integrator formulas,
+by default the ETDRK4 formula of Cox and Matthews.  To get the idea
+try <code>spin('kdv')</code>, <code>spin('ks')</code>, <code>spin2('gss')</code>, or 
+<code>spin2('gl2')</code>.  <code>spinsphere</code> for stiff PDEs on a sphere is coming soon.</p>
+<h3 id="chebfun3">Chebfun3</h3>
+<p>...will be released in 2016, written by Behnam Hashemi.</p>
+<p>\ </p>
+<p>\ </p>
+<p>The Chebfun project
+welcomes new users and developers from around the world.
+For licensing and copyright purposes, we maintain a
 <a href="people.html">complete list of Chebfun contributors</a>.</p></div>
         </div>
     </div>
