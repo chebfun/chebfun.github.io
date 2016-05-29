@@ -282,6 +282,7 @@ ol.examples.slats {
       border-right: 1px solid transparent;
       opacity: 0.95;
       filter: alpha(opacity=95); /* For IE8 and earlier */
+      padding-bottom: .5em;
     }
       ol.examples.slats a:hover, ol.examples.slats a:active {
         border-color: #bbb;
@@ -365,7 +366,7 @@ ol.news.slats {
     text-decoration: none;
   }
 .page-header h2 span {
-  float: right; /* "download this example" link */
+  float: right; /* download & github links for examples */
 }
   .page-header h2 span span {
     float: none;
@@ -436,7 +437,6 @@ blockquote {
     position: absolute;
     left: -2em;
 }
-
 
 /* function reference
 --------------------------------------------------------------------------- */
