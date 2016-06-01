@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Applications &raquo; Chebfun</title>
+    <title>Overlap of two circles &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,58 +54,50 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Applications</h1>
+<h1>Overlap of two circles</h1>
+<h2>Nick Trefethen, May 2016 in <a href='/examples/geom/'>geom</a><span><a href='/examples/geom/TwoCircles.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/geom/TwoCircles.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li class='active'><a href="/examples/applics/index.html">Applications<span>2</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>33</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>7</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>8</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>14</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>4</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>10</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>11</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>19</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>20</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>8</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>5</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>5</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>11</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/applics/Gompertz.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/Gompertz_01.png' /></div>
-            <h3>Exponential, logistic, and Gompertz growth</h3>
-            <p>Toby Driscoll, June 15, 2015<!--
-                <span class='tags'><span href='#' class='tag'>#ivp</span>, <span href='#' class='tag'>#ode</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/applics/EuropeanCall.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/EuropeanCall_01.png' /></div>
-            <h3>Pricing of a European Call option</h3>
-            <p>Ricardo Pachon, November 2014<!--
-                <span class='tags'><span href='#' class='tag'>#blackscholes</span>, <span href='#' class='tag'>#finance</span>, <span href='#' class='tag'>#option pricing</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-two-overlapping-circles">1. Two overlapping circles</h3>
+<p>Suppose you draw a quarter-circle of radius 1 about the point $(x,y) = (-1,1)$ and another quarter-circle of radius 2 about the point $(x,y) = (1,-1)$. We can draw the picture like this.  Along the way, we find the two points of intersection of the two circles and use them to fill in the overlap region in red.  (There must be a simpler way to do this in Chebfun.)</p>
+<pre class="mcode-input">bigcircle = chebfun(@(x) sqrt(4-(x-1).^2),'splitting','on');
+littlecircle = chebfun(@(x) 2-sqrt(1-(x+1).^2),[-1,0],'splitting','on');
+plot([-1 1 1 -1 -1],[0 0 2 2 0],'k'), hold on, axis equal
+x = roots( bigcircle{-1,0} - littlecircle );
+x1 = x(1), x2 = x(2)
+t = chebfun(@(t) t,[x1 x2]); t_reverse = chebfun(@(t) x1+(x2-t),[x1 x2]);
+fill(join(t,t_reverse),join(littlecircle(t),bigcircle(t_reverse)),'r')
+plot(bigcircle,'k',littlecircle,'k'), axis([-1 1 0 2]), hold off
+set(gca,'xtick',-1:1,'ytick',0:2)</pre>
+
+<pre class="mcode-output">x1 =
+  -0.705718913883074
+x2 =
+  -0.044281086116926
+</pre>
+
+<p><img src="img/TwoCircles_01.png" class="figure" alt=""></p>
+<h3 id="2-area-of-the-overlap-region">2. Area of the overlap region</h3>
+<p>This configuration comes from Alan Stevens' 2016 review [2] of <em>Professor Povey's Perplexing Problems</em> [1], a book published in 2015.  The problem posed in [1] and [2] is, what is the area of the overlap region? Here is the numerical answer as computed by Chebfun:</p>
+<pre class="mcode-input">area = sum( bigcircle{x1,x2} - littlecircle{x1,x2} )</pre>
+
+<pre class="mcode-output">area =
+   0.107976470497047
+</pre>
+
+<p>This is a tricky problem!  Here is the exact solution given by Prof. Povey:</p>
+<pre class="mcode-input">exact = acos(5*sqrt(2)/8) + 4*acos(11*sqrt(2)/16) - sqrt(7)/2</pre>
+
+<pre class="mcode-output">exact =
+   0.107976470497046
+</pre>
+
+<h3 id="3-references">3. References</h3>
+<p>[1] T. Povey, <em>Professor Povey's Perplexing Problems: Pre-University Physics and Maths Puzzles with Solutions</em>, One World Publications, 2015, pp. 26-28.</p>
+<p>[2] A. Stevens, review of above book, <em>Mathematics Today</em>, June 2016, p. 152.</p></div>
         </div>
     </div>
 </div>
