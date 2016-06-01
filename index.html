@@ -82,6 +82,68 @@
     <div class="container flexslider">
       <ul class="slides">
 <li>
+<div class='codewrap'><pre class='code'><span class='comment'>% Create operator for the Ginzburg-Landau problem</span>
+dom = 20*[-1.2 3.2 -1 1];  tspan = [0 46.5];
+S = spinop2(dom,tspan); S.linearPart = @(u) lap(u);
+S.nonlinearPart = @(u) u - (1+1.5i)*u.*(abs(u).^2);
+<span class='comment'>% Set an initial condition</span>
+S.init = chebfun2(@(x,y) ...
+    (1i*x+y).*exp(-.03*(x.^2+y.^2)), dom);
+<span class='comment'>% Solve the PDE and plot</span>
+u = spin2(S,'plot','off'); plot(real(u));
+</pre></div><div class='imagewrap'><img src='demo5.png' /></div>
+</li>
+
+
+<li>
+<div class='codewrap'><pre class='code'><span class='comment'>% Create a chebfun on the interval [-3,3]</span>
+x = chebfun('x', [-3 3]);
+<span class='comment'>% Define a potential function</span>
+V = abs(x);
+<span class='comment'>% Plot the first 8 eigenstates of</span>
+<span class='comment'>% the Schrodinger operator</span>
+quantumstates(V, 8);
+</pre></div><div class='imagewrap'><img src='demo4.png' /></div>
+</li>
+
+
+<li>
+<div class='codewrap'><pre class='code'><span class='comment'>% Create a chebfun f</span>
+x = chebfun('x');
+f = exp(-1./(x+1));
+<span class='comment'>% Plot abs vals of Chebyshev coefficients of f</span>
+plotcoeffs(f,'.')
+</pre></div><div class='imagewrap'><img src='demo6.png' /></div>
+</li>
+
+
+<li>
+<div class='codewrap'><pre class='code'><span class='comment'>% Define a rectangular domain</span>
+dom = pi*[-2.2 2.2 -1 1]/2;
+<span class='comment'>% Create a complex-valued chebfun2</span>
+f = chebfun2(@(z) ...
+    cos((z-1).^2)+exp((z+1).^2), dom);
+<span class='comment'>% Plot its phase portrait</span>
+plot(f)
+</pre></div><div class='imagewrap'><img src='demo7.png' /></div>
+</li>
+
+
+<li>
+<div class='codewrap'><pre class='code'><span class='comment'>% Construct a pair of 2D chebfuns</span>
+dom = [-3 10 -3 3];
+f = chebfun2(@(x,y) y.*cos(y.^2+x)-.1,dom);
+g = chebfun2(@(x,y) cos(x.^2/2).*sin(y.^2)-.1,dom);
+<span class='comment'>% Plot zero contours of f & g</span>
+plot(roots(f)), hold on, plot(roots(g))
+<span class='comment'>% Plot their common roots</span>
+r = roots(f, g, 'resultant');
+plot(r(:,1), r(:,2), '.')
+</pre></div><div class='imagewrap'><img src='demo9.png' /></div>
+</li>
+
+
+<li>
 <div class='codewrap'><pre class='code'><span class='comment'>% Define two functions</span>
 f = chebfun(@(x) sin(x.^2)+sin(x).^2, [0,10]);
 g = chebfun(@(x) exp(-(x-5).^2/10), [0,10]);
@@ -208,5 +270,5 @@ plot(minx(1),minx(2),'.w')
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>
-<!-- Compiled on Tuesday, 31 May 2016 at 13:45. -->
+<!-- Compiled on Wednesday, 01 June 2016 at 01:22. -->
 </html>
