@@ -182,6 +182,7 @@ approx2/Alignment.m
 approx2/Localization.m
 approx2/PaduaPoints.m
 approx2/Other2DDomains.m
+approx2/Pegs.m
 approx2/PrettyFunctions.m
 approx2/BumpFunction.m
 approx2/NearestPSDKernel.m
