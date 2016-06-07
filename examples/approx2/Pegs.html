@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Low-rank compression of Square and round pegs &raquo; Chebfun</title>
+    <title>Low-rank compression of square and round pegs &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,15 +54,15 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1>Low-rank compression of Square and round pegs</h1>
+<h1>Low-rank compression of square and round pegs</h1>
 <h2>Nick Trefethen, June 2016 in <a href='/examples/approx2/'>approx2</a><span><a href='/examples/approx2/Pegs.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx2/Pegs.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>A recent example called "Low-rank approximation and alignment with axes" explored the phenomenon that the alignment of a function $f(x,y)$ with the $x$ and $y$ axes may greatly affect the rank of its representation in Chebfun2.  Here we look at some more examples from <code>cheb.gallery2</code>.</p>
-<p>Here's the "tilted peg" example from the gallery.</p>
+<p>A recent example called "Low-rank approximation and alignment with axes" explored the phenomenon that the alignment of a function $f(x,y)$ with the $x$ and $y$ axes may greatly affect the rank of its representation in Chebfun2.  Here we look at three more examples from <code>cheb.gallery2</code>.</p>
+<p>Here's the "tilted peg" example.</p>
 <pre class="mcode-input">[f,fa] = cheb.gallery2('tiltedpeg'); fa</pre>
 
 <pre class="mcode-output">fa = 
@@ -70,15 +70,23 @@
 </pre>
 
 <p>A plot shows this this is a somewhat smoothed version of the characteristic function of a tilted square:</p>
-<pre class="mcode-input">contourf(f,.1:.1:.9), axis equal
+<pre class="mcode-input">levels = .1:.2:.9
+contourf(f,levels), axis equal
 set(gca,'xtick',-1:1,'ytick',-1:1)
 FS = 'fontsize';
 text(-.9,.8,['rank ' int2str(rank(f))],FS,18)</pre>
 
+<pre class="mcode-output">levels =
+  Columns 1 through 3
+   0.100000000000000   0.300000000000000   0.500000000000000
+  Columns 4 through 5
+   0.700000000000000   0.900000000000000
+</pre>
+
 <p><img src="img/Pegs_01.png" class="figure" alt=""></p>
-<p>If the peg is aligned with the axes, it is a separable function, of rank 1:</p>
+<p>If the peg is aligned with the axes it is a separable function, hence of rank 1:</p>
 <pre class="mcode-input">[f,fa] = cheb.gallery2('squarepeg'); fa
-contourf(f,.1:.1:.9), axis equal
+contourf(f,levels), axis equal
 set(gca,'xtick',-1:1,'ytick',-1:1)
 text(-.9,.8,['rank ' int2str(rank(f))],FS,18)</pre>
 
@@ -89,7 +97,7 @@ text(-.9,.8,['rank ' int2str(rank(f))],FS,18)</pre>
 <p><img src="img/Pegs_02.png" class="figure" alt=""></p>
 <p>A round peg has an in-between rank:</p>
 <pre class="mcode-input">[f,fa] = cheb.gallery2('roundpeg'); fa
-contourf(f,.1:.1:.9), axis equal
+contourf(f,levels), axis equal
 set(gca,'xtick',-1:1,'ytick',-1:1)
 text(-.9,.8,['rank ' int2str(rank(f))],FS,18)</pre>
 
@@ -98,7 +106,7 @@ text(-.9,.8,['rank ' int2str(rank(f))],FS,18)</pre>
 </pre>
 
 <p><img src="img/Pegs_03.png" class="figure" alt=""></p>
-<p>There are analogous examples in the Diskfun gallery collection to be released before long.  There, the round peg has rank 1 whereas the square peg does not. Tilting does not matter.</p></div>
+<p>There are analogous examples in the Diskfun gallery collection, to be released before long.  There, the round peg has rank 1 whereas the square peg does not. Tilting does not matter.</p></div>
         </div>
     </div>
 </div>
