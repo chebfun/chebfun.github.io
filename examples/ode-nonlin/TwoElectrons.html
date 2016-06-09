@@ -66,75 +66,125 @@
 <pre class="mcode-input">LW = 'linewidth'; MS = 'markersize'; lw = 1.2;
 N = chebop(0,40);
 N.op = @(t,z) diff(z,2) + 2*z./abs(z).^3 - 0.25i*imag(z)./imag(z).^3;
-N.lbc = [1i; 1];
+V = 1; N.lbc = [1i; V];
 tic, z = N\0; x = real(z); y = imag(z);
 plot(0,0,'.k',MS,8), hold on
-plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off</pre>
+plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
+set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 
 <p><img src="img/TwoElectrons_01.png" class="figure" alt=""></p>
-<p>For this computation we have used complex arithmetic for convenience, with the nucleus at the origin.  Because of the symmetry, only one particle needs to be tracked, so we have a scalar complex nonlinear second-order ODE initial-value problem: $$ z'' = {-2z\over |z|^3} + {1\over z-\overline{z}}. $$ For initial conditions in this example we take $$ z(0)=i, \quad z'(0) = V &gt; 0. $$ In the figure above, $V=1$.</p>
+<p>For this computation we have used complex arithmetic for convenience, with the nucleus at the origin.  Because of the symmetry, only one particle needs to be tracked, so we have a scalar complex nonlinear second-order ODE initial-value problem: $$ z'' = {-2z\over |z|^3} + {z-\overline{z}\over |z-\overline{z}|^3}. $$ For initial conditions in this example we take $$ z(0)=i, \quad z'(0) = V &gt; 0. $$ In the figure above, $V=1$.</p>
 <p>Though it is not periodic, this orbit has a great deal of regularity, as we can see by plotting the $x$ component as a function of time.</p>
 <pre class="mcode-input">plot(x), xlabel t, ylabel('x(t)'), ylim([-1.5 1.5])</pre>
 
 <p><img src="img/TwoElectrons_02.png" class="figure" alt=""></p>
-<p>This is not a chaotic problem; it is more like quasiperiodic. As $t\to\infty$, the trajectory fills up a certain region in the plane.</p>
+<p>This is not a chaotic problem; it is more like quasiperiodic. As $t\to\infty$, the trajectory fills up a certain region in the $x\hbox{-}y$ plane.</p>
 <h3 id="2-energy">2. Energy</h3>
-<p>The kinetic energy of this motion is $|z'|^2$, and the potential energy is $-4/|z| + 1/2\hbox{Im} z$.  Thus the total energy is $$ E = |z'|^2 -{4\over |z|} + {1\over 2\hbox{Im} z}, $$ and this quantity is conserved.  For our initial value $V=1$, the energy is $E = -2.5$.  (We do not verify this by a Chebfun computation, which would be very slow because of the near-singularities when $\hbox{Im}z$ is near zero.)</p>
-<p>Note that a particle at $z=\infty$ with zero velocity has energy $0$, and our initial condition will have energy $0$ with this initial velocity: $$ V_{\hbox{crit}} = \sqrt{3.5} \approx 1.87. $$ Sure enough, one finds that for $V&gt;V_{\hbox{crit}}$, the trajectory flies off to infinity.  The reader may find it interesting to explore "Pluto" trajectories just below this limit starting from values such as $V=1.85$ or $1.86$.</p>
+<p>The kinetic energy of this motion is $|z'|^2$, and the potential energy is $-4/|z| + 1/2\,\hbox{Im} z$.  Thus the total energy is $$ E = |z'|^2 -{4\over |z|} + {1\over 2\,\hbox{Im} z}, $$ and this quantity is conserved.  For our initial value $V=1$, the energy is $E = -2.5$.  (We do not verify this by a Chebfun computation, which would be very slow because of the near-singularities when $\hbox{Im}z$ is near zero.)</p>
+<p>Note that a particle at $z=\infty$ with zero velocity has energy $0$, and our initial condition will have energy $0$ with this initial velocity: $$ V_{\hbox{crit}} = \sqrt{3.5} \approx 1.87. $$ Sure enough, with further experiments one may verify that for $V&gt;V_{\hbox{crit}}$, the trajectory flies off to infinity.  The reader may also find it interesting to explore "Pluto" trajectories just below this limit starting from values such as $V=1.85$ or $1.86$.</p>
 <h3 id="3-periodic-trajectories">3. Periodic trajectories</h3>
 <p>For certain special initial velocities, the orbits are periodic. The simplest one, corresponding to $V\approx 1.446$, has the electrons simply swinging back and forth:</p>
 <pre class="mcode-input">N.domain = [0 20];
-N.lbc = [1i; 1.446];
+V = 1.446; N.lbc = [1i; V];
 z = N\0; x = real(z); y = imag(z);
 plot(0,0,'.k',MS,8), hold on
-plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off</pre>
+plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
+set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 
 <p><img src="img/TwoElectrons_03.png" class="figure" alt=""></p>
 <p>A plot of $x$ values confirms the periodicity:</p>
 <pre class="mcode-input">plot(x), xlabel t, ylabel x</pre>
 
 <p><img src="img/TwoElectrons_04.png" class="figure" alt=""></p>
-<p>Here is an estimate of the period:</p>
-<pre class="mcode-input">r = roots(x-.9*max(x)); r = r(deriv(x,r)&gt;0); Period = r(2)-r(1)</pre>
+<p>Here is an estimate of the period $T$:</p>
+<pre class="mcode-input">r = roots(x-.9*max(x)); r = r(deriv(x,r)&gt;0); T = r(2)-r(1)</pre>
 
-<pre class="mcode-output">Period =
+<pre class="mcode-output">T =
    5.075763807535344
 </pre>
 
-<p>Here is another periodic solution, with an estimate of the period:</p>
-<pre class="mcode-input">N.lbc = [1i; 0.783];
+<p>Here is another periodic solution:</p>
+<pre class="mcode-input">V = 0.783; N.lbc = [1i; V];
 z = N\0; x = real(z); y = imag(z);
 plot(0,0,'.k',MS,8), hold on
-plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
-r = roots(x-.9*max(x)); r = r(deriv(x,r)&gt;0); Period = r(2)-r(1)</pre>
+plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off</pre>
 
-<pre class="mcode-output">Period =
+<p><img src="img/TwoElectrons_05.png" class="figure" alt=""></p>
+<p>Since the orbit is more complicated, it is not surprising that the period is longer:</p>
+<pre class="mcode-input">set(gca,'xtick',-1:1,'ytick',-1:1)
+r = roots(x-.9*max(x)); r = r(deriv(x,r)&gt;0); T = r(2)-r(1)</pre>
+
+<pre class="mcode-output">T =
    8.458858025795349
 </pre>
 
-<p><img src="img/TwoElectrons_05.png" class="figure" alt=""></p>
-<p>And here is another:</p>
-<pre class="mcode-input">N.lbc = [1i; 1.17745];
+<p><img src="img/TwoElectrons_06.png" class="figure" alt=""></p>
+<p>And here a third periodic solution with a still longer period:</p>
+<pre class="mcode-input">V = 1.17745; N.lbc = [1i; V];
 z = N\0; x = real(z); y = imag(z);
 plot(0,0,'.k',MS,8), hold on
 plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
-r = roots(y-.99999); Period = mean(r(end-1:end))</pre>
+set(gca,'xtick',-1:1,'ytick',-1:1)
+r = roots(y-.9999999);
+T = mean(r(end-1:end))</pre>
 
-<pre class="mcode-output">Period =
-  19.316951166178630
+<pre class="mcode-output">T =
+  19.316951164201761
 </pre>
 
-<p><img src="img/TwoElectrons_06.png" class="figure" alt=""></p>
-<p>Readers trying these computations on their own may enjoy experimenting with the command <code>comet(z)</code>.</p>
-<h3 id="4-computing-time">4. Computing time</h3>
+<p><img src="img/TwoElectrons_07.png" class="figure" alt=""></p>
+<p>Readers trying these computations on their own may enjoy experimenting with the command <code>comet(z)</code>, which shows the planets flying about.</p>
+<h3 id="4-periodic-representation">4. Periodic representation</h3>
+<p>A periodic function should have a trigonometric representation! We can compute such a representation with Chebfun's "trig" option.</p>
+<p>First, let's make our estimate of the period a little more accurate. With the current estimate, instead of the expected value $1i$, we find this result after one cycle:</p>
+<pre class="mcode-input">z(T)</pre>
+
+<pre class="mcode-output">ans =
+  0.000259560137106 + 1.000001673151127i
+</pre>
+
+<p>An improved estimate of T is accordingly</p>
+<pre class="mcode-input">T = T - real(z(T))/V</pre>
+
+<pre class="mcode-output">T =
+  19.316730721603683
+</pre>
+
+<p>which gives a few more digits:</p>
+<pre class="mcode-input">z(T)</pre>
+
+<pre class="mcode-output">ans =
+  0.000000000552379 + 1.000001630630833i
+</pre>
+
+<p>Here we construct a trigonometric representation: using a loosened tolerance since the computed orbit and period are still far from machine precision. The match with the nonperiodic representation is good:</p>
+<pre class="mcode-input">zT = z{0,T};
+zTtrig = chebfun(zT,'trig','eps',1e-6);
+norm(zT-zTtrig)</pre>
+
+<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+ans =
+     1.162109235306919e-04
+</pre>
+
+<p>These are the absolute values of the Fourier coefficients:</p>
+<pre class="mcode-input">plotcoeffs(zTtrig,'.k')</pre>
+
+<p><img src="img/TwoElectrons_08.png" class="figure" alt=""></p>
+<p>A plot of the velocities over the course of one orbit is interesting too:</p>
+<pre class="mcode-input">plot(diff(zTtrig),'m')
+title('Velocities z''(t)')</pre>
+
+<p><img src="img/TwoElectrons_09.png" class="figure" alt=""></p>
+<h3 id="5-computing-time">5. Computing time</h3>
 <p>Chebfun is wonderfully convenient, but it is not especially fast, as we can see from the computing time for this example:</p>
 <pre class="mcode-input">total_time_in_seconds = toc</pre>
 
 <pre class="mcode-output">total_time_in_seconds =
-  29.570996999999998
+  36.301229999999997
 </pre>
 
-<p>For faster work, the first author has been exploring electron problems in Julia using Julia's ode45 command.  In our experiments, this runs more than ten times faster than Matlab's ode45.</p></div>
+<p>For faster work, the first author has been exploring electron problems in Julia using Julia's ode45 command, which runs about four times faster than Matlab's ode45, which in turn (at least for medium accuracies) is faster than Chebfun.</p></div>
         </div>
     </div>
 </div>
