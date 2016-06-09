@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Two electrons orbiting symmetrically about a nucleus &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Two electrons orbiting symmetrically about a nucleus</h1>
+<h2>Jeremy Fleury and Nick Trefethen, June 2016 in <a href='/examples/ode-nonlin/'>ode-nonlin</a><span><a href='/examples/ode-nonlin/TwoElectrons.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-nonlin/TwoElectrons.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-typical-trajectories">1. Typical trajectories</h3>
+<p>Here is a variation on the familiar $n$-body problem, suggested to us by Charlie Peskin of New York University. Suppose $n$ electrons of charge $-1$ are flying around a nucleus of infinite mass and charge $+n$.  What do the trajectories look like? For $n=1$ it's trivial, just a circular orbit.  For $n\ge 2$ one sees all kinds of disordered and chaotic trajectories, and we hope to explore some of the possibilities in a future example.  In this example we consider just  a very special configuration with $n=2$, in which the two electrons are assumed to be exactly symmetrical about a line of reflection.  Here is a typical trajectory over a time interval of length 40.</p>
+<pre class="mcode-input">LW = 'linewidth'; MS = 'markersize'; lw = 1.2;
+N = chebop(0,40);
+N.op = @(t,z) diff(z,2) + 2*z./abs(z).^3 - 0.25i*imag(z)./imag(z).^3;
+N.lbc = [1i; 1];
+tic, z = N\0; x = real(z); y = imag(z);
+plot(0,0,'.k',MS,8), hold on
+plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off</pre>
+
+<p><img src="img/TwoElectrons_01.png" class="figure" alt=""></p>
+<p>For this computation we have used complex arithmetic for convenience, with the nucleus at the origin.  Because of the symmetry, only one particle needs to be tracked, so we have a scalar complex nonlinear second-order ODE initial-value problem: $$ z'' = {-2z\over |z|^3} + {1\over z-\overline{z}}. $$ For initial conditions in this example we take $$ z(0)=i, \quad z'(0) = V &gt; 0. $$ In the figure above, $V=1$.</p>
+<p>Though it is not periodic, this orbit has a great deal of regularity, as we can see by plotting the $x$ component as a function of time.</p>
+<pre class="mcode-input">plot(x), xlabel t, ylabel('x(t)'), ylim([-1.5 1.5])</pre>
+
+<p><img src="img/TwoElectrons_02.png" class="figure" alt=""></p>
+<p>This is not a chaotic problem; it is more like quasiperiodic. As $t\to\infty$, the trajectory fills up a certain region in the plane.</p>
+<h3 id="2-energy">2. Energy</h3>
+<p>The kinetic energy of this motion is $|z'|^2$, and the potential energy is $-4/|z| + 1/2\hbox{Im} z$.  Thus the total energy is $$ E = |z'|^2 -{4\over |z|} + {1\over 2\hbox{Im} z}, $$ and this quantity is conserved.  For our initial value $V=1$, the energy is $E = -2.5$.  (We do not verify this by a Chebfun computation, which would be very slow because of the near-singularities when $\hbox{Im}z$ is near zero.)</p>
+<p>Note that a particle at $z=\infty$ with zero velocity has energy $0$, and our initial condition will have energy $0$ with this initial velocity: $$ V_{\hbox{crit}} = \sqrt{3.5} \approx 1.87. $$ Sure enough, one finds that for $V&gt;V_{\hbox{crit}}$, the trajectory flies off to infinity.  The reader may find it interesting to explore "Pluto" trajectories just below this limit starting from values such as $V=1.85$ or $1.86$.</p>
+<h3 id="3-periodic-trajectories">3. Periodic trajectories</h3>
+<p>For certain special initial velocities, the orbits are periodic. The simplest one, corresponding to $V\approx 1.446$, has the electrons simply swinging back and forth:</p>
+<pre class="mcode-input">N.domain = [0 20];
+N.lbc = [1i; 1.446];
+z = N\0; x = real(z); y = imag(z);
+plot(0,0,'.k',MS,8), hold on
+plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off</pre>
+
+<p><img src="img/TwoElectrons_03.png" class="figure" alt=""></p>
+<p>A plot of $x$ values confirms the periodicity:</p>
+<pre class="mcode-input">plot(x), xlabel t, ylabel x</pre>
+
+<p><img src="img/TwoElectrons_04.png" class="figure" alt=""></p>
+<p>Here is an estimate of the period:</p>
+<pre class="mcode-input">r = roots(x-.9*max(x)); r = r(deriv(x,r)&gt;0); Period = r(2)-r(1)</pre>
+
+<pre class="mcode-output">Period =
+   5.075763807535344
+</pre>
+
+<p>Here is another periodic solution, with an estimate of the period:</p>
+<pre class="mcode-input">N.lbc = [1i; 0.783];
+z = N\0; x = real(z); y = imag(z);
+plot(0,0,'.k',MS,8), hold on
+plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
+r = roots(x-.9*max(x)); r = r(deriv(x,r)&gt;0); Period = r(2)-r(1)</pre>
+
+<pre class="mcode-output">Period =
+   8.458858025795349
+</pre>
+
+<p><img src="img/TwoElectrons_05.png" class="figure" alt=""></p>
+<p>And here is another:</p>
+<pre class="mcode-input">N.lbc = [1i; 1.17745];
+z = N\0; x = real(z); y = imag(z);
+plot(0,0,'.k',MS,8), hold on
+plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
+r = roots(y-.99999); Period = mean(r(end-1:end))</pre>
+
+<pre class="mcode-output">Period =
+  19.316951166178630
+</pre>
+
+<p><img src="img/TwoElectrons_06.png" class="figure" alt=""></p>
+<p>Readers trying these computations on their own may enjoy experimenting with the command <code>comet(z)</code>.</p>
+<h3 id="4-computing-time">4. Computing time</h3>
+<p>Chebfun is wonderfully convenient, but it is not especially fast, as we can see from the computing time for this example:</p>
+<pre class="mcode-input">total_time_in_seconds = toc</pre>
+
+<pre class="mcode-output">total_time_in_seconds =
+  29.570996999999998
+</pre>
+
+<p>For faster work, the first author has been exploring electron problems in Julia using Julia's ode45 command.  In our experiments, this runs more than ten times faster than Matlab's ode45.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

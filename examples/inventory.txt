@@ -90,6 +90,7 @@ ode-nonlin/Blasius.m
 ode-nonlin/GuckenheimerHolmes.m
 ode-nonlin/FourierCollocationNonLin.m
 ode-nonlin/Picard.m
+ode-nonlin/TwoElectrons.m
 ode-nonlin/ModellingDiseases.m
 ode-nonlin/ThreeBodyProblem.m
 ode-nonlin/LyapunovExponents.m
