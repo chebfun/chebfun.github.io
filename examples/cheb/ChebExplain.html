@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The <code>explain</code> command for Chebfun geeks &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The <code>explain</code> command for Chebfun geeks</h1>
+<h2>Jared Aurentz and Nick Trefethen, June 2016 in <a href='/examples/cheb/'>cheb</a><span><a href='/examples/cheb/ChebExplain.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/cheb/ChebExplain.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-circles-dots-dashed-line-and-envelope">1. Circles, dots, dashed line, and envelope</h3>
+<p>Since the release of Version 5.3 in 2015, Chebfun has constructed chebfuns by a process encoded in <code>standardChop.m</code>, which implements an algorithm described in [1]. If you want to see the details for a particular function, the new <code>explain</code> command can help. (As of today, you need to be on the development branch for this.) For example, here is an explanation of the chebfun of the function $f(x) = 10000e^x$ on $[-1,1]$:</p>
+<pre class="mcode-input">explain('100000*exp(x)')</pre>
+
+<p><img src="img/ChebExplain_01.png" class="figure" alt=""></p>
+<p>The three most basic features of the plot are as follows.</p>
+<p><em>Red circles:</em> Chebyshev coefficients of the constructed chebfun for $f$, of degree 14 in this case.  (Throughout this discussion, when we speak of coefficients or other numbers, we mean their absolute values.)</p>
+<p><em>Black dots:</em> Chebyshev coefficients of $f$ on the finest grid that the constructor sampled during the construction process. In this example there are 33 of these (the last one off-scale, below the plot).  In general this number will be one of $17, 33, 65,\dots, 65537$.</p>
+<p><em>Horizontal black dashed line:</em> tolerance used for this chebfun construction. This level is equal to the scale of the function (maximum of the Chebyshev coefficients) times  a number <code>tol</code>.  In a Chebfun computation, <code>tol</code> is set to the Chebfun <code>chebfuneps</code> parameter, whose factory value is machine epsilon, $2^{-52}$, about $10^{-16}$.  In <code>explain</code>, <code>tol</code> is set to machine epsilon by default, and we will show later on how the user can override this choice.</p>
+<p><em>Green envelope:</em> this is a monotonically nonincreasing curve showing, at each index, the maximum of this and all subsequent coefficients.  Chebfun's construction decisions are based entirely on this envelope.  Two functions that have different Chebyshev coefficients but the same envelope will be chopped at exactly the same point.</p>
+<h3 id="2-plateaupoint-and-tilted-line">2. PlateauPoint and tilted line</h3>
+<p>Two finer points of the <code>explain</code> plot are the black square box, which marks the index we call <code>PlateauPoint</code>, and the tilted magenta line.  To explain these it is helpful to look at another example:</p>
+<pre class="mcode-input">explain('exp(-(x-.5)^2)')</pre>
+
+<p><img src="img/ChebExplain_02.png" class="figure" alt=""></p>
+<p>First, a couple of notes about cosmetic items.  The string input to <code>explain</code> can use symbols like <code>*</code> and <code>^</code> rather than their pointwise analogues <code>.*</code> and <code>.^</code>.  This is made possible by a call in <code>explain</code> to the MATLAB <code>vectorize</code> command, and it helps to make the printed label at the upper-right of each plot come out as closely as possible to mathematical notation.  The code also applies various other formatting adjustments to tidy up that label. For example, note that the <code>*</code> for multiplication that defined our first function did not appear in its label in the plot.</p>
+<p>Now, back to the construction process.  The <code>standardChop</code> algorithm has three main steps.  Step 1 calculates the monotonic envelope of the Chebyshev coefficients. The main feature of the algorithm is the separation into a Step 2, which decides that <em>this series is good enough to be chopped to make a chebfun</em> (if not, we have to sample on a finer grid), and Step 3, which decides <em>exactly where we will chop this series</em>.</p>
+<p>A series is good enough to be chopped if it contains a "plateau" of coefficients at approximately the level of <code>tol</code>.  The precise decision here, however, is subtle.  Any plateau lower than $tol^{2/3}$ might be good enough, but if it's as high as $tol^{2/3}$ it has to be perfectly flat, whereas if it's all the way down at $tol$, it does not have to be flat.  In the figure, the black box shows that at index $k=22$, the algorithm has decided that this series is good enough to be chopped.  In the end, though, the last Chebyshev coefficient retained is not $k=22$ but $k=24$. In Step 3, the algorithm has judged that coefficients $k=23$ and $k=24$ also contain useful information.  To make this judgement, it "holds up a tilted ruler" to the data, and chops the series just before the first point where the green envelope and the magenta ruler touch.</p>
+<p>Here is another example, a Runge function with a large parameter.</p>
+<pre class="mcode-input">explain('1/(1+1000*x^2)')</pre>
+
+<p><img src="img/ChebExplain_03.png" class="figure" alt=""></p>
+<p>Here we illustrate that a long plateau at level $10^{-8}$ is too high to be accepted; Chebfun insists on capturing it:</p>
+<pre class="mcode-input">explain('exp(x) + 1e-8*cos(99*x)')</pre>
+
+<p><img src="img/ChebExplain_04.png" class="figure" alt=""></p>
+<p>If the plateau is lower down, Chebfun chops before it:</p>
+<pre class="mcode-input">explain('exp(x) + 1e-12*cos(99*x)')</pre>
+
+<p><img src="img/ChebExplain_05.png" class="figure" alt=""></p>
+<p>Sometimes Chebfun chooses to chop a series before <code>plateauPoint</code>.  One sees this most often with non-analytic functions whos series converge slowly:</p>
+<pre class="mcode-input">explain('abs(x)^3')</pre>
+
+<p><img src="img/ChebExplain_06.png" class="figure" alt=""></p>
+<p>Here the constructor has decided that doubling the length of the series to get one more digit is not worthwhile.  One can always override that decision with a command like this:</p>
+<pre class="mcode-input">f = chebfun('abs(x).^3',3000)</pre>
+
+<pre class="mcode-output">f =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values  
+[      -1,       1]     3000         1        1 
+vertical scale =   1 
+</pre>
+
+<h3 id="3-adjusting-the-tolerance">3. Adjusting the tolerance</h3>
+<p>For working with noisy data, and also for computations in two and especially three dimensions, it is often desirable to loosen the tolerance.  For example, Chebfun cannot capture this function:</p>
+<pre class="mcode-input">f = chebfun('exp(x) + 1e-8*cos(99999*x)')</pre>
+
+<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+f =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values  
+[      -1,       1]    65537      0.37      2.7 
+vertical scale = 2.7 
+</pre>
+
+<p>With a looser tolerance it has no trouble:</p>
+<pre class="mcode-input">f = chebfun('exp(x) + 1e-8*cos(99999*x)','eps',1e-8)</pre>
+
+<pre class="mcode-output">f =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values  
+[      -1,       1]       10      0.37      2.7 
+vertical scale = 2.7 
+</pre>
+
+<p>Here we use <code>explain</code> with a second tolerance parameter to see how the length was determined:</p>
+<pre class="mcode-input">explain('exp(x) + 1e-8*cos(99999*x)',1e-8)</pre>
+
+<p><img src="img/ChebExplain_07.png" class="figure" alt=""></p>
+<h3 id="4-references">4. References</h3>
+<ol>
+<li>J. L. Aurentz and L. N. Trefethen, Chopping a Chebyshev series, arXiv 2015 and expected to appear after revision in <em>ACM Transactions on Mathematical Software</em>.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
