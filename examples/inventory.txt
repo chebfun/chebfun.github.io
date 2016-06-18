@@ -36,6 +36,7 @@ ode-eig/SolarQDA.m
 ode-eig/OrrSommerfeld.m
 ode-eig/ContourProjEig.m
 ode-eig/WaveDecay.m
+approx3/Complexity.m
 quad/SymbolicNumeric.m
 quad/GaussClenCurt.m
 quad/QuadratureConvergence.m

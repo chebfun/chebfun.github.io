@@ -4,10 +4,11 @@ function make_chapters(N)
 %   by the vector N.
 %
 %   Example:   >> make_chapters([1 2 3])
+%
+%   This function works as part of the Chebfun website suite, and
+%   it assumes that directory structure.
 
-% TODO: make this robust to other people's machines
-%       and figure out the process for updating existing examples.
-pathpath = '/Users/hrothgar/chebfun/guide/';
+pathpath = '../../../guide/';
 slug     = 'guide';
 
 % Make each chapter the user has requested
@@ -33,26 +34,12 @@ for n = N(:)'
     opts.stylesheet = fullfile(pwd, 'custom_guide2md.xsl');
 
     % Publish the chapter.
-    mypublish(chapname, opts);
+    addpath('../../mlib');
+    webPublish(chapname, opts);
+    rmpath('../../mlib');
 
     % Let the user know we're done.
     fprintf(1, 'Done.\n')
 end
 
-return
-
-
-%-----------------------------------------------------------------------------
-function mypublish(varargin)
-%MYPUBLISH   Publish a Chebfun example from a safe clean workspace.
-%   Credit to nick Hale for this.
-
-close all
-evalin('base','clear all');
-guideFormats;
-% chebexample_publish(varargin{:});
-publish(varargin{:});
-guideFormats('factory');
-close all
-
-return
+end
