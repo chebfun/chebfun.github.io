@@ -85,6 +85,7 @@ sphere/SphericalHarmonics.m
 sphere/AtmosphericTemperature.m
 approx3/Hello3.m
 approx3/Complexity.m
+approx3/GaussGreenStokes.m
 ode-nonlin/Orbits.m
 ode-nonlin/BlowupFK.m
 ode-nonlin/AllenCahn.m
