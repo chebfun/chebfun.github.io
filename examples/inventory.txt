@@ -83,6 +83,7 @@ sphere/HelmholtzDecomposition.m
 sphere/SphereHeatConduction.m
 sphere/SphericalHarmonics.m
 sphere/AtmosphericTemperature.m
+approx3/Hello3.m
 approx3/Complexity.m
 ode-nonlin/Orbits.m
 ode-nonlin/BlowupFK.m
