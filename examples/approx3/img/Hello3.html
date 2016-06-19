@@ -1,7 +1,7 @@
 ---
 title: "Hello 3D World"
 layout: example
-authordate: "Olivier Sete, June 2016"
+authordate: "Olivier Sète, June 2016"
 meta: "(Chebfun3 Example: Fun/HelloWorld3.m)"
 ---
 
@@ -32,4 +32,6 @@ From a function approximation point of view, this is most definitely not well re
 
 <pre class="mcode-input">isosurface(f, -0.1)
 view([-2.5, -1, 0.4]), camlight, axis off, axis equal</pre><img src="img/Hello3_02.png" class="figure" alt="">
+
+In this example we approximated the discrete HELLO tensor using the 'equi' flag, leading to a trivariate Chebyshev representation associated with equispaced data.  A more straightforward approach mathematically would be to regard the tensor as triply periodic and form a chebfun3 from it with the 'trig' flag instead.  Experiments show that if this is done, the pictures look similar.
 
