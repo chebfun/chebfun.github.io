@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Finding a trivariate basis of rank-one functions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Finding a trivariate basis of rank-one functions</h1>
+<h2>Yuji Nakatsukasa, June 2016 in <a href='/examples/approx3/'>approx3</a><span><a href='/examples/approx3/FindingRankOne.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx3/FindingRankOne.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-rank-one-trivariate-functions">1. Rank-one trivariate functions</h3>
+<p>When a chebfun3 is constructed for a rank-one function $f(x,y,z) = f_x(x)f_y(y)f_z(z)$, Chebfun is able to detect its numerical rank for efficient storage and subsequent computation.</p>
+<pre class="mcode-input">f = chebfun3(@(x,y,z) sin(x).*cos(y).*exp(z));
+rank(f)</pre>
+
+<pre class="mcode-output">ans =
+     1
+</pre>
+
+<p>A sum of $k\ (\geq 2)$ rank-one functions is usually of rank $k$ (Tucker rank; note that for rank-one functions, the Tucker and CP ranks are the same).  For example,</p>
+<pre class="mcode-input">g = chebfun3(@(x,y,z) cos(x).*exp(y).*sin(z));
+h = chebfun3(@(x,y,z) exp(x).*sin(y).*cos(z));
+fhat = f+(g+h)/10;
+rank(fhat)</pre>
+
+<pre class="mcode-output">ans =
+     3
+</pre>
+
+<h3 id="2-finding-a-basis-of-rank-one-functions">2. Finding a basis of rank-one functions</h3>
+<p>Now consider the following problem. Given the rank-three function $\hat f$ along with the rank-one functions $g$ and $h$, we would like to find (or "recover") the function $f$ such that</p>
+<p>(i) $f$ is rank one, and</p>
+<p>(ii) $\hat f,g,h$ and $f,g,h$ span the same subspace.</p>
+<p>Put another way, we are looking for a basis consisting of rank-one functions for the subspace spanned by $\hat f,g,h$. This is a higher-order and continuous analogue of the problem considered in [1] (and simplified to the rank-one case). A convenient way to obtain a rank-one function close to $\hat f$ is to do</p>
+<pre class="mcode-input">ftmp = chebfun3(@(x,y,z) fhat(x,y,z),'rank',[1 1 1]);</pre>
+
+<p>(An alternative approach is to do simplify(fhat,'rank',1e0), which is slightly different but gives a similar outcome below) Note that ftmp, although rank-one, does not lie in the span of $\hat f,g,h$, violating (ii). Indeed it is not close to the desired $f$:</p>
+<pre class="mcode-input">scale = f(1,1,1)/ftmp(1,1,1); % scalar scaling
+norm(f-ftmp*scale)</pre>
+
+<pre class="mcode-output">ans =
+   0.304836799578982
+</pre>
+
+<p>Here is a simple algorithm, analogous to that in [2], that correctly finds the function $f$. It is based on alternating projection between rank-one functions and the subspace of trivariate functions spanned by $\hat f,g,h$.</p>
+<pre class="mcode-input">MS = 'Markersize'; ms = 18;LW = 'linewidth';
+LW = 'linewidth'; MS = 'markersize'; FS = 'fontsize';
+TEX = 'interpreter';tex = 'latex';
+lw = 2; ms = 12; fs = 14; ffs = 12;
+
+n = length(f);
+G = reshape(sample(g,n,n,n),[n^3,1]); % form vectors of values at Chebyshev tensor grid
+H = reshape(sample(h,n,n,n),[n^3,1]);
+F = reshape(sample(fhat,n,n,n),[n^3,1]);
+[Q,~] = qr([G H F],0);                % Q is the subspace spanned by $fhat,g,h$
+
+clf, hold on
+for it = 1:10
+    Ftmp = reshape(sample(ftmp,n,n,n),[n^3,1]);
+    Ftmp = Q*(Q'*Ftmp);               % projection onto subspace
+    ftmp = chebfun3(reshape(Ftmp,n,n,n),'rank',[1 1 1]); % proj onto rank-1 funs
+   %ftmp = simplify(chebfun3(reshape(Ftmp,n,n,n)),'rank',1e0); % alternative to above
+    scale = f(1,1,1)/ftmp(1,1,1);     % scalar scaling
+    err(it) = norm(f-ftmp*scale);
+    e = abs(f.cols-ftmp.cols*scale);
+    semilogy(e,LW,lw)
+    text(1.05,e(end),['it=',int2str(it)])
+end
+ylim([1e-10 1])
+xlabel('x',FS,fs)
+ylabel('error',FS,fs)</pre>
+
+<p><img src="img/FindingRankOne_01.png" class="figure" alt=""></p>
+<p>The figure shows the $x$-component $|\hat f_x(x)-f_x(x)|$ of the error in $\hat f$, which is apparently converging to 0. Here is a 3-D plot of the error.</p>
+<pre class="mcode-input">hold off
+plot(f-ftmp*scale)</pre>
+
+<p><img src="img/FindingRankOne_02.png" class="figure" alt=""></p>
+<p>The last plots suggest linear convergence of $\hat f$ to $f$ in the whole unit cube. Indeed, it is known [1] that under mild assumptions and with an initial guess close to an intersection point, alternating projections converges linearly to the intersection. For this example; the convergence of $\|f-\hat f\|$ is convincingly linear.</p>
+<pre class="mcode-input">semilogy(err,'-o',LW,lw)
+xlabel('iteration',FS,fs)
+ylabel('error $\|f-\hat f\|$',TEX,tex,FS,fs)</pre>
+
+<p><img src="img/FindingRankOne_03.png" class="figure" alt=""></p>
+<h3 id="3-references">3. References</h3>
+<p>[1] D. Drusvyatskiy, A. D. Ioffe, and A. D. Lewis, Transversality and alternating projections for nonconvex sets, <em>Found. Comput. Math.</em> 15 (2015), 1637-1651.</p>
+<p>[2] Y. Nakatsukasa, T. Soma, and A. Uschmajew, Finding a low-rank basis in a matrix subspace, <em>Mathematical Programming</em>, to appear.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
