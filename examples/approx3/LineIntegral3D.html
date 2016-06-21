@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Applications &raquo; Chebfun</title>
+    <title>Integration over 3D curves &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,59 +54,45 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Applications</h1>
+<h1>Integration over 3D curves</h1>
+<h2>Behnam Hashemi, June 2016 in <a href='/examples/approx3/'>approx3</a><span><a href='/examples/approx3/LineIntegral3D.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx3/LineIntegral3D.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li class='active'><a href="/examples/applics/index.html">Applications<span>2</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>33</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>8</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>4</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>14</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>4</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>10</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>11</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>19</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>21</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>8</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>5</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>5</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>11</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/applics/Gompertz.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/Gompertz_01.png' /></div>
-            <h3>Exponential, logistic, and Gompertz growth</h3>
-            <p>Toby Driscoll, June 15, 2015<!--
-                <span class='tags'><span href='#' class='tag'>#ivp</span>, <span href='#' class='tag'>#ode</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/applics/EuropeanCall.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/EuropeanCall_01.png' /></div>
-            <h3>Pricing of a European Call option</h3>
-            <p>Ricardo Pachon, November 2014<!--
-                <span class='tags'><span href='#' class='tag'>#blackscholes</span>, <span href='#' class='tag'>#finance</span>, <span href='#' class='tag'>#option pricing</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Assume that $f(x,y,z)$ is a function defined over a box $[a, b] \times [c, d] \times [e, g]$ represented by a chebfun3 and $C$ is a 3D curve defined by a parameterization $$ C = { (x,y,z): ~x = x(t),~ y = y(t),~ z = z(t),~~ t_1 \leq t \leq t_2 }. $$ Our aim is to compute the line integral of $f$ over $C$. Recall from calculus that $$ \int_C f(x,y,z) ds = \int_{t_1}^{t_2} f(x(t), y(t), z(t)) \sqrt{(\frac{dx}{dt})^2 + (\frac{dy}{dt})^2 + (\frac{dz}{dt})^2} \, dt. $$</p>
+<p>We can use the <code>integral</code> command of Chebfun3 to compute the path integral. To get a meaningful result, the range of $C$ should be in the domain of $f$. Here is a line integral of $\cos(x+yz)$ over a curve in the form of a sine wave on the unit sphere [p. 30, 1].</p>
+<pre class="mcode-input">format long, p = 10; q = 1; r = 0.3;
+C = chebfun(@(t) [cos(t).*sqrt(q^2-r^2*(cos(p*t)).^2) ...
+                      sin(t).*sqrt(q^2-r^2*(cos(p*t)).^2) ...
+                      r*cos(p*t)], [0, 2*pi]);
+plot3(C(:,1), C(:,2), C(:,3)), axis equal
+f = chebfun3(@(x,y,z) cos(x+y.*z));
+I = integral(f, C)</pre>
+
+<pre class="mcode-output">I =
+  10.746250564473506
+</pre>
+
+<p><img src="img/LineIntegral3D_01.png" class="figure" alt=""></p>
+<p>As a second example, consider integration of $x+yz$ over a spherical helix</p>
+<pre class="mcode-input">r = 5;
+C = chebfun(@(t) [sin(t/(2*r)).*cos(t) sin(t/(2*r)).*sin(t) ...
+    cos(t/(2*r))], [0, 10*pi]);
+plot3(C(:,1), C(:,2), C(:,3)), axis equal
+f = chebfun3(@(x,y,z) x+y.*z );
+I = integral(f, C)</pre>
+
+<pre class="mcode-output">I =
+  -0.040586850422703
+</pre>
+
+<p><img src="img/LineIntegral3D_02.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>C. Warren, <em>An Interactive Introduction to MATLAB</em>, University of Edinburgh, 2012.</li>
+</ol></div>
         </div>
     </div>
 </div>

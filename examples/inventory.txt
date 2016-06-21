@@ -83,6 +83,7 @@ sphere/HelmholtzDecomposition.m
 sphere/SphereHeatConduction.m
 sphere/SphericalHarmonics.m
 sphere/AtmosphericTemperature.m
+approx3/LineIntegral3D.m
 approx3/Hello3.m
 approx3/Complexity.m
 approx3/GaussGreenStokes.m
