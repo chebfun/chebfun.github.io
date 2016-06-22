@@ -19,7 +19,7 @@ $$ \hat{K}(x,y) = \sum_{i=1}^{\infty} \max ( \lambda_i,0 ) \ q_i(x)\ q_i(y). $$
 
 In other words, in order to get a nearest positive semidefinite kernel, we just need to remove terms in the spectral expansion of $K$ that correspond to negative eigenvalues. The function $\hat{K}$ is also called the _positive semidefinite part_ of $K$. This is a continuous analogue of the problem of finding a nearest positive semidefinite matrix [1]. See also [4], where the problem is solved for a general (not necessarily symmetric) matrix.
 
-In practice, we assume that $K$ can be approximated to accuracy $\epsilon_M$ by a finite rank function [7-8]. One can easily compute such an approximation in Chebfun, even though Chebfun2 has no _eig_ command currently. The point is that the singular value expansion
+In practice, we assume that $K$ can be approximated to accuracy $\epsilon_M$ by a finite rank function [8-9]. One can easily compute such an approximation in Chebfun, even though Chebfun2 has no _eig_ command currently. The point is that the singular value expansion
 
 $$ K(x,y) = U \Sigma V^T = \sum_{i=1}^{\infty} \sigma_i\ u_i(x)\ v_i(y), $$
 
@@ -30,35 +30,37 @@ $$ \Sigma = \mbox{diag}(|\lambda_1|, |\lambda_2|, \cdots), \mbox{ and } V
 
 See e.g., [p. 31, 3] for details in the discrete case. Let us try some symmetric indefinite kernels in Chebfun. The function `KHat = nearestPSD(K)` in the following computes $\hat{K}$.
 
+Let us recall that even though spectral expansion of an operator is classic [7], it makes sense to talk also about spectral expansion of a bivariate function in the context of approximation. But it is not our aim here to make this connection precise.
+
 
 
 ## A multiquadric kernel
 
-One of the famous kernels used in the field of RBFs is the multiquadric. This kernel is indefinite in general [6], so its approximation by a positive semidefinite kernel is nontrivial.
+One of the famous kernels used in the field of RBFs is the multiquadric. This kernel is indefinite in general [6], so its approximation by a positive semidefinite kernel is nontrivial. More specifically, as Grady Wright noticed, the multiquadric is a conditionally negative definite kernel, which means that it has one positive eigenvalue and the rest are negative. In the following we try $-1$ times the multiquadric, which is a conditionally positive definite kernel, and the nearest PSD kernel would be of rank one less than the negative of the multiquadric.
 
-<pre class="mcode-input">sigma = 0.7; c = 1.5;
-mq = @(x,y) sqrt((x.^2+y.^2)./sigma + c^2);
+<pre class="mcode-input">c = 0.01;
+mq = @(x,y) -sqrt((x.^2+y.^2) + c^2);
 K = chebfun2(mq,[-2 2 -2 2])
 KHat = nearestPSD(K)</pre><pre class="mcode-output">K =
-   chebfun2 object (1 smooth surface)
+   chebfun2 object
        domain                 rank       corner values
-[  -2,   2] x [  -2,   2]       10     [ 3.7  3.7  3.7  3.7]
-vertical scale = 3.7 
+[  -2,   2] x [  -2,   2]       29     [-2.8 -2.8 -2.8 -2.8]
+vertical scale = 2.8 
 KHat =
-   chebfun2 object (1 smooth surface)
+   chebfun2 object
        domain                 rank       corner values
-[  -2,   2] x [  -2,   2]        1     [   4    4    4    4]
-vertical scale =   4 
-</pre>As we see, $9$ negative eigenvalues of $K$ have been removed to form $\hat{K}$.
+[  -2,   2] x [  -2,   2]       28     [0.41 0.41 0.41 0.41]
+vertical scale = 0.74 
+</pre>As we see, one negative eigenvalue of $K$ has been removed to form $\hat{K}$.
 
 <pre class="mcode-input">subplot(1,2,1), contourf(K), axis equal, title('Multiquadric kernel')
-subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre><img src="img/NearestPSDKernel_01.png" class="figure" alt=""/>
+subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre><img src="img/NearestPSDKernel_01.png" class="figure" alt="">
 
 
 
 ## A symmetric positive semidefinite kernel of Gaussian bumps
 
-Here we add $20$ Gaussian bumps with centers at the diagoanl of the domain, so that the kernel itself is positive semidefinite and therefore we expect $\hat{K}$ to be the same as $K$.
+Here we add $20$ Gaussian bumps with centers at the diagonal of the domain, so that the kernel itself is positive semidefinite and therefore we expect $\hat{K}$ to be the same as $K$.
 
 <pre class="mcode-input">gam = 50;
 K = chebfun2(0);
@@ -74,23 +76,23 @@ subplot(1,2,2), plot(KHat), title('Nearest PSD kernel')
 snapnow
 subplot(1,2,1), contourf(K), axis equal, title('A PSD sum of 20 bumps')
 subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre><pre class="mcode-output">K =
-   chebfun2 object (1 smooth surface)
+   chebfun2 object
        domain                 rank       corner values
 [  -1,   1] x [  -1,   1]       20     [ 1.8 -4.4e-16 -1.4e-15 0.0026]
 vertical scale =   4 
 KHat =
-   chebfun2 object (1 smooth surface)
+   chebfun2 object
        domain                 rank       corner values
 [  -1,   1] x [  -1,   1]       20     [ 1.8 -3e-16 -1.2e-15 0.0026]
 vertical scale =   4 
-</pre><img src="img/NearestPSDKernel_02.png" class="figure" alt=""/>
+</pre><img src="img/NearestPSDKernel_02.png" class="figure" alt="">
 
-<img src="img/NearestPSDKernel_03.png" class="figure" alt=""/>
+<img src="img/NearestPSDKernel_03.png" class="figure" alt="">
 
 Let's see how different $K$ and $\hat{K}$ are:
 
 <pre class="mcode-input">norm(K-KHat,'fro')</pre><pre class="mcode-output">ans =
-     2.174698286245708e-15
+     0
 </pre>
 
 ## A symmetric indefinite kernel of Gaussian bumps
@@ -112,18 +114,18 @@ subplot(1,2,2), plot(KHat), title('Nearest PSD kernel')
 snapnow
 subplot(1,2,1), contourf(K), axis equal, title('An indefinite sum of bumps')
 subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre><pre class="mcode-output">K =
-   chebfun2 object (1 smooth surface)
+   chebfun2 object
        domain                 rank       corner values
-[  -1,   1] x [  -1,   1]       20     [1.3e-10 -1.5e-15 7.3e-16 0.00028]
+[  -1,   1] x [  -1,   1]       20     [1.3e-10 -1.4e-15 1.4e-15 0.00028]
 vertical scale =   2 
 KHat =
-   chebfun2 object (1 smooth surface)
+   chebfun2 object
        domain                 rank       corner values
 [  -1,   1] x [  -1,   1]       10     [ 0.4 -1.1e-06 -1.1e-06 0.00028]
 vertical scale =   2 
-</pre><img src="img/NearestPSDKernel_04.png" class="figure" alt=""/>
+</pre><img src="img/NearestPSDKernel_04.png" class="figure" alt="">
 
-<img src="img/NearestPSDKernel_05.png" class="figure" alt=""/>
+<img src="img/NearestPSDKernel_05.png" class="figure" alt="">
 
 
 
@@ -131,12 +133,12 @@ vertical scale =   2
 
 <pre class="mcode-input">K = cheb.gallery2('waffle')
 KHat = nearestPSD(K)</pre><pre class="mcode-output">K =
-   chebfun2 object (1 smooth surface)
+   chebfun2 object
        domain                 rank       corner values
 [  -1,   1] x [  -1,   1]       29     [0.0032 0.0032 0.0032 0.0032]
 vertical scale =   1 
 KHat =
-   chebfun2 object (1 smooth surface)
+   chebfun2 object
        domain                 rank       corner values
 [  -1,   1] x [  -1,   1]       15     [0.24 0.24 0.24 0.24]
 vertical scale = 1.9 
@@ -146,9 +148,9 @@ vertical scale = 1.9
 subplot(1,2,2), plot(KHat), title('Nearest PSD kernel')
 snapnow
 subplot(1,2,1), contourf(K), axis equal, title('Waffle')
-subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre><img src="img/NearestPSDKernel_06.png" class="figure" alt=""/>
+subplot(1,2,2), contourf(KHat), axis equal, title('Nearest PSD kernel')</pre><img src="img/NearestPSDKernel_06.png" class="figure" alt="">
 
-<img src="img/NearestPSDKernel_07.png" class="figure" alt=""/>
+<img src="img/NearestPSDKernel_07.png" class="figure" alt="">
 
 <pre class="mcode-input">function KHat = nearestPSD(K)
 [U,S,V] = svd(K);
@@ -180,8 +182,10 @@ end</pre>
 
 6. C. S. Ong, X. Mary, S. Canu and  A. J. Smola, Learning with    non-positive kernels, _Proceedings of the 21st International    Conference on Machine Learning_, Banff, Canada, 2004.
 
-7. A. Townsend, _Computing with functions in two dimensions_, DPhil    Thesis, University of Oxford, 2014.
+7. F. Riesz and B. Sz.-Nagy, _Functional Analysis_, Dover, 1990.
 
-8. A. Townsend and L.N. Trefethen, An extension of Chebfun to two    dimensions, _SIAM Journal on Scientific Computing_ 35 (2013) C495-C518.
+8. A. Townsend, _Computing with functions in two dimensions_, DPhil    Thesis, University of Oxford, 2014.
+
+9. A. Townsend and L.N. Trefethen, An extension of Chebfun to two    dimensions, _SIAM Journal on Scientific Computing_ 35 (2013) C495-C518.
 
 <pre class="mcode-input">end</pre>
