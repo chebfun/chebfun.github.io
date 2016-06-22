@@ -24,7 +24,7 @@ surf(S), axis equal</pre><img src="img/FluxIntegral3D_01.png" class="figure" alt
 To compute the flux of $F$ through $S$ we simply type
 
 <pre class="mcode-input">integral2(F, S)</pre><pre class="mcode-output">ans =
-    -1.581991782367625e+02
+    -1.581991782367624e+02
 </pre>As a second example, we take $S$ to be the lower half of the unit sphere, parametrized by
 
 <pre class="mcode-input">S = chebfun2v(@(phi, theta) sin(theta) .* cos(phi), ...
@@ -35,12 +35,12 @@ surf(S), axis equal</pre><img src="img/FluxIntegral3D_02.png" class="figure" alt
 The flux of $F$ through this "bowl" is
 
 <pre class="mcode-input">integral2(F, S)</pre><pre class="mcode-output">ans =
-  -6.283185307179594
+  -6.283185307179587
 </pre>This matches nicely the exact value $-2\pi$
 
 <pre class="mcode-input">-2*pi</pre><pre class="mcode-output">ans =
   -6.283185307179586
 </pre>We can also integrate a scalar function $f = f(x,y,z)$ over a surface with the following surface integral: $$\int_S f \, dS = \int_D f(S(u,v)) \left\Vert \frac{\partial S}{\partial u}(u,v) \times \frac{\partial S}{\partial v}(u,v) \right\Vert \, dudv. $$ Note the difference to the flux integral: here we take the norm of the cross product. When $f$ is represented by a chebfun3 object, this integral can be computed with `integral2`.
 
-Of course we can also integrate over curves in Chebfun3.  This is done with `integral`.  See <http://www.chebfun.org/examples/fun/LineIntegral3D.html> for integration of a scalar function over a curve and <http://www.chebfun.org/examples/fun/GaussGreenStokes.html> for integrals of vector fields along a curve.
+Of course we can also integrate over curves in Chebfun3.  This is done with `integral`.  See <http://www.chebfun.org/examples/approx3/LineIntegral3D.html> for integration of a scalar function over a curve and <http://www.chebfun.org/examples/approx3/GaussGreenStokes.html> for integrals of vector fields along a curve.
 

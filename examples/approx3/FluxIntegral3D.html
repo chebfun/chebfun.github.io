@@ -79,7 +79,7 @@ surf(S), axis equal</pre>
 <pre class="mcode-input">integral2(F, S)</pre>
 
 <pre class="mcode-output">ans =
-    -1.581991782367625e+02
+    -1.581991782367624e+02
 </pre>
 
 <p>As a second example, we take $S$ to be the lower half of the unit sphere, parametrized by</p>
@@ -93,7 +93,7 @@ surf(S), axis equal</pre>
 <pre class="mcode-input">integral2(F, S)</pre>
 
 <pre class="mcode-output">ans =
-  -6.283185307179594
+  -6.283185307179587
 </pre>
 
 <p>This matches nicely the exact value $-2\pi$</p>
@@ -104,7 +104,7 @@ surf(S), axis equal</pre>
 </pre>
 
 <p>We can also integrate a scalar function $f = f(x,y,z)$ over a surface with the following surface integral: $$\int_S f \, dS = \int_D f(S(u,v)) \left\Vert \frac{\partial S}{\partial u}(u,v) \times \frac{\partial S}{\partial v}(u,v) \right\Vert \, dudv. $$ Note the difference to the flux integral: here we take the norm of the cross product. When $f$ is represented by a chebfun3 object, this integral can be computed with <code>integral2</code>.</p>
-<p>Of course we can also integrate over curves in Chebfun3.  This is done with <code>integral</code>.  See <a href="http://www.chebfun.org/examples/fun/LineIntegral3D.html">http://www.chebfun.org/examples/fun/LineIntegral3D.html</a> for integration of a scalar function over a curve and <a href="http://www.chebfun.org/examples/fun/GaussGreenStokes.html">http://www.chebfun.org/examples/fun/GaussGreenStokes.html</a> for integrals of vector fields along a curve.</p></div>
+<p>Of course we can also integrate over curves in Chebfun3.  This is done with <code>integral</code>.  See <a href="http://www.chebfun.org/examples/approx3/LineIntegral3D.html">http://www.chebfun.org/examples/approx3/LineIntegral3D.html</a> for integration of a scalar function over a curve and <a href="http://www.chebfun.org/examples/approx3/GaussGreenStokes.html">http://www.chebfun.org/examples/approx3/GaussGreenStokes.html</a> for integrals of vector fields along a curve.</p></div>
         </div>
     </div>
 </div>
