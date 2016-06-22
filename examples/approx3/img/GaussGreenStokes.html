@@ -1,8 +1,8 @@
 ---
 title: "The theorems of Gauss, Green and Stokes"
 layout: example
-authordate: "Olivier Sete, June 2016"
-meta: "(Chebfun example chebfun3/GaussGreenStokes.m)"
+authordate: "Olivier Sète, June 2016"
+meta: "(Chebfun example approx3/GaussGreenStokes.m)"
 ---
 
 In this example we illustrate Gauss's theorem, Green's identities, and Stokes' theorem in Chebfun3.
@@ -43,7 +43,7 @@ isosurface(g,1.3,'r'), axis equal, grid on</pre><img src="img/GaussGreenStokes_0
 The Laplacian and gradient of $f$ can be computed with `lap(f)` and `grad(f)`. We evaluate the two sides of the first Green identity in the same way as for the Gauss's theorem above.  The exact value $48$ is matched closely by the integral over the cube,
 
 <pre class="mcode-input">I3 = sum3(f .* lap(g) + dot(grad(f), grad(g)))</pre><pre class="mcode-output">I3 =
-  47.999999999999986
+  48.000000000000114
 </pre>The flux integral also agrees:
 
 <pre class="mcode-input">v = f * grad(g);
@@ -51,11 +51,11 @@ v1 = v(1); v2 = v(2); v3 = v(3);
 I4 = sum2(v1(1,:,:)) - sum2(v1(-1,:,:)) + ...
      sum2(v2(:,1,:)) - sum2(v2(:,-1,:)) + ...
      sum2(v3(:,:,1)) - sum2(v3(:,:,-1))</pre><pre class="mcode-output">I4 =
-    48
+  47.999999999999993
 </pre>For the second Green formula the exact value of the integrals is again $48$. We compute
 
 <pre class="mcode-input">I5 = sum3(f .* lap(g) - lap(f) .* g)</pre><pre class="mcode-output">I5 =
-  48.000000000000526
+  47.999999999999773
 </pre>and
 
 <pre class="mcode-input">v = f * grad(g) - g * grad(f);
@@ -63,16 +63,16 @@ v1 = v(1); v2 = v(2); v3 = v(3);
 I6 = sum2(v1(1,:,:)) - sum2(v1(-1,:,:)) + ...
      sum2(v2(:,1,:)) - sum2(v2(:,-1,:)) + ...
      sum2(v3(:,:,1)) - sum2(v3(:,:,-1))</pre><pre class="mcode-output">I6 =
-  47.999999999999950
+  47.999999999999886
 </pre>
 
 ## 3.  Stokes' Theorem
 
 Stokes' Theorem in its classical formulation takes the form $$ \int_S \mbox{curl}(\vec{v}) \cdot \vec{dS} = \int_{\partial S} \vec{v} \cdot \vec{ds}. $$ Here, the vectorial line element $\vec{ds}$ is $\vec{ds} = \vec{t} ds$, where $\vec{t}$ is the tangential vector and $ds$ is the scalar line element. As an easy example we consider the surface given by the unit disk in the $x$ - $y$ plane, which can be parametrised by
 
-<pre class="mcode-input">Phi = chebfun2v(@(rho,phi) rho.*cos(phi), @(rho,phi) rho.*sin(phi), ...
+<pre class="mcode-input">S = chebfun2v(@(rho,phi) rho.*cos(phi), @(rho,phi) rho.*sin(phi), ...
     @(rho,phi) 0, [0, 1, 0, 2*pi]);
-surf(Phi)</pre><img src="img/GaussGreenStokes_02.png" class="figure" alt="">
+surf(S)</pre><img src="img/GaussGreenStokes_02.png" class="figure" alt="">
 
 We consider again the vector field $\vec{v}$ from the beginning, which we now construct by passing three function handles to the Chebfun3v constructor:
 
@@ -84,18 +84,10 @@ The curl of $\vec{v}$ is computed by
 <pre class="mcode-input">curlv = curl(v);
 quiver3(curlv)</pre><img src="img/GaussGreenStokes_04.png" class="figure" alt="">
 
-Note how the curl of $\vec{v}$ points up, just through the surface we are considering.
+Note how the curl of $\vec{v}$ points up, just through the surface we are considering.  The flux integral then is
 
-The composition $\mbox{curl}(\vec{v})(\Phi)$ can be obtained as
-
-<pre class="mcode-input">curlv1 = curlv(1); curlv2 = curlv(2); curlv3 = curlv(3);
-curlvPhi = chebfun2v(@(rho,phi) curlv1(rho.*cos(phi), rho.*sin(phi), 0*rho), ...
-    @(rho,phi) curlv2(rho.*cos(phi), rho.*sin(phi), 0*rho), ...
-    @(rho,phi) curlv3(rho.*cos(phi), rho.*sin(phi), 0*rho), ...
-    [0, 1, 0, 2*pi]);</pre>The flux integral is then simply
-
-<pre class="mcode-input">I7 = sum2(dot(curlvPhi, normal(Phi)))</pre><pre class="mcode-output">I7 =
-   3.141592653589794
+<pre class="mcode-input">I7 = integral2(curlv, S)</pre><pre class="mcode-output">I7 =
+   3.141592653589792
 </pre>The exact value is $\pi$,
 
 <pre class="mcode-input">pi</pre><pre class="mcode-output">ans =
@@ -105,5 +97,5 @@ curlvPhi = chebfun2v(@(rho,phi) curlv1(rho.*cos(phi), rho.*sin(phi), 0*rho), ...
 <pre class="mcode-input">gamma = chebfun(@(t) [cos(t), sin(t), 0*t], [0, 2*pi]);</pre>Then the line integral is
 
 <pre class="mcode-input">I8 = integral(v, gamma)</pre><pre class="mcode-output">I8 =
-   3.141592653589794
+   3.141592653589793
 </pre>
