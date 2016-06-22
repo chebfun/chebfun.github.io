@@ -16,10 +16,10 @@ C = chebfun(@(t) [cos(t).*sqrt(q^2-r^2*(cos(p*t)).^2) ...
 plot3(C(:,1), C(:,2), C(:,3)), axis equal
 f = chebfun3(@(x,y,z) cos(x+y.*z));
 I = integral(f, C)</pre><pre class="mcode-output">I =
-  10.746250564473506
+  10.746250564473513
 </pre><img src="img/LineIntegral3D_01.png" class="figure" alt="">
 
-As a second example, consider integration of $x+yz$ over a spherical helix
+As a second example, consider integration of $x+yz$ over a spherical helix (a special case of a more general type of curve known as a loxodrome).
 
 <pre class="mcode-input">r = 5;
 C = chebfun(@(t) [sin(t/(2*r)).*cos(t) sin(t/(2*r)).*sin(t) ...
@@ -27,7 +27,7 @@ C = chebfun(@(t) [sin(t/(2*r)).*cos(t) sin(t/(2*r)).*sin(t) ...
 plot3(C(:,1), C(:,2), C(:,3)), axis equal
 f = chebfun3(@(x,y,z) x+y.*z );
 I = integral(f, C)</pre><pre class="mcode-output">I =
-  -0.040586850422703
+  -0.040586850422702
 </pre><img src="img/LineIntegral3D_02.png" class="figure" alt="">
 
 
