@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Loosening the Chebfun3 tolerance &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Loosening the Chebfun3 tolerance</h1>
+<h2>Nick Trefethen, June 2016 in <a href='/examples/approx3/'>approx3</a><span><a href='/examples/approx3/Tolerance.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx3/Tolerance.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-tolerances-in-chebfun">1. Tolerances in Chebfun</h3>
+<p>Chebfun's default tolerance is machine precision in 1D, 2D, and 3D:</p>
+<pre class="mcode-input">chebfuneps
+chebfun2eps
+chebfun3eps</pre>
+
+<pre class="mcode-output">ans =
+     2.220446049250313e-16
+ans =
+     2.220446049250313e-16
+ans =
+     2.220446049250313e-16
+</pre>
+
+<p>In 1D, there is usually not much to be gained by loosening the tolerance (unless you are working with noisy functions), and we have long recommended that users leave <code>chebfuneps</code> at its factory value.  (There is an FAQ question at <code>www.chebfun.org</code> on this topic.)  In 2D and especially 3D, however, loosening the tolerance is often worthwhile. This is discussed in Section 18.10 of the <em>Chebfun Guide</em>.</p>
+<p>The reason the default tolerance is machine precision is that accurate results are often easily achievable.  For example, suppose we want to compute the triple integral $$ I = \int_{-1}^1 \int_{-1}^1 \int_{-1}^1 \exp(\sin(xyz + \exp(xyz))) dz dy dx . $$ We could do it like this,</p>
+<pre class="mcode-input">tic
+f = chebfun3(@(x,y,z) exp(sin(x.*y.*z + exp(x.*y.*z))));
+format long
+I = sum3(f)
+toc</pre>
+
+<pre class="mcode-output">I =
+  17.885693411606855
+Elapsed time is 1.971261 seconds.
+</pre>
+
+<p>We could also do it like this:</p>
+<pre class="mcode-input">tic
+cheb.xyz
+f = exp(sin(x.*y.*z + exp(x.*y.*z)));
+I = sum3(f)
+toc</pre>
+
+<pre class="mcode-output">I =
+  17.885693411606852
+Elapsed time is 2.406762 seconds.
+</pre>
+
+<p>These results are quite satisfactory, because this chebfun3 is of only medium complexity:</p>
+<pre class="mcode-input">f
+[m,n,p] = length(f)</pre>
+
+<pre class="mcode-output">f =
+   chebfun3 object 
+   cols: [Inf x 25 chebfun]
+   rows: [Inf x 26 chebfun]
+  tubes: [Inf x 26 chebfun]
+   core: [25 x 26 x 26 double]
+ domain: [-1, 1] x [-1, 1] x [-1, 1]
+ vertical scale = 2.7 
+m =
+    42
+n =
+    41
+p =
+    42
+</pre>
+
+<h3 id="2-slowdown-for-complicated-functions">2. Slowdown for complicated functions</h3>
+<p>On the other hand, if we make the function more complicated, things slow down:</p>
+<pre class="mcode-input">tic
+g = chebfun3(@(x,y,z) exp(sin(10*x.*y.*z + exp(x.*y.*z))));
+I = sum3(g)
+toc</pre>
+
+<pre class="mcode-output">I =
+  13.580020953068932
+Elapsed time is 45.432293 seconds.
+</pre>
+
+<p>Here are the parameters of the more complicated function:</p>
+<pre class="mcode-input">g
+[m,n,p] = length(g)</pre>
+
+<pre class="mcode-output">g =
+   chebfun3 object 
+   cols: [Inf x 67 chebfun]
+   rows: [Inf x 69 chebfun]
+  tubes: [Inf x 69 chebfun]
+   core: [67 x 69 x 69 double]
+ domain: [-1, 1] x [-1, 1] x [-1, 1]
+ vertical scale = 2.7 
+m =
+   156
+n =
+   156
+p =
+   156
+</pre>
+
+<h3 id="3-speedup-if-the-tolerance-is-loosened">3. Speedup if the tolerance is loosened</h3>
+<p>A considerable speedup can often be achieved by working with a looser tolerance.  One way to construct the chebfun3 with tolerance $10^{-8}$ is like this:</p>
+<pre class="mcode-input">tic
+g = chebfun3(@(x,y,z) exp(sin(10*x.*y.*z + exp(x.*y.*z))),'eps',1e-8);
+I = sum3(g)
+toc</pre>
+
+<pre class="mcode-output">I =
+  13.580020719458481
+Elapsed time is 3.393932 seconds.
+</pre>
+
+<p>Note that the value of $I$ agrees with the previous result to quite a few digits.  Here is the newly constructed chebfun3:</p>
+<pre class="mcode-input">g
+[m,n,p] = length(g)</pre>
+
+<pre class="mcode-output">g =
+   chebfun3 object 
+   cols: [Inf x 40 chebfun]
+   rows: [Inf x 38 chebfun]
+  tubes: [Inf x 37 chebfun]
+   core: [40 x 38 x 37 double]
+ domain: [-1, 1] x [-1, 1] x [-1, 1]
+ vertical scale = 2.7 
+m =
+    86
+n =
+    86
+p =
+    86
+</pre>
+
+<p>Sometimes one wants to loosen the tolerance globally, e.g. if there will be further computations, like this:</p>
+<pre class="mcode-input">chebfun3eps 1e-8
+tic
+cheb.xyz
+g = exp(sin(10*x.*y.*z + exp(x.*y.*z)));
+I = sum3(g)
+toc</pre>
+
+<pre class="mcode-output">I =
+  13.580023462274925
+Elapsed time is 4.338277 seconds.
+</pre>
+
+<p>Let's try just four digits:</p>
+<pre class="mcode-input">chebfun3eps 1e-4
+tic
+g = exp(sin(10*x.*y.*z + exp(x.*y.*z)));
+I = sum3(g)
+toc</pre>
+
+<pre class="mcode-output">I =
+  13.606974798906183
+Elapsed time is 1.165816 seconds.
+</pre>
+
+<p>The computed integral still has several correct digits.</p>
+<p>As good citizens, we now return the tolerance to its factory value:</p>
+<pre class="mcode-input">chebfun3eps factory</pre></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
