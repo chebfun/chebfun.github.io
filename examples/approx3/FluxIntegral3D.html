@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vector calculus &raquo; Chebfun</title>
+    <title>Integration of a chebfun3v over a 2D surface &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,59 +54,57 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Vector calculus</h1>
+<h1>Integration of a chebfun3v over a 2D surface</h1>
+<h2>Olivier Sète, June 2016 in <a href='/examples/approx3/'>approx3</a><span><a href='/examples/approx3/FluxIntegral3D.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx3/FluxIntegral3D.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>2</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>33</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>8</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>7</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>14</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>4</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>10</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>11</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>19</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>21</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>8</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>5</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>5</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>11</span></a></li>
-        <li class='active'><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/veccalc/CheckingVectorCalculus.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/CheckingVectorCalculus_01.png' /></div>
-            <h3>Checking vector calculus</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#divgradcurl</span>, <span href='#' class='tag'>#gradient theorem</span>, <span href='#' class='tag'>#parallelogram law</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/veccalc/AutonomousSystems.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/AutonomousSystems_01.png' /></div>
-            <h3>Phase portraits and trajectories</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#duffing oscillator</span>, <span href='#' class='tag'>#phase portrait</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>In this example we illustrate the computation of the flux of a vector field through a 2D surface in 3D space with the <code>integral2</code> command.</p>
+<p>Assume we have a surface given by a parametrization $S = S(u,v)$ defined on $D = [a,b] \times [c,d]$, represented by a 3-component chebfun2v (i.e., each point in the 2D domain $D$ is mapped to a point in 3D).</p>
+<p>Let $F(x,y,z) = [F_1(x,y,z); F_2(x,y,z); F_3(x,y,z)]$ be a vector field defined over a box containing the surface (i.e., $S(D)$).  We can then compute its flux through the surface by the flux integral $$\int_S F \cdot \vec{dS} = \int_D F(S(u,v)) \cdot \left( \frac{\partial S}{\partial u}(u,v) \times \frac{\partial S}{\partial v}(u,v) \right) \, dudv. $$ When $F$ is represented as a chebfun3v object, this integral can be computed with <code>integral2</code>.</p>
+<p>Let us consider the vector field $F$:</p>
+<pre class="mcode-input">format long
+dom = [-5, 5, -5, 5, -1, 1];
+F = chebfun3v(@(x,y,z) x+y, @(x,y,z) x.*z + y, @(x,y,z) z, dom);</pre>
+
+<p>As our first example, let us consider the rippled disk parametrized by</p>
+<pre class="mcode-input">S = chebfun2v(@(r, t) r .* cos(t), @(r, t) r.*sin(t), @(r, t) cos(5*r), ...
+    [0, 5, 0, 2*pi]);
+surf(S), axis equal</pre>
+
+<p><img src="img/FluxIntegral3D_01.png" class="figure" alt=""></p>
+<p>To compute the flux of $F$ through $S$ we simply type</p>
+<pre class="mcode-input">integral2(F, S)</pre>
+
+<pre class="mcode-output">ans =
+    -1.581991782367625e+02
+</pre>
+
+<p>As a second example, we take $S$ to be the lower half of the unit sphere, parametrized by</p>
+<pre class="mcode-input">S = chebfun2v(@(phi, theta) sin(theta) .* cos(phi), ...
+    @(phi, theta) sin(theta) .* sin(phi), @(phi, theta) cos(theta), ...
+    [0, 2*pi, pi/2, pi]);
+surf(S), axis equal</pre>
+
+<p><img src="img/FluxIntegral3D_02.png" class="figure" alt=""></p>
+<p>The flux of $F$ through this "bowl" is</p>
+<pre class="mcode-input">integral2(F, S)</pre>
+
+<pre class="mcode-output">ans =
+  -6.283185307179594
+</pre>
+
+<p>This matches nicely the exact value $-2\pi$</p>
+<pre class="mcode-input">-2*pi</pre>
+
+<pre class="mcode-output">ans =
+  -6.283185307179586
+</pre>
+
+<p>We can also integrate a scalar function $f = f(x,y,z)$ over a surface with the following surface integral: $$\int_S f \, dS = \int_D f(S(u,v)) \left\Vert \frac{\partial S}{\partial u}(u,v) \times \frac{\partial S}{\partial v}(u,v) \right\Vert \, dudv. $$ Note the difference to the flux integral: here we take the norm of the cross product. When $f$ is represented by a chebfun3 object, this integral can be computed with <code>integral2</code>.</p>
+<p>Of course we can also integrate over curves in Chebfun3.  This is done with <code>integral</code>.  See <a href="http://www.chebfun.org/examples/fun/LineIntegral3D.html">http://www.chebfun.org/examples/fun/LineIntegral3D.html</a> for integration of a scalar function over a curve and <a href="http://www.chebfun.org/examples/fun/GaussGreenStokes.html">http://www.chebfun.org/examples/fun/GaussGreenStokes.html</a> for integrals of vector fields along a curve.</p></div>
         </div>
     </div>
 </div>
