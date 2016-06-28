@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sumdisk for integration over a disk &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Sumdisk for integration over a disk</h1>
+<h2>Klaus Wang and Nick Trefethen, June 2016 in <a href='/examples/quad/'>quad</a><span><a href='/examples/quad/SumdiskDemo.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/quad/SumdiskDemo.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>In the example <code>examples/quad/TjTkDisk.html</code>, we illustrated formulas due to R. M. Slevinsky for the integral over the unit disk of a project of Chebyshev polynomials $T_j(x) T_k(y)$. The fascinating property of such integrals is that they are always equal to zero except when $j$ and $k$ and both even and differ by $0$ or $\pm 2$.</p>
+<p>We also commented at the end of that example that these formulas could be used as the basis of a Chebfun2 command <code>sumdisk</code>, which would elegantly compute the double integral of a chebfun2, not over its square (or rectangle) of definition but over the inscribed disk (or elliptical region).  Subsequently, such a code has been written by the first author.  Here we show it off.</p>
+<p>For a trivial example, suppose our chebfun2 is the constant 1. Its integral over the square is 4,</p>
+<pre class="mcode-input">f = chebfun2(@(x,y) 1);
+format long
+sum2(f)</pre>
+
+<pre class="mcode-output">ans =
+     4
+</pre>
+
+<p>but its integral over the disk is $\pi$,</p>
+<pre class="mcode-input">sumdisk(f)</pre>
+
+<pre class="mcode-output">ans =
+   3.141592653589793
+</pre>
+
+<p>As another example, let's consider the bivariate Gaussian $\exp(-(x^2+y^2)/2$.  Here is its integral over the unit disk:</p>
+<pre class="mcode-input">cheb.xy
+f = exp(-(x.^2+y.^2)/2);
+sumdisk(f)</pre>
+
+<pre class="mcode-output">ans =
+   2.472240777719226
+</pre>
+
+<p>Switching to polar coordinates enables us to perform the integral exactly; it is $2\pi(1 - 1/\sqrt e)$:</p>
+<pre class="mcode-input">exact = 2*pi*(1-exp(-.5))</pre>
+
+<pre class="mcode-output">exact =
+   2.472240777719227
+</pre>
+
+<p>We must make a comment about the significance of <code>sumdisk</code>.  We would certainly not claim that a competitive way to integrate a function over a disk is to make a chebfun2 of it and then call <code>sumdisk</code>.  It would be much more efficient to work on the integral over the disk directly, and indeed, <code>examples/quad/TjTkDisk.html</code> gives a sample code for doing just that, which we illustrate again here:</p>
+<pre class="mcode-input">fpolar = @(r,t) f(r*cos(t),r*sin(t));
+fr = @(r) r*sum(chebfun(@(t) fpolar(r,t),[0,2*pi],'trig'));
+I = sum(chebfun(@(r) fr(r),[0 1],'vectorize'))</pre>
+
+<pre class="mcode-output">I =
+   2.472240777719226
+</pre>
+
+<p>The point of <code>sumdisk</code> is two-fold: it shows off some elegant mathematics, and it provides an good way to compute integrals over a disk if, for whatever reason, you are already working with chebfun2 objects on a square.</p>
+<p>Here's another example.  Suppose $f$ is a harmonic function, which for convenience we might obtain as the real part of an analytic function.  Chebfun2 can do this very conveniently, like this</p>
+<pre class="mcode-input">fcomplex = chebfun2(@(z) cos(2*cosh(z)));
+f = real(fcomplex);
+plot(f), camlight</pre>
+
+<p><img src="img/SumdiskDemo_01.png" class="figure" alt=""></p>
+<p>Here we use sumdisk to compute the mean of $f$ over the unit disk:</p>
+<pre class="mcode-input">sumdisk(f)/pi</pre>
+
+<pre class="mcode-output">ans =
+  -0.416146836547142
+</pre>
+
+<p>Since $f$ is harmonic, this must be the same as the value of $f$ at the origin:</p>
+<pre class="mcode-input">f(0,0)</pre>
+
+<pre class="mcode-output">ans =
+  -0.416146836547142
+</pre>
+
+<p>Before long, another option for integration over disks will appear: Diskfun.  There is already a chapter in the <em>Chebfun Guide</em> about Diskfun, but the code is still under development.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

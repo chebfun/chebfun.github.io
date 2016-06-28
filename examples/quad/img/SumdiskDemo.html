@@ -1,0 +1,55 @@
+---
+title: "Sumdisk for integration over a disk"
+layout: example
+authordate: "Klaus Wang and Nick Trefethen, June 2016"
+meta: "(Chebfun example quad/SumdiskDemo.m)"
+---
+
+In the example `examples/quad/TjTkDisk.html`, we illustrated formulas due to R. M. Slevinsky for the integral over the unit disk of a project of Chebyshev polynomials $T_j(x) T_k(y)$. The fascinating property of such integrals is that they are always equal to zero except when $j$ and $k$ and both even and differ by $0$ or $\pm 2$.
+
+We also commented at the end of that example that these formulas could be used as the basis of a Chebfun2 command `sumdisk`, which would elegantly compute the double integral of a chebfun2, not over its square (or rectangle) of definition but over the inscribed disk (or elliptical region).  Subsequently, such a code has been written by the first author.  Here we show it off.
+
+For a trivial example, suppose our chebfun2 is the constant 1. Its integral over the square is 4,
+
+<pre class="mcode-input">f = chebfun2(@(x,y) 1);
+format long
+sum2(f)</pre><pre class="mcode-output">ans =
+     4
+</pre>but its integral over the disk is $\pi$,
+
+<pre class="mcode-input">sumdisk(f)</pre><pre class="mcode-output">ans =
+   3.141592653589793
+</pre>As another example, let's consider the bivariate Gaussian $\exp(-(x^2+y^2)/2$.  Here is its integral over the unit disk:
+
+<pre class="mcode-input">cheb.xy
+f = exp(-(x.^2+y.^2)/2);
+sumdisk(f)</pre><pre class="mcode-output">ans =
+   2.472240777719226
+</pre>Switching to polar coordinates enables us to perform the integral exactly; it is $2\pi(1 - 1/\sqrt e)$:
+
+<pre class="mcode-input">exact = 2*pi*(1-exp(-.5))</pre><pre class="mcode-output">exact =
+   2.472240777719227
+</pre>We must make a comment about the significance of `sumdisk`.  We would certainly not claim that a competitive way to integrate a function over a disk is to make a chebfun2 of it and then call `sumdisk`.  It would be much more efficient to work on the integral over the disk directly, and indeed, `examples/quad/TjTkDisk.html` gives a sample code for doing just that, which we illustrate again here:
+
+<pre class="mcode-input">fpolar = @(r,t) f(r*cos(t),r*sin(t));
+fr = @(r) r*sum(chebfun(@(t) fpolar(r,t),[0,2*pi],'trig'));
+I = sum(chebfun(@(r) fr(r),[0 1],'vectorize'))</pre><pre class="mcode-output">I =
+   2.472240777719226
+</pre>The point of `sumdisk` is two-fold: it shows off some elegant mathematics, and it provides an good way to compute integrals over a disk if, for whatever reason, you are already working with chebfun2 objects on a square.
+
+Here's another example.  Suppose $f$ is a harmonic function, which for convenience we might obtain as the real part of an analytic function.  Chebfun2 can do this very conveniently, like this
+
+<pre class="mcode-input">fcomplex = chebfun2(@(z) cos(2*cosh(z)));
+f = real(fcomplex);
+plot(f), camlight</pre><img src="img/SumdiskDemo_01.png" class="figure" alt="">
+
+Here we use sumdisk to compute the mean of $f$ over the unit disk:
+
+<pre class="mcode-input">sumdisk(f)/pi</pre><pre class="mcode-output">ans =
+  -0.416146836547142
+</pre>Since $f$ is harmonic, this must be the same as the value of $f$ at the origin:
+
+<pre class="mcode-input">f(0,0)</pre><pre class="mcode-output">ans =
+  -0.416146836547142
+</pre>Before long, another option for integration over disks will appear: Diskfun.  There is already a chapter in the _Chebfun Guide_ about Diskfun, but the code is still under development.
+
