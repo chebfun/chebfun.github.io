@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Integration of functions over 2D surfaces in 3D &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Integration of functions over 2D surfaces in 3D</h1>
+<h2>Behnam Hashemi, June 2016 in <a href='/examples/approx3/'>approx3</a><span><a href='/examples/approx3/SurfaceIntegral3D.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx3/SurfaceIntegral3D.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Assume that $f(x,y,z)$ is a function defined over a box $[a, b] \times [c, d] \times [e, g]$ represented by a chebfun3. Our aim is to illustrate how to use chebfun to compute the surface integral of $f$ over a 3D parametric surface. (For comparison, note that this example is a scalar analogue of the vector example <a href="http://www.chebfun.org/examples/approx3/FluxIntegral3D.html">http://www.chebfun.org/examples/approx3/FluxIntegral3D.html</a>).</p>
+<p>Consider a parametric surface $S$:</p>
+<p>$$ S = \{ (x,y,z): x = x(u,v), y = y(u,v), z = z(u,v), u_1 \leq u
+\leq u_2, v_1 \leq v \leq v_2 \} $$</p>
+<p>Such a parametric surface can be described as a Chebfub2v object. The surface integral of $f$ is</p>
+<p>$$ \int_S f(x,y,z) ds = \int_S f(x(u,v), y(u,v), z(u,v))) |T_u \times T_v|
+du dv $$</p>
+<p>where $T_u \times T_v$ is the cross product of tangent vectors $T_u$ and $T_v$.</p>
+<p>We can use the <em>integral2</em> command of Chebfun3 to compute surface integrals. To get a meaningful result, the range of $S$ must be in the domain of $f$.</p>
+<p>To start with an easy example, let's compute the surface integral of $x^2$ over the unit sphere [p. 1082, 1]:</p>
+<pre class="mcode-input">f = chebfun3(@(x,y,z) x.^2);
+dom = [0, pi, 0, 2*pi];
+S = chebfun2v(@(u,v) sin(u).*cos(v), @(u,v) sin(u).*sin(v), ...
+    @(u,v) cos(u), dom);
+format long
+I = integral2(f, S)
+exact = 4*pi/3;
+error = abs(I-exact)</pre>
+
+<pre class="mcode-output">I =
+   4.188790204786394
+error =
+     3.552713678800501e-15
+</pre>
+
+<p>Next, we solve Example 6 of <a href="http://www.math24.net/surface-integrals-of-first-kind.html">http://www.math24.net/surface-integrals-of-first-kind.html</a></p>
+<pre class="mcode-input">f = chebfun3(@(x,y,z) sqrt(1+x.^2+y.^2), 3*[-1 1 -1 1 -1 1]);
+S = chebfun2v(@(u,v) u.*cos(v), @(u,v) u.*sin(v), @(u,v) v, [0 2 0 pi]);
+I = integral2(f, S)
+exact = 14*pi/3</pre>
+
+<pre class="mcode-output">I =
+  14.660765716752545
+exact =
+  14.660765716752367
+</pre>
+
+<p>Our third example is on computing an integral over a seashell surface</p>
+<pre class="mcode-input">S = chebfun2v(@(u,v) 5/4*(1-v/(2*pi)).*cos(2*v).*(1+cos(u)) + cos(2*v), ...
+                    @(u,v) 5/4*(1-v/(2*pi)).*sin(2*v).*(1+cos(u)) + sin(2*v), ...
+                    @(u,v) 10*v/(2*pi) + 5/4*(1-v/(2*pi)).*sin(u) + 15, ...
+                    [0, 2*pi, -2*pi, 2*pi]);
+surf(S)
+title('seashell')
+f = chebfun3(@(x,y,z) x+y+z, [-6 6 -6 6 0 25]);
+I = integral2(f, S)</pre>
+
+<pre class="mcode-output">I =
+     6.030788147086102e+03
+</pre>
+
+<p><img src="img/SurfaceIntegral3D_01.png" class="figure" alt=""></p>
+<p>Here is integration over the surface of another seashell</p>
+<pre class="mcode-input">S = chebfun2v(@(u,v) u.*cos(u).*(cos(v)+1), ...
+                    @(u,v) u.*sin(u).*(cos(v)+1), ...
+                    @(u,v) u.*sin(v) - ((u+3)/8*pi).^2 - 20, ...
+                    [0, 13*pi, -pi, pi]);
+surf(S)
+title('another seashell')
+f = chebfun3(@(x,y,z) x+y+z, [-100 100 -100 100 -400 0]);
+I = integral2(f, S)</pre>
+
+<pre class="mcode-output">I =
+    -2.984056242788587e+07
+</pre>
+
+<p><img src="img/SurfaceIntegral3D_02.png" class="figure" alt=""></p>
+<p>Our last example is integration over the surface of a spring</p>
+<pre class="mcode-input">r1 = 0.5; r2 = 0.5; t = 1.5;
+S = chebfun2v(@(u,v) (1-r1*cos(v)).*cos(u), ...
+                    @(u,v) (1-r1*cos(v)).*sin(u), ...
+                    @(u,v) r2*(sin(v) + t*u/pi), ...
+                    [0, 10*pi, 0, 10*pi]);
+surf(S)
+title('spring')
+f = chebfun3(@(x,y,z) x+y+z, [-2 2 -2 2 -2 10]);
+I = integral2(f, S)
+exact = 1878.4483067846025004401820388947;
+error = (I - exact)/exact</pre>
+
+<pre class="mcode-output">I =
+     1.878448306784605e+03
+error =
+     1.573563547150067e-15
+</pre>
+
+<p><img src="img/SurfaceIntegral3D_03.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>J. Stewart, <em>Calculus: Early Transcendentals</em>, 6th Edition, Thomson Brooks/Cole, 2008.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
