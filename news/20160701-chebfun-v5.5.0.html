@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Download &raquo; Chebfun</title>
+    <title>Release notes for v5.5.0 &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,58 +54,23 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-        <h1>Download</h1></div>
+<h1><a href='/news/index.html'>News</a><span class='sep'>&raquo;</span>Release notes for v5.5.0</h1>
+<h2> 1 July 2016</h2>
+</div>
 
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<p>Chebfun is compatible with MATLAB 7.8 (R2009a) or later, and is freely
-available subject to <a href="https://raw.githubusercontent.com/chebfun/chebfun/master/LICENSE.txt">our license</a>. Chebfun's code is open source and
-<a href="https://github.com/chebfun/chebfun">available on Github</a>. To keep track of news about major
-releases, events, and other Chebfun-related, <a href="../support/subscribe.html">subscribe to our mailing
-list</a>.  Release notes for recent versions can be
-found in the release announcements on the <a href="../news/index.html">news page</a>.</p>
-<h3 id="direct-download">Direct download</h3>
-<ul>
-    <li><strong><a href="https://github.com/chebfun/chebfun/archive/master.zip" id="download">Download Chebfun v5.5.0 (.zip)</a></strong></li>
-</ul>
-
-<p>Alternatively you can install Chebfun to your current directory by pasting the
-code below to your MATLAB command window:</p>
-<pre><code>unzip('https://github.com/chebfun/chebfun/archive/master.zip')
-movefile('chebfun-master', 'chebfun'), addpath(fullfile(cd,'chebfun')), savepath
-</code></pre>
-<p>Note that the <code>savepath</code> command above will not work if you don't have write
-permissions to the MATLAB system file <code>pathdef.m</code>, which may be the case if,
-for example, you're working on a network computer at a university. Because
-MATLAB may be installed in different places on a given computer, there is no
-generic solution to the problem. To use Chebfun, its path must be added each
-time you start MATLAB; this can either be done manually, or it can be done
-automatically with a custom <code>startup.m</code> file that lives in the default MATLAB
-path. <a href="mailto:help@chebfun.org">Contact us</a> if you have trouble installing.</p>
-<p>If this is your first look at Chebfun, we suggest that you check out the
-<a href="../docs/guide/">Chebfun Guide</a> and then some of the many <a href="../examples/">Examples</a>.</p>
-<h3 id="for-developers">For developers</h3>
-<p>Those who are more interested in getting under the hood of Chebfun may
-prefer to clone the Chebfun repository from Github. If you don't have Git,
-<a href="http://git-scm.com/">download it</a>. To clone, type the following at a terminal:</p>
-<pre><code>git clone https://github.com/chebfun/chebfun.git
-</code></pre>
-<div class="row">
-    <div class="col-sm-6 col-md-6">
-    <a href='//github.com/chebfun/chebfun' class='widget'>
-        <h3>Browse source</h3>
-        <p>Chebfun's source code is publicly available on Github.</p>
-    </a>
-    </div>
-
-    <div class="col-sm-6 col-md-6">
-    <a href='past.html' class='widget'>
-        <h3>Past versions</h3>
-        <p>Previous Chebfun releases are also available for download.</p>
-    </a>
-    </div>
-</div></div>
+<p>The Chebfun team is pleased to announce the release of Chebfun v5.5.0.  This
+release introduces Chebfun3 for computation in a 3D box, due to Behnam Hashemi.
+To learn about Chebfun3 see the <a href="../docs/guide/index.html">users guide</a> and the
+<a href="../examples/index.html">examples</a>. To get the new version, go to the 
+<a href="../download/index.html">download page</a> or <a href="https://github.com/chebfun/chebfun">GitHub</a>.</p>
+<p>Chebfun v5.5.0 also offers SPIN3 for stiff PDEs in 3D, SUMDISK for integrating
+bivariate functions over a disk, and EXPLAIN for seeing in detail how the
+Chebfun constructor chops a Chebyshev series.</p>
+<p>We hope you enjoy the new release.  Feel free to post any questions or comments
+to the Chebfun users' group <a href="https://groups.google.com/forum/#!forum/chebfun-users">chebfun-users</a>.</p></div>
         </div>
     </div>
 </div>
@@ -121,8 +86,5 @@ prefer to clone the Chebfun repository from Github. If you don't have Git,
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
-    <script>
-        $("#download").click(function () { ga('send', 'event', 'Download', 'clicked'); });
-    </script>
   </body>
 </html>
