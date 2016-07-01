@@ -58,23 +58,25 @@ We can get some information about the Tucker representation of our 3D Runge func
 
 <pre class="mcode-input">f</pre><pre class="mcode-output">f =
    chebfun3 object 
-   cols: [Inf x 10 chebfun]
-   rows: [Inf x 10 chebfun]
-  tubes: [Inf x 10 chebfun]
-   core: [10 x 10 x 10 double]
+   cols: Inf x 10 chebfun
+   rows: Inf x 10 chebfun
+  tubes: Inf x 10 chebfun
+   core: 10 x 10 x 10
+ length: 43, 43, 43
  domain: [-1, 1] x [-1, 1] x [-1, 1]
- vertical scale = 1   
+ vertical scale = 1
 </pre>Let's look at a few even simpler examples.  Suppose that $f$ happens to depend only on $x$, like this:
 
 <pre class="mcode-input">f = chebfun3(@(x,y,z) exp(x))</pre><pre class="mcode-output">f =
    chebfun3 object 
-   cols: [Inf x 1 chebfun]
-   rows: [Inf x 1 chebfun]
-  tubes: [Inf x 1 chebfun]
-   core: [1 x 1 x 1 double]
+   cols: Inf x 1 chebfun
+   rows: Inf x 1 chebfun
+  tubes: Inf x 1 chebfun
+   core: 1 x 1 x 1
+ length: 15, 1, 1
  domain: [-1, 1] x [-1, 1] x [-1, 1]
- vertical scale = 2.7 
-</pre>From this output we see that $f$ has rank 1 in some sense (the word "rank" has no unique definition for 3D representations). To be precise, the core tensor in this case only needs to be a $1\times 1\times 1$ scalar, and the same would apply for any function that depends on just one of $x$, $y$, and $z$. To find out what degree polynomial is used to capture the dependences in the three directions we can use `length`:
+ vertical scale = 2.7
+</pre>From this output we see that $f$ has rank 1 in some sense (the word "rank" has no unique definition for 3D representations). To be precise, the core tensor in this case only needs to be a $1\times 1\times 1$ scalar, and the same would apply for any function that depends on just one of $x$, $y$, and $z$. The "length" field of the output tells us what degree polynomial is used to capture the dependencies in the three directions; this information can also be obtained by calling the `length` method:
 
 <pre class="mcode-input">[m, n, p] = length(f)</pre><pre class="mcode-output">m =
     15
@@ -82,7 +84,7 @@ n =
      1
 p =
      1
-</pre>Similarly here is what it looks like if the function is $\exp(y)$ instead of $\exp(x)$:
+</pre>Here is what it looks like if the function is $\exp(y)$ instead of $\exp(x)$:
 
 <pre class="mcode-input">[m, n, p] = length(chebfun3(@(x,y,z) exp(y)))</pre><pre class="mcode-output">m =
      1
@@ -98,12 +100,13 @@ p =
 
 <pre class="mcode-input">f = chebfun3(@(x,y,z) exp(x).*(log(2+y).*exp(z))+sin(y)/1e6)</pre><pre class="mcode-output">f =
    chebfun3 object 
-   cols: [Inf x 2 chebfun]
-   rows: [Inf x 2 chebfun]
-  tubes: [Inf x 2 chebfun]
-   core: [2 x 2 x 2 double]
+   cols: Inf x 2 chebfun
+   rows: Inf x 2 chebfun
+  tubes: Inf x 2 chebfun
+   core: 2 x 2 x 2
+ length: 15, 26, 15
  domain: [-1, 1] x [-1, 1] x [-1, 1]
- vertical scale = 8.1 
+ vertical scale = 8.1
 </pre>The representation of $f$ involves an $2\times 2\times 2$ core tensor, an $\infty\times 2$ quasimatrix for the $x$ direction, and also $\infty\times 2$ quasimatrices for the $y$ and $z$ directions. Here is the core tensor:
 
 <pre class="mcode-input">format short, f.core</pre><pre class="mcode-output">ans(:,:,1) =
@@ -202,12 +205,13 @@ Chebfun3 can use trigonometric functions instead of polynomials for representing
 dom = [-pi pi -pi pi -pi pi];
 f = chebfun3(ff, dom, 'trig')</pre><pre class="mcode-output">f =
    chebfun3 object  (trig)
-   cols: [Inf x 2 chebfun]
-   rows: [Inf x 2 chebfun]
-  tubes: [Inf x 2 chebfun]
-   core: [2 x 2 x 2 double]
+   cols: Inf x 2 chebfun
+   rows: Inf x 2 chebfun
+  tubes: Inf x 2 chebfun
+   core: 2 x 2 x 2
+ length: 143, 5, 13
  domain: [-3.14, 3.14] x [-3.14, 3.14] x [-3.14, 3.14]
- vertical scale = 3   
+ vertical scale = 3
 </pre>Note the text 'trig' in the display. Here is the length of $f$ and a plot of its coefficients:
 
 <pre class="mcode-input">[m, n, p] = length(f)
@@ -399,10 +403,10 @@ for ep = 10.^(-16:4:-4)
   [m,n,p] = length(f);
   fprintf('%8.1e  %6.4f %7d %7d %7d %7d\n', ep,t,r,m,n,p)
 end</pre><pre class="mcode-output">   eps     time      rank m-length n-length p-length
- 1.0e-16  3.2147      23     373     373     373
- 1.0e-12  1.0383      16     275     275     275
- 1.0e-08  0.3789       9     155     155     155
- 1.0e-04  0.0801       2      65      65      65
+ 1.0e-16  2.3783      23     373     373     373
+ 1.0e-12  0.8048      16     275     275     275
+ 1.0e-08  0.3364       9     155     155     155
+ 1.0e-04  0.0732       2      65      65      65
 </pre>As the above example indicates, one way to control the accuracy of a chebfun3 construction is by explicitly specifying `eps` in a call to the constructor.  Alternatively -- and necessarily, if you are doing follow-on operations on previously constructed chebfun3 objects -- you can change the parameter globally as described in Chapter 8.  For example, let us check the speed and accuracy of a certain computation using the factory value of `chebfun3eps`, i.e., machine precision. It runs slowly, and gives high accuracy:
 
 <pre class="mcode-input">ff = @(x,y,z) tanh(2*(x+y+z));
@@ -413,7 +417,7 @@ g = cos(f+1).^2;
 error = abs(g(.5,.6,.7) - cos(ff(.5,.6,.7)+1)^2)
 toc</pre><pre class="mcode-output">error =
    3.4694e-15
-Elapsed time is 18.651503 seconds.
+Elapsed time is 12.759613 seconds.
 </pre>Now let us set `chebfun3eps` to 1e-10 and run the same computation. Faster and less accurate!
 
 <pre class="mcode-input">chebfun3eps 1e-10
@@ -424,7 +428,7 @@ g = cos(f+1).^2;
 error = abs(g(.5, .6, .7) - cos(ff(.5, .6, .7)+1)^2)
 toc</pre><pre class="mcode-output">error =
    3.2000e-09
-Elapsed time is 3.135952 seconds.
+Elapsed time is 2.658364 seconds.
 </pre>The following command reverts `chebfun3eps` to the factory value:
 
 <pre class="mcode-input">chebfun3eps factory</pre>
@@ -439,36 +443,38 @@ To enable interested users to explore these tradeoffs, Chebfun offers a certain 
 tic, chebfun3(ff), toc
 tic, chebfun3t(ff), toc</pre><pre class="mcode-output">ans =
    chebfun3 object 
-   cols: [Inf x 2 chebfun]
-   rows: [Inf x 2 chebfun]
-  tubes: [Inf x 2 chebfun]
-   core: [2 x 2 x 2 double]
+   cols: Inf x 2 chebfun
+   rows: Inf x 2 chebfun
+  tubes: Inf x 2 chebfun
+   core: 2 x 2 x 2
+ length: 172, 172, 171
  domain: [-1, 1] x [-1, 1] x [-1, 1]
- vertical scale = 1   
-Elapsed time is 0.111675 seconds.
+ vertical scale = 1
+Elapsed time is 0.107191 seconds.
    chebfun3t object 
-   coeffs: [172 x 172 x 172 double]
+   coeffs: 172 x 172 x 172 
    domain: [-1, 1] x [-1, 1] x [-1, 1]
- vertical scale = 1   
-Elapsed time is 15.973084 seconds.
+ vertical scale = 1
+Elapsed time is 8.256645 seconds.
 </pre>On the other hand here is an example where Chebfun3 is slower.
 
 <pre class="mcode-input">ff = @(x,y,z) tanh(3*(x+y+z));
 tic, chebfun3(ff), toc
 tic, chebfun3t(ff), toc</pre><pre class="mcode-output">ans =
    chebfun3 object 
-   cols: [Inf x 54 chebfun]
-   rows: [Inf x 54 chebfun]
-  tubes: [Inf x 53 chebfun]
-   core: [54 x 54 x 53 double]
+   cols: Inf x 54 chebfun
+   rows: Inf x 54 chebfun
+  tubes: Inf x 53 chebfun
+   core: 54 x 54 x 53
+ length: 74, 74, 75
  domain: [-1, 1] x [-1, 1] x [-1, 1]
- vertical scale = 1   
-Elapsed time is 9.502367 seconds.
+ vertical scale = 1
+Elapsed time is 6.404558 seconds.
    chebfun3t object 
-   coeffs: [72 x 75 x 75 double]
+   coeffs: 72 x 75 x 75 
    domain: [-1, 1] x [-1, 1] x [-1, 1]
- vertical scale = 1   
-Elapsed time is 1.464586 seconds.
+ vertical scale = 1
+Elapsed time is 1.058180 seconds.
 </pre>Let us emphasize that the main tool we are offering for computation with functions in 3D is Chebfun3, not Chebfun3t. The latter, only partially implemented, is only provided to facilitate certain comparisons.
 
 
