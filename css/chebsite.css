@@ -383,8 +383,9 @@ ol.news.slats {
   }
 
 code {
-    background-color: none;
-    color: inherit;
+    background-color: white;
+    /*color: inherit;*/
+    color: black;
     /*font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;*/
 }
 
