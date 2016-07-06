@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Low-rank representation of Wagon's function &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Low-rank representation of Wagon's function</h1>
+<h2>Behnam Hashemi, July 2016 in <a href='/examples/approx3/'>approx3</a><span><a href='/examples/approx3/Wagon.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx3/Wagon.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Stan Wagon [1] suggested the problem of finding the global minimum of the following 3D function</p>
+<pre class="mcode-input">ff = @(x,y,z) exp(sin(50*x)) + sin(60*exp(y)).*sin(60*z) + ...
+    sin(70*sin(x)).*cos(10*z) + sin(sin(80*y)) - sin(10*(x+z)) ...
+    +(x.^2+y.^2+z.^2)/4;
+f = chebfun3(ff)</pre>
+
+<pre class="mcode-output">f =
+   chebfun3 object 
+   cols: Inf x 4 chebfun
+   rows: Inf x 3 chebfun
+  tubes: Inf x 5 chebfun
+   core: 4 x 3 x 5
+ length: 666, 1054, 124
+ domain: [-1, 1] x [-1, 1] x [-1, 1]
+ vertical scale = 6.9
+</pre>
+
+<p>An alternative way of constucting $f$ is to call f = cheb.gallery3('wagon'); The minimization problem is easy to solve in Chebfun3 [2].</p>
+<pre class="mcode-input">tic, min3_f = min3(f), toc</pre>
+
+<pre class="mcode-output">min3_f =
+  -3.328338345663268
+Elapsed time is 1.480385 seconds.
+</pre>
+
+<p>Here we are interested in the Tucker representation of this function. As we see in the above display, $f$ has numerical trilinear rank (4, 3, 5) which means that we need 4 columns, 3 rows and 5 tubes to represent it roughly to machine epsilon (the default value of chebfun3eps). We first plot the four columns:</p>
+<pre class="mcode-input">x = chebfun('x'); one = 1 + 0*x;
+[r1, r2, r3] = rank(f);
+
+for j = 1:r1
+    plot3(j*one,x,f.cols(:,j),'linewidth',1.6), hold on
+end
+title('columns'), axis tight, box on, view([-26 44]), hold off</pre>
+
+<p><img src="img/Wagon_01.png" class="figure" alt=""></p>
+<p>Here is a plot of its three rows:</p>
+<pre class="mcode-input">for j = 1:r2
+    plot3(j*one,x,f.rows(:,j),'linewidth',1.6), hold on
+end
+title('rows'), box on, view([-39 43]), hold off</pre>
+
+<p><img src="img/Wagon_02.png" class="figure" alt=""></p>
+<p>The five tubes of the function look like the following.</p>
+<pre class="mcode-input">for j = 1:r3
+    plot3(j*one,x,f.tubes(:,j),'linewidth',1.6), hold on
+end
+title('tubes'), axis tight, box on, view([-40 68])</pre>
+
+<p><img src="img/Wagon_03.png" class="figure" alt=""></p>
+<p>The last one is not actually close to a constant in a relative sense. Here are its values at $z=-1$ and $z = -0.2$.</p>
+<pre class="mcode-input">format short, f.tubes(-1, end), f.tubes(-0.2, end),</pre>
+
+<pre class="mcode-output">ans =
+    0.0216
+ans =
+   -0.1133
+</pre>
+
+<p>We should make two comments about these images. The first concerns the difference between the <em>ranks</em> of a multivariate function, which in this case are very small (just $4, 3, 5$), and the complexities of its univariate pieces, which in this case are <em>not</em> so small. The columns, rows, and tubes we have displayed require Chebyshev series of considerable length to be represented. For example, here are the absolute values of the coefficients of the the Chebyshev series for the first of the tubes:</p>
+<pre class="mcode-input">clf, plotcoeffs(f.tubes(:,1))</pre>
+
+<p><img src="img/Wagon_04.png" class="figure" alt=""></p>
+<p>What's going on here is that Wagon's function is of low rank for algebraic reasons, not because it is in every sense very simple. And this brings us to our second comment. If you draw plots like those we have shown here for an arbitrary function, you may find that they look very different and not very interesting -- most of the curves will seem to be zero. That's because for most functions, the mathematical rank is infinite and it's only the numerical rank which is finite. In such cases there will be a decaying series of "pivots" involved in the Chebfun3 representation.  If you plot the associated columns/rows/tubes as we have done, you will find they are on all different scales going down to 1e-15. To get interesting plots you will have to rescale the curves individually.</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>F. Bornemann, D. Laurie, S. Wagon, and J. Waldvogel, <em>The SIAM 100-Digit Challenge: a Study in High-Accuracy Numerical Computing</em>, SIAM, 2004.</p>
+</li>
+<li>
+<p>B. Hashemi, L. N. Trefethen, Chebfun in three dimensions, manuscript in preparation, 2016.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
