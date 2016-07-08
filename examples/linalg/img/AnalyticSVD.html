@@ -5,11 +5,11 @@ authordate: "Yuji Nakatsukasa, Vanni Noferini, and Nick Trefethen, July 2016"
 meta: "(Chebfun example linalg/AnalyticSVD.m)"
 ---
 
-<pre class="mcode-input">function AnalyticSVD()</pre><pre class="mcode-input">tic</pre>
+
 
 ## 1. The analytic SVD
 
-Nearly everybody knows the matrix SVD $$ A=USV^T, $$ where $U,V$ are orthogonal and $S$ is diagonal with nonnegative nonincreasing elements. A less known generalization is the analytic SVD: Let $A(t)$ be a matrix whose elements are analytic functions of a parameter $t$ belonging to a real interval (for example, $t \in [-1,1]$). Then, there exists an analytic singular value decomposition [1,2] $$ A(t)=U(t)S(t)V(t)^T, $$ in which each matrix on the right-hand side is analytic for every $t \in [-1,1]$. Moreover, $U(t)$ and $V(t)$ are unitary for all $t \in [-1,1]$, while $S(t)$ is a diagonal matrix whose entries are real analytic functions of $t$, although not necessarily positive or ordered (these relaxations are necessary to achieve analyticity)
+Nearly everybody knows the matrix SVD $$ A=USV^T, $$ where $U,V$ are orthogonal and $S$ is diagonal with nonnegative nonincreasing elements. A less known generalization is the analytic SVD: Let $A(t)$ be a matrix whose elements are analytic functions of a parameter $t$ belonging to a real interval (for example, $t \in [-1,1]$). Then, there exists an analytic singular value decomposition [1,2] $$ A(t)=U(t)S(t)V(t)^T, $$ in which each matrix on the right-hand side is analytic for $t \in [-1,1]$. Moreover, $U(t)$ and $V(t)$ are unitary for $t \in [-1,1]$, while $S(t)$ is a diagonal matrix whose entries are real analytic functions of $t$, although not necessarily positive or ordered (these relaxations are necessary to achieve analyticity)
 
 
 
@@ -17,7 +17,9 @@ Nearly everybody knows the matrix SVD $$ A=USV^T, $$ where $U,V$ are orthogonal 
 
 Let's try to use Chebfun to explore the analytic SVD. We define a $4\times 4$ matrix $A(t)$ depending affinely on $t$:
 
-<pre class="mcode-input">clear, close all
+<pre class="mcode-input">function AnalyticSVD()</pre><pre class="mcode-input">tic
+
+clear, close all
 LW = 'linewidth'; MS = 'markersize'; FS = 'fontsize';
 lw = 2; fs = 14; ms = 10;
 CO = 'color'; VEC = 'vectorize'; SP = 'splitting';
@@ -25,7 +27,7 @@ CO = 'color'; VEC = 'vectorize'; SP = 'splitting';
 m = 4; n = 4;
 rng(10);
 A = randn(m,n); B = randn(m,n);
-AA = @(t) A*t + B*(1-t);</pre>Next, we use Chebfun to resolve the analytic SVD as a function. We expect the initial outcome to be likely to have many singularities, for reasons to be clarified below, and for this reason we use 'splitting on': We now create a function UVSVD that, given a matrix $A$, outputs one of the scalar elements of the SVD (see the listing at the end). Chebfun with the flag 'splitting on' will introduce break points, which we highlight in the plot. The black vertical lines indicate the x-values of the break points, with the black circles showing the location of the particular singular value that requires splitting.
+AA = @(t) A*t + B*(1-t);</pre>Next, we use Chebfun to resolve the analytic SVD as a function. We expect the initial outcome to be likely to have many singularities, for reasons to be clarified below, and for this reason we use 'splitting on'. We now create a function UVSVD that, given a matrix $A$, outputs one of the scalar elements of the SVD (see the listing at the end). Chebfun with the flag 'splitting on' will introduce break points, which we highlight in the plot. The black vertical lines indicate the x-values of the break points, with the black circles showing the location of the particular singular value that requires splitting.
 
 <pre class="mcode-input">for ii = 1:n
     f = chebfun(@(t) UVSVD(AA(t),ii),SP,'on',VEC);
@@ -136,9 +138,9 @@ for pos = [1 n]
     uu = uupos{pos}; uu = chebfun(@(t)uu(t));
     ss = sspos{pos}; ss = chebfun(@(t)ss(t));
     vv = vvpos{pos}; vv = chebfun(@(t)vv(t));
-    plotcoeffs(uu,'bo',LW,lw), hold on
-    plotcoeffs(ss,'ko',LW,lw)
-    plotcoeffs(vv,'ro',LW,lw)
+    plotcoeffs(uu,'b.',LW,lw), hold on
+    plotcoeffs(ss,'k.',LW,lw)
+    plotcoeffs(vv,'r.',LW,lw)
     text(length(uu)+5,eps*10,['U_{',num2str(pos),'1}'],CO,'b',FS,fs)
     text(length(ss)+5,eps/10,['\sigma_',num2str(pos)],CO,'k',FS,fs)
     text(length(vv)+5,eps/1e3,['V_{',num2str(pos),'1}'],CO,'r',FS,fs)
@@ -149,10 +151,10 @@ And we are finally happy! Nonetheless, one should not assume that computing an a
 Unfortunately, these computations are not very fast:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-     2.532178730000000e+02
+     1.128618140000000e+02
 </pre>
 
-## References
+## 6. References
 
 [1] A. Bunse-Gerstner, R. Byers, V. Mehrmann and N. Nichols, Numerical computation of an analytic singular value decomposition of a matrix valued function, Numerische Mathematik (1991), 60(1), 1--39.
 
