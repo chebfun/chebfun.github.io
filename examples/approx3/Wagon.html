@@ -78,12 +78,12 @@ f = chebfun3(ff)</pre>
  vertical scale = 6.9
 </pre>
 
-<p>An alternative way of constucting $f$ is to call f = cheb.gallery3('wagon'); The minimization problem is easy to solve in Chebfun3 [2].</p>
+<p>An alternative way of constucting $f$ is to call f = cheb.gallery3('wagon'). The minimization problem is easy to solve in Chebfun3 [2].</p>
 <pre class="mcode-input">tic, min3_f = min3(f), toc</pre>
 
 <pre class="mcode-output">min3_f =
   -3.328338345663268
-Elapsed time is 1.480385 seconds.
+Elapsed time is 1.720078 seconds.
 </pre>
 
 <p>Here we are interested in the Tucker representation of this function. As we see in the above display, $f$ has numerical trilinear rank (4, 3, 5) which means that we need 4 columns, 3 rows and 5 tubes to represent it roughly to machine epsilon (the default value of chebfun3eps). We first plot the four columns:</p>
@@ -130,7 +130,7 @@ ans =
 <p>F. Bornemann, D. Laurie, S. Wagon, and J. Waldvogel, <em>The SIAM 100-Digit Challenge: a Study in High-Accuracy Numerical Computing</em>, SIAM, 2004.</p>
 </li>
 <li>
-<p>B. Hashemi, L. N. Trefethen, Chebfun in three dimensions, manuscript in preparation, 2016.</p>
+<p>B. Hashemi, L. N. Trefethen, Chebfun in three dimensions, submitted, 2016.</p>
 </li>
 </ol></div>
         </div>
