@@ -85,7 +85,7 @@
 <div class='codewrap'><pre class='code'><span class='comment'>% Create operator for Ginzburg-Landau problem</span>
 d = 20*[-1.2 3.2 -1 1]; tt = [0 46.5];
 S = spinop2(d,tt); S.linearPart = @(u) lap(u);
-S.nonlinearPart = @(u) u-(1+1.5i)*u.*(abs(u).^2);
+S.nonlinearPart = @(u) u-(1+1.5i)*u.*abs(u).^2;
 <span class='comment'>% Set an initial condition</span>
 S.init = chebfun2(@(x,y) ...
     (1i*x+y).*exp(-.03*(x.^2+y.^2)), d);
@@ -132,8 +132,8 @@ plot(f)
 <li>
 <div class='codewrap'><pre class='code'><span class='comment'>% Construct a pair of 2D chebfuns</span>
 d = [-3 10 -3 3];
-f = chebfun2(@(x,y) y.*cos(y.^2+x)-.1,d);
-g = chebfun2(@(x,y) cos(x.^2/2).*sin(y.^2)-.1,d);
+f = chebfun2('y.*cos(y.^2+x)-.1',d);
+g = chebfun2('cos(x.^2/2).*sin(y.^2)-.1',d);
 <span class='comment'>% Plot zero contours of f & g</span>
 plot(roots(f)), hold on, plot(roots(g))
 <span class='comment'>% Plot their common roots</span>
@@ -269,5 +269,5 @@ plot(minx(1),minx(2),'.w')
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>
-<!-- Compiled on Wednesday, 27 July 2016 at 16:13. -->
+<!-- Compiled on Thursday, 28 July 2016 at 16:35. -->
 </html>
