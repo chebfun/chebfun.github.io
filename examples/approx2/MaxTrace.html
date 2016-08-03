@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maximum trace problems &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Maximum trace problems</h1>
+<h2>Behnam Hashemi, August 2016 in <a href='/examples/approx2/'>approx2</a><span><a href='/examples/approx2/MaxTrace.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx2/MaxTrace.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">function MaxTrace()</pre>
+
+<h3 id="1-introduction">1. Introduction</h3>
+<p>Suppose $f(x,y)$ is a symmetric function of two variables defined on a square $[a, b] \times [a, b]$. We consider the problem of maximizing $$ trace(G^T \kern -2pt f \kern 1pt G) ,\ \ \ \ \ (1) $$ over all $\infty \times k$ quasimatrices $G$ defined on $[a, b]$ with orthonormal columns, i.e., $$ G^T \kern -1pt G = I_k, $$ where $I_k$ is the $k \times k$ identity matrix.</p>
+<p>We can solve this problem via the spectral decomposition $$ f(x,y) = \sum_{i=1}^{\infty} \lambda_i \, q_i(x)\,q_i(y), $$ where $\lambda_1 \geq \lambda_2 \geq \dots$ are eigenvalues and $q_1, q_2, \dots$ are orthonormal eigenfunctions of $f$ when viewed as a the kernel of an integral operator. A solution to the maximum trace problem consists of the eigenfunctions correpsonding to the $k$ largest eigenvalues of $f$, $$ G(x) = [~q_1(x)\ | \ q_2(x) \ | \ \cdots \ | \ q_k(x)~]. $$ This is a continuous analogue of the maximum trace problem for symmetric matrices [1], which can be solved via the Courant-Fischer eigenvalue characterization [3].</p>
+<p>For illustration, we look at four symmetric bivariate functions in Chebfun. The function <code>U = ev(f, k)</code> in the following computes eigenvectors corresponding to the first $k$ (algebraically) largest eigenvalues of the symmetric chebfun2 object <code>f</code>. In order to compute the spectral decomposition of a symmetric function with a finite numerical rank, we apply the trick used in [2].</p>
+<h3 id="2-example-square-peg">2.  Example: square peg</h3>
+<p>This is the approximate characteristic function of a square.</p>
+<pre class="mcode-input">f = cheb.gallery2('squarepeg')</pre>
+
+<pre class="mcode-output">f =
+   chebfun2 object
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]        1     [9.1e-13 9.1e-13 9.1e-13 9.1e-13]
+vertical scale =   1 
+</pre>
+
+<p>Since $f$ is a symmetric rank 1 function, it only makes sense to solve (1) for $k = 1$. We plot the 2D function $f$</p>
+<pre class="mcode-input">k = 1;
+U = ev(f, k);
+plot(f), colormap(summer), zlim([0 1])</pre>
+
+<p><img src="img/MaxTrace_01.png" class="figure" alt=""></p>
+<p>We also plot the 1D function $U$ which solves (1).</p>
+<pre class="mcode-input">plot(U)</pre>
+
+<p><img src="img/MaxTrace_02.png" class="figure" alt=""></p>
+<h3 id="3-example-tilted-peg">3. Example: tilted peg</h3>
+<p>Next, we try a tilted variant of the square peg with rank 100.  This is like the function <code>cheb.gallery('tiltedpeg')</code>, except with the tilting angle modified to make $f$ symmetric. We solve (1) for $k = 4$ and plot the four columns of our solution.</p>
+<pre class="mcode-input">ff = @(x,y)1./((1+(x+y).^20).*(1+(y-x).^20))
+f = chebfun2(ff);
+k = 4;
+U = ev(f, k);
+clf, plot(U)
+
+x = chebfun('x'); one = 1 + 0*x;
+for j = 1:k
+    plot3(j*one, x, U(:,j),'linewidth',1.6), hold on
+end
+title('4 eigenfunctions of the tiltedpeg'), axis tight
+view([-43 48]), hold off, box on</pre>
+
+<pre class="mcode-output">ff = 
+    @(x,y)1./((1+(x+y).^20).*(1+(y-x).^20))
+</pre>
+
+<p><img src="img/MaxTrace_03.png" class="figure" alt=""></p>
+<h3 id="4-example-waffle">4. Example: waffle</h3>
+<p>This is another symmetric function. It has horizontal and vertical ridges and we solve (1) for $k = 5$.</p>
+<pre class="mcode-input">[f, ff] = cheb.gallery2('waffle')
+k = 5;
+U = ev(f, k);
+for j = 1:k
+    plot3(j*one, x, U(:,j),'linewidth',1.6), hold on
+end
+title('5 eigenfunctions of the waffle'), axis tight
+view([-37 59]), hold off, box on</pre>
+
+<pre class="mcode-output">f =
+   chebfun2 object
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]       29     [0.0032 0.0032 0.0032 0.0032]
+vertical scale =   1 
+ff = 
+    @(x,y)1./(1+1e3*((x.^2-.25).^2.*(y.^2-.25).^2))
+</pre>
+
+<p><img src="img/MaxTrace_04.png" class="figure" alt=""></p>
+<h3 id="5-example-multiquadric">5. Example: multiquadric</h3>
+<p>Our last test case is a multiquadric kernel for $k = 5$.</p>
+<pre class="mcode-input">c = 0.6;
+mq = @(x,y) sqrt((x.^2+y.^2) + c^2);
+f = chebfun2(mq)
+k = 5;
+U = ev(f, k);
+for j = 1:k
+    plot3(j*one, x, U(:,j),'linewidth',1.6), hold on
+end
+title('5 eigenfunctions of the multiquadric'), axis tight
+view([-37 59]), hold off, box on</pre>
+
+<pre class="mcode-output">f =
+   chebfun2 object
+       domain                 rank       corner values
+[  -1,   1] x [  -1,   1]       11     [ 1.5  1.5  1.5  1.5]
+vertical scale = 1.5 
+</pre>
+
+<p><img src="img/MaxTrace_05.png" class="figure" alt=""></p>
+<p>Let's compare the optimal solution to (1) for our multiquadric with the value of the objective function for another orthonormal quasimatrix $U2$, the first 5 Legendre polynomials computed via QR factorization of the Vandermonde quasimatrix:</p>
+<pre class="mcode-input">optimal = trace(U'*f*U)
+U2 = qr(x.^(1:k));
+leg_trace = trace(U2'*f*U2)</pre>
+
+<pre class="mcode-output">optimal =
+   2.024827967723098
+leg_trace =
+   1.596796281773388
+</pre>
+
+<pre class="mcode-input">function U = ev(f, k)
+%   U = EV(F, K) returns eigenfunctions corresponding to K algebraically
+%   algebraically largest eigenvalues of a symmetric chebfun2 object F.
+[U,S,V] = svd(f);
+s = zeros(size(U,2),1);
+for i=1:size(U,2)
+    s(i) = U(:,i)'*V(:,i); % inner product of eigenfunctions
+end
+Lambda = sign(s).*diag(S); % eigenvalues of f
+[~, idx] = sort(Lambda);
+ind = idx(end-k+1:end);    % indices of the k largest eigenvals
+U = U(:, ind);             % corresponding eigenfunctions
+end</pre>
+
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>S. Boyd, Low rank approximation and extremal gain problems,    Lecture    notes for Introduction to Linear Dynamical Systems, Stanford    University, 2015.</p>
+</li>
+<li>
+<p>B. Hashemi, Nearest positive semidefinite kernel, Chebfun Example,    Feb. 2016. <a href="http://www.chebfun.org/examples/approx2/NearestPSDKernel.html">http://www.chebfun.org/examples/approx2/NearestPSDKernel.html</a></p>
+</li>
+<li>
+<p>E. Kokiopoulou, J. Chen, and Y. Saad, Trace optimization and    eigenproblems in dimension reduction problems, <em>Numerical Linear    Algebra with Applications</em> 18 (2011) 565-602.</p>
+</li>
+</ol>
+<pre class="mcode-input">end</pre></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
