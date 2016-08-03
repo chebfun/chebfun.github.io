@@ -89,7 +89,7 @@ plot(f), colormap(summer), zlim([0 1])</pre>
 
 <p><img src="img/MaxTrace_02.png" class="figure" alt=""></p>
 <h3 id="3-example-tilted-peg">3. Example: tilted peg</h3>
-<p>Next, we try a tilted variant of the square peg with rank 100.  This is like the function <code>cheb.gallery('tiltedpeg')</code>, except with the tilting angle modified to make $f$ symmetric. We solve (1) for $k = 4$ and plot the four columns of our solution.</p>
+<p>Next, we try a tilted variant of the square peg with rank 100.  This is like the function <code>cheb.gallery2('tiltedpeg')</code>, except with the tilting angle modified to make $f$ symmetric. We solve (1) for $k = 4$ and plot the four columns of our solution.</p>
 <pre class="mcode-input">ff = @(x,y)1./((1+(x+y).^20).*(1+(y-x).^20))
 f = chebfun2(ff);
 k = 4;
@@ -156,14 +156,14 @@ U2 = qr(x.^(1:k));
 leg_trace = trace(U2'*f*U2)</pre>
 
 <pre class="mcode-output">optimal =
-   2.024827967723098
+   2.024827967723097
 leg_trace =
-   1.596796281773388
+   1.596796281773389
 </pre>
 
 <pre class="mcode-input">function U = ev(f, k)
 %   U = EV(F, K) returns eigenfunctions corresponding to K algebraically
-%   algebraically largest eigenvalues of a symmetric chebfun2 object F.
+%   largest eigenvalues of a symmetric chebfun2 object F.
 [U,S,V] = svd(f);
 s = zeros(size(U,2),1);
 for i=1:size(U,2)
