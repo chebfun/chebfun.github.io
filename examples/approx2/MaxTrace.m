@@ -22,7 +22,7 @@ function MaxTrace()
 % $q_1, q_2, \dots$ are orthonormal eigenfunctions of $f$ when
 % viewed as a the kernel of an integral operator.
 % A solution to the maximum trace problem
-% consists of the eigenfunctions correpsonding to the 
+% consists of the eigenfunctions corresponding to the 
 % $k$ largest eigenvalues of $f$,
 % $$ G(x) = [~q_1(x)\ | \ q_2(x) \ | \ \cdots \ | \ q_k(x)~]. $$
 % This is a continuous analogue of the maximum trace problem for symmetric
@@ -117,8 +117,8 @@ for i=1:size(U,2)
 end
 Lambda = sign(s).*diag(S); % eigenvalues of f
 [~, idx] = sort(Lambda);
-ind = idx(end-k+1:end);    % indices of the k largest eigenvals
-U = U(:, ind);             % corresponding eigenfunctions
+ind = flip(idx(end-k+1:end)); % indices of the k largest eigenvals
+U = U(:, ind);                % corresponding eigenfunctions
 end
 
 %% References

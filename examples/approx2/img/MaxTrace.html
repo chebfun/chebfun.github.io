@@ -106,9 +106,9 @@ Let's compare the optimal solution to (1) for our multiquadric with the value of
 <pre class="mcode-input">optimal = trace(U'*f*U)
 U2 = qr(x.^(1:k));
 leg_trace = trace(U2'*f*U2)</pre><pre class="mcode-output">optimal =
-   2.024827967723098
+   2.024827967723096
 leg_trace =
-   1.596796281773388
+   1.596796281773389
 </pre><pre class="mcode-input">function U = ev(f, k)
 %   U = EV(F, K) returns eigenfunctions corresponding to K algebraically
 %   largest eigenvalues of a symmetric chebfun2 object F.
@@ -119,8 +119,8 @@ for i=1:size(U,2)
 end
 Lambda = sign(s).*diag(S); % eigenvalues of f
 [~, idx] = sort(Lambda);
-ind = idx(end-k+1:end);    % indices of the k largest eigenvals
-U = U(:, ind);             % corresponding eigenfunctions
+ind = flip(idx(end-k+1:end)); % indices of the k largest eigenvals
+U = U(:, ind);                % corresponding eigenfunctions
 end</pre>
 
 ## References

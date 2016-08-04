@@ -156,9 +156,9 @@ U2 = qr(x.^(1:k));
 leg_trace = trace(U2'*f*U2)</pre>
 
 <pre class="mcode-output">optimal =
-   2.024827967723098
+   2.024827967723096
 leg_trace =
-   1.596796281773388
+   1.596796281773389
 </pre>
 
 <pre class="mcode-input">function U = ev(f, k)
@@ -171,8 +171,8 @@ for i=1:size(U,2)
 end
 Lambda = sign(s).*diag(S); % eigenvalues of f
 [~, idx] = sort(Lambda);
-ind = idx(end-k+1:end);    % indices of the k largest eigenvals
-U = U(:, ind);             % corresponding eigenfunctions
+ind = flip(idx(end-k+1:end)); % indices of the k largest eigenvals
+U = U(:, ind);                % corresponding eigenfunctions
 end</pre>
 
 <h3 id="references">References</h3>
