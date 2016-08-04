@@ -11,7 +11,7 @@ meta: "(Chebfun Example approx2/MaxTrace.m)"
 
 Suppose $f(x,y)$ is a symmetric function of two variables defined on a square $[a, b] \times [a, b]$. We consider the problem of maximizing $$ trace(G^T \kern -2pt f \kern 1pt G) ,\ \ \ \ \ (1) $$ over all $\infty \times k$ quasimatrices $G$ defined on $[a, b]$ with orthonormal columns, i.e., $$ G^T \kern -1pt G = I_k, $$ where $I_k$ is the $k \times k$ identity matrix.
 
-We can solve this problem via the spectral decomposition $$ f(x,y) = \sum_{i=1}^{\infty} \lambda_i \, q_i(x)\,q_i(y), $$ where $\lambda_1 \geq \lambda_2 \geq \dots$ are eigenvalues and $q_1, q_2, \dots$ are orthonormal eigenfunctions of $f$ when viewed as a the kernel of an integral operator. A solution to the maximum trace problem consists of the eigenfunctions correpsonding to the $k$ largest eigenvalues of $f$, $$ G(x) = [~q_1(x)\ | \ q_2(x) \ | \ \cdots \ | \ q_k(x)~]. $$ This is a continuous analogue of the maximum trace problem for symmetric matrices [1], which can be solved via the Courant-Fischer eigenvalue characterization [3].
+We can solve this problem via the spectral decomposition $$ f(x,y) = \sum_{i=1}^{\infty} \lambda_i \, q_i(x)\,q_i(y), $$ where $\lambda_1 \geq \lambda_2 \geq \dots$ are eigenvalues and $q_1, q_2, \dots$ are orthonormal eigenfunctions of $f$ when viewed as a the kernel of an integral operator. A solution to the maximum trace problem consists of the eigenfunctions corresponding to the $k$ largest eigenvalues of $f$, $$ G(x) = [~q_1(x)\ | \ q_2(x) \ | \ \cdots \ | \ q_k(x)~]. $$ This is a continuous analogue of the maximum trace problem for symmetric matrices [1], which can be solved via the Courant-Fischer eigenvalue characterization [3].
 
 For illustration, we look at four symmetric bivariate functions in Chebfun. The function `U = ev(f, k)` in the following computes eigenvectors corresponding to the first $k$ (algebraically) largest eigenvalues of the symmetric chebfun2 object `f`. In order to compute the spectral decomposition of a symmetric function with a finite numerical rank, we apply the trick used in [2].
 
@@ -106,9 +106,9 @@ Let's compare the optimal solution to (1) for our multiquadric with the value of
 <pre class="mcode-input">optimal = trace(U'*f*U)
 U2 = qr(x.^(1:k));
 leg_trace = trace(U2'*f*U2)</pre><pre class="mcode-output">optimal =
-   2.024827967723097
+   2.024827967723098
 leg_trace =
-   1.596796281773389
+   1.596796281773388
 </pre><pre class="mcode-input">function U = ev(f, k)
 %   U = EV(F, K) returns eigenfunctions corresponding to K algebraically
 %   largest eigenvalues of a symmetric chebfun2 object F.
