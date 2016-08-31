@@ -185,6 +185,7 @@ pde/GinzburgLandau.m
 pde/GrayScott.m
 pde/KdV.m
 pde/Kuramoto.m
+pde/SwiftHohenberg.m
 pde/TrapezoidEigs.m
 quad/GaussClenCurt.m
 quad/QuadratureConvergence.m
