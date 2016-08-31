@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Diffmat, diffrow, intmat, introw, gridsample &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Diffmat, diffrow, intmat, introw, gridsample</h1>
+<h2>Nick Trefethen, August 2016 in <a href='/examples/ode-linear/'>ode-linear</a><span><a href='/examples/ode-linear/SpectralDisc.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-linear/SpectralDisc.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-block-operators-and-spectral-discretizations">1. Block operators and spectral discretizations</h3>
+<p>Jared Aurentz and I have just revised our paper "Block operators and spectral discretizations" for the Education section of <em>SIAM Review</em>.  We are excited about this work, which presents in a sequence of twelve examples the methods by which Chebfun solves boundary-value problems for ODEs and integral equations using rectangular discretization matrices.  All the M-files will be available as <em>SIREV</em> supplementary materials, and for the moment they can be found at the URL [1].</p>
+<p>We think this approach ought to be the standard way of working with spectral collocation methods, at least for problems in 1D. The ideas originate with Driscoll and Hale, and two other key contributors have been Hrothgar and Xu.  See the references given at the end.</p>
+<p>The conceptual basis of the paper is the idea that many problems are best formulated in a continuous manner via "block operators" analogous to the familiar block matrices -- complete with boundary conditions.  Differential operators typically turn into "rectangular" blocks, which means mathematically that they have a nonzero Fredholm index and computationally that when discretized they get more columns than rows.  Boundary conditions typically turn into row functionals, which when discretized become row functions.</p>
+<p>What makes our paper so concrete is that that it calls Chebfun codes <code>diffmat</code>, <code>diffrow</code>, <code>intmat</code>, <code>introw</code>, and <code>gridsample</code> to do all the work. (As of today, these are available in the development branch of Chebfun.)  We will illustrate with the labeled as Example 2 in the paper.</p>
+<h3 id="2-example-airy-equation">2. Example: Airy equation</h3>
+<p>This example is linear, but the same ideas work for nonlinear problems, as described in the paper.</p>
+<p>Here is an Airy equation problem with two unusual boundary conditions, one involving an integral and the other prescribing that the values at the two endpoints should be equal. $$ u''(x) - x u(x) = 0, \quad \int_{-20}^{10}u(s)ds = 1, \quad u(-20) = u(10). $$ Here is a solution involving an $(n+2)\times (n+2)$ block matrix $A$ with $n=85$:</p>
+<pre class="mcode-input">n = 85; X = [-20,10];
+x = @(x) x;
+L = diffmat([n n+2],2,X) - diag(gridsample(x,n,X))*diffmat([n n+2],0,X);
+vT = introw(n+2,X);
+wT = diffrow(n+2,0,10,X) - diffrow(n+2,0,-20,X);
+A = [L; vT; wT];
+rhs = [zeros(n,1); 1; 0];
+u = A\rhs;
+plot(chebfun(u,X),'.-')</pre>
+
+<p><img src="img/SpectralDisc_01.png" class="figure" alt=""></p>
+<p>Notice that $A$ consists of three blocks.  The top of it is an $n\times (n+2)$ block representing the differential operator, discretized with <code>diffmat</code>.  Note that <code>diffmat([n n+2],0,X)</code> gives us a differentiation matrix of order zero -- a "rectangular identity".  Then comes a row <code>vT</code> corresponding to the integral condition, discretized with <code>introw</code>, and another row <code>wT</code> corresponding to the other boundary condition, involving a difference of two evaluation functionals (<code>diffrow</code> with argument 0 evaluates the zeroth derivative). The right-hand side is a vector with a block structure to match.</p>
+<p>The diagonal matrix given by <code>diag(gridsample(x,n,X))</code> is sparse, and in Matlab it can help to represent it that way for larger values of $n$.  This can be done by replacing that expression by <code>spdiags(gridsample(x,n,X),0,n,n)</code>.</p>
+<p>Note how the code segment computes a solution vector $u$ of length $n+2$.  A call to <code>chebfun(u,X)</code> is then used so that we can plot the polynomial interpolant as well as the data points.</p>
+<p>This computation has none of Chebfun's adaptivity in choosing $n$. Here is a standard Chebfun solution of the same problem:</p>
+<pre class="mcode-input">X = [-20,10];
+L = chebop(X);
+L.op = @(x,u) diff(u,2) - x*u;
+L.bc = @(x,u) [sum(u)-1; u(10)-u(-20)];
+u = L\0;
+plot(u,'.-')</pre>
+
+<p><img src="img/SpectralDisc_02.png" class="figure" alt=""></p>
+<p>The length is about the same as the one we hardwired:</p>
+<pre class="mcode-input">length(u)</pre>
+
+<pre class="mcode-output">ans =
+    93
+</pre>
+
+<h3 id="3-looking-at-the-matrices">3. Looking at the matrices</h3>
+<p>The make things vivid, let's look at the block matrices for some very small dimensions.  Here are discretizations with $n = 1,2,3,4$.   In each case the first $n$ rows correspond to the differential operator and the final two rows to the boundary conditions. Of course, these small matrices wouldn't be much good at resolving the ODE problem.</p>
+<pre class="mcode-input">format short
+for n = 1:4
+  L = diffmat([n n+2],2,X) - diag(gridsample(x,n,X))*diffmat([n n+2],0,X);
+  vT = introw(n+2,X);
+  wT = diffrow(n+2,0,10,X) - diffrow(n+2,0,-20,X);
+  A = [L; vT; wT]
+end</pre>
+
+<pre class="mcode-output">A =
+    0.0044    4.9911    0.0044
+    5.0000   20.0000    5.0000
+   -1.0000         0    1.0000
+A =
+   20.0237   -0.0415    0.0296   -0.0119
+   -0.0119    0.0296   -0.0415   -9.9763
+    1.6667   13.3333   13.3333    1.6667
+   -1.0000         0         0    1.0000
+A =
+   20.0756   -0.1266    0.0800   -0.0512    0.0222
+   -0.0044    0.0178    4.9733    0.0178   -0.0044
+    0.0222   -0.0512    0.0800   -0.1266   -9.9244
+    1.0000    8.0000   12.0000    8.0000    1.0000
+   -1.0000         0         0         0    1.0000
+A =
+   20.1849   -0.3038    0.1815   -0.1051    0.0781   -0.0356
+   -1.8626    6.0695    9.7812   -2.2839    1.4119   -0.6161
+    0.1339   -0.3070    0.4972   -1.9999   -1.2116    0.3874
+   -0.0356    0.0781   -0.1051    0.1815   -0.3038   -9.8151
+    0.6000    5.4111    8.9889    8.9889    5.4111    0.6000
+   -1.0000         0         0         0         0    1.0000
+</pre>
+
+<h3 id="4-references">4. References</h3>
+<ol>
+<li>
+<p>J. L. Aurentz and L. N. Trefethen, Block operators and spectral discretizations, <em>SIAM Review</em>, revised manuscript submitted August 2016.</p>
+</li>
+<li>
+<p>T. A. Driscoll, Automatic spectral collocation for integral, integro-differential, and integrally reformulated differential equations, <em>J. Comp. Phys.</em> 229 (2010), 5980--5998.</p>
+</li>
+<li>
+<p>T. A. Driscoll and N. Hale, Rectangular spectral collocation, <em>IMA J. Numer. Anal.</em>, 36 (2016), 108--132.</p>
+</li>
+<li>
+<p>Hrothgar, <em>Block Operators and Continuous Adjoint Methods,</em> transfer thesis, Mathematical Institute, University of Oxford, November 2014.</p>
+</li>
+<li>
+<p>K. Xu and N. Hale, Explicit construction of rectangular differentiation matrices, <em>IMA J. Numer. Anal.</em> 36 (2016), 618--632.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

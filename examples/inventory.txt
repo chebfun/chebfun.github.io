@@ -145,6 +145,7 @@ ode-linear/ParameterODE.m
 ode-linear/PeriodicSystem.m
 ode-linear/Regions.m
 ode-linear/ResonantVandal.m
+ode-linear/SpectralDisc.m
 ode-linear/WikiODE.m
 ode-nonlin/AllenCahn.m
 ode-nonlin/Blasius.m
