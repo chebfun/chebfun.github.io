@@ -139,6 +139,7 @@ ode-linear/LeeGreengardODEs.m
 ode-linear/LinearIVP.m
 ode-linear/LinExpIVP.m
 ode-linear/MatchedAsymp.m
+ode-linear/NearNonuniqueness.m
 ode-linear/NonstandardBCs.m
 ode-linear/OrderStars.m
 ode-linear/ParameterODE.m

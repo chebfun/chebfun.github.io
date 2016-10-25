@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Near-nonuniqueness and near-nonexistence &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Near-nonuniqueness and near-nonexistence</h1>
+<h2>Nick Trefethen, October 2016 in <a href='/examples/ode-linear/'>ode-linear</a><span><a href='/examples/ode-linear/NearNonuniqueness.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-linear/NearNonuniqueness.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-near-nonuniqueness-for-a-linear-ode-bvp">1. Near-nonuniqueness for a linear ODE BVP</h3>
+<p>The linear problem $$ Lu = \epsilon u"- xu'+ u = 1, \quad u(\pm 1) = 0 , ~\epsilon \ll 1 $$ has a unique solution.  From uniqueness, it follows that the solution must be an even function of $x$, for if it were not, then $u(-x)$ would be another distinct solution.</p>
+<p>So what is going on here when we solve the problem with Chebfun with $\epsilon = 0.01$?</p>
+<pre class="mcode-input">L = chebop(-1,1); L.lbc = 0; L.rbc = 0;
+L.op = @(x,u) 0.01*diff(u,2) - x*diff(u) + u;
+LW = 'linewidth'; FS = 'fontsize';
+u = L\1; plot(u,LW,6), set(gca,'xtick',-1:1)
+title('This function should be even',FS,14)</pre>
+
+<p><img src="img/NearNonuniqueness_01.png" class="figure" alt=""></p>
+<p>A clue comes when we look at the residual for the computed solution. It is very small, indicating that in some sense the computation was successful:</p>
+<pre class="mcode-input">residual_norm = norm(L*u - 1)</pre>
+
+<pre class="mcode-output">residual_norm =
+     1.092224373142422e-10
+</pre>
+
+<p>In the language familiar in the study of pseudospectra [5,6] we could say that although $u$ is not <em>near a solution</em>, it is <em>nearly a solution</em>. Domokos and Holmes would call it a <em>ghost solution</em> [2].</p>
+<p>Here are similar pictures with $\epsilon = 0.005$ and $0.001$. The residuals are small and the precise shape of each "solution" is determined by arbitrary features of the Chebfun discretization that might as well be random.</p>
+<pre class="mcode-input">L.op = @(x,u) 0.005*diff(u,2) - x*diff(u) + u;
+u = L\1; subplot(1,2,1), plot(u,LW,4), set(gca,'xtick',-1:1)
+L.op = @(x,u) 0.001*diff(u,2) - x*diff(u) + u;
+u = L\1; subplot(1,2,2), plot(u,LW,4), set(gca,'xtick',-1:1)</pre>
+
+<p><img src="img/NearNonuniqueness_02.png" class="figure" alt=""></p>
+<p>What's going on is that although $L$ does not have any null functions, i.e., eigenfunctions associated with eigenvalue $0$, it has one that comes very close, as we can see by computing six eigenvalues for the case $\epsilon = 0.01$ again:</p>
+<pre class="mcode-input">L.op = @(x,u) .01*diff(u,2) - x*diff(u) + u;
+eigs(L)</pre>
+
+<pre class="mcode-output">ans =
+  -3.999999996180061
+  -2.999999998198279
+  -2.000000000149360
+  -1.000000000123952
+   0.000000000001685
+   1.000000000003386
+</pre>
+
+<p>If we plot the near-null function we see the shape of the upside-down N:</p>
+<pre class="mcode-input">[v,d] = eigs(L,1,'SM');
+clf, plot(v,'m',LW,2), set(gca,'xtick',-1:1), title('null function',FS,12)</pre>
+
+<p><img src="img/NearNonuniqueness_03.png" class="figure" alt=""></p>
+<p>We can explain this effect as follows.  An ODE BVP will have a null function if there are too few boundary conditions, which would be analogous to a matrix problem having more columns than rows: $$ \pmatrix{a &amp; b} \pmatrix{x \cr y} = c. $$ In the language of Fredholm operators, a problem with this shape is said to have index 1 (the dimension of the nullspace exceeds the codimension of the range by 1) [1]. Now mathematically, our ODE is of index 0, with the right number of boundary conditions, namely 2, i.e., 1 at each end.  However, consider its behavior near each boundary $x=\pm 1$, taking $\epsilon = 0.01$ for concreteness.  At $x=-1$, $L$ has these characteristic values $\alpha$ for solutions $\exp(\alpha x)$ apart from boundary conditions:</p>
+<pre class="mcode-input">roots([.01 1 1])</pre>
+
+<pre class="mcode-output">ans =
+ -98.989794855663561
+  -1.010205144336438
+</pre>
+
+<p>Similarly at $x=1$, $L$ the characteristic values are these:</p>
+<pre class="mcode-input">roots([.01 -1 1])</pre>
+
+<pre class="mcode-output">ans =
+  98.989794855663561
+   1.010205144336438
+</pre>
+
+<p>At both ends we have a mode decaying exponentially away from the boundary at a very rapid exponential rate, and this exponential decoupling of the boundaries allows the pseudo-null function. Our ODE BVP, though mathematically well-posed, is numerically ill-posed/underdetermined: there is one BC at each end, whereas the ODE is exponentially close to being able to satisfy two BCs at each end.</p>
+<h3 id="2-near-nonexistence-for-the-dual-problem">2. Near-nonexistence for the dual problem</h3>
+<p>Students of the Fredholm alternative know that in some sense existence is the dual of uniqueness.  Here is the adjoint of our earlier problem: $$ Lu = \epsilon u" +xu'+ u = 1, \quad u(\pm 1) = 0 , ~\epsilon \ll 1. $$ Again there exists a unique solution mathematically, but for small $\epsilon$, can we see an effect of near-nonexistence?</p>
+<p>An experiment gives an answer: the solutions are exponentially large.  Here we take the large value $\epsilon = 0.1$:</p>
+<pre class="mcode-input">L = chebop(-1,1); L.lbc = 0; L.rbc = 0;
+L.op = @(x,u) 0.1*diff(u,2) + x*diff(u) + u;
+u = L\1; plot(u,LW,6), set(gca,'xtick',-1:1)
+ylim([-200 0]), set(gca,'ytick',-200:100:0)
+title('Solution to the dual problem',FS,14)</pre>
+
+<p><img src="img/NearNonuniqueness_04.png" class="figure" alt=""></p>
+<p>As we shrink $\epsilon$, the amplitude grows exponentially.</p>
+<pre class="mcode-input">L.op = @(x,u) 0.05*diff(u,2) + x*diff(u) + u;
+u = L\1; subplot(1,2,1), plot(u,LW,4), set(gca,'xtick',-1:1)
+ylim([-3e4 0])
+L.op = @(x,u) 0.025*diff(u,2) + x*diff(u) + u;
+u = L\1; subplot(1,2,2), plot(u,LW,4), set(gca,'xtick',-1:1)
+ylim([-6e8 0])</pre>
+
+<p><img src="img/NearNonuniqueness_05.png" class="figure" alt=""></p>
+<p>We can explain this dual effect as follows.  An ODE BVP will fail to have a solution if there are too many boundary conditions, which would be analogous to a matrix problem having more rows than columns: $$ \pmatrix{a \cr b} x = \pmatrix{c\cr d}. $$ In the language of Fredholm operators, a problem with this shape has index $-1$ (the codimension of the range exceeds the dimension of the nullspace by 1) [1]. Near $x=-1$, with $\epsilon = 0.01$ for concreteness, our dual operator $L^*$ has these characteristic values $\alpha$,</p>
+<pre class="mcode-input">roots([.01 -1 1])</pre>
+
+<pre class="mcode-output">ans =
+  98.989794855663561
+   1.010205144336438
+</pre>
+
+<p>and at $x=1$ the values are</p>
+<pre class="mcode-input">roots([.01 1 1])</pre>
+
+<pre class="mcode-output">ans =
+ -98.989794855663561
+  -1.010205144336438
+</pre>
+
+<p>Now at both boundaries we have solutions exponentially growing away from the boundary, as one would see on an infinite interval in a problem where no boundary conditions could be specified there. Thus the dual ODE BVP is numerically ill-posed/overdetermined.</p>
+<h3 id="3-nonexistence-of-solutions-for-linear-pdes">3. Nonexistence of solutions for linear PDEs</h3>
+<p>For ODEs, we have seen that a problem may have solutions that are "nearly nonunique" or "nearly do not exist", with a measure of "nearly" growing exponentially as a parameter $\epsilon$ decreases to $0$.  With PDEs, there are similar effects but we no longer need an adjustable parameter. The reason is that a PDE has at least two independent variables, such as $x$ and $y$ or $x$ and $t$, and thus it must simultaneously comprehend all possible wave numbers $k$ (for a dependence like $\exp(iky)$, say) or all possible frequencies $\omega$ (for a dependence $\exp(i\omega t)$).</p>
+<p>This is the mechanism that leads to nonexistence of solutions to certain linear PDEs with smooth coefficients, famously discovered by Hans Lewy in 1957 [4], a phenomenon later analyzed very fully by Hormander, Dencker, and others.  Nonexistence for one problem is associated with nonuniqueness for the dual problem, which in turn has to do with the appearance of null functions in the form of Gaussian wave packets.  See chapter 13 of [6].</p>
+<p>One can see related issues of linear PDE ill-posedness in a context closer to the ODEs of this Example in the work of Fokas and Pelloni [3]. We have seen in this memo that the number of boundary conditions needed at a boundary point of an ODE comes exponentially close to being determined by the characteristic exponents $\alpha$ at that boundary.  For a PDE, it is not just a matter of coming exponentially close; one must get the count right at each boundary point or the problem will be truly ill-posed.</p>
+<h3 id="4-references">4. References</h3>
+<ol>
+<li>
+<p>J. L. Aurentz and L. N. Trefethen, Block operators and spectral discretizations, <em>SIAM Review</em>, to appear.</p>
+</li>
+<li>
+<p>G. Domokos and P. Holmes, On nonlinear boundary-value problems: ghosts, parasites and discretizations, <em>Proc. Roy. Soc. Lond. A</em> 459 (2003), 1535-1561.</p>
+</li>
+<li>
+<p>A. S. Fokas and B. Pelloni, Two-point boundary value problems for linear evolution equations.</p>
+</li>
+<li>
+<p>H Lewy, An example of a smooth linear partial differential equation without solution, <em>Ann. Math.</em> 66 (19757), 155-158.</p>
+</li>
+<li>
+<p>L. N. Trefethen, Wave packet pseudomodes of variable coefficient differential operators, <em>Proc. Roy. Soc. Lond. A</em> 461 (2005), 3099-3122.</p>
+</li>
+<li>
+<p>L. N. Trefethen and M. Embree, <em>Spectra and Pseudospectra</em>, Princeton U. Press, 2005.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
