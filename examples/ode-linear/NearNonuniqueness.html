@@ -75,7 +75,7 @@ title('This function should be even',FS,14)</pre>
 <pre class="mcode-input">residual_norm = norm(L*u - 1)</pre>
 
 <pre class="mcode-output">residual_norm =
-     1.092224373142422e-10
+     1.875672952705472e-09
 </pre>
 
 <p>In the language familiar in the study of pseudospectra [5,6] we could say that although $u$ is not <em>near a solution</em>, it is <em>nearly a solution</em>. Domokos and Holmes would call it a <em>ghost solution</em> [2].</p>
@@ -91,12 +91,12 @@ u = L\1; subplot(1,2,2), plot(u,LW,4), set(gca,'xtick',-1:1)</pre>
 eigs(L)</pre>
 
 <pre class="mcode-output">ans =
-  -3.999999996180061
-  -2.999999998198279
-  -2.000000000149360
-  -1.000000000123952
-   0.000000000001685
-   1.000000000003386
+  -4.000000000893855
+  -2.999999998652914
+  -2.000000000108242
+  -1.000000000110286
+  -0.000000000000946
+   1.000000000001899
 </pre>
 
 <p>If we plot the near-null function we see the shape of the upside-down N:</p>
@@ -120,9 +120,9 @@ clf, plot(v,'m',LW,2), set(gca,'xtick',-1:1), title('null function',FS,12)</pre>
    1.010205144336438
 </pre>
 
-<p>At both ends we have a mode decaying exponentially away from the boundary at a very rapid exponential rate, and this exponential decoupling of the boundaries allows the pseudo-null function. Our ODE BVP, though mathematically well-posed, is numerically ill-posed/underdetermined: there is one BC at each end, whereas the ODE is exponentially close to being able to satisfy two BCs at each end.</p>
+<p>At both ends we have a mode decaying away from the boundary at a very rapid exponential rate, and this exponential decoupling of the boundaries allows the pseudo-null function. Our ODE BVP, though mathematically well-posed, is numerically ill-posed/underdetermined: there is one BC at each end, whereas the ODE is exponentially close to being able to satisfy two BCs at each end.</p>
 <h3 id="2-near-nonexistence-for-the-dual-problem">2. Near-nonexistence for the dual problem</h3>
-<p>Students of the Fredholm alternative know that in some sense existence is the dual of uniqueness.  Here is the adjoint of our earlier problem: $$ Lu = \epsilon u" +xu'+ u = 1, \quad u(\pm 1) = 0 , ~\epsilon \ll 1. $$ Again there exists a unique solution mathematically, but for small $\epsilon$, can we see an effect of near-nonexistence?</p>
+<p>Students of the Fredholm alternative know that in some sense existence is the dual of uniqueness.  Here is the adjoint of our earlier problem: $$ L^*u = \epsilon u" +xu'+ u = 1, \quad u(\pm 1) = 0 , ~\epsilon \ll 1. $$ Again there exists a unique solution mathematically, but for small $\epsilon$, can we see an effect of near-nonexistence?</p>
 <p>An experiment gives an answer: the solutions are exponentially large.  Here we take the large value $\epsilon = 0.1$:</p>
 <pre class="mcode-input">L = chebop(-1,1); L.lbc = 0; L.rbc = 0;
 L.op = @(x,u) 0.1*diff(u,2) + x*diff(u) + u;

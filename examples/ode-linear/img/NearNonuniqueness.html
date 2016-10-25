@@ -22,7 +22,7 @@ title('This function should be even',FS,14)</pre><img src="img/NearNonuniqueness
 A clue comes when we look at the residual for the computed solution. It is very small, indicating that in some sense the computation was successful:
 
 <pre class="mcode-input">residual_norm = norm(L*u - 1)</pre><pre class="mcode-output">residual_norm =
-     1.092224373142422e-10
+     1.875672952705472e-09
 </pre>In the language familiar in the study of pseudospectra [5,6] we could say that although $u$ is not _near a solution_, it is _nearly a solution_. Domokos and Holmes would call it a _ghost solution_ [2].
 
 Here are similar pictures with $\epsilon = 0.005$ and $0.001$. The residuals are small and the precise shape of each "solution" is determined by arbitrary features of the Chebfun discretization that might as well be random.
@@ -36,12 +36,12 @@ What's going on is that although $L$ does not have any null functions, i.e., eig
 
 <pre class="mcode-input">L.op = @(x,u) .01*diff(u,2) - x*diff(u) + u;
 eigs(L)</pre><pre class="mcode-output">ans =
-  -3.999999996180061
-  -2.999999998198279
-  -2.000000000149360
-  -1.000000000123952
-   0.000000000001685
-   1.000000000003386
+  -4.000000000893855
+  -2.999999998652914
+  -2.000000000108242
+  -1.000000000110286
+  -0.000000000000946
+   1.000000000001899
 </pre>If we plot the near-null function we see the shape of the upside-down N:
 
 <pre class="mcode-input">[v,d] = eigs(L,1,'SM');
@@ -57,13 +57,13 @@ We can explain this effect as follows.  An ODE BVP will have a null function if 
 <pre class="mcode-input">roots([.01 -1 1])</pre><pre class="mcode-output">ans =
   98.989794855663561
    1.010205144336438
-</pre>At both ends we have a mode decaying exponentially away from the boundary at a very rapid exponential rate, and this exponential decoupling of the boundaries allows the pseudo-null function. Our ODE BVP, though mathematically well-posed, is numerically ill-posed/underdetermined: there is one BC at each end, whereas the ODE is exponentially close to being able to satisfy two BCs at each end.
+</pre>At both ends we have a mode decaying away from the boundary at a very rapid exponential rate, and this exponential decoupling of the boundaries allows the pseudo-null function. Our ODE BVP, though mathematically well-posed, is numerically ill-posed/underdetermined: there is one BC at each end, whereas the ODE is exponentially close to being able to satisfy two BCs at each end.
 
 
 
 ## 2. Near-nonexistence for the dual problem
 
-Students of the Fredholm alternative know that in some sense existence is the dual of uniqueness.  Here is the adjoint of our earlier problem: $$ Lu = \epsilon u" +xu'+ u = 1, \quad u(\pm 1) = 0 , ~\epsilon \ll 1. $$ Again there exists a unique solution mathematically, but for small $\epsilon$, can we see an effect of near-nonexistence?
+Students of the Fredholm alternative know that in some sense existence is the dual of uniqueness.  Here is the adjoint of our earlier problem: $$ L^*u = \epsilon u" +xu'+ u = 1, \quad u(\pm 1) = 0 , ~\epsilon \ll 1. $$ Again there exists a unique solution mathematically, but for small $\epsilon$, can we see an effect of near-nonexistence?
 
 An experiment gives an answer: the solutions are exponentially large.  Here we take the large value $\epsilon = 0.1$:
 
