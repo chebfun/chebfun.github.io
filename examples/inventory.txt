@@ -213,6 +213,7 @@ roots/WhiteCurves.m
 sphere/AtmosphericTemperature.m
 sphere/Gravity.m
 sphere/HelmholtzDecomposition.m
+sphere/SpherefunPartition.m
 sphere/SphereHeatConduction.m
 sphere/SphericalHarmonics.m
 stats/BayesianGradebook.m

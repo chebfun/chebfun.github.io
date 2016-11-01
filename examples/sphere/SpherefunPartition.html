@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Applications &raquo; Chebfun</title>
+    <title>Partitioning spherefuns &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,59 +54,65 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Applications</h1>
+<h1>Partitioning spherefuns</h1>
+<h2>Behnam Hashemi, November 2016 in <a href='/examples/sphere/'>sphere</a><span><a href='/examples/sphere/SpherefunPartition.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/sphere/SpherefunPartition.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li class='active'><a href="/examples/applics/index.html">Applications<span>2</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>33</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>9</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>9</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>14</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>4</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>11</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>21</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>21</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>10</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>9</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>6</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>6</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>11</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/applics/Gompertz.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/Gompertz_01.png' /></div>
-            <h3>Exponential, logistic, and Gompertz growth</h3>
-            <p>Toby Driscoll, June 15, 2015<!--
-                <span class='tags'><span href='#' class='tag'>#ivp</span>, <span href='#' class='tag'>#ode</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/applics/EuropeanCall.html'>
-            <div class='thumbwrapper'><img src='/examples/applics/img/EuropeanCall_01.png' /></div>
-            <h3>Pricing of a European Call option</h3>
-            <p>Ricardo Pachon, November 2014<!--
-                <span class='tags'><span href='#' class='tag'>#blackscholes</span>, <span href='#' class='tag'>#finance</span>, <span href='#' class='tag'>#option pricing</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Assume that $f(x,y,z)$ is a function defined over the unit 2-sphere in three dimensions. Our aim is to explore the building blocks of $f$ using the <em>partition</em> command. Let's start with a spherefun object:</p>
+<pre class="mcode-input">f = spherefun(@(x,y,z) sinh(5*x.*y.*z).*cos(x-y+2*z))
+plot(f), axis off, hold on
+contour(f, 'color','k'),</pre>
+
+<pre class="mcode-output">f =
+   spherefun object
+       domain        rank    vertical scale
+     unit sphere      20          1.1
+</pre>
+
+<p><img src="img/SpherefunPartition_01.png" class="figure" alt=""></p>
+<p>A spherefun can be seen as a sum of two spherefuns, one of them even/$\pi$-periodic and the other odd/$\pi$-anti-periodic [1]. Recall that a univariate function $g$ is $\pi$-anti-periodic if $g(x+\pi) = -g(x)$. The command `[fep, foa] = partition(f)' partitions $f$ accordingly.</p>
+<pre class="mcode-input">[fep, foa] = partition(f)
+err = norm(fep+foa - f)</pre>
+
+<pre class="mcode-output">fep =
+   spherefun object
+       domain        rank    vertical scale
+     unit sphere      10          0.65
+foa =
+   spherefun object
+       domain        rank    vertical scale
+     unit sphere      10          0.94
+err =
+     0
+</pre>
+
+<p><em>fep</em> has a CDR decomposition [1] whose columns are even and whose rows are $\pi$ periodic (not just $2\pi$!):</p>
+<pre class="mcode-input">[Ce, D, Rp] = cdr(fep);
+clf, plot(Ce)
+grid on, title('Columns of the even part of f')</pre>
+
+<p><img src="img/SpherefunPartition_02.png" class="figure" alt=""></p>
+<pre class="mcode-input">clf, plot(Rp)
+grid on, title('Rows of the \pi-periodic part of f')</pre>
+
+<p><img src="img/SpherefunPartition_03.png" class="figure" alt=""></p>
+<p>The other part of $f$, <em>foa</em>, has a CDR decomposition whose columns are odd and whose rows are $\pi$ anti-periodic:</p>
+<pre class="mcode-input">[Co, D, Ra] = cdr(foa);
+plot(Co),
+grid on, title('Columns of the odd part of f')</pre>
+
+<p><img src="img/SpherefunPartition_04.png" class="figure" alt=""></p>
+<pre class="mcode-input">clf, plot(Ra)
+grid on, title('Rows of the \pi-antiperiodic part of f')</pre>
+
+<p><img src="img/SpherefunPartition_05.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>A. Townsend, H. Wilber, and G. Wright, Computing with functions in spherical and polar geometries I. The sphere. <em>SIAM J. Sci. Comput.</em>, 38 (2016) C403-C425.</li>
+</ol></div>
         </div>
     </div>
 </div>

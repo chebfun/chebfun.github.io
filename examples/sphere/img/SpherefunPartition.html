@@ -1,0 +1,54 @@
+---
+title: "Partitioning spherefuns"
+layout: example
+authordate: "Behnam Hashemi, November 2016"
+meta: "(Chebfun Example sphere/SpherefunPartition.m) [Tags: #Spherefun]"
+---
+
+Assume that $f(x,y,z)$ is a function defined over the unit 2-sphere in three dimensions. Our aim is to explore the building blocks of $f$ using the _partition_ command. Let's start with a spherefun object:
+
+<pre class="mcode-input">f = spherefun(@(x,y,z) sinh(5*x.*y.*z).*cos(x-y+2*z))
+plot(f), axis off, hold on
+contour(f, 'color','k'),</pre><pre class="mcode-output">f =
+   spherefun object
+       domain        rank    vertical scale
+     unit sphere      20          1.1
+</pre><img src="img/SpherefunPartition_01.png" class="figure" alt="">
+
+A spherefun can be seen as a sum of two spherefuns, one of them even/$\pi$-periodic and the other odd/$\pi$-anti-periodic [1]. Recall that a univariate function $g$ is $\pi$-anti-periodic if $g(x+\pi) = -g(x)$. The command `[fep, foa] = partition(f)' partitions $f$ accordingly.
+
+<pre class="mcode-input">[fep, foa] = partition(f)
+err = norm(fep+foa - f)</pre><pre class="mcode-output">fep =
+   spherefun object
+       domain        rank    vertical scale
+     unit sphere      10          0.65
+foa =
+   spherefun object
+       domain        rank    vertical scale
+     unit sphere      10          0.94
+err =
+     0
+</pre>_fep_ has a CDR decomposition [1] whose columns are even and whose rows are $\pi$ periodic (not just $2\pi$!):
+
+<pre class="mcode-input">[Ce, D, Rp] = cdr(fep);
+clf, plot(Ce)
+grid on, title('Columns of the even part of f')</pre><img src="img/SpherefunPartition_02.png" class="figure" alt="">
+
+<pre class="mcode-input">clf, plot(Rp)
+grid on, title('Rows of the \pi-periodic part of f')</pre><img src="img/SpherefunPartition_03.png" class="figure" alt="">
+
+The other part of $f$, _foa_, has a CDR decomposition whose columns are odd and whose rows are $\pi$ anti-periodic:
+
+<pre class="mcode-input">[Co, D, Ra] = cdr(foa);
+plot(Co),
+grid on, title('Columns of the odd part of f')</pre><img src="img/SpherefunPartition_04.png" class="figure" alt="">
+
+<pre class="mcode-input">clf, plot(Ra)
+grid on, title('Rows of the \pi-antiperiodic part of f')</pre><img src="img/SpherefunPartition_05.png" class="figure" alt="">
+
+
+
+## References
+
+1. A. Townsend, H. Wilber, and G. Wright, Computing with functions in spherical and polar geometries I. The sphere. _SIAM J. Sci. Comput._, 38 (2016) C403-C425.
+
