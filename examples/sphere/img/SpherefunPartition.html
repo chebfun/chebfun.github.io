@@ -1,5 +1,5 @@
 ---
-title: "Parity partitioning a Spherefun"
+title: "Parity partitioning a spherefun"
 layout: example
 authordate: "Behnam Hashemi, November 2016"
 meta: "(Chebfun Example sphere/SpherefunPartition.m) [Tags: #Spherefun]"
@@ -53,7 +53,7 @@ grid on, title('Columns of the odd part of f')</pre><img src="img/SpherefunParti
 <pre class="mcode-input">clf, plot(Ra)
 grid on, title('Rows of the \pi-anti-periodic part of f')</pre><img src="img/SpherefunPartition_06.png" class="figure" alt="">
 
-As Grady Wright pointed out the integral of a spherefun is equal to the integral of its even/$\pi$-periodic piece, since the integral of any odd/$\pi$-anti-periodic spherefun is zero:
+The integral of a spherefun is equal to the integral of its even/$\pi$-periodic piece, since the integral of any odd/$\pi$-anti-periodic spherefun is zero:
 
 <pre class="mcode-input">format long
 sum_f = sum2(f)
@@ -64,7 +64,7 @@ sum_foa =
      0
 sum_fep =
    6.283185307179586
-</pre>An equivalent partitioning is available for Diskfuns [2].
+</pre>An equivalent partitioning is available for diskfuns [2].
 
 
 

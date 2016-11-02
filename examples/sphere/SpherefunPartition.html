@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Parity partitioning a Spherefun &raquo; Chebfun</title>
+    <title>Parity partitioning a spherefun &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,7 +54,7 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1>Parity partitioning a Spherefun</h1>
+<h1>Parity partitioning a spherefun</h1>
 <h2>Behnam Hashemi, November 2016 in <a href='/examples/sphere/'>sphere</a><span><a href='/examples/sphere/SpherefunPartition.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/sphere/SpherefunPartition.m'>view on GitHub</a></span></h2>
 </div>
 
@@ -115,7 +115,7 @@ grid on, title('Columns of the odd part of f')</pre>
 grid on, title('Rows of the \pi-anti-periodic part of f')</pre>
 
 <p><img src="img/SpherefunPartition_06.png" class="figure" alt=""></p>
-<p>As Grady Wright pointed out the integral of a spherefun is equal to the integral of its even/$\pi$-periodic piece, since the integral of any odd/$\pi$-anti-periodic spherefun is zero:</p>
+<p>The integral of a spherefun is equal to the integral of its even/$\pi$-periodic piece, since the integral of any odd/$\pi$-anti-periodic spherefun is zero:</p>
 <pre class="mcode-input">format long
 sum_f = sum2(f)
 sum_foa = sum2(foa)
@@ -129,7 +129,7 @@ sum_fep =
    6.283185307179586
 </pre>
 
-<p>An equivalent partitioning is available for Diskfuns [2].</p>
+<p>An equivalent partitioning is available for diskfuns [2].</p>
 <h3 id="references">References</h3>
 <ol>
 <li>
