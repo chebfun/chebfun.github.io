@@ -171,6 +171,7 @@ ode-nonlin/ThreeBodyProblem.m
 ode-nonlin/ThreePlanets.m
 ode-nonlin/TwoElectrons.m
 opt/Catenary.m
+opt/ConstrainedExtrema.m
 opt/ConstrainedOptimization.m
 opt/DixonSzego.m
 opt/ExtremeExtrema.m
