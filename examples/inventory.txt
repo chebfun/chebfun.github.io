@@ -9,6 +9,7 @@ approx/BestL2Approximation.m
 approx/BSplineConv.m
 approx/CF30.m
 approx/DivergentSeries.m
+approx/EdgeDetection.m
 approx/EightShades.m
 approx/Entire.m
 approx/EntireBound.m
