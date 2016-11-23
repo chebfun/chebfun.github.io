@@ -43,6 +43,7 @@ approx2/Other2DDomains.m
 approx2/PaduaPoints.m
 approx2/Pegs.m
 approx2/PrettyFunctions.m
+approx3/changeVar3D.m
 approx3/Complexity.m
 approx3/FindingRankOne.m
 approx3/FluxIntegral3D.m

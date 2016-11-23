@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Triple integrals in spherical, cylindrical and other coordinate systems &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Triple integrals in spherical, cylindrical and other coordinate systems</h1>
+<h2>Rodrigo Platte, November 2016 in <a href='/examples/approx3/'>approx3</a><span><a href='/examples/approx3/changeVar3D.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx3/changeVar3D.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="transformations">Transformations</h3>
+<p>In this example we use mappings to compute with functions defined on non-rectangular three dimensional volumes. The mapping variables must be defined on a rectangular domain. In other words, we will use the change of variables</p>
+<p>$$ x = x(u,v,w), \  y = y(u,v,w), \ z = z(u,v,w), $$</p>
+<p>where $u$, $v$, $w$ are defined as chebfun3 objects on a rectangular domain.</p>
+<h3 id="triple-integrals-in-spherical-coordinates">Triple integrals in spherical coordinates</h3>
+<p>Here we use spherical coordinates to compute the mass of a "ice-cream cone" region with variable density. The region is defined by</p>
+<pre class="mcode-input">r = chebfun3(@(r,t,p) r, [0 1 0 2*pi pi/4 pi/2]);
+t = chebfun3(@(r,t,p) t, [0 1 0 2*pi pi/4 pi/2]);
+p = chebfun3(@(r,t,p) p, [0 1 0 2*pi pi/4 pi/2]);
+x = r.*cos(t).*cos(p);
+y = r.*sin(t).*cos(p);
+z = r.*sin(p);</pre>
+
+<p>We can plot the surface of this region using the plot command.</p>
+<pre class="mcode-input">plot(x,y,z)
+hold off
+view(-53,24)</pre>
+
+<p><img src="img/changeVar3D_01.png" class="figure" alt=""></p>
+<p>We now define the density function and graph the surface of the solid colored by the density function.</p>
+<pre class="mcode-input">density = sin(10*t).*cos(10*r)+1;
+plot(x,y,z,density)</pre>
+
+<p><img src="img/changeVar3D_02.png" class="figure" alt=""></p>
+<p>The mass of the solid can be found by computing the triple integral in a rectangular region. The change of variables requires us to compute the determinant Jacobian of the transformation.</p>
+<pre class="mcode-input">M = integral3(density.*abs(jacobian(x,y,z)));
+format long
+disp(M)</pre>
+
+<pre class="mcode-output">   0.613434123007076
+</pre>
+
+<p>To show the accuracy of chebfun3 representations we now consider a simpler density function, for which the exact answer to the triple integral can easily be found.</p>
+<pre class="mcode-input">disp(integral3(r.^2.*abs(jacobian(x,y,z))))
+disp(pi*(2-sqrt(2))/5)</pre>
+
+<pre class="mcode-output">   0.368060473804247
+   0.368060473804244
+</pre>
+
+<h3 id="triple-integrals-in-cylindrical-coordinates">Triple integrals in cylindrical coordinates</h3>
+<p>In our next example we compute the center of mass of a sector of a cylinder with variable density.</p>
+<pre class="mcode-input">r = chebfun3(@(r,t,z) r, [0 1 0 pi 0 1]);
+t = chebfun3(@(r,t,z) t, [0 1 0 pi 0 1]);
+z = chebfun3(@(r,t,z) z, [0 1 0 pi 0 1]);
+x = r.*cos(t);
+y = r.*sin(t);
+map = [x,y,z];
+
+density = y.*sin(10*t)+1;
+plot(x,y,z,density)
+axis image, view(60,60)
+
+coord = [x; y; z];
+jac = abs(jacobian(coord));</pre>
+
+<p><img src="img/changeVar3D_03.png" class="figure" alt=""></p>
+<p>Mass:</p>
+<pre class="mcode-input">M = integral3(density.*jac); disp(M)</pre>
+
+<pre class="mcode-output">   1.570796326794894
+</pre>
+
+<p>Center of mass:</p>
+<pre class="mcode-input">jac = abs(jacobian(x,y,z));
+xc2 = integral3(x.*density.*jac)/M;
+yc2 = integral3(y.*density.*jac)/M;
+zc2 = integral3(z.*density.*jac)/M;
+disp([xc2,yc2,zc2])</pre>
+
+<pre class="mcode-output">   0.000000000000000   0.424413181578388   0.500000000000000
+</pre>
+
+<h3 id="triple-integrals-over-the-torus-and-other-regions">Triple integrals over the torus and other regions</h3>
+<p>Here is an example were we compute a triple integral over the torus</p>
+<pre class="mcode-input">r = chebfun3(@(r,t,p) r, [0 1 0 2*pi 0 2*pi]);
+t = chebfun3(@(r,t,p) t, [0 1 0 2*pi 0 2*pi]);
+p = chebfun3(@(r,t,p) p, [0 1 0 2*pi 0 2*pi]);
+x = (4+r.*cos(t)).*cos(p);
+y = (4+r.*cos(t)).*sin(p);
+z = r.*sin(t);
+f = sin(7*z).*sin(3*x);</pre>
+
+<pre class="mcode-input">plot(x,y,z,f)
+axis tight, axis image
+view(-28,31)
+disp(integral3(f.*abs(jacobian(x,y,z))))</pre>
+
+<pre class="mcode-output">    -3.612086395056842e-23
+</pre>
+
+<p><img src="img/changeVar3D_04.png" class="figure" alt=""></p>
+<p>In the next two examples we vary the radius of torus to generate other solid regions and the compute the triple integrals.</p>
+<pre class="mcode-input">rr = r.*(1+sin(p));
+x = (4+rr.*cos(t)).*cos(p);
+y = (4+rr.*cos(t)).*sin(p);
+z = rr.*sin(t);
+plot(x,y,z,f)
+axis tight, axis image
+view(-28,31)
+disp(integral3(f.*abs(jacobian(x,y,z))))</pre>
+
+<pre class="mcode-output">     4.172576876884635e-24
+</pre>
+
+<p><img src="img/changeVar3D_05.png" class="figure" alt=""></p>
+<p>Here is the other region.</p>
+<pre class="mcode-input">rr = r.*(1+0.9*sin(10*p));
+x = (4+rr.*cos(t)).*cos(p);
+y = (4+rr.*cos(t)).*sin(p);
+z = rr.*sin(t);</pre>
+
+<p>In this case we compute the volume of the region using triple integrals.</p>
+<pre class="mcode-input">plot(x,y,z,f)
+axis tight, axis image
+view(-29,60)
+
+disp(integral3(abs(jacobian(x,y,z))))</pre>
+
+<pre class="mcode-output">     1.109343534682443e+02
+</pre>
+
+<p><img src="img/changeVar3D_06.png" class="figure" alt=""></p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
