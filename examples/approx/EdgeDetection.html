@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edge detection in Chebfun &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Edge detection in Chebfun</h1>
+<h2>Nick Trefethen, November 2016 in <a href='/examples/approx/'>approx</a><span><a href='/examples/approx/EdgeDetection.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx/EdgeDetection.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Chebfun's edge detection capability was introduced many years ago by Rodrigo Platte [1].  This is the most general method by which Chebfun introduces breakpoints to represent a piecewise smooth function in 1D, and it is surprisingly fast and accurate.</p>
+<p>For example, the Chebfun command <code>fov</code> enables one to compute the field of values of a matrix, i.e., the set of all its Rayleigh quotients in the complex plane.  This is a convex set, but its boundary need not be smooth.  Here is an example involving a matrix of dimension 20.  The dots are the eigenvalues, and the black line is the boundary of the field of values.  In this case two eigenvalues lie on the boundary, and Chebfun has found them with edge detection.</p>
+<pre class="mcode-input">rng(1)
+d = sort(randn(20,1)) + 1i*randn(20,1);
+A = diag(d); A(1:10,1:10) = A(1:10,1:10) + diag(ones(9,1),1);
+[W,W2] = fov(A);
+LW = 'linewidth'; MS = 'markersize'
+plot(W,'k',LW,1.6), hold on, plot(W2,'k',LW,1.6)
+hold on, plot(d,'.r',MS,14), hold off, axis off</pre>
+
+<pre class="mcode-output">MS =
+markersize
+</pre>
+
+<p><img src="img/EdgeDetection_01.png" class="figure" alt=""></p>
+<p>That example is a bit highbrow, so let us try a simpler one. Here's one that is <em>very</em> simple.  Suppose we make Chebfun from the function $|e^x \sin(10\pi x)|$, using 'splitting on' mode:</p>
+<pre class="mcode-input">f = chebfun('abs(exp(x).*sin(10*pi*x))','splitting','on');
+plot(f)</pre>
+
+<p><img src="img/EdgeDetection_02.png" class="figure" alt=""></p>
+<p>Of course we know mathematically that the points of discontinuity are $-1,-0.9,\dots, 1$, but Chebfun doesn't know this a priori; it figures it out with edge detection to make a piecewise Chebfun. Here we see that the edges detected are correct in all the digits printed.</p>
+<pre class="mcode-input">format long
+domain(f)'</pre>
+
+<pre class="mcode-output">ans =
+  -1.000000000000000
+  -0.900000000000000
+  -0.800000000000000
+  -0.700000000000000
+  -0.600000000000000
+  -0.500000000000000
+  -0.400000000000000
+  -0.300000000000000
+  -0.200000000000000
+  -0.100000000000000
+   0.000000000000000
+   0.100000000000000
+   0.200000000000000
+   0.300000000000000
+   0.400000000000000
+   0.500000000000000
+   0.600000000000000
+   0.700000000000000
+   0.800000000000000
+   0.900000000000000
+   1.000000000000000
+</pre>
+
+<p>The actual errors in the breakpoints are on the order of machine epsilon:</p>
+<pre class="mcode-input">true_edges = (-1:.1:1);
+maxerr = norm(domain(f)-true_edges,inf)</pre>
+
+<pre class="mcode-output">maxerr =
+     4.440892098500626e-16
+</pre>
+
+<p>Now in this example we didn't really need the edge detector; indeed we could construct the chebfun by telling it where to put the breakpoints.</p>
+<pre class="mcode-input">f2 = chebfun('abs(exp(x).*sin(10*pi*x))',true_edges,'splitting','on');
+norm(f-f2)</pre>
+
+<pre class="mcode-output">ans =
+     4.691314575986808e-15
+</pre>
+
+<p>For a more genuine illustration of edge detection in action we want a function whose edge locations are not simple to work out mathematically.  Such an example is provided by the spectral abscissa (largest eigenvalue real part) of a matrix $A = (1-t)B + tC$, where $B$ and $C$ are fixed matrices and $t$ is a parameter.  We mark the breakpoints with red dots.</p>
+<pre class="mcode-input">rng(0)
+B = randn(20); C = randn(20);
+A = @(t) (1-t)*B + t*C;
+abscissa = @(t) max(real(eig(A(t))));
+f = chebfun(@(t) abscissa(t),[0,1],'splitting','on','vectorize');
+plot(f), grid on
+breakpts = domain(f); breakpts = breakpts(2:end-1)'
+hold on, plot(breakpts,f(breakpts),'.r',MS,12), hold off</pre>
+
+<pre class="mcode-output">breakpts =
+   0.132388194915147
+   0.178339670550754
+   0.631775989556641
+   0.750000000000000
+   0.875000000000000
+</pre>
+
+<p><img src="img/EdgeDetection_03.png" class="figure" alt=""></p>
+<p>There are five breakpoints, but only two of them correspond to  actual singularities, as we see from a plot of the derivative:</p>
+<pre class="mcode-input">plot(diff(f)), grid on</pre>
+
+<p><img src="img/EdgeDetection_04.png" class="figure" alt=""></p>
+<p>The other breakpoints are introduced because in splitting on mode, Chebfun does not try very hard to give each piece a representation of maximal length.  However, we can change this by increasing the 'splitLength' parameter from its default value of 160. Here they are if we change <code>splitLength</code> to 1000.</p>
+<pre class="mcode-input">f2 = chebfun(@(t) abscissa(t),[0,1],'splitting','on',...
+  'splitLength',1000,'vectorize');
+plot(f2), grid on
+breakpts2 = domain(f2); breakpts2 = breakpts2(2:end-1)'
+hold on, plot(breakpts2,f2(breakpts2),'.r',MS,12), hold off</pre>
+
+<pre class="mcode-output">breakpts2 =
+   0.132388194915147
+   0.631775989556641
+</pre>
+
+<p><img src="img/EdgeDetection_05.png" class="figure" alt=""></p>
+<p>For details of Chebfun's edge detection algorithm, see [1], and for another example involving spline functions, see <code>http://www.chebfun.org/examples/approx/Splines.m</code>.</p>
+<h3 id="references">References</h3>
+<ol>
+<li>R. Pachon, R. B. Platte, and L. N. Trefethen, Piecewise-smooth chebfuns,    <em>IMA Journal of Numerical Analysis</em>, 30 (2010), 898-916.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

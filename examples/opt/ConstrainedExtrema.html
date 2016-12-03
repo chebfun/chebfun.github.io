@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Extrema of a function under constraints and on non-standard domains &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Extrema of a function under constraints and on non-standard domains</h1>
+<h2>Olivier Sète, November 2016 in <a href='/examples/opt/'>opt</a><span><a href='/examples/opt/ConstrainedExtrema.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/opt/ConstrainedExtrema.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>We illustrate how to find extrema of a function under a constraint that can be parametrized by a chebfun, chebfun2v or chebfun3v object. For this we use the composition of different Chebfun objects.</p>
+<h3 id="1-extrema-on-curves">1. Extrema on curves</h3>
+<p>To demonstrate the idea, we begin with a very simple example where one can see the solution (and one certainly would not need to use Chebfun2 in practice!). Suppose we want to find the extrema of the function $g(x,y) = x^2 - y^2$ on the unit circle in the euclidean plane using Chebfun.  The extrema of $g$ are known analytically: $g$ attains its maximum $1$ at the points $(\pm 1, 0)$, and its minimum $-1$ at $(0, \pm 1)$.  To find these values in Chebfun, we parametrize the constraint:</p>
+<pre class="mcode-input">f = chebfun(@(t) [cos(t), sin(t)], [0, 2*pi]);</pre>
+
+<p>and search for the extrema of $h = g(f)$.  The advantage is that we are now computing the extrema of a function of one variable, without constraint. $h$ is again a chebfun which we compute by</p>
+<pre class="mcode-input">g = chebfun2(@(x,y) x.^2 - y.^2);
+h = g(f)</pre>
+
+<pre class="mcode-output">h =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values  
+[       0,     6.3]       29         1        1 
+vertical scale =   1 
+</pre>
+
+<p>Its extrema can be found with the command <code>minandmax</code>:</p>
+<pre class="mcode-input">format long
+[Y, X] = minandmax(h, 'local')</pre>
+
+<pre class="mcode-output">Y =
+   1.000000000000000
+  -1.000000000000001
+   1.000000000000000
+  -1.000000000000000
+   1.000000000000000
+X =
+                   0
+   1.570796326794897
+   3.141592653589793
+   4.712388980384687
+   6.283185307179586
+</pre>
+
+<p>Here we use the the <code>local</code> flag to obtain all (local) extrema of $h$. The computed points <code>X</code> are points in the domain of definition of $h$. To obtain the points on the unit circle, where $g$ is defined, we map these with $f$:</p>
+<pre class="mcode-input">X = f(X)</pre>
+
+<pre class="mcode-output">X =
+   1.000000000000000                   0
+  -0.000000000000001   1.000000000000000
+  -1.000000000000000   0.000000000000000
+  -0.000000000000003  -1.000000000000000
+   1.000000000000000  -0.000000000000000
+</pre>
+
+<p>Since <code>X(1,:) = X(5,:)</code>, we have recovered the four points on the circle where $g$ attains its extrema.</p>
+<p>Let us consider the more interesting example of finding the extrema of the function</p>
+<pre class="mcode-input">g = cheb.gallery2('challenge');</pre>
+
+<p>from the SIAM 100-digit challenge on the unit circle.  As before we compute the extrema of the chebfun $h = g(f)$:</p>
+<pre class="mcode-input">h = g(f);
+[Y, X] = minandmax(h)</pre>
+
+<pre class="mcode-output">Y =
+  -2.123351672827956
+   5.601493400930887
+X =
+   5.178692247354335
+   2.047196233288410
+</pre>
+
+<p>The corresponding points on the unit circle are</p>
+<pre class="mcode-input">X = f(X)</pre>
+
+<pre class="mcode-output">X =
+   0.449587308414999  -0.893236392066600
+  -0.458582925296232   0.888651619380031
+</pre>
+
+<p>and are marked as black dots on the contour plot of $g$:</p>
+<pre class="mcode-input">contourf(g, 4)
+hold on
+plot(chebfun(@(t) exp(1i*t), [0, 2*pi]), 'k-')
+plot(X(:,1), X(:,2), 'ko', 'MarkerFaceColor', 'k')
+text(X(1,1), X(1,2), '  min', 'color', 'w', 'FontWeight', 'bold')
+text(X(2,1), X(2,2), '  max', 'color', 'w', 'FontWeight', 'bold')
+hold off
+axis equal</pre>
+
+<p><img src="img/ConstrainedExtrema_01.png" class="figure" alt=""></p>
+<p>Similarly we can find the extrema of a function of three variables on a curve in 3d space: $g$ then will be a chebfun3 and $f$ a chebfun with three columns.</p>
+<h3 id="2-extrema-on-surfaces">2. Extrema on surfaces</h3>
+<p>Suppose we want to compute the extrema of a function $g(x,y,z)$ of three variables on a 2d surface in 3d space.  For surfaces that are parametrized by a function $[x;y;z] = f(u,v)$, we can compute the extrema of $g$ on that surface by considering the composition $h = g(f)$ and determining its extrema. The advantage is that we now compute the extrema of a function of two variables and get rid of the constraint.</p>
+<p>Let us compute the extrema of</p>
+<pre class="mcode-input">g = chebfun3(@(x,y,z) x + y + z, [-2, 2, -2, 2, -2, 2]);</pre>
+
+<p>on the 2d surface in 3d space parametrized by</p>
+<pre class="mcode-input">f = chebfun2v(@(x,y) x, @(x,y) y, @(x,y) x.^3 + y.^2);
+surf(f)</pre>
+
+<p><img src="img/ConstrainedExtrema_02.png" class="figure" alt=""></p>
+<p>To find the extrema, we compute</p>
+<pre class="mcode-input">h = g(f);
+[Y, X] = minandmax2(h)</pre>
+
+<pre class="mcode-output">Y =
+  -2.250000000000000   4.000000000000000
+X =
+  -1.000000000000000  -0.500000000000000
+   1.000000000000000   1.000000000000000
+</pre>
+
+<p>So $g$ attains its minimum and maximum at the points</p>
+<pre class="mcode-input">Xmin = f(X(1,1), X(1,2))
+Xmax = f(X(2,1), X(2,2))</pre>
+
+<pre class="mcode-output">Xmin =
+  -1.000000000000000
+  -0.500000000000000
+  -0.750000000000000
+Xmax =
+     1
+     1
+     2
+</pre>
+
+<p>The values of $g$ at these points corresponds indeed to the values <code>Y</code> computed by minandmax2:</p>
+<pre class="mcode-input">g(Xmin(1), Xmin(2), Xmin(3))
+g(Xmax(1), Xmax(2), Xmax(3))</pre>
+
+<pre class="mcode-output">ans =
+  -2.250000000000000
+ans =
+     4
+</pre>
+
+<h3 id="3-extrema-on-non-standard-domains">3. Extrema on non-standard domains</h3>
+<p>So far we used the composition of chebfuns to compute extrema on a curve or surface which were lower-dimensional surfaces in the domain of definition of the function.</p>
+<p>The same idea can be used to find the extrema of a chebfun2 on a non-standard region which can be parametrized by a chebfun2v, or of a chebfun3 on a non-standard region parametrized by a chebfun3v.</p>
+<p>For example, consider the tilted square with corners $(1,0)$, $(0,1)$, $(-1,0)$, and $(0,-1)$, which can be parametrized by the function $f(x,y) = (x-y, x+y)$ defined on $[-1/2, 1/2] \times [-1/2, 1/2]$:</p>
+<pre class="mcode-input">f = chebfun2v(@(x,y) x - y, @(x,y) x + y, [-1/2, 1/2, -1/2, 1/2]);</pre>
+
+<p>Here is a plot:</p>
+<pre class="mcode-input">t = chebfun(@(t) t);
+bdry = join(t - 1i, 1 + 1i*t, 1i - t, -1 - 1i*t)/2;
+fbdry = f(bdry);
+plot(fbdry(:,1), fbdry(:,2))
+axis equal</pre>
+
+<p><img src="img/ConstrainedExtrema_03.png" class="figure" alt=""></p>
+<p>Now let us compute the extrema of the function $g(x,y) = x^3 + \cos(5x) - y^2$ on this tilted square.  As before, we compute the extrema of $h = g(f)$:</p>
+<pre class="mcode-input">g = chebfun2(@(x,y) x.^3 + cos(5*x) - y.^2);
+h = g(f);
+[Y, X] = minandmax2(h)</pre>
+
+<pre class="mcode-output">Y =
+  -1.391273244992604   1.283662185463226
+X =
+  -0.500000000000000   0.151400479254444
+   0.500000000000000  -0.500000000000000
+</pre>
+
+<p>So the extrema of $g$ are at</p>
+<pre class="mcode-input">Xmin = f(X(1,1), X(1,2))
+Xmax = f(X(2,1), X(2,2))</pre>
+
+<pre class="mcode-output">Xmin =
+  -0.651400479254444
+  -0.348599520745556
+Xmax =
+     1
+     0
+</pre>
+
+<p>where $g$ attains exactly the extreme values computed in <code>Y(1)</code> and <code>Y(2)</code>:</p>
+<pre class="mcode-input">g(Xmin(1), Xmin(2))
+g(Xmax(1), Xmax(2))</pre>
+
+<pre class="mcode-output">ans =
+  -1.391273244992605
+ans =
+   1.283662185463227
+</pre>
+
+<p>This method allows one to find extrema of chebfun2 objects on any set that is the image of a chebfun2v.  Similarly, we can find the extrema of a chebfun3 on any set that is the image of a chebfun3v.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

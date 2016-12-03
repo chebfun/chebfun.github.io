@@ -9,6 +9,7 @@ approx/BestL2Approximation.m
 approx/BSplineConv.m
 approx/CF30.m
 approx/DivergentSeries.m
+approx/EdgeDetection.m
 approx/EightShades.m
 approx/Entire.m
 approx/EntireBound.m
@@ -42,6 +43,7 @@ approx2/Other2DDomains.m
 approx2/PaduaPoints.m
 approx2/Pegs.m
 approx2/PrettyFunctions.m
+approx3/changeVar3D.m
 approx3/Complexity.m
 approx3/FindingRankOne.m
 approx3/FluxIntegral3D.m
@@ -170,6 +172,7 @@ ode-nonlin/ThreeBodyProblem.m
 ode-nonlin/ThreePlanets.m
 ode-nonlin/TwoElectrons.m
 opt/Catenary.m
+opt/ConstrainedExtrema.m
 opt/ConstrainedOptimization.m
 opt/DixonSzego.m
 opt/ExtremeExtrema.m
