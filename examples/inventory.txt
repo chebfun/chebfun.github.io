@@ -1,5 +1,6 @@
 applics/EuropeanCall.m
 applics/Gompertz.m
+approx/AAAApprox.m
 approx/AbsoluteValue.m
 approx/AliasingCoefficients.m
 approx/AliasingCoefficientsLeg.m
