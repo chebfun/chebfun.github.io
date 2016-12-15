@@ -4,8 +4,6 @@ layout: guide-chapter
 authordate: "Hadrien Montanelli and Nick Trefethen, February 2016"
 ---
 
-NOTE: This guide is about the `spin`/`spin2`/`spin3` codes. The `spin3` code will be available in a future release together with `chebfun3`.
-
 
 
 ## 19.1  Introduction
@@ -26,49 +24,52 @@ As we shall describe, `spin`/`spin2`/`spin3` take as inputs an initial function 
 
 ## 19.2 Computations in 1D with `spin`
 
-The simplest way to see `spin` in action is to type simply `spin('ks')` or `spin('kdv')` or another similar string to invoke an example computation involving a preloaded initial condition and time interval. (Other choices include `ac`, `burg`, `bz`, `ch`, `gs`, `niko`, and `nls`.) In interactive computing, this is all you need. `spin` will plot the initial condition and then pause, waiting for user input to start the time-integration, and then plot a movie of the solution. Here in a chapter of the guide, we override this behavior with `pause off` and `plot off`. (See section 19.4 to learn how to manage preferences.) Here we solve the KdV (Korteweg-de Vries equation) $u_t = -uu_x - u_{xxx}$:
+The simplest way to see `spin` in action is to type simply `spin('ks')` or `spin('kdv')` or another similar string to invoke an example computation involving a preloaded initial condition and time interval. (Other choices include `ac`, `burg`, `bz`, `ch`, `gs`, `ks`, `niko`, and `nls`.) In interactive computing, this is all you need. `spin` will plot the initial condition and then pause, waiting for user input to start the time-integration, and then plot a movie of the solution. Here in a chapter of the guide, we use a `spinop` obect with a grid size `N` and a time-step `dt`, and `plot` `off`. (See section 19.4 to learn how to manage preferences.) Here we solve the KdV (Korteweg-de Vries equation) $u_t = -uu_x - u_{xxx}$:
 
-<pre class="mcode-input">pause off
-u = spin('kdv', 'plot', 'off');</pre>The output `u` is a `chebfun` at the final time:
+<pre class="mcode-input">S = spinop('kdv');
+u = spin(S, 256, 1e-6, 'plot', 'off');</pre>The output `u` is a `chebfun` at the final time:
 
-<pre class="mcode-input">figure, plot(u, 'linewidth', 2)</pre><img src="img/guide19_01.png" class="figure" alt="">
+<pre class="mcode-input">plot(u, 'linewidth', 2)</pre><img src="img/guide19_01.png" class="figure" alt="">
 
 `spin` makes these things happen with the aid of a class called a `spinop` (later we will also see `spinop2` and `spinop3`).  For example, to see the KdV operator we have just worked with, we can type
 
 <pre class="mcode-input">S = spinop('kdv')</pre><pre class="mcode-output">S = 
   spinop with properties:
 
-           domain: [-3.141592653589793 3.141592653589793]
-             init: [Infx1 chebfun]
-       linearPart: @(u)-diff(u,3)
-    nonlinearPart: @(u)-.5*diff(u.^2)
-            tspan: [0 0.030150000000000]
-          numVars: 1
+     domain: [-3.141592653589793 3.141592653589793]
+       init: [Infx1 chebfun]
+        lin: @(u)-diff(u,3)
+     nonlin: @(u)-.5*diff(u.^2)
+      tspan: [0 0.030150000000000]
+    numVars: 1
 </pre>(To find what initial condition ws used, type `help spin`.) As a second example of a stiff PDE in 1D, here is the Allen-Cahn equation $u_t = 0.005u_{xx} + u - u^3$:
 
-<pre class="mcode-input">u = spin('ac', 'plot', 'off');
+<pre class="mcode-input">S = spinop('ac');
+u = spin(S, 256, 1e-1, 'plot', 'off');
 figure, plot(u, 'linewidth', 2)</pre><img src="img/guide19_02.png" class="figure" alt="">
 
 The computation we just performed was on the time interval $[0,500]$. If we had wanted the interval $[0,100]$, we could have specified it like this:
 
-<pre class="mcode-input">u = spin('ac', [0 100], 'plot', 'off');
+<pre class="mcode-input">S.tspan = [0 100];
+u = spin(S, 256, 1e-1, 'plot', 'off');
 figure, plot(u, 'linewidth', 2)</pre><img src="img/guide19_03.png" class="figure" alt="">
 
 To specify a different initial condition, you can provide a chebfun as another argument. For example, here we use a simpler initial condition:
 
-<pre class="mcode-input">u0 = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig');
-u = spin('ac', [0 100], u0, 'plot', 'off');
+<pre class="mcode-input">S.init = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig');
+u = spin(S, 256, 1e-1, 'plot', 'off');
 figure, plot(u, 'linewidth', 2)</pre><img src="img/guide19_04.png" class="figure" alt="">
 
 Suppose we want Chebfun output at times $0,1,\dots, 30$. We could do this:
 
-<pre class="mcode-input">U = spin('ac', 0:1:30, u0, 'plot', 'off');</pre>The output `U` from this command is a chebmatrix. Here for example is the initial condition and its plot:
+<pre class="mcode-input">S.tspan = 0:1:30;
+U = spin(S, 256, 1e-1, 'plot', 'off');</pre>The output `U` from this command is a chebmatrix. Here for example is the initial condition and its plot:
 
 <pre class="mcode-input">U{1}, plot(U{1}, 'linewidth', 2)</pre><pre class="mcode-output">ans =
    chebfun column (1 smooth piece)
        interval       length     endpoint values trig
-[       0,     6.3]      103        -1       -1 
-vertical scale = 2.9 
+[       0,     6.3]      256        -1       -1 
+vertical scale =   3 
 </pre><img src="img/guide19_05.png" class="figure" alt="">
 
 Here is a waterfall plot of all the curves:
@@ -81,8 +82,8 @@ Of course, `spin` is not restricted to preloaded differential operators. Suppose
 
 <pre class="mcode-input">dom = [0 5]; tspan = [0 10];
 S = spinop(dom, tspan);
-S.linearPart = @(u) .3*diff(u,2);
-S.nonlinearPart = @(u) u.^2 - 1;
+S.lin = @(u) .3*diff(u,2);
+S.nonlin = @(u) u.^2 - 1;
 S.init = chebfun(@(x) cos(x), dom);</pre>
 
 ## 19.3 Computations in 2D and 3D with `spin2` and `spin3`
@@ -95,10 +96,12 @@ $$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2, $$
 
 The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to time $t=100$. Here are stills at times $0,10,20,30$:
 
-<pre class="mcode-input">U = spin2('gl2', 0:10:30, 'plot', 'off');
+<pre class="mcode-input">S = spinop2('gl2');
+S.tspan = 0:10:30;
+U = spin2(S, 100, 2e-1, 'plot', 'off');
 clf reset
 for k = 1:4
-   plot(real(U{k})), view(0,90), snapnow
+   plot(real(U{k})), view(0,90), axis equal, axis off, snapnow
 end</pre><img src="img/guide19_07.png" class="figure" alt="">
 
 <img src="img/guide19_08.png" class="figure" alt="">
@@ -118,49 +121,22 @@ The `spin`/`spin2`/`spin3` codes use the classes `spinpref`, `spinpref2` and `sp
 For example, to solve the Kuramoto-Sivashinsky (KS) equation using the EXPRK5S8 scheme of Luan and Ostermann [9], one can type:
 
 <pre class="mcode-input">pref = spinpref('scheme', 'exprk5s8', 'plot', 'off');
-u = spin('ks', pref)</pre><pre class="mcode-output">u =
-   chebfun column (1 smooth piece)
-       interval       length     endpoint values trig
-[       0,   1e+02]      255       1.8      1.8 
-vertical scale =   3 
-</pre>Alternatively, one can type:
+S = spinop('ks');
+u = spin(S, 256, 5e-2, pref);</pre>Alternatively, one can type:
 
-<pre class="mcode-input">u = spin('ks','scheme', 'exprk5s8', 'plot', 'off')</pre><pre class="mcode-output">u =
-   chebfun column (1 smooth piece)
-       interval       length     endpoint values trig
-[       0,   1e+02]      255       1.8      1.8 
-vertical scale =   3 
-</pre>For a complete list of available schemes, type `help spinscheme`. By default, `spin` automatically chooses a time-step $dt$ and a number of grid points $N$ to reach an accuracy of $10^{-6}$. If one wants to use specific values for $dt$ and $N$, say $dt=5e-2$ and $N=300$, one can type:
+<pre class="mcode-input">u = spin(S, 256, 5e-2, 'scheme', 'exprk5s8', 'plot', 'off');</pre>Preferences in 2D and 3D use `spinpref2` and `spinpref3`, e.g.,
 
-<pre class="mcode-input">u = spin('ks', 'dt', 5e-2, 'N', 300, 'plot', 'off')</pre><pre class="mcode-output">u =
-   chebfun column (1 smooth piece)
-       interval       length     endpoint values trig
-[       0,   1e+02]      301       1.7      1.7 
-vertical scale = 2.6 
-</pre>Preferences in 2D and 3D use `spinpref2` and `spinpref3`, e.g.,
+<pre class="mcode-input">pref = spinpref2('plot', 'off');
+S = spinop2('gl2');
+u = spin2(S, 100, 2e-1, pref);</pre>or simply
 
-<pre class="mcode-input">pref = spinpref2('plot', 'off', 'N', 100);
-u = spin2('gl2', pref)</pre><pre class="mcode-output">u =
-   chebfun2 object
-       domain                 rank       corner values
-[   0,1e+02] x [   0,1e+02]      100     [  complex values  ]
-vertical scale = 0.99 
-</pre>or simply
-
-<pre class="mcode-input">u = spin2('gl2', 'plot', 'off', 'N', 100)</pre><pre class="mcode-output">u =
-   chebfun2 object
-       domain                 rank       corner values
-[   0,1e+02] x [   0,1e+02]      100     [  complex values  ]
-vertical scale =   1 
-</pre>
+<pre class="mcode-input">u = spin2(S, 100, 2e-1, 'plot', 'off');</pre>
 
 ## 19.5 A quick note on history
 
 The history of exponential integrators for ODEs goes back at least to Hersch [5] and Certaine [3]. The extensive use of these formulas for solving stiff PDEs seems to have been initiated by the papers by Cox and Matthews [4], which also introduced the ETDRK4 scheme that is the default used by `spin`, and Kassam and Trefethen [8].  A striking unpublished paper by Kassam [7] shows how effective such methods can be also for PDEs in 2D and 3D. A software package for such computations called EXPINT was produced by Berland, Skaflestad and Wright in 2007 [1]. A comprehensive theoretical understanding of these schemes has been presented by Hochbruck and Ostermann in a number of papers, including [6]. The practical business of comparing many different schemes has been carried out by Minchev and Wright [9], then Bootland [2] and Montanelli and Bootland [10]. Both of these latter projects were motivated by the challenge of choosing a good all-purpose integrator for use in Chebfun, and the expectation was that a 5th- or 6th-order or even 7th-order integrator would be best; but in the end we have been unable to find a method that outperforms ETDRK4 by a significant enough factor to be worth the added complexity. The `spin` package was written by Montanelli.
 
-We return Matlab to its usual state:
 
-<pre class="mcode-input">pause on</pre>
 
 ## References
 
@@ -184,7 +160,7 @@ We return Matlab to its usual state:
 
 [10] B.V. Minchev and W. M. Wright, _A review of exponential integrators for      first order semi-linear problems_, Tech. Rep. 2/2005, Norwegian      University of Science and Technology, 2005.
 
-[11] H. Montanelli and N. J. Bootland, _Solving stiff PDEs in 1D, 2D and 3D      with exponential integrators_, submitted, 2016.
+[11] H. Montanelli and N. J. Bootland, _Solving periodic semilinear stiff PDEs      in 1D, 2D and 3D with exponential integrators_, submitted, 2016.
 
 [12] A. M. Turing, _The chemical basis of morphogenesis_, Phil. Trans.      Roy. Soc. Lond. B, 237 (1952), pp. 37--72.
 
