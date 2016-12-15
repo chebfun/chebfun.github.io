@@ -19,11 +19,10 @@
 % picture is dominated by oscillations with a wavelength of about $9$.
 tic, dom = [-100 100]; x = chebfun('x',dom); tspan = [0 100 200];
 S = spinop(dom,tspan);
-S.linearPart = @(u) - diff(u,2) - diff(u,4);
-S.nonlinearPart = @(u) -.5*diff(u.^2); % spin cannot parse "u.*diff(u)"
+S.lin = @(u) - diff(u,2) - diff(u,4);
+S.nonlin = @(u) -.5*diff(u.^2); % spin cannot parse "u.*diff(u)"
 S.init = exp(-((x+50)/10).^2) + exp(-((x-50)/10).^2);
-pause off
-tic, u = spin(S,'plot','off','N',800,'dt',.025); t = toc;
+tic, u = spin(S,800,.025,'plot','off'); t = toc;
 plot(S.init), hold on, plot(u{2}), ylim([-4 4]), hold off
 FS = 'fontsize'; text(42,3.4,'t=0 and t=100',FS,12)
 
@@ -54,8 +53,7 @@ text(42,3.4,'t=0 and t=200',FS,12)
 % different from what it was before, and the symmetry in
 % the solution is broken.
 S.init = exp(-((x+50)/10).^2) + exp(-((x-49.9)/10).^2);
-pause off
-tic, u = spin(S,'plot','off','N',800,'dt',.05); t = toc;
+tic, u = spin(S,800,.05,'plot','off'); t = toc;
 plot(S.init), hold on, plot(u{2}), ylim([-4 4]), hold off
 text(42,3.4,'t=0 and t=100',FS,12)
 
@@ -76,11 +74,10 @@ time_elapsed_in_seconds = toc
 
 %% 3. References
 %
-% [1] H. Montanelli and N. Bootland, Solving stiff PDEs
-% in 1D, 2D and 3D with exponential integrators, submitted, 2016.
+% [1] H. Montanelli and N. Bootland, _Solving periodic semilinear stiff PDEs
+% in 1D, 2D and 3D with exponential integrators_, submitted, 2016.
 %
 % [2] L. N. Trefethen and K. Embree, editors, article on
 % "The Kuramoto-Sivashinsky equation",
 % _The (Unfinished) PDE Coffee Table Book_,
 % `https://people.maths.ox.ac.uk/trefethen/pdectb.html`.
-

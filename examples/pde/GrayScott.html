@@ -70,64 +70,63 @@ b = 0.04; d = 0.1;</pre>
 <p>We now solve up to $t=3500$ with <code>spin2</code> and plot the $v$ variable. What beautiful, random-seeming "rolls" (or "fingerprints") appear!</p>
 <pre class="mcode-input">dom = [-1 1 -1 1]; x = chebfun('x',dom(1:2)); tspan = [0 3500];
 S = spinop2(dom,tspan);
-S.linearPart = @(u,v) [ep1*lap(u); ep2*lap(v)];
-S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
+S.lin = @(u,v) [ep1*lap(u); ep2*lap(v)];
+S.nonlin = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
 S.init = chebfun2v(@(x,y) 1-exp(-80*((x+.05).^2+(y+.02).^2)), ...
                    @(x,y) exp(-80*((x-.05).^2+(y-.02).^2)),dom);
-pause off
-tic, u = spin2(S,'N',200,'dt',2,'plot','off');
+tic, u = spin2(S,200,2,'plot','off');
 plot(u{2}), view(0,90), axis equal, axis off
 time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-  40.269827999999997
+  45.386268139999999
 </pre>
 
-<p><img src="img/GrayScott_01.png" class="figure" alt=""/></p>
+<p><img src="img/GrayScott_01.png" class="figure" alt=""></p>
 <h3 id="2-spots">2. Spots</h3>
 <p>If we change the values of the parameters just a bit, the nature of the solution changes fundamentally. Now we see spots instead of rolls.</p>
 <pre class="mcode-input">b = 0.025; d = 0.085;
-S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
-tic, u = spin2(S,'N',200,'dt',2,'plot','off');
+S.nonlin = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
+tic, u = spin2(S,200,2,'plot','off');
 plot(u{2}), view(0,90), axis equal, axis off
 time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-  39.045220000000000
+  44.409313054000002
 </pre>
 
-<p><img src="img/GrayScott_02.png" class="figure" alt=""/></p>
+<p><img src="img/GrayScott_02.png" class="figure" alt=""></p>
 <h3 id="3-decay">3. Decay</h3>
 <p>Not all choices of parameters lead to interesting pictures. With $b = 0.02$ and $d = 0.08$, for example, the functions converge to constants.</p>
 <h3 id="4-speedups-on-coarser-grids">4. Speedups on coarser grids</h3>
 <p>The initial conditions in the simulations above were chosen with a line of symmetry tilted at a certain angle from the axis.  For a dynamical process so sensitive as this to small perturbations, this provides a challenging test of accuracy: is the symmetry preserved?  If we coarsen the grid to $100\times 100$, we can speed up the computations fourfold and still get plausible looking answers--which indeed can be argued to be in some sense scientifically correct.  They are clearly not mathematically correct, however, as the symmetry is broken.  Here we illustrate this effect with rolls.  Note that the solution looks approximately the same as before, but the details are different and the symmetry has been lost. Moreover, the overall shape of the solution looks suspiciously a little bit square -- a hint of some spurious grid alignment.</p>
 <pre class="mcode-input">b = 0.04; d = 0.1;
-S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
-tic, u = spin2(S,'N',100,'dt',2,'plot','off');
+S.nonlin = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
+tic, u = spin2(S,100,2,'plot','off');
 plot(u{2}), view(0,90), axis equal, axis off
 time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-  13.552111999999999
+  14.235697750000000
 </pre>
 
-<p><img src="img/GrayScott_03.png" class="figure" alt=""/></p>
+<p><img src="img/GrayScott_03.png" class="figure" alt=""></p>
 <p>We get a similar effect with spots:</p>
 <pre class="mcode-input">b = 0.025; d = 0.085;
-S.nonlinearPart = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
-tic, u = spin2(S,'N',100,'dt',2,'plot','off');
+S.nonlin = @(u,v) [b*(1-u)-u.*v.^2;-d*v+u.*v.^2];
+tic, u = spin2(S,100,2,'plot','off');
 plot(u{2}), view(0,90), axis equal, axis off
 time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-  13.467203000000000
+  12.307112797000000
 </pre>
 
-<p><img src="img/GrayScott_04.png" class="figure" alt=""/></p>
+<p><img src="img/GrayScott_04.png" class="figure" alt=""></p>
 <h3 id="5-references">5. References</h3>
 <p>[1] P. Gray and S. K. Scott, <em>Chemical Oscillations and Instabilities: Non-linear Chemical Kinetics</em>, v. 21 of International Series of Monographs on Chemistry, 1994.</p>
 <p>[2] L. N. Trefethen and K. Embree, editors, article 23 on "The Gray-Scott equations", <em>The (Unfinished) PDE Coffee Table Book</em>, <code>https://people.maths.ox.ac.uk/trefethen/pdectb.html</code>.</p>
-<p>[3] H. Montanelli and N. Bootland, Solving stiff PDEs in 1D, 2D and 3D with exponential integrators, submitted, 2016.</p></div>
+<p>[3] H. Montanelli and N. Bootland, <em>Solving periodic semilinear stiff PDEs in 1D, 2D and 3D with exponential integrators</em>, submitted, 2016.</p></div>
         </div>
     </div>
 </div>

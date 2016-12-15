@@ -16,12 +16,12 @@ To find out, you can type
 <pre class="mcode-input">S = spinop2('gl2')</pre><pre class="mcode-output">S = 
   spinop2 with properties:
 
-           domain: [0 100 0 100]
-             init: [InfxInf chebfun2]
-       linearPart: @(u)lap(u)
-    nonlinearPart: @(u)u-(1+1.5i)*u.*(abs(u).^2)
-            tspan: [0 100]
-          numVars: 1
+     domain: [0 100 0 100]
+       init: [InfxInf chebfun2]
+        lin: @(u)lap(u)
+     nonlin: @(u)u-(1+1.5i)*u.*(abs(u).^2)
+      tspan: [0 100]
+    numVars: 1
 </pre>From here we see that the version of the equation in Chebfun is $$ u_t = \Delta u + u - (1+1.5i)u |u|^2 . $$ Thus we have a scalar PDE involving a complex variable. This equation has been used by a number of authors in the study of chaotic processes arising in fluid mechanics and other areas [1,2].
 
 Using the above as a model, let us set up our own complex Ginzburg-Landau calculation as follows.
@@ -29,8 +29,8 @@ Using the above as a model, let us set up our own complex Ginzburg-Landau calcul
 <pre class="mcode-input">dom = 50*[-1 1 -1 1];
 tspan = [0 16];
 S = spinop2(dom,tspan);
-S.linearPart = @(u) lap(u);
-S.nonlinearPart = @(u) u - (1+1.5i)*u.*(abs(u).^2);</pre>
+S.lin = @(u) lap(u);
+S.nonlin = @(u) u - (1+1.5i)*u.*(abs(u).^2);</pre>
 
 ## 2. Non-chaotic solutions
 
@@ -39,19 +39,19 @@ For our first initial condition, suppose we take the complex function $$ u_0(x,y
 <pre class="mcode-input">x = chebfun2(@(x,y) x,dom); y = chebfun2(@(x,y) y,dom);
 u1 = (1i*x+y).*exp(-.03*(x.^2+y.^2)); S.init = u1;
 npts = 80; dt = 4/npts; tic
-u = spin2(S,'N',npts,'dt',dt,'plot','off');
-plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_01.png" class="figure" alt=""/>
+u = spin2(S,npts,dt,'plot','off');
+plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_01.png" class="figure" alt="">
 
 Here is the analogous experiment with the real initial condition $$ u_0(x,y) = (x+y) \exp(-0.03(x^2+y^2)). $$
 
 <pre class="mcode-input">u2 = (x+y).*exp(-.03*(x.^2+y.^2)); S.init = u2;
-u = spin2(S,'N',npts,'dt',dt,'plot','off');
-plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_02.png" class="figure" alt=""/>
+u = spin2(S,npts,dt,'plot','off');
+plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_02.png" class="figure" alt="">
 
 Time for the first pair of computations:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-   5.630359000000000
+   1.305991695000000
 </pre>
 
 ## 3. Beginnings of chaos
@@ -60,24 +60,24 @@ Spin computations always live on periodic domains.  We now extend these two comp
 
 <pre class="mcode-input">tspan = [0 48];
 S = spinop2(dom,tspan);
-S.linearPart = @(u) lap(u);
-S.nonlinearPart = @(u) u - (1+1.5i)*u.*(abs(u).^2);
+S.lin = @(u) lap(u);
+S.nonlin = @(u) u - (1+1.5i)*u.*(abs(u).^2);
 S.init = u1; tic
-u = spin2(S,'N',npts,'dt',dt,'plot','off');
-plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_03.png" class="figure" alt=""/>
+u = spin2(S,npts,dt,'plot','off');
+plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_03.png" class="figure" alt="">
 
 The picture reveals the remnants of the spiral in the middle but some more complicated behavior in the corners.  Experiments on a finer mesh show that this picture is correct.  The structures have somewhat of a random appearance, but they are not random.
 
 Now we run the second function to $t=48$.  This image is also correct.  Note the preservation of the diagonal line of symmetry.
 
 <pre class="mcode-input">S.init = u2;
-u = spin2(S,'N',npts,'dt',dt,'plot','off');
-plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_04.png" class="figure" alt=""/>
+u = spin2(S,npts,dt,'plot','off');
+plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_04.png" class="figure" alt="">
 
 Time for this second round of computations:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-   8.516066000000000
+   2.769426431000000
 </pre>
 
 ## 4. Chaos
@@ -86,23 +86,23 @@ Let's go now to $t=96$. Experiments with different grids confirm that this first
 
 <pre class="mcode-input">tic, tspan = [0 96];
 S = spinop2(dom,tspan);
-S.linearPart = @(u) lap(u);
-S.nonlinearPart = @(u) u - (1+1.5i)*u.*(abs(u).^2);
+S.lin = @(u) lap(u);
+S.nonlin = @(u) u - (1+1.5i)*u.*(abs(u).^2);
 S.init = u1;
-tic, u = spin2(S,'N',npts,'dt',dt,'plot','off');
-plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_05.png" class="figure" alt=""/>
+tic, u = spin2(S,npts,dt,'plot','off');
+plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_05.png" class="figure" alt="">
 
 With the second function, we refine the grid enough to get a plausible picture, but it is not in fact converged. So this image is perhaps physically correct, but not mathematically correct.  Note that the symmetry line has been lost.
 
 <pre class="mcode-input">npts = 128; dt = 4/npts; tic
 S.init = u2;
-u = spin2(S,'N',npts,'dt',dt,'plot','off');
-plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_06.png" class="figure" alt=""/>
+u = spin2(S,npts,dt,'plot','off');
+plot(real(u)), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_06.png" class="figure" alt="">
 
 Time for the third round of computations:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  18.776029999999999
+  21.254387512000001
 </pre>
 
 ## 5. A bigger canvas
@@ -112,33 +112,33 @@ Let's double the size of the domain and the number of grid points in each direct
 <pre class="mcode-input">dom = 100*[-1 1 -1 1];
 tspan = [0 30 60];
 S = spinop2(dom,tspan);
-S.linearPart = @(u) lap(u);
-S.nonlinearPart = @(u) u - (1+1.5i)*u.*(abs(u).^2);
+S.lin = @(u) lap(u);
+S.nonlin = @(u) u - (1+1.5i)*u.*(abs(u).^2);
 x = chebfun2(@(x,y) x,dom); y = chebfun2(@(x,y) y,dom);
 u1 = (1i*(x-8)+(y-2)).*exp(-.03*((x-8).^2+(y-2).^2)) + ...
      ((x+8)-(y+2)).*exp(-.03*((x+8).^2+(y+2).^2));
 S.init = u1;
 npts = 128; dt = 8/npts; tic
-u = spin2(S,'N',npts,'dt',dt,'plot','off');
-plot(real(u{2})), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_07.png" class="figure" alt=""/>
+u = spin2(S,npts,dt,'plot','off');
+plot(real(u{2})), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_07.png" class="figure" alt="">
 
 And at $t=60$, of questionable accuracy:
 
-<pre class="mcode-input">plot(real(u{3})), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_08.png" class="figure" alt=""/>
+<pre class="mcode-input">plot(real(u{3})), view(0,90), axis equal, axis off</pre><img src="img/GinzburgLandau_08.png" class="figure" alt="">
 
 To close a psychedelic note here is a phase portrait, obtained by plotting $u$ rather than its real part.
 
-<pre class="mcode-input">plot(u{3})</pre><img src="img/GinzburgLandau_09.png" class="figure" alt=""/>
+<pre class="mcode-input">plot(u{3})</pre><img src="img/GinzburgLandau_09.png" class="figure" alt="">
 
 Time for the big canvas computation:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-   8.474689000000000
+   9.954141226000001
 </pre>
 
 ## 6. References
 
-[1] H. Montanelli and N. Bootland, Solving stiff PDEs in 1D, 2D and 3D with exponential integrators, submitted, 2016.
+[1] H. Montanelli and N. Bootland, _Solving periodic semilinear stiff PDEs in 1D, 2D and 3D with exponential integrators_, submitted, 2016.
 
 [2] L. N. Trefethen and K. Embree, editors, _The (Unfinished) PDE Coffee Table Book_, `https://people.maths.ox.ac.uk/trefethen/pdectb.html`.
 
