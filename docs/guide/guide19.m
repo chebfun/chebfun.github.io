@@ -1,9 +1,6 @@
 %% 19. SPIN, SPIN2 and SPIN3 for stiff PDEs
-% Hadrien Montanelli and Nick Trefethen, February 2016
-
-%%
-% NOTE: This guide is about the `spin`/`spin2`/`spin3` codes. The `spin3` code  
-% will be available in a future release together with `chebfun3`.
+% H. Montanelli and L. N. Trefethen, February 2016, latest revision December
+% 2016
 
 %% 19.1  Introduction
 % By a stiff PDE, we mean a partial differential equation of
@@ -61,20 +58,19 @@
 % The simplest way to see `spin` in action is to type simply `spin('ks')` or 
 % `spin('kdv')` or another similar string to invoke an example computation 
 % involving a preloaded initial condition and time interval. 
-% (Other choices include `ac`, `burg`, `bz`, `ch`, `gs`, `niko`, and `nls`.) 
-% In interactive computing, this is all you need. `spin` will plot 
+% (Other choices include `ac`, `burg`, `bz`, `ch`, `gs`, `ks`, `niko`, and 
+% `nls`.) In interactive computing, this is all you need. `spin` will plot 
 % the initial condition and then pause, waiting for user input to start the 
 % time-integration, and then plot a movie of the solution. Here in a chapter of 
-% the guide, we override this behavior with `pause off` and a `spinpref` object
-% with `plot off`. (See section 19.4 to learn how to manage preferences with
-% `spinpref`.) Here we solve the KdV (Korteweg-de Vries equation) 
-% $u_t = -uu_x - u_{xxx}$: 
-pause off
-u = spin('kdv', spinpref('plot', 'off'));
+% the guide, we use a `spinop` obect with a grid size `N` and a time-step `dt`, 
+% and `plot` `off`. (See section 19.4 to learn how to manage preferences.) Here 
+% we solve the KdV (Korteweg-de Vries equation) $u_t = -uu_x - u_{xxx}$: 
+S = spinop('kdv');
+u = spin(S, 256, 1e-6, 'plot', 'off');
 
 %%
 % The output `u` is a `chebfun` at the final time:
-figure, plot(u, 'linewidth', 2)
+plot(u)
 
 %%
 % `spin` makes these things happen with the aid of a class called a `spinop` 
@@ -86,30 +82,33 @@ S = spinop('kdv')
 % (To find what initial condition ws used, type `help spin`.)
 % As a second example of a stiff PDE in 1D, here is the Allen-Cahn equation
 % $u_t = 0.005u_{xx} + u - u^3$:
-u = spin('ac', spinpref('plot', 'off'));
-figure, plot(u, 'linewidth', 2)
+S = spinop('ac');
+u = spin(S, 256, 1e-1, 'plot', 'off');
+figure, plot(u)
 
 %%
 % The computation we just performed was on the time interval $[0,500]$. If we 
 % had wanted the interval $[0,100]$, we could have specified it like this:
-u = spin('ac', [0 100], spinpref('plot', 'off'));
-figure, plot(u, 'linewidth', 2)
+S.tspan = [0 100];
+u = spin(S, 256, 1e-1, 'plot', 'off');
+figure, plot(u)
 
 %%
 % To specify a different initial condition, you can provide a chebfun as another 
 % argument. For example, here we use a simpler initial condition:
-u0 = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig');
-u = spin('ac', [0 100], u0, spinpref('plot', 'off'));
-figure, plot(u, 'linewidth', 2)
+S.init = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig');
+u = spin(S, 256, 1e-1, 'plot', 'off');
+figure, plot(u)
 
 %%
 % Suppose we want Chebfun output at times $0,1,\dots, 30$. We could do this:
-U = spin('ac',0:1:30, u0, spinpref('plot', 'off'));
+S.tspan = 0:1:30;
+U = spin(S, 256, 1e-1, 'plot', 'off');
 
 %%
 % The output `U` from this command is a chebmatrix. Here for example is the 
 % initial condition and its plot:
-U{1}, plot(U{1}, 'linewidth', 2)
+U{1}, plot(U{1}), axis([0 2*pi -1 3])
 
 %%
 % Here is a waterfall plot of all the curves:
@@ -126,8 +125,8 @@ waterfall(U), xlabel x, ylabel t
 % could do it like this:
 dom = [0 5]; tspan = [0 10];
 S = spinop(dom, tspan);
-S.linearPart = @(u) .3*diff(u,2);
-S.nonlinearPart = @(u) u.^2 - 1;
+S.lin = @(u) .3*diff(u,2);
+S.nonlin = @(u) u.^2 - 1;
 S.init = chebfun(@(x) cos(x), dom);
 
 %% 19.3 Computations in 2D and 3D with `spin2` and `spin3`
@@ -147,10 +146,12 @@ S.init = chebfun(@(x) cos(x), dom);
 %
 % The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to 
 % time $t=100$. Here are stills at times $0,10,20,30$:
-U = spin2('gl2',0:10:30,spinpref2('plot', 'off'));
-clf reset
+S = spinop2('gl2');
+S.tspan = 0:10:30;
+U = spin2(S, 100, 2e-1, 'plot', 'off');
 for k = 1:4
-   plot(real(U{k})), view(0,90), snapnow
+    plot(real(U{k})), view(0,90), axis equal, axis off
+    snapnow
 end
 
 %%
@@ -167,14 +168,23 @@ end
 %% 
 % For example, to solve the Kuramoto-Sivashinsky (KS) equation using the
 % EXPRK5S8 scheme of Luan and Ostermann [9], one can type:
-u = spin('ks', spinpref('scheme', 'exprk5s8', 'plot', 'off'))
+pref = spinpref('scheme', 'exprk5s8', 'plot', 'off');
+S = spinop('ks');
+u = spin(S, 256, 5e-2, pref);
 
 %%
-% For a complete list of available schemes, type `help spinscheme`.
-% By default, `spin` automatically chooses a time-step $dt$ and a number of grid
-% points $N$ to reach an accuracy of $10^{-6}$. If one wants to use specific 
-% values for $dt$ and $N$, say $dt=5e-2$ and $N=300$, one can type:
-u = spin('ks', spinpref('dt', 5e-2, 'N', 300, 'plot', 'off'))
+% Alternatively, one can type:
+u = spin(S, 256, 5e-2, 'scheme', 'exprk5s8', 'plot', 'off');
+
+%%
+% Preferences in 2D and 3D use `spinpref2` and `spinpref3`, e.g.,
+pref = spinpref2('plot', 'off');
+S = spinop2('gl2');
+u = spin2(S, 100, 2e-1, pref);
+
+%%
+% or simply
+u = spin2(S, 100, 2e-1, 'plot', 'off');
 
 %% 19.5 A quick note on history
 % The history of exponential integrators for ODEs goes back at least to Hersch 
@@ -194,10 +204,6 @@ u = spin('ks', spinpref('dt', 5e-2, 'N', 300, 'plot', 'off'))
 % would be best; but in the end we have been unable to find a method that
 % outperforms ETDRK4 by a significant enough factor to be worth the added 
 % complexity. The `spin` package was written by Montanelli.
-
-%%
-% We return Matlab to its usual state:
-pause on
 
 %% References
 % [1] H. Berland and B. Skaflestad and W. M. Wright, _EXPINT--A MATLAB package 
@@ -234,8 +240,8 @@ pause on
 %      first order semi-linear problems_, Tech. Rep. 2/2005, Norwegian 
 %      University of Science and Technology, 2005.
 %
-% [11] H. Montanelli and N. J. Bootland, _Solving stiff PDEs in 1D, 2D and 3D
-%      with exponential integrators_, manuscript, April 2016.
+% [11] H. Montanelli and N. J. Bootland, _Solving periodic semilinear stiff PDEs 
+%      in 1D, 2D and 3D with exponential integrators_, submitted, 2016.
 %
 % [12] A. M. Turing, _The chemical basis of morphogenesis_, Phil. Trans.
 %      Roy. Soc. Lond. B, 237 (1952), pp. 37--72.

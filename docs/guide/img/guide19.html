@@ -1,7 +1,7 @@
 ---
 title: "19. SPIN, SPIN2 and SPIN3 for stiff PDEs"
 layout: guide-chapter
-authordate: "Hadrien Montanelli and Nick Trefethen, February 2016"
+authordate: "H. Montanelli and L. N. Trefethen, February 2016, latest revision December 2016"
 ---
 
 
@@ -29,7 +29,7 @@ The simplest way to see `spin` in action is to type simply `spin('ks')` or `spin
 <pre class="mcode-input">S = spinop('kdv');
 u = spin(S, 256, 1e-6, 'plot', 'off');</pre>The output `u` is a `chebfun` at the final time:
 
-<pre class="mcode-input">plot(u, 'linewidth', 2)</pre><img src="img/guide19_01.png" class="figure" alt="">
+<pre class="mcode-input">plot(u)</pre><img src="img/guide19_01.png" class="figure" alt="">
 
 `spin` makes these things happen with the aid of a class called a `spinop` (later we will also see `spinop2` and `spinop3`).  For example, to see the KdV operator we have just worked with, we can type
 
@@ -46,26 +46,26 @@ u = spin(S, 256, 1e-6, 'plot', 'off');</pre>The output `u` is a `chebfun` at the
 
 <pre class="mcode-input">S = spinop('ac');
 u = spin(S, 256, 1e-1, 'plot', 'off');
-figure, plot(u, 'linewidth', 2)</pre><img src="img/guide19_02.png" class="figure" alt="">
+figure, plot(u)</pre><img src="img/guide19_02.png" class="figure" alt="">
 
 The computation we just performed was on the time interval $[0,500]$. If we had wanted the interval $[0,100]$, we could have specified it like this:
 
 <pre class="mcode-input">S.tspan = [0 100];
 u = spin(S, 256, 1e-1, 'plot', 'off');
-figure, plot(u, 'linewidth', 2)</pre><img src="img/guide19_03.png" class="figure" alt="">
+figure, plot(u)</pre><img src="img/guide19_03.png" class="figure" alt="">
 
 To specify a different initial condition, you can provide a chebfun as another argument. For example, here we use a simpler initial condition:
 
 <pre class="mcode-input">S.init = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig');
 u = spin(S, 256, 1e-1, 'plot', 'off');
-figure, plot(u, 'linewidth', 2)</pre><img src="img/guide19_04.png" class="figure" alt="">
+figure, plot(u)</pre><img src="img/guide19_04.png" class="figure" alt="">
 
 Suppose we want Chebfun output at times $0,1,\dots, 30$. We could do this:
 
 <pre class="mcode-input">S.tspan = 0:1:30;
 U = spin(S, 256, 1e-1, 'plot', 'off');</pre>The output `U` from this command is a chebmatrix. Here for example is the initial condition and its plot:
 
-<pre class="mcode-input">U{1}, plot(U{1}, 'linewidth', 2)</pre><pre class="mcode-output">ans =
+<pre class="mcode-input">U{1}, plot(U{1}), axis([0 2*pi -1 3])</pre><pre class="mcode-output">ans =
    chebfun column (1 smooth piece)
        interval       length     endpoint values trig
 [       0,     6.3]      256        -1       -1 
@@ -99,9 +99,9 @@ The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to ti
 <pre class="mcode-input">S = spinop2('gl2');
 S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
-clf reset
 for k = 1:4
-   plot(real(U{k})), view(0,90), axis equal, axis off, snapnow
+    plot(real(U{k})), view(0,90), axis equal, axis off
+    snapnow
 end</pre><img src="img/guide19_07.png" class="figure" alt="">
 
 <img src="img/guide19_08.png" class="figure" alt="">
