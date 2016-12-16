@@ -91,8 +91,7 @@ title('AAA and best type (3,3) error curves')
 [p,q,rbest] = remez(f,3,3); hold on
 ezplot(@(x) f(x)-rbest(x),[-1,1]), hold off
 grid on, ylim(1e-6*[-1 1]), xlabel(' ')
-title('AAA and best type (3,3) approximants to exp(x)')</pre><pre class="mcode-output">Warning: Function not resolved using 16385 pts. 
-</pre><img src="img/AAAApprox_05.png" class="figure" alt="">
+title('AAA and best type (3,3) approximants to exp(x)')</pre><img src="img/AAAApprox_05.png" class="figure" alt="">
 
 In this example, the best approximant is more accurate, but computation of best approximations is a much more fragile process, easily broken, and restricted in Chebfun to real intervals. An example of a more difficult problem on a real interval is the approximation of $|x|$ on $[-1,1]$.  Here `aaa` does a pretty good job, issuing a message indicating that one Froissart doublet (spurious pole-zero pair) has been removed along the way. A warning indicates that the desired tolerance has not been achieved, though it has come pretty close.
 
@@ -129,5 +128,5 @@ Here we check the approximation at $5+5i$, $5$, and $5-5i$:
 
 ## 5. References
 
-[1] Y. Nakatsukasa, O. Sete, and L. N. Trefethen, Rational approximation by the AAA algorithm, arXiv 2016:1612.00337.
+[1] Y. Nakatsukasa, O. Sete, and L. N. Trefethen, The AAA algorithm for rational approximation, arXiv 2016:1612.00337.
 
