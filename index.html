@@ -83,14 +83,14 @@
       <ul class="slides">
 <li>
 <div class='codewrap'><pre class='code'><span class='comment'>% Create operator for Ginzburg-Landau problem</span>
-d = 20*[-1.2 3.2 -1 1]; tt = [0 46.5];
-S = spinop2(d,tt); S.linearPart = @(u) lap(u);
-S.nonlinearPart = @(u) u-(1+1.5i)*u.*abs(u).^2;
-<span class='comment'>% Set an initial condition</span>
+d = 20*[-1.2 3.2 -1 1];  tspan = [0 46.5];
+S = spinop2(d,tspan); S.lin = @(u) lap(u);
+S.nonlin = @(u) u - (1+1.5i)*u.*(abs(u).^2);
+<span class='comment'>% Set initial condition, solve PDE, plot</span>
 S.init = chebfun2(@(x,y) ...
     (1i*x+y).*exp(-.03*(x.^2+y.^2)), d);
-<span class='comment'>% Solve the PDE and plot</span>
-u = spin2(S,'plot','off'); plot(real(u))
+u = spin2(S, 128, 1e-1, 'plot','off');
+plot(real(u))
 </pre></div><div class='imagewrap'><img src='demo5.png' /></div>
 </li>
 
@@ -269,5 +269,5 @@ plot(minx(1),minx(2),'.w')
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>
-<!-- Compiled on Thursday, 15 December 2016 at 14:46. -->
+<!-- Compiled on Friday, 16 December 2016 at 14:54. -->
 </html>
