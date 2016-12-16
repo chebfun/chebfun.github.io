@@ -69,7 +69,7 @@
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
 <h3 id="161-introduction">16.1 Introduction</h3>
-<p>Diskfun is a new part of Chebfun designed for computing with 2D scalar and vector-valued functions on the unit disk. Conceptually, it is an extension of Chebfun2 to the polar setting, designed to accurately and efficiently perform over 100 operations. These include differentiation, integration, vector calculus, and rootfinding, among many other things. Diskfun was developed in tandem with Spherefun, and the two are algorithmically closely related.  For complete details on the algorithms of both of these classes, see [Townsend, Wilber &amp; Wright, 2016A/B].</p>
+<p>Diskfun is a new part of Chebfun designed for computing with 2D scalar and vector-valued functions on the unit disk. Conceptually, it is an extension of Chebfun2 to the polar setting, designed to accurately and efficiently perform over 100 operations. These include differentiation, integration, vector calculus, and rootfinding, among many other things. Diskfun was developed in tandem with Spherefun, and the two are algorithmically closely related.  For complete details on the algorithms of both of these classes, see [Townsend, Wilber &amp; Wright, 2016], [Wilber, Townsend &amp; Wright, 2016].</p>
 <p>To get started, we simply call the Diskfun constructor. In this example, we consider a Gaussian function.</p>
 <pre class="mcode-input">LW = 'Linewidth'; MS = 'Markersize'; FS = 'Fontsize';
 g = diskfun(@(x,y) exp(-10*((x-.3).^2+y.^2)));
@@ -490,8 +490,8 @@ plotcoeffs(f)</pre>
 <p>[Boyd &amp; Yu, 2011] J.P. Boyd, and F. Yu, Comparing seven spectral methods for interpolation and for solving the Poisson equation in a disk: Zernike polynomials, Logan &amp; Shepp ridge polynomials, Chebyshev &amp; Fourier series, cylindrical Robert functions, Bessel &amp; Fourier expansions, square-to-disk conformal mapping and radial basis functions, <em>J. Comp. Physics</em>, 230.4 (2011), pp. 1408-1438.</p>
 <p>[Churchill &amp; Brown, 1978] R.V. Churchill, and J.W. Brown, <em>Fourier Series and Boundary Value Problems</em>, McGraw-Hill, 1978.</p>
 <p>[Fornberg 1998] B. Fornberg, <em>A Practical Guide to Pseudospectral Methods</em>, Cambridge University Press, 1998.</p>
-<p>[Townsend, Wilber &amp; Wright, 2016A] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in spherical and polar geometries I. The sphere, <em>SIAM J. Sci. Comp.</em>, 38-4 (2016), C403-C425.</p>
-<p>[Townsend, Wilber &amp; Wright, 2016B] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in spherical and polar geometries II. The disk, <em>SIAM J. Sci. Comput.</em>, in revision, 2016.</p>
+<p>[Townsend, Wilber &amp; Wright, 2016] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in spherical and polar geometries I. The sphere, <em>SIAM J. Sci. Comp.</em>, 38-4 (2016), C403-C425.</p>
+<p>[Wilber, Townsend &amp; Wright, 2016] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in spherical and polar geometries II. The disk, <em>SIAM J. Sci. Comput.</em>, submitted, 2016.</p>
 <p>[Trefethen, 2000] L. N. Trefethen, <em>Spectral Methods in MATLAB</em>, SIAM, 2000.</p></div>
         </div>
     </div>
