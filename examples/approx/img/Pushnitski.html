@@ -30,7 +30,7 @@ for m = 1:4
   subplot(2,2,m), plot(f-p), grid on
   title(['degree ' int2str(2*m)])
 end
-toc</pre><pre class="mcode-output">Elapsed time is 18.875295 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 12.551456 seconds.
 </pre><img src="img/Pushnitski_03.png" class="figure" alt="">
 
 These converge very slowly, and that could easily be proved.  For $p$ to approximate $f$ to accuracy $\epsilon$, its derivative would have to be of size at least $\exp(C/\epsilon)$.  From Markov's inequality it will follow that $\epsilon$ can decrease no faster than approximately $O(1/\log n)$ as $n\to infty$ (to be confirmed).
@@ -45,7 +45,7 @@ for m = 1:4
 end
 toc</pre><pre class="mcode-output">Warning: Remez algorithm did not converge after 20 iterations to the tolerance
 4.6e-14. 
-Elapsed time is 25.523845 seconds.
+Elapsed time is 16.780112 seconds.
 </pre><img src="img/Pushnitski_04.png" class="figure" alt="">
 
 What about CF (=AAK) approximation, which as it happens is the method used by Pushnitsky for his proofs?  It gets in the ballpark:
@@ -56,6 +56,6 @@ for m = 1:4
   subplot(2,2,m), plot(f-p./q), grid on
   title(['type (' int2str(m-1) ',' int2str(m-1) ')'])
 end
-toc</pre><pre class="mcode-output">Elapsed time is 4.508529 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 3.393613 seconds.
 </pre><img src="img/Pushnitski_05.png" class="figure" alt="">
 
