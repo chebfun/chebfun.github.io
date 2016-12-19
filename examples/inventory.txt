@@ -28,6 +28,7 @@ approx/NoisyNonsmooth.m
 approx/OddEven.m
 approx/OrthPolys.m
 approx/OscError.m
+approx/Pushnitski.m
 approx/RationalInterp.m
 approx/ResolutionWiggly.m
 approx/ScalingAndSquaring.m
