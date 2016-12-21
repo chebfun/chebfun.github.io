@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Visualizing conformal maps &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Visualizing conformal maps</h1>
+<h2>Nick Trefethen, December 2016 in <a href='/examples/complex/'>complex</a><span><a href='/examples/complex/conformalVis.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/complex/conformalVis.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Chebfun is a convenient tool for visualizing conformal maps because it works at the level of curves rather than points.  It is also a good tool for <em>developing</em> such maps in the sense of figuring out how to put them together.  Usually a conformal map is obtained as the composition of two or three pieces, and Chebfun makes it easy to visualize each piece (and get the constants right) along the way.</p>
+<p>For example, Olivier Sete and I were recently interested in the conformal map $f$ of an infinite half-strip to the unit disk.  The half-strip consisted of all complex values $z$ with $\hbox{Re} z \ge -1$ and $|\hbox{Im} z| \le 1$. Our particular interest was in how this map would transform the unit square at the left end of the half-strip and a finite rectangle enclosing that square. Here we visualize the domain by drawing a number of concentric squares inside the area of interest.  Each square is a single complex chebfun constructed with the <code>join</code> command, and the whole collection of squares and the outer rectangle are a chebfun quasimatrix called $Z$. This makes us able to plot the whole image with a single command, and later to conformally map it with a single command.</p>
+<pre class="mcode-input">MS = 'markersize'; LW = 'linewidth'; s = chebfun('s');
+unitsquare = join(-1i+s,1+1i*s,1i-s,-1-1i*s);
+square = @(r) r*unitsquare;
+E = unitsquare; E = 4*real((E+1)/2)-1 + 1i*imag(E);
+Z = E; for r = .1:.1:.9, Z = [Z square(r)]; end
+plot(Z,LW,1.6), xlim([-1.5 3.5]), axis equal
+set(gca,'xtick',-1:3,'ytick',-1:1)</pre>
+
+<p><img src="img/conformalVis_01.png" class="figure" alt=""></p>
+<p>We will map the region to the unit disk in two steps, representing $f$ as the composition $f = h \circ g$.  First, $g$ maps the half-strip to the right half-plane. We remember that $\sin z$ maps a vertical half-strip of half-width $\pi/2$ to the upper half-plane; similarly $\sinh z$ maps a horizontal half-strip of half-width $\pi/2$ to the right half-plane. We introduce a factor $\pi/2$ to change the half-width to $1$, and use $z+1$ so that our strip starts at real part $-1$ rather than $0$.  So here is the necessary map $g$:</p>
+<pre class="mcode-input">g = @(z) sinh(pi*(z+1)/2)/sinh(pi/2)</pre>
+
+<pre class="mcode-output">g = 
+    @(z)sinh(pi*(z+1)/2)/sinh(pi/2)
+</pre>
+
+<p>As promised, a single command suffices to plot the image.</p>
+<pre class="mcode-input">plot(g(Z),LW,1.6), axis([-4 12 -5 5])
+set(gca,'xtick',-2:2:6,'ytick',-4:2:4)</pre>
+
+<p><img src="img/conformalVis_02.png" class="figure" alt=""></p>
+<p>Next, we map this half-plane to the unit disk by the Moebius transformation $(w-1)/(w+1)$,</p>
+<pre class="mcode-input">h = @(w) (w-1)./(w+1)
+f = @(z) h(g(z))</pre>
+
+<pre class="mcode-output">h = 
+    @(w)(w-1)./(w+1)
+f = 
+    @(z)h(g(z))
+</pre>
+
+<p>Another single command gives us our final map. Note that the outer curve in this next image is not the whole unit circle: there's a tiny approximately semicircular blip near $z=1$ that deviates from the unit circle, since our plots show the image of a rectangle of aspect ratio $2$ rather than the whole infinite half-strip.</p>
+<pre class="mcode-input">hh = plot(f(Z),LW,1.6); xlim([-2.5 2.5]), axis equal
+set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
+
+<p><img src="img/conformalVis_03.png" class="figure" alt=""></p>
+<p>For fun let's add conformal images of the words ``conformal'' and ''mapping'';</p>
+<pre class="mcode-input">set(hh,LW,.5)
+s = [.7i+scribble(' conformal') ; -.9i + scribble(' mapping')];
+hold on, plot(f(s),'k',LW,1.6), hold off</pre>
+
+<p><img src="img/conformalVis_04.png" class="figure" alt=""></p>
+<p>It is interesting to plot contours of $|f(z)|$ in the original half-strip.  Can you explain this image with the aid of the Schwarz reflection principle?</p>
+<pre class="mcode-input">x = linspace(-8,8,140); y = linspace(-4,4,100);
+[xx,yy] = meshgrid(x,y); zz = xx + 1i*yy;
+contour(x,y,log10(abs(f(zz))), -.7:.05:.7), colorbar
+set(gca,'xtick',-1:1,'ytick',-4:4)</pre>
+
+<p><img src="img/conformalVis_05.png" class="figure" alt=""></p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
