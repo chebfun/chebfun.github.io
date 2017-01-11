@@ -1,3 +1,4 @@
+applics/BlackScholes2D.m
 applics/EuropeanCall.m
 applics/Gompertz.m
 approx/AAAApprox.m

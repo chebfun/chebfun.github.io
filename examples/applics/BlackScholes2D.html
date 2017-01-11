@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spread Option in the two-dimensional Black-Scholes model &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Spread Option in the two-dimensional Black-Scholes model</h1>
+<h2>Kathrin Glau, Behnam Hashemi, Mirco Mahlstedt, and Christian Poetz, January 2017 in <a href='/examples/applics/'>applics</a><span><a href='/examples/applics/BlackScholes2D.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/applics/BlackScholes2D.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="problem-formulation-and-model">Problem formulation and model</h3>
+<p>The two-dimensional Black-Scholes model:</p>
+<p>We model the price processes of two stocks in the two-dimensional Black-Scholes model [1] as solutions of the following stochastic differential equations:</p>
+<p>$$
+  dS_1/S_1 = (r - 0.5 \sigma_1^2) dt + \sigma_1 dW^1_t
+$$</p>
+<p>$$
+  dS_2/S_2 = (r - 0.5 \sigma_2^2) dt + \sigma_2 dW^2_t,
+$$</p>
+<p>where $W^1_t$ and $W^2_t$ denote Brownian motions/Wiener processes with correlation $\rho$.</p>
+<p>Spread options:</p>
+<p>We are interested in pricing spread options. These are important instruments on several markets such as on equity, fixed income, foreign exchange, commodities, or energy markets, see [2]. In particular when prices of spread options are used to fit model parameters, fast and accurate pricing methods are called for.</p>
+<p>Payoff of a spread option with strike price $K$ and maturity $T$:</p>
+<p>$$
+   payoff = \max { S_1(T) - S_2(T) - K, 0 }.
+$$</p>
+<p>Using risk-neutral valuation, the price of the spread option is given by the following expectation:</p>
+<p>$$
+  spread_{price} = exp(-r T)  E[\max { S_1(T) - S_2(T) - K, 0}].
+$$</p>
+<p>Problem:</p>
+<p>In order to compute the price of the spread option in the Black-Scholes model, the expected value, a two-dimensional integral, needs to be evaluated. This is considerably more time-demanding than pricing one-dimensional plain vanilla options with the famous and explicit Black-Scholes formula. For model calibration (parameter fitting) one determines the parameters $\sigma_1$ and $\sigma_2$ from plain vanilla options that only involve either stock 1 or stock 2. The spread option prices then can be used to determine the parameter $\rho$.</p>
+<p>During the model calibration, for fixed $\sigma_1$ and $\sigma_2$, interest rate $r$ and initial stock prices $S_1(0)$ and $S_2(0)$, the spread option prices need to be evaluated for a set of maturities $T$ and strikes $K$, and different parameters $\rho$.</p>
+<p>Approach with the help of Chebfun3d:</p>
+<p>Our approach is to interpret $spread_{price}$ as a function of the three model parameters $T$, $K$ and $\rho$ and use 3D Chebyshev interpolation of these parameters [3].</p>
+<p>We first specify the fixed parameters</p>
+<pre class="mcode-input">S01 = 1; % initial value of stock 1
+S02 = 1; % initial value of stock 2
+r = 0;   % interest rate
+x01 = log(S01);
+x02 = log(S02);
+sig1 = 0.3; % model parameter sigma_1
+sig2 = 0.3; % model parameter sigma_2
+%
+% Parameter domain for $T x K x \rho$:
+%
+T_min = 0.3;
+T_max = 2;
+K_min = 0.3;
+K_max = 2;
+rho_min = -0.9;
+rho_max = 0.9;
+dom = [T_min, T_max, K_min, K_max, rho_min, rho_max];
+%
+% Definition of problem dependent functions:
+%
+payoff = @(K, x1, x2) max(exp(x01+x1) - exp(x02+x2)-K, 0);
+normdensity_2d = @(sig1, sig2, rho, x1, x2, mu1, mu2) (1./(sqrt((sig1.^2) .* ...
+    (sig2.^2).*(1-rho.^2)).*2.*pi)).*exp(-0.5*(1./((sig1.^2).*(sig2.^2).*...
+    (1-rho.^2))).*(((sig2.^2).*(x1-mu1).^2)-2.*rho.*sig1.*sig2 .* ...
+    (x1-mu1).*(x2-mu2)+(sig1.^2).*(x2-mu2).^2));
+integrand = @(T, K, rho, x1, x2) payoff(K,x1, x2) .* ...
+    normdensity_2d(sig1.*sqrt(T), sig2.*sqrt(T), rho, x1, x2, (r-0.5.*sig1.^2).*T, (r-0.5.*sig2.^2).*T);
+%
+% Derivation of two-dimensional integral/expectation via 2D Clenshaw-Curtis quadrature:
+% (We choose a grid of 150x150 quadrature points. For higher accuracy,
+% more points need to be chosen.)
+%
+ff1 = @(T, K, rho, x1, x2) integrand(T, K, rho, x1, x2);
+[xx, wx] = chebpts(150, [-10, 10]);
+[yy, wy] = chebpts(150, [-10, 10]);
+[xx2, yy2] = meshgrid(xx, yy);
+pricetmp2d = @(T, K, rho) wy * feval(ff1, T, K, rho, xx2, yy2) * wx';
+
+price = @(T, K, rho) exp(-r.*T) .* pricetmp2d(T, K, rho);</pre>
+
+<p><em>price</em> is a 3D function that returns the spread option price based on the three parameters $T$, $K$ and $\rho$.</p>
+<h3 id="calling-the-chebfun3-constructor">Calling the Chebfun3 constructor</h3>
+<p>Here we set the tolerance to $10^{-5}$ (This is done for speed. With the default tolerance, this example would take a factor of 10 times longer. See Subsection 18.10 of the Chebfun Guide). The run-time of the constructor scales linearly with the run-time of the bivariate integration. The longer this step takes the higher the expected efficiency gain of the interpolation.</p>
+<pre class="mcode-input">tic
+chebPrice = chebfun3(price, 'eps', 1e-5, 'vectorize', dom)
+toc</pre>
+
+<pre class="mcode-output">chebPrice =
+   chebfun3 object 
+   cols: Inf x 5  chebfun
+   rows: Inf x 10 chebfun
+  tubes: Inf x 7  chebfun
+   core: 5 x 10 x 7
+ length: 10, 42, 13
+ domain: [0.3, 2] x [0.3, 2] x [-0.9, 0.9]
+ vertical scale = 0.19
+Elapsed time is 38.804629 seconds.
+</pre>
+
+<p>Let's plot the function at three slices $T = 2$, $K = 0.3$, and $\rho = -0.9$:</p>
+<pre class="mcode-input">slice(chebPrice, 2, 0.3, -0.9)
+campos([-10 10 10])
+xlabel('T'), ylabel('K'), zlabel('\rho')</pre>
+
+<p><img src="img/BlackScholes2D_01.png" class="figure" alt=""></p>
+<h3 id="checking-the-error">Checking the error</h3>
+<p>Finally we evaluate both the function handle and the corresponding chebfun3 object. We observe a considerable gain in efficiency: Evaluation of the chebfun3 object is hundrets times faster than the function handle.</p>
+<pre class="mcode-input">M = 15;
+T = linspace(dom(1), dom(2), M);
+K = linspace(dom(3), dom(4), M);
+rho = linspace(dom(5), dom(6), M);
+V = zeros(M, M, M);
+tic
+for i =1:M
+    for j=1:M
+        for k=1:M
+            V(i,j,k)=price(T(i), K(j), rho(k));
+        end
+    end
+end
+time_price = toc
+
+[xx,yy,zz] = ndgrid(T, K, rho);
+tic
+VCheb = chebPrice(xx,yy,zz);
+time_ChebPrice = toc
+
+err = V - VCheb;
+err = max(abs(err(:)))</pre>
+
+<pre class="mcode-output">time_price =
+   2.041957415000000
+time_ChebPrice =
+   0.008131740000000
+err =
+     2.564986850034680e-04
+</pre>
+
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>F. Black and M. Scholes, "The pricing of options and corporate    liabilities", <em>Journal of Political Economy</em> 81 (1973) 637--654.</p>
+</li>
+<li>
+<p>R. Carmona and V. Durrleman, "Pricing and Hedging Spread Options",    <em>SIAM Review</em> 45(4) (2003) 627--685.</p>
+</li>
+<li>
+<p>M. Gass, K. Glau, M. Mahlstedt and M. Mair, "Chebyshev interpolation    for parametric option pricing", working paper, 2016, <a href="http://arxiv.org/abs/1505.04648">http://arxiv.org/abs/1505.04648</a></p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2014-2015 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
