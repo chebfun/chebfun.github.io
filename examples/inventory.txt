@@ -76,7 +76,7 @@ complex/Arguments.m
 complex/ClosedContours.m
 complex/ComplexArcLength.m
 complex/ConformalSquare.m
-complex/conformalVis.m
+complex/ConformalVis.m
 complex/Hyperfuns.m
 complex/KeyholeAblowitzFokas.m
 complex/KeyholeContour.m
