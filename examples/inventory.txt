@@ -86,6 +86,7 @@ complex/RationalHarmonic.m
 complex/RoucheTheorem.m
 complex/Singularities.m
 complex/ZetaZeros.m
+disk/Eigenfunctions.m
 disk/HeatEqn.m
 disk/WaveEqn.m
 fourier/BestTrigApprox.m
