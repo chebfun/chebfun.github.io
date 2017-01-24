@@ -88,7 +88,6 @@ complex/Singularities.m
 complex/ZetaZeros.m
 disk/Eigenfunctions.m
 disk/HeatEqn.m
-disk/WaveEqn.m
 fourier/BestTrigApprox.m
 fourier/FejerJackson.m
 fourier/FourierBasedChebfuns.m
