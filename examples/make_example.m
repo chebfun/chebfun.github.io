@@ -31,6 +31,7 @@ fprintf(1, [message spaces])
 
 % Publish options.
 opts.outputDir  = 'img';
+opts.maxWidth = 600;
 opts.format     = 'html';
 opts.stylesheet = fullfile(pwd, 'custom_example2md.xsl');
 
