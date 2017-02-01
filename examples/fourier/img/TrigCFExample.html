@@ -9,7 +9,7 @@ CF (Caratheodory-Fejer) approximation is a method of near-minimax polynomial or 
 
 38 years ago in the summer of 1979 in Switzerland, CF approximation was born in a Eureka moment.  I had been working on complex approximation and knew that the minimax error for degree $2$ polynomial approximation of $e^z$ on the unit disk was $\approx 0.17737$ (I still know this number by heart).  I had predicted that this should closely match the largest singular value of the Hankel matrix formed from the Taylor coefficients $1/6,$ $1/24,$ $1/120,\dots .$ One weekend I visited Walter Gander at the Neutechnikum Buchs in Switzerland, and he had an interactive matrix calculator.  I typed in the Hankel matrix, computed its singular values (well, actually its eigenvalues), and out popped 0.17737! From that moment I knew that CF approximation was going to work. Nowadays we can just type
 
-<pre class="mcode-input">format long
+<pre class="mcode-input">format long, tic
 norm(hankel(1./factorial(3:9)))</pre><pre class="mcode-output">ans =
    0.177373815210096
 </pre>What about CF approximation of periodic functions, based on a Hankel matrix of Fourier coefficients?  Periodic functions have become an important part of Chebfun in recent years, and recently, Mohsin Javed has written his DPhil thesis in approximation problems in this area, describing among other things a `trigremez` algorithm for periodic minimax approximation [2]. For CF approximation, the mathematics goes back to Gutknecht in 1983 [1], but it seems that in all the years since then, this has never been implemented.  Finally, right now, Javed is in the process of writing `trigcf`, and here I'd like to reprise our Eureka moment last week, which assured us that periodic CF approximation would work.
@@ -66,7 +66,7 @@ Take a periodic function, like $f(t) = \exp(\sin(t))$ on $[-\pi,\pi]$:
   0.000000000000520 - 0.000000000000000i
   0.000000000000000 - 0.000000000000020i
  -0.000000000000001 - 0.000000000000000i
-</pre>Choose your values $m$ and $n$ for type $(m,n)$ rational approximation:
+</pre>Choose your values $m$ and $n$ for type $(m,n)$ rational approximation. (In this version of trigonometric CF approximation we need $m\ge n-1$.)
 
 <pre class="mcode-input">m = 2; n = 1;</pre>Make a Hankel matrix:
 
@@ -95,7 +95,10 @@ By working with singular vectors one can obtain the approximating rational funct
 hold on, plot([-pi pi],err*[1 1],'--k')
 plot ([-pi pi],-err*[1 1],'--k'), ylim(.004*[-1 1])</pre><img src="img/TrigCFExample_01.png" class="figure" alt="">
 
+Time in seconds for this example:
 
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 3.370650 seconds.
+</pre>
 
 ## References
 
@@ -103,11 +106,11 @@ plot ([-pi pi],-err*[1 1],'--k'), ylim(.004*[-1 1])</pre><img src="img/TrigCFExa
 
 2. M. Javed, _Algorithms for Trigonometric Polynomial and Rational Approximation_, DPhil thesis, University of Oxford, 2016.
 
-3. M. Javed and L. N. Trefethen, Eight shades of rational approximation, Chebfun example, January 2016.
+3. M. Javed and L. N. Trefethen, Eight shades of rational approximation, Chebfun example, January 2016, <http://www.chebfun.org/examples/approx/EightShades.html>.
 
-4. L. N. Trefethen, "Digital filters via CF approximation, Chebfun example, April 2014.
+4. L. N. Trefethen, "Digital filters via CF approximation, Chebfun example, April 2014, <http://www.chebfun.org/examples/approx/FiltersCF.html>.
 
 5. L. N. Trefethen, _Approximation Theory and Approximation Practice,_ SIAM, 2013.
 
-6. L. N. Trefethen and M. Javed, CF approximation 30 years ago, Chebfun example, July 2014.
+6. L. N. Trefethen and M. Javed, CF approximation 30 years ago, Chebfun example, July 2014, <http://www.chebfun.org/examples/approx/CF30.html>.
 

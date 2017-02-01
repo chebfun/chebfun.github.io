@@ -63,7 +63,7 @@
 <div id='content' class="col-sm-12 example" role="main">
 <p>CF (Caratheodory-Fejer) approximation is a method of near-minimax polynomial or rational approximation based on the singular values of a Hankel matrix, and there are three previous Chebfun examples in this territory [3,4,6]. If the Hankel matrix contains Taylor coefficients, you get CF approximation on the unit disk, and with Chebyshev coefficients you get CF approximation on an interval. These ideas date to the work by myself and Gutknecht in the early 1980s.  For references and an introduction to the mathematics see Chapter 20 of [3].</p>
 <p>38 years ago in the summer of 1979 in Switzerland, CF approximation was born in a Eureka moment.  I had been working on complex approximation and knew that the minimax error for degree $2$ polynomial approximation of $e^z$ on the unit disk was $\approx 0.17737$ (I still know this number by heart).  I had predicted that this should closely match the largest singular value of the Hankel matrix formed from the Taylor coefficients $1/6,$ $1/24,$ $1/120,\dots .$ One weekend I visited Walter Gander at the Neutechnikum Buchs in Switzerland, and he had an interactive matrix calculator.  I typed in the Hankel matrix, computed its singular values (well, actually its eigenvalues), and out popped 0.17737! From that moment I knew that CF approximation was going to work. Nowadays we can just type</p>
-<pre class="mcode-input">format long
+<pre class="mcode-input">format long, tic
 norm(hankel(1./factorial(3:9)))</pre>
 
 <pre class="mcode-output">ans =
@@ -130,7 +130,7 @@ norm(hankel(1./factorial(3:9)))</pre>
  -0.000000000000001 - 0.000000000000000i
 </pre>
 
-<p>Choose your values $m$ and $n$ for type $(m,n)$ rational approximation:</p>
+<p>Choose your values $m$ and $n$ for type $(m,n)$ rational approximation. (In this version of trigonometric CF approximation we need $m\ge n-1$.)</p>
 <pre class="mcode-input">m = 2; n = 1;</pre>
 
 <p>Make a Hankel matrix:</p>
@@ -168,6 +168,12 @@ hold on, plot([-pi pi],err*[1 1],'--k')
 plot ([-pi pi],-err*[1 1],'--k'), ylim(.004*[-1 1])</pre>
 
 <p><img src="img/TrigCFExample_01.png" class="figure" alt=""></p>
+<p>Time in seconds for this example:</p>
+<pre class="mcode-input">toc</pre>
+
+<pre class="mcode-output">Elapsed time is 3.370650 seconds.
+</pre>
+
 <h3 id="references">References</h3>
 <ol>
 <li>
@@ -177,16 +183,16 @@ plot ([-pi pi],-err*[1 1],'--k'), ylim(.004*[-1 1])</pre>
 <p>M. Javed, <em>Algorithms for Trigonometric Polynomial and Rational Approximation</em>, DPhil thesis, University of Oxford, 2016.</p>
 </li>
 <li>
-<p>M. Javed and L. N. Trefethen, Eight shades of rational approximation, Chebfun example, January 2016.</p>
+<p>M. Javed and L. N. Trefethen, Eight shades of rational approximation, Chebfun example, January 2016, <a href="http://www.chebfun.org/examples/approx/EightShades.html">http://www.chebfun.org/examples/approx/EightShades.html</a>.</p>
 </li>
 <li>
-<p>L. N. Trefethen, "Digital filters via CF approximation, Chebfun example, April 2014.</p>
+<p>L. N. Trefethen, "Digital filters via CF approximation, Chebfun example, April 2014, <a href="http://www.chebfun.org/examples/approx/FiltersCF.html">http://www.chebfun.org/examples/approx/FiltersCF.html</a>.</p>
 </li>
 <li>
 <p>L. N. Trefethen, <em>Approximation Theory and Approximation Practice,</em> SIAM, 2013.</p>
 </li>
 <li>
-<p>L. N. Trefethen and M. Javed, CF approximation 30 years ago, Chebfun example, July 2014.</p>
+<p>L. N. Trefethen and M. Javed, CF approximation 30 years ago, Chebfun example, July 2014, <a href="http://www.chebfun.org/examples/approx/CF30.html">http://www.chebfun.org/examples/approx/CF30.html</a>.</p>
 </li>
 </ol></div>
         </div>
