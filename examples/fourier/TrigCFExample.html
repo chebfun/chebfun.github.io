@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Periodic CF approximation: Eureka! &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Periodic CF approximation: Eureka!</h1>
+<h2>Nick Trefethen, February 2017 in <a href='/examples/fourier/'>fourier</a><span><a href='/examples/fourier/TrigCFExample.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/fourier/TrigCFExample.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>CF (Caratheodory-Fejer) approximation is a method of near-minimax polynomial or rational approximation based on the singular values of a Hankel matrix, and there are three previous Chebfun examples in this territory [3,4,6]. If the Hankel matrix contains Taylor coefficients, you get CF approximation on the unit disk, and with Chebyshev coefficients you get CF approximation on an interval. These ideas date to the work by myself and Gutknecht in the early 1980s.  For references and an introduction to the mathematics see Chapter 20 of [3].</p>
+<p>38 years ago in the summer of 1979 in Switzerland, CF approximation was born in a Eureka moment.  I had been working on complex approximation and knew that the minimax error for degree $2$ polynomial approximation of $e^z$ on the unit disk was $\approx 0.17737$ (I still know this number by heart).  I had predicted that this should closely match the largest singular value of the Hankel matrix formed from the Taylor coefficients $1/6,$ $1/24,$ $1/120,\dots .$ One weekend I visited Walter Gander at the Neutechnikum Buchs in Switzerland, and he had an interactive matrix calculator.  I typed in the Hankel matrix, computed its singular values (well, actually its eigenvalues), and out popped 0.17737! From that moment I knew that CF approximation was going to work. Nowadays we can just type</p>
+<pre class="mcode-input">format long
+norm(hankel(1./factorial(3:9)))</pre>
+
+<pre class="mcode-output">ans =
+   0.177373815210096
+</pre>
+
+<p>What about CF approximation of periodic functions, based on a Hankel matrix of Fourier coefficients?  Periodic functions have become an important part of Chebfun in recent years, and recently, Mohsin Javed has written his DPhil thesis in approximation problems in this area, describing among other things a <code>trigremez</code> algorithm for periodic minimax approximation [2]. For CF approximation, the mathematics goes back to Gutknecht in 1983 [1], but it seems that in all the years since then, this has never been implemented.  Finally, right now, Javed is in the process of writing <code>trigcf</code>, and here I'd like to reprise our Eureka moment last week, which assured us that periodic CF approximation would work.</p>
+<p>Take a periodic function, like $f(t) = \exp(\sin(t))$ on $[-\pi,\pi]$:</p>
+<pre class="mcode-input">f = chebfun('exp(sin(t))',[-pi,pi],'trig');</pre>
+
+<p>Extract its Fourier coefficients:</p>
+<pre class="mcode-input">c = trigcoeffs(f)</pre>
+
+<pre class="mcode-output">c =
+ -0.000000000000001 + 0.000000000000000i
+  0.000000000000000 + 0.000000000000020i
+  0.000000000000520 + 0.000000000000000i
+ -0.000000000000000 - 0.000000000012490i
+ -0.000000000275295 + 0.000000000000000i
+  0.000000000000000 + 0.000000005518386i
+  0.000000099606240 + 0.000000000000000i
+ -0.000000000000000 - 0.000001599218231i
+ -0.000022488661477 + 0.000000000000000i
+ -0.000000000000000 + 0.000271463155957i
+  0.002737120221047 - 0.000000000000000i
+  0.000000000000000 - 0.022168424924332i
+ -0.135747669767038 - 0.000000000000000i
+ -0.000000000000000 + 0.565159103992485i
+  1.266065877752008 + 0.000000000000000i
+ -0.000000000000000 - 0.565159103992485i
+ -0.135747669767038 + 0.000000000000000i
+  0.000000000000000 + 0.022168424924332i
+  0.002737120221047 + 0.000000000000000i
+ -0.000000000000000 - 0.000271463155957i
+ -0.000022488661477 - 0.000000000000000i
+ -0.000000000000000 + 0.000001599218231i
+  0.000000099606240 - 0.000000000000000i
+  0.000000000000000 - 0.000000005518386i
+ -0.000000000275295 - 0.000000000000000i
+ -0.000000000000000 + 0.000000000012490i
+  0.000000000000520 - 0.000000000000000i
+  0.000000000000000 - 0.000000000000020i
+ -0.000000000000001 - 0.000000000000000i
+</pre>
+
+<p>For a real function like this we only need half of the series:</p>
+<pre class="mcode-input">c = c(ceil(length(c)/2):end)</pre>
+
+<pre class="mcode-output">c =
+  1.266065877752008 + 0.000000000000000i
+ -0.000000000000000 - 0.565159103992485i
+ -0.135747669767038 + 0.000000000000000i
+  0.000000000000000 + 0.022168424924332i
+  0.002737120221047 + 0.000000000000000i
+ -0.000000000000000 - 0.000271463155957i
+ -0.000022488661477 - 0.000000000000000i
+ -0.000000000000000 + 0.000001599218231i
+  0.000000099606240 - 0.000000000000000i
+  0.000000000000000 - 0.000000005518386i
+ -0.000000000275295 - 0.000000000000000i
+ -0.000000000000000 + 0.000000000012490i
+  0.000000000000520 - 0.000000000000000i
+  0.000000000000000 - 0.000000000000020i
+ -0.000000000000001 - 0.000000000000000i
+</pre>
+
+<p>Choose your values $m$ and $n$ for type $(m,n)$ rational approximation:</p>
+<pre class="mcode-input">m = 2; n = 1;</pre>
+
+<p>Make a Hankel matrix:</p>
+<pre class="mcode-input">format short
+H = hankel(c(2+m-n:end));
+H(1:3,1:3)</pre>
+
+<pre class="mcode-output">ans =
+  -0.1357 + 0.0000i   0.0000 + 0.0222i   0.0027 + 0.0000i
+   0.0000 + 0.0222i   0.0027 + 0.0000i  -0.0000 - 0.0003i
+   0.0027 + 0.0000i  -0.0000 - 0.0003i  -0.0000 - 0.0000i
+</pre>
+
+<p>Here is our CF estimate of the error in type $(m,n)$ approximation. The factor of 2 is introduced since we've made the Hankel matrix from just half of the Fourier series.</p>
+<pre class="mcode-input">format long
+s = svd(H);
+2*s(n+1)</pre>
+
+<pre class="mcode-output">ans =
+   0.001789066755256
+</pre>
+
+<p>How does this number compare with the true minimax error?</p>
+<pre class="mcode-input">[p,q,r,err] = trigremez(f,m,n);
+err</pre>
+
+<pre class="mcode-output">err =
+   0.001789066754500
+</pre>
+
+<p>Spectacular agreement -- ten digits!</p>
+<p>By working with singular vectors one can obtain the approximating rational function as well as its error.  Since it matches the best approximation to ten digits, it will for all practical purpose be the same as what we compute with trigremez. The error curve shows periodic equioscillation through 8 points.</p>
+<pre class="mcode-input">plot(f-p./q,'linewidth',1.6), grid on
+hold on, plot([-pi pi],err*[1 1],'--k')
+plot ([-pi pi],-err*[1 1],'--k'), ylim(.004*[-1 1])</pre>
+
+<p><img src="img/TrigCFExample_01.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>M. H. Gutknecht, Rational Caratheodory--Fejer approximation on a disk, a circle, and an interval, <em>Journal of Approximation Theory</em>, 41 (1984), pp. 257-278.</p>
+</li>
+<li>
+<p>M. Javed, <em>Algorithms for Trigonometric Polynomial and Rational Approximation</em>, DPhil thesis, University of Oxford, 2016.</p>
+</li>
+<li>
+<p>M. Javed and L. N. Trefethen, Eight shades of rational approximation, Chebfun example, January 2016.</p>
+</li>
+<li>
+<p>L. N. Trefethen, "Digital filters via CF approximation, Chebfun example, April 2014.</p>
+</li>
+<li>
+<p>L. N. Trefethen, <em>Approximation Theory and Approximation Practice,</em> SIAM, 2013.</p>
+</li>
+<li>
+<p>L. N. Trefethen and M. Javed, CF approximation 30 years ago, Chebfun example, July 2014.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2017 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

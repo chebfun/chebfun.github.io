@@ -92,6 +92,7 @@ fourier/BestTrigApprox.m
 fourier/FejerJackson.m
 fourier/FourierBasedChebfuns.m
 fourier/FourierCoefficients.m
+fourier/TrigCFExample.m
 fun/Birthday.m
 fun/BirthdayOdds.m
 fun/Encryption.m
