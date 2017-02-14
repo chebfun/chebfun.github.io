@@ -235,6 +235,7 @@ stats/LeastSquares.m
 stats/MercerKarhunenLoeve.m
 stats/NormalExercises.m
 stats/ProbabilityConvolution.m
+stats/RandomMaxima.m
 stats/ResamplingRandomVariables.m
 stats/UniformExercises.m
 temp/AtmosphericTemperature.m
