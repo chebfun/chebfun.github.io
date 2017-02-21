@@ -1,0 +1,55 @@
+---
+title: "The Gibbs phenomenon in 2D"
+layout: example
+authordate: "Andre Uschmajew and Nick Trefethen, February 2017"
+meta: "(Chebfun example approx2/Gibbs2D.m)"
+---
+
+
+
+## 1. Chebyshev 2D Gibbs effect
+
+Here is an illustration of the Gibbs phenomenon in 2D:
+
+<pre class="mcode-input">A = zeros(100); A(40:61,40:61) = 1;
+p = chebfun2(A); plot(p), zlim([-.2 1.5]), view(-20,50)</pre><img src="img/Gibbs2D_01.png" class="figure" alt="">
+
+What's going on is that Chebfun has constructed a bivariate polynomial interpolant $p(x,y)$ to data at $100^2$ 2D Chebshev points, zero on most of the domain and 1 on a square in the middle.
+
+How big is the overshoot?
+
+<pre class="mcode-input">max2(p)</pre><pre class="mcode-output">ans =
+   1.320316254042390
+</pre>This is big! -- about twice what we are used to with a 1D Gibbs effect:
+
+<pre class="mcode-input">a = zeros(100,1); a(40:61) = 1;
+p1 = chebfun(a); max(p1)</pre><pre class="mcode-output">ans =
+   1.149050152970874
+</pre>(In the limit of an infinite grid this would converge to $1.14114\dots;$ see equation (9.1) of [1].) The reason is that the overshoot at the corner is especially large, as we can see by zooming in:
+
+<pre class="mcode-input">pzoom = p{0,.5,0,.5}; plot(pzoom), zlim([-.2 1.5]), view(-30,15)</pre><img src="img/Gibbs2D_02.png" class="figure" alt="">
+
+The undershoot, by contrast, is of a more usual size:
+
+<pre class="mcode-input">min2(p)</pre><pre class="mcode-output">ans =
+  -0.153785123606236
+</pre>
+
+## 2. Fourier 2D Gibbs effect
+
+A Fourier analogue can be produced by including the 'periodic' flag:
+
+<pre class="mcode-input">t = chebfun2(A,'periodic'); plot(t), view(-20,50)</pre><img src="img/Gibbs2D_03.png" class="figure" alt="">
+
+The extrema are similar:
+
+<pre class="mcode-input">max2(t), min2(t)</pre><pre class="mcode-output">ans =
+   1.316297664943330
+ans =
+  -0.155566549488912
+</pre>
+
+## Reference
+
+1. L. N. Trefethen, _Approximation Theory and Approximation Practice_, SIAM, 2013.
+

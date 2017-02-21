@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Disk &raquo; Chebfun</title>
+    <title>The Gibbs phenomenon in 2D &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,60 +54,64 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Disk</h1>
+<h1>The Gibbs phenomenon in 2D</h1>
+<h2>Andre Uschmajew and Nick Trefethen, February 2017 in <a href='/examples/approx2/'>approx2</a><span><a href='/examples/approx2/Gibbs2D.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx2/Gibbs2D.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>3</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>36</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>10</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li class='active'><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>11</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>21</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>21</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>9</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>6</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>7</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>13</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/disk/HeatEqn.html'>
-            <div class='thumbwrapper'><img src='/examples/disk/img/HeatEqn_01.png' /></div>
-            <h3>The heat equation on the unit disk</h3>
-            <p>Heather Wilber, January 2017<!--
-                <span class='tags'><span href='#' class='tag'>#diffusion</span>, <span href='#' class='tag'>#diskfun</span>, <span href='#' class='tag'>#heat</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/disk/Eigenfunctions.html'>
-            <div class='thumbwrapper'><img src='/examples/disk/img/Eigenfunctions_01.png' /></div>
-            <h3>Eigenfunctions of the Laplacian on the disk</h3>
-            <p>Heather Wilber, January 2017<!--
-                <span class='tags'><span href='#' class='tag'>#diskfun</span>, <span href='#' class='tag'>#eigenfunctions</span>, <span href='#' class='tag'>#laplacian</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-chebyshev-2d-gibbs-effect">1. Chebyshev 2D Gibbs effect</h3>
+<p>Here is an illustration of the Gibbs phenomenon in 2D:</p>
+<pre class="mcode-input">A = zeros(100); A(40:61,40:61) = 1;
+p = chebfun2(A); plot(p), zlim([-.2 1.5]), view(-20,50)</pre>
+
+<p><img src="img/Gibbs2D_01.png" class="figure" alt=""></p>
+<p>What's going on is that Chebfun has constructed a bivariate polynomial interpolant $p(x,y)$ to data at $100^2$ 2D Chebshev points, zero on most of the domain and 1 on a square in the middle.</p>
+<p>How big is the overshoot?</p>
+<pre class="mcode-input">max2(p)</pre>
+
+<pre class="mcode-output">ans =
+   1.320316254042390
+</pre>
+
+<p>This is big! -- about twice what we are used to with a 1D Gibbs effect:</p>
+<pre class="mcode-input">a = zeros(100,1); a(40:61) = 1;
+p1 = chebfun(a); max(p1)</pre>
+
+<pre class="mcode-output">ans =
+   1.149050152970874
+</pre>
+
+<p>(In the limit of an infinite grid this would converge to $1.14114\dots;$ see equation (9.1) of [1].) The reason is that the overshoot at the corner is especially large, as we can see by zooming in:</p>
+<pre class="mcode-input">pzoom = p{0,.5,0,.5}; plot(pzoom), zlim([-.2 1.5]), view(-30,15)</pre>
+
+<p><img src="img/Gibbs2D_02.png" class="figure" alt=""></p>
+<p>The undershoot, by contrast, is of a more usual size:</p>
+<pre class="mcode-input">min2(p)</pre>
+
+<pre class="mcode-output">ans =
+  -0.153785123606236
+</pre>
+
+<h3 id="2-fourier-2d-gibbs-effect">2. Fourier 2D Gibbs effect</h3>
+<p>A Fourier analogue can be produced by including the 'periodic' flag:</p>
+<pre class="mcode-input">t = chebfun2(A,'periodic'); plot(t), view(-20,50)</pre>
+
+<p><img src="img/Gibbs2D_03.png" class="figure" alt=""></p>
+<p>The extrema are similar:</p>
+<pre class="mcode-input">max2(t), min2(t)</pre>
+
+<pre class="mcode-output">ans =
+   1.316297664943330
+ans =
+  -0.155566549488912
+</pre>
+
+<h3 id="reference">Reference</h3>
+<ol>
+<li>L. N. Trefethen, <em>Approximation Theory and Approximation Practice</em>, SIAM, 2013.</li>
+</ol></div>
         </div>
     </div>
 </div>

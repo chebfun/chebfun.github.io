@@ -39,6 +39,7 @@ approx/WeierstrassFunction.m
 approx/WigglyApprox.m
 approx2/Alignment.m
 approx2/BumpFunction.m
+approx2/Gibbs2D.m
 approx2/Localization.m
 approx2/MaxTrace.m
 approx2/NearestPSDKernel.m
