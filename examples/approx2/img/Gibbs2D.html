@@ -17,7 +17,7 @@ zlim([-.2 1.5]), view(-20,50), camlight left, camlight left</pre><img src="img/G
 
 A contour plot may also be interesting:
 
-<pre class="mcode-input">contour(p), axis equal, colorbar</pre><img src="img/Gibbs2D_02.png" class="figure" alt="">
+<pre class="mcode-input">contour(p), axis([-.6 .6 -.6 .6]), axis square, colorbar</pre><img src="img/Gibbs2D_02.png" class="figure" alt="">
 
 What's going on is that Chebfun has constructed a bivariate polynomial interpolant $p(x,y)$ to data at $100^2$ 2D Chebshev points, zero on most of the domain and 1 on a square in the middle.
 
@@ -46,8 +46,10 @@ Intuitively, we can think of the overshoot at the corner as being composed of on
 A Fourier analogue can be produced by including the 'periodic' flag:
 
 <pre class="mcode-input">t = chebfun2(A,'periodic'); plot(t)
-zlim([-.2 1.5]), view(-20,50), camlight, camlight
-contour(t), axis equal, colorbar</pre><img src="img/Gibbs2D_04.png" class="figure" alt="">
+zlim([-.2 1.5]), view(-20,50), camlight, camlight, snapnow
+contour(t), axis([-.6 .6 -.6 .6]), axis square, colorbar</pre><img src="img/Gibbs2D_04.png" class="figure" alt="">
+
+<img src="img/Gibbs2D_05.png" class="figure" alt="">
 
 The extrema are similar:
 
@@ -65,13 +67,13 @@ For fun we can change from a square to a triangle:
 p2 = chebfun2(A2); plot(p2{-.5,.5,-.5,.5})
 zlim([-.2 1.5]), view(-20,50), camlight left
 max2(p2), min2(p2), snapnow
-contour(p2), axis equal, colorbar,</pre><pre class="mcode-output">ans =
+contour(p2), axis([-.6 .6 -.6 .6]), axis square, colorbar</pre><pre class="mcode-output">ans =
    1.294875501773784
 ans =
   -0.228957699300502
-</pre><img src="img/Gibbs2D_05.png" class="figure" alt="">
+</pre><img src="img/Gibbs2D_06.png" class="figure" alt="">
 
-<img src="img/Gibbs2D_06.png" class="figure" alt="">
+<img src="img/Gibbs2D_07.png" class="figure" alt="">
 
 
 
@@ -94,7 +96,7 @@ ans =
     22
 </pre>This rank is determined simply by the sparsity structure, which shows a $22\times 22$ triangle.
 
-<pre class="mcode-input">spy(A2), axis([36 65 36 65])</pre><img src="img/Gibbs2D_07.png" class="figure" alt="">
+<pre class="mcode-input">spy(A2), axis([36 65 36 65])</pre><img src="img/Gibbs2D_08.png" class="figure" alt="">
 
 
 
