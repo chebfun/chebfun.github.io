@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Adjoint of a linear operator &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Adjoint of a linear operator</h1>
+<h2>Yuji Nakatsukasa, February 2017 in <a href='/examples/ode-linear/'>ode-linear</a><span><a href='/examples/ode-linear/Adjoints.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-linear/Adjoints.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-adjoint-of-a-chebop">1. Adjoint of a chebop</h3>
+<p>Let $L$ be a linear operator on the Hilbert space $H=L_2[-1,1]$ together with homogeneous boundary conditions. The adjoint of $L^\ast$ is defined as another operator, together with another set of homogeneous boundary conditions, such that $$(v,Lu)= (L^\ast v,u) $$ for all $u,v\in H$ such that $u$ satisfies the boundary condition of $L$ and $y$ satisfies the boundary condition of $L^\ast$. As of version 5.6.0, Chebfun is able to compute the adjoint of a linear operator represented as a chebop by the command <code>adjoint</code>. The operator adjoint is a classical subject [3], and the mathematical background for Chebfun's <code>adjoint</code> is summarized in [2]. The programming was done by Jared Aurentz, and much of this example is taken from a talk by him at a seminar in 2016 at Oxford.</p>
+<p>For example, here is the adjoint of the first derivative operator with a Dirichlet boundary condition at the left boundary.</p>
+<pre class="mcode-input">L = chebop([-1 1]);
+L.op = @(u) diff(u);
+L.lbc = @(u) u
+Ls = adjoint(L)</pre>
+
+<pre class="mcode-output">L =
+   Linear operator:
+      u |--&gt; diff(u)
+   operating on chebfun objects defined on:
+      [-1,1]
+   with
+    left boundary condition(s):
+      u = 0
+Ls =
+   Linear operator:
+      v |--&gt; -diff(v)
+   operating on chebfun objects defined on:
+      [-1,1]
+   with
+    right boundary condition(s):
+      v = 0
+</pre>
+
+<p>Note the sign change in the operator, which comes from integration by parts. Note also the change in the boundary condition, which has switched from an initial condition $u(-1)=0$ to a final condition $v(1)=0$. Let's check that the adjoint condition is satisfied:</p>
+<pre class="mcode-input">x = chebfun('x');
+u = (x+1).*sin(x);            % function with u(-1) = 0
+v = (x-1).*exp(x);            % function with v(1) = 0
+abs(v'*(L*u) - (Ls*v)'*u)</pre>
+
+<pre class="mcode-output">ans =
+     0
+</pre>
+
+<p>For self-adjoint operators with self-adjoint boundary conditions, the adjoint is itself:</p>
+<pre class="mcode-input">L = chebop([-1 1]);
+L.op = @(u) diff(u,2)+u; % u''
+L.lbc = @(u) u; L.rbc = @(u) u
+Ls = adjoint(L)</pre>
+
+<pre class="mcode-output">L =
+   Linear operator:
+      u |--&gt; diff(u,2)+u
+   operating on chebfun objects defined on:
+      [-1,1]
+   with
+    left boundary condition(s):
+      u = 0
+    right boundary condition(s):
+      u = 0
+Ls =
+   Linear operator:
+      v |--&gt; diff(v,2)+v
+   operating on chebfun objects defined on:
+      [-1,1]
+   with
+    left boundary condition(s):
+      v = 0
+    right boundary condition(s):
+      v = 0
+</pre>
+
+<h3 id="2-adjoint-boundary-conditions">2. Adjoint boundary conditions</h3>
+<p>With the same operator, if we change the boundary conditions so that we have an initial value problem, the problem is no longer self-adjoint and the adjoint becomes a final value problem (as we saw above). The adjoint operator is still the formal adjoint $L^\ast v=v''+v$.</p>
+<pre class="mcode-input">L = chebop([-1 1]);
+L.op = @(u) diff(u,2)+u;
+L.lbc = @(u) [ u-1; diff(u) ]  % initial value problem with both BCs at left end
+Ls = adjoint(L)</pre>
+
+<pre class="mcode-output">L =
+   Linear operator:
+      u |--&gt; diff(u,2)+u
+   operating on chebfun objects defined on:
+      [-1,1]
+   with
+    left boundary condition(s):
+      [u-1;diff(u)] = 0
+Ls =
+   Linear operator:
+      v |--&gt; diff(v,2)+v
+   operating on chebfun objects defined on:
+      [-1,1]
+   with
+    right boundary condition(s):
+      [v;diff(v)] = 0
+</pre>
+
+<p>If there's only one (more generally $k$) boundary condition in $L$, then the adjoint will have $2d-1=3$ (or $2d-k$) boundary conditions, where $d$ is the order of the differential operator (here 2).</p>
+<pre class="mcode-input">L.lbc = @(u) u-1;  % just one BC
+Ls = adjoint(L)</pre>
+
+<pre class="mcode-output">Ls =
+   Linear operator:
+      v |--&gt; diff(v,2)+v
+   operating on chebfun objects defined on:
+      [-1,1]
+   with
+    left boundary condition(s):
+      v = 0
+    right boundary condition(s):
+      [v;diff(v)] = 0
+</pre>
+
+<p>The boundary conditions of the original and adjoint operators are related in an intricate manner, with those of the adjoint satisfying a null vector condition involving a so-called complementarity matrix. For details, see [2,3].</p>
+<p>Let's try an operator with variable coefficients.</p>
+<pre class="mcode-input">L = chebop([-1 1]);
+L.op = @(x,u) x.*diff(u,2);
+L.lbc = @(u) u; L.rbc = @(u) u
+Ls = adjoint(L)</pre>
+
+<pre class="mcode-output">L =
+   Linear operator:
+      u |--&gt; x.*diff(u,2)
+   operating on chebfun objects defined on:
+      [-1,1]
+   with
+    left boundary condition(s):
+      u = 0
+    right boundary condition(s):
+      u = 0
+Ls =
+   Linear operator:
+      v |--&gt; a11_2.*diff(v,2)+a11_1.*diff(v)
+   operating on chebfun objects defined on:
+      [-1,1]
+   with
+    left boundary condition(s):
+      v = 0
+    right boundary condition(s):
+      v = 0
+</pre>
+
+<p>The formal adjoint here is $L^\ast v = (xv)''$. Note that the Chebfun display of $L^\ast$ is not very informative, as one can't see what the variable coefficients are.  This happens because Chebfun is a numerical system, not symbolic: its representation of each coefficient function is not an algebraic expression but a Chebyshev series that aims for the usual 16-digit accuracy.</p>
+<p>Let's check that the adjoint equation is satisfied.</p>
+<pre class="mcode-input">x = chebfun('x');
+u = (x.^2-1).*sin(x);
+v = (x.^2-1).*exp(x);
+abs(v'*(L*u) - (Ls*v)'*u)</pre>
+
+<pre class="mcode-output">ans =
+     4.440892098500626e-16
+</pre>
+
+<h3 id="3-eigenvalues-and-eigenfunctions-of-the-adjoint">3. Eigenvalues and eigenfunctions of the adjoint</h3>
+<p>The eigenvalues of an operator and its adjoint are complex conjugates of each other, so if the eigenvalues are real, then they are the same for $L$ and $L^\ast$.  Let's verify this a with non-self-adjoint example, an advection-diffusion operator.</p>
+<pre class="mcode-input">L = chebop([-1 1]);
+L.op = @(x,u) diff(u,2) -20*diff(u) + u;
+L.lbc = @(u) u; L.rbc = @(u) u;
+Ls = adjoint(L);
+
+[V,D] = eigs(L);
+[Vs,Ds] = eigs(Ls);
+
+[diag(D) diag(Ds)]</pre>
+
+<pre class="mcode-output">ans =
+   1.0e+02 *
+  -1.878264592127668  -1.878264527916655
+  -1.606850187218044  -1.606850191907498
+  -1.384784202819554  -1.384784215633707
+  -1.212066098841079  -1.212066087515042
+  -1.088696038777262  -1.088696044206861
+  -1.014674013146135  -1.014674011880154
+</pre>
+
+<p>Since if $Lx=\lambda x$ and $L^\ast y=\bar{\mu} y$ then $(y,Lx) = \bar{\lambda}(y,x)$ and $(L^\ast y,x) =\mu(y,x)$, it follows that if $\lambda\neq \mu$, then $(y,x)=0$, i.e., left and right eigenfunctions are orthogonal. We can confirm this as follows:</p>
+<pre class="mcode-input">Vs'*V</pre>
+
+<pre class="mcode-output">ans =
+   1.0e-05 *
+  Columns 1 through 3
+   0.017526318950153  -0.000000004632513   0.000000003257778
+   0.000000000462302   0.021610288998378  -0.000000002353983
+   0.000000002364841   0.000000003859690   0.029128457246412
+  -0.000000002988200  -0.000000004094531   0.000000006284440
+  -0.000000003279067  -0.000000004185653   0.000000005417629
+   0.000000003401038   0.000000004208956  -0.000000005160911
+  Columns 4 through 6
+   0.000000003062796  -0.000000003106372  -0.000000003145685
+  -0.000000002557211   0.000000002806218   0.000000002939766
+  -0.000000000936118   0.000000002138338   0.000000002538706
+   0.045371472569969   0.000000000185506  -0.000000001515532
+   0.000000008147055   0.091780019385484   0.000000002195240
+  -0.000000006563901   0.000000010523851   0.342386231509402
+</pre>
+
+<p>Let's plot the first two eigenfunctions of $L$ and of $L^\ast$. Note that the curves are symmetric about the origin.</p>
+<pre class="mcode-input">LW = 'linewidth'; CO = 'color'; FS = 'fontsize';
+for ii = 1:2
+    v = V{ii}; if v(.9) &lt; 0, v = -v; end
+    plot(v,'r'), hold on
+    vs = Vs{ii}; if vs(-.9) &lt; 0, vs = -vs; end
+    plot(vs,'b')
+end
+text(-.8,2,'adjoint eigenfunctions',CO,'b',FS,14)
+text(.3,2,'eigenfunctions',CO,'r',FS,14)
+shg</pre>
+
+<p><img src="img/Adjoints_01.png" class="figure" alt=""></p>
+<p>The first eigenfunction is very far from orthogonal to the second -- in fact, they are nearly the same:</p>
+<pre class="mcode-input">V(:,2)'*V(:,1)</pre>
+
+<pre class="mcode-output">ans =
+   0.994385163800641
+</pre>
+
+<p>There is a lot of physics in a figure like this; see chapter 12 of [1].    The concentration of the eigenfunctions at the right boundary reflects the fact that this operator governs rightward propagation, and solutions tend to "pile up" at the right boundary before eventually being absorbed by the diffusion.  The concentration of the adjoint eigenfunctions at the left boundary reflects that fact that if you want to control a solution, the most effective place to insert a signal is at the left.</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>M. Embree and L. N. Trefethen, <em>Spectra and Pseudospectra: The Behavior of Nonnormal Matrices and Operators</em>, Princeton U. Press, 2005.</p>
+</li>
+<li>
+<p>Hrothgar, <em>Block Operators and Continuous Adjoint Methods</em>, transfer thesis, Dept. of Mathematics, U. of Oxford, 2015.</p>
+</li>
+<li>
+<p>I. Stakgold and M. J. Holst. <em>Green's Functions and Boundary Value Problems</em>. John Wiley &amp; Sons, 2011.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2017 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

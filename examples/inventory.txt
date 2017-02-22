@@ -137,6 +137,7 @@ ode-eig/OrrSommerfeld.m
 ode-eig/SolarQDA.m
 ode-eig/ThermoelasticRod.m
 ode-eig/WaveDecay.m
+ode-linear/Adjoints.m
 ode-linear/AdvDiffJump.m
 ode-linear/BoundaryLayer.m
 ode-linear/Breakpoints.m
