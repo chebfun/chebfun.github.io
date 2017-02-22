@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hermite quadrature &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Hermite quadrature</h1>
+<h2>Nick Trefethen and Andre Weideman, February 2017 in <a href='/examples/quad/'>quad</a><span><a href='/examples/quad/HermiteQuad.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/quad/HermiteQuad.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-a-simple-example">1. A simple example</h3>
+<p>Hermite (more fully Gauss-Hermite) quadrature is a quadrature method for integrands of the form $\exp(-x^2) f(x)$ on the real axis, where $f$ is smooth.  It is a classical subject and surely thousands of people (including many physicists) have used Hermite quadrature. Nevertheless it is curious how little literature there is on its practicality and convergence rate as a numerical method, compared with other approaches such as a simple trapezoidal rule.</p>
+<p>Here is an example showing that Hermite quadrature can be amazingly efficient.  We take the function $g(x) = \exp(-x^2) \cos x$,</p>
+<pre class="mcode-input">ff = @(x) cos(x);
+g = chebfun(@(x) exp(-x.^2).*ff(x), [-inf,inf]);</pre>
+
+<p>whose integral is</p>
+<pre class="mcode-input">format long, format compact
+sum(g)</pre>
+
+<pre class="mcode-output">ans =
+   1.380388447043143
+</pre>
+
+<p>This matches the exact answer in all digits displayed</p>
+<pre class="mcode-input">exact = sqrt(pi)*exp(-1/4)</pre>
+
+<pre class="mcode-output">exact =
+   1.380388447043143
+</pre>
+
+<p>Chebfun has computed the integral by methods that are not our concern here.  Even staying in the Chebfun context, one may note that because the integrand decays so rapidly to zero, there is no need in practice to use an infinite interval. For example, here is what we get if we integrate $g$ over $[-6,6]$:</p>
+<pre class="mcode-input">sum(g{-6,6})</pre>
+
+<pre class="mcode-output">ans =
+   1.380388447043143
+</pre>
+
+<p>Now let's integrate $g$ with Hermite quadrature, calling the Chebfun code <code>hermpts</code> to compute the nodes and weights. Here are the errors for $n = 1,\dots,12$ points:</p>
+<pre class="mcode-input">disp('    n        error')
+for n = 1:12
+    [s,w] = hermpts(n);
+    In = w*ff(s);
+    err = In - exact;
+    fprintf('%3d %19.15f\n',n,err)
+end</pre>
+
+<pre class="mcode-output">    n        error
+  1   0.392065403862373
+  2  -0.032889983326330
+  3   0.001644624344904
+  4  -0.000058689881887
+  5   0.000001628892514
+  6  -0.000000036992409
+  7   0.000000000710935
+  8  -0.000000000011843
+  9   0.000000000000174
+ 10  -0.000000000000002
+ 11   0.000000000000001
+ 12  -0.000000000000000
+</pre>
+
+<p>All you need are 11 or 12 points to get full precision! And since $g$ is even, you only need half as many function evaluations as that -- an effect that carries over to many applications where the integrand may be expensive to evaluate but known to be even.</p>
+<p>Here's a figure</p>
+<pre class="mcode-input">plot(g{-8,8},'linewidth',2)
+hold on, plot(s,g(s),'.r','markersize',14), hold off</pre>
+
+<p><img src="img/HermiteQuad_01.png" class="figure" alt=""></p>
+<p>Let's compare this efficiency with the trapezoidal rule. As has been known since the days of Aitken and Turing, the trapezoidal rule converges exponentially as a function of $1/h$, where $h$ is the grid size, for analytic functions on the real axis provided they satisfy modest decay conditions at $\pm \infty$; see [1]. Formally the rule involves infinitely many sample points, but for a function of the Hermite form, one can truncate at a small value $\pm d$.</p>
+<p>In work not yet published, we have derived an optimal choice of $h$ for this method.  Applied to this particular function, the optimal choice is $$ h = (-1 + \sqrt{1 + 8\pi n} )/2n $$ Let's try it!</p>
+<pre class="mcode-input">disp('    n        error')
+for n = 3:3:24
+    h = (-1+sqrt(8*pi*n))/(2*n);
+    d = (n-1)*h/2;
+    s = linspace(-d,d,n);
+    In = sum(h*g(s));              % trapezoidal sum
+    err = In - exact;
+    fprintf('%3d %19.15f\n',n,err)
+end</pre>
+
+<pre class="mcode-output">    n        error
+  3   0.042363958855155
+  6  -0.000513739182282
+  9   0.000007261885987
+ 12  -0.000000082766158
+ 15   0.000000000965252
+ 18  -0.000000000011277
+ 21   0.000000000000119
+ 24  -0.000000000000002
+</pre>
+
+<p>Beautiful convergence again! -- but Hermite is about twice as fast.</p>
+<h3 id="large-n">Large n?</h3>
+<p>Thanks to recent work by Olver, Townsend, and Trogdon [1], Chebfun can compute Hermite quadrature nodes and weights for very large values of $n$ with astonishing speed.  For example,</p>
+<pre class="mcode-input">tic, [s,w]= hermpts(1000); toc
+tic, [s,w]= hermpts(10000); toc
+tic, [s,w]= hermpts(100000); toc</pre>
+
+<pre class="mcode-output">Elapsed time is 0.068455 seconds.
+Elapsed time is 0.028584 seconds.
+Elapsed time is 0.223111 seconds.
+</pre>
+
+<p>This raises questions.  Most of the points in these large-$n$ formulas correspond to values of $x$ where $\exp(-x^2)$ is very small.  For example, with $n = 10000$, here is the fraction of quadrature nodes for which $\exp(-x^2)$ is smaller than machine precision:</p>
+<pre class="mcode-input">n = 10000;
+s = hermpts(n);
+tail_points = s( exp(-s.^2) &lt; eps );
+format short
+ratio = length(tail_points)/n</pre>
+
+<pre class="mcode-output">ratio =
+    0.9460
+</pre>
+
+<p>Are there applications where Hermite quadrature in such a regime makes sense?</p>
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>A. Townsend, T. Trogdon, and S. Olver, Fast computation of Gauss quadrature nodes and weights on the whole real line, <em>IMA J. Numer. Anal.</em>, 2015.</p>
+</li>
+<li>
+<p>L. N. Trefethen and J. A. C. Weideman, The exponentially convergent trapezoidal rule, <em>SIAM Review</em>, 2014.</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2017 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
