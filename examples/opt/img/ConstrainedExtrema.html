@@ -26,23 +26,23 @@ vertical scale =   1
 <pre class="mcode-input">format long
 [Y, X] = minandmax(h, 'local')</pre><pre class="mcode-output">Y =
    1.000000000000000
-  -1.000000000000001
+  -1.000000000000000
    1.000000000000000
   -1.000000000000000
    1.000000000000000
 X =
                    0
-   1.570796326794897
+   1.570796326794896
    3.141592653589793
-   4.712388980384687
+   4.712388980384689
    6.283185307179586
 </pre>Here we use the the `local` flag to obtain all (local) extrema of $h$. The computed points `X` are points in the domain of definition of $h$. To obtain the points on the unit circle, where $g$ is defined, we map these with $f$:
 
 <pre class="mcode-input">X = f(X)</pre><pre class="mcode-output">X =
    1.000000000000000                   0
-  -0.000000000000001   1.000000000000000
+   0.000000000000001   1.000000000000000
   -1.000000000000000   0.000000000000000
-  -0.000000000000003  -1.000000000000000
+  -0.000000000000001  -1.000000000000000
    1.000000000000000  -0.000000000000000
 </pre>Since `X(1,:) = X(5,:)`, we have recovered the four points on the circle where $g$ attains its extrema.
 
@@ -51,27 +51,34 @@ Let us consider the more interesting example of finding the extrema of the funct
 <pre class="mcode-input">g = cheb.gallery2('challenge');</pre>from the SIAM 100-digit challenge on the unit circle.  As before we compute the extrema of the chebfun $h = g(f)$:
 
 <pre class="mcode-input">h = g(f);
-[Y, X] = minandmax(h)</pre><pre class="mcode-output">Y =
+[Y, Xh] = minandmax(h)</pre><pre class="mcode-output">Y =
   -2.123351672827956
-   5.601493400930887
-X =
-   5.178692247354335
+   5.601493400930885
+Xh =
+   5.178692247354336
    2.047196233288410
 </pre>The corresponding points on the unit circle are
 
-<pre class="mcode-input">X = f(X)</pre><pre class="mcode-output">X =
-   0.449587308414999  -0.893236392066600
+<pre class="mcode-input">X = f(Xh)</pre><pre class="mcode-output">X =
+   0.449587308415000  -0.893236392066599
   -0.458582925296232   0.888651619380031
 </pre>and are marked as black dots on the contour plot of $g$:
 
 <pre class="mcode-input">contourf(g, 4)
 hold on
-plot(chebfun(@(t) exp(1i*t), [0, 2*pi]), 'k-')
+plot(chebfun(@(t) exp(1i*t), [0, 2*pi]), 'k-', 'LineWidth', 2)
 plot(X(:,1), X(:,2), 'ko', 'MarkerFaceColor', 'k')
-text(X(1,1), X(1,2), '  min', 'color', 'w', 'FontWeight', 'bold')
-text(X(2,1), X(2,2), '  max', 'color', 'w', 'FontWeight', 'bold')
+text(X(1,1), X(1,2), '  min', 'color','w', 'FontWeight','bold', 'FontSize',42)
+text(X(2,1), X(2,2), '  max', 'color','w', 'FontWeight','bold', 'FontSize',42)
 hold off
 axis equal</pre><img src="img/ConstrainedExtrema_01.png" class="figure" alt="">
+
+The restriction of $g$ to the unit circle, $h = g(f)$, looks as follows:
+
+<pre class="mcode-input">plot(h)
+hold on
+plot(Xh, Y, 'ko', 'MarkerFaceColor', 'k')
+hold off</pre><img src="img/ConstrainedExtrema_02.png" class="figure" alt="">
 
 Similarly we can find the extrema of a function of three variables on a curve in 3d space: $g$ then will be a chebfun3 and $f$ a chebfun with three columns.
 
@@ -86,7 +93,7 @@ Let us compute the extrema of
 <pre class="mcode-input">g = chebfun3(@(x,y,z) x + y + z, [-2, 2, -2, 2, -2, 2]);</pre>on the 2d surface in 3d space parametrized by
 
 <pre class="mcode-input">f = chebfun2v(@(x,y) x, @(x,y) y, @(x,y) x.^3 + y.^2);
-surf(f)</pre><img src="img/ConstrainedExtrema_02.png" class="figure" alt="">
+surf(f)</pre><img src="img/ConstrainedExtrema_03.png" class="figure" alt="">
 
 To find the extrema, we compute
 
@@ -130,32 +137,28 @@ For example, consider the tilted square with corners $(1,0)$, $(0,1)$, $(-1,0)$,
 bdry = join(t - 1i, 1 + 1i*t, 1i - t, -1 - 1i*t)/2;
 fbdry = f(bdry);
 plot(fbdry(:,1), fbdry(:,2))
-axis equal</pre><img src="img/ConstrainedExtrema_03.png" class="figure" alt="">
+axis equal</pre><img src="img/ConstrainedExtrema_04.png" class="figure" alt="">
 
 Now let us compute the extrema of the function $g(x,y) = x^3 + \cos(5x) - y^2$ on this tilted square.  As before, we compute the extrema of $h = g(f)$:
 
 <pre class="mcode-input">g = chebfun2(@(x,y) x.^3 + cos(5*x) - y.^2);
 h = g(f);
+plot(h)
 [Y, X] = minandmax2(h)</pre><pre class="mcode-output">Y =
-  -1.391273244992604   1.283662185463226
+  -1.391273244992604   1.283662185463225
 X =
-  -0.500000000000000   0.151400479254444
+  -0.151400479011023   0.500000000000000
    0.500000000000000  -0.500000000000000
-</pre>So the extrema of $g$ are at
+</pre><img src="img/ConstrainedExtrema_05.png" class="figure" alt="">
+
+So the minimum and maximum of $g$ on the tilted square are located at
 
 <pre class="mcode-input">Xmin = f(X(1,1), X(1,2))
 Xmax = f(X(2,1), X(2,2))</pre><pre class="mcode-output">Xmin =
-  -0.651400479254444
-  -0.348599520745556
+  -0.651400479011023
+   0.348599520988977
 Xmax =
      1
      0
-</pre>where $g$ attains exactly the extreme values computed in `Y(1)` and `Y(2)`:
-
-<pre class="mcode-input">g(Xmin(1), Xmin(2))
-g(Xmax(1), Xmax(2))</pre><pre class="mcode-output">ans =
-  -1.391273244992605
-ans =
-   1.283662185463227
 </pre>This method allows one to find extrema of chebfun2 objects on any set that is the image of a chebfun2v.  Similarly, we can find the extrema of a chebfun3 on any set that is the image of a chebfun3v.
 
