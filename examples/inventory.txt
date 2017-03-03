@@ -131,6 +131,7 @@ ode-eig/DoubleWell.m
 ode-eig/Drum.m
 ode-eig/Eigenstates.m
 ode-eig/FourierEigs.m
+ode-eig/LevelRepulsionODE.m
 ode-eig/NullSpace.m
 ode-eig/OpticalResponse.m
 ode-eig/OrrSommerfeld.m

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Level repulsion for ODE eigenvalues &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Level repulsion for ODE eigenvalues</h1>
+<h2>Abi Gopal and Nick Trefethen, March 2017 in <a href='/examples/ode-eig/'>ode-eig</a><span><a href='/examples/ode-eig/LevelRepulsionODE.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-eig/LevelRepulsionODE.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>An old Chebfun example displays the effect of level repulsion, also known as avoided crossings, for eigenvalues of symmetric matrices.  Here we follow that example in the analogous context of eigenvalues of self-adjoint differential operators.</p>
+<p>To do this, we're going to use fourth-order differential operators, not second-order.  The reason is that second-order self-adjoint operators put us in the territory of Sturm-Liouville theory, where repeated eigenvalues are impossible.  This is analogous to the situation for real symmetric tridiagonal matrices with nonzero subdiagonal entries.  To get a genuine possibility of repeated eigenvalues we will use fourth-order operators -- analogous to pentadiagonal matrices.</p>
+<p>If $L(t)$ is a real self-adjoint fourth-order linear differential operator depending on a parameter $t$, then for each $t$ there will be infinitely many real eigenvalues. As $t$ varies, the eigenvalues will vary continuously.</p>
+<p>It is possible for $L(t)$ to have multiple eigenvalues for some $t$, but generically, this will not happen. That is to say, for "generic" choices of $L(t)$, whatever that means, there will be no values of $t$ for which for which $L(t)$ has a multiple eigenvalue.</p>
+<p>Let's illustrate the effect with Chebfun.  Our first attempt at this failed (we'll say more in a moment) because it wasn't generic.  Here is our second attempt:</p>
+<pre class="mcode-input">L = @(a) chebop(@(x,u) diff(u,4)+a*diff(u,2)+exp(x/20)*u,[-5,5], ...
+     @(u) [u;diff(u)],@(u) [u;diff(u)]);</pre>
+
+<p>We would now like to get our hands on the six functions of $t$ representing the first six (whatever that means) eigenvalues of $L(t)$. In Chebfun, a convenient format for this result will be a quasimatrix with six columns.</p>
+<p>We can construct this quasimatrix as follows.  (The <code>splitting off</code> command has no effect, since splitting off is the default, but is included to show where one would put <code>splitting on</code> to handle a problem with curves actually crossing or coming very close.)</p>
+<pre class="mcode-input">ek = @(e,k) e(k);                % returns kth element of the vector e
+eigL = @(t) sort(eigs(L(t)));    % returns sorted eigenvalues of the matrix A
+d = [4.4 5.4];
+E = chebfun; tic
+for k = 1:6
+   E(:,k) = chebfun(@(t) ek(eigL(t),k),d,'splitting','off','eps',1e-4,'vectorize');
+end
+FS = 'fontsize'; LW = 'linewidth'; MS = 'markersize';
+figure, plot(E,LW,1.6), grid on
+title('Eigenvalues of L(t)',FS,16);
+xlabel('t',FS,12)
+ylim([-6 2])</pre>
+
+<p><img src="img/LevelRepulsionODE_01.png" class="figure" alt=""></p>
+<p>One sees two pairs of curves that nearly cross, but not quite.  This brings us to explaining what we did wrong at first.  It turns out that if the variable coefficient in the operator is replaced by the constant $1$, this eigenvalue problem is non-generic: its eigenfunctions are even or odd, and eigenvalue crossings occur.  By making this coefficient a little bit variable, we have broken that symmetry.  Changing 20 to 40 would make the coefficient function closer to constant, and the near-crossing would be even closer.</p>
+<p>For a computed example of a similar flavor involving PDEs rather than ODEs, see [1].</p>
+<p>Alas, this example takes a while to run:</p>
+<pre class="mcode-input">time_in_seconds = toc</pre>
+
+<pre class="mcode-output">time_in_seconds =
+  51.163702999999998
+</pre>
+
+<h3 id="reference">Reference</h3>
+<ol>
+<li>T. Betcke and L. N. Trefethen, Computations of eigenvalue avoidance in planar domains, <em>Proc. Appl. Math. Mech.</em> 4 (2004), 634-635.</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2017 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
