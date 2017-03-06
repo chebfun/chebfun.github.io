@@ -126,6 +126,7 @@ linalg/NonnormalQuiz.m
 linalg/ResolventNorm.m
 linalg/SOR.m
 linalg/TransientGrowth.m
+ode-eig/ContinuousWilkinson.m
 ode-eig/ContourProjEig.m
 ode-eig/DoubleWell.m
 ode-eig/Drum.m
