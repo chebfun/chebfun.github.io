@@ -9,7 +9,7 @@ meta: "(Chebfun example quad/HermiteQuad.m)"
 
 ## 1. A simple example
 
-Hermite (more fully Gauss-Hermite) quadrature is a quadrature method for integrands of the form $\exp(-x^2) f(x)$ on the real axis, where $f$ is smooth.  It is a classical subject and surely thousands of people (including many physicists) have used Hermite quadrature. Nevertheless it is curious how little literature there is on its practicality and convergence rate as a numerical method, compared with other approaches such as a simple trapezoidal rule.
+Hermite (more fully Gauss-Hermite) quadrature is a quadrature method for integrands of the form $\exp(-x^2) f(x)$ on the real axis, where $f$ is smooth.  It is a classical subject, and surely thousands of people (including many physicists) have used Hermite quadrature. Nevertheless it is curious how little literature there is on its practicality and convergence rate as a numerical method, compared with other approaches such as a simple trapezoidal rule.
 
 Here is an example showing that Hermite quadrature can be amazingly efficient.  We take the function $g(x) = \exp(-x^2) \cos x$,
 
@@ -53,7 +53,7 @@ end</pre><pre class="mcode-output">    n        error
 Here's a figure
 
 <pre class="mcode-input">plot(g{-8,8},'linewidth',2)
-hold on, plot(s,g(s),'.r','markersize',14), hold off</pre><img src="img/HermiteQuad_01.png" class="figure" alt="">
+hold on, plot(s,g(s),'.r','markersize',16), hold off</pre><img src="img/HermiteQuad_01.png" class="figure" alt="">
 
 Let's compare this efficiency with the trapezoidal rule. As has been known since the days of Aitken and Turing, the trapezoidal rule converges exponentially as a function of $1/h$, where $h$ is the grid size, for analytic functions on the real axis provided they satisfy modest decay conditions at $\pm \infty$; see [1]. Formally the rule involves infinitely many sample points, but for a function of the Hermite form, one can truncate at a small value $\pm d$.
 
@@ -82,13 +82,13 @@ end</pre><pre class="mcode-output">    n        error
 
 ## Large n?
 
-Thanks to recent work by Olver, Townsend, and Trogdon [1], Chebfun can compute Hermite quadrature nodes and weights for very large values of $n$ with astonishing speed.  For example,
+Thanks to recent work by Townsend, Trogdon, and Olver [1], Chebfun can compute Hermite quadrature nodes and weights for very large values of $n$ with astonishing speed.  For example,
 
 <pre class="mcode-input">tic, [s,w]= hermpts(1000); toc
 tic, [s,w]= hermpts(10000); toc
-tic, [s,w]= hermpts(100000); toc</pre><pre class="mcode-output">Elapsed time is 0.068455 seconds.
-Elapsed time is 0.028584 seconds.
-Elapsed time is 0.223111 seconds.
+tic, [s,w]= hermpts(100000); toc</pre><pre class="mcode-output">Elapsed time is 0.026670 seconds.
+Elapsed time is 0.029064 seconds.
+Elapsed time is 0.208023 seconds.
 </pre>This raises questions.  Most of the points in these large-$n$ formulas correspond to values of $x$ where $\exp(-x^2)$ is very small.  For example, with $n = 10000$, here is the fraction of quadrature nodes for which $\exp(-x^2)$ is smaller than machine precision:
 
 <pre class="mcode-input">n = 10000;
@@ -97,7 +97,7 @@ tail_points = s( exp(-s.^2) &lt; eps );
 format short
 ratio = length(tail_points)/n</pre><pre class="mcode-output">ratio =
     0.9460
-</pre>Are there applications where Hermite quadrature in such a regime makes sense?
+</pre>Perhaps there are applications where Hermite quadrature in such a regime makes sense, but we suspect they are rare.  Indeed, when $n$ is large, Townsend et al. propose to throw away most of the quadrature points; they call this process "subsampling".
 
 
 
@@ -105,5 +105,5 @@ ratio = length(tail_points)/n</pre><pre class="mcode-output">ratio =
 
 1. A. Townsend, T. Trogdon, and S. Olver, Fast computation of Gauss quadrature nodes and weights on the whole real line, _IMA J. Numer. Anal._, 2015.
 
-2. L. N. Trefethen and J. A. C. Weideman, The exponentially convergent trapezoidal rule, _SIAM Review_, 2014.
+2. L. N. Trefethen and J. A. C. Weideman, The exponentially convergent trapezoidal rule, _SIAM Review_ 56 (2014), 385-458.
 

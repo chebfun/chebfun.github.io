@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-a-simple-example">1. A simple example</h3>
-<p>Hermite (more fully Gauss-Hermite) quadrature is a quadrature method for integrands of the form $\exp(-x^2) f(x)$ on the real axis, where $f$ is smooth.  It is a classical subject and surely thousands of people (including many physicists) have used Hermite quadrature. Nevertheless it is curious how little literature there is on its practicality and convergence rate as a numerical method, compared with other approaches such as a simple trapezoidal rule.</p>
+<p>Hermite (more fully Gauss-Hermite) quadrature is a quadrature method for integrands of the form $\exp(-x^2) f(x)$ on the real axis, where $f$ is smooth.  It is a classical subject, and surely thousands of people (including many physicists) have used Hermite quadrature. Nevertheless it is curious how little literature there is on its practicality and convergence rate as a numerical method, compared with other approaches such as a simple trapezoidal rule.</p>
 <p>Here is an example showing that Hermite quadrature can be amazingly efficient.  We take the function $g(x) = \exp(-x^2) \cos x$,</p>
 <pre class="mcode-input">ff = @(x) cos(x);
 g = chebfun(@(x) exp(-x.^2).*ff(x), [-inf,inf]);</pre>
@@ -116,7 +116,7 @@ end</pre>
 <p>All you need are 11 or 12 points to get full precision! And since $g$ is even, you only need half as many function evaluations as that -- an effect that carries over to many applications where the integrand may be expensive to evaluate but known to be even.</p>
 <p>Here's a figure</p>
 <pre class="mcode-input">plot(g{-8,8},'linewidth',2)
-hold on, plot(s,g(s),'.r','markersize',14), hold off</pre>
+hold on, plot(s,g(s),'.r','markersize',16), hold off</pre>
 
 <p><img src="img/HermiteQuad_01.png" class="figure" alt=""></p>
 <p>Let's compare this efficiency with the trapezoidal rule. As has been known since the days of Aitken and Turing, the trapezoidal rule converges exponentially as a function of $1/h$, where $h$ is the grid size, for analytic functions on the real axis provided they satisfy modest decay conditions at $\pm \infty$; see [1]. Formally the rule involves infinitely many sample points, but for a function of the Hermite form, one can truncate at a small value $\pm d$.</p>
@@ -144,14 +144,14 @@ end</pre>
 
 <p>Beautiful convergence again! -- but Hermite is about twice as fast.</p>
 <h3 id="large-n">Large n?</h3>
-<p>Thanks to recent work by Olver, Townsend, and Trogdon [1], Chebfun can compute Hermite quadrature nodes and weights for very large values of $n$ with astonishing speed.  For example,</p>
+<p>Thanks to recent work by Townsend, Trogdon, and Olver [1], Chebfun can compute Hermite quadrature nodes and weights for very large values of $n$ with astonishing speed.  For example,</p>
 <pre class="mcode-input">tic, [s,w]= hermpts(1000); toc
 tic, [s,w]= hermpts(10000); toc
 tic, [s,w]= hermpts(100000); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 0.068455 seconds.
-Elapsed time is 0.028584 seconds.
-Elapsed time is 0.223111 seconds.
+<pre class="mcode-output">Elapsed time is 0.026670 seconds.
+Elapsed time is 0.029064 seconds.
+Elapsed time is 0.208023 seconds.
 </pre>
 
 <p>This raises questions.  Most of the points in these large-$n$ formulas correspond to values of $x$ where $\exp(-x^2)$ is very small.  For example, with $n = 10000$, here is the fraction of quadrature nodes for which $\exp(-x^2)$ is smaller than machine precision:</p>
@@ -165,14 +165,14 @@ ratio = length(tail_points)/n</pre>
     0.9460
 </pre>
 
-<p>Are there applications where Hermite quadrature in such a regime makes sense?</p>
+<p>Perhaps there are applications where Hermite quadrature in such a regime makes sense, but we suspect they are rare.  Indeed, when $n$ is large, Townsend et al. propose to throw away most of the quadrature points; they call this process "subsampling".</p>
 <h3 id="references">References</h3>
 <ol>
 <li>
 <p>A. Townsend, T. Trogdon, and S. Olver, Fast computation of Gauss quadrature nodes and weights on the whole real line, <em>IMA J. Numer. Anal.</em>, 2015.</p>
 </li>
 <li>
-<p>L. N. Trefethen and J. A. C. Weideman, The exponentially convergent trapezoidal rule, <em>SIAM Review</em>, 2014.</p>
+<p>L. N. Trefethen and J. A. C. Weideman, The exponentially convergent trapezoidal rule, <em>SIAM Review</em> 56 (2014), 385-458.</p>
 </li>
 </ol></div>
         </div>
