@@ -148,6 +148,7 @@ ode-linear/DawsonIntegral.m
 ode-linear/DynamicalSystems.m
 ode-linear/Floquet.m
 ode-linear/FourierCollocation.m
+ode-linear/FrozenCoeffs.m
 ode-linear/LeeGreengardODEs.m
 ode-linear/LinearIVP.m
 ode-linear/LinExpIVP.m
