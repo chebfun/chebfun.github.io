@@ -200,6 +200,7 @@ pde/FourierExpm.m
 pde/GinzburgLandau.m
 pde/GrayScott.m
 pde/KdV.m
+pde/KSWave.m
 pde/Kuramoto.m
 pde/SwiftHohenberg.m
 pde/TrapezoidEigs.m
