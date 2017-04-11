@@ -1,6 +1,9 @@
 applics/BlackScholes2D.m
 applics/EuropeanCall.m
+applics/EuropeanOptions.m
 applics/Gompertz.m
+applics/Greeks.m
+applics/VanillaOptions.m
 approx/AAAApprox.m
 approx/AbsoluteValue.m
 approx/AliasingCoefficients.m
@@ -136,6 +139,7 @@ ode-eig/LevelRepulsionODE.m
 ode-eig/NullSpace.m
 ode-eig/OpticalResponse.m
 ode-eig/OrrSommerfeld.m
+ode-eig/RayleighQuotient.m
 ode-eig/SolarQDA.m
 ode-eig/ThermoelasticRod.m
 ode-eig/WaveDecay.m
