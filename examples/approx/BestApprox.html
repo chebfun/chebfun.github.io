@@ -86,7 +86,7 @@ title('Type (8,8) rational error curve',FS,fs)</pre>
 <p><img src="img/BestApprox_02.png" class="figure" alt=""></p>
 <p>For an introduction to the theory of these approximations, see Chapters 10 and 24 of [3].</p>
 <h3 id="3-function-handles-vs-quotients-of-polynomials">3. Function handles vs. quotients of polynomials</h3>
-<p>In the example just shown we used <code>p/q</code> to compute the rational function $r$.  Mathematically this is correct, but computationally is quickly fails with more difficult problems.  In such cases it is necessary to use the third argument returned by <code>remez</code>, <code>rh</code>, a function handle connected with a barycentric representation.  For example, here we carry the same approximation to type $(16,16)$.</p>
+<p>In the example just shown we used <code>p/q</code> to compute the rational function $r$.  Mathematically this is correct, but computationally it quickly fails with more difficult problems.  In such cases it is necessary to use the third argument returned by <code>remez</code>, <code>rh</code>, a function handle connected with a barycentric representation.  For example, here we carry the same approximation to type $(16,16)$.</p>
 <pre class="mcode-input">[p,q,rh,err] = remez(f,16,16);
 xx = linspace(-1,1,3000);
 hold off, plot(xx,f(xx)-rh(xx),LW,1.6), hold on
