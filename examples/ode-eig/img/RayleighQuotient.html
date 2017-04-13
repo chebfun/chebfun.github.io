@@ -137,7 +137,7 @@ I = eye(A);                                 % identity on dom; equivalent
 % Initial guesses:
 disp('lam:')
 lam = 3.8; disp(lam)                        % seek eigenvalue near lam
-u = randnfun(.1, 1, dom);  u = u/norm(u);   % random guess for eigenfunction
+u = randnfun(.1, dom);  u = u/norm(u);      % random guess for eigenfunction
 res = norm(A*u-lam*u)/norm(A*u);            % initial residual
 
 % Rayleigh quotient iteration:
@@ -147,16 +147,16 @@ while ( res(end) &gt; tol )
     res = [res; norm(A*u-lam*u)/norm(A*u)]; % store residual
 end</pre><pre class="mcode-output">lam:
    3.800000000000000
-   4.001829737892297
-   4.000000000328634
-   4.000000000000004
+   4.011246003228989
+   4.000000008908887
+   4.000000000000001
 </pre>From the residual output, we can guess that the convergence is cubic (it is actually too fast to verify).
 
 <pre class="mcode-input">res</pre><pre class="mcode-output">res =
-   0.998367505902652
-   0.177062673102176
-   0.000009845475175
-   0.000000000000329
+   0.998265515572714
+   0.379391215999291
+   0.000082214841110
+   0.000000000000330
 </pre>
 
 ## 4. Non-selfadjoint linear operator
@@ -171,7 +171,7 @@ I = eye(A);
 % Initial guesses:
 disp('lam:')
 lam = 1; disp(lam)
-u = randnfun(.1, 1, dom); u = u/norm(u);
+u = randnfun(.1, dom); u = u/norm(u);
 res2 = norm(A*u-lam*u)/norm(A*u);             % initial residual
 
 % Rayleigh quotient iteration:
@@ -181,27 +181,29 @@ while ( res2(end) &gt; tol)
     res2 = [res2; norm(A*u-lam*u)/norm(A*u)]; % store residual
 end</pre><pre class="mcode-output">lam:
      1
-   2.540458524905337
-   2.286353526188660
-   2.249559995319365
-   2.249999934411920
-   2.250000000000000
+   8.874441311893115
+   3.769368318826734
+   2.170850667896136
+   2.244550400229859
+   2.249988947118227
+   2.249999999957829
 </pre>From the residual output, we can see that here the convergence is quadratic:
 
 <pre class="mcode-input">res2</pre><pre class="mcode-output">res2 =
-   0.999603959114045
-   0.960929899541814
-   0.029591517220326
-   0.000327376942078
-   0.000000049467422
-   0.000000000000385
+   0.999563698220799
+   0.963993718782699
+   0.807879643489359
+   0.339579554044509
+   0.004366506374157
+   0.000008194393681
+   0.000000000031764
 </pre>As before, let's try to improve the convergence to cubic. This involves the adjoint, which plays the role of the conjugate transpose in the matrix case.
 
 <pre class="mcode-input">% Initial guesses:
 disp('lam:')
 lam = 1; disp(lam)
-u = randnfun(.1, 1, dom); u = u/norm(u);    % random guess for right eigfunc
-v = randnfun(.1, 1, dom); v = v/norm(v);    % random guess for left eigfunc
+u = randnfun(.1, dom); u = u/norm(u);         % random guess for right eigfunc
+v = randnfun(.1, dom); v = v/norm(v);         % random guess for left eigfunc
 res3 = norm(A*u-lam*u) / norm(A*u);
 
 % Rayleigh quotient iteration:
@@ -214,14 +216,16 @@ end
 
 res3</pre><pre class="mcode-output">lam:
      1
-   2.257534332058238
-   2.250000024727310
-   2.249999999999999
+   2.108439711811311
+   2.249918735433656
+   2.249999999998252
+   2.250000000000000
 res3 =
-   0.999600984449415
-   0.982394186505878
-   0.000438747785287
-   0.000000000003374
+   0.999611822468480
+   0.980967225790614
+   0.029919701160631
+   0.000000724196138
+   0.000000000000368
 </pre>RQI appears to have computed eigenpairs for both operators, selfadjoint and non-selfadjoint. Now let's examine the convergence rates by plotting the residual convergence.
 
 <pre class="mcode-input">semilogy(res, 'b-o'), hold on
