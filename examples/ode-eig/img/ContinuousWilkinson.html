@@ -24,32 +24,32 @@ Here is an analogue involving a self-adjoint Sturm-Liouville differential operat
 [V,D] = eigs(L,4,'LR');
 format long
 e = diag(D)</pre><pre class="mcode-output">e =
-   3.912042616399587
-   3.912059036621492
-   5.661892584504194
-   5.661892594767868
+   3.912042616399492
+   3.912059036621565
+   5.661892584504276
+   5.661892594767580
 </pre>A plot shows that as with the matrix, we have an even leading eigenfunction and a second eigenfunction that is almost the same except for a sign flip.
 
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize';
-plot(V(:,3:4),LW,1.6), grid on, shg
-title('Even and odd eigenfunctions, nearly degenerate',FS,12)</pre><img src="img/ContinuousWilkinson_01.png" class="figure" alt="">
+plot(V(:,3:4),LW,5), grid on, shg
+title('Even and odd eigenfunctions, nearly degenerate',FS,32)</pre><img src="img/ContinuousWilkinson_01.png" class="figure" alt="">
 
 For both our matrix and our differential operator problems, mathematically one eigenmode is even and the next is odd.  However, the real effect going on here is that the two ends of the domain are virtually decoupled.  By taking the sum and the difference of of the two eigenmodes, one gets a true even-odd pair:
 
 <pre class="mcode-input">right = V(:,4) + V(:,3);
 left = V(:,4) - V(:,3);
-plot([left right],LW,1.6)
-title('Left and right pseudo-eigenfunctions, localized',FS,12)</pre><img src="img/ContinuousWilkinson_02.png" class="figure" alt="">
+plot([left right],LW,5)
+title('Left and right pseudo-eigenfunctions, localized',FS,32)</pre><img src="img/ContinuousWilkinson_02.png" class="figure" alt="">
 
 Let's confirm that these are pseudo-eigenfunctions.  First we confirm that the eigenfunctions are eigenfunctions:
 
 <pre class="mcode-input">v = V(:,4); lambda = e(4); format short
 norm( L*v - lambda*v )</pre><pre class="mcode-output">ans =
-   3.4771e-11
+   3.1661e-12
 </pre>Now we do a similar calculation with "left":
 
 <pre class="mcode-input">v = left; lambda = mean(e(3:4));
 norm( L*v - lambda*v )</pre><pre class="mcode-output">ans =
-   7.2457e-09
+   7.2564e-09
 </pre>As we say in the pseudospectra business, $v$ is not "near" an eigenfunction, but it is "nearly" an eigenfunction.
 
