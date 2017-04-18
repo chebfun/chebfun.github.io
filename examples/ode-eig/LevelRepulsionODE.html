@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Level repulsion for ODE eigenvalues &raquo; Chebfun</title>
+    <title>Avoided crossings for ODE eigenvalues &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,14 +54,14 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1>Level repulsion for ODE eigenvalues</h1>
+<h1>Avoided crossings for ODE eigenvalues</h1>
 <h2>Abi Gopal and Nick Trefethen, March 2017 in <a href='/examples/ode-eig/'>ode-eig</a><span><a href='/examples/ode-eig/LevelRepulsionODE.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-eig/LevelRepulsionODE.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>An old Chebfun example displays the effect of level repulsion, also known as avoided crossings, for eigenvalues of symmetric matrices.  Here we follow that example in the analogous context of eigenvalues of self-adjoint differential operators.</p>
+<p>An old Chebfun example displays the effect of avoided crossings for eigenvalues of symmetric matrices.  Here we follow that example in the analogous context of eigenvalues of self-adjoint differential operators.</p>
 <p>To do this, we're going to use fourth-order differential operators, not second-order.  The reason is that second-order self-adjoint operators put us in the territory of Sturm-Liouville theory, where repeated eigenvalues are impossible.  This is analogous to the situation for real symmetric tridiagonal matrices with nonzero subdiagonal entries.  To get a genuine possibility of repeated eigenvalues we will use fourth-order operators -- analogous to pentadiagonal matrices.</p>
 <p>If $L(t)$ is a real self-adjoint fourth-order linear differential operator depending on a parameter $t$, then for each $t$ there will be infinitely many real eigenvalues. As $t$ varies, the eigenvalues will vary continuously.</p>
 <p>It is possible for $L(t)$ to have multiple eigenvalues for some $t$, but generically, this will not happen. That is to say, for "generic" choices of $L(t)$, whatever that means, there will be no values of $t$ for which for which $L(t)$ has a multiple eigenvalue.</p>
@@ -78,10 +78,10 @@ E = chebfun; tic
 for k = 1:6
    E(:,k) = chebfun(@(t) ek(eigL(t),k),d,'splitting','off','eps',1e-4,'vectorize');
 end
-FS = 'fontsize'; LW = 'linewidth'; MS = 'markersize';
-figure, plot(E,LW,1.6), grid on
-title('Eigenvalues of L(t)',FS,16);
-xlabel('t',FS,12)
+FS = 'fontsize'; LW = 'linewidth';
+figure, plot(E,LW,5), grid on
+title('Eigenvalues of L(t)',FS,36);
+xlabel('t',FS,36)
 ylim([-6 2])</pre>
 
 <p><img src="img/LevelRepulsionODE_01.png" class="figure" alt=""></p>
@@ -91,7 +91,7 @@ ylim([-6 2])</pre>
 <pre class="mcode-input">time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-  51.163702999999998
+  54.567856999999997
 </pre>
 
 <h3 id="reference">Reference</h3>
