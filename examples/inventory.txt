@@ -126,7 +126,6 @@ linalg/FieldOfValues.m
 linalg/LevelRepulsion.m
 linalg/MercuryEarthConjunctions.m
 linalg/NonnormalQuiz.m
-linalg/Randfuneig.m
 linalg/ResolventNorm.m
 linalg/SOR.m
 linalg/TransientGrowth.m
@@ -140,6 +139,7 @@ ode-eig/LevelRepulsionODE.m
 ode-eig/NullSpace.m
 ode-eig/OpticalResponse.m
 ode-eig/OrrSommerfeld.m
+ode-eig/Randfuneig.m
 ode-eig/RayleighQuotient.m
 ode-eig/SolarQDA.m
 ode-eig/ThermoelasticRod.m
