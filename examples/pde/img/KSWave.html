@@ -23,33 +23,36 @@ The _Kuramoto-Sivashinsky equation,_ $$ u_t = -(u^2/2)_x - u_{xx} - u_{xxxx} , $
 </pre>The KS equation also has traveling wave solutions, however, and some of them are stable.  A recent contribution in this area is by Blake Barker and coauthors [1]. For example, suppose we look for a solution with period $X=8$ on a domain of length $20X$.  In the figure below, the first panel shows the the initial condition $U(x) = 2\exp(\sin(2\pi x/X)).$ The second panel shows the traveling wave that results after 100 time units. The third panel shows the latter function perturbed by a random function. Finally we run for 100 more time units from this perturbed state, and find that the regular wave form is restored.
 
 <pre class="mcode-input">S.tspan = [0 100]; npts = 256; dt = 0.02;
-LW = 'linewidth'; CO = 'color'; MS = 'markersize';
+LW = 'linewidth'; lw = 4;
+CO = 'color';
+MS = 'markersize'; ms = 32;
+FS = 'fontsize'; fs = 26;
 XT = 'xtick'; YT = 'ytick';
 X = 8; S.domain = [0 20*X];
 
 S.init = chebfun(@(x) 2*exp(sin(2*pi*x/X)),S.domain);
-subplot(4,1,1), plot(S.init,'k',LW,1), ylim([-3 9]), grid on
-text(5,6.6,'initial condition'), set(gca,XT,[],YT,[0 5])
-text(10*X,6.6,['X = ' num2str(X)])
+subplot(4,1,1), plot(S.init,'k',LW,lw), ylim([-3 9]), grid on
+text(5,6.6,'initial condition',FS,fs), set(gca,XT,[],YT,[0 5])
+text(10*X,6.6,['X = ' num2str(X)],FS,fs)
 
 u = spin(S,npts,dt,'plot','off');
-subplot(4,1,2), plot(u,LW,1), ylim([-3 9]), grid on
-text(5,6.6,'after 100 time units'), set(gca,XT,[],YT,[0 5])
+subplot(4,1,2), plot(u,LW,lw), ylim([-3 9]), grid on
+text(5,6.6,'after 100 time units',FS,fs), set(gca,XT,[],YT,[0 5])
 
 S.init = u + .1*randnfun(2,S.domain);
-subplot(4,1,3), plot(S.init,'k',LW,1), ylim([-3 9]), grid on
-text(5,6.6,'perturbation'), set(gca,XT,[],YT,[0 5])
+subplot(4,1,3), plot(S.init,'k',LW,lw), ylim([-3 9]), grid on
+text(5,6.6,'perturbation',FS,fs), set(gca,XT,[],YT,[0 5])
 
 u = spin(S,npts,dt,'plot','off');
-subplot(4,1,4), plot(u,LW,1), ylim([-3 9]), grid on
-text(5,6.6,'after 100 more time units'), set(gca,YT,[0 5])</pre><img src="img/KSWave_01.png" class="figure" alt="">
+subplot(4,1,4), plot(u,LW,lw), ylim([-3 9]), grid on
+text(5,6.6,'after 100 more time units',FS,fs), set(gca,YT,[0 5])</pre><img src="img/KSWave_01.png" class="figure" alt="">
 
 To see the regularity of the wave, we can plot the distances from each local maximum to the next.  They are not perfectly constant, but the variation is small.
 
 <pre class="mcode-input">format short, format compact
 [a,b] = max(u,'local'); d = diff(b)';
 clf, plot([0 length(d)-1],X*[1 1],'k',LW,.7), hold on
-plot(d(2:end-1),'.',MS,12,CO,[0 0 .6]), set(gca,XT,[])
+plot(d(2:end-1),'.',MS,ms,CO,[0 0 .6]), set(gca,XT,[])
 grid on, axis([0 length(d)-1 0 15]), hold off
 title('distances between successive wave crests')</pre><img src="img/KSWave_02.png" class="figure" alt="">
 
@@ -58,27 +61,27 @@ By contrast, let's try the same experiment but with an initial wave of period $X
 <pre class="mcode-input">X = 7; S.domain = [0 20*X];
 
 S.init = chebfun(@(x) 2*exp(sin(2*pi*x/X)),S.domain);
-subplot(4,1,1), plot(S.init,'k',LW,1), ylim([-3 9]), grid on
-text(5,6.6,'initial condition'), set(gca,XT,[],YT,[0 5])
-text(10*X,6.6,['X = ' num2str(X)])
+subplot(4,1,1), plot(S.init,'k',LW,lw), ylim([-3 9]), grid on
+text(5,6.6,'initial condition',FS,fs), set(gca,XT,[],YT,[0 5])
+text(10*X,6.6,['X = ' num2str(X)],FS,fs)
 
 u = spin(S,npts,dt,'plot','off');
-subplot(4,1,2), plot(u,LW,1), ylim([-3 9]), grid on
-text(5,6.6,'after 100 time units'), set(gca,XT,[],YT,[0 5])
+subplot(4,1,2), plot(u,LW,lw), ylim([-3 9]), grid on
+text(5,6.6,'after 100 time units',FS,fs), set(gca,XT,[],YT,[0 5])
 
 S.init = u + .1*randnfun(2,S.domain);
-subplot(4,1,3), plot(S.init,'k',LW,1), ylim([-3 9]), grid on
-text(5,6.6,'perturbation'), set(gca,XT,[],YT,[0 5])
+subplot(4,1,3), plot(S.init,'k',LW,lw), ylim([-3 9]), grid on
+text(5,6.6,'perturbation',FS,fs), set(gca,XT,[],YT,[0 5])
 
 u = spin(S,npts,dt,'plot','off');
-subplot(4,1,4), plot(u,'r',LW,1), ylim([-3 9]), grid on
-text(5,6.6,'after 100 more time units'), set(gca,YT,[0 5])</pre><img src="img/KSWave_03.png" class="figure" alt="">
+subplot(4,1,4), plot(u,'r',LW,lw), ylim([-3 9]), grid on
+text(5,6.6,'after 100 more time units',FS,fs), set(gca,YT,[0 5])</pre><img src="img/KSWave_03.png" class="figure" alt="">
 
 The distances between wave crests vary greatly.
 
 <pre class="mcode-input">[a,b] = max(u,'local'); d = diff(b)';
 clf, plot([0 length(d)-1],X*[1 1],'k',LW,.7), hold on
-plot(d(2:end-1),'.r',MS,12), set(gca,XT,[])
+plot(d(2:end-1),'.r',MS,ms), set(gca,XT,[])
 grid on, axis([0 length(d)-1 0 15]), hold off
 title('distances between successive wave crests')</pre><img src="img/KSWave_04.png" class="figure" alt="">
 
@@ -93,27 +96,27 @@ delta = 0.8; ep = 0.6;
 S.lin = @(u) delta*(-diff(u,2)-diff(u,4)) - ep*diff(u,3);
 
 S.init = chebfun(@(x) 2*exp(sin(2*pi*x/X)),S.domain);
-subplot(4,1,1), plot(S.init,'k',LW,1), ylim([-3 9]), grid on
-text(5,7.2,'initial condition'), set(gca,XT,[],YT,[0 5])
-text(10*X,7.2,['X = ' num2str(X)])
+subplot(4,1,1), plot(S.init,'k',LW,lw), ylim([-3 9]), grid on
+text(5,7.2,'initial condition',FS,fs), set(gca,XT,[],YT,[0 5])
+text(10*X,7.2,['X = ' num2str(X)],FS,fs)
 
 u = spin(S,npts,dt,'plot','off');
-subplot(4,1,2), plot(u,LW,1), ylim([-3 9]), grid on
-text(5,7.2,'after 100 time units'), set(gca,XT,[],YT,[0 5])
+subplot(4,1,2), plot(u,LW,lw), ylim([-3 9]), grid on
+text(5,7.2,'after 100 time units',FS,fs), set(gca,XT,[],YT,[0 5])
 
 S.init = u + .1*randnfun(2,S.domain);
-subplot(4,1,3), plot(S.init,'k',LW,1), ylim([-3 9]), grid on
-text(5,7.2,'perturbation'), set(gca,XT,[])
+subplot(4,1,3), plot(S.init,'k',LW,lw), ylim([-3 9]), grid on
+text(5,7.2,'perturbation',FS,fs), set(gca,XT,[])
 
 u = spin(S,npts,dt,'plot','off');
-subplot(4,1,4), plot(u,LW,1), ylim([-3 9]), grid on
-text(5,7.2,'after 100 more time units'), set(gca,YT,[0 5])</pre><img src="img/KSWave_05.png" class="figure" alt="">
+subplot(4,1,4), plot(u,LW,lw), ylim([-3 9]), grid on
+text(5,7.2,'after 100 more time units',FS,fs), set(gca,YT,[0 5])</pre><img src="img/KSWave_05.png" class="figure" alt="">
 
 The distances between wave crests are reasonably uniform again.
 
 <pre class="mcode-input">[a,b] = max(u,'local'); d = diff(b)';
 clf, plot([0 length(d)-1],X*[1 1],'k',LW,.7), hold on
-plot(d(2:end-1),'.',MS,12,CO,[0 0 .6]), set(gca,XT,[])
+plot(d(2:end-1),'.',MS,ms,CO,[0 0 .6]), set(gca,XT,[])
 grid on, axis([0 length(d)-1 0 15]), hold off
 title('distances between successive wave crests')</pre><img src="img/KSWave_06.png" class="figure" alt="">
 
@@ -122,27 +125,27 @@ On the other hand let's change $X$ to $11$ (we've picked this number by looking 
 <pre class="mcode-input">X = 11; S.domain = [0 20*X];
 
 S.init = chebfun(@(x) 2*exp(sin(2*pi*x/X)),S.domain);
-subplot(4,1,1), plot(S.init,'k',LW,1), ylim([-3 9]), grid on
-text(5,7.2,'initial condition'), set(gca,XT,[],YT,[0 5])
-text(10*X,7.2,['X = ' num2str(X)])
+subplot(4,1,1), plot(S.init,'k',LW,lw), ylim([-3 9]), grid on
+text(5,7.2,'initial condition',FS,fs), set(gca,XT,[],YT,[0 5])
+text(10*X,7.2,['X = ' num2str(X)],FS,fs)
 
 u = spin(S,npts,dt,'plot','off');
-subplot(4,1,2), plot(u,LW,1), ylim([-3 9]), grid on
-text(5,7.2,'after 100 time units'), set(gca,XT,[],YT,[0 5])
+subplot(4,1,2), plot(u,LW,lw), ylim([-3 9]), grid on
+text(5,7.2,'after 100 time units',FS,fs), set(gca,XT,[],YT,[0 5])
 
 S.init = u + .1*randnfun(2,S.domain);
-subplot(4,1,3), plot(S.init,'k',LW,1), ylim([-3 9]), grid on
-text(5,7.2,'perturbation'), set(gca,XT,[],YT,[0 5])
+subplot(4,1,3), plot(S.init,'k',LW,lw), ylim([-3 9]), grid on
+text(5,7.2,'perturbation',FS,fs), set(gca,XT,[],YT,[0 5])
 
 u = spin(S,npts,dt,'plot','off');
-subplot(4,1,4), plot(u,'r',LW,1), ylim([-3 9]), grid on
-text(5,7.2,'after 100 more time units'), set(gca,YT,[0 5])</pre><img src="img/KSWave_07.png" class="figure" alt="">
+subplot(4,1,4), plot(u,'r',LW,lw), ylim([-3 9]), grid on
+text(5,7.2,'after 100 more time units',FS,fs), set(gca,YT,[0 5])</pre><img src="img/KSWave_07.png" class="figure" alt="">
 
 The distances between wave crests vary more.
 
 <pre class="mcode-input">[a,b] = max(u,'local'); d = diff(b)';
 clf, plot([0 length(d)-1],X*[1 1],'k',LW,.7), hold on
-plot(d(2:end-1),'.r',MS,12), set(gca,XT,[])
+plot(d(2:end-1),'.r',MS,ms), set(gca,XT,[])
 grid on, axis([0 length(d)-1 0 15]), hold off
 title('distances between successive wave crests')</pre><img src="img/KSWave_08.png" class="figure" alt="">
 
