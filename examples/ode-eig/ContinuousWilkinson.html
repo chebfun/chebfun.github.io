@@ -91,14 +91,14 @@ e = diag(D)</pre>
 
 <p>A plot shows that as with the matrix, we have an even leading eigenfunction and a second eigenfunction that is almost the same except for a sign flip.</p>
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize';
-plot(V(:,3:4),LW,5), grid on, shg
-title('Even and odd eigenfunctions, nearly degenerate',FS,32)</pre>
+plot(V(:,3:4),LW,6), grid on, shg
+title('Even and odd eigenfunctions, nearly degenerate',FS,40)</pre>
 
 <p><img src="img/ContinuousWilkinson_01.png" class="figure" alt=""></p>
 <p>For both our matrix and our differential operator problems, mathematically one eigenmode is even and the next is odd.  However, the real effect going on here is that the two ends of the domain are virtually decoupled.  By taking the sum and the difference of of the two eigenmodes, one gets a true even-odd pair:</p>
 <pre class="mcode-input">right = V(:,4) + V(:,3);
 left = V(:,4) - V(:,3);
-plot([left right],LW,5)
+plot([left right],LW,6)
 title('Left and right pseudo-eigenfunctions, localized',FS,32)</pre>
 
 <p><img src="img/ContinuousWilkinson_02.png" class="figure" alt=""></p>
