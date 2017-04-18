@@ -64,14 +64,15 @@
 <p>By integrating coin flips in one or more dimensions, we get a random walk, which becomes Brownian motion in the limit of infinitely many infinitely small steps. Chebfun's <code>randnfun</code> command enables us to explore a smooth continuous analogue of this process.</p>
 <p>Let's work in 2D, using a complex variable for convenience. Here we plot the indefinite integral of a complex random function scaled by $(dx)^{-1/2}$.  Red dots mark the initial and end points.</p>
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
+lw = 3; fs = 36; ms = 24;
 dx = 0.1;
 rng(5)
 f = randnfun(dx,'norm') + 1i*randnfun(dx,'norm');
 g = cumsum(f);
-plot(g,'k',LW,1), grid on, hold on
-plot(g([-1 1]),'.r',MS,8), hold off
-axis(2.7*[-1 1 -1 1]), axis square
-title(['dx = ' num2str(dx)],FS,14)
+plot(g,'k',LW,lw), grid on, hold on
+plot(g([-1 1]),'.r',MS,ms), hold off
+axis(2*[-1 1 -1 1]), axis square
+title(['dx = ' num2str(dx)],FS,fs)
 set(gca,'xtick',-2:2,'ytick',-2:2)</pre>
 
 <p><img src="img/SmoothRandomWalk_01.png" class="figure" alt=""></p>
@@ -80,10 +81,10 @@ set(gca,'xtick',-2:2,'ytick',-2:2)</pre>
   dx = dx/4;
   f = randnfun(dx,'norm') + 1i*randnfun(dx,'norm');
   g = cumsum(f);
-  plot(g,'k',LW,1), grid on, hold on
-  plot(g([-1 1]),'.r',MS,8), hold off
-  axis(2.7*[-1 1 -1 1]), axis square
-  title(['dx = ' num2str(dx)],FS,14)
+  plot(g,'k',LW,lw), grid on, hold on
+  plot(g([-1 1]),'.r',MS,ms), hold off
+  axis(2*[-1 1 -1 1]), axis square
+  title(['dx = ' num2str(dx)],FS,fs)
   set(gca,'xtick',-2:2,'ytick',-2:2), snapnow
 end</pre>
 
@@ -91,7 +92,7 @@ end</pre>
 <p><img src="img/SmoothRandomWalk_03.png" class="figure" alt=""></p>
 <p><img src="img/SmoothRandomWalk_04.png" class="figure" alt=""></p>
 <p>Here is a zoom of the final image:</p>
-<pre class="mcode-input">axis([-.4 1.6 -1.5 .5]), axis square, axis off, title(' ')
+<pre class="mcode-input">axis([-1.6 0.6 -1.1 1.1]), axis square, axis off, title(' ')
 snapnow</pre>
 
 <p><img src="img/SmoothRandomWalk_05.png" class="figure" alt=""></p></div>
