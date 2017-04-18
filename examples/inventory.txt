@@ -126,6 +126,7 @@ linalg/FieldOfValues.m
 linalg/LevelRepulsion.m
 linalg/MercuryEarthConjunctions.m
 linalg/NonnormalQuiz.m
+linalg/Randfuneig.m
 linalg/ResolventNorm.m
 linalg/SOR.m
 linalg/TransientGrowth.m
