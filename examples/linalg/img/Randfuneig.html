@@ -13,7 +13,6 @@ As is well known [2,3], eigenvalues of large random matrices are distributed uni
 
 <pre class="mcode-input">n = 1000;
 A = randn(n)/sqrt(n);
-hold off
 plot(eig(A),'k.'),hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*[-1 1 -1 1]), axis equal</pre><img src="img/Randfuneig_01.png" class="figure" alt="">
@@ -29,6 +28,7 @@ m = n*10;   % aspect ratio 10
 A = randn(m,n)/power(m*n,1/4);
 B = randn(m,n)/power(m*n,1/4);
 
+hold off
 plot(eig(B'*A),'k.'), hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*[-1 1 -1 1]), axis equal</pre><img src="img/Randfuneig_02.png" class="figure" alt="">
@@ -48,6 +48,7 @@ m = n; % we just changed this from n*10 in the low-rank case
 A = randn(m,n);
 B = randn(m,n);
 
+hold off
 plot(eig(B'*A)/sqrt(m*n),'k.'), hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*[-1 1 -1 1]), axis equal</pre><img src="img/Randfuneig_03.png" class="figure" alt="">
@@ -65,7 +66,8 @@ dom = [-1 1 -1 1];
 f = randnfun2(dom,dt,'norm');  % normalized randum function
 ei = eig(f);
 disp(['Number of nonzero eigenvalues: ',num2str(length(ei))])
-clf,plot(ei,'k.'),hold on
+
+hold off, plot(ei,'k.'), hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*dom), axis equal</pre><pre class="mcode-output">Number of nonzero eigenvalues: 484
 </pre><img src="img/Randfuneig_04.png" class="figure" alt="">
@@ -92,7 +94,7 @@ f = f{-1,1,-1,1}/sqrt(dt);              % restrict and normalize
 
 ei = eig(f);
 disp(['Number of nonzero eigenvalues: ',num2str(length(ei))])
-clf,plot(ei,'k.'),hold on
+hold off, plot(ei,'k.'), hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*[-1 1 -1 1]), axis equal</pre><pre class="mcode-output">Number of nonzero eigenvalues: 401
 </pre><img src="img/Randfuneig_05.png" class="figure" alt="">

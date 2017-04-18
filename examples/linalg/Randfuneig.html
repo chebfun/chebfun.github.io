@@ -65,7 +65,6 @@
 <p>As is well known [2,3], eigenvalues of large random matrices are distributed uniformly in a disk. This is called the circular law and it holds very generally (see [4]); the matrix elements are allowed to come from a variety of random variables, as long as they are independent (a property called universality). Here we verify the circular law with a standard Gaussian random matrix. Throughout this example, we scale the entries in the standard fashion so that the asymptotic spectral radius converges to 1.</p>
 <pre class="mcode-input">n = 1000;
 A = randn(n)/sqrt(n);
-hold off
 plot(eig(A),'k.'),hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*[-1 1 -1 1]), axis equal</pre>
@@ -78,6 +77,7 @@ m = n*10;   % aspect ratio 10
 A = randn(m,n)/power(m*n,1/4);
 B = randn(m,n)/power(m*n,1/4);
 
+hold off
 plot(eig(B'*A),'k.'), hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*[-1 1 -1 1]), axis equal</pre>
@@ -92,6 +92,7 @@ m = n; % we just changed this from n*10 in the low-rank case
 A = randn(m,n);
 B = randn(m,n);
 
+hold off
 plot(eig(B'*A)/sqrt(m*n),'k.'), hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*[-1 1 -1 1]), axis equal</pre>
@@ -105,7 +106,8 @@ dom = [-1 1 -1 1];
 f = randnfun2(dom,dt,'norm');  % normalized randum function
 ei = eig(f);
 disp(['Number of nonzero eigenvalues: ',num2str(length(ei))])
-clf,plot(ei,'k.'),hold on
+
+hold off, plot(ei,'k.'), hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*dom), axis equal</pre>
 
@@ -133,7 +135,7 @@ f = f{-1,1,-1,1}/sqrt(dt);              % restrict and normalize
 
 ei = eig(f);
 disp(['Number of nonzero eigenvalues: ',num2str(length(ei))])
-clf,plot(ei,'k.'),hold on
+hold off, plot(ei,'k.'), hold on
 plot(chebfun(@(x)exp(1i*x),[0 2*pi]))
 axis(1.2*[-1 1 -1 1]), axis equal</pre>
 
