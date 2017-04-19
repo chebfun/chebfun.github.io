@@ -10,14 +10,14 @@ By integrating coin flips in one or more dimensions, we get a random walk, which
 Let's work in 2D, using a complex variable for convenience. Here we plot the indefinite integral of a complex random function scaled by $(dx)^{-1/2}$.  Red dots mark the initial and end points.
 
 <pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
-lw = 3; fs = 36; ms = 24;
+lw = 2.5; fs = 32; ms = 40;
 dx = 0.1;
 rng(5)
 f = randnfun(dx,'norm') + 1i*randnfun(dx,'norm');
 g = cumsum(f);
 plot(g,'k',LW,lw), grid on, hold on
 plot(g([-1 1]),'.r',MS,ms), hold off
-axis(2*[-1 1 -1 1]), axis square
+axis(1.9*[-1 1 -1 1]), axis square
 title(['dx = ' num2str(dx)],FS,fs)
 set(gca,'xtick',-2:2,'ytick',-2:2)</pre><img src="img/SmoothRandomWalk_01.png" class="figure" alt="">
 
@@ -29,7 +29,7 @@ We divide the characteristic length defining the random function by 4 three time
   g = cumsum(f);
   plot(g,'k',LW,lw), grid on, hold on
   plot(g([-1 1]),'.r',MS,ms), hold off
-  axis(2*[-1 1 -1 1]), axis square
+  axis(1.9*[-1 1 -1 1]), axis square
   title(['dx = ' num2str(dx)],FS,fs)
   set(gca,'xtick',-2:2,'ytick',-2:2), snapnow
 end</pre><img src="img/SmoothRandomWalk_02.png" class="figure" alt="">
