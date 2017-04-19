@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vector calculus &raquo; Chebfun</title>
+    <title>Random functions in 2D &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,60 +54,52 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Vector calculus</h1>
+<h1>Random functions in 2D</h1>
+<h2>Nick Trefethen, April 2015 in <a href='/examples/approx2/'>approx2</a><span><a href='/examples/approx2/Random2D.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx2/Random2D.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>6</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>36</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>11</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>15</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>23</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>21</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>10</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>7</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>7</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>13</span></a></li>
-        <li class='active'><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/veccalc/AutonomousSystems.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/AutonomousSystems_01.png' /></div>
-            <h3>Phase portraits and trajectories</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#duffing oscillator</span>, <span href='#' class='tag'>#phase portrait</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/veccalc/CheckingVectorCalculus.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/CheckingVectorCalculus_01.png' /></div>
-            <h3>Checking vector calculus</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#divgradcurl</span>, <span href='#' class='tag'>#gradient theorem</span>, <span href='#' class='tag'>#parallelogram law</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Recently Chebfun added the command <code>randnfun</code> for generating smooth random functions in 1D as well as the periodic <code>randfuntrig</code>. In keeping with Chebfun's mission of realizing continuous analogues of the discrete objects of Matlab, <code>randnfun</code> can be regarded as a continuous analogue of <code>randn</code>. Chebfun can construct 2D random functions too, with <code>randnfun2</code> and <code>randnfun2trig</code>.  Random functions in 3D or on the sphere or the disk have not yet been implemented.</p>
+<p>A technical paper has not yete been written describing these functions, but in a word, the idea is that a <code>`smooth random function'' is constructed from a finite Fourier series with independent normally distributed random coefficients. A parameter</code>dt` must be specified that specifies the associated space scale.  Approximately speaking, a random function contains wave numbers up to about $2\pi/dt$..</p>
+<p>To illustrate, here is a random function with $dt = 0.2$ on a $2\times 1$ rectangle.  Negative values are black and positive values are white.</p>
+<pre class="mcode-input">dt = 0.1;
+rng(0), f = randnfun2(dt, [0 2 0 1]);
+plot(f), view(0,90), colormap(gray(2))
+axis equal, axis([0 2 0 1])</pre>
+
+<p><img src="img/Random2D_01.png" class="figure" alt=""></p>
+<p>A contour plot shows more:</p>
+<pre class="mcode-input">LW = 'linewidth';
+contour(f,LW,2.5)
+axis equal, axis([0 2 0 1])</pre>
+
+<p><img src="img/Random2D_02.png" class="figure" alt=""></p>
+<p>To isolate the zero contours to high accuracy (though it takes longer), one could use <code>roots</code>.</p>
+<pre class="mcode-input">c = roots(f);
+plot(c,LW,3)
+axis equal, axis([0 2 0 1])
+axis equal, axis([0 2 0 1])</pre>
+
+<p><img src="img/Random2D_03.png" class="figure" alt=""></p>
+<p>Here's a 3D plot</p>
+<pre class="mcode-input">plot(f)</pre>
+
+<p><img src="img/Random2D_04.png" class="figure" alt=""></p>
+<p>Here for comparison is a periodic random function:</p>
+<pre class="mcode-input">f = randnfun2trig(dt, [0 2 0 1]);
+plot(f), view(0,90), colormap(gray(2))
+axis equal, axis([0 2 0 1])</pre>
+
+<p><img src="img/Random2D_05.png" class="figure" alt=""></p>
+<p>And here is a random function with $dt = 0.05$.</p>
+<pre class="mcode-input">dt = 0.05;
+f = randnfun2(dt, [0 2 0 1]);
+plot(f), view(0,90), colormap(gray(2))
+axis equal, axis([0 2 0 1])</pre>
+
+<p><img src="img/Random2D_06.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>
