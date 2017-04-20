@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lane-Emden equation from astrophysics &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Lane-Emden equation from astrophysics</h1>
+<h2>Alex Townsend, May 2011 in <a href='/examples/ode-nonlin/'>ode-nonlin</a><span><a href='/examples/ode-nonlin/LaneEmden.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-nonlin/LaneEmden.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="introduction">Introduction</h3>
+<p>The well-known Lane-Emden equation models the mechanical structure of self-gravitating spheres. In astrophysics it plays an important role as it serves to model the structure of stars, ranging from white dwarfs to red giants. The equation is given by</p>
+<pre class="mcode">  x*u'' + 2*u' + x*u^n = 0,   u'(0) = 0,    u(0) = 1</pre>
+
+<p>where u is the solution (known as a polytrope) which models the density of the gas cloud. The variable x corresponds to the radial distance from the centre. The gas is assumed to be polytropic with index n, that is pressure = C*density^(1+1/n) where C is a constant.</p>
+<h3 id="integer-polytropic-index">Integer polytropic index</h3>
+<p>Below we compute the polytropes for index n = 0:5</p>
+<pre class="mcode-input">%n = Characteristic exponent
+for n = 0:5
+    % Assign the L-E operator on that domain.
+    N = chebop(@(x,u) x*diff(u,2) + 2*diff(u) + x*u^n, [0,10]);
+
+    % Left boundary conditions
+    N.lbc = @(u) [u-1 ; diff(u)];
+
+    % Solve the bvp
+    u = solvebvp(N, 0);
+
+    % Create plot of the solutions
+    plot(u, 'Linewidth', 2), hold on,
+    axis([0 10 -1 1]),
+    title('Solution of the Lane-Emden equation for n=0,1,2,3,4,5'),
+    xlabel('x'), ylabel('u')
+end
+hold off
+legend('n=0','n=1','n=2','n=3','n=4','n=5');</pre>
+
+<p><img src="img/LaneEmden_01.png" class="figure" alt=""></p>
+<p>Analytic solutions exist when n = 0, 1 and 5. So we can check the numerical error in these cases. We just do n = 5:</p>
+<p>Analytic solution from [3]:</p>
+<pre class="mcode-input">f = chebfun(@(x) 1./sqrt(1+x.^2/3), [0,10]);</pre>
+
+<p>Compute the L2 error</p>
+<pre class="mcode-input">fprintf('The L2 error is: %1.3e\n', norm(f-u));</pre>
+
+<pre class="mcode-output">The L2 error is: 4.421e-12
+</pre>
+
+<h3 id="finding-the-polytropic-radius">Finding the polytropic radius</h3>
+<p>Physically, the first root of the solution is of interest as it defines the outer boundary of the sphere where the gas cloud is polytropic. Since the magnitude of the radius is not known a priori, it can be introduced as an unknown function v; the independent variable can then be transformed as x -&gt; x/v.</p>
+<p>As an example we choose the polytropic index to be n = 1.5, appropriate to model the structure of a white dwarf.</p>
+<pre class="mcode-input">warning('off', 'CHEBFUN:SINGFUN:plus:exponentDiff')
+
+d = [0, 1];
+x = chebfun('x', d);
+N = chebop(d);
+n = 1.5;
+N.op  = @(x,u,v) x*diff(u,2) + 2*diff(u) + x*v^2*u^n;
+N.lbc = @(u,v) [u-1 ; diff(u)];
+N.rbc = @(u,v) u;
+N.init = [cos(pi/2*x) ; pi];
+uv = N\0;
+
+warning('on', 'CHEBFUN:SINGFUN:plus:exponentDiff')
+plot(uv, 'Linewidth', 2), hold on,
+axis([0 1 0 1.05*uv{2}]),
+title('Solution u and radius v'), legend('u','v')
+xlabel('x'), ylabel('u')</pre>
+
+<p><img src="img/LaneEmden_02.png" class="figure" alt=""></p>
+<p>Thus the radius of the polytrope describing the structure of a white dwarf is</p>
+<pre class="mcode-input">v = uv{2};
+fprintf('Polytropic range for white dwarfs: [0,%1.12f)\n',v(1));</pre>
+
+<pre class="mcode-output">Polytropic range for white dwarfs: [0,3.653753736220)
+</pre>
+
+<p>which agrees to all digits shown with the results given in [4].</p>
+<h3 id="references">References</h3>
+<p>[1] Chandrasekhar, S. An Introduction to the Study of Stellar Structure</p>
+<p>[2] Horedt, G.P. (1986) 'Seven-digit tables of Lane-Emden functions'</p>
+<p>[3] Wikipedia article: 'http://en.wikipedia.org/wiki/Lane-Emden_equation'</p>
+<p>[4] Boyd, J.P., (2011) 'Chebyshev Spectral Methods and the Lane-Emden Problem'</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2017 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>

@@ -179,6 +179,7 @@ ode-nonlin/ExactSolns.m
 ode-nonlin/FourierCollocationNonLin.m
 ode-nonlin/GuckenheimerHolmes.m
 ode-nonlin/IVPCapabilities.m
+ode-nonlin/LaneEmden.m
 ode-nonlin/Logistic.m
 ode-nonlin/Logistic2.m
 ode-nonlin/LorenzAttractor.m
