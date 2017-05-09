@@ -1,0 +1,29 @@
+---
+title: "Zebra plots"
+layout: example
+authordate: "Nick Trefethen, May 2017"
+meta: "(Chebfun example approx2/Zebra.m)"
+---
+
+Instead of a plot showing many function values, we may prefer to show just a plus/minus distinction.  For this there is the `'zebra'` option in Chebfun2, Spherefun, and Diskfun.
+
+For example, here is zebra plot of a certain function on the disk. For fun we've changed the colors from the usual black/white.
+
+<pre class="mcode-input">cheb.xydisk;
+f = sin(20*(x+y).*(1+y));
+plot(f, 'zebra')
+colormap([1 1 0; 0 0 0])
+axis off</pre><img src="img/Zebra_01.png" class="figure" alt="">
+
+Normally, however, the plots show zebras rather than bumblebees. Negative values are black and positive values are white. Here is an example on the sphere.
+
+<pre class="mcode-input">f = spherefun.sphharm(15,5);
+plot(f,'zebra')
+axis off</pre><img src="img/Zebra_02.png" class="figure" alt="">
+
+And here is an example on the unit square.
+
+<pre class="mcode-input">f = randnfun2(.1);
+plot(f, 'zebra')
+axis equal off</pre><img src="img/Zebra_03.png" class="figure" alt="">
+
