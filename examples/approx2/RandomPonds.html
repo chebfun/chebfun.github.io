@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vector calculus &raquo; Chebfun</title>
+    <title>Random ponds in a 2D landscape &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,60 +54,51 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Vector calculus</h1>
+<h1>Random ponds in a 2D landscape</h1>
+<h2>Nick Trefethen, May 2017 in <a href='/examples/approx2/'>approx2</a><span><a href='/examples/approx2/RandomPonds.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx2/RandomPonds.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>6</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>36</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>13</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>15</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>23</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>22</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>10</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>7</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>7</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>13</span></a></li>
-        <li class='active'><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/veccalc/AutonomousSystems.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/AutonomousSystems_01.png' /></div>
-            <h3>Phase portraits and trajectories</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#duffing oscillator</span>, <span href='#' class='tag'>#phase portrait</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/veccalc/CheckingVectorCalculus.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/CheckingVectorCalculus_01.png' /></div>
-            <h3>Checking vector calculus</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#divgradcurl</span>, <span href='#' class='tag'>#gradient theorem</span>, <span href='#' class='tag'>#parallelogram law</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Suppose $f$ is a 2D random function defining a "random landscape", which is filled with water up to a level $h$.  The water collects into random ponds, an interpretation I learned about from Ken Golden of the University of Utah [1].</p>
+<p>Here is an illustration for $h=-1$.</p>
+<pre class="mcode-input">blueblack = [.7 .7 1; 0 0 0];
+FS = 'fontsize'; CO = 'color';
+h = -1;
+dom = [-2 2 -1 1];
+f = randnfun2(0.3,dom);
+plot(f-h, 'zebra'), axis equal off, colormap(blueblack)
+title(['h = ' num2str(h)],FS,18)</pre>
+
+<p><img src="img/RandomPonds_01.png" class="figure" alt=""></p>
+<p>Of course, the mathematics depends on one's notion of a random function, and Chebfun makes a particular choice defined by certain random Fourier coefficients.</p>
+<p>If $h$ is lower, the ponds are smaller and more separated.</p>
+<pre class="mcode-input">h = -2;
+plot(f-h, 'zebra'), axis equal off, colormap(blueblack)
+title(['h = ' num2str(h)],FS,18)</pre>
+
+<p><img src="img/RandomPonds_02.png" class="figure" alt=""></p>
+<p>As $h$ gets bigger, the ponds grow and connect into a giant body of water.  This is related to the subject of percolation theory.</p>
+<pre class="mcode-input">for h = 0:2
+   plot(f-h, 'zebra'), axis equal off, colormap(blueblack)
+   title(['h = ' num2str(h)],FS,18)
+   snapnow
+end</pre>
+
+<p><img src="img/RandomPonds_03.png" class="figure" alt=""></p>
+<p><img src="img/RandomPonds_04.png" class="figure" alt=""></p>
+<p><img src="img/RandomPonds_05.png" class="figure" alt=""></p>
+<p>We can also let $h$ vary across the domain.  The resulting image is reminiscent of an engraving by Escher.</p>
+<pre class="mcode-input">dom = [-3 3 -1 1];
+f = randnfun2(.1, dom);
+h = chebfun2(@(x,y) x, dom);
+plot(f-h, 'zebra'), axis equal off, colormap(blueblack)
+title('varying h',FS,18)</pre>
+
+<p><img src="img/RandomPonds_06.png" class="figure" alt=""></p>
+<p>Reference:</p>
+<p>[1] B. Bowen, C. Strong, and K. M. Golden, Modeling the fractal geometry of Arctic melt pounds using the level sets of random surfaces, <em>Journal of Fractal Geometry</em>, to appear.</p></div>
         </div>
     </div>
 </div>
