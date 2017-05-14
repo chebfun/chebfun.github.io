@@ -30,11 +30,11 @@ axis equal off</pre><img src="img/Zebra_03.png" class="figure" alt="">
 It was hardly necessary to give Chebfun a zebra option, merely convenient and memorable. One can achieve the same effect same with the `contourf` command.  Here for example is a zebra plot using a brownish-orange color.  Maybe that makes it a giraffe plot.
 
 <pre class="mcode-input">clf, contourf(f,[0 0])
-colormap([0 0 0; .8 .4 .2])
+colormap([.8 .4 .2; 0 0 0])
 axis equal off</pre><img src="img/Zebra_04.png" class="figure" alt="">
 
 Contouring commands like this are quick and designed for graphical accuracy.  If you want higher-accuracy resolution of boundaries (at least if they are not too complicated), you can use `roots`.
 
 <pre class="mcode-input">c = roots(f);
-plot(c), axis equal off</pre><img src="img/Zebra_05.png" class="figure" alt="">
+plot(c), axis equal</pre><img src="img/Zebra_05.png" class="figure" alt="">
 
