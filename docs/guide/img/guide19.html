@@ -20,7 +20,7 @@ Specifically, the Chebfun codes `spin`/`spin2`/`spin3`/`spinsphere` we shall des
 
 These codes handle entirely general problems of the form (1), but convenient defaults are in place, an in particular, one can quickly solve well-known problems by specifying (case-insensitive) flags such as `burg`, `kdv`, `gl` and `ks`.
 
-As we shall describe, `spin`/`spin2`/`spin3`/`spinsphere` take as inputs an initial function in the form of a `chebfun`, `chebfun2`, `chebfun3` or `spherefun` (with appropriate generalizations for systems, i.e., `chebmatrix objects), compute over a specified time interval, and output another `chebfun`, `chebfun2`, `chebfun3` or `spherefun` corresponding to the final time (and also intermediate times if requested). By default they show movies of the computation as it goes.
+As we shall describe, `spin`/`spin2`/`spin3`/`spinsphere` take as inputs an initial function in the form of a `chebfun`, `chebfun2`, `chebfun3` or `spherefun` (with appropriate generalizations for systems, i.e., `chebmatrix` objects), compute over a specified time interval, and output another `chebfun`, `chebfun2`, `chebfun3` or `spherefun` corresponding to the final time (and also intermediate times if requested). By default they show movies of the computation as it goes.
 
 
 
@@ -39,7 +39,7 @@ u = spin(S, 256, 1e-6, 'plot', 'off');</pre>The output `u` is a `chebfun` at the
   spinop with properties:
 
      domain: [-3.141592653589793 3.141592653589793]
-       init: [Inf&times;1 chebfun]
+       init: [Infx1 chebfun]
         lin: @(u)-diff(u,3)
      nonlin: @(u)-.5*diff(u.^2)
       tspan: [0 0.030150000000000]
@@ -158,7 +158,7 @@ The history of exponential integrators for ODEs goes back at least to Hersch [6]
 
 [5] S. M. Cox and P. C. Matthews, _Exponential time differencing for stiff     systems_, J. Comput. Phys. 176 (2002), pp. 430--455.
 
-[6] J. Hersch, _Contribution &#65533; la methode des equations aux diff&#65533;rences_,     Z. Angew. Math. und Phys., 9 (1958), pp. 129--180.
+[6] J. Hersch, _Contribution \'a la methode des equations aux diff\'erences_,     Z. Angew. Math. und Phys., 9 (1958), pp. 129--180.
 
 [7] M. Hochbruck and A. Ostermann, _Exponential integrators_, Acta Numerica,     19 (2010), pp. 209--286.
 
