@@ -159,26 +159,27 @@ end</pre>
 <p><img src="img/guide19_07.png" class="figure" alt=""></p>
 <p><img src="img/guide19_08.png" class="figure" alt=""></p>
 <p><img src="img/guide19_09.png" class="figure" alt=""></p>
-<p><img src="img/guide19_10.png" class="figure" alt=""></p>
 <p>In 3D, the demo <code>spin3('gl3')</code> solves the PDE on $[0,100]^3$ and produces a movie to time $t=70$.</p>
 <h3 id="194-computations-on-the-sphere-with-spinsphere">19.4 Computations on the sphere with <code>spinsphere</code></h3>
 <p>As we mentioned in the introduction, it is also possible to solve PDEs of the form (1) on the unit sphere with the <code>spinsphere</code> code [13], which is based on the <code>spherefun</code> technology (see Chapter 17) and implicit-explicit time-stepping schemes.</p>
 <p>For example, to solve the preloaded example <code>spinsphere('ac')</code> solves the Allen--Cahn equation</p>
-<p>$$  u_t = 10^{-2}*\Delta u + u - u^3, \quad\quad (2)$$</p>
-<p>on the sphere up to $t=60$, with initial condition $u0(x,y,z) = cos(cosh(5<em>x</em>z) - 10*y)$. Here are the solutions at times $0,1,2,5$:</p>
+<p>$$  u_t = 10^{-2}\Delta u + u - u^3, \quad\quad (2)$$</p>
+<p>on the sphere up to $t=60$. The intial condition looks like this</p>
 <pre class="mcode-input">S = spinopsphere('ac');
+figure, plot(S.init), axis off
+
+% Here are the solutions at times $2,5,10$:
 S.tspan = [0 2 5 10];
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
-for k = 1:4
+for k = 2:4
     plot(U{k}), axis off
     snapnow
 end</pre>
 
+<p><img src="img/guide19_10.png" class="figure" alt=""></p>
 <p><img src="img/guide19_11.png" class="figure" alt=""></p>
 <p><img src="img/guide19_12.png" class="figure" alt=""></p>
-<p><img src="img/guide19_13.png" class="figure" alt=""></p>
-<p><img src="img/guide19_14.png" class="figure" alt=""></p>
-<p>Another examples is the Ginzburg--Landau (2) but with a much smaller diffusion $5\times 10^{-4}\Delta u$. The preoladed example solves the PDE tp $t=100$ using a random initial condition (a <code>randnfunsphere</code>). Here are the solutions at times $0,10,20,30$</p>
+<p>Another examples is the Ginzburg--Landau (2) but with a much smaller diffusion $5\times 10^{-4}\Delta u$. The preoladed example solves the PDE tp $t=100$ using a random initial condition (a <code>randnfunsphere</code>). Here are the solutions at times $0,10,20,30$:</p>
 <pre class="mcode-input">S = spinopsphere('gl');
 S.tspan = 0:10:30;
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
@@ -187,10 +188,10 @@ for k = 1:4
     snapnow
 end</pre>
 
+<p><img src="img/guide19_13.png" class="figure" alt=""></p>
+<p><img src="img/guide19_14.png" class="figure" alt=""></p>
 <p><img src="img/guide19_15.png" class="figure" alt=""></p>
 <p><img src="img/guide19_16.png" class="figure" alt=""></p>
-<p><img src="img/guide19_17.png" class="figure" alt=""></p>
-<p><img src="img/guide19_18.png" class="figure" alt=""></p>
 <h3 id="195-managing-preferences">19.5 Managing preferences</h3>
 <p>The <code>spin</code>/<code>spin2</code>/<code>spin3</code>/<code>spinsphere</code> codes use the classes <code>spinpref</code>, <code>spinpref2</code>, <code>spinpref3</code> and <code>spinprefsphere</code> to manage preferences, including the choice of the exponential integrator/implicit-explicit schemes for the time-stepping schemes, the value of the time-step, the number of grid points and various other options. See the help texts of these files for the complete lists of preferences.</p>
 <p>For example, to solve the Kuramoto--Sivashinsky equation using the EXPRK5S8 scheme of Luan and Ostermann [9], one can type:</p>
