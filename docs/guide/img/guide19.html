@@ -118,9 +118,9 @@ In 3D, the demo `spin3('gl3')` solves the PDE on $[0,100]^3$ and produces a movi
 
 As we mentioned in the introduction, it is also possible to solve PDEs of the form (1) on the unit sphere with the `spinsphere` code [13], which is based on the `spherefun` technology (see Chapter 17) and implicit-explicit time-stepping schemes.
 
-For example, to solve the preloaded example `spinsphere('ac')` solves the Allen--Cahn equation
+For example, the preloaded example `spinsphere('ac')` solves the Allen--Cahn equation,
 
-$$  u_t = 10^{-2}\Delta u + u - u^3, \quad\quad (2)$$
+$$  u_t = 10^{-2}\Delta u + u - u^3, \quad\quad (3)$$
 
 on the sphere up to $t=60$. The intial condition looks like this:
 
@@ -140,7 +140,7 @@ end</pre><img src="img/guide19_12.png" class="figure" alt="">
 
 <img src="img/guide19_14.png" class="figure" alt="">
 
-Another examples is the Ginzburg--Landau (2) but with a much smaller diffusion $5\times 10^{-4}\Delta u$. The preoladed example solves the PDE tp $t=100$ using a random initial condition (a `randnfunsphere`). Here are the solutions at times $0,10,20,30$:
+Another preoladed example is the Ginzburg--Landau (2) with a much smaller diffusion $5\times 10^{-4}\Delta u$, up to $t=100$ and with a random initial condition (a `randnfunsphere`). Here are the solutions at times $0,10,20,30$:
 
 <pre class="mcode-input">S = spinopsphere('gl');
 S.tspan = 0:10:30;

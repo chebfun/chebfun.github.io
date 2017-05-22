@@ -169,10 +169,10 @@ end
 % time-stepping schemes.
 
 %%
-% For example, to solve the preloaded example `spinsphere('ac')` solves the 
-% Allen--Cahn equation
+% For example, the preloaded example `spinsphere('ac')` solves the Allen--Cahn 
+% equation,
 %
-% $$  u_t = 10^{-2}\Delta u + u - u^3, \quad\quad (2)$$
+% $$  u_t = 10^{-2}\Delta u + u - u^3, \quad\quad (3)$$
 %
 % on the sphere up to $t=60$. The intial condition looks like this:
 S = spinopsphere('ac');
@@ -188,10 +188,9 @@ for k = 2:4
 end
 
 %% 
-% Another examples is the Ginzburg--Landau (2) but with a much smaller diffusion
-% $5\times 10^{-4}\Delta u$. The preoladed example solves the PDE tp $t=100$ 
-% using a random initial condition (a `randnfunsphere`). 
-% Here are the solutions at times $0,10,20,30$:
+% Another preoladed example is the Ginzburg--Landau (2) with a much smaller 
+% diffusion $5\times 10^{-4}\Delta u$, up to $t=100$ and with a random initial 
+% condition (a `randnfunsphere`). Here are the solutions at times $0,10,20,30$:
 S = spinopsphere('gl');
 S.tspan = 0:10:30;
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
