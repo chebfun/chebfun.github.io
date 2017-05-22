@@ -108,6 +108,8 @@ end</pre><img src="img/guide19_07.png" class="figure" alt="">
 
 <img src="img/guide19_09.png" class="figure" alt="">
 
+<img src="img/guide19_10.png" class="figure" alt="">
+
 In 3D, the demo `spin3('gl3')` solves the PDE on $[0,100]^3$ and produces a movie to time $t=70$.
 
 
@@ -120,22 +122,23 @@ For example, to solve the preloaded example `spinsphere('ac')` solves the Allen-
 
 $$  u_t = 10^{-2}\Delta u + u - u^3, \quad\quad (2)$$
 
-on the sphere up to $t=60$. The intial condition looks like this
+on the sphere up to $t=60$. The intial condition looks like this:
 
 <pre class="mcode-input">S = spinopsphere('ac');
-figure, plot(S.init), axis off
+figure, plot(S.init), axis off</pre><img src="img/guide19_11.png" class="figure" alt="">
 
-% Here are the solutions at times $2,5,10$:
-S.tspan = [0 2 5 10];
+Here are the solutions at times $2,5,10$:
+
+<pre class="mcode-input">S.tspan = [0 2 5 10];
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
 for k = 2:4
     plot(U{k}), axis off
     snapnow
-end</pre><img src="img/guide19_10.png" class="figure" alt="">
+end</pre><img src="img/guide19_12.png" class="figure" alt="">
 
-<img src="img/guide19_11.png" class="figure" alt="">
+<img src="img/guide19_13.png" class="figure" alt="">
 
-<img src="img/guide19_12.png" class="figure" alt="">
+<img src="img/guide19_14.png" class="figure" alt="">
 
 Another examples is the Ginzburg--Landau (2) but with a much smaller diffusion $5\times 10^{-4}\Delta u$. The preoladed example solves the PDE tp $t=100$ using a random initial condition (a `randnfunsphere`). Here are the solutions at times $0,10,20,30$:
 
@@ -145,13 +148,13 @@ U = spinsphere(S, 256, 1e-1, 'plot', 'off');
 for k = 1:4
     plot(U{k}), axis off
     snapnow
-end</pre><img src="img/guide19_13.png" class="figure" alt="">
-
-<img src="img/guide19_14.png" class="figure" alt="">
-
-<img src="img/guide19_15.png" class="figure" alt="">
+end</pre><img src="img/guide19_15.png" class="figure" alt="">
 
 <img src="img/guide19_16.png" class="figure" alt="">
+
+<img src="img/guide19_17.png" class="figure" alt="">
+
+<img src="img/guide19_18.png" class="figure" alt="">
 
 
 
