@@ -100,7 +100,7 @@ The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to ti
 S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
 for k = 1:4
-    plot(real(U{k})), view(0,90), axis equal, axis off
+    subplot(2, 2, k), plot(real(U{k})), view(0,90), axis equal, axis off
     snapnow
 end</pre><img src="img/guide19_07.png" class="figure" alt="">
 
@@ -128,7 +128,7 @@ on the sphere up to $t=60$, with initial condition $u0(x,y,z) = cos(cosh(5*x*z) 
 S.tspan = [0 2 5 10];
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
 for k = 1:4
-    plot(real(U{k})), axis off
+    subplot(2, 2, k), plot(U{k}), axis off
     snapnow
 end</pre><img src="img/guide19_11.png" class="figure" alt="">
 
@@ -144,7 +144,7 @@ Another examples is the Ginzburg--Landau (2) but with a much smaller diffusion $
 S.tspan = 0:10:30;
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
 for k = 1:4
-    plot(U{k}), axis off
+    subplot(2, 2, k), plot(U{k}), axis off
     snapnow
 end</pre><img src="img/guide19_15.png" class="figure" alt="">
 
