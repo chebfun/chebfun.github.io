@@ -40,7 +40,7 @@ x = chebfun('x'); f = abs(x);
 tic, [p,q,r] = minimax(f,80,80,'silent'); toc
 xx = linspace(-1,1,3000).^3;
 LW = 'linewidth'; FS = 'fontsize';
-plot(xx,f(xx)-r(xx),LW,4)
+plot(xx,f(xx)-r(xx),LW,3)
 grid on, ylim(1e-11*[-1 1])
 title('error curve for type (80,80) approximation',FS,36)
 
@@ -57,9 +57,9 @@ title('error curve for type (80,80) approximation',FS,36)
 % To show the exponential effect, we can plot the right half of the error curve
 % on a semilogx scale: 
 xx = logspace(-14,0,5000);
-semilogx(xx,f(xx)-r(xx),LW,4)
+semilogx(xx,f(xx)-r(xx),LW,3)
 grid on, axis([1e-14 1 -1e-11 1e-11])
-title('semilogyx scale',FS,36)
+title('semilogx scale',FS,36)
 
 %%
 % Floating-point computing with rational functions like this has been

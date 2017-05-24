@@ -69,20 +69,20 @@
 tic, [p,q,r] = minimax(f,80,80,'silent'); toc
 xx = linspace(-1,1,3000).^3;
 LW = 'linewidth'; FS = 'fontsize';
-plot(xx,f(xx)-r(xx),LW,4)
+plot(xx,f(xx)-r(xx),LW,3)
 grid on, ylim(1e-11*[-1 1])
 title('error curve for type (80,80) approximation',FS,36)</pre>
 
-<pre class="mcode-output">Elapsed time is 21.648573 seconds.
+<pre class="mcode-output">Elapsed time is 21.560009 seconds.
 </pre>
 
 <p><img src="img/RationalAbsx_01.png" class="figure" alt=""></p>
 <p>Computing such an approximations in ordinary 16-digit arithmetic, so far as we know, is unprecedented.  Varga, Carpenter, and Ruttan computed these approximations in the 1990s using 200-digit extended precision [4].</p>
 <p>The difficulty lies with the exponentially clustered equioscillation points (and poles along the imaginary axis, clustering near $x=0$). This clustering makes a $p/q$ representation out of the question. To show the exponential effect, we can plot the right half of the error curve on a semilogx scale:</p>
 <pre class="mcode-input">xx = logspace(-14,0,5000);
-semilogx(xx,f(xx)-r(xx),LW,4)
+semilogx(xx,f(xx)-r(xx),LW,3)
 grid on, axis([1e-14 1 -1e-11 1e-11])
-title('semilogyx scale',FS,36)</pre>
+title('semilogx scale',FS,36)</pre>
 
 <p><img src="img/RationalAbsx_02.png" class="figure" alt=""></p>
 <p>Floating-point computing with rational functions like this has been effectively impossible in the past; we seem to be entering a new era.</p>
