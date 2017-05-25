@@ -160,7 +160,7 @@ end</pre>
 <p><img src="img/guide19_08.png" class="figure" alt=""></p>
 <p><img src="img/guide19_09.png" class="figure" alt=""></p>
 <p><img src="img/guide19_10.png" class="figure" alt=""></p>
-<p>In 3D, the demo <code>spin3('gl3')</code> solves the PDE on $[0,100]^3$ and produces a movie to time $t=70$.</p>
+<p>In 3D, the demo <code>spin3('gl3')</code> solves the PDE on $[0,50]^3$ and produces a movie to time $t=100$.</p>
 <h3 id="194-computations-on-the-sphere-with-spinsphere">19.4 Computations on the sphere with <code>spinsphere</code></h3>
 <p>As we mentioned in the introduction, it is also possible to solve PDEs of the form (1) on the unit sphere with the <code>spinsphere</code> code [13], which is based on the <code>spherefun</code> technology (see Chapter 17) and implicit-explicit time-stepping schemes.</p>
 <p>For example, the preloaded example <code>spinsphere('ac')</code> solves the Allen--Cahn equation,</p>
@@ -172,7 +172,7 @@ figure, plot(S.init), axis off</pre>
 <p><img src="img/guide19_11.png" class="figure" alt=""></p>
 <p>Here are the solutions at times $2,5,10$:</p>
 <pre class="mcode-input">S.tspan = [0 2 5 10];
-U = spinsphere(S, 256, 1e-1, 'plot', 'off');
+U = spinsphere(S, 128, 1e-1, 'plot', 'off');
 for k = 2:4
     plot(U{k}), axis off
     snapnow
@@ -184,7 +184,7 @@ end</pre>
 <p>Another preoladed example is the Ginzburg--Landau equation (2) with a much smaller diffusion $10^{-3}\Delta u$, up to $t=100$ and with a random initial condition (a <code>randnfunsphere</code>). Here are the solutions at times $0,10,20,30$:</p>
 <pre class="mcode-input">S = spinopsphere('gl');
 S.tspan = 0:10:30;
-U = spinsphere(S, 256, 1e-1, 'plot', 'off');
+U = spinsphere(S, 128, 1e-1, 'plot', 'off');
 for k = 1:4
     plot(U{k}), axis off
     snapnow
@@ -199,18 +199,18 @@ end</pre>
 <p>For example, to solve the Kuramoto--Sivashinsky equation using the EXPRK5S8 scheme of Luan and Ostermann [9], one can type:</p>
 <pre class="mcode-input">pref = spinpref('scheme', 'exprk5s8', 'plot', 'off');
 S = spinop('ks');
-u = spin(S, 256, 5e-2, pref);</pre>
+u = spin(S, 256, 1e-2, pref);</pre>
 
 <p>Alternatively, one can type:</p>
-<pre class="mcode-input">u = spin(S, 256, 5e-2, 'scheme', 'exprk5s8', 'plot', 'off');</pre>
+<pre class="mcode-input">u = spin(S, 256, 1e-2, 'scheme', 'exprk5s8', 'plot', 'off');</pre>
 
 <p>Preferences in 2D and 3D use <code>spinpref2</code> and <code>spinpref3</code>, e.g.,</p>
 <pre class="mcode-input">pref = spinpref2('plot', 'off');
 S = spinop2('gl2');
-u = spin2(S, 100, 2e-1, pref);</pre>
+u = spin2(S, 128, 1e-1, pref);</pre>
 
 <p>or simply</p>
-<pre class="mcode-input">u = spin2(S, 100, 2e-1, 'plot', 'off');</pre>
+<pre class="mcode-input">u = spin2(S, 128, 1e-1, 'plot', 'off');</pre>
 
 <p>On the sphere, preferences are managed with <code>spinprefsphere</code>.</p>
 <h3 id="196-a-quick-note-on-history">19.6 A quick note on history</h3>
