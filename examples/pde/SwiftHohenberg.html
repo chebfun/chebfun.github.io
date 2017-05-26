@@ -77,21 +77,21 @@
 </pre>
 
 <p>From here we see that the version of the equation in Chebfun is $$ u_t = ru - (1 + \Delta)^2u + gu^2 - u^3, $$ with $r = 0.1$ and $g=0$. This equation was derived by Swift and Hohenberg in 1977 to study thermal fluctuations on a fluid near the Rayleigh-Benard convective instability [1]. The function $u$ is the temperature field in a plane horizontal layer of fluid heated from below. The parameter $r$ measures how far the temperature is above the minimum temperature required for convection: for $r&lt;0$, the heating is too small to cause convection, while for $r&gt;0$, convection occurs. The parameter $g$ controls the strength of the quadratic nonlinearity. The Swift-Hohenberg equation is an example of a PDE that exhibits pattern formation, including stripes, spots and spirals.</p>
-<p>The preloaded demo uses a <code>randndfun2</code> as initial condition on the domain $[0, 50]\times[0, 50]$, runs to $t=800$ and leads to the so-called convection rolls. As always with the <code>spin</code> suite, the boundary conditions are periodic.</p>
-<pre class="mcode-input">N = 128;
-dt = 1;
+<p>The preloaded demo uses a <code>randndfun2</code> as initial condition on the domain $[0, 50]\times[0, 50]$, runs to $t=800$ and leads to the so-called convection rolls. In this example, let us run the simulation to $t=1200$.</p>
+<pre class="mcode-input">S.tspan = [0 1200];
+N = 128; dt = 1;
 u = spin2(S, N, dt, 'plot', 'off');
 plot(u), view(0,90), axis equal, axis off</pre>
 
 <p><img src="img/SwiftHohenberg_01.png" class="figure" alt=""></p>
-<p>Note that we set <code>'plot'</code> to <code>'off'</code> to avoid the movie mode, which is the default. The output <code>u</code> is the solution at the final time $t=800$ and is a <code>chebfun2</code>:</p>
+<p>Note that we set <code>'plot'</code> to <code>'off'</code> to avoid the default movie mode. The output <code>u</code> is the solution at the final time $t=1200$ and is a <code>chebfun2</code>:</p>
 <pre class="mcode-input">u</pre>
 
 <pre class="mcode-output">u =
    chebfun2 object  (trig)
        domain                 rank       corner values
-[   0,  50] x [   0,  50]       79     [-0.28 -0.28 -0.28 -0.28]
-vertical scale = 0.43 
+[   0,  50] x [   0,  50]       52     [-0.017 -0.017 -0.017 -0.017]
+vertical scale = 0.36 
 </pre>
 
 <p>We will discover what effect $r$ and $g$ have on the resulting patterns during our investigations below.</p>
@@ -122,7 +122,7 @@ S.init = u0;</pre>
 plot(u), view(0,90), axis equal, axis off</pre>
 
 <p><img src="img/SwiftHohenberg_03.png" class="figure" alt=""></p>
-<p>Note that we use $N=96$ points in each direction and a time-step $dt=0.2$. The values $r=10^{-2}$ and $g=1$ lead to spots, known as convection cells. When the fluid is heated, it expands and becomes less dense. The colder, denser part of the fluid descends to settle below the warmer. This causes the warmer fluid to rise and generates this pattern.</p>
+<p>Note that we used $N=96$ points in each direction and a time-step $dt=0.2$. The values $r=10^{-2}$ and $g=1$ lead to spots, known as convection cells. When the fluid is heated, it expands and becomes less dense. The colder, denser part of the fluid descends to settle below the warmer. This causes the warmer fluid to rise and generates this pattern.</p>
 <p>To check that the computation is correct, we can increase the number of grid points and decrese the time-step, and compute the relative error between the two solutions:</p>
 <pre class="mcode-input">v = spin2(S, 128, 1e-1, 'plot', 'off');
 error = norm(u-v)/norm(v);
@@ -131,7 +131,7 @@ fprintf('Relative error: %1.2e\n', error)</pre>
 <pre class="mcode-output">Relative error: 3.63e-04
 </pre>
 
-<p>This means that we have 3 digits correct. For the same value of $g=1$ but with $r=0.7$, we get spirals at the final time $t=200$:</p>
+<p>For the same value of $g=1$ but with $r=0.7$, we get spirals:</p>
 <pre class="mcode-input">r = 7e-1; g = 1;
 S.nonlin = @(u) (-1 + r)*u + g*u.^2 - u.^3;
 u = spin2(S, 96, 2e-1, 'plot', 'off');
