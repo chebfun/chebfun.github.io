@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Random ODEs &raquo; Chebfun</title>
+    <title>Phase-locking in a Duffing-type equation &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,61 +54,54 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Random ODEs</h1>
+<h1>Phase-locking in a Duffing-type equation</h1>
+<h2>Kevin Burrage and Nick Trefethen, May 2017 in <a href='/examples/ode-random/'>ode-random</a><span><a href='/examples/ode-random/PhaseLocking.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-random/PhaseLocking.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>6</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>37</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>13</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>15</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>23</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>22</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>10</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>7</span></a></li>
-        <li class='active'><a href="/examples/ode-random/index.html">Random ODEs<span>2</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>7</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>13</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/ode-random/PhaseLocking.html'>
-            <div class='thumbwrapper'><img src='/examples/ode-random/img/PhaseLocking_01.png' /></div>
-            <h3>Phase-locking in a Duffing-type equation</h3>
-            <p>Kevin Burrage and Nick Trefethen, May 2017<!--
-                <span class='tags'></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/ode-random/Random2SDE.html'>
-            <div class='thumbwrapper'><img src='/examples/ode-random/img/Random2SDE_01.png' /></div>
-            <h3>From random functions to SDEs</h3>
-            <p>Nick Trefethen and Abdul-Lateef Haji-Ali, May 2017<!--
-                <span class='tags'></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Consider the bistable equation $y' = ty - y^3 + f$, where $f$ is a random term of fixed amplitude. The fixed points of the deterministic part of the equation, locally at a time $t$, are $\pm |t|^{1/2}$.  For small $t$, noise easily crosses this gap, but as $t$ gets larger any trajectory eventually settles down to a choice that is (almost surely) fixed forever.  First we use $\lambda = 0.2$.</p>
+<pre class="mcode-input">tic, dom = [0 6]; N = chebop(dom); rng(0)
+N.lbc = 0; N.op = @(t,y) diff(y) - t*y + y^3;
+LW = 'linewidth'; FS = 'fontsize'; fs = 32;
+for k = 1:6
+  f = randnfun(0.2,dom,'norm');
+  y = N\f; plot(y,LW,2.2), hold on
+end
+xlabel('t',FS,36), ylabel('y',FS,36)
+title('lambda = 0.2, 6 paths',FS,fs), toc</pre>
+
+<pre class="mcode-output">Elapsed time is 5.898643 seconds.
+</pre>
+
+<p><img src="img/PhaseLocking_01.png" class="figure" alt=""></p>
+<p>Here's the same computation with $\lambda = 0.05$.</p>
+<pre class="mcode-input">tic, clf
+for k = 1:6
+  f = randnfun(0.05,dom,'norm');
+  y = N\f; plot(y,LW,1.8), hold on
+end
+xlabel('t',FS,36), ylabel('y',FS,36)
+title('lambda = 0.05, 6 paths',FS,fs), toc</pre>
+
+<pre class="mcode-output">Elapsed time is 8.266138 seconds.
+</pre>
+
+<p><img src="img/PhaseLocking_02.png" class="figure" alt=""></p>
+<p>Here's a much bigger sample.</p>
+<pre class="mcode-input">tic, clf
+for k = 1:60
+  f = randnfun(0.05,dom,'norm');
+  y = N\f; plot(y,LW,1), hold on
+end
+xlabel('t',FS,36), ylabel('y',FS,36)
+title('lambda = 0.05, 60 paths',FS,fs), toc</pre>
+
+<pre class="mcode-output">Elapsed time is 82.955230 seconds.
+</pre>
+
+<p><img src="img/PhaseLocking_03.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>
