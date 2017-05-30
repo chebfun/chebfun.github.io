@@ -29,12 +29,12 @@ y = r.*sin(t).*cos(p);
 z = r.*sin(p);</pre>We can plot the surface of this region using the plot command.
 
 <pre class="mcode-input">plot(x,y,z)
-view(-53,24)</pre><img src="img/changeVar3D_01.png" class="figure" alt="">
+view(-53,24)</pre><img src="img/ChangeVar3D_01.png" class="figure" alt="">
 
 We now define the density function and graph the surface of the solid colored by the density function.
 
 <pre class="mcode-input">density = sin(10*t).*cos(10*r)+1;
-plot(x,y,z,density)</pre><img src="img/changeVar3D_02.png" class="figure" alt="">
+plot(x,y,z,density)</pre><img src="img/ChangeVar3D_02.png" class="figure" alt="">
 
 The mass of the solid can be found by computing the triple integral in a rectangular region. The change of variables requires us to compute the determinant Jacobian of the transformation.
 
@@ -63,7 +63,7 @@ plot(x,y,z,density)
 axis image, view(60,60)
 
 coord = [x; y; z];
-jac = abs(jacobian(coord));</pre><img src="img/changeVar3D_03.png" class="figure" alt="">
+jac = abs(jacobian(coord));</pre><img src="img/ChangeVar3D_03.png" class="figure" alt="">
 
 Mass:
 
@@ -91,7 +91,7 @@ f = sin(7*z).*sin(3*x);</pre><pre class="mcode-input">plot(x,y,z,f)
 axis tight, axis image
 view(-28,31)
 disp(integral3(f.*abs(jacobian(x,y,z))))</pre><pre class="mcode-output">    -3.612086395056842e-23
-</pre><img src="img/changeVar3D_04.png" class="figure" alt="">
+</pre><img src="img/ChangeVar3D_04.png" class="figure" alt="">
 
 In the next two examples we vary the radius of torus to generate other solid regions and the compute the triple integrals.
 
@@ -103,7 +103,7 @@ plot(x,y,z,f)
 axis tight, axis image
 view(-28,31)
 disp(integral3(f.*abs(jacobian(x,y,z))))</pre><pre class="mcode-output">     4.172576876884635e-24
-</pre><img src="img/changeVar3D_05.png" class="figure" alt="">
+</pre><img src="img/ChangeVar3D_05.png" class="figure" alt="">
 
 Here is the other region.
 
@@ -117,5 +117,5 @@ axis tight, axis image
 view(-29,60)
 
 disp(integral3(abs(jacobian(x,y,z))))</pre><pre class="mcode-output">     1.109343534682443e+02
-</pre><img src="img/changeVar3D_06.png" class="figure" alt="">
+</pre><img src="img/ChangeVar3D_06.png" class="figure" alt="">
 
