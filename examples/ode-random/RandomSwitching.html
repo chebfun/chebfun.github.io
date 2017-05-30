@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Linear ODEs with random switching &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Linear ODEs with random switching</h1>
+<h2>Nick Trefethen, May 2017 in <a href='/examples/ode-random/'>ode-random</a><span><a href='/examples/ode-random/RandomSwitching.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-random/RandomSwitching.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-the-simplest-scalar-example">1. The simplest scalar example</h3>
+<p>Suppose you have a time-dependent ODE whose coefficients switch randomly between two different values.  Interesting effects can arise.  The most natural switching rule might involve a Poisson process, but another approach is to switch according to the sign of a function produced by the Chebfun <code>randnfun</code> command.</p>
+<p>The simplest scalar example would be to switch randomly between $y' = y$ and $y' = -y$.  Here is an illustration, showing the large swings of amplitude familiar in stochastic analysis in the related problem known as geometric Brownian motion. On a log scale, this process has no bias upward or downward. On a linear scale it's a bit subtler -- again there is no bias in the sense that for large values of $t$, $y(t)$ is as likely to be $&lt;1$ as $&gt;1$.  The expected values of $y(t)$ or of $y(t)^2$, however, diverge to $\infty$ as $t\to\infty$.</p>
+<pre class="mcode-input">rng(0), dom = [0 40]; LW = 'linewidth'; tic
+L = chebop(dom); L.lbc = 1;
+c = sign(randnfun(1,dom));
+L.op = @(t,y) diff(y) - c*y;
+y = L\0; plot(y,LW,1.6), grid on</pre>
+
+<p><img src="img/RandomSwitching_01.png" class="figure" alt=""></p>
+<h3 id="2-a-matrix-example-of-lawley-mattingly-and-reed">2. A matrix example of Lawley, Mattingly, and Reed</h3>
+<p>More remarkable behavior appears when we move from scalars to matrices.  Suppose $y(t)$ is a 2-vector for each $t$ and it evolves with random switching between $y'= Ay$ and $y' = By$, with</p>
+<pre class="mcode-input">A = [-1 5; 0 -1], B = [-1 0; -5 -1]</pre>
+
+<pre class="mcode-output">A =
+    -1     5
+     0    -1
+B =
+    -1     0
+    -5    -1
+</pre>
+
+<p>Note that both matrices have eigenvalues $-1$, in the left half-plane.  This means that each matrix individually is stable, and if the random switching is slow, the process will be dominated by the matrices' individual behaviors, and solutions will decay. Here for example is a run with the switching parameter set to the large value $\lambda = 3$, shown on both linear and log scales.</p>
+<pre class="mcode-input">L = chebop(dom); L.lbc = @(u,v) [u-1; v-1];
+L.maxnorm = 200*[1; 1];
+lambda = 3;
+f = 5*(1+sign(randnfun(lambda,dom)))/2;
+L.op = @(t,u,v) [diff(u) + u - f*v; diff(v) + v + (5-f)*u];
+[u,v] = L\0;
+subplot(2,1,1), plot(u,LW,1), hold on, plot(v,LW,1), hold off, grid on
+title('u and v on linear scale'), ylim([-3 3])
+subplot(2,1,2), semilogy(u^2+v^2,'k',LW,1), grid on, ylim([1e-8 1e8])
+title('norm of (u,v) on log scale'), ylim([1e-5 1e2])
+set(gca,'ytick',10.^[-4:2:4])</pre>
+
+<p><img src="img/RandomSwitching_02.png" class="figure" alt=""></p>
+<p>With faster switching, however, there can be net amplification over time, as we see here with an experiment with $\lambda = 1$.</p>
+<pre class="mcode-input">lambda = 1;
+f = 5*(1+sign(randnfun(lambda,dom)))/2;
+L.op = @(t,u,v) [diff(u) + u - f*v; diff(v) + v + (5-f)*u];
+[u,v] = L\0;
+subplot(2,1,1), plot(u,LW,1), hold on, plot(v,LW,1), hold off, grid on
+title('u and v on linear scale'), ylim([-300 300])
+subplot(2,1,2), semilogy(u^2+v^2,'k',LW,1), grid on, ylim([1e-8 1e8])
+title('norm of (u,v) on log scale'), ylim([1e-1 1e6])
+set(gca,'ytick',10.^[-4:2:4])</pre>
+
+<p><img src="img/RandomSwitching_03.png" class="figure" alt=""></p>
+<p>With still faster switching, solutions may decay once more. In this limit it is the average of the two matrices $A$ and $B$ that matters, which is stable.  Here we show the effect with $\lambda = 1/3$.</p>
+<pre class="mcode-input">lambda = 1/3;
+f = 5*(1+sign(randnfun(lambda,dom)))/2;
+L.op = @(t,u,v) [diff(u) + u - f*v; diff(v) + v + (5-f)*u];
+[u,v] = L\0;
+subplot(2,1,1), plot(u,LW,1), hold on, plot(v,LW,1), hold off, grid on
+title('u and v on linear scale'), ylim([-3 3])
+subplot(2,1,2), semilogy(u^2+v^2,'k',LW,1), grid on, ylim([1e-8 1e8])
+title('norm of (u,v) on log scale'), ylim([1e-8 1e2])
+set(gca,'ytick',10.^[-8:4:4])</pre>
+
+<p><img src="img/RandomSwitching_04.png" class="figure" alt=""></p>
+<p>For mathematical details of this fascinating effect see [1].</p>
+<pre class="mcode-input">total_time_in_seconds = toc</pre>
+
+<pre class="mcode-output">total_time_in_seconds =
+  19.490251000000001
+</pre>
+
+<h3 id="3-reference">3. Reference</h3>
+<p>[1] S. D. Lawley, J. C. Mattingly, and M. C. Reed, Sensitivity to switching rates in stochastically switched PDEs, <em>Commun. Math. Sci.</em>, 12 (2014), 1343-1352.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2017 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
