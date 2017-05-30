@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Disk &raquo; Chebfun</title>
+    <title>Random level hopping &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,61 +54,35 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Disk</h1>
+<h1>Random level hopping</h1>
+<h2>Nick Trefethen, May 2017 in <a href='/examples/ode-random/'>ode-random</a><span><a href='/examples/ode-random/LevelHopping.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-random/LevelHopping.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>6</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>37</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>13</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li class='active'><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>15</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>23</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>22</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>10</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>7</span></a></li>
-        <li><a href="/examples/ode-random/index.html">Random ODEs<span>3</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>7</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>13</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/disk/HeatEqn.html'>
-            <div class='thumbwrapper'><img src='/examples/disk/img/HeatEqn_01.png' /></div>
-            <h3>The heat equation on the unit disk</h3>
-            <p>Heather Wilber, January 2017<!--
-                <span class='tags'><span href='#' class='tag'>#diffusion</span>, <span href='#' class='tag'>#diskfun</span>, <span href='#' class='tag'>#heat</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/disk/Eigenfunctions.html'>
-            <div class='thumbwrapper'><img src='/examples/disk/img/Eigenfunctions_01.png' /></div>
-            <h3>Eigenfunctions of the Laplacian on the disk</h3>
-            <p>Heather Wilber, January 2017<!--
-                <span class='tags'><span href='#' class='tag'>#diskfun</span>, <span href='#' class='tag'>#eigenfunctions</span>, <span href='#' class='tag'>#laplacian</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>The equation $y' = -2\sin(2\pi y)$ has stable fixed points when $y$ is an integer.  Let us add some noise, so that we have $$ y' = -2\sin(2\pi y) + f, $$ where $f$ is a random function.  This gives us a process that hops from one fixed point to another. We illustrate first for $t\in [0,100]$ with $\lambda = 0.4$.</p>
+<pre class="mcode-input">rng(0), dom = [0 100]; tic
+N = chebop(dom);
+lambda = 0.4; f = randnfun(lambda,dom,'norm');
+N.op = @(y) diff(y) + 2*sin(2*pi*y); N.lbc = 0;
+LW = 'linewidth'; FS = 'fontsize';
+y = N\f; plot(y,LW,0.7), grid on
+xlabel('t',FS,32), ylabel('y',FS,32)</pre>
+
+<p><img src="img/LevelHopping_01.png" class="figure" alt=""></p>
+<p>Here we cut $\lambda$ in half.</p>
+<pre class="mcode-input">lambda = lambda/2;
+f = randnfun(lambda,dom,'norm');
+y = N\f; plot(y,LW,0.5), grid on
+xlabel('t',FS,32), ylabel('y',FS,32)</pre>
+
+<p><img src="img/LevelHopping_02.png" class="figure" alt=""></p>
+<pre class="mcode-input">total_time_in_seconds = toc</pre>
+
+<pre class="mcode-output">total_time_in_seconds =
+  19.001832000000000
+</pre></div>
         </div>
     </div>
 </div>

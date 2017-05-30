@@ -193,6 +193,7 @@ ode-nonlin/Picard.m
 ode-nonlin/ThreeBodyProblem.m
 ode-nonlin/ThreePlanets.m
 ode-nonlin/TwoElectrons.m
+ode-random/LevelHopping.m
 ode-random/PhaseLocking.m
 ode-random/Random2SDE.m
 opt/Catenary.m
