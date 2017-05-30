@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vector calculus &raquo; Chebfun</title>
+    <title>Collective dynamics and consensus &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,61 +54,42 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Vector calculus</h1>
+<h1>Collective dynamics and consensus</h1>
+<h2>Nick Trefethen, May 2017 in <a href='/examples/ode-random/'>ode-random</a><span><a href='/examples/ode-random/Consensus.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-random/Consensus.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>6</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>37</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>13</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>15</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>23</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>22</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>10</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>7</span></a></li>
-        <li><a href="/examples/ode-random/index.html">Random ODEs<span>4</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>7</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>13</span></a></li>
-        <li class='active'><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/veccalc/AutonomousSystems.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/AutonomousSystems_01.png' /></div>
-            <h3>Phase portraits and trajectories</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#duffing oscillator</span>, <span href='#' class='tag'>#phase portrait</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/veccalc/CheckingVectorCalculus.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/CheckingVectorCalculus_01.png' /></div>
-            <h3>Checking vector calculus</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#divgradcurl</span>, <span href='#' class='tag'>#gradient theorem</span>, <span href='#' class='tag'>#parallelogram law</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Nick Trefethen, 30 May 2017</p>
+<p>Here are two independent particles, each experiencing a smooth random walk.  One starts at $d$ and the other at $-d$, with $d=1$.</p>
+<pre class="mcode-input">rng(3), dom = [0 40]; tic
+N = chebop(dom);
+lambda = 0.2;
+f = randnfun(lambda,dom,'norm');
+g = randnfun(lambda,dom,'norm');
+N.op = @(t,u,v) [diff(u) + f; diff(v) + g];
+d = 1; N.lbc = @(u,v) [u-d; v+d];
+LW = 'linewidth'; lw = 2;
+[u,v] = N\0; plot(u,LW,lw), grid on, hold on, plot(v,LW,lw), hold off</pre>
+
+<p><img src="img/Consensus_01.png" class="figure" alt=""></p>
+<p>Now let's change things by making the particles attract each other by a rule scaled with a constant $F=3$ when they are near to one another.</p>
+<pre class="mcode-input">F = 3;
+N.op = @(t,u,v) [diff(u) + f + F*(u-v).*exp(-(u-v).^2); ...
+                 diff(v) + g + F*(v-u).*exp(-(v-u).^2)];
+[u,v] = N\0; plot(u,LW,lw), grid on, hold on, plot(v,LW,lw), hold off</pre>
+
+<p><img src="img/Consensus_02.png" class="figure" alt=""></p>
+<p>Like Richard Burton and Elizabeth Taylor, the particles need not stay together forever; it's all a matter of the balance between attraction and random fluctuation.  Here's an example in which $F$ has been reduced from $3$ to $1$.</p>
+<pre class="mcode-input">F = 1.0;
+N.op = @(t,u,v) [diff(u) + f + F*(u-v).*exp(-(u-v).^2); ...
+                 diff(v) + g + F*(v-u).*exp(-(v-u).^2)];
+[u,v] = N\0; plot(u,LW,lw), grid on, hold on, plot(v,LW,lw), hold off</pre>
+
+<p><img src="img/Consensus_03.png" class="figure" alt=""></p>
+<p>This model has connection with work by Eitan Tadmor and others on ``social hydrodynamics''.  See for example [1].</p>
+<p>[1] E. Tadmor, Mathematical aspects of self organized dynamics, <em>SIAM News</em>, November 2015.</p></div>
         </div>
     </div>
 </div>
