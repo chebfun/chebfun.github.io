@@ -197,6 +197,7 @@ ode-random/Consensus.m
 ode-random/LevelHopping.m
 ode-random/PhaseLocking.m
 ode-random/Random2SDE.m
+ode-random/RandomOnASphere.m
 opt/Catenary.m
 opt/ConstrainedExtrema.m
 opt/ConstrainedOptimization.m
