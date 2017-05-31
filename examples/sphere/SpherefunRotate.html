@@ -106,7 +106,7 @@ plot( g ), title('Rotated \phi=\psi=\pi/4',FS,fs), axis off</pre>
 <p>$$ Y_{\ell}^m(\lambda',\theta') = \sum_{s=-\ell}^{\ell}
 A_{ms}Y_{\ell}^s(\lambda,\theta), $$</p>
 <p>where $(\lambda',\theta')$ is in the rotated coordinated system. Since the above linear combination only involves $Y_{\ell}^s(\lambda,\theta)$ for $-\ell\leq s\leq \ell$ (for the same parameter $\ell$), it can be used to derive a fast algorithm for rotating functions on the sphere.</p>
-<p>We can verify the above statements by computing the spherical harmonic coefficients of $Y_{10}^{3}$ after a rotation with Euler angles $(\pi/4,pi/3,-pi/8)$:</p>
+<p>We can verify the above statements by computing the spherical harmonic coefficients of $Y_{10}^{3}$ after a rotation with Euler angles $(\pi/4,\pi/3,-\pi/8)$:</p>
 <pre class="mcode-input">eulerAngles = [pi/4, pi/3, -pi/8];
 f = spherefun.sphharm( 10, 3 );
 g = rotate(f, eulerAngles(1), eulerAngles(2), eulerAngles(3));
@@ -143,22 +143,22 @@ norm(h - g)</pre>
      9.363579636030373e-15
 </pre>
 
-<p>In Spherefun, we avoid spherical harmonic expansions because the computation of expansion coefficients is slow as our underlying discretizations involve highly adaptive grids [3].</p>
-<h3 id="an-alternative-algorithm-based-on-the-2d-nufft">An alternative algorithm based on the 2D NUFFT</h3>
-<p>While spherical harmonic expansions present a natural approach for rotating functions on the sphere, we instead employ the double Fourier sphere method with a low rank technique (based on a structure-preserving Gaussian elimination procedure) for approximating functions on the sphere to essentially machine precision [3].  This method allows us to employ fast transforms based on the FFT with no setup costs, as opposed fast spherical harmonic transforms [2]. The implementation of <code>rotate</code> is based on a two-dimensional nonuniform FFT (NUFFT) [1], which makes for a fast rotation algorithm.</p>
+<h3 id="an-alternative-rotate-algorithm-based-on-the-2d-nufft">An alternative rotate algorithm based on the 2D NUFFT</h3>
+<p>While spherical harmonic expansions present a natural approach for representing functions on the sphere, Spherefun does not use them. Instead it uses the double Fourier sphere method with a low rank technique (based on a structure-preserving Gaussian elimination procedure) for approximating functions on the sphere to essentially machine precision [3].  This method allows us to employ fast transforms based on the FFT with no setup costs, unlike fast spherical harmonic transforms [2], and provides highly adaptive discretizations.</p>
+<p>Since Spherefun does not use spherical harmonics, it cannot directly use the rotation technique described above. The implementation of <code>rotate</code> in Spherefun is instead based on a two-dimensional nonuniform FFT (NUFFT) [1], which makes for a fast rotation algorithm.</p>
 <p>The approach we use in the <code>rotate</code> command is to evaluate the function on a rotated tensor product grid and then call the Spherefun constructor.  The NUFFT allows this evaluation to be done in near optimal complexity.  The <code>rotate</code> command has an optional input that allows one to compare the naive approach to our NUFFT approach.</p>
 <p>To illustrate the speed-up that can be achieved with the NUFFT, we consider the following ``random'' function on the sphere:</p>
 <pre class="mcode-input">f = randnfunsphere( 0.03 );
 plot( f ), title('Random function',FS,fs), axis off</pre>
 
 <p><img src="img/SpherefunRotate_05.png" class="figure" alt=""></p>
-<p>For this function, we see a 30 times speed-up for the NUFFT:</p>
+<p>For this function, we see a big speed-up for the NUFFT:</p>
 <pre class="mcode-input">s = tic; g = rotate(f, pi/3, pi/2, 0.5, 'feval'); t_feval = toc(s);
 s = tic; h = rotate(f, pi/3, pi/2, 0.5); t_nufft = toc(s);
 fprintf('NUFFT speed-up factor = %2.1f\n', t_feval/t_nufft)
-plot( f ), title('Rotated random function',FS,fs), axis off</pre>
+plot( h ), title('Rotated random function',FS,fs), axis off</pre>
 
-<pre class="mcode-output">NUFFT speed-up factor = 4.3
+<pre class="mcode-output">NUFFT speed-up factor = 4.4
 </pre>
 
 <p><img src="img/SpherefunRotate_06.png" class="figure" alt=""></p>
@@ -200,7 +200,7 @@ plot(alp,rk,'x-','LineWidth',2), xlabel('Rotation angle',FS,fs)
 ylabel('Rank'), title('Rank of the rotation of a Gaussian',FS,fs)</pre>
 
 <p><img src="img/SpherefunRotate_07.png" class="figure" alt=""></p>
-<p>As the Gaussian approaches the north and south poles (at rotation angles of $\pi/2$ and $3\pi/2$, respectively) we see that the rank decreases substantially. If we had not offset the Gaussian from the $y$-axis then the rank would have been exactly 1 at north and south poles since the Gaussian reduces to $\exp(-20(1\pm z))$ at the north and south poles, respectively.</p>
+<p>As the Gaussian approaches the north and south poles (at rotation angles of $\pi/2$ and $3\pi/2$, respectively) we see that the rank decreases substantially. If we had not offset the Gaussian from the $y$-axis then the rank would have been exactly 1 at north and south poles since the Gaussian reduces to $\exp(-20(1\pm z))$ there.</p>
 <h3 id="references">References</h3>
 <p>[1] D. Ruiz-Antolin and A. Townsend, "A nonuniform fast Fourier transform based on low rank approximation", submitted, 2017.</p>
 <p>[2] R. M. Slevinsky, "Fast and backward stable transforms between spherical harmonic expansions and bivariate Fourier series", submitted, 2017.</p>
