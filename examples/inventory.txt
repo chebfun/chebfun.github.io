@@ -200,6 +200,7 @@ ode-random/Random2SDE.m
 ode-random/RandomOnASphere.m
 ode-random/RandomSwitching.m
 ode-random/Tunnelling.m
+ode-random/WhiteNoiseParadox.m
 opt/Catenary.m
 opt/ConstrainedExtrema.m
 opt/ConstrainedOptimization.m

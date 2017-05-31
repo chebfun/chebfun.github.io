@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The white noise paradox &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The white noise paradox</h1>
+<h2>Nick Trefethen, May 2017 in <a href='/examples/ode-random/'>ode-random</a><span><a href='/examples/ode-random/WhiteNoiseParadox.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-random/WhiteNoiseParadox.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Stochastic analysis is built on the idea of white noise, which is formalized by the notion of a Wiener process, that is, mathematical Brownian motion.  However, white noise comes with a paradox.  In principle it contains equal amounts of energy at all wave numbers, and since the set of wave numbers is infinite, this means infinite energy and infinite amplitude.</p>
+<p>For example, here are trajectories of three random functions in Chebfun with parameters $\lambda = 1/4$, $1/16$, and $1/64$.  These functions have wave numbers cutting off at about $2\pi/\lambda$, and so as $\lambda$ shrinks, the amplitude increases.  In the limit $\lambda \to 0$ the amplitude would be infinite.</p>
+<pre class="mcode-input">rng(1)
+for k = 1:3
+  subplot(1,3,k)
+  lambda = 1/4^k;
+  plot(randnfun(lambda,'norm'),'linewidth',5-k)
+  set(gca,'fontsize',24)
+  title(['lambda = 1/' int2str(4^k)],'fontsize',24)
+  grid on, ylim([-30 30])
+end</pre>
+
+<p><img src="img/WhiteNoiseParadox_01.png" class="figure" alt=""></p>
+<p>How do we resolve this paradox?  In Chebfun, we resolve it by cutting off the wave numbers at $O(2\pi/\lambda)$, so that a random function is smooth and of finite amplitude.  In stochastic analysis, is resolved by never dealing with white noise directly, but only with its integral.  Thanks to sign cancellations, the integral of white noise, known as a Brownian path, is continuous (with probability 1).  It is not smooth, however, and indeed is everywhere nondifferentiable (with probability 1).</p>
+<p>In Einstein's <em>annus mirabilis</em> 1905, he published four epochal papers in the <em>Annalen der Physik</em>.  Curiously, two of these papers, on very different subjects, have a link with the white noise paradox.  (I don't know if Einstein noticed the connection.)  One was about physical Brownian motion, which Einstein studied long before its current mathematical idealization had been established [1].  In the physical context, the paradox is avoided because in actual molecular dynamics there is a lower limit to the relevant space scales and thus an upper limit to the wave numbers.  (So physics' view of white noise, you might say, is a bit like Chebfun's.)</p>
+<p>The other paper of Einstein's with a link to the white noise paradox is the one for which he won the Nobel Prize, on quantization of light and the photoelectric effect [2]. As the famous (and not quite correct) story goes, 19th century physics was troubled by the paradox of the "ultraviolet catastrophe". Statistical mechanics predicted that a cavity should support electromagnetic waves of all frequencies, each with an equal amount of energy. So at each instant a cavity should radiate infinite energy! Planck's quantization resolved this difficulty by positing that in fact, higher frequencies have less energy in them, and Einstein's paper carried this analysis deeper.</p>
+<p>Kragh has pointed out in a fascinating article that although this familiar story is correct as to the physics, it is incorrect as to the history [3]. Although the ultraviolet catastrophe was indeed implicit in 19th century physics, it seems this was not noticed until after Planck's work, and published in 1905 by Rayleigh and Jeans. The name "ultraviolet catastrophe" came from Ehrenfest in 1911. Planck introduced his quantum for other reasons!  Only later was it appreciated that quantum mechanics averts the catastrophe.</p>
+<p>References:</p>
+<p>[1] A. Einstein, \"Uber einen die Erzeugung und Verwandlung des Lichtes betreffended heuristischen Gesichtspunkt, <em>Annalen der Physik</em> 17 (1905), 132-148.</p>
+<p>[2] A. Einstein, \"Uber die von der molekularkinetischen Theorie der W\"arme geforderte Bewegung von in ruhenden Fl&uuml;ssigkeiten suspendierten Teilchen, <em>Annalen der Physik</em> 17 (1905), 549-560.</p>
+<p>[3] H. Kragh, Max Planck: the reluctant revolutionary, <em>Physics World</em> 13 (2000), 31.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2017 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
