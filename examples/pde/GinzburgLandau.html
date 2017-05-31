@@ -62,9 +62,9 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-preloaded-examples-in-spin2">1. Preloaded examples in spin2</h3>
-<p>Chebfun's <code>spin2</code> and <code>spinop2</code> codes, like <code>spin</code> and <code>spinop</code> in 1D, include a number of preloaded examples, which you can find out about by typing <code>help spin2</code> or <code>help spinop2</code>. One of the options is <code>spin2('gl2')</code> for the 2D Complex Ginzburg-Landau equation.  What is this equation?</p>
+<p>Chebfun's <code>spin2</code> and <code>spinop2</code> codes, like <code>spin</code> and <code>spinop</code> in 1D, include a number of preloaded examples, which you can find out about by typing <code>help spin2</code> or <code>help spinop2</code>. One of the options is <code>spin2('gl')</code> for the 2D Complex Ginzburg-Landau equation.  What is this equation?</p>
 <p>To find out, you can type</p>
-<pre class="mcode-input">S = spinop2('gl2')</pre>
+<pre class="mcode-input">S = spinop2('gl')</pre>
 
 <pre class="mcode-output">S = 
   spinop2 with properties:
@@ -104,7 +104,7 @@ plot(real(u)), view(0,90), axis equal, axis off</pre>
 <pre class="mcode-input">time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-   1.305991695000000
+   3.101127954000000
 </pre>
 
 <h3 id="3-beginnings-of-chaos">3. Beginnings of chaos</h3>
@@ -129,7 +129,7 @@ plot(real(u)), view(0,90), axis equal, axis off</pre>
 <pre class="mcode-input">time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-   2.769426431000000
+   6.744747920000000
 </pre>
 
 <h3 id="4-chaos">4. Chaos</h3>
@@ -154,7 +154,7 @@ plot(real(u)), view(0,90), axis equal, axis off</pre>
 <pre class="mcode-input">time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-  21.254387512000001
+  47.730490695999997
 </pre>
 
 <h3 id="5-a-bigger-canvas">5. A bigger canvas</h3>
@@ -185,7 +185,7 @@ plot(real(u{2})), view(0,90), axis equal, axis off</pre>
 <pre class="mcode-input">time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-   9.954141226000001
+  19.036402233000000
 </pre>
 
 <h3 id="6-references">6. References</h3>
