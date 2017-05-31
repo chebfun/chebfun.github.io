@@ -252,6 +252,7 @@ sphere/Gravity.m
 sphere/HelmholtzDecomposition.m
 sphere/RayleighQuotientExample.m
 sphere/SpherefunPartition.m
+sphere/SpherefunRotate.m
 sphere/SphereHeatConduction.m
 sphere/SphericalHarmonics.m
 stats/BayesianGradebook.m
