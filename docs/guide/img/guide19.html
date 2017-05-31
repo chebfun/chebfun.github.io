@@ -88,7 +88,7 @@ S.init = chebfun(@(x) cos(x), dom);</pre>
 
 ## 19.3 Computations in 2D and 3D with `spin2` and `spin3`
 
-`spin`/`spin2`/`spin3` have been written at the same time as Chebfun3 has been being developed, so naturally enough, our aim has been to make them operate in as nearly similar fashions as possible in 1D, 2D, or 3D. There are classes `spinop2` and `spinop3` parallel to `spinop`, invoked by drivers `spin2` and `spin3`. Preloaded examples exist with names like `gl2` and `gl3` (Ginzburg-Landau) and `gs2` and `gs3` (Gray-Scott). Too see the complete lists of preloaded 2D and 3D examples, type `help spin2` and `help spin3`.
+`spin`/`spin2`/`spin3` have been written at the same time as Chebfun3 has been being developed, so naturally enough, our aim has been to make them operate in as nearly similar fashions as possible in 1D, 2D, or 3D. There are classes `spinop2` and `spinop3` parallel to `spinop`, invoked by drivers `spin2` and `spin3`. Preloaded examples exist with names like `gl` (Ginzburg-Landau) and `gs` Gray-Scott). Too see the complete lists of preloaded 2D and 3D examples, type `help spin2` and `help spin3`.
 
 For example, here is the Ginzburg-Landau equation:
 
@@ -96,7 +96,7 @@ $$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2. \quad\quad (2)$$
 
 The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to time $t=100$. Here are the solutions at times $0,10,20,30$:
 
-<pre class="mcode-input">S = spinop2('gl2');
+<pre class="mcode-input">S = spinop2('gl');
 S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
 for k = 1:4
@@ -171,7 +171,7 @@ u = spin(S, 256, 1e-2, pref);</pre>Alternatively, one can type:
 <pre class="mcode-input">u = spin(S, 256, 1e-2, 'scheme', 'exprk5s8', 'plot', 'off');</pre>Preferences in 2D and 3D use `spinpref2` and `spinpref3`, e.g.,
 
 <pre class="mcode-input">pref = spinpref2('plot', 'off');
-S = spinop2('gl2');
+S = spinop2('gl');
 u = spin2(S, 128, 1e-1, pref);</pre>or simply
 
 <pre class="mcode-input">u = spin2(S, 128, 1e-1, 'plot', 'off');</pre>On the sphere, preferences are managed with `spinprefsphere`.
