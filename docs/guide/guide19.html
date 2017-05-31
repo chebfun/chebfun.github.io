@@ -144,7 +144,7 @@ S.nonlin = @(u) u.^2 - 1;
 S.init = chebfun(@(x) cos(x), dom);</pre>
 
 <h3 id="193-computations-in-2d-and-3d-with-spin2-and-spin3">19.3 Computations in 2D and 3D with <code>spin2</code> and <code>spin3</code></h3>
-<p><code>spin</code>/<code>spin2</code>/<code>spin3</code> have been written at the same time as Chebfun3 has been being developed, so naturally enough, our aim has been to make them operate in as nearly similar fashions as possible in 1D, 2D, or 3D. There are classes <code>spinop2</code> and <code>spinop3</code> parallel to <code>spinop</code>, invoked by drivers <code>spin2</code> and <code>spin3</code>. Preloaded examples exist with names like <code>gl</code> (Ginzburg-Landau) and <code>gs</code> Gray-Scott). Too see the complete lists of preloaded 2D and 3D examples, type <code>help spin2</code> and <code>help spin3</code>.</p>
+<p><code>spin</code>/<code>spin2</code>/<code>spin3</code> have been written at the same time as Chebfun3 has been being developed, so naturally enough, our aim has been to make them operate in as nearly similar fashions as possible in 1D, 2D, or 3D. There are classes <code>spinop2</code> and <code>spinop3</code> parallel to <code>spinop</code>, invoked by drivers <code>spin2</code> and <code>spin3</code>. Preloaded examples exist with names like <code>gl</code> (Ginzburg-Landau) and <code>gs</code> (Gray-Scott). Too see the complete lists of preloaded 2D and 3D examples, type <code>help spin2</code> and <code>help spin3</code>.</p>
 <p>For example, here is the Ginzburg-Landau equation:</p>
 <p>$$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2. \quad\quad (2)$$</p>
 <p>The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to time $t=100$. Here are the solutions at times $0,10,20,30$:</p>
