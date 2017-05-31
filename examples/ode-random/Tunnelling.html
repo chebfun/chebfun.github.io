@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Disk &raquo; Chebfun</title>
+    <title>Tunnelling &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,61 +54,44 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Disk</h1>
+<h1>Tunnelling</h1>
+<h2>Nick Trefethen, May 2017 in <a href='/examples/ode-random/'>ode-random</a><span><a href='/examples/ode-random/Tunnelling.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-random/Tunnelling.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>6</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>37</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>13</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li class='active'><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>15</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>23</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>22</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>10</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>7</span></a></li>
-        <li><a href="/examples/ode-random/index.html">Random ODEs<span>7</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>7</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>13</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/disk/HeatEqn.html'>
-            <div class='thumbwrapper'><img src='/examples/disk/img/HeatEqn_01.png' /></div>
-            <h3>The heat equation on the unit disk</h3>
-            <p>Heather Wilber, January 2017<!--
-                <span class='tags'><span href='#' class='tag'>#diffusion</span>, <span href='#' class='tag'>#diskfun</span>, <span href='#' class='tag'>#heat</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/disk/Eigenfunctions.html'>
-            <div class='thumbwrapper'><img src='/examples/disk/img/Eigenfunctions_01.png' /></div>
-            <h3>Eigenfunctions of the Laplacian on the disk</h3>
-            <p>Heather Wilber, January 2017<!--
-                <span class='tags'><span href='#' class='tag'>#diskfun</span>, <span href='#' class='tag'>#eigenfunctions</span>, <span href='#' class='tag'>#laplacian</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Here is a bistable equation with additive noise: $$ y' = ty - y^3 + f, $$ where $f$ is a random term of fixed amplitude. There is an unstable fixed point of the deterministic part of the equation at $y=0$ and stable fixed points at $y = \pm 1$, which tend to attract solutions.  The noise moves solutions around. Here for example are six trajectories.</p>
+<pre class="mcode-input">dom = [0 30]; N = chebop(dom); rng(4)
+N.lbc = 0; N.op = @(t,y) diff(y) - y + y^3;
+LW = 'linewidth'; FS = 'fontsize'; fs = 32;
+lambda = 0.5;
+for k = 1:6
+  f = 0.45*randnfun(lambda,dom,'norm');
+  y = N\f; plot(y,LW,4), hold on
+end
+xlabel('t',FS,36), ylabel('y',FS,36), hold off
+title('Bistability',FS,36)
+ylim([-1.7 1.7]), grid on, drawnow</pre>
+
+<p><img src="img/Tunnelling_01.png" class="figure" alt=""></p>
+<p>With the choices of parameters we have just used, it is clear that there is a tendency for trajectories to settle down near $+1$ or $-1$.  However, these fates are not permanent. Eventually a random fluctuation will switch the trajectory to the other state, and with probability 1, this will happen infinitely often as $t\to\infty$.  Here is an illustrative trajectory over the interval $t\in [0,800]$.</p>
+<pre class="mcode-input">dom = [0 800]; N.domain = dom;
+f = 0.45*randnfun(lambda,dom,'norm');
+y = N\f; plot(y,LW,2.5)
+xlabel('t',FS,36), ylabel('y',FS,36)
+ylim([-1.7 1.7]), grid on
+title('Tunnelling',FS,36)</pre>
+
+<p><img src="img/Tunnelling_02.png" class="figure" alt=""></p>
+<p>What we are seeing here is the tunnelling effect so famous in quantum mechanics, which is associated for example with the decay of radioactive atoms.  Here as in that example, small differences in parameters can have exponential effects on tunnelling rates.  If we move the stable states further apart, or equivalently reduce the noise amplitude, then the metastable state will survive much longer.  Conversely if we move the stable states closer together, or equivalent increase the noise amplitude, then the metastable states will not survive as long.  Here for example we rerun the last experiment but with the noise coefficient increased from $0.45$ to $0.60$.</p>
+<pre class="mcode-input">f = (0.60/0.45)*f;
+y = N\f; plot(y,LW,2.5)
+xlabel('t',FS,36), ylabel('y',FS,36)
+ylim([-1.7 1.7]), grid on
+title('Larger noise means faster tunnelling',FS,36)</pre>
+
+<p><img src="img/Tunnelling_03.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>
