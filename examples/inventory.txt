@@ -197,6 +197,7 @@ ode-random/Consensus.m
 ode-random/GBM.m
 ode-random/LevelHopping.m
 ode-random/PhaseLocking.m
+ode-random/Pitchfork.m
 ode-random/Random2SDE.m
 ode-random/RandomOnASphere.m
 ode-random/RandomSwitching.m

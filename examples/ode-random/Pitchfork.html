@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Disk &raquo; Chebfun</title>
+    <title>Pitchfork bifurcation triggered by noise &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,61 +54,48 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Disk</h1>
+<h1>Pitchfork bifurcation triggered by noise</h1>
+<h2>Nick Trefethen, May 2017 in <a href='/examples/ode-random/'>ode-random</a><span><a href='/examples/ode-random/Pitchfork.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-random/Pitchfork.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>6</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>37</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>13</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li class='active'><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>15</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>23</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>22</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>10</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>7</span></a></li>
-        <li><a href="/examples/ode-random/index.html">Random ODEs<span>10</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>7</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>13</span></a></li>
-        <li><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/disk/HeatEqn.html'>
-            <div class='thumbwrapper'><img src='/examples/disk/img/HeatEqn_01.png' /></div>
-            <h3>The heat equation on the unit disk</h3>
-            <p>Heather Wilber, January 2017<!--
-                <span class='tags'><span href='#' class='tag'>#diffusion</span>, <span href='#' class='tag'>#diskfun</span>, <span href='#' class='tag'>#heat</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/disk/Eigenfunctions.html'>
-            <div class='thumbwrapper'><img src='/examples/disk/img/Eigenfunctions_01.png' /></div>
-            <h3>Eigenfunctions of the Laplacian on the disk</h3>
-            <p>Heather Wilber, January 2017<!--
-                <span class='tags'><span href='#' class='tag'>#diskfun</span>, <span href='#' class='tag'>#eigenfunctions</span>, <span href='#' class='tag'>#laplacian</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>The second-order ODE $$ y'' = 2\kern .3pt cy - 4y^3 - 0.2\kern .3pt y' $$ has steady states $y=0$, $y = \sqrt{c/2}$ and $y = \sqrt{-c/2}$. For $c&lt;0$, only the first of these is real, and it is a stable steady state.  As $c$ passes through zero to values $c&gt;0$, the other two steady states emerge, and now $y=0$ is unsteady and the other two are steady.  This is a pitchfork bifurcation.</p>
+<p>One way to see the bifurcation in a single ODE computation is to consider a time-dependent problem with a coefficient $c(t)$ that slowly increases through zero, like this: $$ y'' = 2\kern .3pt c(t)y - 4y^3 - 0.2\kern .3pt y' , ~~~ c(t) = -1+t/300, ~~ t \in [0, 600].  $$ If the initial condition is $y(0) = 0$, then the solution is $y(t)=0$ for all $t$ --- the solution never notices the instability.</p>
+<p>However, suppose we add noise in the form of a random function of small amplitude, like this: $$ y'' = 2\kern .3pt c(t)y - 4y^3 - 0.2\kern .3pt y' + 0.003f(t), ~~~ c(t) = -1+t/300, ~~ t \in [0, 600].  $$ Now the solution will, at random, deviate to one or the other branch of the pitchfork.  Here we show three solutions: two with noise, and one without (the dashed middle line). (We tried <code>rng(0) ... rng(6)</code> before finally finding that <code>rng(7)</code> gave a picture with both forks!)</p>
+<pre class="mcode-input">tic
+rng(7), lambda = 2;
+N = chebop(0,600); N.lbc = [0;0];
+N.op = @(t,y) diff(y,2) - 2*(-1+t/300)*y + 4*y^3 + .2*diff(y);
+FS = 'fontsize'; LW = 'linewidth';
+y1 = N\0; plot(y1,'--k',LW,2), hold on
+f1 = 0.003*randnfun([0 600],lambda,'norm');
+y2 = N\f1; plot(y2,'b',LW,2),
+f2 = 0.003*randnfun([0 600],lambda,'norm');
+y3 = N\f2; plot(y3,'r',LW,2), hold off
+xlabel('t',FS,32), ylabel('y',FS,32)
+title('Pitchfork with damping',FS,32)
+axis([0 600 -.8 .8]), grid on</pre>
+
+<p><img src="img/Pitchfork_01.png" class="figure" alt=""></p>
+<p>Note that the ODE has a damping term involving $y'$. If we remove the damping, we get a similar picture but with large oscillations:</p>
+<pre class="mcode-input">N.op = @(t,y) diff(y,2) - 2*(-1+t/300)*y + 4*y^3;
+plot(y1,'--k',LW,2), hold on
+y2 = N\(-f1); plot(y2,'b',LW,2),
+y3 = N\f2; plot(y3,'r',LW,2), hold off
+xlabel('t',FS,32), ylabel('y',FS,32)
+title('Pitchfork without damping',FS,32)
+axis([0 600 -.8 .8]), grid on</pre>
+
+<p><img src="img/Pitchfork_02.png" class="figure" alt=""></p>
+<p>When we first tried this, both branches went positive. So we flipped the sign on one of them.</p>
+<p>This example has some close links with the example "Phase-locking in a Duffing-type equation", though that involves a first-order ODE.</p>
+<pre class="mcode-input">total_time_in_seconds = toc</pre>
+
+<pre class="mcode-output">total_time_in_seconds =
+  17.289608999999999
+</pre></div>
         </div>
     </div>
 </div>
