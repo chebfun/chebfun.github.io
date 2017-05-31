@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vector calculus &raquo; Chebfun</title>
+    <title>Geometric Brownian motion &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,61 +54,59 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Vector calculus</h1>
+<h1>Geometric Brownian motion</h1>
+<h2>Nick Trefethen, May 2017 in <a href='/examples/ode-random/'>ode-random</a><span><a href='/examples/ode-random/GBM.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-random/GBM.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>6</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>37</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>13</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>11</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>15</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>23</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>22</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>10</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>7</span></a></li>
-        <li><a href="/examples/ode-random/index.html">Random ODEs<span>9</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>7</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>13</span></a></li>
-        <li class='active'><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/veccalc/AutonomousSystems.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/AutonomousSystems_01.png' /></div>
-            <h3>Phase portraits and trajectories</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#duffing oscillator</span>, <span href='#' class='tag'>#phase portrait</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/veccalc/CheckingVectorCalculus.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/CheckingVectorCalculus_01.png' /></div>
-            <h3>Checking vector calculus</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#divgradcurl</span>, <span href='#' class='tag'>#gradient theorem</span>, <span href='#' class='tag'>#parallelogram law</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Random ODEs and stochastic DEs may include <em>additive noise</em> and/or <em>multiplicative noise</em>.  A linear, constant-coefficient equation of the latter kind is the equation of <em>geometric Brownian motion</em>, $$ dX_t = \mu X_t dt + \sigma X_t dW_t, ~~~ (1) $$ where $W_t$ is the Wiener process (Brownian motion).  With Chebfun's smooth random functions the analogous equation is $$ y' = \mu y  + \sigma f y, ~~~ (2) $$ where $f$ is a smooth random function.  As usual, $f$ will have a wavelength parameter $\lambda&gt;0$, and the SDE limit corresponds to $\lambda \to 0$.  Actually in this limit one will get a Stratonovich (rather than It&ocirc;) SDE, written $$ dX_t = \mu X_t dt + \sigma X_t \circ dW_t, ~~~ (3)  $$</p>
+<p>$\mu$ is called the <em>drift</em> coefficient and $\sigma$ is the <em>diffusion</em> (or sometimes <em>volatility</em>) coefficient.</p>
+<p>Geometric Brownian motion is easy to analyze by taking the logarithm.  For example, dividing (2) by $y$ gives $$ (\log y)' = \mu + \sigma f , $$ which now involves just additive noise.</p>
+<p>For example, here are five trajectories with $\mu = 0$ and $\sigma = 1$.  On a log scale there would be no bias up or down, but on a linear scale we see some large amplitudes.</p>
+<pre class="mcode-input">tic
+dom = [0,20]; L = chebop(dom); L.lbc = 1; L.maxnorm = 100;
+rng(0), lambda = 0.2;
+LW = 'linewidth'; FS = 'fontsize';
+f = randnfun(lambda,dom,'norm',5);
+mu = 0; sigma = 1;
+for k = 1:5
+  L.op = @(t,y) diff(y) - mu*y - sigma*f(:,k)*y;
+  y = L\0; plot(y,LW,2.5), hold on
+end
+grid on, hold off
+xlabel('t',FS,32), ylabel('y',FS,32)
+title('zero drift',FS,32)</pre>
+
+<p><img src="img/GBM_01.png" class="figure" alt=""></p>
+<p>If we increase $\mu$ to $0.2$, there is now an upward bias on any scale.</p>
+<pre class="mcode-input">mu = 0.2;
+for k = 1:5
+  L.op = @(t,y) diff(y) - mu*y - sigma*f(:,k)*y;
+  y = L\0; plot(y,LW,2.5), hold on
+end
+grid on, hold off, ylim([0 70])
+xlabel('t',FS,32), ylabel('y',FS,32)
+title('positive drift',FS,32)</pre>
+
+<p><img src="img/GBM_02.png" class="figure" alt=""></p>
+<p>Setting $\mu = -0.2$, on the other hand, leads to decay.</p>
+<pre class="mcode-input">mu = -0.2;
+for k = 1:5
+  L.op = @(t,y) diff(y) - mu*y - sigma*f(:,k)*y;
+  y = L\0; plot(y,LW,2.5), hold on
+end
+grid on, hold off
+xlabel('t',FS,32), ylabel('y',FS,32)
+title('negative drift',FS,32)</pre>
+
+<p><img src="img/GBM_03.png" class="figure" alt=""></p>
+<pre class="mcode-input">total_time_in_seconds = toc</pre>
+
+<pre class="mcode-output">total_time_in_seconds =
+  19.895776000000001
+</pre></div>
         </div>
     </div>
 </div>

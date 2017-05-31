@@ -194,6 +194,7 @@ ode-nonlin/ThreeBodyProblem.m
 ode-nonlin/ThreePlanets.m
 ode-nonlin/TwoElectrons.m
 ode-random/Consensus.m
+ode-random/GBM.m
 ode-random/LevelHopping.m
 ode-random/PhaseLocking.m
 ode-random/Random2SDE.m
