@@ -61,7 +61,7 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>Here is a bistable equation with additive noise: $$ y' = ty - y^3 + f, $$ where $f$ is a random term of fixed amplitude. There is an unstable fixed point of the deterministic part of the equation at $y=0$ and stable fixed points at $y = \pm 1$, which tend to attract solutions.  The noise moves solutions around. Here for example are six trajectories.</p>
+<p>Here is a bistable equation with additive noise: $$ y' = y - y^3 + f, $$ where $f$ is a random term of fixed amplitude. There is an unstable fixed point of the deterministic part of the equation at $y=0$ and stable fixed points at $y = \pm 1$, which tend to attract solutions.  The noise moves solutions around. Here for example are six trajectories.</p>
 <pre class="mcode-input">dom = [0 30]; N = chebop(dom); rng(4)
 N.lbc = 0; N.op = @(t,y) diff(y) - y + y^3;
 LW = 'linewidth'; FS = 'fontsize'; fs = 32;
@@ -84,7 +84,7 @@ ylim([-1.7 1.7]), grid on
 title('Tunnelling',FS,36)</pre>
 
 <p><img src="img/Tunnelling_02.png" class="figure" alt=""></p>
-<p>What we are seeing here is the tunnelling effect so famous in quantum mechanics, which is associated for example with the decay of radioactive atoms.  Here as in that example, small differences in parameters can have exponential effects on tunnelling rates.  If we move the stable states further apart, or equivalently reduce the noise amplitude, then the metastable state will survive much longer.  Conversely if we move the stable states closer together, or equivalent increase the noise amplitude, then the metastable states will not survive as long.  Here for example we rerun the last experiment but with the noise coefficient increased from $0.45$ to $0.60$.</p>
+<p>What we are seeing here is the tunnelling effect so famous in quantum mechanics, which is associated for example with the decay of radioactive atoms.  Here as in that example, small differences in parameters can have exponential effects on tunnelling rates.  If we move the stable states further apart, or equivalently reduce the noise amplitude, then the metastable state will survive much longer.  Conversely if we move the stable states closer together, or equivalently increase the noise amplitude, then the metastable states will not survive as long.  Here for example we rerun the last experiment but with the noise coefficient increased from $0.45$ to $0.60$.</p>
 <pre class="mcode-input">f = (0.60/0.45)*f;
 y = N\f; plot(y,LW,2.5)
 xlabel('t',FS,36), ylabel('y',FS,36)
