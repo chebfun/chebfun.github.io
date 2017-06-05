@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Release of Chebfun Version 5.7.0 &raquo; Chebfun</title>
+    <title>Tutorial article on Chebfun ODE discretizations &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,62 +54,23 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1><a href='/news/index.html'>News</a><span class='sep'>&raquo;</span>Release of Chebfun Version 5.7.0</h1>
-<h2> 2 June 2017</h2>
+<h1><a href='/news/index.html'>News</a><span class='sep'>&raquo;</span>Tutorial article on Chebfun ODE discretizations</h1>
+<h2> 5 June 2017</h2>
 </div>
 
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<p>The Chebfun team is pleased to announce the release of Chebfun
-v5.7.0 for numerical computing with functions in 1D, 2D, and 3D,
-available at <a href="http://www.chebfun.org">http://www.chebfun.org</a> or <a href="https://github.com/chebfun/chebfun">https://github.com/chebfun/chebfun</a>.
-The new release includes three major new capabilities:</p>
-<ul>
-<li>
-<p>SPINSPHERE for reaction-diffusion equations on the sphere</p>
-</li>
-<li>
-<p>MINIMAX, most powerful code available for best rational approximation</p>
-</li>
-<li>
-<p>RANDNFUN/2/SPHERE/DISK for generating random functions</p>
-</li>
-</ul>
-<p>The random function come with a new section of examples of
-random ODEs at our web site http://www.chebfun.org.
-In addition there are some other notable changes in Chebfun:</p>
-<ul>
-<li>
-<p>Vectorization now allows f * g instead of f .* g, etc.</p>
-</li>
-<li>
-<p>PLOTCOEFFS has a new look and feel</p>
-</li>
-<li>
-<p>ZEBRA option for black/white plots in 2D or on the sphere</p>
-</li>
-<li>
-<p>ROOTS now computes zero curves in 2D to high accuracy</p>
-</li>
-<li>
-<p>L - lambda*eye(L) and other algebra for chebops</p>
-</li>
-<li>
-<p>L' as an alternative to ADJOINT(L)</p>
-</li>
-<li>
-<p>ROTATE for fast rotation of a spherefun (exploiting fast NUFFT)</p>
-</li>
-<li>
-<p>ARROWPLOT for putting arrowheads on planar trajectories</p>
-</li>
-<li>
-<p>Updated class diagram</p>
-</li>
-</ul>
-<p>If you have questions or comments, we encourage you to visit the
-Chebfun users group, <a href="https://groups.google.com/forum/#!forum/chebfun-users">https://groups.google.com/forum/#!forum/chebfun-users</a>.</p></div>
+<p>An article describing Chebfun's discretizations of ODE
+boundary-value problems has been published in the Education
+section of SIAM Review: J. L. Aurentz and L. N. Trefethen, Block
+operators and spectral discretizations, SIAM Review 59 (2017),
+pp. 423-446.  The article presents a sequence of 12 examples
+illustrating how such problems can be solved with the codes
+diffmat, intmat, diffrow, introw, cumsummat, and gridsample.
+Chebfun uses the same vectors and matrices constructed by
+these codes wrapped up in an automatic grid-refinement scheme.
+See <a href="https://people.maths.ox.ac.uk/trefethen/blocks_final.pdf">https://people.maths.ox.ac.uk/trefethen/blocks_final.pdf</a>.</p></div>
         </div>
     </div>
 </div>
