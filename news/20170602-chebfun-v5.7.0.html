@@ -61,55 +61,64 @@
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<p>The Chebfun team is pleased to announce the release of Chebfun
-v5.7.0 for numerical computing with functions in 1D, 2D, and 3D,
-available at <a href="http://www.chebfun.org">http://www.chebfun.org</a> or <a href="https://github.com/chebfun/chebfun">https://github.com/chebfun/chebfun</a>.
-The new release includes three major new capabilities:</p>
+<p>WHAT'S NEW IN CHEBFUN VERSION 5.7.0</p>
 <ul>
 <li>
-<p>SPINSPHERE for reaction-diffusion equations on the sphere</p>
+<p>SPINSPHERE for reaction-diffusion equations on the sphere
+See <a href="http://www.chebfun.org/docs/guide/guide19.html">http://www.chebfun.org/docs/guide/guide19.html</a> and
+try e.g. <code>spinsphere('gl'), spinsphere('ac')</code>.</p>
 </li>
 <li>
-<p>MINIMAX, most powerful code available for best rational approximation</p>
+<p>MINIMAX, most powerful code available for best rational approximation
+See <a href="http://www.chebfun.org/examples/approx/RationalAbsx.html">http://www.chebfun.org/examples/approx/RationalAbsx.html</a>.</p>
 </li>
 <li>
-<p>RANDNFUN/2/SPHERE/DISK for generating random functions</p>
+<p>RANDNFUN/2/SPHERE/DISK for random functions and random ODEs
+See the new Random ODEs examples section at <a href="http://www.chebfun.org">http://www.chebfun.org</a>.</p>
+</li>
+<li>
+<p>Vectorization now allows <code>f*g</code> instead of <code>f.*g</code>, etc.
+Try e.g. <code>cheb.x; f = 1/(1+25*x^2); plot(f)</code>.</p>
+</li>
+<li>
+<p>PLOTCOEFFS has a new look and feel.
+Try e.g. <code>f = chebfun('cos(x)'); plotcoeffs(f)</code>.</p>
+</li>
+<li>
+<p>ZEBRA option for black/white plots in 2D or on the sphere
+See <a href="http://www.chebfun.org/examples/approx2/Zebra.html">http://www.chebfun.org/examples/approx2/Zebra.html</a>, or
+try e.g. <code>plot(randnfunsphere(.1),'zebra')</code>.</p>
+</li>
+<li>
+<p>ROOTS now computes zero curves in 2D to high accuracy.
+Try e.g. <code>cheb.xy; r = roots(x.^2+y.^2-1/4); plot(r), axis equal
+norm(abs(diff(r)),1)</code></p>
+</li>
+<li>
+<p>L - lambda*eye(L) and other simple algebra for chebops
+See <a href="http://www.chebfun.org/examples/ode-eig/RayleighQuotient.html">http://www.chebfun.org/examples/ode-eig/RayleighQuotient.html</a>.</p>
+</li>
+<li>
+<p>L' as an alternative to ADJOINT(L)
+See <a href="http://www.chebfun.org/examples/ode-eig/RayleighQuotient.html">http://www.chebfun.org/examples/ode-eig/RayleighQuotient.html</a>.</p>
+</li>
+<li>
+<p>ROTATE for fast rotation of a spherefun (exploiting fast NUFFT)
+Try e.g. <code>f = spherefun(@(x,y,z) cos(50*z)); subplot(1,2,1), plot(f)</code>
+<code>g = rotate(f,-pi/4,pi/2,pi/8); subplot(1,2,2), plot(g)</code></p>
+</li>
+<li>
+<p>ARROWPLOT for putting arrowheads on planar trajectories
+Try e.g. <code>f = chebfun('exp((10i-.1)*x)'); arrowplot(f), axis equal</code></p>
+</li>
+<li>
+<p>Updated class diagram at
+<a href="https://github.com/chebfun/chebfun/wiki/Class-diagram">https://github.com/chebfun/chebfun/wiki/Class-diagram</a>.</p>
 </li>
 </ul>
-<p>The random function come with a new section of examples of
-random ODEs at our web site http://www.chebfun.org.
-In addition there are some other notable changes in Chebfun:</p>
-<ul>
-<li>
-<p>Vectorization now allows f * g instead of f .* g, etc.</p>
-</li>
-<li>
-<p>PLOTCOEFFS has a new look and feel</p>
-</li>
-<li>
-<p>ZEBRA option for black/white plots in 2D or on the sphere</p>
-</li>
-<li>
-<p>ROOTS now computes zero curves in 2D to high accuracy</p>
-</li>
-<li>
-<p>L - lambda*eye(L) and other algebra for chebops</p>
-</li>
-<li>
-<p>L' as an alternative to ADJOINT(L)</p>
-</li>
-<li>
-<p>ROTATE for fast rotation of a spherefun (exploiting fast NUFFT)</p>
-</li>
-<li>
-<p>ARROWPLOT for putting arrowheads on planar trajectories</p>
-</li>
-<li>
-<p>Updated class diagram</p>
-</li>
-</ul>
-<p>If you have questions or comments, we encourage you to visit the
-Chebfun users group, <a href="https://groups.google.com/forum/#!forum/chebfun-users">https://groups.google.com/forum/#!forum/chebfun-users</a>.</p></div>
+<p>We hope you enjoy the new release.  If you have questions
+or comments, we encourage you to post to the Chebfun users group,
+<a href="https://groups.google.com/forum/#!forum/chebfun-users">https://groups.google.com/forum/#!forum/chebfun-users</a>.</p></div>
         </div>
     </div>
 </div>
