@@ -64,51 +64,51 @@
 <p>WHAT'S NEW IN CHEBFUN VERSION 5.7.0</p>
 <ul>
 <li>
-<p>SPINSPHERE for reaction-diffusion equations on the sphere
+<p>SPINSPHERE for reaction-diffusion equations on the sphere<br />
 See <a href="http://www.chebfun.org/docs/guide/guide19.html">http://www.chebfun.org/docs/guide/guide19.html</a> and
 try e.g. <code>spinsphere('gl'), spinsphere('ac')</code>.</p>
 </li>
 <li>
-<p>MINIMAX, most powerful code available for best rational approximation
+<p>MINIMAX, most powerful code available for best rational approximation<br />
 See <a href="http://www.chebfun.org/examples/approx/RationalAbsx.html">http://www.chebfun.org/examples/approx/RationalAbsx.html</a>.</p>
 </li>
 <li>
-<p>RANDNFUN/2/SPHERE/DISK for random functions and random ODEs
+<p>RANDNFUN/2/SPHERE/DISK for random functions and random ODEs<br />
 See the new Random ODEs examples section at <a href="http://www.chebfun.org">http://www.chebfun.org</a>.</p>
 </li>
 <li>
-<p>Vectorization now allows <code>f*g</code> instead of <code>f.*g</code>, etc.
+<p>Vectorization now allows <code>f*g</code> instead of <code>f.*g</code>, etc.<br />
 Try e.g. <code>cheb.x; f = 1/(1+25*x^2); plot(f)</code>.</p>
 </li>
 <li>
-<p>PLOTCOEFFS has a new look and feel.
+<p>PLOTCOEFFS has a new look and feel.<br />
 Try e.g. <code>f = chebfun('cos(x)'); plotcoeffs(f)</code>.</p>
 </li>
 <li>
-<p>ZEBRA option for black/white plots in 2D or on the sphere
+<p>ZEBRA option for black/white plots in 2D or on the sphere<br />
 See <a href="http://www.chebfun.org/examples/approx2/Zebra.html">http://www.chebfun.org/examples/approx2/Zebra.html</a>, or
 try e.g. <code>plot(randnfunsphere(.1),'zebra')</code>.</p>
 </li>
 <li>
-<p>ROOTS now computes zero curves in 2D to high accuracy.
+<p>ROOTS now computes zero curves in 2D to high accuracy.<br />
 Try e.g. <code>cheb.xy; r = roots(x.^2+y.^2-1/4); plot(r), axis equal
 norm(abs(diff(r)),1)</code></p>
 </li>
 <li>
-<p>L - lambda*eye(L) and other simple algebra for chebops
+<p>L - lambda*eye(L) and other simple algebra for chebops<br />
 See <a href="http://www.chebfun.org/examples/ode-eig/RayleighQuotient.html">http://www.chebfun.org/examples/ode-eig/RayleighQuotient.html</a>.</p>
 </li>
 <li>
-<p>L' as an alternative to ADJOINT(L)
+<p>L' as an alternative to ADJOINT(L)<br />
 See <a href="http://www.chebfun.org/examples/ode-eig/RayleighQuotient.html">http://www.chebfun.org/examples/ode-eig/RayleighQuotient.html</a>.</p>
 </li>
 <li>
-<p>ROTATE for fast rotation of a spherefun (exploiting fast NUFFT)
+<p>ROTATE for fast rotation of a spherefun (exploiting fast NUFFT)<br />
 Try e.g. <code>f = spherefun(@(x,y,z) cos(50*z)); subplot(1,2,1), plot(f)</code>
 <code>g = rotate(f,-pi/4,pi/2,pi/8); subplot(1,2,2), plot(g)</code></p>
 </li>
 <li>
-<p>ARROWPLOT for putting arrowheads on planar trajectories
+<p>ARROWPLOT for putting arrowheads on planar trajectories<br />
 Try e.g. <code>f = chebfun('exp((10i-.1)*x)'); arrowplot(f), axis equal</code></p>
 </li>
 <li>
