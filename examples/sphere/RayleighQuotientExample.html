@@ -65,7 +65,7 @@
 
 <h3 id="1-introduction">1. Introduction</h3>
 <p>The Rayleigh quotient plays a key role in the study of eigenvalues of symmetric matrices.  If $A$ is a real $n\mbox{-by-}n$ symmetric matrix then the Rayleigh quotient is defined as $$ r(x) = \frac{x^{T} A x}{x^T x}, $$ for any $n$-dimensional real vector $x\neq 0$. A key property of the Rayleigh quotient is that if $x$ is an eigenvector of $A$ then $r(x)$ gives the corresponding eigenvalue.  Note that we can naturally extend the Rayleigh quotient to more general matrices, but our focus in this example is on real symmetric ones.</p>
-<p>If we restrict our attention to unit vectors, i.e. $\|x\|=1$, then the Rayleigh quotient can simply be written $$ q(x) = x^{T} A x. $$ In this way, we can view the Rayleigh quotient as a function defined on the $(n-1)$-dimensional sphere.  Here is an example for the 2-sphere:</p>
+<p>If we restrict our attention to unit vectors, i.e. $|x|=1$, then the Rayleigh quotient can simply be written $$ q(x) = x^{T} A x. $$ In this way, we can view the Rayleigh quotient as a function defined on the $(n-1)$-dimensional sphere.  Here is an example for the 2-sphere:</p>
 <pre class="mcode-input">rng(52509);
 A = 10*(2*rand(3)-1); A = 0.5*(A+A');
 q = spherefun(@(x,y,z) [x,y,z]*A*[x;y;z],'vectorize');
@@ -74,7 +74,7 @@ plot(q), hold on, contour(q,20,'k-'), colorbar, hold off</pre>
 <p><img src="img/RayleighQuotientExample_01.png" class="figure" alt=""></p>
 <h3 id="2-maximum-principle">2. Maximum principle</h3>
 <p>The following theorem tells us that the eigenvalues of $A$ are given by the maximum value of the restricted Rayleigh quotient $q$ on certain subspaces of the sphere.</p>
-<p>_Theorem_(Maximum principle [2]) Let $A$ be a real $n\mbox{-by-}n$ symmetric matrix. The largest eigenvalue $\lambda_1$ of $A$ is given by $$ \lambda_1 = \max_{\|x\|=1} q(x) $$ and the location where this maximum occurs, $\lambda_1 = q(x_1)$, is the corresponding eigenvector.  Furthermore, the remaining $n-1$ eigenvalues $\lambda_2 \geq \lambda_3 \geq \cdots \geq \lambda_n$, are given by $$ \lambda_k = \left{\max_{\|x\|=1} q(x) \bigr| &lt;x,x_j&gt; = 0,\; j=1,\ldots,k-1\right}, $$ where $x_j = q(\lambda_j)$ is the eigenvector corresponding $\lambda_j$.</p>
+<p>_Theorem_(Maximum principle [2]) Let $A$ be a real $n\mbox{-by-}n$ symmetric matrix. The largest eigenvalue $\lambda_1$ of $A$ is given by $$ \lambda_1 = \max_{|x|=1} q(x) $$ and the location where this maximum occurs, $\lambda_1 = q(x_1)$, is the corresponding eigenvector.  Furthermore, the remaining $n-1$ eigenvalues $\lambda_2 \geq \lambda_3 \geq \cdots \geq \lambda_n$, are given by $$ \lambda_k = \left{\max_{|x|=1} q(x) \bigr| &lt;x,x_j&gt; = 0,\; j=1,\ldots,k-1\right}, $$ where $x_j = q(\lambda_j)$ is the eigenvector corresponding $\lambda_j$.</p>
 <p>Our goal in this example is to demonstrate this theorem in the case of the 2-sphere.</p>
 <h3 id="3-demonstration-of-maximum-principle">3. Demonstration of maximum principle</h3>
 <p>The theorem says that the largest eigenvalue of $A$, $\lambda_1$, is given by the maximum value of $q$.  This can be computed this as follows:</p>
@@ -170,9 +170,9 @@ plot3(X(:,1),X(:,2),X(:,3),'r.-',LW,lw,MS,ms), hold off</pre>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>

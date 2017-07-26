@@ -371,7 +371,7 @@ extremepositions =
 </pre>
 
 <h3 id="35-normf1-and-normfinf">3.5 <code>norm(f,1)</code> and <code>norm(f,inf)</code></h3>
-<p>The default, $2$-norm form of the <code>norm</code> command was considered in Section 2.2. In standard MATLAB one can also compute $1$-, $\infty$-, and Frobenius norms with <code>norm(f,1)</code>, <code>norm(f,inf)</code>, and <code>norm(f,'fro')</code>.  These have been overloaded in Chebfun, and in the first two cases, rootfinding is part of the implementation.  (The $2$- and Frobenius norms are equal for a single chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm <code>norm(f,1)</code> is the integral of the absolute value, and Chebfun computes this by adding up segments between zeros, at which $|f(x)|$ will typically have a discontinuous slope. The $\infty$-norm is computed from the formula $\|f\|_\infty = \max(\max(f),-\min(f))$.</p>
+<p>The default, $2$-norm form of the <code>norm</code> command was considered in Section 2.2. In standard MATLAB one can also compute $1$-, $\infty$-, and Frobenius norms with <code>norm(f,1)</code>, <code>norm(f,inf)</code>, and <code>norm(f,'fro')</code>.  These have been overloaded in Chebfun, and in the first two cases, rootfinding is part of the implementation.  (The $2$- and Frobenius norms are equal for a single chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm <code>norm(f,1)</code> is the integral of the absolute value, and Chebfun computes this by adding up segments between zeros, at which $|f(x)|$ will typically have a discontinuous slope. The $\infty$-norm is computed from the formula $|f|_\infty = \max(\max(f),-\min(f))$.</p>
 <p>For example:</p>
 <pre class="mcode-input">  f = chebfun('sin(x)',[103 103+4*pi]);
   norm(f,inf)
@@ -499,9 +499,9 @@ ans =
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>

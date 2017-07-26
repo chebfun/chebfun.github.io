@@ -67,7 +67,7 @@ FS = 'Fontsize'; fs = 16;</pre>
 
 <h3 id="least-squares-approximation">Least-squares approximation</h3>
 <p>If $f:[-1,1]\rightarrow R$ is an $L^2$-integrable function, then its least-squares or best $L^2$ approximation of degree $n$ is the polynomial $p_n$ of degree at most $n$ such that</p>
-<p>$$ \| f - p_n \|_2 = \mbox{minimum}. $$</p>
+<p>$$ | f - p_n |_2 = \mbox{minimum}. $$</p>
 <p>A good introduction to $L^2$ approximations can be found in [2]. The <code>polyfit</code> command in Chebfun returns the best $L^2$ approximation of a given degree to a chebfun:</p>
 <pre class="mcode-input">help chebfun/polyfit</pre>
 
@@ -177,9 +177,9 @@ title('Convergence of || |x| - p_n ||_2',FS,fs)</pre>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>

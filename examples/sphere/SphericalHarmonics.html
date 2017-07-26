@@ -165,7 +165,7 @@ norm(f-fproj)</pre>
 
 <p><img src="img/SphericalHarmonics_06.png" class="figure" alt=""></p>
 <h3 id="4-zonal-kernels-and-the-funk-hecke-formula">4. Zonal kernels and the Funk-Hecke formula</h3>
-<p>A kernel $\Psi:{\bf S}^2 \times {\bf S}^2 \rightarrow {\bf R}$ is called a zonal kernel on the sphere if for any $\mathbf{x},\mathbf{y}\in{\bf S}^2$, it can be expressed as a function of the inner product of $\mathbf{x}$ and $\mathbf{y}$, i.e., $$ \Psi(\mathbf{x},\mathbf{y}) = \psi(\mathbf{x}^T\mathbf{y}), $$ where $\psi:[-1,1]\rightarrow\mathbf{R}$. For example, the Gaussian kernel $$ \Psi(\mathbf{x},\mathbf{y}) = \exp\left(-\frac{\|\mathbf{x}-\mathbf{y}\|_2^2}{\sigma^2}\right) $$ restricted to the sphere is a zonal kernel since $$ \|\mathbf{x}-\mathbf{y}\|_2 = \sqrt{2-2\mathbf{x}^T\mathbf{y}} $$ for any $\mathbf{x},\mathbf{y}\in{\bf S}^2$.  So, for the Gaussian, $$ \psi(t) = \exp\left(-\frac{2(1-t)}{\sigma^2}\right). \quad (3) $$</p>
+<p>A kernel $\Psi:{\bf S}^2 \times {\bf S}^2 \rightarrow {\bf R}$ is called a zonal kernel on the sphere if for any $\mathbf{x},\mathbf{y}\in{\bf S}^2$, it can be expressed as a function of the inner product of $\mathbf{x}$ and $\mathbf{y}$, i.e., $$ \Psi(\mathbf{x},\mathbf{y}) = \psi(\mathbf{x}^T\mathbf{y}), $$ where $\psi:[-1,1]\rightarrow\mathbf{R}$. For example, the Gaussian kernel $$ \Psi(\mathbf{x},\mathbf{y}) = \exp\left(-\frac{|\mathbf{x}-\mathbf{y}|_2^2}{\sigma^2}\right) $$ restricted to the sphere is a zonal kernel since $$ |\mathbf{x}-\mathbf{y}|_2 = \sqrt{2-2\mathbf{x}^T\mathbf{y}} $$ for any $\mathbf{x},\mathbf{y}\in{\bf S}^2$.  So, for the Gaussian, $$ \psi(t) = \exp\left(-\frac{2(1-t)}{\sigma^2}\right). \quad (3) $$</p>
 <p>Zonal kernels have the beautiful property that, for a fixed $\mathbf{y}\in{\bf S}^2$, their spherical harmonic coefficients satisfy $$ c_{\ell}^{m} = \int_{S^2} \psi(\mathbf{x}^T\mathbf{y})Y_{\ell}^{m}(\mathbf{x})dS = \frac{4\pi a_{\ell}}{2\ell+1} Y_{\ell}^{m}(\mathbf{y}), \quad (4) $$ where $a_{\ell}$ are the coefficients in the Legendre series expansion of $\psi$, i.e., $$ \psi(t) = \sum_{\ell=0}^{\infty} a_{\ell} P_{k}(t),\;\hbox{where}\; a_{\ell} = \frac{2\ell+1}{2}\int_{-1}^{1}\psi(t)P_{\ell}(t)dt. $$ Here, $P_{\ell}$ denotes the Legendre polynomial of degree $\ell$.  This property is known as the <em>Funk-Hecke formula</em> and holds for any $\psi \in L^1(-1,1)$ [2, Sec. 2.5].</p>
 <p>Equation (4) implies that, for a fixed $\ell$, the values $c_{\ell}^{m}/Y_{\ell}^{m}(\mathbf{y})$, for $-\ell \leq m \leq \ell$, are all equal. We can verify this for the Gaussian by taking the spherical harmonic coefficients computed previously and scaling them by the appropriate value of $Y_{\ell}^{m}(\mathbf{x}_0)$.</p>
 <pre class="mcode-input">k = 1;
@@ -261,9 +261,9 @@ plot(Y), hold on, contour(Y,[0 0],'k-'), axis off, hold off</pre>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>

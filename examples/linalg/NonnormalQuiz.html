@@ -73,7 +73,7 @@ A2 =
      0    -2
 </pre>
 
-<p>The quiz is about the behavior of solutions to the differential equation $u' = Au$, where $A$ is one of these matrices. The solution of this equation is $u(t) = e^{tA}u(0)$, where $e^{tA}$ is the exponential of the matrix $tA$, computed in MATLAB by the command <code>expm</code>.  The maximum possible value of the quotient $\|u(t)\|/\|u(0)\|$ is equal to the matrix norm of <code>expm(tA)</code>.</p>
+<p>The quiz is about the behavior of solutions to the differential equation $u' = Au$, where $A$ is one of these matrices. The solution of this equation is $u(t) = e^{tA}u(0)$, where $e^{tA}$ is the exponential of the matrix $tA$, computed in MATLAB by the command <code>expm</code>.  The maximum possible value of the quotient $|u(t)|/|u(0)|$ is equal to the matrix norm of <code>expm(tA)</code>.</p>
 <p>We first present the plot, then explain what it means and how we computed it with Chebfun.</p>
 <pre class="mcode-input">e1 = chebfun(@(t) norm(expm(t*A1)),[0 3.4],'vectorize');
 e2 = chebfun(@(t) norm(expm(t*A2)),[0 3.4],'vectorize');
@@ -115,9 +115,9 @@ maxt2 =
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>

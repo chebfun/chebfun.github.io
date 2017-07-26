@@ -127,7 +127,7 @@ ans =
 
 <p><img src="img/guide06_02.png" class="figure" alt=""></p>
 <h3 id="62-backslash-and-least-squares">6.2 Backslash and least-squares</h3>
-<p>In MATLAB, the command <code>c = A\b</code> computes the solution to the system of equations $Ac = b$ if $A$ is a square matrix, whereas if $A$ is rectangular, with more rows than columns, it computes the least squares solution, the vector $c$ that minimizes $\|Ac-b\|$.  A quasimatrix is always rectangular, and <code>\</code> has accordingly been overloaded to carry out the appropriate continuous least-squares computation. (The actual MATLAB command that handles backslash is <code>mldivide</code>.)</p>
+<p>In MATLAB, the command <code>c = A\b</code> computes the solution to the system of equations $Ac = b$ if $A$ is a square matrix, whereas if $A$ is rectangular, with more rows than columns, it computes the least squares solution, the vector $c$ that minimizes $|Ac-b|$.  A quasimatrix is always rectangular, and <code>\</code> has accordingly been overloaded to carry out the appropriate continuous least-squares computation. (The actual MATLAB command that handles backslash is <code>mldivide</code>.)</p>
 <p>For example, continuing with the same chebfun <code>x</code> and quasimatrix <code>A</code> as above, consider the following sequence:</p>
 <pre class="mcode-input">  f = exp(x).*sin(6*x);
   c = A\f</pre>
@@ -230,7 +230,7 @@ ans =
    0.035425077461572
 </pre>
 
-<p>The largest singular value is equal to the norm of the quasimatrix, which is defined by  $\|A\| = \max_x \|Ax\| / \|x\|$.</p>
+<p>The largest singular value is equal to the norm of the quasimatrix, which is defined by  $|A| = \max_x |Ax| / |x|$.</p>
 <pre class="mcode-input">  norm(A,2)</pre>
 
 <pre class="mcode-output">ans =
@@ -332,7 +332,7 @@ ans =
 
 <p>Chebyshev polynomials form an excellent basis for expansions on $[-1,1]$, a fact that is at the heart of Chebfun.</p>
 <h3 id="65-other-norms">6.5 Other norms</h3>
-<p>The definition $\|A\| = \max_x \|Ax\|/\|x\|$ makes sense in other norms besides the $2$-norm, and the particularly important alternatives are the $1$-norm and the $\infty$-norm.  The 1-norm of a column quasimatrix is the "maximum column sum", i.e., the maximum of the 1-norms of its columns.   In the case of our quasimatrix $A$, the maximum is attained by the first column, which has norm $2$:</p>
+<p>The definition $|A| = \max_x |Ax|/|x|$ makes sense in other norms besides the $2$-norm, and the particularly important alternatives are the $1$-norm and the $\infty$-norm.  The 1-norm of a column quasimatrix is the "maximum column sum", i.e., the maximum of the 1-norms of its columns.   In the case of our quasimatrix $A$, the maximum is attained by the first column, which has norm $2$:</p>
 <pre class="mcode-input">  norm(A,1)</pre>
 
 <pre class="mcode-output">ans =
@@ -413,9 +413,9 @@ Epslevel = 1.555489e-15.  Vscale = 1.425588e+00.
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>

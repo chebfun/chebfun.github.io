@@ -129,7 +129,7 @@ ylabel('error',FS,fs)</pre>
 plot(f-ftmp*scale)</pre>
 
 <p><img src="img/FindingRankOne_02.png" class="figure" alt=""></p>
-<p>The last plots suggest linear convergence of $\hat f$ to $f$ in the whole unit cube. Indeed, it is known [1] that under mild assumptions and with an initial guess close to an intersection point, alternating projections converges linearly to the intersection. For this example; the convergence of $\|f-\hat f\|$ is convincingly linear.</p>
+<p>The last plots suggest linear convergence of $\hat f$ to $f$ in the whole unit cube. Indeed, it is known [1] that under mild assumptions and with an initial guess close to an intersection point, alternating projections converges linearly to the intersection. For this example; the convergence of $|f-\hat f|$ is convincingly linear.</p>
 <pre class="mcode-input">semilogy(err,'-o',LW,lw)
 xlabel('iteration',FS,fs)
 ylabel('error $\|f-\hat f\|$',TEX,tex,FS,fs)</pre>
@@ -148,9 +148,9 @@ ylabel('error $\|f-\hat f\|$',TEX,tex,FS,fs)</pre>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js?lang=matlab" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
     <script type="text/javascript" src="/js/config.js"></script>
     <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
   </body>
