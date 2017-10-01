@@ -56,7 +56,7 @@
     <div class='page-header'>
 <span class='chapter_number'>4</span>
 <h1>Chebfun and Approximation Theory</h1>
-<h2>Lloyd N. Trefethen, November 2009, latest revision December 2014<span>
+<h2>Lloyd N. Trefethen, November 2009, latest revision September 2017<span>
     
         <a href='/docs/guide/guide03.html'
 >previous</a><span class='sep-sm
@@ -89,7 +89,9 @@
    128     0  -256     0   160     0   -32     0     1
 </pre>
 
-<p>Note that the output of <code>poly</code> follows the pattern for MATLAB's standard <code>poly</code> command: it is a row vector, and the high-order coefficients come first. Thus, for example, the fourth row above tells us that $T_3(x) = 4x^3 - 3x$.</p>
+<p>Note that the output of <code>poly</code> follows the pattern for MATLAB's standard <code>poly</code> command: it is a row vector, and the high-order coefficients come first. Thus, for example, the fourth row above tells us that $T_3(x) =</p>
+<pre class="mcode-input">%http://localhost:8000/docs/guide 4x^3 - 3x$.</pre>
+
 <p>Here are plots of $T_2$, $T_3$, $T_{15}$, and $T_{50}$.</p>
 <pre class="mcode-input">  subplot(2,2,1), plot(chebpoly(2)), ylim([-1.5 1.5])
   subplot(2,2,2), plot(chebpoly(3)), ylim([-1.5 1.5])
@@ -141,7 +143,7 @@ c = chebcoeffs(x.^3)</pre>
                    0
   -0.391267079653368
                    0
-   0.004995154604224
+   0.004995154604225
                    0
   -0.000030046516349
                    0
@@ -153,27 +155,27 @@ c = chebcoeffs(x.^3)</pre>
 </pre>
 
 <p>By using <code>poly</code> we can print the coefficients of such a chebfun in the monomial basis.  Here for example are the coefficients of the Chebyshev interpolant of $\exp(x)$ compared with the Taylor series coefficients:</p>
-<pre class="mcode-input">cchebfun = chebcoeffs(exp(x));
+<pre class="mcode-input">cchebfun = flipud(poly(exp(x)).');
 ctaylor = 1./gamma(1:length(cchebfun))';
 disp('        chebfun              Taylor')
 disp([cchebfun ctaylor])</pre>
 
 <pre class="mcode-output">        chebfun              Taylor
-   1.266065877752008   1.000000000000000
-   1.130318207984970   1.000000000000000
-   0.271495339534077   0.500000000000000
-   0.044336849848664   0.166666666666667
-   0.005474240442094   0.041666666666667
-   0.000542926311914   0.008333333333333
-   0.000044977322954   0.001388888888889
-   0.000003198436462   0.000198412698413
-   0.000000199212481   0.000024801587302
-   0.000000011036772   0.000002755731922
-   0.000000000550590   0.000000275573192
-   0.000000000024980   0.000000025052108
-   0.000000000001039   0.000000002087676
-   0.000000000000040   0.000000000160590
-   0.000000000000001   0.000000000011471
+   1.000000000000000   1.000000000000000
+   1.000000000000002   1.000000000000000
+   0.500000000000000   0.500000000000000
+   0.166666666666600   0.166666666666667
+   0.041666666666662   0.041666666666667
+   0.008333333333954   0.008333333333333
+   0.001388888889005   0.001388888888889
+   0.000198412695834   0.000198412698413
+   0.000024801586720   0.000024801587302
+   0.000002755737384   0.000002755731922
+   0.000000275574391   0.000000275573192
+   0.000000025045981   0.000000025052108
+   0.000000002086529   0.000000002087676
+   0.000000000164047   0.000000000160590
+   0.000000000011937   0.000000000011471
 </pre>
 
 <p>The fact that these differ is not an indication of an error in the Chebfun approximation.  On the contrary, the Chebfun coefficients do a better job of approximating than the truncated Taylor series.  If $f$ were a function like $1/(1+25x^2)$, the Taylor series would not converge at all.</p>
@@ -256,7 +258,7 @@ err100 = norm(f100-fexact,inf)
 err1000 = norm(f1000-fexact,inf)</pre>
 
 <pre class="mcode-output">err10 =
-   0.111111111111112
+   0.111111111111111
 err100 =
    0.010101010101010
 err1000 =
@@ -270,14 +272,15 @@ err1000 =
   length(chebfun('abs(x).*x.^3'))
   length(chebfun('abs(x).*x.^4'))</pre>
 
-<pre class="mcode-output">ans =
-       32092
+<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
 ans =
-        2935
+       65537
 ans =
-   884
+        1259
 ans =
-   419
+   694
+ans =
+   387
 </pre>
 
 <p>Of course, these particular functions would be easily approximated by piecewise smooth chebfuns.</p>
@@ -331,22 +334,22 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)</pre>
 subplot(2,1,2), cheb.gallery('sinefun2'), ylim([0 3.5])</pre>
 
 <p><img src="img/guide04_09.png" class="figure" alt=""></p>
-<p>The next theorem asserts that Chebyshev interpolants can be computed by the barycentric formula [Salzer 1972].  The sumation with a double prime denotes the sum from $k=0$ to $k=N$ with both terms $k=0$ and $k=N$ multiplied by $1/2$.</p>
+<p>The next theorem asserts that Chebyshev interpolants can be computed by the barycentric formula [Salzer 1972].  The summation with a double prime denotes the sum from $k=0$ to $k=N$ with both terms $k=0$ and $k=N$ multiplied by $1/2$.</p>
 <p><em>THEOREM 4</em>. $$ p(x) = \sum_{k=0}^N \mbox{''} {(-1)^k f(x_k)\over x-x_k} \left/ \sum_{k=0}^N \mbox{''}{(-1)^k\over x-x_k}. \right. $$</p>
 <p>See [Berrut &amp; Trefethen 2005] and [Trefethen 2013] for information about barycentric interpolation.</p>
 <p>The final theorem asserts that the barycentric formula has no difficulty with rounding errors.  Our "theorem" is really just an advertisement; see [Higham 2004] for a precise statement and proof.  Earlier work on this subject appeared in [Rack &amp; Reimer 1982].</p>
 <p><em>THEOREM 5</em>.  <em>The barycentric formula of Theorem</em> 4 <em>is numerically stable.</em></p>
 <p>This stability result may seem surprising when one notes that for $x$ close to $x_k$, the barycentric formula involves divisions by numbers that are nearly zero.  Nevertheless it is provably stable.  If $x$ is exactly equal to some $x_k$, then one bypasses the formula and returns the exact value $p(x) = f(x_k)$.</p>
-<h3 id="46-best-approximations-and-the-remez-algorithm">4.6  Best approximations and the Remez algorithm</h3>
-<p>For practical computations, it is rarely worth the trouble to compute a best (minimax) approximation rather than simply a Chebyshev interpolant. Nevertheless best approximations are a beautiful and well-established idea, and it is certainly interesting to be able to compute them. Chebfun makes this possible with the command <code>remez</code>, named after Evgeny Remez, who devised the standard algorithm for computing these approximations in 1934. This capability is due to Ricardo Pachon; see [Pachon &amp; Trefethen 2009].</p>
+<h3 id="46-best-approximations-and-the-minimax-command">4.6  Best approximations and the minimax command</h3>
+<p>For practical computations, it is rarely worth the trouble to compute a best (minimax) approximation rather than simply a Chebyshev interpolant. Nevertheless best approximations are a beautiful and well-established idea, and it is certainly interesting to be able to compute them. Chebfun makes this possible with the command <code>minimax</code>.  For details, see [Filip, Nakatsukasa, Trefethen &amp; Beckermann 2017].</p>
 <p>For example, here is a function on the interval $[0,4]$ together with its best approximation by a polynomial of degree $20$:</p>
 <pre class="mcode-input">f = chebfun('sqrt(abs(x-3))',[0,4],'splitting','on');
-p = remez(f,20);
+p = minimax(f,20);
 clf, plot(f,'b',p,'r'), grid on</pre>
 
 <p><img src="img/guide04_10.png" class="figure" alt=""></p>
-<p>A plot of the error curve $(f-p)(x)$ shows that it equioscillates between $20+2 = 22$ alternating extreme values.  Note that a second output argument from <code>remez</code> returns the error as well as the polynomial.</p>
-<pre class="mcode-input">[p,err] = remez(f,20);
+<p>A plot of the error curve $(f-p)(x)$ shows that it equioscillates between $20+2 = 22$ alternating extreme values.  Note that a second output argument from <code>minimax</code> returns the error as well as the polynomial.</p>
+<pre class="mcode-input">[p,err] = minimax(f,20);
 plot(f-p,'m'), hold on
 plot([0 4],err*[1 1],'--k'), plot([0 4],-err*[1 1],'--k')
 ylim(3*err*[-1,1])</pre>
@@ -358,7 +361,7 @@ plot(f-pinterp,'b')</pre>
 
 <p><img src="img/guide04_12.png" class="figure" alt=""></p>
 <p>Notice that although the best approximation has a smaller maximum error, it is a worse approximation for most values of $x$.</p>
-<p>Chebfun's  <code>remez</code> command can compute certain rational best approximants too, though it is somewhat fragile. If your function is smooth, a possibly more robust approach to computing best approximations is Caratheodory-Fejer approximation, implemented in the code <code>cf</code> due to Joris Van Deun [Van Deun &amp; Trefethen 2011].  For example:</p>
+<p>Chebfun's <code>minimax</code> command can compute rational best approximants too, and it is probably the most robust code in existence for such approximations.  If your function is smooth, another fast and robust approach to computing best approximations is Caratheodory-Fejer approximation, implemented in the code <code>cf</code> due to Joris Van Deun [Van Deun &amp; Trefethen 2011].  For example:</p>
 <pre class="mcode-input">f = chebfun('exp(x)');
 [p,q] = cf(f,5,5);
 r = p./q;
@@ -399,16 +402,16 @@ plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')</pre>
 <pre class="mcode-input">semilogy(lebesgue(linspace(-1,1,40)))</pre>
 
 <p><img src="img/guide04_18.png" class="figure" alt=""></p>
-<p>As the degree increases, polynomial interpolants in equispaced points diverge exponentially, and no other method of approximation based on equispaced data can completely get around this problem [Platte, Trefethen &amp; Kuijlaars 2011].  (Equispaced points are perfect for trigonometric interpolation of periodic functions, of course, accessible in Chebfun with the <code>trig</code> flag.)</p>
+<p>As the degree increases, polynomial interpolants in equispaced points diverge exponentially, and no other method of approximation based on equispaced data can completely get around this problem [Platte, Trefethen &amp; Kuijlaars 2011].  (Equispaced points are perfect for trigonometric interpolation of periodic functions, of course, accessible in Chebfun with the <code>trig</code> flag, as described in Chapter 11.)</p>
 <h3 id="48-rational-approximations">4.8  Rational approximations</h3>
-<p>Chebfun contains four different programs, at present, for computing rational approximants to a function $f$.  We say that a rational function is of type $(m,n)$ if it can be written as a quotient of one polynomial of degree at most $m$ and another of degree at most $n$.</p>
-<p>To illustrate the possibilities, consider the function</p>
+<p>Chebfun contains five different programs, at present, for computing rational approximants to a function $f$.  We say that a rational function is of type $(m,n)$ if it can be written as a quotient of one polynomial of degree at most $m$ and another of degree at most $n$.</p>
+<p>To illustrate some of the possibilities, consider the function</p>
 <pre class="mcode-input">f = chebfun('tanh(pi*x/2) + x/20',[-10,10]);
 length(f)
 plot(f)</pre>
 
 <pre class="mcode-output">ans =
-   350
+   356
 </pre>
 
 <p><img src="img/guide04_19.png" class="figure" alt=""></p>
@@ -421,7 +424,7 @@ r = p./q;</pre>
 plot(f-r,'r')</pre>
 
 <pre class="mcode-output">ans =
-     4.884636435860269e-09
+     4.884633978946795e-09
 </pre>
 
 <p><img src="img/guide04_20.png" class="figure" alt=""></p>
@@ -429,10 +432,10 @@ plot(f-r,'r')</pre>
 <pre class="mcode-input">roots(q,'complex')</pre>
 
 <pre class="mcode-output">ans =
-  0.000000000000000 - 1.000000750727750i
-  0.000000000000000 + 1.000000750727750i
-  0.000000000000000 - 3.004284960128786i
-  0.000000000000000 + 3.004284960128786i
+  0.000000000000000 - 1.000000750727787i
+  0.000000000000000 + 1.000000750727787i
+  0.000000000000000 - 3.004284960232532i
+  0.000000000000000 + 3.004284960232532i
 </pre>
 
 <p>A similar but perhaps faster and more robust approach to rational interpolation is encoded in the command <code>ratinterp</code>, which computes a type $(m,n)$ interpolant through $m+n+1$ Chebyshev points (or, optionally, a different set of points). This capability was developed by Ricardo Pachon, Pedro Gonnet and Joris Van Deun [Pachon, Gonnet &amp; Van Deun 2012]. The results are similar:</p>
@@ -442,7 +445,7 @@ norm(f-r)
 plot(f-r,'m')</pre>
 
 <pre class="mcode-output">ans =
-     3.500806556974699e-07
+     3.501471641785210e-07
 </pre>
 
 <p><img src="img/guide04_21.png" class="figure" alt=""></p>
@@ -450,20 +453,20 @@ plot(f-r,'m')</pre>
 <pre class="mcode-input">roots(q,'complex')</pre>
 
 <pre class="mcode-output">ans =
-  0.000000000000000 - 1.000011079941540i
-  0.000000000000000 + 1.000011079941540i
-  0.000000000000000 - 3.010648045969651i
-  0.000000000000000 + 3.010648045969651i
+  0.000000000000000 - 1.000011081921002i
+  0.000000000000000 + 1.000011081921002i
+  0.000000000000000 - 3.010649201142672i
+  0.000000000000000 + 3.010649201142672i
 </pre>
 
-<p>The third and fourth options for rational approximation, as mentioned in Section 4.6, are best approximants computed by <code>remez</code> and Caratheodory-Fejer approximants computed by <code>cf</code> [Trefethen &amp; Gutknecht 1983, Van Deun &amp; Trefethen 2011]. As mentioned in Section 4.6, CF approximants often agree with best approximations to machine precision if $f$ is smooth. We explore the same function yet again, and this time obtain an equioscillating error curve:</p>
+<p>The third and fourth options for rational approximation, as mentioned in Section 4.6, are best approximants computed by <code>minimax</code> and Caratheodory-Fejer approximants computed by <code>cf</code> [Trefethen &amp; Gutknecht 1983, Van Deun &amp; Trefethen 2011]. As mentioned in Section 4.6, CF approximants often agree with best approximations to machine precision if $f$ is smooth. We explore the same function yet again, and this time obtain an equioscillating error curve:</p>
 <pre class="mcode-input">[p,q] = cf(f,40,4);
 r = p./q;
 norm(f-r)
 plot(f-r,'c')</pre>
 
 <pre class="mcode-output">ans =
-     2.999181329715887e-10
+     2.999219184714378e-10
 </pre>
 
 <p><img src="img/guide04_22.png" class="figure" alt=""></p>
@@ -471,13 +474,13 @@ plot(f-r,'c')</pre>
 <pre class="mcode-input">roots(q,'complex')</pre>
 
 <pre class="mcode-output">ans =
-  0.000000000000011 - 1.000000066684954i
-  0.000000000000011 + 1.000000066684954i
-  0.000000000001133 - 3.001936139267573i
-  0.000000000001133 + 3.001936139267573i
+ -0.000000000000004 - 1.000000066684862i
+ -0.000000000000004 + 1.000000066684862i
+ -0.000000000000085 - 3.001936139252179i
+ -0.000000000000085 + 3.001936139252179i
 </pre>
 
-<p>It is tempting to vary parameters and functions to explore more poles and what accuracy can be obtained for them.  But rational approximation and analytic continuation are very big subjects and we shall resist the temptation.  See Chapter 28 of [Trefethen 2013] and [Webb 2013].</p>
+<p>It is tempting to vary parameters and functions to explore more poles and what accuracy can be obtained for them.  But rational approximation and analytic continuation are very big subjects and we shall resist the temptation.  See Chapter 28 of [Trefethen 2013] and [Webb 2013].  Most important, see the <em>fifth</em> method available in Chebfun for computing rational approximants, the AAA ("adaptive Antoulas-Anderson) algorithm implemented in the code <code>aaa</code>.  This is suitable for all kinds of real and complex approximations on real and complex domains.  See the help text for <code>aaa</code> and [Nakatsukasa, Sete, and Trefethen 2016], where many examples are explored.  Internally, the <code>minimax</code> command relies on methods related to AAA approximation.</p>
 <h3 id="49-references">4.9  References</h3>
 <p>[Baker and Graves-Morris 1996] G. A. Baker, Jr. and P. Graves-Morris, <em>Pade Approximants</em>, 2nd ed., Cambridge U. Press, 1996.</p>
 <p>[Battles &amp; Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension of MATLAB to continuous functions and operators", <em>SIAM Journal on Scientific Computing</em>, 25 (2004), 1743-1770.</p>
@@ -487,6 +490,7 @@ plot(f-r,'c')</pre>
 <p>[Cheney 1966] E. W. Cheney, <em>Introduction to Approximation Theory</em>, McGraw-Hill 1966 and AMS/Chelsea, 1999.</p>
 <p>[Davis 1963] P. J. Davis, <em>Interpolation and Approximation</em>, Blaisdell, 1963 and Dover, 1975.</p>
 <p>[Ehlich &amp; Zeller 1966] H. Ehlich and K. Zeller, "Auswertung der Normen von Interpolationsoperatoren", <em>Mathematische Annalen</em>, 164 (1966), 105-112.</p>
+<p>[Filip, Nakatsukasa, Trefethen &amp; Beckermann 2017] S. Filip, Y. Nakatsukasa, L. N. Trefethen, and B. Beckermann, "Rational minimax approximations via adaptive barycentric representations," <em>SIAM Journal on Scientific Computing</em>, submitted, 2017.</p>
 <p>[Fox &amp; Parker 1966] L. Fox and I. B. Parker, <em>Chebyshev Polynomials in Numerical Analysis</em>, Oxford U. Press, 1968.</p>
 <p>[Helmberg &amp; Wagner 1997] G. Helmberg &amp; P. Wagner, "Manipulating Gibbs' phenomenon for Fourier interpolation", <em>Journal of Approximation Theory</em>, 89 (1997), 308-320.</p>
 <p>[Higham 2004] N. J. Higham, "The numerical stability of barycentric Lagrange interpolation", <em>IMA Journal of Numerical Analysis</em>, 24 (2004), 547-556.</p>
@@ -495,8 +499,8 @@ plot(f-r,'c')</pre>
 <p>[Mason &amp; Handscomb 2003] J. C. Mason and D. C. Handscomb, <em>Chebyshev Polynomials</em>, CRC Press, 2003.</p>
 <p>[Mastroianni &amp; Szabados 1995] G. Mastroianni and J. Szabados, "Jackson order of approximation by Lagrange interpolation", <em>Acta Mathematica Hungarica</em>, 69 (1995), 73-82.</p>
 <p>[Meinardus 1967] G. Meinardus, <em>Approximation of Functions: Theory and Numerical Methods</em>, Springer, 1967.</p>
+<p>[Nakatsukasa, Sete &amp; Trefethen 2016], The AAA algorithm for rational approximation, <em>SIAM Journal on Scientific Computing</em>, submitted, 2016.</p>
 <p>[Pachon, Gonnet &amp; Van Deun 2012] R. Pachon, P Gonnet and J. Van Deun, "Fast and stable rational interpolation in roots of unity and Chebyshev points", <em>SIAM Journal on Numerical Analysis</em>, 50 (2011), 1713-1734.</p>
-<p>[Pachon &amp; Trefethen 2009] R. Pachon and L. N. Trefethen, "Barycentric-Remez algorithms for best polynomial approximation in the chebfun system", <em>BIT Numerical Mathematics</em>, 49 (2009), 721-741.</p>
 <p>[Platte, Trefethen &amp; Kuijlaars 2011] R. P. Platte, L. N. Trefethen and A. B. J. Kuijlaars, "Impossibility of fast stable approximation of analytic functions from equispaced samples", <em>SIAM Review</em>, 53 (2011), 308-318.</p>
 <p>[Powell 1981] M. J. D. Powell, <em>Approximation Theory and Methods</em>, Cambridge University Press, 1981.</p>
 <p>[Rack &amp; Reimer 1982] H.-J. Rack and M. Reimer, "The numerical stability of evaluation schemes for polynomials based on the Lagrange interpolation form", <em>BIT Numerical Mathematics</em>, 22 (1982), 101-107.</p>
