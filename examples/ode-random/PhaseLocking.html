@@ -66,7 +66,7 @@
 N.lbc = 0; N.op = @(t,y) diff(y) - t*y + y^3;
 LW = 'linewidth'; FS = 'fontsize'; fs = 32;
 for k = 1:6
-  f = randnfun(0.2,dom,'norm');
+  f = randnfun(0.2,dom,'big');
   y = N\f; plot(y,LW,5), hold on
 end
 xlabel('t',FS,36), ylabel('y',FS,36)
@@ -79,7 +79,7 @@ title('lambda = 0.2, 6 paths',FS,fs), toc</pre>
 <p>Here's the same computation with $\lambda = 0.05$.</p>
 <pre class="mcode-input">tic, clf
 for k = 1:6
-  f = randnfun(0.05,dom,'norm');
+  f = randnfun(0.05,dom,'big');
   y = N\f; plot(y,LW,2), hold on
 end
 xlabel('t',FS,36), ylabel('y',FS,36)
@@ -92,7 +92,7 @@ title('lambda = 0.05, 6 paths',FS,fs), toc</pre>
 <p>Here's a much bigger sample.</p>
 <pre class="mcode-input">tic, clf
 for k = 1:60
-  f = randnfun(0.05,dom,'norm');
+  f = randnfun(0.05,dom,'big');
   y = N\f; plot(y,LW,1), hold on
 end
 xlabel('t',FS,36), ylabel('y',FS,36)
