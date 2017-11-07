@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Phase-locking in a Duffing-type equation &raquo; Chebfun</title>
+    <title>Analyticity at eigenvalue near-crossings &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,54 +54,61 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1>Phase-locking in a Duffing-type equation</h1>
-<h2>Kevin Burrage and Nick Trefethen, May 2017 in <a href='/examples/ode-random/'>ode-random</a><span><a href='/examples/ode-random/PhaseLocking.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/ode-random/PhaseLocking.m'>view on GitHub</a></span></h2>
+<h1>Analyticity at eigenvalue near-crossings</h1>
+<h2>Nick Trefethen, November 2017 in <a href='/examples/linalg/'>linalg</a><span><a href='/examples/linalg/CrossingsAnalyticity.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/linalg/CrossingsAnalyticity.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>Consider the bistable equation $y' = ty - y^3 + f$, where $f$ is a random term of fixed amplitude. The fixed points of the deterministic part of the equation, locally at a time $t$, are $\pm |t|^{1/2}$.  For small $t$, noise easily crosses this gap, but as $t$ gets larger any trajectory eventually settles down to a choice that is (almost surely) fixed forever.  First we use $\lambda = 0.2$.</p>
-<pre class="mcode-input">tic, dom = [0 6]; N = chebop(dom); rng(0)
-N.lbc = 0; N.op = @(t,y) diff(y) - t*y + y^3;
-LW = 'linewidth'; FS = 'fontsize'; fs = 32;
-for k = 1:6
-  f = randnfun(0.2,dom,'norm');
-  y = N\f; plot(y,LW,5), hold on
+<p>In the example "Eigenvalue Level Repulsion" of 2010, we considered morphing one real symmetric matrix into another,</p>
+<p>$$ A(t) = (1-t)A + tB , \quad t \in [0, 1]. $$</p>
+<p>Generically there will be no double eigenvalues for any $t$, though some may come close.  Here are the bottom two eigenvalues from that example as a function of $t$:</p>
+<pre class="mcode-input">rng(1); n = 10;
+A = randn(n); A = A+A'; B = randn(n); B = B+B';
+ek = @(e,k) e(k);            % returns kth element of the vector e
+eigA = @(A) sort(eig(A));    % returns sorted eigenvalues of the matrix A
+eigk = @(A,k) ek(eigA(A),k); % returns kth eigenvalue of the matrix A
+d = [0 1]; t = chebfun('t',d); E = chebfun;
+for k = 1:n
+   E(:,k) = chebfun(@(t) eigk((1-t)*A+t*B,k),d);
 end
-xlabel('t',FS,36), ylabel('y',FS,36)
-title('lambda = 0.2, 6 paths',FS,fs), toc</pre>
+E1 = E(:,1); E2 = E(:,2);
 
-<pre class="mcode-output">Elapsed time is 5.923743 seconds.
-</pre>
+FS = 'fontsize'; MS = 'markersize';
+figure, plot([E1; E2]), grid on
+title('Near-crossing of two eigenvalues');
+xlabel('t',FS,12)</pre>
 
-<p><img src="img/PhaseLocking_01.png" class="figure" alt=""></p>
-<p>Here's the same computation with $\lambda = 0.05$.</p>
-<pre class="mcode-input">tic, clf
-for k = 1:6
-  f = randnfun(0.05,dom,'norm');
-  y = N\f; plot(y,LW,2), hold on
-end
-xlabel('t',FS,36), ylabel('y',FS,36)
-title('lambda = 0.05, 6 paths',FS,fs), toc</pre>
+<p><img src="img/CrossingsAnalyticity_01.png" class="figure" alt=""></p>
+<p>Antoine Levitt of the Ecole des Ponts has alerted me to a phenomenon that physicists know but numerical analysts may not be so well aware of.  Numerical analysts know that eigenvalues of real symmetric matrices are well-conditioned, with condition number $1$ in the 2-norm. It's the <em>eigenvectors</em>, we are taught, that grow ill-behaved as two eigenvalues come close together.</p>
+<p>But in fact, the eigenvalues misbehave too, even though they are analytic functions and even though their condition number, if that's all you look at, is irreproachable. One way to see this is simply to plot the derivatives of these two eigenvalue functions as a function of the parameter $t$:</p>
+<pre class="mcode-input">plot(diff([E1; E2]))
+title('derivatives of the eigenvalue functions')</pre>
 
-<pre class="mcode-output">Elapsed time is 8.176921 seconds.
-</pre>
+<p><img src="img/CrossingsAnalyticity_02.png" class="figure" alt=""></p>
+<p>Higher derivatives will be worse.</p>
+<p>More interesting to fans of complex analysis is the behavior in the complex plane.  Here we use AAA approximation to find a rational function that closely matches one of the eigenvalue functions.  We plot poles as red dots, and this reveals that the region of analyticity around the real axis is very narrow. (The actual singularity is probably a square root branch point; the rational approximation introduces a string of poles along a branch cut.)</p>
+<pre class="mcode-input">X = linspace(0,1,1000);
+[r,pol] = aaa(E1,X);
+plot(pol,'.r',MS,8), grid on
+axis([0 1 -.2 .2])
+title('narrow strip of analyticity')</pre>
 
-<p><img src="img/PhaseLocking_02.png" class="figure" alt=""></p>
-<p>Here's a much bigger sample.</p>
-<pre class="mcode-input">tic, clf
-for k = 1:60
-  f = randnfun(0.05,dom,'norm');
-  y = N\f; plot(y,LW,1), hold on
-end
-xlabel('t',FS,36), ylabel('y',FS,36)
-title('lambda = 0.05, 60 paths',FS,fs), toc</pre>
+<p><img src="img/CrossingsAnalyticity_03.png" class="figure" alt=""></p>
+<p>On the other hand Levitt points out that the sum of the two nearly-colliding eigenvalues will be much better behaved, a phenomenon that he and others exploit in computational physics.  Here is that sum:</p>
+<pre class="mcode-input">Esum = E1 + E2;
+plot(Esum)
+title('sum of the two eigenvalues')</pre>
 
-<pre class="mcode-output">Elapsed time is 82.702343 seconds.
-</pre>
+<p><img src="img/CrossingsAnalyticity_04.png" class="figure" alt=""></p>
+<p>And here are the poles of the AAA approximant:</p>
+<pre class="mcode-input">[r,pol] = aaa(Esum(X),X);
+plot(pol,'.r',MS,8), grid on
+axis([0 1 -.2 .2])
+title('for the sum, a wider strip of analyticity')</pre>
 
-<p><img src="img/PhaseLocking_03.png" class="figure" alt=""></p></div>
+<p><img src="img/CrossingsAnalyticity_05.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>

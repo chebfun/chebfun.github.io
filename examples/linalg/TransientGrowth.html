@@ -61,7 +61,7 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>If $A$ is a matrix whose eigenvalues are in the open left half of the complex plane, then the corresponding dynamical system defined by the equation $\frac{du}{dt} = Au$ is asymptotically stable, with all solutions decaying to zero as $t \to \infty$.  Since the solution is $u(t) = e^{tA} u(0)$, another way to say this is that the quantity $| e^{tA} |$ decays to zero as $t \to \infty$.</p>
+<p>If $A$ is a matrix whose eigenvalues are in the open left half of the complex plane, then the corresponding dynamical system defined by the equation $\frac{du}{dt} = Au$ is asymptotically stable, with all solutions decaying to zero as $t \to \infty$.  Since the solution is $u(t) = e^{tA} u(0)$, another way to say this is that the quantity $\| e^{tA} \|$ decays to zero as $t \to \infty$.</p>
 <p>Along the way, however, there may be transient growth, and this is important, for example, in some problems in fluid mechanics. A recent paper by Whidborne and Amar [2] considers the following matrix taken from an earlier paper by Plitschke and Wirth:</p>
 <pre class="mcode-input">tic
 A = [-1 0 0 0 0 0 -625; 0 -1 -30 400 0 0 250; -2 0 -1 0 0 0 30;
@@ -87,7 +87,7 @@ A = [-1 0 0 0 0 0 -625; 0 -1 -30 400 0 0 250; -2 0 -1 0 0 0 30;
           -1
 </pre>
 
-<p>Here (adapted from <a href="NonnormalQuiz.html">linalg/NonnormalQuiz</a>) is a code to compute and plot $| e^{tA} |$ as a function of $t$:</p>
+<p>Here (adapted from <a href="NonnormalQuiz.html">linalg/NonnormalQuiz</a>) is a code to compute and plot $\| e^{tA} \|$ as a function of $t$:</p>
 <pre class="mcode-input">e = chebfun(@(t) norm(expm(t*A)),[0 2.5],'vectorize','splitting','on');
 LW = 'linewidth'; FS = 'fontsize'; plot(e,'b',LW,2)
 xlabel('t',FS,14), ylabel('||e^{tA}||',FS,14)

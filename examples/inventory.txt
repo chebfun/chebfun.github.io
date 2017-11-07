@@ -125,6 +125,7 @@ integro/FracCalc2.m
 integro/WikiIntegroDiff.m
 linalg/AnalyticSVD.m
 linalg/CondNos.m
+linalg/CrossingsAnalyticity.m
 linalg/Crouzeix.m
 linalg/EigsViaDet.m
 linalg/FieldOfValues.m
