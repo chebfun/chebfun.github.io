@@ -40,7 +40,7 @@ More interesting to fans of complex analysis is the behavior in the complex plan
 
 <pre class="mcode-input">X = linspace(0,1,1000);
 [r,pol] = aaa(E1,X);
-plot(pol,'.r',MS,8), grid on
+plot(pol,'.r',MS,12), grid on
 axis([0 1 -.2 .2])
 title('narrow strip of analyticity')</pre><img src="img/CrossingsAnalyticity_03.png" class="figure" alt="">
 
@@ -53,7 +53,7 @@ title('sum of the two eigenvalues')</pre><img src="img/CrossingsAnalyticity_04.p
 And here are the poles of the AAA approximant:
 
 <pre class="mcode-input">[r,pol] = aaa(Esum(X),X);
-plot(pol,'.r',MS,8), grid on
+plot(pol,'.r',MS,12), grid on
 axis([0 1 -.2 .2])
 title('for the sum, a wider strip of analyticity')</pre><img src="img/CrossingsAnalyticity_05.png" class="figure" alt="">
 

@@ -91,7 +91,7 @@ title('derivatives of the eigenvalue functions')</pre>
 <p>More interesting to fans of complex analysis is the behavior in the complex plane.  Here we use AAA approximation to find a rational function that closely matches one of the eigenvalue functions.  We plot poles as red dots, and this reveals that the region of analyticity around the real axis is very narrow. (The actual singularity is probably a square root branch point; the rational approximation introduces a string of poles along a branch cut.)</p>
 <pre class="mcode-input">X = linspace(0,1,1000);
 [r,pol] = aaa(E1,X);
-plot(pol,'.r',MS,8), grid on
+plot(pol,'.r',MS,12), grid on
 axis([0 1 -.2 .2])
 title('narrow strip of analyticity')</pre>
 
@@ -104,7 +104,7 @@ title('sum of the two eigenvalues')</pre>
 <p><img src="img/CrossingsAnalyticity_04.png" class="figure" alt=""></p>
 <p>And here are the poles of the AAA approximant:</p>
 <pre class="mcode-input">[r,pol] = aaa(Esum(X),X);
-plot(pol,'.r',MS,8), grid on
+plot(pol,'.r',MS,12), grid on
 axis([0 1 -.2 .2])
 title('for the sum, a wider strip of analyticity')</pre>
 
