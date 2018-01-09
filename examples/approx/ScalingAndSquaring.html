@@ -69,9 +69,9 @@
 <p>by</p>
 <p>$$ Y:=X\mbox{diag}((r(\lambda_i/2^s))^{2^s})X^{-1}\approx e^A, $$</p>
 <p>and the error satisfies</p>
-<p>$$ |e^A - Y|_2 \leq \kappa_2(X)\max_{z\in {\cal
+<p>$$ \|e^A - Y\|_2 \leq \kappa_2(X)\max_{z\in {\cal
 D}}\left|(r(z/2^s))^{2^s}-e^{z}\right|, $$</p>
-<p>where $\cal{D}$ is a region in the complex plane that contains the eigenvalues of $A$, and $\kappa_2(X)=|X|_2 |X^{-1}|_2$ is the 2-norm condition number of the eigenvectors. The term $\max_i\left|(r(\lambda_i/2^s))^{2^s}-e^{\lambda_i}\right|$ represents the exact error if $A$ is a normal matrix: the term $\kappa_2(X)$ can have nontrivial effects on the method for nonnormal $A$, but this is outside the scope of this example.  Below we investigate the error $\left|(r(z/2^s))^{2^s}-e^{z}\right|$ where $z$ takes points in the complex plane.  If this is small in the whole region $\cal D$, then $Y$ is a good approximation to $e^A$.</p>
+<p>where $\cal{D}$ is a region in the complex plane that contains the eigenvalues of $A$, and $\kappa_2(X)=\|X\|_2 \|X^{-1}\|_2$ is the 2-norm condition number of the eigenvectors. The term $\max_i\left|(r(\lambda_i/2^s))^{2^s}-e^{\lambda_i}\right|$ represents the exact error if $A$ is a normal matrix: the term $\kappa_2(X)$ can have nontrivial effects on the method for nonnormal $A$, but this is outside the scope of this example.  Below we investigate the error $\left|(r(z/2^s))^{2^s}-e^{z}\right|$ where $z$ takes points in the complex plane.  If this is small in the whole region $\cal D$, then $Y$ is a good approximation to $e^A$.</p>
 <p>The type $(k,m)$ Pade approximant of the exponential is explicitly known to be $r(z)=p_{k,m}(z)/q_{k,m}(z)$, where</p>
 <p>$$ p_{k,m}(z)=\sum_{j=0}^{k}\frac{(k+m-j)!k!}{(k+m)!(k-j)!}\frac{z^j}{j!},
 \quad
@@ -96,7 +96,7 @@ colorbar</pre>
 <p><img src="img/ScalingAndSquaring_02.png" class="figure" alt=""></p>
 <p>The graph shows that $(r(z/2^s))^{2^s}$ has no digits of relative accuracy except in the blue region.</p>
 <p>The two plots illustrate for example that around the point $z = -50$, the relative accuracy is terrible but the absolute accuracy is of order unit roundoff.  Hence $(r(z/2^s))^{2^s}$ is a good approximant near $z=-50$ if we are concerned with absolute accuracy instead of relative accuracy.</p>
-<p>In the context of the matrix exponential, the forward error is measured by the quantity $|e^A- Y|_2/|e^A|_2$, which for normal $A$ reduces to</p>
+<p>In the context of the matrix exponential, the forward error is measured by the quantity $\|e^A- Y\|_2/\|e^A\|_2$, which for normal $A$ reduces to</p>
 <p>$$\max_i\left|(r(\lambda_i/2^s))^{2^s}-e^{\lambda_i}\right|/e^{\max_i{\mbox{Re}(\lambda_i)}}\leq
 \max_{z\in {\cal
     D}}\left|(r(z/2^s))^{2^s}-e^{z}\right|/e^{\max_i{\mbox{Re}(\lambda_i)}}.$$</p>

@@ -67,7 +67,7 @@ FS = 'Fontsize'; fs = 16;</pre>
 
 <h3 id="least-squares-approximation">Least-squares approximation</h3>
 <p>If $f:[-1,1]\rightarrow R$ is an $L^2$-integrable function, then its least-squares or best $L^2$ approximation of degree $n$ is the polynomial $p_n$ of degree at most $n$ such that</p>
-<p>$$ | f - p_n |_2 = \mbox{minimum}. $$</p>
+<p>$$ \| f - p_n \|_2 = \mbox{minimum}. $$</p>
 <p>A good introduction to $L^2$ approximations can be found in [2]. The <code>polyfit</code> command in Chebfun returns the best $L^2$ approximation of a given degree to a chebfun:</p>
 <pre class="mcode-input">help chebfun/polyfit</pre>
 

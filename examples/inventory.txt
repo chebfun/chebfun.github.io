@@ -53,6 +53,7 @@ approx2/Pegs.m
 approx2/PrettyFunctions.m
 approx2/Random2D.m
 approx2/RandomPonds.m
+approx2/Tucker.m
 approx2/Zebra.m
 approx3/ChangeVar3D.m
 approx3/Complexity.m
@@ -124,6 +125,7 @@ integro/FracCalc2.m
 integro/WikiIntegroDiff.m
 linalg/AnalyticSVD.m
 linalg/CondNos.m
+linalg/CrossingsAnalyticity.m
 linalg/Crouzeix.m
 linalg/EigsViaDet.m
 linalg/FieldOfValues.m

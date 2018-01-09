@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Chebfun-related projects &raquo; Chebfun</title>
+    <title>2D zero set example of Warwick Tucker &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,93 +54,74 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-        <h1>Chebfun-related projects</h1></div>
+<h1>2D zero set example of Warwick Tucker</h1>
+<h2>Nick Trefethen, November 2017 in <a href='/examples/approx2/'>approx2</a><span><a href='/examples/approx2/Tucker.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx2/Tucker.m'>view on GitHub</a></span></h2>
+</div>
 
     <div class="container">
 <div class="row main">
-            <div id='content' class="col-sm-12" role="main">
-<p>This is a list of software projects that are related to Chebfun in some way.
-Some are partial implementations of Chebfun in other programming languages,
-while others are distinct projects based on closely related ideas.
-<a href="mailto:help@chebfun.org">Please contact us</a> if you know of a project that
-should be added to this list.</p>
-<ul>
-<li>
-<p><strong>ApproxFun</strong>, a project in Julia
-  by Sheehan Olver (Sydney) and Alex Townsend (MIT).
-  <br/>
-  <a href="https://github.com/dlfivefifty/ApproxFun.jl">https://github.com/dlfivefifty/ApproxFun.jl</a></p>
-</li>
-<li>
-<p><strong>pychebfun</strong>, a project in Python
-  started by Christopher Swierczewski (Washington) and currently maintained by Olivier Verdier (Bergen).
-  <br/>
-  <a href="https://github.com/olivierverdier/pychebfun">https://github.com/olivierverdier/pychebfun</a></p>
-</li>
-<li>
-<p><strong>chebpy</strong>, a Python implementation of Chebfun by Mark Richardson.
-  <br/>
-  <a href="https://github.com/chebpy/chebpy">https://github.com/chebpy/chebpy</a></p>
-</li>
-<li>
-<p><strong>Fourfun</strong>, a MATLAB package by Kristyn McLeod (ASU)
-  for computation with periodic functions.
-  <br/>
-  <a href="http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun">http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun</a></p>
-</li>
-<li>
-<p><strong>CHEBINT</strong>, a MATLAB/Octave toolbox
-  by Ronald Cools and Koen Poppe (KU Leuven)
-  <br/>
-  <a href="http://nines.cs.kuleuven.be/software/CHEBINT/">http://nines.cs.kuleuven.be/software/CHEBINT/</a></p>
-</li>
-<li>
-<p><strong>PaCAL</strong>, a package for probabilistic calculation in Python
-  by Szymon Jaroszewicz (Polish Academy of Sciences) and Marcin Korzen (West Pomeranian U. of Technology)
-  <br/>
-  <a href="http://pacal.sourceforge.net/">http://pacal.sourceforge.net/</a></p>
-</li>
-<li>
-<p><strong>sincfun</strong>, a sinc function analogue of Chebfun
-  by Mark Richardson (Oxford)
-  <br/>
-  <a href="https://github.com/markrichardson/sincfun">https://github.com/markrichardson/sincfun</a></p>
-</li>
-<li>
-<p><strong>Chebfun-like facilities in LISP</strong>, an implementation using a computer algebra system
-  by Richard J. Fateman (Berkeley).
-  <br/>
-  <a href="http://www.cs.berkeley.edu/~fateman/papers/cheby.pdf">http://www.cs.berkeley.edu/~fateman/papers/cheby.pdf</a></p>
-</li>
-<li>
-<p><strong>libchebfun</strong>, an unmaintained project in C
-  by Pedro Gonnet (Google) and Nick Hale (Stellenbosch).
-  <br/>
-  <a href="https://github.com/nickhale/libchebfun">https://github.com/nickhale/libchebfun</a></p>
-</li>
-<li>
-<p><strong>RKToolbox</strong>, the MATLAB Rational Krylov Toolbox
-  by Mario Berljafa and Stefan G&uuml;ttel (Manchester)
-  <br/>
-  <a href="http://rktoolbox.org">http://rktoolbox.org</a></p>
-</li>
-<li>
-<p><strong>C<sup>3</sup> = Compressed Continuous Computation</strong>, a C package for
-  "function train" computing with functions in dimensions up to hundreds
-  by Alex Gorodetsky (MIT)
-  <br/>
-  <a href="http://github.com/goroda/Compressed-Continuous-Computation">http://github.com/goroda/Compressed-Continuous-Computation</a></p>
-</li>
-<li>
-<p><strong>COJAC</strong>, a multi-purpose tool which offers a port of certain features of
-  Chebfun to Java, by F. Bapst (HEIA-FR, Fribourg, Switzerland)
-  <br/><a href="https://github.com/Cojac/Cojac">https://github.com/Cojac/Cojac</a></p>
-</li>
-</ul>
-<!-- 
-Please also read the following page:
-http://web.hpu4science.org/calendar/news/backfromthechebfunworkshop
- --></div>
+<div id='content' class="col-sm-12 example" role="main">
+<p>Warwick Tucker has shown me a beautiful example (unpublished). He considers the bivariate function $$ f(x,y) = \sin(\cos(x^2)+10\sin(y^2)) - y\cos(x) $$ in the square $-5\le x, y \le 5$.  What is the zero set of this function?</p>
+<p>In Chebfun2 we see that $f$ has rank 3:</p>
+<pre class="mcode-input">f = chebfun2(@(x,y) sin(cos(x.^2)+10*sin(y.^2))-y.*cos(x),[-5 5 -5 5])</pre>
+
+<pre class="mcode-output">f =
+   chebfun2 object
+       domain                 rank       corner values
+[  -5,   5] x [  -5,   5]        3     [ 1.1  1.1 -1.7 -1.7]
+vertical scale =   6 
+</pre>
+
+<p>The <code>roots</code> command finds the elegant zero set.</p>
+<pre class="mcode-input">tic
+c = roots(f);
+plot(c,'linewidth',1)
+axis([-5 5 -5 5]), axis square
+toc</pre>
+
+<pre class="mcode-output">Elapsed time is 12.739323 seconds.
+</pre>
+
+<p><img src="img/Tucker_01.png" class="figure" alt=""></p>
+<p>Chebfun has found 79 components (the mathematically exact number would be even),</p>
+<pre class="mcode-input">size(c)</pre>
+
+<pre class="mcode-output">ans =
+   Inf    79
+</pre>
+
+<p>each of them parametrized by $s\in [-1,1]$,</p>
+<pre class="mcode-input">domain(c)</pre>
+
+<pre class="mcode-output">ans =
+    -1     1
+</pre>
+
+<p>and each component is represented by a polynomial of the same painfully high degree (i.e., c is an array-valued chebfun), even though some of them are very simple,</p>
+<pre class="mcode-input">length(c)</pre>
+
+<pre class="mcode-output">ans =
+        3756
+</pre>
+
+<p>Though Chebfun2 roots can sometimes get outstanding accuracy, that has not happened in this case. To get an idea of the accuracy, suppose we find the 79 points corresponding to these curves at the arbitrary sample point $s=0.5$ and then evaluate $f$ at these 79 points.  In principle the result should be a vector of 79 numbers close to machine epsilon, give or take a few powers of 10 since $f$ has large derivatives, but in fact, many of the numbers are much bigger than that:</p>
+<pre class="mcode-input">p = c(0.5,:);
+fp = f(p);
+semilogy(sort(abs(fp)),'.-')
+title('size of f at various pts on computed zero set')
+ylim([1e-16 1]), grid on</pre>
+
+<p><img src="img/Tucker_02.png" class="figure" alt=""></p>
+<p>A much faster way to see the zero set is with the Chebfun2 contour command:</p>
+<pre class="mcode-input">tic
+contour(f,[0 0],'linewidth',1)
+axis([-5 5 -5 5]), axis square
+toc</pre>
+
+<pre class="mcode-output">Elapsed time is 0.380119 seconds.
+</pre>
+
+<p><img src="img/Tucker_03.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Transient growth &raquo; Chebfun</title>
+    <title>Analyticity at eigenvalue near-crossings &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,77 +54,61 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1>Transient growth</h1>
-<h2>Nick Trefethen, July 2011 in <a href='/examples/linalg/'>linalg</a><span><a href='/examples/linalg/TransientGrowth.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/linalg/TransientGrowth.m'>view on GitHub</a></span></h2>
+<h1>Analyticity at eigenvalue near-crossings</h1>
+<h2>Nick Trefethen, November 2017 in <a href='/examples/linalg/'>linalg</a><span><a href='/examples/linalg/CrossingsAnalyticity.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/linalg/CrossingsAnalyticity.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>If $A$ is a matrix whose eigenvalues are in the open left half of the complex plane, then the corresponding dynamical system defined by the equation $\frac{du}{dt} = Au$ is asymptotically stable, with all solutions decaying to zero as $t \to \infty$.  Since the solution is $u(t) = e^{tA} u(0)$, another way to say this is that the quantity $\| e^{tA} \|$ decays to zero as $t \to \infty$.</p>
-<p>Along the way, however, there may be transient growth, and this is important, for example, in some problems in fluid mechanics. A recent paper by Whidborne and Amar [2] considers the following matrix taken from an earlier paper by Plitschke and Wirth:</p>
-<pre class="mcode-input">tic
-A = [-1 0 0 0 0 0 -625; 0 -1 -30 400 0 0 250; -2 0 -1 0 0 0 30;
-     5 -1 5 -1 0 0 200; 11 1 25 -10 -1 1 -200;
-     200 0 0 -150 -100 -1 -1000; 1 0 0 0 0 0 -1]</pre>
+<p>In the example "Eigenvalue Level Repulsion" of 2010, we considered morphing one real symmetric matrix into another,</p>
+<p>$$ A(t) = (1-t)A + tB , \quad t \in [0, 1]. $$</p>
+<p>Generically there will be no double eigenvalues for any $t$, though some may come close.  Here are the bottom two eigenvalues from that example as a function of $t$:</p>
+<pre class="mcode-input">rng(1); n = 10;
+A = randn(n); A = A+A'; B = randn(n); B = B+B';
+ek = @(e,k) e(k);            % returns kth element of the vector e
+eigA = @(A) sort(eig(A));    % returns sorted eigenvalues of the matrix A
+eigk = @(A,k) ek(eigA(A),k); % returns kth eigenvalue of the matrix A
+d = [0 1]; t = chebfun('t',d); E = chebfun;
+for k = 1:n
+   E(:,k) = chebfun(@(t) eigk((1-t)*A+t*B,k),d);
+end
+E1 = E(:,1); E2 = E(:,2);
 
-<pre class="mcode-output">A =
-  Columns 1 through 6
-          -1           0           0           0           0           0
-           0          -1         -30         400           0           0
-          -2           0          -1           0           0           0
-           5          -1           5          -1           0           0
-          11           1          25         -10          -1           1
-         200           0           0        -150        -100          -1
-           1           0           0           0           0           0
-  Column 7
-        -625
-         250
-          30
-         200
-        -200
-       -1000
-          -1
-</pre>
+FS = 'fontsize'; MS = 'markersize';
+figure, plot([E1; E2]), grid on
+title('Near-crossing of two eigenvalues');
+xlabel('t',FS,12)</pre>
 
-<p>Here (adapted from <a href="NonnormalQuiz.html">linalg/NonnormalQuiz</a>) is a code to compute and plot $\| e^{tA} \|$ as a function of $t$:</p>
-<pre class="mcode-input">e = chebfun(@(t) norm(expm(t*A)),[0 2.5],'vectorize','splitting','on');
-LW = 'linewidth'; FS = 'fontsize'; plot(e,'b',LW,2)
-xlabel('t',FS,14), ylabel('||e^{tA}||',FS,14)
-title('amplitude',FS,16)</pre>
+<p><img src="img/CrossingsAnalyticity_01.png" class="figure" alt=""></p>
+<p>Antoine Levitt of the Ecole des Ponts has alerted me to a phenomenon that physicists know but numerical analysts may not be so well aware of.  Numerical analysts know that eigenvalues of real symmetric matrices are well-conditioned, with condition number $1$ in the 2-norm. It's the <em>eigenvectors</em>, we are taught, that grow ill-behaved as two eigenvalues come close together.</p>
+<p>But in fact, the eigenvalues misbehave too, even though they are analytic functions and even though their condition number, if that's all you look at, is irreproachable. One way to see this is simply to plot the derivatives of these two eigenvalue functions as a function of the parameter $t$:</p>
+<pre class="mcode-input">plot(diff([E1; E2]))
+title('derivatives of the eigenvalue functions')</pre>
 
-<pre class="mcode-output">Warning: Function not resolved using 6050 pts. 
-</pre>
+<p><img src="img/CrossingsAnalyticity_02.png" class="figure" alt=""></p>
+<p>Higher derivatives will be worse.</p>
+<p>More interesting to fans of complex analysis is the behavior in the complex plane.  Here we use AAA approximation to find a rational function that closely matches one of the eigenvalue functions.  We plot poles as red dots, and this reveals that the region of analyticity around the real axis is very narrow. (The actual singularity is probably a square root branch point; the rational approximation introduces a string of poles along a branch cut.)</p>
+<pre class="mcode-input">X = linspace(0,1,1000);
+[r,pol] = aaa(E1,X);
+plot(pol,'.r',MS,12), grid on
+axis([0 1 -.2 .2])
+title('narrow strip of analyticity')</pre>
 
-<p><img src="img/TransientGrowth_01.png" class="figure" alt=""></p>
-<p>Actually Whidborne and Amar plot the square of this function. The following figure matches their Figure 1.</p>
-<pre class="mcode-input">e2 = e.^2;
-plot(e2,'b',LW,2)
-xlabel('t',FS,14), ylabel('||e^{tA}||^2',FS,14)
-title('energy',FS,16)</pre>
+<p><img src="img/CrossingsAnalyticity_03.png" class="figure" alt=""></p>
+<p>On the other hand Levitt points out that the sum of the two nearly-colliding eigenvalues will be much better behaved, a phenomenon that he and others exploit in computational physics.  Here is that sum:</p>
+<pre class="mcode-input">Esum = E1 + E2;
+plot(Esum)
+title('sum of the two eigenvalues')</pre>
 
-<p><img src="img/TransientGrowth_02.png" class="figure" alt=""></p>
-<p>They are interested in calculating the maximum energy:</p>
-<pre class="mcode-input">fprintf('Maximum energy = %15.8f\n',max(e2))</pre>
+<p><img src="img/CrossingsAnalyticity_04.png" class="figure" alt=""></p>
+<p>And here are the poles of the AAA approximant:</p>
+<pre class="mcode-input">[r,pol] = aaa(Esum(X),X);
+plot(pol,'.r',MS,12), grid on
+axis([0 1 -.2 .2])
+title('for the sum, a wider strip of analyticity')</pre>
 
-<pre class="mcode-output">Maximum energy = 358147.98785176
-</pre>
-
-<p>Here's the time for this Example:</p>
-<pre class="mcode-input">toc</pre>
-
-<pre class="mcode-output">Elapsed time is 11.016822 seconds.
-</pre>
-
-<h3 id="references">References</h3>
-<ol>
-<li>
-<p>L. N. Trefethen and M. Embree, <em>Spectra and Pseudospectra: The Behavior    of Nonnormal Matrices and Operators</em>, Princeton U. Press, 2005.</p>
-</li>
-<li>
-<p>J. F. Whidborne and N. Amar, Computing the maximum transient    energy growth, <em>BIT Numerical Mathematics</em>, 51 (2011), 447-457.</p>
-</li>
-</ol></div>
+<p><img src="img/CrossingsAnalyticity_05.png" class="figure" alt=""></p></div>
         </div>
     </div>
 </div>
