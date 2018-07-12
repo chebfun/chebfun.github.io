@@ -90,7 +90,6 @@
 </pre>
 
 <p>Note that the output of <code>poly</code> follows the pattern for MATLAB's standard <code>poly</code> command: it is a row vector, and the high-order coefficients come first. Thus, for example, the fourth row above tells us that $T_3(x) = 4x^3 - 3x$.</p>
-
 <p>Here are plots of $T_2$, $T_3$, $T_{15}$, and $T_{50}$.</p>
 <pre class="mcode-input">  subplot(2,2,1), plot(chebpoly(2)), ylim([-1.5 1.5])
   subplot(2,2,2), plot(chebpoly(3)), ylim([-1.5 1.5])

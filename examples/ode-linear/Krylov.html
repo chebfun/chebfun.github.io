@@ -62,18 +62,18 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="krylov-subspace-methods">Krylov subspace methods</h3>
-<p>Krylov subspace methods are iterative solvers for linear systems $$Ax = b $$, which only require matrix-vector products with $$A $$ [4]. Computationally, they have a low memory requirement, and are widely used in applications throughout science and engineering. They usually work by computing an approximate solution to $$Ax = b $$ from a Krylov subspace of the form:</p>
-<p>$$ \mathcal{K}_k(A,b) = \mbox{Span}{b, Ab, A^2 b, \ldots, A^{k-1}b}.$$</p>
+<p>Krylov subspace methods are iterative solvers for linear systems $Ax = b$, which only require matrix-vector products with $A$ [4]. Computationally, they have low memory requirements and are widely used in applications throughout science and engineering. They usually work by computing an approximate solution to $$Ax = b $$ from a Krylov subspace of the form:</p>
+<p>$$ \mathcal{K}_k(A,b) = \mbox{Span}\{b, Ab, A^2 b, \ldots, A^{k-1}b\}.$$</p>
 <p>Three popular Krylov methods are: (1) The conjugate gradient (CG) method (for symmetric and positive definite matrices), (2) MINRES (for symmetric matrices), and (3) GMRES (for general matrices). Convergence analysis of these methods is typically difficult to fully characterize and has been an area of intense research activity [5].</p>
 <h3 id="krylov-subspace-methods-for-differential-equations">Krylov subspace methods for differential equations</h3>
-<p>Krylov subspace methods are particularly popular in the context of solving linear systems constructed by discretizing differential equations [6]. The typical paradigm for solving an ordinary differential equation (ODE) is to first discretize it into a linear system $$Ax = b $$, and then use a Krylov subspace method to solve the resulting linear system. As an example, consider the second-order central finite difference discretization of $$-u_{xx} = 1 $$ with $$u(\pm 1) = 0 $$:</p>
+<p>Krylov subspace methods are particularly popular in the context of solving linear systems constructed by discretizing differential equations [6]. The typical paradigm for solving an ordinary differential equation (ODE) is to first discretize it into a linear system $Ax = b$ and then use a Krylov subspace method to solve the resulting linear system. As an example, consider the second-order central finite difference discretization of $-u_{xx} = 1$ with $u(\pm 1) = 0$:</p>
 <pre class="mcode-input">n = 100;
 h = 2/(n + 1);
 e = ones(n,1);
 A = -1/h.^2 * spdiags( [e -2*e e], -1:1, n, n );
 b = ones(n, 1);</pre>
 
-<p>This finite difference discretization is structure preserving in the sense that the operator $$\mathcal{L}u=-u_{xx} $$ is self-adjoint with positive eigenvalues, and the discretization matrix $$A $$ is symmetric positive definite (SPD). Thanks to this property, the linear system $$Ax = b $$ may be solved using the conjugate gradient (CG) method. The following code calls the built-in MATLAB command for CG until the residual is below $$10^{-12} $$, or until 100 iterations have been performed.</p>
+<p>This finite difference discretization is structure-preserving in the sense that the operator $\mathcal{L}u=-u_{xx}$ is self-adjoint with positive eigenvalues and the discretization matrix $A$ is symmetric positive definite (SPD). Thanks to this property, the linear system $Ax = b$ may be solved using the conjugate gradient (CG) method. The following code calls the built-in MATLAB command for CG until the residual is below $10^{-12}$ or until 100 iterations have been performed.</p>
 <pre class="mcode-input">x_cg = pcg(A, b, 1e-12, 100);
 x_exact = A \ b;
 error = norm( x_cg - x_exact )</pre>
@@ -89,7 +89,7 @@ error =
 L.bc = 0;
 A = matrix(L, n);</pre>
 
-<p>Unlike the finite difference discretization above, this discretization is not structure preserving in the sense that the matrix $$A $$ is not symmetric.</p>
+<p>Unlike the finite difference discretization above, this discretization is not structure preserving in the sense that the matrix $A$ is not symmetric.</p>
 <pre class="mcode-input">norm( A - A' ,'fro')</pre>
 
 <pre class="mcode-output">ans =
@@ -110,12 +110,12 @@ L.lbc = 3; L.rbc = -5;
 tic, u_colloc = L \ f; toc
 tic, u_cg = pcg(L, f); toc</pre>
 
-<pre class="mcode-output">Elapsed time is 43.263152 seconds.
-Elapsed time is 3.718144 seconds.
+<pre class="mcode-output">Elapsed time is 59.001027 seconds.
+Elapsed time is 3.860875 seconds.
 </pre>
 
 <h3 id="operator-cg-for-self-adjoint-differential-operators-with-ve-eigenvalues">Operator CG for self-adjoint differential operators with +ve eigenvalues</h3>
-<p>The operator CG method for ODEs can be used to solve a second-order BVP if the differential operator is self-adjoint with positive eigenvalues. The following code calls the operator CG method to solve the differential equation $$-u_{xx} = 1 $$ with $$u(\pm 1) = 0 $$:</p>
+<p>The operator CG method for ODEs can be used to solve a second-order BVP if the differential operator is self-adjoint with positive eigenvalues. The following code calls the operator CG method to solve the differential equation $-u_{xx} = 1$ with $u(\pm 1) = 0$:</p>
 <pre class="mcode-input">L = chebop( @(u) -diff(u, 2) );
 L.bc = 0;
 f = chebfun(1);
@@ -128,7 +128,7 @@ error = norm( u_cg - L\f )  % error in CG solution</pre>
 
 <p>To emphasize, this pcg() command does not discretize the differential operator and is not employing a matrix Krylov subspace. More details of the underlying algorithms are given in [2].</p>
 <h3 id="minres-for-self-adjoint-differential-operators">MINRES for self-adjoint differential operators</h3>
-<p>Analogous to matrices, if a differential operator $$\mathcal{L} $$ is second-order and self-adjoint, then an operator MINRES method can be used to solve the BVP. The differential operator</p>
+<p>Analogous to matrices, if a differential operator $\mathcal{L}$ is second-order and self-adjoint, then an operator MINRES method can be used to solve the BVP. The differential operator</p>
 <p>$$ \mathcal{L} u = -u_{xx} - 100 u $$</p>
 <p>is self-adjoint and has both negative and positive eigenvalues, preventing the use of operator CG:</p>
 <pre class="mcode-input">L = chebop(@(u) -diff(u, 2) - 100*u );
@@ -163,7 +163,7 @@ set(gca, 'fontsize', 16)</pre>
 
 <p><img src="img/Krylov_01.png" class="figure" alt=""></p>
 <h3 id="gmres-for-general-differential-operators">GMRES for general differential operators</h3>
-<p>GMRES is a Krylov subspace method that can be used to solve any linear system $$Ax = b $$. Although it can always be used, GMRES is less efficient than CG and MINRES. Analogously, any second-order ODE with Dirichlet boundary conditions can be solved with the operator GMRES method. The following code solves the differential equation $$-u_{xx} + u_{x} + u = 1 $$, $$u(\pm 1 ) = 0 $$ using the operator GMRES method:</p>
+<p>GMRES is a Krylov subspace method that can be used to solve any linear system $Ax = b$. Although it can always be used, GMRES is less efficient than CG and MINRES. Analogously, any second-order ODE with Dirichlet boundary conditions can be solved with the operator GMRES method. The following code solves the differential equation $-u_{xx} + u_{x} + u = 1$, $u(\pm 1 ) = 0$, using the operator GMRES method:</p>
 <pre class="mcode-input">L = chebop( @(u) -diff(u, 2)  + diff(u, 1) + u );
 L.bc = 0;
 f = chebfun( 1 );
@@ -177,11 +177,11 @@ error = norm( u_colloc - u_gmres )</pre>
 
 <h3 id="operator-preconditioning">Operator preconditioning</h3>
 <p>The convergence of Krylov subspace methods is tied to the conditioning of the operator. Since differential operators are unbounded, the solution of the discretization of differential equations often requires preconditioning. The operator Krylov methods we present use a built-in symmetric operator preconditioner [3]. That is, it applies our operator Krylov subspace method on the following preconditioned equation:</p>
-<p>$$ \mathcal{R}^<em> \mathcal{L} \mathcal{R} v = \mathcal{R}^</em> f,
+<p>$$ \mathcal{R}^* \mathcal{L} \mathcal{R} v = \mathcal{R}^* f,
 \mathcal{R}v (\pm) 1 = 0 $$</p>
 <p>The specific preconditioner used is the indefinite integration preconditioner:</p>
 <p>$$ \mathcal{R} u = \int_{s=-1}^{s=x} u(s) ds.$$</p>
-<p>This choice of preconditioner makes $$\mathcal{R}^* \mathcal{L} \mathcal{R} $$ a bounded operator. This built-in preconditioner means that one does not have to provide a preconditioner to obtain a solution to BVPs in a few iterations. The following code calls the operator MINRES method on a problem with variable coefficients, and plots the norm of the residual at each iteration:</p>
+<p>This choice of preconditioner makes $\mathcal{R}^* \mathcal{L} \mathcal{R}$ a bounded operator. This built-in preconditioner means that one does not have to provide a preconditioner to obtain a solution to BVPs in a few iterations. The following code calls the operator MINRES method on a problem with variable coefficients, and plots the norm of the residual at each iteration:</p>
 <pre class="mcode-input">L = chebop( @(u) -diff((2+cos(21*pi*x)).*diff(u,1),1) + u./(1+x.^2) );
 L.bc = 0;
 u_exact = sin(40*pi*x);
@@ -200,7 +200,7 @@ set(gca, 'fontsize', 16)</pre>
 </pre>
 
 <p><img src="img/Krylov_02.png" class="figure" alt=""></p>
-<p>No preconditioner can be effective for all problems. Since only the integration preconditioner is supported in our operator Krylov methods, they can display poor convergence in some cases. For example, the preconditioner is ineffective for the singularly perturbed equation $$-\epsilon u_{xx} + u = 1 $$ with $$u(\pm 1) = 0 $$. The following code calls the operator CG method on this equation with $$\epsilon = 10^{-5} $$, and requires 446 iterations to converge to an accuracy of $$10^{-13} $$.</p>
+<p>No preconditioner can be effective for all problems. Since only the integration preconditioner is supported in our operator Krylov methods, they can display poor convergence in some cases. For example, the preconditioner is ineffective for the singularly perturbed equation $-\epsilon u_{xx} + u = 1$ with $u(\pm 1) = 0$. The following code calls the operator CG method on this equation with $\epsilon = 10^{-5}$, and requires 446 iterations to converge to an accuracy of $10^{-13}$.</p>
 <pre class="mcode-input">L = chebop( @(u) -1e-5.*diff(u,2) + u );
 L.bc = 0;
 f = chebfun( 1 );

@@ -73,7 +73,7 @@ A2 =
      0    -2
 </pre>
 
-<p>The quiz is about the behavior of solutions to the differential equation $u' = Au$, where $A$ is one of these matrices. The solution of this equation is $u(t) = e^{tA}u(0)$, where $e^{tA}$ is the exponential of the matrix $tA$, computed in MATLAB by the command <code>expm</code>.  The maximum possible value of the quotient $\|u(t)\|/\|u(0)\|$ is equal to the matrix norm of <code>expm(tA)</code>.</p>
+<p>The quiz is about the behavior of solutions to the differential equation $u' = Au$, where $A$ is one of these matrices. The solution of this equation is $u(t) = e^{tA}u(0)$, where $e^{tA}$ is the exponential of the matrix $tA$, computed in MATLAB by the command <code>expm</code>.  The maximum possible value of the quotient $|u(t)|/|u(0)|$ is equal to the matrix norm of <code>expm(tA)</code>.</p>
 <p>We first present the plot, then explain what it means and how we computed it with Chebfun.</p>
 <pre class="mcode-input">e1 = chebfun(@(t) norm(expm(t*A1)),[0 3.4],'vectorize');
 e2 = chebfun(@(t) norm(expm(t*A2)),[0 3.4],'vectorize');

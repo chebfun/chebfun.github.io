@@ -129,7 +129,7 @@ ylabel('error',FS,fs)</pre>
 plot(f-ftmp*scale)</pre>
 
 <p><img src="img/FindingRankOne_02.png" class="figure" alt=""></p>
-<p>The last plots suggest linear convergence of $\hat f$ to $f$ in the whole unit cube. Indeed, it is known [1] that under mild assumptions and with an initial guess close to an intersection point, alternating projections converges linearly to the intersection. For this example; the convergence of $\|f-\hat f\|$ is convincingly linear.</p>
+<p>The last plots suggest linear convergence of $\hat f$ to $f$ in the whole unit cube. Indeed, it is known [1] that under mild assumptions and with an initial guess close to an intersection point, alternating projections converges linearly to the intersection. For this example; the convergence of $|f-\hat f|$ is convincingly linear.</p>
 <pre class="mcode-input">semilogy(err,'-o',LW,lw)
 xlabel('iteration',FS,fs)
 ylabel('error $\|f-\hat f\|$',TEX,tex,FS,fs)</pre>
