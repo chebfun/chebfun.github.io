@@ -1,14 +1,14 @@
 ---
 title: "2. Integration and Differentiation"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, November 2009, latest revision December 2015"
+authordate: "Lloyd N. Trefethen, November 2009, latest revision May 2019"
 ---
 
 
 
 ## 2.1 `sum`
 
-We have seen that the `sum` command returns the definite integral of a chebfun over its range of definition.  The integral is normally calculated by an FFT-based version of Clenshaw-Curtis quadrature, as described first in [Gentleman 1972]. This formula is applied on each fun (i.e., each smooth piece of the chebfun), and then the results are added up.
+We have seen that `sum` returns the definite integral of a chebfun over its range of definition.  The integral is normally calculated by an FFT-based version of Clenshaw-Curtis quadrature, as described first in [Gentleman 1972]. This formula is applied on each fun (i.e., each smooth piece of the chebfun), and then the results are added up.
 
 Here is an example whose answer is known exactly:
 
@@ -40,40 +40,30 @@ Here is another example:
 
 <pre class="mcode-input">  tic, erf(1), toc</pre><pre class="mcode-output">ans =
    0.842700792949715
-Elapsed time is 0.000669 seconds.
-</pre>Using MATLAB's various quadrature commands is understandably slower:
+Elapsed time is 0.000158 seconds.
+</pre>Using MATLAB's quadrature command is understandably slower:
 
 <pre class="mcode-input">  tol = 3e-14;
-  tic, I = quad(F,0,1,tol); t = toc;
-    fprintf('  QUAD:  I = %17.15f  time = %6.4f secs\n',I,t)
-  tic, I = quadl(F,0,1,tol); t = toc;
-    fprintf(' QUADL:  I = %17.15f  time = %6.4f secs\n',I,t)
-  tic, I = quadgk(F,0,1,'abstol',tol,'reltol',tol); t = toc;
-    fprintf('QUADGK:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">  QUAD:  I = 0.842700792949715  time = 0.0211 secs
- QUADL:  I = 0.842700792949715  time = 0.0147 secs
-QUADGK:  I = 0.842700792949715  time = 0.0478 secs
+  tic, I = integral(F,0,1,'abstol',tol,'reltol',tol); t = toc;
+    fprintf(' MATLAB:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output"> MATLAB:  I = 0.842700792949715  time = 0.0351 secs
 </pre>The timing for Chebfun comes out competitive:
 
 <pre class="mcode-input">  tic, I = sum(chebfun(F,[0,1])); t = toc;
-    fprintf('CHEBFUN:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0070 secs
-</pre>Here is a similar comparison for a function that is more difficult, because of the absolute value, which leads with "splitting on" to a chebfun consisting of a number of funs.
+    fprintf('CHEBFUN:  I = %17.15f  time = %6.4f secs\n',I,t)</pre><pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0098 secs
+</pre>(Chebfun also offers an `integral` command, which is just a wrapper that calls `sum` as above.)
+
+Here is a similar comparison for a function that is more difficult, because of the absolute value, which leads with "splitting on" to a chebfun consisting of a number of funs.
 
 <pre class="mcode-input">  F = @(x) abs(besselj(0,x));
   f = chebfun(@(x) abs(besselj(0,x)),[0 20],'splitting','on');
   plot(f), ylim([0 1.1])</pre><img src="img/guide02_01.png" class="figure" alt="">
 
 <pre class="mcode-input">  tol = 3e-14;
-  tic, I = quad(F,0,20,tol); t = toc;
-    fprintf('   QUAD:  I = %17.15f  time = %5.3f secs\n',I,t)
-  tic, I = quadl(F,0,20,tol); t = toc;
-    fprintf('  QUADL:  I = %17.15f  time = %5.3f secs\n',I,t)
-  tic, I = quadgk(F,0,20,'abstol',tol,'reltol',tol); t = toc;
-    fprintf(' QUADGK:  I = %17.15f  time = %5.3f secs\n',I,t)
+  tic, I = integral(F,0,20,'abstol',tol,'reltol',tol); t = toc;
+    fprintf(' MATLAB:  I = %17.15f  time = %5.3f secs\n',I,t)
   tic, I = sum(chebfun(@(x) abs(besselj(0,x)),[0,20],'splitting','on')); t = toc;
-    fprintf('CHEBFUN:  I = %17.15f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output">   QUAD:  I = 4.445031603001505  time = 0.099 secs
-  QUADL:  I = 4.445031603001576  time = 0.058 secs
- QUADGK:  I = 4.445031603001578  time = 0.014 secs
-CHEBFUN:  I = 4.445031603001566  time = 0.160 secs
+    fprintf('CHEBFUN:  I = %17.15f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output"> MATLAB:  I = 4.445031603001577  time = 0.018 secs
+CHEBFUN:  I = 4.445031603001566  time = 0.065 secs
 </pre>This last example highlights the piecewise-smooth aspect of Chebfun integration.  Here is another example of a piecewise smooth problem.
 
 <pre class="mcode-input">  x = chebfun('x');
@@ -86,11 +76,11 @@ Here is the integral:
 
 <pre class="mcode-input">  tic, sum(h), toc</pre><pre class="mcode-output">ans =
   -0.381556448850250
-Elapsed time is 0.001771 seconds.
+Elapsed time is 0.001830 seconds.
 </pre>For another example of a definite integral we turn to an integrand given as example `F21F` in [Kahaner 1971] (see also `cheb.gallery('kahaner')`).  We treat it first in the default mode of splitting off:
 
-<pre class="mcode-input">  ff = @(x) sech(10*(x-0.2)).^2 + sech(100*(x-0.4)).^4 + ...
-            sech(1000*(x-0.6)).^6;
+<pre class="mcode-input">  ff = @(x) sech(10*(x-0.2))^2 + sech(100*(x-0.4))^4 + ...
+            sech(1000*(x-0.6))^6;
   f = chebfun(ff,[0,1])</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length     endpoint values  
@@ -125,16 +115,16 @@ ans =
    0.210802735500549
 </pre>As mentioned in Chapter 1 and described in more detail in Chapter 9, Chebfun has some capability of dealing with functions that blow up to infinity.  Here for example is a familiar integral:
 
-<pre class="mcode-input">  f = chebfun(@(x) 1./sqrt(x),[0 1],'blowup',2);
+<pre class="mcode-input">  f = chebfun(@(x) 1/sqrt(x),[0 1],'blowup',2);
   sum(f)</pre><pre class="mcode-output">ans =
    2.000000000000000
 </pre>Certain integrals over infinite domains can also be computed, though the error is often large:
 
-<pre class="mcode-input">  f = chebfun(@(x) 1./x.^2.5,[1 inf]);
+<pre class="mcode-input">  f = chebfun(@(x) 1/x^2.5,[1 inf]);
   sum(f)</pre><pre class="mcode-output">Warning: Result may not be accurate as the function decays slowly at infinity. 
 ans =
-   0.666666667492360
-</pre>Chebfun is not a specialized item of quadrature software; it is a general system for manipulating functions in which quadrature is just one of many capabilities. Nevertheless Chebfun compares reasonably well as a quadrature engine against specialized software.  This was the conclusion of an Oxford MSc thesis by Phil Assheton [Assheton 2008], which compared Chebfun experimentally to quadrature codes including MATLAB's `quad` and `quadl`, Gander and Gautschi's `adaptsim` and `adaptlob`, Espelid's `modsim`, `modlob`, `coteda`, and `coteglob`, QUADPACK's `QAG` and `QAGS`, and the NAG Library's `d01ah`.  In both reliability and speed, Chebfun was found to be competitive with these alternatives.  The overall winner was `coteda` [Espelid 2003], which was typically about twice as fast as Chebfun. For further comparisons of quadrature codes, together with the development of some improved codes based on a philosophy that has something in common with Chebfun, see [Gonnet 2009].  See also "Battery test of Chebfun as an integrator" in the Quadrature section of the Chebfun Examples collection.
+   0.666666667492359
+</pre>Chebfun is not a specialized item of quadrature software; it is a general system for manipulating functions in which quadrature is just one of many capabilities. Nevertheless Chebfun compares reasonably well as a quadrature engine against specialized software.  This was the conclusion of an Oxford MSc thesis by Phil Assheton [Assheton 2008], which compared Chebfun experimentally to quadrature codes available at that time including MATLAB's `quad` and `quadl`, Gander and Gautschi's `adaptsim` and `adaptlob`, Espelid's `modsim`, `modlob`, `coteda`, and `coteglob`, QUADPACK's `QAG` and `QAGS`, and the NAG Library's `d01ah`.  In both reliability and speed, Chebfun was found to be competitive with these alternatives.  The overall winner was `coteda` [Espelid 2003], which was typically about twice as fast as Chebfun. For further comparisons of quadrature codes, together with the development of some improved codes based on a philosophy that has something in common with Chebfun, see [Gonnet 2009].  See also "Battery test of Chebfun as an integrator" in the Quadrature section of the Chebfun Examples collection.
 
 
 
@@ -150,12 +140,12 @@ A special case of an integral is the `norm` command, which for a chebfun returns
    1.414213562373095
 </pre>Here is a function that is infinitely differentiable but not analytic.
 
-<pre class="mcode-input">  f = chebfun('exp(-1./sin(10*x).^2)');
+<pre class="mcode-input">  f = chebfun('exp(-1/sin(10*x)^2)');
   plot(f)</pre><img src="img/guide02_04.png" class="figure" alt="">
 
 Here are the norms of `f` and its tenth power:
 
-<pre class="mcode-input">  norm(f), norm(f.^10)</pre><pre class="mcode-output">ans =
+<pre class="mcode-input">  norm(f), norm(f^10)</pre><pre class="mcode-output">ans =
    0.292873834331035
 ans =
      2.187941295308668e-05
@@ -170,12 +160,12 @@ In MATLAB, `cumsum` gives the cumulative sum of a vector,
      1     2     3     5
 ans =
      1     3     6    11
-</pre>The continuous analogue of this operation is indefinite integration. If `f` is a fun of length $n$, then `cumsum(f)` is a fun of length $n+1$ or less (becauase of Chebfun's rounding of functions to machine precision).  For a chebfun consisting of several funs, the integration is performed on each piece.
+</pre>The continuous analogue of this operation is indefinite integration. If `f` is a fun of length $n$, then `cumsum(f)` is a fun of length $n+1$ or less (because of Chebfun's rounding of functions to machine precision).  For a chebfun consisting of several funs, the integration is performed on each piece.
 
 For example, returning to an integral computed above, we can make our own error function like this:
 
 <pre class="mcode-input">  t = chebfun('t',[-5 5]);
-  f = 2*exp(-t.^2)/sqrt(pi);
+  f = 2*exp(-t^2)/sqrt(pi);
   fint = cumsum(f);
   plot(fint,'m')
   ylim([-0.2 2.2]), grid on</pre><img src="img/guide02_05.png" class="figure" alt="">
@@ -189,38 +179,38 @@ The default indefinite integral takes the value $0$ at the left endpoint, but in
 The agreement with the built-in error function is convincing:
 
 <pre class="mcode-input">  [fint((1:5)') erf((1:5)')]</pre><pre class="mcode-output">ans =
-   0.842700792949714   0.842700792949715
-   0.995322265018952   0.995322265018953
+   0.842700792949715   0.842700792949715
+   0.995322265018953   0.995322265018953
    0.999977909503001   0.999977909503001
    0.999999984582742   0.999999984582742
-   0.999999999998462   0.999999999998463
+   0.999999999998463   0.999999999998463
 </pre>Here is the integral of an oscillatory step function:
 
 <pre class="mcode-input">  x = chebfun('x',[0 6]);
-  f = x.*sign(sin(x.^2)); subplot(1,2,1), plot(f)
+  f = x*sign(sin(x^2)); subplot(1,2,1), plot(f)
   g = cumsum(f); subplot(1,2,2), plot(g,'m')</pre><img src="img/guide02_07.png" class="figure" alt="">
 
-And here is an example from number theory.  The logarithmic integral, $Li(x)$, is the indefinite integral from $0$ to $x$ of $1/\log(s)$.  It is an approximation to $\pi(x)$, the number of primes less than or equal to $x$.  To avoid the singularity at $x=0$ we begin our integral at the point $\mu = 1.451...$ where $Li(x)$ is zero, known as Soldner's constant. The test value $Li(2)$ is correct except in the last few digits:
+And here is an example from number theory.  The logarithmic integral, $Li(x)$, is the indefinite integral from $0$ to $x$ of $1/\log(s)$.  It is an approximation to $\pi(x)$, the number of primes less than or equal to $x$. To avoid the singularity at $x=0$ we begin our integral at the point $\mu = 1.451...$ where $Li(x)$ is zero, known as Soldner's constant. The test value $Li(2)$ is correct except in the last few digits:
 
 <pre class="mcode-input">  mu = 1.45136923488338105;      % Soldner's constant
   xmax = 400;
-  Li = cumsum(chebfun(@(x) 1./log(x),[mu xmax]));
+  Li = cumsum(chebfun(@(x) 1/log(x),[mu xmax]));
   lengthLi = length(Li)
   Li2 = Li(2)</pre><pre class="mcode-output">lengthLi =
-   406
+   411
 Li2 =
-   1.045163780117459
+   1.045163780117470
 </pre>(Chebfun has no trouble if `xmax` is increased to $10^5$ or $10^{10}$.)  Here is a plot comparing $Li(x)$ with $\pi(x)$:
 
 <pre class="mcode-input">  clf, plot(Li,'m')
   p = primes(xmax);
-  hold on, plot(p,1:length(p),'.k')</pre><img src="img/guide02_08.png" class="figure" alt="">
+  hold on, plot(p,1:length(p),'.k'), hold off</pre><img src="img/guide02_08.png" class="figure" alt="">
 
 The Prime Number Theorem implies that $\pi(x) \sim Li(x)$ as $x\to\infty$. Littlewood proved in 1914 that although $Li(x)$ is greater than $\pi(x)$ at first, the two curves eventually cross each other infinitely often. It is known that the first crossing occurs somewhere between $x=10^{14}$ and $x=2\times 10^{316}$ [Kotnik 2008].
 
 The `mean`, `std`, and `var` commands have also been overloaded for chebfuns and are based on integrals.  For example,
 
-<pre class="mcode-input">  mean(chebfun('cos(x).^2',[0,10*pi]))</pre><pre class="mcode-output">ans =
+<pre class="mcode-input">  mean(chebfun('cos(x)^2',[0,10*pi]))</pre><pre class="mcode-output">ans =
    0.500000000000000
 </pre>
 
@@ -237,13 +227,12 @@ ans =
 
 <pre class="mcode-input">  f = chebfun('cos(pi*x)',[0 20]);
   fprime = diff(f);
-  hold off, plot(f)
-  hold on, plot(fprime,'r')</pre><img src="img/guide02_09.png" class="figure" alt="">
+  plot([f fprime])</pre><img src="img/guide02_09.png" class="figure" alt="">
 
 If the derivative of a function with a jump is computed, then a delta function is introduced. Consider for example this function defined piecewise:
 
-<pre class="mcode-input">  f = chebfun({@(x) x.^2, 1, @(x) 4-x, @(x) 4./x},0:4);
-  hold off, plot(f)</pre><img src="img/guide02_10.png" class="figure" alt="">
+<pre class="mcode-input">  f = chebfun({@(x) x^2, 1, @(x) 4-x, @(x) 4/x},0:4);
+  plot(f)</pre><img src="img/guide02_10.png" class="figure" alt="">
 
 Here is the derivative:
 
@@ -255,7 +244,7 @@ The first segment of $f'$ is linear, since $f$ is quadratic here. Then comes a s
 Thanks to the delta functions, `cumsum` and `diff` are essentially inverse operations.  It is no surprise that differentiating an indefinite integral returns us to the original function:
 
 <pre class="mcode-input">  norm(f-diff(cumsum(f)))</pre><pre class="mcode-output">ans =
-     2.365462704888972e-15
+     2.250689041652248e-16
 </pre>More surprising is that integrating a derivative does the same, as long as we add in the value at the left endpoint:
 
 <pre class="mcode-input">  d = domain(f);
@@ -264,7 +253,7 @@ Thanks to the delta functions, `cumsum` and `diff` are essentially inverse opera
      2.220446049250313e-16
 </pre>Multiple derivatives can be obtained by adding a second argument to `diff`.  Thus for example,
 
-<pre class="mcode-input">  f = chebfun('1./(1+x.^2)');
+<pre class="mcode-input">  f = chebfun('1/(1+x^2)');
   g = diff(f,4); plot(g)</pre><img src="img/guide02_12.png" class="figure" alt="">
 
 However, one should be cautious about the potential loss of information in repeated differentiation of nonperiodic chebfuns.  For example, if we evaluate this fourth derivative at $x=0$ we get an answer that matches the correct value $24$ only to $11$ places:
@@ -311,25 +300,25 @@ Chebfun can often do a pretty good job with integrals over rectangles. Here for 
   clf, contour(x,y,f(xx,yy),-1:.2:1)
   axis([-2 2 0.5 2.5]), colorbar, grid on</pre><img src="img/guide02_13.png" class="figure" alt="">
 
-Using 1D Chebfun technology, we can compute the integral over the box like this.  Notice the use of the flag `vectorize` to construct a chebfun from a function only defined for scalar arguments.
+Using 1D Chebfun technology, we can compute the integral over the box like this.
 
 <pre class="mcode-input">  Iy = @(y) sum(chebfun(@(x) f(x,y),[-2 2]));
-  tic, I = sum(chebfun(@(y) Iy(y),[0.5 2.5],'vectorize')); t = toc;
-  fprintf('CHEBFUN:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.618 secs
-</pre>Here for comparison is MATLAB's `dblquad/quadl` with a tolerance of $10^{-11}$:
+  tic, I = sum(chebfun(@(y) Iy(y),[0.5 2.5])); t = toc;
+  fprintf('CHEBFUN:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.223 secs
+</pre>Here for comparison is MATLAB's `integral2` with a tolerance of $10^{-11}$:
 
-<pre class="mcode-input">  tic, I = dblquad(f,-2,2,0.5,2.5,1e-11,@quadl); t = toc;
-  fprintf('DBLQUAD/QUADL:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output">DBLQUAD/QUADL:  I = 0.02041246545700  time = 3.416 secs
-</pre>This example of a 2D integrand is smooth, so both Chebfun and `dblquad` can handle it to high accuracy.
+<pre class="mcode-input">  tic, I = integral2(f,-2,2,0.5,2.5,'abstol',1e-11,'reltol',1e-11); t = toc;
+  fprintf(' MATLAB:  I = %16.14f  time = %5.3f secs\n',I,t)</pre><pre class="mcode-output"> MATLAB:  I = 0.02041246545689  time = 0.068 secs
+</pre>This example of a 2D integrand is smooth, so both Chebfun and `integral2` can handle it to high accuracy.
 
-A much better approach for this problem, however, is to use Chebfun2, which is described in Chapters 12-16. With this method we can compute the integral quickly,
+A much better approach for this problem, however, is to use Chebfun2, which is described in Chapters 12-15. With this method we can compute the integral quickly,
 
 <pre class="mcode-input">tic
 f2 = chebfun2(f,[-2 2 0.5 2.5]);
 sum2(f2)
 toc</pre><pre class="mcode-output">ans =
    0.020412465456998
-Elapsed time is 0.317856 seconds.
+Elapsed time is 0.197406 seconds.
 </pre>and we can plot the function without the need for `meshgrid`:
 
 <pre class="mcode-input">contour(f2,-1:.2:1), colorbar, grid on</pre><img src="img/guide02_14.png" class="figure" alt="">
@@ -365,17 +354,17 @@ Iexact =
   [s,w] = legpts(1000); Igauss = w*f(s)
   toc</pre><pre class="mcode-output">Igauss =
    2.350402387287602
-Elapsed time is 0.015083 seconds.
+Elapsed time is 0.013837 seconds.
 </pre>Even a million points doesn't take very long:
 
 <pre class="mcode-input">  tic
   [s,w] = legpts(1e6); Igauss = w*f(s)
   toc</pre><pre class="mcode-output">Igauss =
    2.350402387287601
-Elapsed time is 0.221256 seconds.
+Elapsed time is 0.084822 seconds.
 </pre>Traditionally, numerical analysts computed Gauss quadrature nodes and weights by the eigenvalue algorithm of Golub and Welsch [Golub &amp; Welsch 1969]. However, the Hale-Townsend and Bogaert algorithms are both more accurate and much faster [Hale &amp; Townsend 2013, Bogaert, Michiels &amp; Fostier 2012, Bogaert 2014].
 
-For Legendre polynomials, Legendre points, and Gauss quadrature, use `legpoly` and `legpts`. For Chebyshev polynomials, Chebyshev points, and Clenshaw-Curtis quadrature, use `chebpoly` and `chebpts` and the built-in Chebfun commands such as `sum`. A third variant is also available: for Jacobi polynomials, Gauss-Jacobi points, and Gauss-Jacobi quadrature, see `jacpoly` and `jacpts`. These arise in integration of functions with singularities at one or both endpoints, and are used internally by Chebfun for integration of chebfuns with singularities (Chapter 9). See also `hermpts` and `lagpts`.
+For Legendre polynomials, Legendre points, and Gauss quadrature, use `legpoly` and `legpts`. For Chebyshev polynomials, Chebyshev points, and Clenshaw-Curtis quadrature, use `chebpoly` and `chebpts` and the built-in Chebfun commands such as `sum`.  A third variant is also available: for Jacobi polynomials, Gauss-Jacobi points, and Gauss-Jacobi quadrature, see `jacpoly` and `jacpts`. These arise in integration of functions with singularities at one or both endpoints, and are used internally by Chebfun for integration of chebfuns with singularities (Chapter 9). See also `hermpts` and `lagpts`.
 
 As explained in the help texts, all of these operators work on general intervals $[a,b]$, not just on $[-1,1]$.
 
