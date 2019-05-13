@@ -112,7 +112,7 @@ Iexact =
 
 <pre class="mcode-output">ans =
    0.842700792949715
-Elapsed time is 0.000154 seconds.
+Elapsed time is 0.000158 seconds.
 </pre>
 
 <p>Using MATLAB's quadrature command is understandably slower:</p>
@@ -120,14 +120,14 @@ Elapsed time is 0.000154 seconds.
   tic, I = integral(F,0,1,'abstol',tol,'reltol',tol); t = toc;
     fprintf(' MATLAB:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output"> MATLAB:  I = 0.842700792949715  time = 0.0242 secs
+<pre class="mcode-output"> MATLAB:  I = 0.842700792949715  time = 0.0351 secs
 </pre>
 
 <p>The timing for Chebfun comes out competitive:</p>
 <pre class="mcode-input">  tic, I = sum(chebfun(F,[0,1])); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0093 secs
+<pre class="mcode-output">CHEBFUN:  I = 0.842700792949715  time = 0.0098 secs
 </pre>
 
 <p>(Chebfun also offers an <code>integral</code> command, which is just a wrapper that calls <code>sum</code> as above.)</p>
@@ -143,8 +143,8 @@ Elapsed time is 0.000154 seconds.
   tic, I = sum(chebfun(@(x) abs(besselj(0,x)),[0,20],'splitting','on')); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output"> MATLAB:  I = 4.445031603001577  time = 0.016 secs
-CHEBFUN:  I = 4.445031603001566  time = 0.069 secs
+<pre class="mcode-output"> MATLAB:  I = 4.445031603001577  time = 0.018 secs
+CHEBFUN:  I = 4.445031603001566  time = 0.065 secs
 </pre>
 
 <p>This last example highlights the piecewise-smooth aspect of Chebfun integration.  Here is another example of a piecewise smooth problem.</p>
@@ -160,7 +160,7 @@ CHEBFUN:  I = 4.445031603001566  time = 0.069 secs
 
 <pre class="mcode-output">ans =
   -0.381556448850250
-Elapsed time is 0.001799 seconds.
+Elapsed time is 0.001830 seconds.
 </pre>
 
 <p>For another example of a definite integral we turn to an integrand given as example <code>F21F</code> in [Kahaner 1971] (see also <code>cheb.gallery('kahaner')</code>).  We treat it first in the default mode of splitting off:</p>
@@ -431,14 +431,14 @@ ans =
   tic, I = sum(chebfun(@(y) Iy(y),[0.5 2.5])); t = toc;
   fprintf('CHEBFUN:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.191 secs
+<pre class="mcode-output">CHEBFUN:  I = 0.02041246545700  time = 0.223 secs
 </pre>
 
 <p>Here for comparison is MATLAB's <code>integral2</code> with a tolerance of $10^{-11}$:</p>
 <pre class="mcode-input">  tic, I = integral2(f,-2,2,0.5,2.5,'abstol',1e-11,'reltol',1e-11); t = toc;
   fprintf(' MATLAB:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output"> MATLAB:  I = 0.02041246545689  time = 0.057 secs
+<pre class="mcode-output"> MATLAB:  I = 0.02041246545689  time = 0.068 secs
 </pre>
 
 <p>This example of a 2D integrand is smooth, so both Chebfun and <code>integral2</code> can handle it to high accuracy.</p>
@@ -450,7 +450,7 @@ toc</pre>
 
 <pre class="mcode-output">ans =
    0.020412465456998
-Elapsed time is 0.164234 seconds.
+Elapsed time is 0.197406 seconds.
 </pre>
 
 <p>and we can plot the function without the need for <code>meshgrid</code>:</p>
@@ -492,7 +492,7 @@ Iexact =
 
 <pre class="mcode-output">Igauss =
    2.350402387287602
-Elapsed time is 0.013615 seconds.
+Elapsed time is 0.013837 seconds.
 </pre>
 
 <p>Even a million points doesn't take very long:</p>
@@ -502,7 +502,7 @@ Elapsed time is 0.013615 seconds.
 
 <pre class="mcode-output">Igauss =
    2.350402387287601
-Elapsed time is 0.078795 seconds.
+Elapsed time is 0.084822 seconds.
 </pre>
 
 <p>Traditionally, numerical analysts computed Gauss quadrature nodes and weights by the eigenvalue algorithm of Golub and Welsch [Golub &amp; Welsch 1969]. However, the Hale-Townsend and Bogaert algorithms are both more accurate and much faster [Hale &amp; Townsend 2013, Bogaert, Michiels &amp; Fostier 2012, Bogaert 2014].</p>
@@ -525,7 +525,7 @@ Elapsed time is 0.078795 seconds.
     </div>
 </div>
     <div class="footer">
-        <p>&copy; Copyright 2017 the University of Oxford and the Chebfun Developers.</p>
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

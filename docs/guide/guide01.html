@@ -135,9 +135,9 @@ vertical scale =   1
   x = 100*rand(3,1)</pre>
 
 <pre class="mcode-output">x =
-  99.563118723262377
-  52.038619434965639
-  88.528269549837333
+  81.472368639317892
+  90.579193707561927
+  12.698681629350606
 </pre>
 
 <p>Let's compare the chebfun to the true Bessel function at these points:</p>
@@ -146,9 +146,9 @@ vertical scale =   1
   [g(x) exact error]</pre>
 
 <pre class="mcode-output">ans =
-  -0.014606963495293  -0.014606963495294   0.000000000000000
-   0.061117272924221   0.061117272924221  -0.000000000000000
-   0.082697639097390   0.082697639097390  -0.000000000000000
+   0.048059538377880   0.048059538377880   0.000000000000000
+  -0.021311086924089  -0.021311086924090   0.000000000000000
+   0.176415464952875   0.176415464952875  -0.000000000000000
 </pre>
 
 <p>If you want to know the first 5 zeros of the Bessel function, here they are:</p>
@@ -449,7 +449,7 @@ vertical scale =   2    Total length = 6
 [ 2.9e+03,   3e+03]       86        -1     0.71 
 [   3e+03, 3.1e+03]       85      0.71 -2.8e-12 
 vertical scale =   1    Total length = 2752
-Elapsed time is 0.229366 seconds.
+Elapsed time is 0.265972 seconds.
 </pre>
 
 <p>In this case it is more efficient -- and more interesting mathematically -- to omit the splitting and construct one global chebfun:</p>
@@ -460,7 +460,7 @@ Elapsed time is 0.229366 seconds.
        interval       length     endpoint values  
 [       0, 3.1e+03]     1684   1.1e-14 -2.8e-13 
 vertical scale =   1 
-Elapsed time is 0.029942 seconds.
+Elapsed time is 0.035212 seconds.
 </pre>
 
 <p>Splitting on and off are discussed further in Section 8.3.</p>
@@ -676,8 +676,8 @@ norm(ccheb-ccheb2,inf)
 toc</pre>
 
 <pre class="mcode-output">ans =
-     2.664535259100376e-13
-Elapsed time is 0.077172 seconds.
+     1.905142710256769e-13
+Elapsed time is 0.131316 seconds.
 </pre>
 
 <h3 id="19-chebfun-example-galleries">1.9  Chebfun example galleries</h3>
@@ -777,7 +777,7 @@ title('Daubechies scaling function')</pre>
     </div>
 </div>
     <div class="footer">
-        <p>&copy; Copyright 2017 the University of Oxford and the Chebfun Developers.</p>
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
