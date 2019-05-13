@@ -35,6 +35,7 @@ approx/OscError.m
 approx/Pushnitski.m
 approx/RationalAbsx.m
 approx/RationalInterp.m
+approx/Rationalxn.m
 approx/ResolutionWiggly.m
 approx/ScalingAndSquaring.m
 approx/SmoothCompact.m
@@ -269,6 +270,7 @@ stats/MercerKarhunenLoeve.m
 stats/NormalExercises.m
 stats/ProbabilityConvolution.m
 stats/RandomMaxima.m
+stats/RandomSurf.m
 stats/ResamplingRandomVariables.m
 stats/SmoothRandomWalk.m
 stats/UniformExercises.m

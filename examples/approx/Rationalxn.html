@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vector calculus &raquo; Chebfun</title>
+    <title>Rational approximation of monomials &raquo; Chebfun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" />
@@ -54,61 +54,67 @@
 <div class="page-wrapper">
 
     <div class='page-header'>
-<h1 class='pull-left-15px'><a href='../'>Examples</a><span class='sep'>&raquo;</span>Vector calculus</h1>
+<h1>Rational approximation of monomials</h1>
+<h2>Yuji Nakatsukasa and Nick Trefethen, May 2019 in <a href='/examples/approx/'>approx</a><span><a href='/examples/approx/Rationalxn.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx/Rationalxn.m'>view on GitHub</a></span></h2>
 </div>
 
     <div class="container">
-<div class="row main noleftpadding"><div class="col-sm-4 noleftpadding">
-    <ul class='sidenav'>
-        <li><a href="/examples/applics/index.html">Applications<span>6</span></a></li>
-        <li><a href="/examples/approx/index.html">Approximation (1D)<span>38</span></a></li>
-        <li><a href="/examples/approx2/index.html">Approximation (2D)<span>14</span></a></li>
-        <li><a href="/examples/approx3/index.html">Approximation (3D)<span>10</span></a></li>
-        <li><a href="/examples/calc/index.html">Calculus<span>6</span></a></li>
-        <li><a href="/examples/cheb/index.html">Chebyshev expansions<span>9</span></a></li>
-        <li><a href="/examples/complex/index.html">Complex variables<span>15</span></a></li>
-        <li><a href="/examples/disk/index.html">Disk<span>2</span></a></li>
-        <li><a href="/examples/fourier/index.html">Fourier analysis<span>5</span></a></li>
-        <li><a href="/examples/fun/index.html">Fun stuff<span>7</span></a></li>
-        <li><a href="/examples/geom/index.html">Geometry<span>10</span></a></li>
-        <li><a href="/examples/integro/index.html">Integral equations<span>4</span></a></li>
-        <li><a href="/examples/linalg/index.html">Linear algebra<span>12</span></a></li>
-        <li><a href="/examples/ode-eig/index.html">ODE eigenvalue problems<span>15</span></a></li>
-        <li><a href="/examples/ode-linear/index.html">ODEs (linear)<span>24</span></a></li>
-        <li><a href="/examples/ode-nonlin/index.html">ODEs (nonlinear)<span>22</span></a></li>
-        <li><a href="/examples/opt/index.html">Optimization<span>11</span></a></li>
-        <li><a href="/examples/pde/index.html">Partial differential equations<span>10</span></a></li>
-        <li><a href="/examples/quad/index.html">Quadrature<span>8</span></a></li>
-        <li><a href="/examples/ode-random/index.html">Random ODEs<span>10</span></a></li>
-        <li><a href="/examples/roots/index.html">Rootfinding<span>16</span></a></li>
-        <li><a href="/examples/sphere/index.html">Sphere<span>8</span></a></li>
-        <li><a href="/examples/stats/index.html">Statistics and probability<span>14</span></a></li>
-        <li class='active'><a href="/examples/veccalc/index.html">Vector calculus<span>2</span></a></li>
-    </ul>
-</div>
-<div id='content' class="col-sm-8" role="main">
-    
-    <ol class='examples slats'>
-    <li>
-        <a href='/examples/veccalc/AutonomousSystems.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/AutonomousSystems_01.png' /></div>
-            <h3>Phase portraits and trajectories</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#duffing oscillator</span>, <span href='#' class='tag'>#phase portrait</span></span>
-         --></p>
-        </a>
-    </li>
-    <li>
-        <a href='/examples/veccalc/CheckingVectorCalculus.html'>
-            <div class='thumbwrapper'><img src='/examples/veccalc/img/CheckingVectorCalculus_01.png' /></div>
-            <h3>Checking vector calculus</h3>
-            <p>Alex Townsend, March 2013<!--
-                <span class='tags'><span href='#' class='tag'>#chebfun2</span>, <span href='#' class='tag'>#divgradcurl</span>, <span href='#' class='tag'>#gradient theorem</span>, <span href='#' class='tag'>#parallelogram law</span></span>
-         --></p>
-        </a>
-    </li>
-    </ol>
-</div>
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Here is the error curve for type (2,2) best rational approximation of $x^{200}$ on $[0,1]$:</p>
+<pre class="mcode-input">x = chebfun('x',[0 1]);
+f = x^200;
+[p2,q2,r2,err2] = minimax(f,2,2);
+plot(f-p2./q2), grid on, ylim([-.02 .02])
+title('Type (2,2) error curve')</pre>
+
+<p><img src="img/Rationalxn_01.png" class="figure" alt=""></p>
+<p>And here is the same figure for type (3,3), except multiplied by $-9.28903$:</p>
+<pre class="mcode-input">[p3,q3,r3,err3] = minimax(f,3,3);
+plot(-9.28903*(f-p3./q3)), grid on, ylim([-.02 .02])
+title('Type (3,3) error curve multiplied by -9.28903')</pre>
+
+<p><img src="img/Rationalxn_02.png" class="figure" alt=""></p>
+<p>The curves have just about the same height!  In fact, the ratio of these particular approximation errors is about 9.36:</p>
+<pre class="mcode-input">format short
+err2
+err3
+ratio = err2/err3</pre>
+
+<pre class="mcode-output">err2 =
+    0.0072
+err3 =
+   7.7243e-04
+ratio =
+    9.3628
+</pre>
+
+<p>In rational approximation theory, the number $9.28903\dots$ is famous as the asymptotic rate at which rational approximations to $e^x$ on $(-\infty,0]$ improve each time you increase the degree by 1.  It it known as (the reciprocal of) Halphen's constant, which has a Wikipedia entry. Here, we don't have $e^x$ on $(-\infty,0]$ but $x^n$ on $[0,1]$, where $n$ is a large number. It turns out that in a certain precise sense, this problem has the same asymptotic behavior.  We proved this in a short paper that appeared last year [1].</p>
+<p>The exponent $200$ above was of course not special.  Look how little the numbers change if we increase it to $1000$:</p>
+<pre class="mcode-input">f = x^1000;
+[p2,q2,r2,err2] = minimax(f,2,2);
+[p3,q3,r3,err3] = minimax(f,3,3);
+err2
+err3
+ratio = err2/err3</pre>
+
+<pre class="mcode-output">err2 =
+    0.0073
+err3 =
+   7.9394e-04
+ratio =
+    9.2366
+</pre>
+
+<p>Let's also crank up $k$ from $2$ and $3$ to $3$ and $4$.  The approximation to $9.28903$ becomes closer:</p>
+<pre class="mcode-input">[p4,q4,r4,err4] = minimax(f,4,4);
+ratio = err3/err4</pre>
+
+<pre class="mcode-output">ratio =
+    9.2805
+</pre>
+
+<p>[1] Y. Nakatsukasa and L. N. Trefethen, Rational approximation of $x^n$, <em>Proc. AMS</em> 146 (2018), 5219--5224.</p></div>
         </div>
     </div>
 </div>
