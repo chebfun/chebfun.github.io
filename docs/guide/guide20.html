@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>20. Ballfun &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<span class='chapter_number'>20</span>
+<h1>Ballfun</h1>
+<h2>Nicolas Boulle and Alex Townsend, May 2019<span>
+    
+        <a href='/docs/guide/guide19.html'
+>previous</a><span class='sep-sm
+'>&middot;</span><a href='../guide'>index</a><span class='sep-sm
+ invisible'>&middot;</span><a href='None'
+class='invisible'>next</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+            <div id='content' class="col-sm-12" role="main">
+<h3 id="201-introduction">20.1 Introduction</h3>
+<p>Ballfun is a new part of Chebfun for computing with scalar and vector functions defined on the unit ball. It is an extension of Spherefun [5] and Diskfun [6] to three dimensions and like them contains dozens of functions to perform basic operations between functions and vectors such as differentiation, integration, Helmholtz decomposition, poloidal-toroidal decomposition, and many others. It was created by Nicolas Boulle and Alex Townsend [3].</p>
+<p>A function $f$ on the unit ball can be expressed in cartesian coordinates $f(x,y,z)$, where $x^2+y^2+z^2\leq 1$. For example, the function $f(x,y,z) = \cos(xy)$ can be constructed in Ballfun by the following command</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) cos(x.*y));
+plot( f )</pre>
+
+<p><img src="img/guide20_01.png" class="figure" alt=""></p>
+<p>Ballfun also allows functions to be supplied to the constructor in spherical coordinates $f(r,\lambda,\theta)$, where $r$ is the radial variable, $\lambda$ is the azimuthal angle between $-\pi$ and $\pi$ and $\theta\in[0,\pi]$ is the polar angle.</p>
+<pre class="mcode-input">g = ballfun(@(r,lam,th) ...
+   cos(r.^2.*cos(lam).*sin(lam).*sin(th).^2), 'spherical');</pre>
+
+<p>The resulting objects are identical up to machine precision:</p>
+<pre class="mcode-input">norm( f - g )</pre>
+
+<pre class="mcode-output">ans =
+     0
+</pre>
+
+<p>We call the resulting representations ballfuns:</p>
+<pre class="mcode-input">f</pre>
+
+<pre class="mcode-output">f =
+   ballfun object:
+      domain           r    lambda    theta    vertical scale
+     unit ball        21      41       37             1
+</pre>
+
+<p>The output displays the discretization size employed to represent the function in a Chebyshev-Fourier-Fourier expansion. The numbers $21$, $41$, and $37$ indicate that the ballfun is represented by a $21\times 41\times 37$ tensor of coefficients. The Chebyshev-Fourier-Fourier coefficients can be visualized with <code>plotcoeffs</code>:</p>
+<pre class="mcode-input">plotcoeffs( f )</pre>
+
+<p><img src="img/guide20_02.png" class="figure" alt=""></p>
+<h3 id="202-visualizing-ballfuns">20.2 Visualizing ballfuns</h3>
+<p>There are plenty of ways to visualize a ballfun object. The simplest is the <code>plot</code> command:</p>
+<pre class="mcode-input">f = cheb.galleryball('moire');
+clf, plot( f )</pre>
+
+<p><img src="img/guide20_03.png" class="figure" alt=""></p>
+<p>Slices of the ballfun along the planes $x=0$, $y=0$ or $z=0$ passing through the origin can also be obtained, taking the form of diskfuns:</p>
+<pre class="mcode-input">fdisk = f(:, :, 0)
+plot( fdisk )</pre>
+
+<pre class="mcode-output">fdisk =
+     diskfun object 
+       domain        rank    vertical scale
+      unit disk       41          4.2
+</pre>
+
+<p><img src="img/guide20_04.png" class="figure" alt=""></p>
+<p>Moreover, the restriction to the unit sphere can be obtained with the following command, returning a spherefun:</p>
+<pre class="mcode-input">fsphere = f(1, :, :, 'spherical')
+plot( fsphere )</pre>
+
+<pre class="mcode-output">fsphere =
+   spherefun object
+       domain        rank    vertical scale
+     unit sphere      87          4.9
+</pre>
+
+<p><img src="img/guide20_05.png" class="figure" alt=""></p>
+<h3 id="203-basic-operations">20.3 Basic operations</h3>
+<p>Nearly a hundred commands have been overloaded to allow users to visualize, manipulate, and compute with ballfuns. We detail a few of the basic commands below.</p>
+<p>For example, addition, subtraction, and multiplication are given by the operators '+', '-', and '.*':</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) sin(x.^2+z.^2)+cos(y).^2);
+g = ballfun(@(x,y,z) sin(x.*z)+cos(z).^3);
+
+subplot(2,2,1)
+plot( f ), title( 'f' )
+subplot(2,2,2)
+plot( g ), title( 'g' )
+subplot(2,2,3)
+plot( f + g ), title( 'f + g' )
+subplot(2,2,4)
+plot( f .* g ), title( 'f .* g' )</pre>
+
+<p><img src="img/guide20_06.png" class="figure" alt=""></p>
+<p>The definite triple integral of a ballfun is computed via the <code>sum3</code> command. For example, the integral of $f(x,y,z)=x^2$ over the unit ball is $4\pi/15$.</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) x.^2);
+intf = sum3(f)
+error = intf - 4*pi/15</pre>
+
+<pre class="mcode-output">intf =
+   0.837758040957278
+error =
+     0
+</pre>
+
+<p>Ballfun offers the <code>sum</code> command for integrating over the variable $r$, $\lambda$ or $\theta$, returning a spherefun or a diskfun. The following code computes</p>
+<p>$$s(\lambda,\theta) = \int_0^1f(r,\lambda,\theta)r^2dr$$</p>
+<p>and returns a spherefun.</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) x.^2);
+sumf = sum(f, 1)
+clf, plot( sumf )</pre>
+
+<pre class="mcode-output">sumf =
+   spherefun object
+       domain        rank    vertical scale
+     unit sphere       1          0.2
+</pre>
+
+<p><img src="img/guide20_07.png" class="figure" alt=""></p>
+<pre class="mcode-input">sumf = sum(f, 2)
+plot( sumf )</pre>
+
+<pre class="mcode-output">sumf =
+     diskfun object 
+       domain        rank    vertical scale
+      unit disk        1            3
+</pre>
+
+<p><img src="img/guide20_08.png" class="figure" alt=""></p>
+<p>Similarly, <code>sum2</code> integrates functions over two of the three variables:</p>
+<p>$$s(\lambda) = \int_0^\pi\int_0^1f(r,\lambda,\theta)r^2\sin(\theta)drd\theta,$$</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) y);
+sum2f = sum2(f, [1, 3])
+plot( sum2f )</pre>
+
+<pre class="mcode-output">sum2f =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values trig
+[    -3.1,     3.1]        3  -7.6e-17    2e-17 
+vertical scale = 0.34 
+</pre>
+
+<p><img src="img/guide20_09.png" class="figure" alt=""></p>
+<p>Ballfun has a fast <code>rotate</code> command to efficiently rotate functions.</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) sin(50*z) - x.^2);
+g = rotate(f, -pi/4, pi/2, pi/8);
+subplot(1,2,1)
+plot( f ), title('Original')
+subplot(1,2,2)
+plot( g ), title('Rotated')</pre>
+
+<p><img src="img/guide20_10.png" class="figure" alt=""></p>
+<p>Differentiation on the ball with respect to spherical coordinates in $r$, $\lambda$ and $\theta$ may introduce singularities. For instance, consider the smooth function $f(r,\lambda,\theta) = r\cos\theta$. The derivative of $f$ with respect to $\theta$ is $-r\sin\theta$, which is not smooth along the axis $x=y=0$. However, we are interested in computing derivatives that arise in vector calculus such as the gradient, the divergence, the curl or the Laplacian. These operations can be written in cartesian coordinates with partial derivatives with respect to $x$, $y$ and $z$ and are smooth. We follow a similar approach to Spherefun and express the partial derivatives in $x$, $y$, $z$ in terms of the spherical coordinates $r$, $\lambda$ and $\theta$. These operations are implemented in Ballfun in the <code>diff</code> command. For example, the partial derivative of $f(x,y,z) = \cos(xy)$ can be computed by</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) cos(x.*y));
+g = diff(f, 1);
+exact = ballfun(@(x,y,z) -y.*sin(x.*y));
+
+norm(g-exact)
+clf, plot( g ), title('df/dx')</pre>
+
+<pre class="mcode-output">ans =
+     3.249027369941537e-14
+</pre>
+
+<p><img src="img/guide20_11.png" class="figure" alt=""></p>
+<p>The Laplacian is computed in Cartesian coordinates using the <code>laplacian</code> command:</p>
+<p>$$\Delta f = \frac{\partial^2f}{\partial x^2}+\frac{\partial^2f}{\partial y^2}+\frac{\partial^2f}{\partial z^2}.$$</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) cos(x.*y)+sin(z));
+subplot(1,2,1)
+plot( f ), title('f')
+subplot(1,2,2)
+plot( laplacian(f) ), title('laplacian( f )')</pre>
+
+<p><img src="img/guide20_12.png" class="figure" alt=""></p>
+<h3 id="204-helmholtz-solver">20.4 Helmholtz solver</h3>
+<p>Ballfun has a command for solving the Helmholtz equation on the ball with Dirichlet boundary conditions. For example, to solve</p>
+<p>$$\nabla^2u + 2u = f,\quad u|_{\partial B} = 1,$$</p>
+<p>where $f(x,y,z) = -2(2x^2\cos(x^2)+\sin(x^2))+4\cos(x^2)$, one can execute these commands:</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) -2*(2*x.^2.*cos(x.^2) + sin(x.^2)) + 4*cos(x.^2));
+bc = @(lam, th) cos(sin(th).^2.*cos(lam).^2);
+u = helmholtz(f, 2, bc, 50, 50, 50);
+exact = ballfun(@(x,y,z) cos(x.^2));
+norm(u-exact)
+
+clf, plot( u )</pre>
+
+<pre class="mcode-output">ans =
+     1.854144724120649e-13
+</pre>
+
+<p><img src="img/guide20_13.png" class="figure" alt=""></p>
+<p>It is also possible to solve Helmholtz's equation with Neumann boundary conditions</p>
+<p>$$\nabla^2u + Ku = f,\quad \left.\frac{\partial u}{\partial r}\right|_{\partial B} = bc(\lambda,\theta):$$</p>
+<pre class="mcode-input">exact = ballfun(@(x,y,z) sin(y.^2));
+f = ballfun(@(x,y,z) 2*cos(y.^2)-4*y.^2.*sin(y.^2));
+bc = @(lam,th) 2*(sin(th).*sin(lam)).^2.*cos((sin(th).*sin(lam)).^2);
+u = helmholtz(f, 0, bc, 50, 50, 50, 'neumann');
+
+plot( u )</pre>
+
+<p><img src="img/guide20_14.png" class="figure" alt=""></p>
+<p>We then check if our two solutions differ by at most a constant (the kernel of the Helmholtz equation with Neumann boundary conditions):</p>
+<pre class="mcode-input">max( [ norm(diff(u, 1)-diff(exact, 1)) ...
+       norm(diff(u, 2)-diff(exact, 2)) ...
+       norm(diff(u, 3)-diff(exact, 3)) ] )</pre>
+
+<pre class="mcode-output">ans =
+     3.079999932729244e-14
+</pre>
+
+<h3 id="205-solid-harmonics">20.5 Solid harmonics</h3>
+<p>Solid harmonics appear as solutions of the Laplace equation. They are defined as</p>
+<p>$$R^m_l(\lambda,\theta) = \sqrt{2l+3}r^lY^m_l(\lambda,\theta) = \sqrt{2l+3}r^lP^m_l(\theta)e^{im\lambda},$$</p>
+<p>where $P^m_l$  is an associated Legendre polynomial, and they satisfy</p>
+<p>$$\int_B R^m_l R^{m^*}_ldV = 1,\quad \forall l\in\bf{N},\quad \forall -l\leq m\leq l.$$</p>
+<p>Ballfun provides a method for constructing these functions. For example, the solid harmonic $R^m_l$ of degree $l=4$ and order $m=-2$ is constructed as:</p>
+<pre class="mcode-input">R = ballfun.solharm(4, -2);
+plot( R ), title('R_4^{-2}')</pre>
+
+<p><img src="img/guide20_15.png" class="figure" alt=""></p>
+<p>We can verify that this function is a solution of the Laplace equation $\Delta f = 0$:</p>
+<pre class="mcode-input">norm( laplacian( R ) )</pre>
+
+<pre class="mcode-output">ans =
+     1.888485572980376e-14
+</pre>
+
+<p>We can also verify the orthonormality of the solid harmonics on the ball using the <code>sum3</code> command</p>
+<pre class="mcode-input">R40 = ballfun.solharm(4, 0);
+sum3(R.*conj(R))
+sum3(R40.*conj(R40))
+sum3(R.*conj(R40))</pre>
+
+<pre class="mcode-output">ans =
+     1
+ans =
+   1.000000000000001
+ans =
+    -3.686637253394265e-17
+</pre>
+
+<p>Here is a plot of the first few solid harmonics $R^m_l$, with $l=0,...,3$ and $0\leq m\leq l$.</p>
+<pre class="mcode-input">for l = 0:3
+    for m = 0:l
+        Y = ballfun.solharm(l, m);
+        subplot(4,4,4*l+m+1), plot(Y)
+        axis off
+    end
+end</pre>
+
+<p><img src="img/guide20_16.png" class="figure" alt=""></p>
+<h3 id="206-vector-calculus-with-ballfunv">20.6 Vector calculus with Ballfunv</h3>
+<p>Vector fields in Ballfun are implemented in the Cartesian system $(\mathbf{e}_x,\mathbf{e}_y,\mathbf{e}_z)$, where $\mathbf{e}_x$ denotes the unit vector in the $x$ direction. In fact, a vector field expressed in the spherical system $(\mathbf{e}_r,\mathbf{e}_\lambda,\mathbf{e}_\theta)$ is not always smooth in the unit ball, so it is more convenient to use Cartesian coordinates. For example, the vector field $v(x,y,z) = (\sin(x),xy,\cos(z))$ can be constructed as follows in Ballfun:</p>
+<pre class="mcode-input">Vx = ballfun(@(x,y,z) x.*y);
+Vy = ballfun(@(x,y,z) sin(x.*z));
+Vz = ballfun(@(x,y,z) sin(y));
+V = ballfunv(Vx, Vy, Vz)
+
+clf, quiver( V ), title('V')</pre>
+
+<pre class="mcode-output">V =
+   ballfunv object containing
+   ballfun object:
+      domain           r    lambda    theta    vertical scale
+     unit ball         3       5        5           0.5
+   ballfun object:
+      domain           r    lambda    theta    vertical scale
+     unit ball        19      23       45           0.48
+   ballfun object:
+      domain           r    lambda    theta    vertical scale
+     unit ball        14      27       27           0.84
+</pre>
+
+<p><img src="img/guide20_17.png" class="figure" alt=""></p>
+<p>Each component is represented as a ballfun, and singularities are avoided because the components are in the directions of $\mathbf{e}_x$, $\mathbf{e}_y$, and $\mathbf{e}_z$, respectively.</p>
+<p>The main operations for vector-valued functions are supported in Ballfun. These include the curl and the divergence, among others.</p>
+<pre class="mcode-input">W = curl(V);
+quiver( W ), title('curl( V )')
+
+f = div(V);
+plot( f ), title('div( V )')</pre>
+
+<p><img src="img/guide20_18.png" class="figure" alt=""></p>
+<p>One can easily check that the vector calculus identities are satisfied. For example, the curl of a gradient field is zero:</p>
+<p>$$\nabla\times(\nabla f) = 0$$</p>
+<pre class="mcode-input">f = ballfun(@(x,y,z) cos(x.*z));
+V = curl( grad( f ) );
+norm( V )</pre>
+
+<pre class="mcode-output">ans =
+     1.498039417472287e-12
+</pre>
+
+<p>The divergence of the curl is also zero:</p>
+<pre class="mcode-input">f = norm( div( curl( V ) ) );
+norm( f )</pre>
+
+<pre class="mcode-output">ans =
+     1.135977356045423e-08
+</pre>
+
+<h3 id="207-poloidal-toroidal-decomposition">20.7 Poloidal-toroidal decomposition</h3>
+<p>In vector calculus, the poloidal-toroidal (PT) decomposition [1] is a restricted form of the Helmholtz-Hodge decomposition [4]. The idea is that any sufficiently smooth and divergence-free vector field in the ball can be expressed as the sum of a poloidal field and a toroidal field. The PT decomposition used in the analysis of divergence-free vector fields in geomagnetism, flow visualization, and incompressible fluid simulations.</p>
+<p>For a chosen unit vector $\mathbf{e}_r$, a toroidal field, $\mathbf{T}$, is one that is tangential to $\mathbf{e}_r$ while a poloidal field, $\mathbf{P}$, is one whose curl is tangential to $\mathbf{e}_r$, i.e.,</p>
+<p>$$ \mathbf{e}_r\cdot \mathbf{T} = 0, \quad \mathbf{e}_r\cdot (\nabla \times \mathbf{P}) = 0.$$</p>
+<p>Let $w$ be any divergence-free vector field defined in the unit ball. The PT decomposition is the representation of $w$ as the following sum:</p>
+<p>$$ w = \nabla\times\nabla\times(\bf{r}P_w) + \nabla\times(\bf{r}T_w),$$</p>
+<p>where $\bf{r} = r\bf{e}_r$, and $P_w$ and $T_w$ are scalar-valued potential functions (called the poloidal and toroidal scalars). In this setting, the natural unit vector, $\bf{e}_r$ to select is the unit radial vector that points away from the origin. The scalars $P_w$ and $T_w$ are unique up to the addition of an arbitrary function that only depends on the radial variable, $r$.</p>
+<p>To illustrate the decomposition, we take the divergence-free vector field $v = \nabla\times\nabla\times(\bf{r}P_w) + \nabla\times(\bf{r}T_w)$:</p>
+<pre class="mcode-input">Pw = ballfun(@(x,y,z) cos(x.*y));
+Tw = ballfun(@(x,y,z) sin(y.*z));
+w = ballfunv.PT2ballfunv(Pw, Tw);
+quiver( w )</pre>
+
+<p><img src="img/guide20_19.png" class="figure" alt=""></p>
+<p>We start by checking that $v$ is a divergence-free vector field:</p>
+<pre class="mcode-input">norm( div( w ) )</pre>
+
+<pre class="mcode-output">ans =
+     4.162099210310871e-10
+</pre>
+
+<p>The poloidal-toroidal decomposition of $v$ can be computed as follows:</p>
+<pre class="mcode-input">[Pw, Tw] = PTdecomposition( w );
+subplot(1,2,1)
+plot( Pw ), title('Poloidal scalar')
+subplot(1,2,2)
+plot( Tw ), title('Toroidal scalar')</pre>
+
+<p><img src="img/guide20_20.png" class="figure" alt=""></p>
+<p>Here is a visualization of the decomposition.</p>
+<pre class="mcode-input">[P,T] = ballfunv.PT2ballfunv(Pw, Tw);
+subplot(1,3,1)
+quiver( w ), title('Divergence-free field')
+subplot(1,3,2)
+quiver( P ), title('Poloidal component')
+subplot(1,3,3)
+quiver( T ), title('Toroidal component')</pre>
+
+<p><img src="img/guide20_21.png" class="figure" alt=""></p>
+<p>The original vector field can be recovered from the poloidal and toroidal scalars since</p>
+<p>$$ w = \nabla\times\nabla\times(\bf{r}P_w) + \nabla\times(\bf{r}T_w).$$</p>
+<p>This operation is implemented in Ballfun in the <code>PT2ballfunv</code> command</p>
+<pre class="mcode-input">v = ballfunv.PT2ballfunv(Pw, Tw);
+norm( w - v )</pre>
+
+<pre class="mcode-output">ans =
+     1.281358965881723e-12
+</pre>
+
+<h3 id="208-helmholtz-hodge-decomposition">20.8 Helmholtz-Hodge decomposition</h3>
+<p>In vector calculus, Helmholtz's theorem states that any sufficiently smooth vector field in the ball can be expressed as a sum of a curl-free, a divergence-free, and a harmonic vector field [4].</p>
+<p>Let $v$ be a vector field defined in the ball of radius $1$. Helmholtz's theorem says that we can decompose $v$ as follows:</p>
+<p>$$ \mathbf{v} = \nabla f + \nabla \times \psi + \nabla\phi,$$</p>
+<p>where $f$ and $\phi$ are scalar-valued potential functions and $\psi$ is a vector field. The first term, $\nabla f$, is a gradient field and hence curl-free, while the second term, $\nabla \times \psi$, is divergence-free. The third term is an harmonic vector field (vector Laplacian of $\nabla \phi$ is zero). From vector identities, one knows that the scalar field, $\phi$, is itself harmonic, i.e., $\Delta \phi = 0$.</p>
+<p>The Helmholtz-Hodge decomposition can be made unique by imposing additional constraints on $f$ and $\psi$ [4]. The standard constraints are: (1) $f$ is zero on the boundary of the unit ball, (2) the normal component of $\psi$ on the boundary is zero, and (3) $\psi$ is divergence-free.</p>
+<p>The Helmholtz-Hogde decomposition is an important tool in fluid dynamics, as it is used for flow visualization (when the fluid is compressible), in CFD simulations (to impose the imcompressibility condition), and topological analysis. A survey of applications is available here [2].</p>
+<p>We start with the following vector field:</p>
+<pre class="mcode-input">v = ballfunv(@(x,y,z) cos(x.*y).*z,@(x,y,z)sin(x.*z),@(x,y,z)y.*z);
+clf, quiver( v )</pre>
+
+<p><img src="img/guide20_22.png" class="figure" alt=""></p>
+<p>Ballfun has a command <code>HelmholtzDecomposition</code> that computes the Helmholtz-Hodge decomposition of a vector field. In the command lines below, $P_\psi$ and $T_\psi$ stand for the poloidal and toroidal scalars of the divergence-free vector field $\psi$.</p>
+<pre class="mcode-input">[f, Ppsi, Tpsi, phi] = HelmholtzDecomposition( v );</pre>
+
+<p>The curl-free component is equal to $\nabla f$:</p>
+<pre class="mcode-input">quiver( grad( f ) ), title('Curl-free component of v')</pre>
+
+<p><img src="img/guide20_23.png" class="figure" alt=""></p>
+<p>We confirm that this component is curl-free:</p>
+<pre class="mcode-input">norm( curl( grad( f ) ) )</pre>
+
+<pre class="mcode-output">ans =
+     9.015789307232970e-14
+</pre>
+
+<p>We plot the harmonic component of $v$ below</p>
+<pre class="mcode-input">quiver( grad( phi ) ), title('Harmonic component of v')</pre>
+
+<p><img src="img/guide20_24.png" class="figure" alt=""></p>
+<p>We check the harmonicity of this component:</p>
+<pre class="mcode-input">norm( laplacian( grad( phi ) ) )</pre>
+
+<pre class="mcode-output">ans =
+     1.757716566974201e-09
+</pre>
+
+<p>The divergence-free component $\psi$ can be computed from its poloidal and toroidal scalars:</p>
+<pre class="mcode-input">psi = ballfunv.PT2ballfunv(Ppsi, Tpsi);
+quiver( curl( psi ) ), title('Divergence-free component of v')</pre>
+
+<p><img src="img/guide20_25.png" class="figure" alt=""></p>
+<p>By vector identities this component is divergence-free:</p>
+<pre class="mcode-input">norm( div( curl( psi ) ) )</pre>
+
+<pre class="mcode-output">ans =
+     6.616465369465180e-11
+</pre>
+
+<p>Here is a plot of each component of the decomposition.</p>
+<pre class="mcode-input">subplot(1,4,1)
+quiver( v ), title('Vector field')
+subplot(1,4,2)
+quiver( grad(f) ), title('Curl-free')
+subplot(1,4,3)
+quiver( curl(psi) ), title('Divergence-free')
+subplot(1,4,4)
+quiver( grad(phi) ), title('Harmonic')</pre>
+
+<p><img src="img/guide20_26.png" class="figure" alt=""></p>
+<p>As a sanity check we confirm that the decomposition has been successful:</p>
+<pre class="mcode-input">w = grad( f ) + curl( psi ) + grad( phi );
+norm( v - w )</pre>
+
+<pre class="mcode-output">ans =
+     4.335022927452315e-12
+</pre>
+
+<h3 id="references">References</h3>
+<p>[1] G. Backus, Poloidal and toroidal fields in geomagnetic field modeling, <em>Reviews of Geophysics</em>, 24 (1986), pp. 75-109.</p>
+<p>[2] H. Bhatia, G. Norgard, V. Pascucci, and P.-T. Bremer, The Helmholtz-Hodge decomposition--a survey, <em>IEEE Trans. Vis. Comput. Graphics</em>, 19 (2013), pp. 1386-1404.</p>
+<p>[3] N. Boulle, and A. Townsend, Computing with functions on the ball, in preparation.</p>
+<p>[4] Y. Tong, S. Lombeyda, A. Hirani, and M. Desbrun, Discrete multiscale vector field decomposition, <em>ACM Trans. Graphics</em>, 22 (2003), pp. 445-452.</p>
+<p>[5] A. Townsend, H. Wilber, and G. Wright, Computing with functions in spherical and polar geometries I. The sphere, <em>SIAM Journal on Scientific Computing</em>, 38 (2016), pp. C403-C425.</p>
+<p>[6] H. Wilber, A. Townsend, and G. Wright, Computing with functions in spherical and polar geometries II. The disk, <em>SIAM Journal on Scientific Computing</em>, 39 (2017), pp. C238-C262.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
