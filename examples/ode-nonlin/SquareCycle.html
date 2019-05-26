@@ -61,7 +61,7 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>Warwick Tucker and T. Johnson have studied the following challenging example of a two-variable ODE system whose solutions approach a square limit cycle containing four saddle points. (More properly this should be called a <em>heteroclinic cycle</em> or a <em>graphic</em>.) The system is $$ x' = (\delta x+y)(x^2-1), \quad y' = (\delta y-x)(y^2-1), $$ where $\delta $ is a parameter.  Here is a solution with $\delta =-.2$ plotted in the phase plane.  We compute up to $t=110$ but plot just up to $t=50$ to make the curve most attractive:</p>
+<p>Tomas Johnson and Warwick Tucker have studied the following challenging example of a two-variable ODE system whose solutions approach a square limit cycle containing four saddle points [1]. (More properly this should be called a <em>heteroclinic cycle</em> or a <em>graphic</em>.) The system is $$ x' = (\delta x+y)(x^2-1), \quad y' = (\delta y-x)(y^2-1), $$ where $\delta $ is a parameter.  Here is a solution with $\delta =-.2$ plotted in the phase plane.  We compute up to $t=110$ but plot just up to $t=50$ to make the curve most attractive:</p>
 <pre class="mcode-input">N = chebop(0,110);
 N.lbc = [.01; .02];
 N.op = @(t,x,y) [diff(x)+(.2*x-y)*(x^2-1); diff(y)+(.2*y+x)*(y^2-1)];
@@ -87,10 +87,11 @@ xlabel t, legend({'x','y'},LO,'southwest')</pre>
 <p><img src="img/SquareCycle_03.png" class="figure" alt=""></p>
 <p>Down to $10^{-11}$, everything looks clean, but at that point we see computational trouble.  This is the level of Chebfun's tolerances for the ODE solver. In fact, if we compute further to $t=150$, one of the variables erroneously becomes bigger than $1$, whereupon it rapidly diverges.</p>
 <p>Beyond here, one would need higher-precision arithmetic or the more careful methods developed by Tucker. One might also explore a change of variables such as $u = \tanh^{-1}x$ and $v = \tanh^{-1} y$.</p>
-<p>A different example with a square limiting behavior can be found as Exercise 48 of <em>Exploring ODEs</em> [1], adapted from p. 215 of [2].  An example with three variables moving on a sphere between three saddle points can be found in [3], where crossing times are also studied.</p>
-<p>[1] L. N. Trefethen, A. Birkisson, and T. A. Driscoll, Exploring ODEs, SIAM, 2018, freely available online at <code>https://people.maths.ox.ac.uk/trefethen/ExplODE/</code>.</p>
-<p>[2] M. W. Hirsch, S. Smale, and R. L. Devaney, <em>Differential Equations, Dynamical Systems, and an Introduction to Chaos</em>, 3rd ed., Elsevier, 2013.</p>
-<p>[3] L. N. Trefethen, A nonlinear system of Guckenheimer and Holmes, <code>www.chebfun.org/ode-nonlin/GuckenheimerHolmes.html/</code>, February 2015.</p></div>
+<p>A different example with a square limiting behavior can be found as Exercise 48 of <em>Exploring ODEs</em> [2], adapted from p. 215 of [3].  An example with three variables moving on a sphere between three saddle points can be found in [4], where crossing times are also studied.</p>
+<p>[1] T. Johnson and W. Tucker, Automated computation of robust normal forms of planar analytic vector fields, arXiv:0810.5282, 2008.</p>
+<p>[2] L. N. Trefethen, A. Birkisson, and T. A. Driscoll, Exploring ODEs, SIAM, 2018, freely available online at <code>https://people.maths.ox.ac.uk/trefethen/ExplODE/</code>.</p>
+<p>[3] M. W. Hirsch, S. Smale, and R. L. Devaney, <em>Differential Equations, Dynamical Systems, and an Introduction to Chaos</em>, 3rd ed., Elsevier, 2013.</p>
+<p>[4] L. N. Trefethen, A nonlinear system of Guckenheimer and Holmes, <code>www.chebfun.org/ode-nonlin/GuckenheimerHolmes.html/</code>, February 2015.</p></div>
         </div>
     </div>
 </div>
