@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Poloidal-toroidal decomposition of a vector field &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Poloidal-toroidal decomposition of a vector field</h1>
+<h2>Nicolas Boullé and Alex Townsend, May 2019 in <a href='/examples/sphere/'>sphere</a><span><a href='/examples/sphere/PTDecomposition.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/sphere/PTDecomposition.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="the-poloidal-toroidal-decomposition">The poloidal-toroidal decomposition</h3>
+<p>In vector calculus, the poloidal-toroidal (PT) decomposition [1] is a restricted form of the Helmholtz-Hodge decomposition [3]. It states that any sufficiently smooth and divergence-free vector field in the ball can be expressed as the sum of a poloidal field and a toroidal field. It is used in the analysis of divergence-free vector fields in geomagnetism, flow visualization, and incompressible fluid simulations.</p>
+<p>For a given unit vector $\mathbf{r}$, a toroidal field, $\mathbf{T}$, is one that is tangential to $\mathbf{r}$, while a poloidal field, $\mathbf{P}$, is one whose curl is tangential to $\mathbf{r}$, i.e., $$ \mathbf{r}\cdot \mathbf{T} = 0, \quad \mathbf{r}\cdot (\nabla \times \mathbf{P}) = 0. $$</p>
+<h3 id="the-pt-decomposition-for-vector-fields-in-the-unit-ball">The PT decomposition for vector fields in the unit ball</h3>
+<p>Let $w$ be a divergence-free vector field in the unit ball. Then the PT decomposition says that $w$ can be written as the sum $$ w = \nabla\times\nabla\times(\mathbf{r}P_w) + \nabla\times(\mathbf{r}T_w), $$ where $P_w$ and $T_w$ are scalar-valued potential functions (called the poloidal and toroidal scalars). In this setting, the natural unit vector $\mathbf{r}$ to select is the unit radial vector pointing away from the origin. The scalars $P_w$ and $T_w$ are unique up to the addition of an arbitrary function that only depends on $r$.</p>
+<p>In this Example, we show how this decomposition is computed by Ballfun and introduce the command <code>PTdecomposition</code> [2].</p>
+<p>To illustrate the decomposition, we take the following divergence-free vector field:</p>
+<pre class="mcode-input">Pw = ballfun(@(x,y,z)cos(x.*y));
+Tw = ballfun(@(x,y,z)sin(y.*z));
+w = ballfunv.PT2ballfunv(Pw, Tw);
+quiver( w )</pre>
+
+<p><img src="img/PTDecomposition_01.png" class="figure" alt=""></p>
+<p>We start by checking that $w$ is divergence-free:</p>
+<pre class="mcode-input">norm( div( w ) )</pre>
+
+<pre class="mcode-output">ans =
+     4.162099210310871e-10
+</pre>
+
+<h3 id="computing-the-pt-decomposition">Computing the PT decomposition</h3>
+<p>The scalars $P_w$ and $T_w$ are unique up to the addition of an arbitrary function that depends only on  $r$. A popular additional constraint is to select $P_w$ and $T_w$ so that their integrals over the unit sphere are zero. Under this additional restriction, they satisfy the relations [1] $$\nabla_1^2 P_w = -rv_r, $$ $$\nabla_1 T_w = -\Lambda_1\cdot w, $$ where $\nabla_1^2$ and $\Lambda_1$ denote the dimensionless Laplacian and surface curl, respectively. These operations are defined in the spherical coordinates $(r,\lambda,\theta)$ by $$ \nabla_1^2 = \frac{1}{\sin\theta}\partial_\theta(\sin\theta\partial_\theta) +\frac{1}{\sin^2\theta}\partial_\lambda^2, $$ $$ \Lambda_1\cdot w = \frac{1}{\sin\theta}[\partial_\theta(w_\lambda\sin\theta) -\partial_\lambda w_\theta]. $$ These constraints are imposed in the solver by requiring that the zeroth Fourier modes in $\lambda$ and $\theta$ are zero. This actually means that if $P_w$ is represented by a Chebyshev-Fourier-Fourier series, i.e., $$\sum_{i=0}^n\sum_{j=-n/2}^{n/2}\sum_{k=-n/2}^{n/2}a_{i,j,k}T_i(r)e^{\mathbf{i}j\lambda}e^{\mathbf{i}k\theta},$$ then $a_{i,0,0} = 0$ for $0\leq i\leq n$.</p>
+<h3 id="the-ptdecomposition-command">The <code>PTdecomposition</code> command</h3>
+<p>Ballfun has a command <code>PTdecomposition</code> that computes the PT decomposition of a divergence-free vector field. The decomposition of $v$ can be computed as follows:</p>
+<pre class="mcode-input">[Pw, Tw] = PTdecomposition( w );
+subplot(1,2,1)
+plot(Pw), title('poloidal scalar')
+subplot(1,2,2)
+plot(Tw), title('toroidal scalar')</pre>
+
+<p><img src="img/PTDecomposition_02.png" class="figure" alt=""></p>
+<h3 id="visualizing-the-decomposition">Visualizing the decomposition</h3>
+<p>Here are plots of the decomposition.</p>
+<pre class="mcode-input">[P,T] = ballfunv.PT2ballfunv(Pw,Tw);
+subplot(1,3,1)
+quiver( w ), title('divergence-free field')
+subplot(1,3,2)
+quiver( P ), title('poloidal component')
+subplot(1,3,3)
+quiver( T ), title('toroidal component')</pre>
+
+<p><img src="img/PTDecomposition_03.png" class="figure" alt=""></p>
+<h3 id="recovering-the-vector-field-from-the-pt-scalars">Recovering the vector field from the PT scalars</h3>
+<p>The original vector field can be recovered from the poloidal and toroidal scalars since $$ w = \nabla\times\nabla\times(\mathbf{r}P_w) + \nabla\times(\mathbf{r}T_w). $$ This operation is implemented in Ballfun in the <code>PT2ballfunv</code> command:</p>
+<pre class="mcode-input">v = ballfunv.PT2ballfunv(Pw, Tw);</pre>
+
+<p>As a sanity check, we confirm that the decomposition has been successful:</p>
+<pre class="mcode-input">norm( v - w )</pre>
+
+<pre class="mcode-output">ans =
+     1.281385019969649e-12
+</pre>
+
+<h3 id="references">References</h3>
+<p>[1] G. Backus, Poloidal and toroidal fields in geomagnetic field modelling, <em>Reviews of Geophysics</em>, 24 (1986), pp. 75-109.</p>
+<p>[2] N. Boull&eacute; and A. Townsend, Computing with functions on the ball, in preparation.</p>
+<p>[3] Y. Tong, S. Lombeyda, A. Hirani, and M. Desbrun, Discrete multiscale vector field decomposition, <em>ACM Trans. Graphics</em>, 22 (2003), pp. 445-452.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
