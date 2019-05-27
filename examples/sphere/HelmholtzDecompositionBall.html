@@ -106,7 +106,7 @@ quiver( grad( phi ) ), title('harmonic component of v')</pre>
 </pre>
 
 <h3 id="computing-the-divergence-free-component">Computing the divergence-free component</h3>
-<p>Let $v^{(2)}$ be the following vector field: $$ v^{(2)} = v^{(1)} - \nabla \phi = \nabla \times \psi. $$ Since $v^{(2)}$ and $\psi$ are divergence-free, we can write their Poloidal-Toroidal decomposition [1] as $$ v^{(2)} = \nabla\times\nabla\times(\mathbf{r}P_{v^{(2)}})+ \nabla\times(\mathbf{r}T_{v^{(2)}}), $$ $$\psi = \nabla\times\nabla\times(\mathbf{r}P_{\psi})+ \nabla\times(\mathbf{r}T_{\psi}),$$ where $\mathbf{r} = r\vec{r}$. Moreover, the uniqueness of the PT decomposition and further vector identities lead us to the following system of equations for $\psi$: $$\Delta P_{\psi} = -T_{v^{(2)}}, \quad T_{\psi} = P_{v^{(2)}},$$ where $P_{\psi}$ is subjected to zero Dirichlet conditions because $\vec{n}\cdot\nabla\times(\mathbf{r}T_{\psi})|_{\partial B}=0$. Therefore, we can solve for $\psi$ in the Helmholtz-Hodge decomposition as follows:</p>
+<p>Let $v^{(2)}$ be the following vector field: $$ v^{(2)} = v^{(1)} - \nabla \phi = \nabla \times \psi. $$ Since $v^{(2)}$ and $\psi$ are divergence-free, we can write their Poloidal-Toroidal decomposition [1] as $$ v^{(2)} = \nabla\times\nabla\times(\mathbf{r}P_{v^{(2)}})+ \nabla\times(\mathbf{r}T_{v^{(2)}}), $$ $$\psi = \nabla\times\nabla\times(\mathbf{r}P_{\psi})+ \nabla\times(\mathbf{r}T_{\psi}),$$ where $\mathbf{r} = r\hat{r}$ and $\hat{r}$ denotes the unit radial vector in spherical coordinates. Moreover, the uniqueness of the PT decomposition and further vector identities lead us to the following system of equations for $\psi$: $$\Delta P_{\psi} = -T_{v^{(2)}}, \quad T_{\psi} = P_{v^{(2)}},$$ where $P_{\psi}$ is subjected to zero Dirichlet conditions because $\vec{n}\cdot\nabla\times(\mathbf{r}T_{\psi})|_{\partial B}=0$. Therefore, we can solve for $\psi$ in the Helmholtz-Hodge decomposition as follows:</p>
 <pre class="mcode-input">v2 = v1 - grad(phi);
 [Pv, Tv] = PTdecomposition(v2);
 Ppsi = poisson(-Tv, @(lam,th)0, 50);
@@ -127,13 +127,13 @@ quiver( curl( psi ) ), title('divergence-free component of v')</pre>
 <h3 id="visualizing-the-decomposition">Visualizing the decomposition</h3>
 <p>Here are plots of each component of the decomposition:</p>
 <pre class="mcode-input">subplot(1,4,1)
-quiver( v ,'numpts',20), title('vector field')
+quiver( v ,'numpts',20, 'color'), title('vector field')
 subplot(1,4,2)
-quiver( grad(f) ,'numpts',20), title('curl-free')
+quiver( grad(f) ,'numpts',20, 'color'), title('curl-free')
 subplot(1,4,3)
-quiver( curl(psi) ,'numpts',20), title('divergence-free')
+quiver( curl(psi) ,'numpts',20, 'color'), title('divergence-free')
 subplot(1,4,4)
-quiver( grad(phi) ,'numpts',20), title('harmonic')</pre>
+quiver( grad(phi) ,'numpts',20, 'color'), title('harmonic')</pre>
 
 <p><img src="img/HelmholtzDecompositionBall_05.png" class="figure" alt=""></p>
 <p>As a sanity check we confirm that the decomposition has been successful:</p>
