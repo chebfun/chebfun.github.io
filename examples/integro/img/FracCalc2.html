@@ -19,7 +19,7 @@ J = @(n, alpha, beta) jacpoly(n, alpha, beta);  % Jacobi polynomial</pre>
 
 We begin, as in [1], with the case of the half-integral. This is defined as
 
-$$(J^{1/2}f)(x) = \int_{-1}^x\frac{f(t)}{\sqrt{x-t}}dt.$$
+$$(J^{1/2}f)(x) = \frac{1}{\Gamma(1/2)}\int_{-1}^x\frac{f(t)}{\sqrt{x-t}}dt.$$
 
 From [2, (18.17.45)] we have that
 
@@ -33,7 +33,7 @@ J1 = cumsum(P(n), 0.5);
 J2 = (T(n) + T(n+1)) ./ ( gamma(0.5) * (n+.5) * sqrt(1+x) );
 plot(J1, 'b', J2, '--r'), shg
 title('Half-integral of $P_4(x)$', 'Interpreter', 'latex')
-legend('J1', 'J2')</pre><img src="img/FracCalc2_01.png" class="figure" alt=""/>
+legend('J1', 'J2')</pre><img src="img/FracCalc2_01.png" class="figure" alt="">
 
 Hence, if
 
@@ -58,7 +58,7 @@ J1 = chebfun(b, 'coeffs')./sqrt(1+x);</pre>We can see this coincides with the re
 <pre class="mcode-input">J2 = cumsum(f, 0.5);
 plot(J1, 'b', J2, '--r'), shg
 title('Half-integral of $\exp(x)$', 'Interpreter', 'latex')
-legend('J1', 'J2');</pre><img src="img/FracCalc2_02.png" class="figure" alt=""/>
+legend('J1', 'J2');</pre><img src="img/FracCalc2_02.png" class="figure" alt="">
 
 
 
@@ -86,7 +86,7 @@ J2 = B(bet + n + 1, mu) / gamma(mu) * (1+x).^(bet + mu) .* J(n, -mu, bet + mu);
 plot(J1, 'b', J2, '--r'), shg
 title('Quarter-integral of $(1+x)^\beta P_n^{(0,\beta)}(x)$', ...
     'Interpreter','latex')
-legend('J1', 'J2');</pre><img src="img/FracCalc2_03.png" class="figure" alt=""/>
+legend('J1', 'J2');</pre><img src="img/FracCalc2_03.png" class="figure" alt="">
 
 So, to compute a fractional integral of a chebfun, we first compute the required Jacobi coefficients with `jaccoeffs`, scale these by the Beta and Gamma functions given above, and then convert back to Chebyshev coefficients using `jac2cheb`.
 
@@ -100,7 +100,7 @@ J1 = chebfun(b, 'coeffs') .* (1+x).^mu;</pre>Again, we can see this coincides wi
 <pre class="mcode-input">J2 = cumsum(f, mu);
 plot(J1, 'b', J2, '--r'), shg
 title('Quarter-integral of $\exp(x)$', 'Interpreter', 'latex')
-legend('J1', 'J2');</pre><img src="img/FracCalc2_04.png" class="figure" alt=""/>
+legend('J1', 'J2');</pre><img src="img/FracCalc2_04.png" class="figure" alt="">
 
 
 
@@ -118,7 +118,7 @@ f = exp(x);</pre>For the Caputo form of the fractional derivative, we first diff
 
 <pre class="mcode-input">plot(Df_Caputo, 'b', Df_RL, '--r')
 legend('Caputo', 'Riemann-Liouville')
-title('Quarter-derivative of $\exp(x)$', 'Interpreter', 'latex')</pre><img src="img/FracCalc2_05.png" class="figure" alt=""/>
+title('Quarter-derivative of $\exp(x)$', 'Interpreter', 'latex')</pre><img src="img/FracCalc2_05.png" class="figure" alt="">
 
 we can see that they both satisfy `diff(diff(f, a), 1-a) = diff(f)`:
 
@@ -126,7 +126,7 @@ we can see that they both satisfy `diff(diff(f, a), 1-a) = diff(f)`:
      diff(Df_RL, 1-mu, 'RL'), '--r', ...,
      diff(f), ':g');
 legend('Caputo', 'Riemann-Liouville', 'f''')
-title('diff(diff(f, a), 1-a) = diff(f)', 'Interpreter', 'latex')</pre><img src="img/FracCalc2_06.png" class="figure" alt=""/>
+title('diff(diff(f, a), 1-a) = diff(f)', 'Interpreter', 'latex')</pre><img src="img/FracCalc2_06.png" class="figure" alt="">
 
 
 
