@@ -577,7 +577,7 @@ form.subscribe {
   .homepage .description p {
     font-size: 15px;
     font-weight: 400;
-    margin: .4em 15px 1.9em;
+    margin: .4em 15px 1.7em;
   }
 .homepage .links {
   text-align: center;
@@ -600,6 +600,15 @@ form.subscribe {
       color: #006b00;
     }
 
+.homepage .survey {
+}
+	
+	.homepage .survey p {
+    font-size: 15px;
+    font-weight: 400;
+    margin: .5em 15px 0em;
+		color: red;
+	}
 
 .flexslider {
   /*-webkit-box-shadow: none;*/
