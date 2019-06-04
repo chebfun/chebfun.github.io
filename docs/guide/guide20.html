@@ -236,7 +236,7 @@ norm(u-exact)
 clf, plot( u )</pre>
 
 <pre class="mcode-output">ans =
-     1.854144724120649e-13
+     1.493981968634660e-13
 </pre>
 
 <p><img src="img/guide20_13.png" class="figure" alt=""></p>
@@ -256,7 +256,7 @@ plot( u )</pre>
        norm(diff(u, 3)-diff(exact, 3)) ] )</pre>
 
 <pre class="mcode-output">ans =
-     3.079999932729244e-14
+     3.536092382519439e-14
 </pre>
 
 <h3 id="205-solid-harmonics">20.5 Solid harmonics</h3>
@@ -287,7 +287,7 @@ sum3(R.*conj(R40))</pre>
 ans =
    1.000000000000001
 ans =
-    -3.686637253394265e-17
+    -3.686637253394264e-17
 </pre>
 
 <p>Here is a plot of the first few solid harmonics $R^m_l$, with $l=0,...,3$ and $0\leq m\leq l$.</p>
@@ -352,11 +352,11 @@ norm( f )</pre>
 
 <h3 id="207-poloidal-toroidal-decomposition">20.7 Poloidal-toroidal decomposition</h3>
 <p>In vector calculus, the poloidal-toroidal (PT) decomposition [1] is a restricted form of the Helmholtz-Hodge decomposition [4]. The idea is that any sufficiently smooth and divergence-free vector field in the ball can be expressed as the sum of a poloidal field and a toroidal field. The PT decomposition used in the analysis of divergence-free vector fields in geomagnetism, flow visualization, and incompressible fluid simulations.</p>
-<p>For a chosen unit vector $\mathbf{e}_r$, a toroidal field, $\mathbf{T}$, is one that is tangential to $\mathbf{e}_r$ while a poloidal field, $\mathbf{P}$, is one whose curl is tangential to $\mathbf{e}_r$, i.e.,</p>
+<p>For a chosen unit vector $\mathbf{e}_r$, a toroidal field, $\mathbf{T}$, is one that is orthogonal to $\mathbf{e}_r$ while a poloidal field, $\mathbf{P}$, is one whose curl is orthogonal to $\mathbf{e}_r$, i.e.,</p>
 <p>$$ \mathbf{e}_r\cdot \mathbf{T} = 0, \quad \mathbf{e}_r\cdot (\nabla \times \mathbf{P}) = 0.$$</p>
 <p>Let $w$ be any divergence-free vector field defined in the unit ball. The PT decomposition is the representation of $w$ as the following sum:</p>
 <p>$$ w = \nabla\times\nabla\times(\bf{r}P_w) + \nabla\times(\bf{r}T_w),$$</p>
-<p>where $\bf{r} = r\bf{e}_r$, and $P_w$ and $T_w$ are scalar-valued potential functions (called the poloidal and toroidal scalars). In this setting, the natural unit vector, $\bf{e}_r$ to select is the unit radial vector that points away from the origin. The scalars $P_w$ and $T_w$ are unique up to the addition of an arbitrary function that only depends on the radial variable, $r$.</p>
+<p>where $\mathbf{r} = r\mathbf{e}_r$, and $P_w$ and $T_w$ are scalar-valued potential functions (called the poloidal and toroidal scalars). In this setting, the natural unit vector, $\mathbf{e}_r$ to select is the unit radial vector that points away from the origin. The scalars $P_w$ and $T_w$ are unique up to the addition of an arbitrary function that only depends on the radial variable, $r$.</p>
 <p>To illustrate the decomposition, we take the divergence-free vector field $v = \nabla\times\nabla\times(\bf{r}P_w) + \nabla\times(\bf{r}T_w)$:</p>
 <pre class="mcode-input">Pw = ballfun(@(x,y,z) cos(x.*y));
 Tw = ballfun(@(x,y,z) sin(y.*z));
@@ -396,7 +396,7 @@ quiver( T ), title('Toroidal component')</pre>
 norm( w - v )</pre>
 
 <pre class="mcode-output">ans =
-     1.281358965881723e-12
+     1.281385019969649e-12
 </pre>
 
 <h3 id="208-helmholtz-hodge-decomposition">20.8 Helmholtz-Hodge decomposition</h3>
@@ -422,7 +422,7 @@ clf, quiver( v )</pre>
 <pre class="mcode-input">norm( curl( grad( f ) ) )</pre>
 
 <pre class="mcode-output">ans =
-     9.015789307232970e-14
+     1.979683513296762e-13
 </pre>
 
 <p>We plot the harmonic component of $v$ below</p>
@@ -433,7 +433,7 @@ clf, quiver( v )</pre>
 <pre class="mcode-input">norm( laplacian( grad( phi ) ) )</pre>
 
 <pre class="mcode-output">ans =
-     1.757716566974201e-09
+     2.335397241909186e-09
 </pre>
 
 <p>The divergence-free component $\psi$ can be computed from its poloidal and toroidal scalars:</p>
@@ -445,17 +445,17 @@ quiver( curl( psi ) ), title('Divergence-free component of v')</pre>
 <pre class="mcode-input">norm( div( curl( psi ) ) )</pre>
 
 <pre class="mcode-output">ans =
-     6.616465369465180e-11
+     3.741159555859145e-11
 </pre>
 
 <p>Here is a plot of each component of the decomposition.</p>
-<pre class="mcode-input">subplot(1,4,1)
+<pre class="mcode-input">subplot(2,2,1)
 quiver( v ), title('Vector field')
-subplot(1,4,2)
+subplot(2,2,2)
 quiver( grad(f) ), title('Curl-free')
-subplot(1,4,3)
+subplot(2,2,3)
 quiver( curl(psi) ), title('Divergence-free')
-subplot(1,4,4)
+subplot(2,2,4)
 quiver( grad(phi) ), title('Harmonic')</pre>
 
 <p><img src="img/guide20_26.png" class="figure" alt=""></p>
@@ -464,7 +464,7 @@ quiver( grad(phi) ), title('Harmonic')</pre>
 norm( v - w )</pre>
 
 <pre class="mcode-output">ans =
-     4.335022927452315e-12
+     4.455283034067034e-12
 </pre>
 
 <h3 id="references">References</h3>
