@@ -50,7 +50,7 @@ quiver( v )
 % $$ \nabla \cdot \mathbf{v} = \nabla \cdot \nabla f = \nabla^2 f, $$
 % where the last equality holds because the divergence of the gradient is the
 % Laplacian. Along with this, the zero Dirichlet conditions defines $f$. 
-f = poisson(div(v), @(lam,th)0, 50, 50, 50);
+f = poisson(div(v), @(lam,th)0, 50);
 quiver( grad( f ) ), title('curl-free component of v')
 
 %% 
@@ -72,13 +72,8 @@ norm( curl( grad( f ) ) )
 % Therefore, we can solve for $\psi$ in the Helmholtz-Hodge decomposition
 % as follows: 
 v1 = v - grad(f);
-v1c = v1.comp;
-Vx = coeffs3(v1c{1},50); Vy = coeffs3(v1c{2},50); Vz = coeffs3(v1c{3},50);
-Vx = reshape(sum(Vx,1),50,50); Vy = reshape(sum(Vy,1),50,50); Vz = reshape(sum(Vz,1),50,50);
-MsinL = trigspec.multmat(50, [0.5i;0;-0.5i] ); McosL = trigspec.multmat(50, [0.5;0;0.5] );
-MsinT = trigspec.multmat(50, [0.5i;0;-0.5i] ); McosT = trigspec.multmat(50, [0.5;0;0.5] );
-v1_bc = McosL*Vx*MsinT.' + MsinL*Vy*MsinT.' + Vz*McosT.';
-phi = helmholtz(ballfun(0), 0, v1_bc, 50, 'neumann');
+bc = dot(spherefunv.unormal,v1(1,:,:,'spherical'));
+phi = helmholtz(ballfun(0), 0, bc, 50, 'neumann');
 quiver( grad( phi ) ), title('harmonic component of v')
 
 %% 
@@ -121,14 +116,14 @@ norm( div( curl( psi ) ) )
 
 %% Visualizing the decomposition
 % Here are plots of each component of the decomposition:
-subplot(1,4,1) 
-quiver( v ,'numpts',20, 'color'), title('vector field')
-subplot(1,4,2)
-quiver( grad(f) ,'numpts',20, 'color'), title('curl-free')
-subplot(1,4,3)
-quiver( curl(psi) ,'numpts',20, 'color'), title('divergence-free')
-subplot(1,4,4)
-quiver( grad(phi) ,'numpts',20, 'color'), title('harmonic')
+subplot(2,2,1) 
+quiver( v ,'numpts',20), title('vector field')
+subplot(2,2,2)
+quiver( grad(f) ,'numpts',20), title('curl-free')
+subplot(2,2,3)
+quiver( curl(psi) ,'numpts',20), title('divergence-free')
+subplot(2,2,4)
+quiver( grad(phi) ,'numpts',20), title('harmonic')
 
 %% 
 % As a sanity check we confirm that the decomposition has been successful:

@@ -32,7 +32,7 @@ quiver( v )</pre><img src="img/HelmholtzDecompositionBall_01.png" class="figure"
 
 Since the divergence of a curl is zero and $\phi$ is harmonic, we know that the divergence of $\mathbf{v}$ is the Laplacian of $f$, i.e., $$ \nabla \cdot \mathbf{v} = \nabla \cdot \nabla f = \nabla^2 f, $$ where the last equality holds because the divergence of the gradient is the Laplacian. Along with this, the zero Dirichlet conditions defines $f$.
 
-<pre class="mcode-input">f = poisson(div(v), @(lam,th)0, 50, 50, 50);
+<pre class="mcode-input">f = poisson(div(v), @(lam,th)0, 50);
 quiver( grad( f ) ), title('curl-free component of v')</pre><img src="img/HelmholtzDecompositionBall_02.png" class="figure" alt="">
 
 We confirm that this component is curl-free:
@@ -46,19 +46,14 @@ We confirm that this component is curl-free:
 Now, one can define a vector field $v^{(1)}$ as $$ v^{(1)} = v - \nabla f = \nabla \times \psi + \nabla \phi. $$ Since we have the identity $$ \vec{n} \cdot (\nabla \times \psi)|_{\partial{B}} = \psi \times \vec{n}|_{\partial B} = 0 $$ and we want to find the harmonic function $\phi$, we solve the Laplace equation $$ \Delta \phi = 0. $$ The Neumann boundary conditions are given by $$\vec{n} \cdot \nabla \phi|_{\partial B} = \frac{\partial \phi}{\partial r}|_{\partial B} = \vec{n} \cdot v^{(1)}|_{\partial B}.$$ Therefore, we can solve for $\psi$ in the Helmholtz-Hodge decomposition as follows:
 
 <pre class="mcode-input">v1 = v - grad(f);
-v1c = v1.comp;
-Vx = coeffs3(v1c{1},50); Vy = coeffs3(v1c{2},50); Vz = coeffs3(v1c{3},50);
-Vx = reshape(sum(Vx,1),50,50); Vy = reshape(sum(Vy,1),50,50); Vz = reshape(sum(Vz,1),50,50);
-MsinL = trigspec.multmat(50, [0.5i;0;-0.5i] ); McosL = trigspec.multmat(50, [0.5;0;0.5] );
-MsinT = trigspec.multmat(50, [0.5i;0;-0.5i] ); McosT = trigspec.multmat(50, [0.5;0;0.5] );
-v1_bc = McosL*Vx*MsinT.' + MsinL*Vy*MsinT.' + Vz*McosT.';
-phi = helmholtz(ballfun(0), 0, v1_bc, 50, 'neumann');
+bc = dot(spherefunv.unormal,v1(1,:,:,'spherical'));
+phi = helmholtz(ballfun(0), 0, bc, 50, 'neumann');
 quiver( grad( phi ) ), title('harmonic component of v')</pre><img src="img/HelmholtzDecompositionBall_03.png" class="figure" alt="">
 
 We check the harmonicity of this component:
 
 <pre class="mcode-input">norm( laplacian( grad( phi ) ) )</pre><pre class="mcode-output">ans =
-     5.323763290636853e-09
+     5.610065125262636e-09
 </pre>
 
 ## Computing the divergence-free component
@@ -76,27 +71,27 @@ quiver( curl( psi ) ), title('divergence-free component of v')</pre><img src="im
 By vector identities this component is divergence-free:
 
 <pre class="mcode-input">norm( div( curl( psi ) ) )</pre><pre class="mcode-output">ans =
-     8.327694669954858e-10
+     8.328895517941401e-10
 </pre>
 
 ## Visualizing the decomposition
 
 Here are plots of each component of the decomposition:
 
-<pre class="mcode-input">subplot(1,4,1)
-quiver( v ,'numpts',20, 'color'), title('vector field')
-subplot(1,4,2)
-quiver( grad(f) ,'numpts',20, 'color'), title('curl-free')
-subplot(1,4,3)
-quiver( curl(psi) ,'numpts',20, 'color'), title('divergence-free')
-subplot(1,4,4)
-quiver( grad(phi) ,'numpts',20, 'color'), title('harmonic')</pre><img src="img/HelmholtzDecompositionBall_05.png" class="figure" alt="">
+<pre class="mcode-input">subplot(2,2,1)
+quiver( v ,'numpts',20), title('vector field')
+subplot(2,2,2)
+quiver( grad(f) ,'numpts',20), title('curl-free')
+subplot(2,2,3)
+quiver( curl(psi) ,'numpts',20), title('divergence-free')
+subplot(2,2,4)
+quiver( grad(phi) ,'numpts',20), title('harmonic')</pre><img src="img/HelmholtzDecompositionBall_05.png" class="figure" alt="">
 
 As a sanity check we confirm that the decomposition has been successful:
 
 <pre class="mcode-input">w = grad( f ) + curl( psi ) + grad( phi );
 norm( v - w )</pre><pre class="mcode-output">ans =
-     3.816497790382369e-11
+     3.816933939817617e-11
 </pre>
 
 ## The `HelmholtzDecomposition` command
