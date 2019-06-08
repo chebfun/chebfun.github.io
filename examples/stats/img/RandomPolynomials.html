@@ -5,7 +5,7 @@ authordate: "Nick Trefethen, June 2019"
 meta: "(Chebfun example stats/BrownianPolynomials.m) [Tags: #randnfun, Brownian motion]"
 ---
 
-The Chebfun `randnfun(d)` command produces a smooth random function with maximal wavelength $d$, as described in [1], which converges (or rather fails to converge!) to white noise as $d\to 0$.  Its integral is a smooth random walk, which converges (properly this time) to Brownian motion as $d\to 0$.  Here is an example:
+The Chebfun `randnfun(d)` command produces a smooth random function with minimal wavelength $d$, as described in [1], which converges (or rather fails to converge!) to white noise as $d\to 0$.  Its integral is a smooth random walk, which converges (properly this time) to Brownian motion as $d\to 0$.  Here is an example:
 
 <pre class="mcode-input">rng(1)
 r = randnfun(0.01,[0,1]);
@@ -51,7 +51,7 @@ end</pre><img src="img/RandomPolynomials_04.png" class="figure" alt="">
 
 Note that, as usual for polynomials, these shapes are in no sense translation-invariant, having faster oscillations near the endpoints than in the middle.  Still, it is proved in [2] and [3] that the polynomial random walks approach Brownian motion as $n\to \infty$.  Many other interesting properties are also developed in [2] and [3], concerning polynomial moments, for example, as well as applications to the numerical solution of stochastic differential equations.
 
-How do polynomial random walks of a finite degree $n$ differ from true Brownian motion? The essence of the polynomial construction we have described is that the contributions of different degrees are independent (ultimately since the Legendre polynomials are orthogonal; the argument in [3] for this makes use of the result known as It&ocirc;'s isometry)). It has been shown in [3] that the variance of the difference converges to zero at the rate $O(1/n)$ and approaches a semicircle in profile.  An explicit formula involves $t-t^2$ minus the sum of the squares of the Foster-Habermann polynomials.  Thus for example, here is the variance of the error process for degree $n=20$:
+How do polynomial random walks of a finite degree $n$ differ from true Brownian motion? The essence of the polynomial construction we have described is that the contributions of different degrees are independent (ultimately since the Legendre polynomials are orthogonal; the argument in [3] for this makes use of the result known as It&ocirc;'s isometry). It has been shown in [3] that the variance of the difference converges to zero at the rate $O(1/n)$ and approaches a semicircle in profile.  An explicit formula involves $t-t^2$ minus the sum of the squares of the Foster-Habermann polynomials.  Thus for example, here is the variance of the error process for degree $n=20$:
 
 <pre class="mcode-input">s = chebfun('t-t^2',[0,1]);
 for k = 2:20
