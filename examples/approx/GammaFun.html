@@ -61,65 +61,66 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>This script displays some of the features introduced in version 3 for unbounded functions by exploring the gamma function $\Gamma(x)$ on the interval $[-4,4]$.</p>
+<p>[revised June 2019 by Nick Trefethen]</p>
+<p>This example displays some of Chebfun's capabilities for unbounded functions by exploring the gamma function $\Gamma(x)$ on the interval $[-4,4]$.</p>
 <p>The gamma function has simple poles at the negative integers and zero. Chebfun can determine the locations and orders of these poles if it is called with the <code>'blowup'</code> and <code>'splitting'</code> flags on. The <code>'exponents'</code> field of the output indicates that each pole is simple, that is, it has a singularity of type $x^{-1}$.</p>
-<pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
-gam = chebfun('gamma(x)',[-4 4],'blowup','on','splitting','on')
-plot(gam,'m',LW,1.6), hold on
-title('Gamma function',FS,12)</pre>
+<pre class="mcode-input">gam = chebfun('gamma(x)',[-4 4],'blowup','on','splitting','on')
+plot(gam), grid on
+title('Gamma function')</pre>
 
 <pre class="mcode-output">gam =
    chebfun column (5 smooth pieces)
-       interval       length   endpoint values   endpoint exponents
+       interval       length     endpoint values   endpoint exponents
 [      -4,      -3]       20       Inf      Inf         [-1      -1]  
 [      -3,      -2]       21      -Inf     -Inf         [-1      -1]  
 [      -2,      -1]       24       Inf      Inf         [-1      -1]  
-[      -1,       0]       20      -Inf     -Inf         [-1      -1]  
-[       0,       4]       35       Inf        6         [-1      0]  
-Epslevel = 6.958400e-14.  Vscale = Inf.  Total length = 120.
+[      -1,-2.2e-308]       20      -Inf     -Inf         [-1      -1]  
+[-2.2e-308,       4]       35       Inf        6         [-1      0]  
+vertical scale = Inf    Total length = 120
 </pre>
 
 <p><img src="img/GammaFun_01.png" class="figure" alt=""></p>
 <p>Alternatively, and always a better idea when the information is available, one can instruct Chebfun what poles to put where:</p>
 <pre class="mcode-input">gam = chebfun('gamma(x)',[-4 -3 -2 -1 0 4],'exps',[-1 -1 -1 -1 -1 0])
-plot(gam,LW,1.6), hold on
-title('Gamma function again',FS,12)</pre>
+plot(gam), grid on
+title('Gamma function again')</pre>
 
 <pre class="mcode-output">gam =
    chebfun column (5 smooth pieces)
-       interval       length   endpoint values   endpoint exponents
+       interval       length     endpoint values   endpoint exponents
 [      -4,      -3]       20       Inf      Inf         [-1      -1]  
 [      -3,      -2]       21      -Inf     -Inf         [-1      -1]  
 [      -2,      -1]       24       Inf      Inf         [-1      -1]  
 [      -1,       0]       20      -Inf     -Inf         [-1      -1]  
 [       0,       4]       35       Inf        6         [-1      0]  
-Epslevel = 1.000000e-14.  Vscale = Inf.  Total length = 120.
+vertical scale = Inf    Total length = 120
 </pre>
 
 <p><img src="img/GammaFun_02.png" class="figure" alt=""></p>
 <p>We can now treat $\Gamma(x)$ like any other chebfun. For example, we can:</p>
 <p>(1) Find its reciprocal $1/\Gamma(x)$:</p>
-<pre class="mcode-input">gam_i = 1./gam;</pre>
+<pre class="mcode-input">gam_i = 1/gam;</pre>
 
 <p>(2) Compute the square root $|\Gamma(x)|^{1/2}$:</p>
 <pre class="mcode-input">absgam = abs(gam);
 sqrtgam = real(sqrt(absgam));</pre>
 
 <p>(3) Plot these functions:</p>
-<pre class="mcode-input">plot(gam_i,'r', sqrtgam,'-g',LW,1.6)
+<pre class="mcode-input">plot([gam gam_i sqrtgam]), grid on
 legend('\Gamma(x)', '1/\Gamma(x)', 'sqrt(|\Gamma(x)|)',...
    'location','southeast')
-title('Various related functions',FS,12)</pre>
+title('Various related functions')</pre>
 
 <p><img src="img/GammaFun_03.png" class="figure" alt=""></p>
 <p>(4) Plot the critical points:</p>
-<pre class="mcode-input">[y r] = minandmax(gam,'local');
+<pre class="mcode-input">hold on
+[y r] = minandmax(gam,'local');
 [yi ri] = minandmax(gam_i,'local');
 [ys rs] = minandmax(sqrtgam,'local');
 
 plot(r,gam(r),'.k',ri,gam_i(ri),'.k', ...
-    rs,sqrtgam(rs),'.k',MS,18,LW,1.6), hold off
-title('Gamma function on [-4,4] and its critical points',FS,12)</pre>
+    rs,sqrtgam(rs),'.k','markersize',10), hold off
+title('Critical points')</pre>
 
 <p><img src="img/GammaFun_04.png" class="figure" alt=""></p>
 <p>(5) Compute some integrals:</p>
