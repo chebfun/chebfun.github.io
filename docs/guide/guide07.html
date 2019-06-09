@@ -334,7 +334,7 @@ u = chebop(@(x, u) diff(u, 2) + u, [-10,10], cos(10), cos(10))\0;
 toc
 error = u(5) - cos(5)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.075316 seconds.
+<pre class="mcode-output">Elapsed time is 0.073804 seconds.
 error =
      1.748601263784622e-14
 </pre>
@@ -347,7 +347,7 @@ toc
 error = u(5) - cos(5)
 cheboppref.setDefaults('factory')   % reset to standard mode</pre>
 
-<pre class="mcode-output">Elapsed time is 0.295023 seconds.
+<pre class="mcode-output">Elapsed time is 0.350399 seconds.
 error =
     -1.387778780781446e-15
 </pre>
