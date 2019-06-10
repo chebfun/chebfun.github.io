@@ -61,6 +61,7 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
+<p>[revised June 2019]</p>
 <p>Chebfun can compute the condition number of a set of functions on an interval.  That's a condition number for continuous functions, not discrete approximations.</p>
 <p>For example, here we take the first $12$ Chebyshev polynomials on $[-1,1]$:</p>
 <pre class="mcode-input">N = 11;
@@ -92,10 +93,7 @@ fprintf('Condition no. for normalized Legendre polynomials: %8.3f\n',cond(A))</p
 <p><img src="img/CondNos_03.png" class="figure" alt=""></p>
 <p>All of these condition numbers are fine for numerical work. Monomials, by contrast, are exponentially ill-conditioned:</p>
 <pre class="mcode-input">x = chebfun('x');
-A = [1 x];
-for j = 2:N
-  A = [A x.^j];
-end
+A = x^(0:N);
 plot(A)
 fprintf('Condition no. for monomials: %8.3f\n',cond(A))</pre>
 
@@ -107,7 +105,7 @@ fprintf('Condition no. for monomials: %8.3f\n',cond(A))</pre>
 <h3 id="references">References</h3>
 <ol>
 <li>
-<p>L. N. Trefethen, Householder triangularization of a quasimatrix, <em>IMA    Journal of Numerical Analysis</em>, 30 (2010), 887-897.</p>
+<p>L. N. Trefethen, Householder triangularization of a quasimatrix, <em>IMA Journal of Numerical Analysis</em>, 30 (2010), 887--897.</p>
 </li>
 <li>
 <p>L. N. Trefethen and D. Bau, III, <em>Numerical Linear Algebra</em>, SIAM, 1997.</p>

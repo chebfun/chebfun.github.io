@@ -5,6 +5,8 @@ authordate: "Nick Trefethen, September 2010"
 meta: "(Chebfun example linalg/CondNos.m) [Tags: #linearalgebra, #polynomials, #qrdecomposition, #conditionnumber]"
 ---
 
+[revised June 2019]
+
 Chebfun can compute the condition number of a set of functions on an interval.  That's a condition number for continuous functions, not discrete approximations.
 
 For example, here we take the first $12$ Chebyshev polynomials on $[-1,1]$:
@@ -32,10 +34,7 @@ fprintf('Condition no. for normalized Legendre polynomials: %8.3f\n',cond(A))</p
 All of these condition numbers are fine for numerical work. Monomials, by contrast, are exponentially ill-conditioned:
 
 <pre class="mcode-input">x = chebfun('x');
-A = [1 x];
-for j = 2:N
-  A = [A x.^j];
-end
+A = x^(0:N);
 plot(A)
 fprintf('Condition no. for monomials: %8.3f\n',cond(A))</pre><pre class="mcode-output">Condition no. for monomials: 7244.534
 </pre><img src="img/CondNos_04.png" class="figure" alt="">
@@ -46,7 +45,7 @@ Now what exactly do these condition numbers mean?  Here is an explanation follow
 
 ## References
 
-1. L. N. Trefethen, Householder triangularization of a quasimatrix, _IMA    Journal of Numerical Analysis_, 30 (2010), 887-897.
+1. L. N. Trefethen, Householder triangularization of a quasimatrix, _IMA Journal of Numerical Analysis_, 30 (2010), 887--897.
 
 2. L. N. Trefethen and D. Bau, III, _Numerical Linear Algebra_, SIAM, 1997.
 
