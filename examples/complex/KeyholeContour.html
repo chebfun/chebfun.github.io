@@ -61,8 +61,9 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
+<p>[revised June 2019]</p>
 <p>Chebfun is able to represent complex functions of a real variable, which lends itself very well to computing paths and path integrals in the complex plane. In this brief example we demonstrate this by integrating the function</p>
-<pre class="mcode-input">f = @(x) log(x).*tanh(x);</pre>
+<pre class="mcode-input">f = @(x) log(x)*tanh(x);</pre>
 
 <p>around a 'keyhole' contour which avoids the branch cut on the negative real axis.</p>
 <p>We'll first define our keyhole. Let $r$, $R$, and $e$ be the inner and outer radii and the width of the key respectively:</p>
@@ -72,23 +73,22 @@
 <pre class="mcode-input">s = chebfun('s',[0 1]);                 % dummy variable
 c = [-R+e*1i -r+e*1i -r-e*1i -R-e*1i];
 z = join( c(1) + s*(c(2)-c(1)), ...     % top of the keyhole
-          c(2)*c(3).^s ./ c(2).^s, ...  % inner circle
+          c(2)*c(3)^s/c(2)^s,   ...     % inner circle
           c(3) + s*(c(4)-c(3)), ...     % bottom of the keyhole
-          c(4)*c(1).^s ./ c(4).^s);     % outer circle</pre>
+          c(4)*c(1)^s/c(4)^s);          % outer circle</pre>
 
 <p>Plot the contour and the branch cut of the function $f$:</p>
-<pre class="mcode-input">LW = 'LineWidth'; lw = 1.2; FS = 'FontSize'; fs = 14;
-figure('position', [0 0 500 400])
-plot(z,LW,lw), axis equal, title('A keyhole contour in the complex plane',FS,fs);
-hold on, plot([-2.6 0],[0 0],'-r',LW,lw); hold off, xlim([-2.6 2.6])</pre>
+<pre class="mcode-input">figure('position', [0 0 500 400])
+plot(z), axis equal, title('A keyhole contour in the complex plane');
+hold on, plot([-2.6 0],[0 0],'-r'); hold off, xlim([-2.6 2.6])</pre>
 
 <p><img src="img/KeyholeContour_01.png" class="figure" alt=""></p>
-<p>Now to integrate around the contour, one parametrises by a real variable, say $t$ (which here is done implicitly by the Chebfun representation), and integrates the function $f(z(t)) z'(t)$ with respect to $t$.</p>
+<p>Now to integrate around the contour, we parametrise by a real variable, say $t$ (which here is done implicitly by the Chebfun representation), and integrate the function $f(z(t)) z'(t)$ with respect to $t$.</p>
 <p>In Chebfun, this is easy:</p>
-<pre class="mcode-input">I = sum(f(z).*diff(z))</pre>
+<pre class="mcode-input">I = sum(f(z)*diff(z))</pre>
 
 <pre class="mcode-output">I =
- -0.000000000000004 + 5.674755637702207i
+  0.000000000000007 + 5.674755637702212i
 </pre>
 
 <p>For the function we chose above, one can compute this integral exactly.</p>
@@ -102,7 +102,7 @@ hold on, plot([-2.6 0],[0 0],'-r',LW,lw); hold off, xlim([-2.6 2.6])</pre>
 <pre class="mcode-input">error = abs(I - Iexact)</pre>
 
 <pre class="mcode-output">error =
-     1.735773862881141e-14
+     1.330964716833751e-14
 </pre></div>
         </div>
     </div>
