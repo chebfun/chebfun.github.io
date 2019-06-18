@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Laplace equation on the unit ball &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The Laplace equation on the unit ball</h1>
+<h2>Nick Trefethen, June 2019 in <a href='/examples/sphere/'>sphere</a><span><a href='/examples/sphere/LaplaceBall.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/sphere/LaplaceBall.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-the-laplace-problem">1.  The Laplace problem</h3>
+<p>Suppose we are given a function $h(x,y,z)$ on the unit sphere $S$ and we want to solve the Laplace equation in the unit ball $B$ with $h$ as boundary data, $$ \Delta u = 0, \quad u = h \hbox{ on } S. $$ Here we illustrate how this might be done in Ballfun.</p>
+<p>Given the tools available, the boundary data will have to be reasonably smooth.  Let us choose a smooth random function with characteristic wavelength $\lambda = 0.2$.</p>
+<pre class="mcode-input">rng(1)
+lambda = 0.2;
+h = randnfunsphere(lambda);
+plot(h), axis off, colorbar, caxis([-2 2])</pre>
+
+<p><img src="img/LaplaceBall_01.png" class="figure" alt=""></p>
+<p>You can call spherefun with three arguments, which are interpreted as cartesian coordinates $x,y,z$:</p>
+<pre class="mcode-input">h(1,0,0)</pre>
+
+<pre class="mcode-output">ans =
+  -0.761180229121337
+</pre>
+
+<p>Alternatively, you can call it with two arguments, which are interpreted as longitude and polar angles (the latter measured down from the north pole):</p>
+<pre class="mcode-input">h(0,pi/2)</pre>
+
+<pre class="mcode-output">ans =
+  -0.761180229121337
+</pre>
+
+<p>The mean of $h$ is small but nonzero:</p>
+<pre class="mcode-input">meanh = mean2(h)</pre>
+
+<pre class="mcode-output">meanh =
+  -0.020281680162226
+</pre>
+
+<h3 id="2-solution-with-the-poisson-command">2. Solution with the <code>poisson</code> command</h3>
+<p>In Ballfun, there is a command <code>poisson</code> to solve the Poisson equation, which becomes the Laplace equation if we take the right-hand side to be zero. For this command, you need to specify a grid parameter $m$, which will need to grow in proportion to $1/\lambda$ if we want an accurate solution.  We haven't investigated the proportionality constant and will take one arbitrarily that appears to work:</p>
+<pre class="mcode-input">m = round(20/lambda);
+zero = ballfun(0);
+u = poisson(zero,h,m);</pre>
+
+<p>Here, using cartesian coordinates, we confirm that $u$ matches the boundary data at the point $(1,0,0)$:</p>
+<pre class="mcode-input">h(1,0,0)
+u(1,0,0)</pre>
+
+<pre class="mcode-output">ans =
+  -0.761180229121337
+ans =
+  -0.761180229121337
+</pre>
+
+<p>Here, using spherical coordinates, we confirm that it matches the boundary data at the longitude and latitude coordinates of Oxford.</p>
+<pre class="mcode-input">long = -1.26*pi/180; lat = 51.75*pi/180;
+h(long, pi/2-lat)
+u(1, long, pi/2-lat,'spherical')</pre>
+
+<pre class="mcode-output">ans =
+  -1.847977702024471
+ans =
+  -1.847977702024461
+</pre>
+
+<p>Another check we can carry out concerns mean values. The value of $u$ at the origin should equal the mean of the boundary data:</p>
+<pre class="mcode-input">meanh
+u(0,0,0)</pre>
+
+<pre class="mcode-output">meanh =
+  -0.020281680162226
+ans =
+  -0.020281680162014
+</pre>
+
+<h3 id="3-the-solution-on-an-inner-sphere">3. The solution on an inner sphere</h3>
+<p>Since the Laplace equation is a smoothing operation, the solution $u$ is not very exciting in the interior.  For example, if we simply plot $u$, the image shows an apparently uniform color in the inner sphere of radius $1/2$:</p>
+<pre class="mcode-input">plot(u)</pre>
+
+<p><img src="img/LaplaceBall_02.png" class="figure" alt=""></p>
+<p>We can construct a spherefun corresponding to the values of $u$ on this sphere of radius $0.5$ and plot it:</p>
+<pre class="mcode-input">uinner = u(.5,:,:,'spherical');
+plot(uinner), colorbar</pre>
+
+<p><img src="img/LaplaceBall_03.png" class="figure" alt=""></p>
+<p>Note the small range of values revealed in the colorbar.  The mean value over this sphere is our familiar value:</p>
+<pre class="mcode-input">meanh
+mean2(uinner)</pre>
+
+<pre class="mcode-output">meanh =
+  -0.020281680162226
+ans =
+  -0.020281680162193
+</pre></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
