@@ -112,12 +112,12 @@ ans =
 <pre class="mcode-input">  format short, A'*A, format long</pre>
 
 <pre class="mcode-output">ans =
-    2.0000    0.0000    0.6667    0.0000    0.4000    0.0000
-    0.0000    0.6667    0.0000    0.4000   -0.0000    0.2857
-    0.6667    0.0000    0.4000    0.0000    0.2857   -0.0000
-    0.0000    0.4000    0.0000    0.2857   -0.0000    0.2222
-    0.4000   -0.0000    0.2857   -0.0000    0.2222    0.0000
-    0.0000    0.2857   -0.0000    0.2222    0.0000    0.1818
+    2.0000    0.0000    0.6667   -0.0000    0.4000   -0.0000
+    0.0000    0.6667   -0.0000    0.4000   -0.0000    0.2857
+    0.6667   -0.0000    0.4000    0.0000    0.2857         0
+    0.0000    0.4000   -0.0000    0.2857    0.0000    0.2222
+    0.4000   -0.0000    0.2857    0.0000    0.2222         0
+    0.0000    0.2857    0.0000    0.2222   -0.0000    0.1818
 </pre>
 
 <p>You can get an idea of the shape of a quasimatrix with the overloaded <code>spy</code> command</p>
@@ -132,12 +132,12 @@ ans =
   c = A\f</pre>
 
 <pre class="mcode-output">c =
-   0.309654988398408
-   4.640757102742462
-  -2.157249816336411
- -20.041645425109163
-   1.073963006923387
-  15.477982292828012
+   0.309654988398406
+   4.640757102742466
+  -2.157249816336408
+ -20.041645425109170
+   1.073963006923381
+  15.477982292828022
 </pre>
 
 <p>The vector $c$ can be interpreted as the vector of coefficients of the least-squares fit to $f$ by a linear combination of the functions $1, x,\dots, x^5$.  Here is a plot of $f$ and its least-squares approximation, which we label <code>ffit</code>.</p>
@@ -157,7 +157,7 @@ ans =
 norm(ffit-ffit_polyfit)</pre>
 
 <pre class="mcode-output">ans =
-     2.819680889448244e-15
+     2.429368357357407e-15
 </pre>
 
 <p><code>polyfit</code> can be used both for fittting a function, as here, or for fitting data.  See the Chebfun examples "Least-squares approximation in Chebfun," in the <code>approx</code> section , and "Least-squares data fitting and <code>polyfit</code>," in the <code>stats</code> section. <code>polyfit</code> will also fit periodic functions by trigonometric polynomials.</p>
@@ -210,10 +210,10 @@ norm(ffit-ffit_polyfit)</pre>
 <pre class="mcode-input">  format short, inv(R), format long</pre>
 
 <pre class="mcode-output">ans =
-    1.0000   -0.0000   -0.5000   -0.0000    0.3750   -0.0000
-         0    1.0000    0.0000   -1.5000   -0.0000    1.8750
-         0         0    1.5000    0.0000   -3.7500    0.0000
-         0         0         0    2.5000         0   -8.7500
+    1.0000         0   -0.5000   -0.0000    0.3750   -0.0000
+         0    1.0000    0.0000   -1.5000    0.0000    1.8750
+         0         0    1.5000    0.0000   -3.7500   -0.0000
+         0         0         0    2.5000   -0.0000   -8.7500
          0         0         0         0    4.3750    0.0000
          0         0         0         0         0    7.8750
 </pre>
@@ -253,9 +253,9 @@ norm(ffit-ffit_polyfit)</pre>
 
 <pre class="mcode-output">v1 =
    0.913034433780914
-   0.000000000000000
+  -0.000000000000000
    0.344611116356111
-   0.000000000000000
+  -0.000000000000000
    0.218200140270718
    0.000000000000000
 </pre>
@@ -271,7 +271,7 @@ norm(ffit-ffit_polyfit)</pre>
 <pre class="mcode-input">  norm(v1)</pre>
 
 <pre class="mcode-output">ans =
-   1.000000000000000
+     1
 </pre>
 
 <p>This vector is mapped by $A$ to the chebfun $s_1u_1$:</p>
@@ -279,7 +279,7 @@ norm(ffit-ffit_polyfit)</pre>
   norm(u1)</pre>
 
 <pre class="mcode-output">ans =
-   1.000000000000000
+     1
 </pre>
 
 <pre class="mcode-input">  s1 = S(1,1)</pre>
@@ -297,7 +297,7 @@ norm(ffit-ffit_polyfit)</pre>
 <pre class="mcode-input">  norm(A*v1-s1*u1)</pre>
 
 <pre class="mcode-output">ans =
-     4.259734976378211e-16
+     3.442062136703695e-16
 </pre>
 
 <p>Similarly, the minimal singular value and corresponding singular vectors describe the minimum amount that $A$ can enlarge an input.  The following commands plot the extreme functions $Av_1$ (blue) and $Av_n$ (red).  We can interpret these as the largest and smallest degree $5$ polynomials, as measured in the $2$-norm over $[-1,1]$, whose coefficient vectors have $2$-norm equal to $1$.</p>
@@ -310,27 +310,27 @@ norm(ffit-ffit_polyfit)</pre>
 <pre class="mcode-input">  max(s)/min(s)</pre>
 
 <pre class="mcode-output">ans =
-  43.247975704139805
+  43.247975704139819
 </pre>
 
 <pre class="mcode-input">  cond(A)</pre>
 
 <pre class="mcode-output">ans =
-  43.247975704139805
+  43.247975704139819
 </pre>
 
 <p>The fact that <code>cond(A)</code> is a good deal greater than $1$ reflects the ill-conditioning of the monomials $1,x,\dots ,x^5$ as a basis for degree $5$ polynomials in $[-1,1]$.  The effect becomes rapidly stronger as we take more terms in the sequence:</p>
 <pre class="mcode-input">  cond([A x^6 x^7 x^8 x^9 x^10 x^11 x^12 x^13 x^14 x^15])</pre>
 
 <pre class="mcode-output">ans =
-     2.298938277179532e+05
+     2.298938277185585e+05
 </pre>
 
 <p>By contrast a quasimatrix formed of suitably normalized Legendre polynomials has condition number $1$, since they are orthonormal:</p>
 <pre class="mcode-input">cond(legpoly(0:15,'norm'))</pre>
 
 <pre class="mcode-output">ans =
-   1.000000000000002
+   1.000000000000001
 </pre>
 
 <p>A quasimatrix of Chebyshev polynomials doesn't quite achieve condition number $1$, but it comes close:</p>
@@ -353,7 +353,7 @@ norm(ffit-ffit_polyfit)</pre>
 <pre class="mcode-input">  norm(A,inf)</pre>
 
 <pre class="mcode-output">ans =
-   6.000000000000001
+     6
 </pre>
 
 <p>The norms of row quasimatrices are analogous, with <code>norm(A',inf) = norm(A,1)</code> and <code>norm(A',1) = norm(A,inf)</code>. Like MATLAB itself applied to a rectangular matrix, Chebfun does not define <code>cond(A,1)</code> or <code>cond(A,inf)</code> if <code>A</code> is a quasimatrix.</p>

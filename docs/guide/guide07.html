@@ -182,7 +182,7 @@ u = L\1; plot(u), grid on</pre>
 <pre class="mcode-input">norm(L(u) - 1)</pre>
 
 <pre class="mcode-output">ans =
-     1.684770176446361e-11
+     1.702191777101623e-11
 </pre>
 
 <p>Let's change the right-hand boundary condition to $u'=0$ and see how this changes the solution:</p>
@@ -238,12 +238,12 @@ diag(D)
 clf, plot(V(:,1:4)), ylim([-1 1]), grid on</pre>
 
 <pre class="mcode-output">ans =
- -35.999999999996014
- -24.999999999998952
- -16.000000000002284
-  -8.999999999999586
-  -3.999999999999945
-  -1.000000000000858
+ -35.999999999996703
+ -25.000000000001538
+ -16.000000000003045
+  -8.999999999998460
+  -4.000000000000856
+  -0.999999999999610
 </pre>
 
 <p><img src="img/guide07_08.png" class="figure" alt=""></p>
@@ -275,7 +275,7 @@ clf, plot(lam, 'r.', 'markersize', 16), grid on, axis equal
 spectral_abscissa = max(real(lam))</pre>
 
 <pre class="mcode-output">spectral_abscissa =
-    -7.805686737753377e-05
+    -7.806283147737962e-05
 </pre>
 
 <p><img src="img/guide07_10.png" class="figure" alt=""></p>
@@ -334,9 +334,9 @@ u = chebop(@(x, u) diff(u, 2) + u, [-10,10], cos(10), cos(10))\0;
 toc
 error = u(5) - cos(5)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.073804 seconds.
+<pre class="mcode-output">Elapsed time is 0.068711 seconds.
 error =
-     1.748601263784622e-14
+    -2.570166302007237e-14
 </pre>
 
 <p>We can switch to ultraspherical mode and run the same experiment again like this:</p>
@@ -347,7 +347,7 @@ toc
 error = u(5) - cos(5)
 cheboppref.setDefaults('factory')   % reset to standard mode</pre>
 
-<pre class="mcode-output">Elapsed time is 0.350399 seconds.
+<pre class="mcode-output">Elapsed time is 0.281529 seconds.
 error =
     -1.387778780781446e-15
 </pre>
@@ -385,11 +385,11 @@ L.rbc = @(u,v) u;</pre>
 eigenvalues = diag(D)</pre>
 
 <pre class="mcode-output">eigenvalues =
-  0.000000000000001 + 0.000000000000000i
-  0.000000000000001 - 0.100000000000001i
-  0.000000000000001 + 0.100000000000001i
- -0.000000000000000 - 0.200000000000001i
- -0.000000000000000 + 0.200000000000001i
+ -0.000000000000001 + 0.000000000000000i
+ -0.000000000000000 - 0.100000000000000i
+ -0.000000000000000 + 0.100000000000000i
+  0.000000000000001 - 0.200000000000001i
+  0.000000000000001 + 0.200000000000001i
  -0.000000000000000 - 0.300000000000002i
  -0.000000000000000 + 0.300000000000002i
 </pre>
@@ -408,9 +408,9 @@ size(V)</pre>
 normImagV = norm(imag(V))</pre>
 
 <pre class="mcode-output">normRealU =
-     2.231137677526609e-11
+     7.203750542739416e-12
 normImagV =
-     2.231262274898747e-11
+     7.210253604889195e-12
 </pre>
 
 <p>This fact makes it easy to plot them.</p>
@@ -437,23 +437,23 @@ end
 clf, plot(u), grid on</pre>
 
 <pre class="mcode-output">nrmdu =
-   0.260668532007021
+   0.260668532007020
 nrmdu =
    0.164126069559937
 nrmdu =
-   0.098900892365440
+   0.098900892365439
 nrmdu =
-   0.053787171683932
+   0.053787171683933
 nrmdu =
-   0.021518152858428
+   0.021518152858429
 nrmdu =
-   0.003586696693251
+   0.003586696693249
 nrmdu =
-     8.951602488806768e-05
+     8.951602489054714e-05
 nrmdu =
-     5.357404720365877e-08
+     5.357404836265776e-08
 nrmdu =
-     1.846308936463786e-14
+     1.709262919444643e-14
 </pre>
 
 <p><img src="img/guide07_17.png" class="figure" alt=""></p>
@@ -467,7 +467,7 @@ v = N\0;</pre>
 <pre class="mcode-input">norm(u - v)</pre>
 
 <pre class="mcode-output">ans =
-     1.199110055386047e-12
+     1.201029224139150e-12
 </pre>
 
 <h3 id="710-bvp-systems-with-unknown-parameters">7.10 BVP systems with unknown parameters</h3>
@@ -498,7 +498,7 @@ T = T(1)
 plot(u), grid on</pre>
 
 <pre class="mcode-output">T =
-   4.044049959218975
+   4.044049959218974
 </pre>
 
 <p><img src="img/guide07_19.png" class="figure" alt=""></p>

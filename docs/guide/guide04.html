@@ -271,7 +271,8 @@ err1000 =
   length(chebfun('abs(x)*x^3'))
   length(chebfun('abs(x)*x^4'))</pre>
 
-<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting
+on'? 
 ans =
        65537
 ans =
@@ -423,7 +424,7 @@ r = p/q;</pre>
 plot(f-r,'r')</pre>
 
 <pre class="mcode-output">ans =
-     4.884633978946795e-09
+     4.884644619131340e-09
 </pre>
 
 <p><img src="img/guide04_20.png" class="figure" alt=""></p>
@@ -431,10 +432,10 @@ plot(f-r,'r')</pre>
 <pre class="mcode-input">roots(q,'complex')</pre>
 
 <pre class="mcode-output">ans =
-  0.000000000000000 - 1.000000750727787i
-  0.000000000000000 + 1.000000750727787i
-  0.000000000000000 - 3.004284960232532i
-  0.000000000000000 + 3.004284960232532i
+  0.000000000000000 - 1.000000750727747i
+  0.000000000000000 + 1.000000750727747i
+  0.000000000000000 - 3.004284960239503i
+  0.000000000000000 + 3.004284960239503i
 </pre>
 
 <p>A similar but perhaps faster and more robust approach to rational interpolation is encoded in the command <code>ratinterp</code>, which computes a type $(m,n)$ interpolant through $m+n+1$ Chebyshev points (or, optionally, a different set of points). This capability was developed by Ricardo Pachon, Pedro Gonnet and Joris Van Deun [Pachon, Gonnet &amp; Van Deun 2012]. The results are similar:</p>
@@ -444,7 +445,7 @@ norm(f-r)
 plot(f-r,'m')</pre>
 
 <pre class="mcode-output">ans =
-     3.501473175645867e-07
+     3.501472094055571e-07
 </pre>
 
 <p><img src="img/guide04_21.png" class="figure" alt=""></p>
@@ -452,10 +453,10 @@ plot(f-r,'m')</pre>
 <pre class="mcode-input">roots(q,'complex')</pre>
 
 <pre class="mcode-output">ans =
-  0.000000000000000 - 1.000011081920813i
-  0.000000000000000 + 1.000011081920813i
-  0.000000000000000 - 3.010649201116677i
-  0.000000000000000 + 3.010649201116677i
+  0.000000000000000 - 1.000011081921264i
+  0.000000000000000 + 1.000011081921264i
+  0.000000000000000 - 3.010649201327397i
+  0.000000000000000 + 3.010649201327397i
 </pre>
 
 <p>The third and fourth options for rational approximation, as mentioned in Section 4.6, are best approximants computed by <code>minimax</code> and Caratheodory-Fejer approximants computed by <code>cf</code> [Trefethen &amp; Gutknecht 1983, Van Deun &amp; Trefethen 2011]. As mentioned in Section 4.6, CF approximants often agree with best approximations to machine precision if $f$ is smooth. We explore the same function yet again, and this time obtain an equioscillating error curve:</p>
@@ -465,7 +466,7 @@ norm(f-r)
 plot(f-r,'c')</pre>
 
 <pre class="mcode-output">ans =
-     2.999127738981362e-10
+     2.999285288743002e-10
 </pre>
 
 <p><img src="img/guide04_22.png" class="figure" alt=""></p>
@@ -473,10 +474,10 @@ plot(f-r,'c')</pre>
 <pre class="mcode-input">roots(q,'complex')</pre>
 
 <pre class="mcode-output">ans =
-  0.000000000000001 - 1.000000066684907i
-  0.000000000000001 + 1.000000066684907i
- -0.000000000004331 - 3.001936139263990i
- -0.000000000004331 + 3.001936139263990i
+ -0.000000000000004 - 1.000000066684802i
+ -0.000000000000004 + 1.000000066684802i
+  0.000000000001044 - 3.001936139245426i
+  0.000000000001044 + 3.001936139245426i
 </pre>
 
 <p>It is tempting to vary parameters and functions to explore more poles and what accuracy can be obtained for them.  But rational approximation and analytic continuation are very big subjects and we shall resist the temptation.  See Chapter 28 of [Trefethen 2013] and [Webb 2013].  Most important, see the <em>fifth</em> method available in Chebfun for computing rational approximants, the AAA ("adaptive Antoulas-Anderson) algorithm implemented in the code <code>aaa</code>.  This is suitable for all kinds of real and complex approximations on real and complex domains.  See the help text for <code>aaa</code> and [Nakatsukasa, Sete, and Trefethen 2016], where many examples are explored.  Internally, the <code>minimax</code> command relies on methods related to AAA approximation.</p>

@@ -116,7 +116,7 @@ subplot(1,2,2), plot(exp(h)), axis equal</pre>
 <pre class="mcode-input">sum(h)</pre>
 
 <pre class="mcode-output">ans =
-     -1.735976283877335e-16 - 1.386525845166201e-16i
+      3.487868498008632e-16 - 1.386525845166203e-16i
 </pre>
 
 <p>Piecewise smooth complex chebfuns are also possible. For example, the following starts from a chebfun <code>z</code> defined as $(1+0.5i)s$ for $s$ on the interval $[0,1]$ and $1+0.5i-2(s-1)$ for $s$ on the interval $[1,2]$.</p>
@@ -256,7 +256,7 @@ f = exp(z)/z^3;
 I3 = sum(f*diff(z))/(2i*pi)</pre>
 
 <pre class="mcode-output">I3 =
-  0.500000000000000 - 0.000000000000000i
+  0.500000000000000 + 0.000000000000000i
 </pre>
 
 <p>In Chebfun one can also construct more interesting contours of the kind that appear in complex variables texts.  Here is an example involving a "keyhole" contour:</p>
@@ -273,7 +273,7 @@ I = sum(f*diff(z))
 Iexact = 4i*pi*log(pi/2)</pre>
 
 <pre class="mcode-output">I =
-  0.000000000000002 + 5.674755637702217i
+  0.000000000000003 + 5.674755637702233i
 Iexact =
   0.000000000000000 + 5.674755637702224i
 </pre>
@@ -316,7 +316,7 @@ N = sum((diff(f)./f))/(2i*pi)</pre>
 N = (anglef(end)-anglef(0))/(2*pi)</pre>
 
 <pre class="mcode-output">N =
-   2.999999999999998
+   2.999999999999996
 </pre>
 
 <p>Variations on this idea enable one to locate zeros and poles as well as count them.  For example, we can locate a single zero with the formula $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$ [McCune 1966].  Here is the zero of the function above in the unit disk:</p>
