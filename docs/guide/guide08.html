@@ -308,7 +308,7 @@ ans =
       363661
 sumf =
      3.141392653590463e-04
-Elapsed time is 0.713098 seconds.
+Elapsed time is 0.700084 seconds.
 </pre>
 
 <h3 id="86-minsamples-minimum-number-of-sample-points">8.6 <code>minSamples</code>: minimum number of sample points</h3>
@@ -375,7 +375,7 @@ Elapsed time is 0.713098 seconds.
 <pre class="mcode-output">ff =
   function_handle with value:
     @(x)besselj(x,exp(x))
-Elapsed time is 0.011711 seconds.
+Elapsed time is 0.011488 seconds.
 ans =
         3790
 </pre>
@@ -384,7 +384,7 @@ ans =
 <pre class="mcode-input">  tic, f = chebfun(ff,[0 8],'resampling','on'); toc
   length(f)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.044889 seconds.
+<pre class="mcode-output">Elapsed time is 0.046959 seconds.
 ans =
         3788
 </pre>
@@ -448,7 +448,7 @@ chebfuneps</pre>
      2.220446049250313e-16
 </pre>
 
-<p>There are cases where weakening the tolerance makes a big difference. For example, this happens in certain applications involving differential equations.  (Indeed, the Chebfun differential equations commands have their own tolerance control strategies.) However, Chebfun does such a good job at resolving many functions, at least in one dimension, that the <code>chebfuneps</code>-adjustment feature is not as useful as you might imagine, and we recommend that users not change <code>chebfuneps</code> unless they are having real problems with standard precision or are working with noisy data.  In two or especially three dimensions, the balances change and there is more often a big benefit in weakending the tolerance; see section 8.11 below and chapter 18.</p>
+<p>There are cases where weakening the tolerance makes a big difference. For example, this happens in certain applications involving differential equations.  (Indeed, the Chebfun differential equations commands have their own tolerance control strategies.) However, Chebfun does such a good job at resolving many functions, at least in one dimension, that the <code>chebfuneps</code>-adjustment feature is not as useful as you might imagine, and we recommend that users not change <code>chebfuneps</code> unless they are having real problems with standard precision or are working with noisy data.  In two or especially three dimensions, the balances change and there is more often a big benefit in weakening the tolerance; see section 8.11 below and chapter 18.</p>
 <h3 id="89-chebyshev-grids-of-first-or-second-kind">8.9 Chebyshev grids of first or second kind</h3>
 <p>Beginning with Version 5, Chebfun includes capabilities for carrying out almost all computations with Chebyshev points of either the first kind ($\cos((j+1/2)\pi/(n+1)),$ $0\le j \le n$, implemented in the <code>chebtech1</code> class) or the second kind ($\cos(j\pi/n),$ $0\le j \le n$, implemented in the <code>chebtech2</code> class). These capabilities were included to further our research into the pros and cons of different kinds of algorithms, and most users can ignore this choice entirely. You can query which kind of Chebyshev points is in use with</p>
 <pre class="mcode-input">t = chebkind</pre>
