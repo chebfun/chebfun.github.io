@@ -64,11 +64,11 @@ We can verify that this function is an eigenfunction of the Laplace operator wit
 sum3( R42*R42 )
 sum3( R40*R40 )
 sum3( R42*R40 )</pre><pre class="mcode-output">ans =
+   0.999999999999999
+ans =
    1.000000000000000
 ans =
-   1.000000000000001
-ans =
-    -1.702391685966694e-16
+     0
 </pre>Here is a plot of the solid harmonics $R^m_l$, with $l=0,...,4$ and $0\leq m\leq l$.
 
 <pre class="mcode-input">N = 3;
@@ -125,7 +125,7 @@ The computation of the solid harmonics is very fast in Ballfun and a solid harmo
 
 <pre class="mcode-input">tic
 ballfun.solharm(150, 50);
-toc</pre><pre class="mcode-output">Elapsed time is 0.959707 seconds.
+toc</pre><pre class="mcode-output">Elapsed time is 0.369532 seconds.
 </pre>
 
 ## References

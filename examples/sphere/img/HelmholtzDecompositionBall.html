@@ -38,7 +38,7 @@ quiver( grad( f ) ), title('curl-free component of v')</pre><img src="img/Helmho
 We confirm that this component is curl-free:
 
 <pre class="mcode-input">norm( curl( grad( f ) ) )</pre><pre class="mcode-output">ans =
-     2.282161610633727e-13
+     9.772028777653057e-14
 </pre>
 
 ## Computing the harmonic component
@@ -53,7 +53,7 @@ quiver( grad( phi ) ), title('harmonic component of v')</pre><img src="img/Helmh
 We check the harmonicity of this component:
 
 <pre class="mcode-input">norm( laplacian( grad( phi ) ) )</pre><pre class="mcode-output">ans =
-     5.610065125262636e-09
+     3.527524381308947e-09
 </pre>
 
 ## Computing the divergence-free component
@@ -71,7 +71,7 @@ quiver( curl( psi ) ), title('divergence-free component of v')</pre><img src="im
 By vector identities this component is divergence-free:
 
 <pre class="mcode-input">norm( div( curl( psi ) ) )</pre><pre class="mcode-output">ans =
-     8.328895517941401e-10
+     1.536895357752616e-10
 </pre>
 
 ## Visualizing the decomposition
@@ -91,7 +91,7 @@ As a sanity check we confirm that the decomposition has been successful:
 
 <pre class="mcode-input">w = grad( f ) + curl( psi ) + grad( phi );
 norm( v - w )</pre><pre class="mcode-output">ans =
-     3.816933939817617e-11
+     7.815499404544524e-12
 </pre>
 
 ## The `HelmholtzDecomposition` command
