@@ -4,6 +4,9 @@
 %%
 % (Chebfun example ode-linear/adjoints.m)
 
+%%
+% [revised June 2019]
+
 %% 1. Adjoint of a chebop
 % Let $L$ be a linear operator on the Hilbert space $H=L_2[-1,1]$ together
 % with homogeneous boundary conditions.
@@ -11,9 +14,10 @@
 % with another set of homogeneous boundary conditions, such that 
 % $$(v,Lu)= (L^\ast v,u) $$
 % for all $u,v\in H$ such that $u$ satisfies the
-% boundary condition of $L$ and $y$ satisfies the boundary
+% boundary condition of $L$ and $v$ satisfies the boundary
 % condition of $L^\ast$. 
-% As of version 5.6.0, Chebfun is able to compute the adjoint of a linear operator represented as
+% Since version 5.6, Chebfun has been
+% able to compute the adjoint of a linear operator represented as
 % a chebop by the command |adjoint|.
 % The operator adjoint is a classical subject [3], and the
 % mathematical background for Chebfun's |adjoint| is summarized in [2]. The
@@ -26,8 +30,8 @@
 % the left boundary.
 
 L = chebop([-1 1]); 
-L.op = @(u) diff(u); 
-L.lbc = @(u) u      
+L.op = @(u) diff(u);         % u'
+L.lbc = 0
 Ls = adjoint(L)
 
 %%
@@ -37,16 +41,17 @@ Ls = adjoint(L)
 % Let's check that the adjoint condition is satisfied: 
 
 x = chebfun('x');
-u = (x+1).*sin(x);            % function with u(-1) = 0
-v = (x-1).*exp(x);            % function with v(1) = 0
+u = (x+1)*sin(x);            % function with u(-1) = 0
+v = (x-1)*exp(x);            % function with v(1) = 0
+format short 
 abs(v'*(L*u) - (Ls*v)'*u)
 
 %%
 % For self-adjoint operators with self-adjoint boundary conditions, the adjoint is itself:  
 
 L = chebop([-1 1]); 
-L.op = @(u) diff(u,2)+u; % u''
-L.lbc = @(u) u; L.rbc = @(u) u 
+L.op = @(u) diff(u,2)+u;     % u"+u
+L.lbc = 0; L.rbc = 0; 
 Ls = adjoint(L)
 
 
@@ -59,7 +64,7 @@ Ls = adjoint(L)
 
 L = chebop([-1 1]); 
 L.op = @(u) diff(u,2)+u; 
-L.lbc = @(u) [ u-1; diff(u) ]  % initial value problem with both BCs at left end
+L.lbc = [1;0]               % IVP with both BCs at left end
 Ls = adjoint(L)
 
 %%
@@ -67,7 +72,7 @@ Ls = adjoint(L)
 % have $2d-1=3$ (or $2d-k$) boundary conditions, where $d$ is the order of the
 % differential operator (here 2). 
 
-L.lbc = @(u) u-1;  % just one BC
+L.lbc = 1;                  % just one BC
 Ls = adjoint(L)
 
 %%
@@ -80,8 +85,8 @@ Ls = adjoint(L)
 % Let's try an operator with variable coefficients. 
 
 L = chebop([-1 1]);      
-L.op = @(x,u) x.*diff(u,2);
-L.lbc = @(u) u; L.rbc = @(u) u
+L.op = @(x,u) x*diff(u,2);  % xu"
+L.lbc = 0; L.rbc = 0
 Ls = adjoint(L)
 
 %%
@@ -97,8 +102,8 @@ Ls = adjoint(L)
 % Let's check that the adjoint equation is satisfied.
 
 x = chebfun('x');
-u = (x.^2-1).*sin(x);    
-v = (x.^2-1).*exp(x);   
+u = (x^2-1)*sin(x);    
+v = (x^2-1)*exp(x);   
 abs(v'*(L*u) - (Ls*v)'*u)
 
 %% 3. Eigenvalues and eigenfunctions of the adjoint
@@ -108,21 +113,20 @@ abs(v'*(L*u) - (Ls*v)'*u)
 % example, an advection-diffusion operator.
 
 L = chebop([-1 1]);  
-L.op = @(x,u) diff(u,2) -20*diff(u) + u;
-L.lbc = @(u) u; L.rbc = @(u) u;   
+L.op = @(x,u) diff(u,2) - 20*diff(u) + u;
+L.lbc = 0; L.rbc = 0;   
 Ls = adjoint(L);
 
-[V,D] = eigs(L);  
-[Vs,Ds] = eigs(Ls);
+[V,D] = eigs(L,'sm');  
+[Vs,Ds] = eigs(Ls,'sm');
 
 [diag(D) diag(Ds)]
 
 %%
-% Since if $Lx=\lambda x$ and $L^\ast y=\bar{\mu} y$ 
-% then 
+% Since if $Lx=\lambda x$ and $L^\ast y=\bar{\mu} y$ then 
 % $(y,Lx) = \bar{\lambda}(y,x)$ and $(L^\ast y,x) =\mu(y,x)$, it follows that 
 % if $\lambda\neq \mu$, then $(y,x)=0$, i.e., left and right eigenfunctions
-% are orthogonal. We can confirm this as follows:
+% corresponding to different eigenvalues are orthogonal. We can confirm this as follows:
 
 Vs'*V
 
@@ -130,7 +134,7 @@ Vs'*V
 % Let's plot the first two eigenfunctions of $L$ and of $L^\ast$.
 % Note that the curves are symmetric about the origin. 
 
-LW = 'linewidth'; CO = 'color'; FS = 'fontsize';
+CO = 'color'; FS = 'fontsize';
 for ii = 1:2
     v = V{ii}; if v(.9) < 0, v = -v; end
     plot(v,'r'), hold on  
@@ -142,13 +146,13 @@ text(.3,2,'eigenfunctions',CO,'r',FS,14)
 shg
 
 %%
-% The first eigenfunction is very far from orthogonal to the second --
+% The first eigenfunction is very far from orthogonal to the second ---
 % in fact, they are nearly the same:
 V(:,2)'*V(:,1)
 
 %%
 % There is a lot of physics in a figure like this;
-% see chapter 12 of [1].    The concentration of the
+% see chapter 12 of [1].  The concentration of the
 % eigenfunctions at the right boundary reflects the fact that
 % this operator governs rightward propagation, and solutions
 % tend to "pile up" at the right boundary before eventually
@@ -166,6 +170,5 @@ V(:,2)'*V(:,1)
 % 2. Hrothgar, _Block Operators and Continuous Adjoint Methods_, 
 % transfer thesis, Dept. of Mathematics, U. of Oxford, 2015. 
 % 
-% 3. I. Stakgold and M. J. Holst. _Green's Functions and Boundary Value Problems_.
+% 3. I. Stakgold and M. J. Holst. _Green's Functions and Boundary Value Problems_,
 % John Wiley & Sons, 2011.
-%
