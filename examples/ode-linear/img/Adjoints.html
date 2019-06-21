@@ -165,15 +165,14 @@ Ls = adjoint(L);
    -0.0000   -0.0000    0.0000    0.0000   -0.0000    0.3424
 </pre>Let's plot the first two eigenfunctions of $L$ and of $L^\ast$. Note that the curves are symmetric about the origin.
 
-<pre class="mcode-input">CO = 'color'; FS = 'fontsize';
-for ii = 1:2
+<pre class="mcode-input">for ii = 1:2
     v = V{ii}; if v(.9) &lt; 0, v = -v; end
     plot(v,'r'), hold on
     vs = Vs{ii}; if vs(-.9) &lt; 0, vs = -vs; end
     plot(vs,'b')
 end
-text(-.8,2,'adjoint eigenfunctions',CO,'b',FS,14)
-text(.3,2,'eigenfunctions',CO,'r',FS,14)
+text(-.8,2,'adjoint eigenfunctions','color','b')
+text(.3,2,'eigenfunctions','color','r')
 shg</pre><img src="img/Adjoints_01.png" class="figure" alt="">
 
 The first eigenfunction is very far from orthogonal to the second --- in fact, they are nearly the same:
