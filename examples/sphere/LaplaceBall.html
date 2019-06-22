@@ -92,8 +92,9 @@ plot(h), axis off, colorbar, caxis([-2 2])</pre>
 </pre>
 
 <h3 id="2-solution-with-the-poisson-command">2. Solution with the <code>poisson</code> command</h3>
-<p>In Ballfun, there is a command <code>poisson</code> to solve the Poisson equation, which becomes the Laplace equation if we take the right-hand side to be zero. For this command, you need to specify a grid parameter $m$, which will need to grow in proportion to $1/\lambda$ if we want an accurate solution.  We haven't investigated the proportionality constant and will take one arbitrarily that appears to work:</p>
-<pre class="mcode-input">m = round(20/lambda);
+<p>In Ballfun, there is a command <code>poisson</code> to solve the Poisson equation, which becomes the Laplace equation if we take the right-hand side to be zero. For this command, we need to specify a grid parameter $m$, which will need to grow in proportion to $1/\lambda$ if we want an accurate solution.  Here we determine a suitable $m$ by looking at the lengths of the Spherefun representation if $h$.</p>
+<pre class="mcode-input">[a,b] = length(h);
+m = ceil(max(a,b));
 zero = ballfun(0);
 u = poisson(zero,h,m);</pre>
 
@@ -104,7 +105,7 @@ u(1,0,0)</pre>
 <pre class="mcode-output">ans =
   -0.761180229121337
 ans =
-  -0.761180229121337
+  -0.761180229121336
 </pre>
 
 <p>Here, using spherical coordinates, we confirm that it matches the boundary data at the longitude and latitude coordinates of Oxford.</p>
@@ -115,7 +116,7 @@ u(1, long, pi/2-lat,'spherical')</pre>
 <pre class="mcode-output">ans =
   -1.847977702024471
 ans =
-  -1.847977702024461
+  -1.847977702024464
 </pre>
 
 <p>Another check we can carry out concerns mean values. The value of $u$ at the origin should equal the mean of the boundary data:</p>
@@ -125,7 +126,7 @@ u(0,0,0)</pre>
 <pre class="mcode-output">meanh =
   -0.020281680162226
 ans =
-  -0.020281680162014
+  -0.020281680162149
 </pre>
 
 <h3 id="3-the-solution-on-an-inner-sphere">3. The solution on an inner sphere</h3>
@@ -145,7 +146,7 @@ mean2(uinner)</pre>
 <pre class="mcode-output">meanh =
   -0.020281680162226
 ans =
-  -0.020281680162193
+  -0.020281680162215
 </pre></div>
         </div>
     </div>

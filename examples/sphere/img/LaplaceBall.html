@@ -34,9 +34,10 @@ You can call spherefun with three arguments, which are interpreted as cartesian 
 
 ## 2. Solution with the `poisson` command
 
-In Ballfun, there is a command `poisson` to solve the Poisson equation, which becomes the Laplace equation if we take the right-hand side to be zero. For this command, you need to specify a grid parameter $m$, which will need to grow in proportion to $1/\lambda$ if we want an accurate solution.  We haven't investigated the proportionality constant and will take one arbitrarily that appears to work:
+In Ballfun, there is a command `poisson` to solve the Poisson equation, which becomes the Laplace equation if we take the right-hand side to be zero. For this command, we need to specify a grid parameter $m$, which will need to grow in proportion to $1/\lambda$ if we want an accurate solution.  Here we determine a suitable $m$ by looking at the lengths of the Spherefun representation if $h$.
 
-<pre class="mcode-input">m = round(20/lambda);
+<pre class="mcode-input">[a,b] = length(h);
+m = ceil(max(a,b));
 zero = ballfun(0);
 u = poisson(zero,h,m);</pre>Here, using cartesian coordinates, we confirm that $u$ matches the boundary data at the point $(1,0,0)$:
 
@@ -44,7 +45,7 @@ u = poisson(zero,h,m);</pre>Here, using cartesian coordinates, we confirm that $
 u(1,0,0)</pre><pre class="mcode-output">ans =
   -0.761180229121337
 ans =
-  -0.761180229121337
+  -0.761180229121336
 </pre>Here, using spherical coordinates, we confirm that it matches the boundary data at the longitude and latitude coordinates of Oxford.
 
 <pre class="mcode-input">long = -1.26*pi/180; lat = 51.75*pi/180;
@@ -52,14 +53,14 @@ h(long, pi/2-lat)
 u(1, long, pi/2-lat,'spherical')</pre><pre class="mcode-output">ans =
   -1.847977702024471
 ans =
-  -1.847977702024461
+  -1.847977702024464
 </pre>Another check we can carry out concerns mean values. The value of $u$ at the origin should equal the mean of the boundary data:
 
 <pre class="mcode-input">meanh
 u(0,0,0)</pre><pre class="mcode-output">meanh =
   -0.020281680162226
 ans =
-  -0.020281680162014
+  -0.020281680162149
 </pre>
 
 ## 3. The solution on an inner sphere
@@ -79,5 +80,5 @@ Note the small range of values revealed in the colorbar.  The mean value over th
 mean2(uinner)</pre><pre class="mcode-output">meanh =
   -0.020281680162226
 ans =
-  -0.020281680162193
+  -0.020281680162215
 </pre>
