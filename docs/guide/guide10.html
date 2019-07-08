@@ -68,7 +68,7 @@
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<p>Chapter 7 described Chebfun's <code>chebop</code> capabilities for solving linear ordinary differential equations by the backslash command.  We will now describe extensions of chebops to nonlinear problems, as well as special methods used for ODE initial-value problems (IVPs) as opposed to boundary-value problems (BVPs).  Most of the design and implementation of these features was done by Asgeir Birkisson in collaboration with Toby Driscoll. For many examples and a variety of further information, see the Chebfun-based ODE textbook [Trefethen, Birkisson &amp; Driscoll 2018].</p>
+<p>Chapter 7 described Chebfun's <code>chebop</code> capabilities for solving linear ordinary differential equations by the backslash command.  We will now describe extensions of chebops to nonlinear problems, as well as special methods used for ODE initial-value problems (IVPs) as opposed to boundary-value problems (BVPs).  Most of the design and implementation of these features was done by Asgeir Birkisson in collaboration with Toby Driscoll. For many examples and a variety of further information, see the Chebfun-based ODE textbook [Trefethen, Birkisson &amp; Driscoll 2018], which is freely available at <a href="http://people.maths.ox.ac.uk/trefethen/ExplODE/">http://people.maths.ox.ac.uk/trefethen/ExplODE/</a>.</p>
 <h3 id="101-boundary-value-problems-and-solvebvp">10.1  Boundary-value problems: \ and <code>solvebvp</code></h3>
 <p>Chebfun contains overloads <code>bvp4c</code> and <code>bvp5c</code> of MATLAB codes of the same names.  However, these are not our recommended methods for solving BVPs, and we will not discuss them here. Instead, we present methods based on \ and its equivalent command <code>solvebvp</code>.</p>
 <p>Recall that in Chapter 7, we realized linear operators as chebops constructed by commands like these:</p>
@@ -222,7 +222,7 @@ pref = cheboppref; pref.ivpSolver = 'ode15s';
 tic, u = solveivp(N,0,pref); toc
 plot(u), grid on, ylim([-1.5 1.5])</pre>
 
-<pre class="mcode-output">Elapsed time is 0.315236 seconds.
+<pre class="mcode-output">Elapsed time is 0.329978 seconds.
 </pre>
 
 <p><img src="img/guide10_10.png" class="figure" alt=""></p>
@@ -258,7 +258,8 @@ vertical scale = 0.17
 <p>[Birkisson 2018] A. Birkisson, Automatic reformulation of ODEs to systems of first order equations, <em>Trans. Math. Softw.</em>, 44 (2018), 31.</p>
 <p>[Birkisson &amp; Driscoll 2012] A. Birkisson and T. A. Driscoll, Automatic Fr&eacute;chet differentiation for the numerical solution of boundary-value problems, <em>ACM Transactions on Mathematical Software</em>, 38 (2012), 1-26.</p>
 <p>[Birkisson &amp; Driscoll 2013] A. Birkisson and T. A. Driscoll, Automatic linearity dection, preprint, <code>eprints.maths.ox.ac.uk</code>, 2013.</p>
-<p>[Trefethen, Birkisson &amp; Driscoll 2013] L. N. Trefethen, A. Birkisson, and T. A. Driscoll, <em>Exploring ODEs</em>, SIAM, 2018.</p></div>
+<p>[Trefethen, Birkisson &amp; Driscoll 2013] L. N. Trefethen, A. Birkisson, and T. A. Driscoll, <em>Exploring ODEs</em>, SIAM, 2018; freely available at <a href="http://people.maths.ox.ac.uk/trefethen/ExplODE/">http://people.maths.ox.ac.uk/trefethen/ExplODE/</a>.</p>
+<pre class="mcode-input">% SIAM, 2018.</pre></div>
         </div>
     </div>
 </div>
