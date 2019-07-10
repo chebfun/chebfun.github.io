@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>L1 inpainting in one dimension &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="http://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>L1 inpainting in one dimension</h1>
+<h2>Yuji Nakatsukasa and Nick Trefethen, July 2019 in <a href='/examples/approx/'>approx</a><span><a href='/examples/approx/Inpainting1D.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/tree/development/approx/Inpainting1D.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Here is a smooth function corrupted in three regions:</p>
+<pre class="mcode-input">tic
+x = chebfun('x');
+smooth = .3 + x^2 + exp(.3*x);
+rng(1), noise = randnfun(.1);
+corrupted = max(smooth,noise);
+plot(corrupted), grid on
+title('corrupted smooth function')</pre>
+
+<p><img src="img/Inpainting1D_01.png" class="figure" alt=""></p>
+<p>If we fit the function by a low-order polynomial in the $L^1$ norm, we can eliminate the corruption!  This is a 1D version of what is called <em>inpainting</em>.</p>
+<pre class="mcode-input">n = length(smooth)-3;
+p1 = polyfitL1(corrupted,n);
+plot(p1), grid on, title('L1 fit')</pre>
+
+<pre class="mcode-output">Warning: The maximum number of iterations was reach. Answer may not be accurate. 
+</pre>
+
+<p><img src="img/Inpainting1D_02.png" class="figure" alt=""></p>
+<p>The error is very small and would in principle be zero if we used a polynomial of the same degree as the function being recovered:</p>
+<pre class="mcode-input">err1 = norm(p1-smooth,inf)</pre>
+
+<pre class="mcode-output">err1 =
+     9.836575998178887e-13
+</pre>
+
+<p>The 2-norm has no such magic.  The fit looks pretty good to the eye,</p>
+<pre class="mcode-input">p2 = polyfit(corrupted,n-2);
+plot(p2), grid on, title('L2 fit')
+err2 = norm(p2-smooth,inf)</pre>
+
+<pre class="mcode-output">err2 =
+   0.041089804368702
+</pre>
+
+<p><img src="img/Inpainting1D_03.png" class="figure" alt=""></p>
+<p>but now the error is actually far from zero:</p>
+<pre class="mcode-input">plot(p2-smooth,'k'), grid on, title('L2 error')</pre>
+
+<p><img src="img/Inpainting1D_04.png" class="figure" alt=""></p>
+<p>The $\infty$-norm is useless for our purpose:</p>
+<pre class="mcode-input">pinf = minimax(corrupted,n-2);
+plot(pinf), grid on, title('Linf fit')
+errinf = norm(pinf-smooth,inf)</pre>
+
+<pre class="mcode-output">errinf =
+   0.276288549195747
+</pre>
+
+<p><img src="img/Inpainting1D_05.png" class="figure" alt=""></p>
+<p>We've called this example "1D inpainting" because it is a 1D version of the famous "inpainting" problem in image analysis.  The tools used for that problem are varied and powerful, using everything from function approximation to partial differential equations to machine learning; what we have done here is only a small indication of some of the mathematics that may come into play. Note that the issue at hand is "sparsity" of the difference between the corrupted signal and its inpainted polynomial approximation.  The $L^1$ norm comes up in many problems related to sparsity -- famously in the area of compressed sensing --  since it is an approximation to the $L^0$ "norm" (not actually a norm).</p>
+<p>Our $L^1$ computation was quite slow:</p>
+<pre class="mcode-input">toc</pre>
+
+<pre class="mcode-output">Elapsed time is 15.982955 seconds.
+</pre>
+
+<p>(Virtually all the time was taken by <code>polyfitL1</code>; in comparison <code>polyfit</code> and <code>minimax</code> are almost instantaneous.)  This is partly because $L^1$ fitting is challenging, but equally because Chebfun's <code>polyfitL1</code> command avoids the tool that could speed it up considerably, namely linear programming.  This is because linear programming is not available in core Matlab.</p>
+<p>For details of $L^1$ fitting in Chebfun, see [1], which is based on an algorithm by Watson [2], and also the Chebfun example "Best polynomial approximation in the $L^1$ norm.</p>
+<p>[1] Y. Nakatsukasa and A. Townsend, Error localization of best L1 polynomial approximants, arXiv:1902.02664, 2019.</p>
+<p>[2] G. A. Watson. An algorithm for linear L1 approximation of continuous functions, <em>IMA J. Numer. Anal.</em>, 1 (1981), 157--167.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
