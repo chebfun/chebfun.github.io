@@ -1,7 +1,7 @@
 ---
 title: "4. Chebfun and Approximation Theory"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, November 2009, latest revision September 2017"
+authordate: "Lloyd N. Trefethen, November 2009, latest revision May 2019"
 ---
 
 
@@ -44,10 +44,10 @@ A *Chebyshev series* is an expansion $$ f(x) = \sum_{k=0}^\infty a_k T_k(x), $$ 
 
 ## 4.2 `chebcoeffs` and `poly`
 
-We have just seen that the command `chebpoly(N)` returns a chebfun corresponding to the Chebyshev polynomial $T_N$.  Conversely, if `f` is a chebfun, then `chebcoeffs(f)` is the vector of its Chebyshev coefficients. (Before Version 5, the command for this was `chebpoly`.) For example, here are the Chebyshev coefficients of $x^3$:
+We have just seen that the command `chebpoly(N)` returns a chebfun corresponding to the Chebyshev polynomial $T_N$.  Conversely, if `f` is a chebfun, then `chebcoeffs(f)` is the vector of its Chebyshev coefficients. (Before version 5, the command for this was `chebpoly`.) For example, here are the Chebyshev coefficients of $x^3$:
 
 <pre class="mcode-input">x = chebfun(@(x) x);
-c = chebcoeffs(x.^3)</pre><pre class="mcode-output">c =
+c = chebcoeffs(x^3)</pre><pre class="mcode-output">c =
                    0
    0.750000000000000
                    0
@@ -110,20 +110,21 @@ disp([cchebfun ctaylor])</pre><pre class="mcode-output">        chebfun         
    0.000000002086529   0.000000002087676
    0.000000000164047   0.000000000160590
    0.000000000011937   0.000000000011471
-</pre>The fact that these differ is not an indication of an error in the Chebfun approximation.  On the contrary, the Chebfun coefficients do a better job of approximating than the truncated Taylor series.  If $f$ were a function like $1/(1+25x^2)$, the Taylor series would not converge at all.
+</pre>The numbers disagree in the last four digits, even though the functions represented in the two columns agree almost to full precision. This reflects the ill-conditioning of the monomial basis for representing functions on an interval.
 
 
 
 ## 4.3 `chebfun(...,N)` and the Gibbs phenomenon
 
-We can examine the approximation qualities of Chebyshev interpolants by means of a command of the form `chebfun(...,N)`.  When an integer $N$ is specified in this manner, it indicates that a Chebyshev interpolant is to be constructed of precisely length $N$ rather than by the usual adaptive process.
+The two columns represent monomial coefficients of two functions that agree to 15 or 16 digits.  The fact that the numbers differ in the final four decimal places reflects the ill-conditioning of monomials as a basis for representing functions on an interval.
 
 Let us begin with a function that cannot be well approximated by polynomials, the step function sign($x$).  To start with we interpolate it in $10$ or $20$ points, taking $N$ to be even to avoid including a value $0$ at the middle of the step.
 
 <pre class="mcode-input">f = chebfun('sign(x)',10);
-subplot(1,2,1), plot(f,'.-'), grid on
+MS = 'markersize';
+subplot(1,2,1), plot(f,'.-',MS,8), grid on
 f = chebfun('sign(x)',20);
-subplot(1,2,2), plot(f,'.-'), grid on</pre><img src="img/guide04_02.png" class="figure" alt="">
+subplot(1,2,2), plot(f,'.-',MS,8), grid on</pre><img src="img/guide04_02.png" class="figure" alt="">
 
 There is an overshoot problem here, known as the Gibbs phenomenon, that does not go away as $N\to\infty$. We can zoom in on the overshoot region by resetting the axes:
 
@@ -133,9 +134,9 @@ subplot(1,2,2), axis([0 .4 .5 1.5])</pre><img src="img/guide04_03.png" class="fi
 Here are analogous results with $N=100$ and $1000$.
 
 <pre class="mcode-input">f = chebfun('sign(x)',100);
-subplot(1,2,1), plot(f,'.-'), grid on, axis([0 .08 .5 1.5])
+subplot(1,2,1), plot(f,'.-',MS,8), grid on, axis([0 .08 .5 1.5])
 f = chebfun('sign(x)',1000);
-subplot(1,2,2), plot(f,'.-'), grid on, axis([0 .008 .5 1.5])</pre><img src="img/guide04_04.png" class="figure" alt="">
+subplot(1,2,2), plot(f,'.-',MS,8), grid on, axis([0 .008 .5 1.5])</pre><img src="img/guide04_04.png" class="figure" alt="">
 
 What is the amplitude of the Gibbs overshoot for Chebyshev interpolation of a step function?  We can find out by using `max`:
 
@@ -176,9 +177,9 @@ After the step function, a function with "one more derivative" of smoothness wou
 
 <pre class="mcode-input">clf
 f10 = chebfun('abs(x)',10);
-subplot(1,2,1), plot(f10,'.-'), ylim([0 1]), grid on
+subplot(1,2,1), plot(f10,'.-',MS,8), ylim([0 1]), grid on
 f20 = chebfun('abs(x)',20);
-subplot(1,2,2), plot(f20,'.-'), ylim([0 1]), grid on</pre><img src="img/guide04_05.png" class="figure" alt="">
+subplot(1,2,2), plot(f20,'.-',MS,8), ylim([0 1]), grid on</pre><img src="img/guide04_05.png" class="figure" alt="">
 
 Chebfun has no difficulty computing interpolants of much higher order:
 
@@ -202,10 +203,11 @@ err1000 =
 
 If $f$ is a bit smoother, polynomial approximation to machine precision becomes practical:
 
-<pre class="mcode-input">  length(chebfun('abs(x).*x'))
-  length(chebfun('abs(x).*x.^2'))
-  length(chebfun('abs(x).*x.^3'))
-  length(chebfun('abs(x).*x.^4'))</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
+<pre class="mcode-input">  length(chebfun('abs(x)*x'))
+  length(chebfun('abs(x)*x^2'))
+  length(chebfun('abs(x)*x^3'))
+  length(chebfun('abs(x)*x^4'))</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting
+on'? 
 ans =
        65537
 ans =
@@ -218,7 +220,7 @@ ans =
 
 It is interesting to plot convergence as a function of $N$.  Here is an example from [Battles &amp; Trefethen 2004] involving the next function from the sequence above.
 
-<pre class="mcode-input">s = 'abs(x).^5';
+<pre class="mcode-input">s = 'abs(x)^5';
 exact = chebfun(s,'splitting','off');
 NN = 1:100; e = [];
 for N = NN
@@ -237,7 +239,7 @@ The figure reveals very clean convergence at the rate $N^{-5}$.  According to Th
 
 Here is an example of a smoother function, one that is in fact analytic. According to Theorem 3 of the next section, if $f$ is analytic, its Chebyshev interpolants converge geometrically. In this example we take $f$ to be the Runge function, for which interpolants in equally spaced points would not converge at all (in fact they diverge exponentially -- see Section 4.7).
 
-<pre class="mcode-input">s = '1./(1+25*x.^2)';
+<pre class="mcode-input">s = '1/(1+25*x.^2)';
 exact = chebfun(s);
 for N = NN
   e(N) = norm(chebfun(s,N)-exact);
@@ -263,7 +265,7 @@ The first theorem asserts that Chebyshev interpolants are "near-best" [Ehlich &a
 
 *THEOREM 1.* $$ \|f-p\| \le (2+(2/\pi)\log(N)) \|f-p^*\|. $$
 
-This theorem implies that even if $N$ is as large as 100,000, one can lose no more than one digit by using $p$ instead of $p^\*$. Whereas Chebfun will readily compute such a $p$, it is unlikely that anybody has ever computed a nontrivial $p^\*$ for a value of $N$ so large.
+This theorem implies that even if $N$ is as large as 100,000, one can lose no more than one digit by using $p$ instead of $p^*$. Whereas Chebfun will readily compute such a $p$, it is unlikely that anybody has ever computed a nontrivial $p^*$ for a value of $N$ so large.
 
 The next theorem asserts that if $f$ is $k$ times differentiable, roughly speaking, then the Chebyshev interpolants converge at the algebraic rate $1/N^k$ [Mastroianni &amp; Szabados 1995].
 
@@ -322,7 +324,7 @@ Chebfun's `minimax` command can compute rational best approximants too, and it i
 
 <pre class="mcode-input">f = chebfun('exp(x)');
 [p,q] = cf(f,5,5);
-r = p./q;
+r = p/q;
 err = norm(f-r,inf);
 clf, plot(f-r,'c'), hold on
 plot([-1 1],err*[1 1],'--k'), plot([-1 1],-err*[1 1],'--k')
@@ -332,7 +334,7 @@ CF approximation often comes close to optimal for non-smooth functions too, prov
 
 <pre class="mcode-input">f = abs(x-.3);
 [p,q,r_handle,lam] = cf(f,5,5,300);
-clf, plot(f-p./q,'c'), hold on
+clf, plot(f-p/q,'c'), hold on
 plot([-1 1],lam*[1 1],'--k'), plot([-1 1],-lam*[1 1],'--k')</pre><img src="img/guide04_14.png" class="figure" alt="">
 
 For a further indication of the power of this approach, see the Chebfun example "Digital filters via CF approximation".
@@ -348,15 +350,15 @@ In Chebfun, we can compute them with the `interp1` command. For example, here is
 <pre class="mcode-input">f = tanh(10*x);
 s = linspace(-1,1,10);
 p = chebfun.interp1(s,f(s)); hold off
-plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')</pre><img src="img/guide04_15.png" class="figure" alt="">
+plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r',MS,8)</pre><img src="img/guide04_15.png" class="figure" alt="">
 
 Perhaps this doesn't look too bad, but here is what happens for degree $19$.  Note the vertical scale.
 
 <pre class="mcode-input">s = linspace(-1,1,20);
 p = chebfun.interp1(s,f(s)); hold off
-plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')</pre><img src="img/guide04_16.png" class="figure" alt="">
+plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r',MS,8)</pre><img src="img/guide04_16.png" class="figure" alt="">
 
-Approximation experts will know that one of the tools used in analyzing effects like this is known as the *Lebesgue function* associated with a given set of interpolation points. Chebfun has a command `lebesgue` for computing these functions. The problem with interpolation in $20$ equispaced points is reflected in a Lebesgue function of size $10^4$ -- note the semilog scale:
+Approximation experts will know that one of the tools used in analyzing effects like this is the *Lebesgue function* associated with a given set of interpolation points. Chebfun has a command `lebesgue` for computing these functions. The problem with interpolation in $20$ equispaced points is reflected in a Lebesgue function of size $10^4$ -- note the semilog scale:
 
 <pre class="mcode-input">clf, semilogy(lebesgue(s))</pre><img src="img/guide04_17.png" class="figure" alt="">
 
@@ -383,52 +385,52 @@ plot(f)</pre><pre class="mcode-output">ans =
 We can use the command `chebpade`, developed by Ricardo Pachon, to compute a Chebyshev-Pade approximant, defined by the condition that the Chebyshev series of $p/q$ should match that of $f$ as far as possible [Baker &amp; Graves-Morris 1996].  (This is the so-called "Clenshaw-Lord" Chebyshev-Pade approximation; if the flag `maehly` is specified the code alternatively computes the linearized variation known as the "Maehly" approximation.) Chebyshev-Pade approximation is the analogue for functions defined on an interval of Pade approximation for functions defined in a neighborhood of a point.
 
 <pre class="mcode-input">[p,q] = chebpade(f,40,4);
-r = p./q;</pre>The functions $f$ and $r$ match to about $8$ digits:
+r = p/q;</pre>The functions $f$ and $r$ match to about $8$ digits:
 
 <pre class="mcode-input">norm(f-r)
 plot(f-r,'r')</pre><pre class="mcode-output">ans =
-     4.884633978946795e-09
+     4.884644619131340e-09
 </pre><img src="img/guide04_20.png" class="figure" alt="">
 
 Mathematically, $f$ has poles in the complex plane at $\pm i$, $\pm 3i$, $\pm 5i$, and so on. We can obtain approximations to these values by looking at the roots of $q$:
 
 <pre class="mcode-input">roots(q,'complex')</pre><pre class="mcode-output">ans =
-  0.000000000000000 - 1.000000750727787i
-  0.000000000000000 + 1.000000750727787i
-  0.000000000000000 - 3.004284960232532i
-  0.000000000000000 + 3.004284960232532i
+  0.000000000000000 - 1.000000750727747i
+  0.000000000000000 + 1.000000750727747i
+  0.000000000000000 - 3.004284960239503i
+  0.000000000000000 + 3.004284960239503i
 </pre>A similar but perhaps faster and more robust approach to rational interpolation is encoded in the command `ratinterp`, which computes a type $(m,n)$ interpolant through $m+n+1$ Chebyshev points (or, optionally, a different set of points). This capability was developed by Ricardo Pachon, Pedro Gonnet and Joris Van Deun [Pachon, Gonnet &amp; Van Deun 2012]. The results are similar:
 
 <pre class="mcode-input">[p,q] = ratinterp(f,40,4);
-r = p./q;
+r = p/q;
 norm(f-r)
 plot(f-r,'m')</pre><pre class="mcode-output">ans =
-     3.501471641785210e-07
+     3.501472094055571e-07
 </pre><img src="img/guide04_21.png" class="figure" alt="">
 
 Again the poles are not bad:
 
 <pre class="mcode-input">roots(q,'complex')</pre><pre class="mcode-output">ans =
-  0.000000000000000 - 1.000011081921002i
-  0.000000000000000 + 1.000011081921002i
-  0.000000000000000 - 3.010649201142672i
-  0.000000000000000 + 3.010649201142672i
+  0.000000000000000 - 1.000011081921264i
+  0.000000000000000 + 1.000011081921264i
+  0.000000000000000 - 3.010649201327397i
+  0.000000000000000 + 3.010649201327397i
 </pre>The third and fourth options for rational approximation, as mentioned in Section 4.6, are best approximants computed by `minimax` and Caratheodory-Fejer approximants computed by `cf` [Trefethen &amp; Gutknecht 1983, Van Deun &amp; Trefethen 2011]. As mentioned in Section 4.6, CF approximants often agree with best approximations to machine precision if $f$ is smooth. We explore the same function yet again, and this time obtain an equioscillating error curve:
 
 <pre class="mcode-input">[p,q] = cf(f,40,4);
-r = p./q;
+r = p/q;
 norm(f-r)
 plot(f-r,'c')</pre><pre class="mcode-output">ans =
-     2.999219184714378e-10
+     2.999285288743002e-10
 </pre><img src="img/guide04_22.png" class="figure" alt="">
 
 And the poles:
 
 <pre class="mcode-input">roots(q,'complex')</pre><pre class="mcode-output">ans =
- -0.000000000000004 - 1.000000066684862i
- -0.000000000000004 + 1.000000066684862i
- -0.000000000000085 - 3.001936139252179i
- -0.000000000000085 + 3.001936139252179i
+ -0.000000000000004 - 1.000000066684802i
+ -0.000000000000004 + 1.000000066684802i
+  0.000000000001044 - 3.001936139245426i
+  0.000000000001044 + 3.001936139245426i
 </pre>It is tempting to vary parameters and functions to explore more poles and what accuracy can be obtained for them.  But rational approximation and analytic continuation are very big subjects and we shall resist the temptation.  See Chapter 28 of [Trefethen 2013] and [Webb 2013].  Most important, see the _fifth_ method available in Chebfun for computing rational approximants, the AAA ("adaptive Antoulas-Anderson) algorithm implemented in the code `aaa`.  This is suitable for all kinds of real and complex approximations on real and complex domains.  See the help text for `aaa` and [Nakatsukasa, Sete, and Trefethen 2016], where many examples are explored.  Internally, the `minimax` command relies on methods related to AAA approximation.
 
 
@@ -451,7 +453,7 @@ And the poles:
 
 [Ehlich &amp; Zeller 1966] H. Ehlich and K. Zeller, "Auswertung der Normen von Interpolationsoperatoren", _Mathematische Annalen_, 164 (1966), 105-112.
 
-[Filip, Nakatsukasa, Trefethen &amp; Beckermann 2017] S. Filip, Y. Nakatsukasa, L. N. Trefethen, and B. Beckermann, "Rational minimax approximations via adaptive barycentric representations," _SIAM Journal on Scientific Computing_, submitted, 2017.
+[Filip, Nakatsukasa, Trefethen &amp; Beckermann 2017] S. Filip, Y. Nakatsukasa, L. N. Trefethen, and B. Beckermann, "Rational minimax approximations via adaptive barycentric representations," _SIAM Journal on Scientific Computing_, 40 (2018), A2427-A2455.
 
 [Fox &amp; Parker 1966] L. Fox and I. B. Parker, _Chebyshev Polynomials in Numerical Analysis_, Oxford U. Press, 1968.
 
@@ -469,7 +471,7 @@ And the poles:
 
 [Meinardus 1967] G. Meinardus, _Approximation of Functions: Theory and Numerical Methods_, Springer, 1967.
 
-[Nakatsukasa, Sete &amp; Trefethen 2016], The AAA algorithm for rational approximation, _SIAM Journal on Scientific Computing_, submitted, 2016.
+[Nakatsukasa, Sete &amp; Trefethen 2016], The AAA algorithm for rational approximation, _SIAM Journal on Scientific Computing_, 40 (2018), A1494-A1522.
 
 [Pachon, Gonnet &amp; Van Deun 2012] R. Pachon, P Gonnet and J. Van Deun, "Fast and stable rational interpolation in roots of unity and Chebyshev points", _SIAM Journal on Numerical Analysis_, 50 (2011), 1713-1734.
 

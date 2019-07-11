@@ -1,7 +1,7 @@
 ---
 title: "8. Chebfun Preferences"
 layout: guide-chapter
-authordate: "Lloyd N. Trefethen, November 2009, latest revision December 2015"
+authordate: "Lloyd N. Trefethen, November 2009, latest revision June 2019"
 ---
 
 
@@ -26,11 +26,16 @@ Like any software package, Chebfun is based on certain design decisions.  Some o
         deltaTol:                 1.000000e-09
         proximityTol:             1.000000e-11
     cheb2Prefs
+        chebfun2eps:              2.220446e-16
         maxRank:                  513
+        sampleTest:               1
+    cheb3Prefs
+        chebfun3eps:              2.220446e-16
+        maxRank:                  128
         sampleTest:               1
     tech:                         @chebtech2
     &lt;a href="matlab: help chebtech2/techPref"&gt;techPrefs&lt;/a&gt;
-        eps:                      2.220446049250313e-16
+        chebfuneps:               2.220446049250313e-16
         minSamples:               17
         maxLength:                65537
         fixedLength:              NaN
@@ -47,11 +52,11 @@ To ensure that all preferences are set to their factory values, execute
 
 A general point to be emphasized is the distinction between creating a chebfun directly from the constructor and creating one by operating on previous chebfuns.  In the former case we can include preferences directly in the constructor command, and we recommend this as good practice:
 
-<pre class="mcode-input">f = chebfun('x.^x',[0,1],'splitting','on');</pre>In the latter case, however, one can turn the preference on and off again.
+<pre class="mcode-input">f = chebfun('x^x',[0,1],'splitting','on');</pre>In the latter case, however, one can turn the preference on and off again.
 
 <pre class="mcode-input">x = chebfun('x',[0,1]);
 chebfunpref.setDefaults('splitting',true)
-f = x.^x;
+f = x^x;
 chebfunpref.setDefaults('splitting',false)</pre>
 
 ## 8.2  `domain`: the default domain
@@ -98,9 +103,9 @@ The difference between splitting off and splitting on pertains to additional bre
 <pre class="mcode-input">  f = chebfun(@(x) sqrt(x),[0 1],'splitting','on');
   length(f)
   format long, f((.1:.1:.5)'.^2)</pre><pre class="mcode-output">ans =
-   588
+   589
 ans =
-   0.100000000000001
+   0.099999999999998
    0.200000000000000
    0.300000000000000
    0.400000000000000
@@ -118,7 +123,7 @@ ans =
    1.000000000000000
 </pre>In this example the subdivisions have occurred near an endpoint, for the edge detector has determined that the difficulty of resolution lies there.  For other functions, however, splitting will take place at midpoints.  For example, here is a function that is complicated throughout $[-1,1]$, especially for larger values of $x$.
 
-<pre class="mcode-input">  ff = @(x) sin(x).*tanh(3*exp(x).*sin(15*x));</pre>With splitting off, it gets resolved by a global polynomial of rather high degree.
+<pre class="mcode-input">  ff = @(x) sin(x)*tanh(3*exp(x)*sin(15*x));</pre>With splitting off, it gets resolved by a global polynomial of rather high degree.
 
 <pre class="mcode-input">  f = chebfun(ff);
   length(f)
@@ -131,7 +136,7 @@ With splitting on, the function is broken up into pieces, and there is some redu
 <pre class="mcode-input">  f = chebfun(ff,'splitting','on');
   length(f)
   format short, f.ends</pre><pre class="mcode-output">ans =
-   827
+   829
 ans =
   Columns 1 through 7
    -1.0000   -0.7500   -0.5000   -0.2500         0    0.1250    0.2500
@@ -149,7 +154,7 @@ With splitting on the representation is much more compact:
 
 <pre class="mcode-input">  f3 = chebfun(ff,[-3 3],'splitting','on');
   length(f3)</pre><pre class="mcode-output">ans =
-        2755
+        2787
 </pre>On the other hand, splitting off mode has advantages of robustness.  In particular, operations involving derivatives generally work better when functions are represented by global polynomials, and chebops for the most part require this.  Also, for educational purposes, it is very convenient that Chebfun can be used so easily to study the properties of pure polynomial representations even of very high degree.
 
 
@@ -158,24 +163,26 @@ With splitting on the representation is much more compact:
 
 When intervals are subdivided in splitting on mode, as just illustrated, the parameter `splitLength` determines where this will happen.  With the factory value `splitLength=160`, splitting will take place if a polynomial of length 160 proves insufficient to resolve a fun. (Actually, when Chebfun uses Chebyshev points of the second kind as it does by default, this number is rounded down to 1 more than a power of 2.)  Let us confirm for the chebfun `f` constructed a moment ago that the lengths of the individual funs are all less than or equal to 160 (actually 129):
 
-<pre class="mcode-input">  f.funs</pre><pre class="mcode-output">ans = 
+<pre class="mcode-input">  f.funs</pre><pre class="mcode-output">ans =
+  1&times;12 cell array
   Columns 1 through 4
-    [66x1 bndfun]    [78x1 bndfun]    [90x1 bndfun]    [93x1 bndfun]
+    {66&times;1 bndfun}    {78&times;1 bndfun}    {90&times;1 bndfun}    {93&times;1 bndfun}
   Columns 5 through 8
-    [47x1 bndfun]    [81x1 bndfun]    [31x1 bndfun]    [96x1 bndfun]
+    {48&times;1 bndfun}    {81&times;1 bndfun}    {31&times;1 bndfun}    {97&times;1 bndfun}
   Columns 9 through 12
-    [55x1 bndfun]    [79x1 bndfun]    [76x1 bndfun]    [35x1 bndfun]
+    {55&times;1 bndfun}    {79&times;1 bndfun}    {76&times;1 bndfun}    {35&times;1 bndfun}
 </pre>Alternatively, suppose we wish to allow individual funs to have length up to 513.  We can do that like this:
 
 <pre class="mcode-input">  f = chebfun(ff,'splitting','on','splitLength',513);
   length(f)
   format short, f.ends
   f.funs</pre><pre class="mcode-output">ans =
-        1202
+        1192
 ans =
    -1.0000         0    0.5000    0.7500    1.0000
-ans = 
-    [367x1 bndfun]    [318x1 bndfun]    [240x1 bndfun]    [277x1 bndfun]
+ans =
+  1&times;4 cell array
+    {360&times;1 bndfun}    {318&times;1 bndfun}    {240&times;1 bndfun}    {274&times;1 bndfun}
 </pre>
 
 ## 8.5  `maxLength`: maximum length
@@ -199,71 +206,66 @@ Notice that no warning message is produced since we have asked explicitly for ex
   length(f)</pre><pre class="mcode-output">Warning: Function not resolved using 65 pts. Have you tried 'splitting on'? 
 ans =
     65
-</pre>Perhaps more often one might wish to adjust this preference to enable use of especially high degrees.  On the machines of 2015, Chebfun is perfectly capable of working with polynomials of degrees in the millions. The function $|x|^{5/4}$ on $[-1,1]$ provides an example, for it is smooth enough to be resolved by a global polynomial, provided it is of rather high degree:
+</pre>Perhaps more often one might wish to adjust this preference to enable use of especially high degrees.  On the machines of 2019, Chebfun is perfectly capable of working with polynomials of degrees in the millions. The function $1/(1+10^8 x^2)$ on $[-1,1]$ provides an example, for it is smooth enough to be resolved by a global polynomial, provided it is of rather high degree:
 
 <pre class="mcode-input">  tic
-  f = chebfun('abs(x).^1.25','maxLength',1e6);
+  f = chebfun('1/(1+1e8*x^2)','maxLength',1e6);
   lengthf = length(f)
   format long, sumf = sum(f)
-  plot(f)
   toc</pre><pre class="mcode-output">lengthf =
-       44987
+      363661
 sumf =
-   0.888888888888044
-Elapsed time is 0.629731 seconds.
-</pre><img src="img/guide08_06.png" class="figure" alt="">
-
-(More efficient ways of resolving this function, by eliminating the singularity, are described in Chapter 9.)
-
-
+     3.141392653590463e-04
+Elapsed time is 0.700084 seconds.
+</pre>
 
 ## 8.6 `minSamples`: minimum number of sample points
 
 At the other end of the spectrum, the preference `minSamples` determines the minimum number of points at which a function is sampled during the chebfun construction process, and the factory value of this parameter is 17.  This does not mean that all chebfuns have length at least 17.  For example, if $f$ is a cubic, then it will be sampled at 17 points, Chebyshev expansion coefficients will be computed, and 13 of these will be found to be of negligible size and discarded.  So the resulting chebfun is a cubic, even though the constructor never sampled at fewer than 17 points.
 
-<pre class="mcode-input">  f = chebfun('x.^3');
+<pre class="mcode-input">  f = chebfun('x^3');
   lengthf = length(f)</pre><pre class="mcode-output">lengthf =
      4
 </pre>More generally a function is sampled at $17, 33, 65,\dots$ points until a set of Chebyshev coefficients are obtained with a tail judged to be negligible.
 
 Like any process based on sampling, this one can fail. For example, here is a success:
 
-<pre class="mcode-input">  f = chebfun('-x -x.^2 + exp(-(30*(x-.47)).^2)');
+<pre class="mcode-input">  f = chebfun('-x -x^2 + exp(-(30*(x-.47))^2)');
   length(f)
   plot(f)</pre><pre class="mcode-output">ans =
    317
-</pre><img src="img/guide08_07.png" class="figure" alt="">
+</pre><img src="img/guide08_06.png" class="figure" alt="">
 
 But if we change the exponent to 4, we get a failure:
 
-<pre class="mcode-input">  f = chebfun('-x -x.^2 + exp(-(30*(x-.47)).^4)');
+<pre class="mcode-input">  f = chebfun('-x -x^2 + exp(-(30*(x-.47))^4)');
   length(f)
   plot(f)</pre><pre class="mcode-output">ans =
      3
-</pre><img src="img/guide08_08.png" class="figure" alt="">
+</pre><img src="img/guide08_07.png" class="figure" alt="">
 
 What has happened can be explained as follows. The function being sampled has a narrow spike near $x=0.47$, and the closest grid points lie near $0.383$ and $0.556$.  In the case of the exponent 2, we note that at $x=0.383$ and $x=0.556$, $\exp(-(30(x-.47)^2))$ takes values of about $0.001$, which are easily large enough to be noticed by the Chebfun constructor. On the other hand in the case of exponent 4, the values at these points shrink to less than $10^{-19}$, which is below machine precision.  So in the latter case the constructor thinks it has a quadratic and does not try a finer grid.
 
 If we increase `minSamples`, the correct chebfun is found:
 
-<pre class="mcode-input">  f = chebfun('-x -x.^2 + exp(-(30*(x-.48)).^4)','minSamples',33);
+<pre class="mcode-input">  f = chebfun('-x -x^2 + exp(-(30*(x-.48))^4)','minSamples',33);
   length(f)
   plot(f)</pre><pre class="mcode-output">ans =
         1087
-</pre><img src="img/guide08_09.png" class="figure" alt="">
+</pre><img src="img/guide08_08.png" class="figure" alt="">
 
 Incidentally, if the value of `minSamples` specified is not one greater than a power of 2, it is rounded up to the next such value. Values less than 17 will be treated as if the value were 17.
 
 The factory value `minSamples=17` was chosen as a compromise between efficiency and reliability.  (Until Version 5, the choice was `minSamples=9`.)  In practice it rarely seems to fail, but perhaps it is most vulnerable when applied in splitting on mode to functions with narrow spikes.  For example, the following chebfun is missing most of the spikes that should be there:
 
-<pre class="mcode-input">  ff = @(x) max(.85,sin(x+x.^2)) - x/20;
+<pre class="mcode-input">  ff = @(x) max(.85,sin(x+x^2)) - x/20;
   f = chebfun(ff,[0,10],'splitting','on');
-  plot(f)</pre><img src="img/guide08_10.png" class="figure" alt="">
+  plot(f)</pre><img src="img/guide08_09.png" class="figure" alt="">
 
 Increasing `minSamples` fills them in:
 
 <pre class="mcode-input">  f = chebfun(ff,[0,10],'splitting','on','minsamples',33);
-  plot(f)</pre><img src="img/guide08_11.png" class="figure" alt="">
+  plot(f)</pre><img src="img/guide08_10.png" class="figure" alt="">
 
 
 
@@ -277,15 +279,16 @@ For example, here is a chebfun constructed in the usual factory mode:
 
 <pre class="mcode-input">  ff = @(x) besselj(x,exp(x))
   tic, f = chebfun(ff,[0 8]); toc
-  length(f)</pre><pre class="mcode-output">ff = 
+  length(f)</pre><pre class="mcode-output">ff =
+  function_handle with value:
     @(x)besselj(x,exp(x))
-Elapsed time is 0.040536 seconds.
+Elapsed time is 0.011488 seconds.
 ans =
         3790
-</pre>There is a little if we set 'resampling on', so that previously computed values are not reused:
+</pre>There is little change if we set 'resampling on', so that previously computed values are not reused:
 
 <pre class="mcode-input">  tic, f = chebfun(ff,[0 8],'resampling','on'); toc
-  length(f)</pre><pre class="mcode-output">Elapsed time is 0.081559 seconds.
+  length(f)</pre><pre class="mcode-output">Elapsed time is 0.046959 seconds.
 ans =
         3788
 </pre>One might wonder why 'resampling on' is an option at all, but in fact, it introduces some very interesting possibilities.  What if the "function" being sampled is not actually a fixed function, but depends on the grid? For example, consider this prescription:
@@ -299,7 +302,7 @@ plot(f,'.-')</pre><pre class="mcode-output">ans =
     44
 ans =
   65.000000000000014
-</pre><img src="img/guide08_12.png" class="figure" alt="">
+</pre><img src="img/guide08_11.png" class="figure" alt="">
 
 This rather bizarre example encourages us to play further. What if we change `length(x)*sin(15*x)` to `sin(length(x)*x)`? Now there is no convergence, for no matter how fine the grid is, the function is underresolved.
 
@@ -307,27 +310,33 @@ This rather bizarre example encourages us to play further. What if we change `le
   h = chebfun(hh,'sampleTest',0,'resampling','on');</pre><pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
 </pre>Here is an in-between case where convergence is achieved on the grid of length 65, and the resulting chebfun then trimmed to length 46.
 
-<pre class="mcode-input">kk = @(x) sin(length(x).^(2/3)*x);
+<pre class="mcode-input">kk = @(x) sin(length(x)^(2/3)*x);
 k = chebfun(kk,'sampleTest',0,'resampling','on');
 length(k)
 plot(k,'.-')</pre><pre class="mcode-output">ans =
     46
-</pre><img src="img/guide08_13.png" class="figure" alt="">
+</pre><img src="img/guide08_12.png" class="figure" alt="">
 
 Are such curious effects of any use?  Yes indeed, they are at the heart of Chebop.  When Chebfun solves an ODE boundary-value problem by a command like `u = L\f`, the chebfun `u` is determined by a "sampling" process in which a matrix problem obtained by Chebyshev spectral discretization is solved on grids of increasing sizes. The matrices change with the grids, so the sample values for $u$ are crucially grid-dependent.  Without resampling, chebops would not work.
 
 
 
-## 8.8 `eps`: Chebfun constructor tolerance
+## 8.8 `chebfuneps`: Chebfun constructor tolerance
 
-One of the controllable preferences is all too tempting: you can weaken the tolerance used in constructing a chebfun. The chebfunpref parameter `eps` is set by default to machine precision:
+One of the controllable preferences is all too tempting: you can weaken the tolerance used in constructing a chebfun. The chebfunpref parameter `chebfuneps` is set by default to machine precision:
 
 <pre class="mcode-input">p = chebfunpref;
-p.eps</pre><pre class="mcode-output">ans =
+p.chebfuneps</pre><pre class="mcode-output">ans =
      2.220446049250313e-16
-</pre>However, one can change this with a command like `chebfunpref.setDefaults('eps',1e-6)`.
+</pre>However, one can change this with a command like `chebfunpref.setDefaults('chebfuneps',1e-6)`. Actually there is a simpler syntax:
 
-There are cases where weakening the tolerance makes a big difference. For example, this happens in certain applications in 2D and in certain applications involving differential equations.  (Indeed, the Chebfun differential equations commands have their own tolerance control strategies.) However, Chebfun does such a good job at resolving many functions that the `eps`-adjustment feature is not as useful as you might imagine, and we recommend that users not change `eps` unless they are having real problems with standard precision or are working with noisy data.
+<pre class="mcode-input">chebfuneps('1e-4')
+chebfuneps</pre><pre class="mcode-output">ans =
+     1.000000000000000e-04
+</pre><pre class="mcode-input">chebfuneps('factory')
+chebfuneps</pre><pre class="mcode-output">ans =
+     2.220446049250313e-16
+</pre>There are cases where weakening the tolerance makes a big difference. For example, this happens in certain applications involving differential equations.  (Indeed, the Chebfun differential equations commands have their own tolerance control strategies.) However, Chebfun does such a good job at resolving many functions, at least in one dimension, that the `chebfuneps`-adjustment feature is not as useful as you might imagine, and we recommend that users not change `chebfuneps` unless they are having real problems with standard precision or are working with noisy data.  In two or especially three dimensions, the balances change and there is more often a big benefit in weakening the tolerance; see section 8.11 below and chapter 18.
 
 
 
@@ -357,7 +366,7 @@ Please use 'VALUES'/@chebcolloc2.
 
 <pre class="mcode-input">cheboppref.setDefaults('discretization','chebcolloc1')</pre><pre class="mcode-output">Warning: 'COLLOC1'/'CHEBCOLLOC1' is deprecated.
 Please use 'VALUES'/@chebcolloc2. 
-</pre>and for Olver-Townsend ultraspherical discretizations,
+</pre>and for Olver-Townsend ultraspherical discretizations, as discussed in the last chapter,
 
 <pre class="mcode-input">cheboppref.setDefaults('discretization','ultraspherical')</pre><pre class="mcode-output">Warning: 'ULTRAS'/'ULTRASPHERICAL' is deprecated.
 Please use 'COEFFS'/@ultraS. 
@@ -367,9 +376,11 @@ Please use 'COEFFS'/@ultraS.
 
 ## 8.11 Chebfun2 preferences
 
-The Chebfun2 preference that users may be most interested in is `MaxRank`, which determines the maximum rank of a low-rank approximation used to represent a function on a rectangle. The current factory default is 512, and this can be changed for example with
+Chebfun2, for computing with functoins on a two-dimensional rectangle, is described in Chapter 12-15. A Chebfun2 preference that users may be particularly interested in is `MaxRank`, which determines the maximum rank of a low-rank approximation used to represent a function on a rectangle. The current factory default is 512, and this can be changed for example with
 
-<pre class="mcode-input">chebfunpref.setDefaults({'cheb2Prefs','maxRank'},1024);</pre>Let us undo this change:
+<pre class="mcode-input">chebfunpref.setDefaults({'cheb2Prefs','maxRank'},1024);</pre>For changing the Chebfun2 tolerance one can do this:
+
+<pre class="mcode-input">chebfun2eps = 1e-6;</pre>Let us undo this change:
 
 <pre class="mcode-input">chebfunpref.setDefaults('factory')</pre>
 
@@ -381,11 +392,11 @@ For example, `'sampleTest'` controls whether a function is evaluated at an extra
 
 Another example is that `'blowup'` relates to the construction of chebfuns that diverge to infinity, as described in Chapter 9. `blowup=0` is used for no singularities, `blowup=1` if for functions with poles (blowups with a negative integer power) and `blowup=2` for functions with branch points (blowups with an arbitrary power).
 
-For more information about the details of the Chebfun function construction process, see [1].
+For details of the Chebfun function construction process, see [1].
 
 
 
-## 8.13 References
+## 8.13 Reference
 
-[Aurentz &amp; Trefethen 2015] J. L. Aurentz and L. N. Trefethen, Chopping a Chebyshev series, `http://arxiv.org/abs/1512.01803`.
+[Aurentz &amp; Trefethen 2015] J. L. Aurentz and L. N. Trefethen, Chopping a Chebyshev series, _ACM Trans. Math. Softw._ 43 (2017), p. 33.
 
