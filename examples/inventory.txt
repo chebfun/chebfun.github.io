@@ -10,6 +10,7 @@ approx/AliasingCoefficients.m
 approx/AliasingCoefficientsLeg.m
 approx/BernsteinPolys.m
 approx/BestApprox.m
+approx/BestL1.m
 approx/BestL2Approximation.m
 approx/BSplineConv.m
 approx/CF30.m
@@ -24,8 +25,10 @@ approx/Galleries.m
 approx/GammaFun.m
 approx/GreedyInterp.m
 approx/Halphen.m
+approx/Inpainting1D.m
 approx/LebesgueConst.m
 approx/Local.m
+approx/MinimaxSqrt.m
 approx/NearestOrthFun.m
 approx/Noisy.m
 approx/NoisyNonsmooth.m
@@ -43,6 +46,7 @@ approx/Splines.m
 approx/WeierstrassFunction.m
 approx/WigglyApprox.m
 approx2/Alignment.m
+approx2/Belyaev.m
 approx2/BumpFunction.m
 approx2/Gibbs2D.m
 approx2/Localization.m
@@ -133,6 +137,7 @@ linalg/FieldOfValues.m
 linalg/LevelRepulsion.m
 linalg/MercuryEarthConjunctions.m
 linalg/NonnormalQuiz.m
+linalg/NonsmoothFOV.m
 linalg/ResolventNorm.m
 linalg/SOR.m
 linalg/TransientGrowth.m
@@ -161,6 +166,7 @@ ode-linear/DynamicalSystems.m
 ode-linear/Floquet.m
 ode-linear/FourierCollocation.m
 ode-linear/FrozenCoeffs.m
+ode-linear/JumpGreen.m
 ode-linear/Krylov.m
 ode-linear/LeeGreengardODEs.m
 ode-linear/LinearIVP.m
@@ -194,6 +200,7 @@ ode-nonlin/LyapunovExponents.m
 ode-nonlin/ModellingDiseases.m
 ode-nonlin/Orbits.m
 ode-nonlin/Picard.m
+ode-nonlin/SquareCycle.m
 ode-nonlin/ThreeBodyProblem.m
 ode-nonlin/ThreePlanets.m
 ode-nonlin/TwoElectrons.m
@@ -255,7 +262,11 @@ roots/WhiteCurves.m
 sphere/AtmosphericTemperature.m
 sphere/Gravity.m
 sphere/HelmholtzDecomposition.m
+sphere/HelmholtzDecompositionBall.m
+sphere/LaplaceBall.m
+sphere/PTDecomposition.m
 sphere/RayleighQuotientExample.m
+sphere/SolidHarmonics.m
 sphere/SpherefunPartition.m
 sphere/SpherefunRotate.m
 sphere/SphereHeatConduction.m
@@ -270,6 +281,7 @@ stats/MercerKarhunenLoeve.m
 stats/NormalExercises.m
 stats/ProbabilityConvolution.m
 stats/RandomMaxima.m
+stats/RandomPolynomials.m
 stats/RandomSurf.m
 stats/ResamplingRandomVariables.m
 stats/SmoothRandomWalk.m
