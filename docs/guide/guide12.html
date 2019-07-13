@@ -56,7 +56,7 @@
     <div class='page-header'>
 <span class='chapter_number'>12</span>
 <h1>Chebfun2: Getting Started</h1>
-<h2>Alex Townsend, March 2013, latest revision December 2014<span>
+<h2>Alex Townsend, March 2013, latest revision July 2019<span>
     
         <a href='/docs/guide/guide11.html'
 >previous</a><span class='sep-sm
@@ -90,14 +90,14 @@ plot(f), axis tight, title('Chebfun2 Peaks')</pre>
 <pre class="mcode-input">f(0.5,0.5)</pre>
 
 <pre class="mcode-output">ans =
-   0.375375578848318
+   0.375375578848315
 </pre>
 
 <p>or compute their maxima,</p>
 <pre class="mcode-input">max2(f)</pre>
 
 <pre class="mcode-output">ans =
-   8.106213589442334
+   8.106213589442337
 </pre>
 
 <p>A chebfun2, with a lower-case "c", is a MATLAB object, the 2D analogue of a chebfun. The syntax for chebfun2 objects is similar to the syntax for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands overloaded. For instance, <code>trace(A)</code> returns the sum of the diagonal entries of a matrix $A$ and <code>trace(f)</code> returns the integral of $f(x,x)$ when $f$ is a chebfun2.</p>
@@ -105,12 +105,23 @@ plot(f), axis tight, title('Chebfun2 Peaks')</pre>
 <h3 id="122-what-is-a-chebfun2v">12.2 What is a chebfun2v?</h3>
 <p>Chebfun2 can represent scalar-valued functions, such as $\exp(x+y)$, and vector-valued functions, such as $[\exp(x+y);\cos(x-y)]$. A vector-valued function is called a chebfun2v, and chebfun2v objects are useful for computations of vector calculus. For information about chebfun2v objects and vector calculus, see Chapters 15 and 16 of this guide.</p>
 <h3 id="123-constructing-chebfun2-objects">12.3 Constructing chebfun2 objects</h3>
-<p>A chebfun2 is constructed by supplying the Chebfun2 constructor with a function handle or string. The default rectangular domain is $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is given at the end of this chapter.) For example, here we construct and plot a chebfun2 representing $\cos(2\pi xy)$ on $[-1,1]\times[-1,1]$.</p>
-<pre class="mcode-input">f = chebfun2(@(x,y) cos(2*pi*x.*y));
-plot(f), zlim([-2 2])</pre>
+<p>A chebfun2 can be constructed by supplying the Chebfun2 constructor with a bivariate function handle or string. The default rectangular domain is $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is given in section 6.) For example, here we construct and plot a chebfun2 representing $\cos(2\pi xy)$ on $[-1,1]\times[-1,1]$.</p>
+<pre class="mcode-input">f = chebfun2(@(x,y) cos(2*pi*x.*y));</pre>
+
+<p>We could equally well have constructed chebfun2 objects for the variables $x$ and $y$ first and then computed $f$ from these:</p>
+<pre class="mcode-input">x = chebfun2(@(x,y) x);
+y = chebfun2(@(x,y) y);
+f = cos(2*pi*x.*y);</pre>
+
+<p>There's also a shortcut <code>cheb.xy</code> to constructing these objects <code>x</code> and <code>y</code>, so we could also have executed</p>
+<pre class="mcode-input">cheb.xy
+f = cos(2*pi*x.*y);</pre>
+
+<p>Here is a plot of $f$:</p>
+<pre class="mcode-input">plot(f), zlim([-2 2])</pre>
 
 <p><img src="img/guide12_03.png" class="figure" alt=""></p>
-<p>There are several commands for plotting a chebfun2, including <code>plot</code>, <code>contour</code>, and <code>surf</code>.  Here is a contour plot of $f$:</p>
+<p>Along with <code>plot</code>, there are also commands <code>contour</code> and <code>surf</code> for displaying a chebfun2. Here is a contour plot of $f$:</p>
 <pre class="mcode-input">contour(f), axis square</pre>
 
 <p><img src="img/guide12_04.png" class="figure" alt=""></p>
@@ -125,7 +136,7 @@ plot(f), zlim([-2 2])</pre>
 <pre class="mcode-input">f</pre>
 
 <pre class="mcode-output">f =
-   chebfun2 object: (1 smooth surface)
+   chebfun2 object
        domain                 rank       corner values
 [  -1,   1] x [  -1,   1]       11     [   1    1    1    1]
 vertical scale =   1 
@@ -153,7 +164,7 @@ vertical scale =   1
 f(x,y)</pre>
 
 <pre class="mcode-output">ans =
-   0.553360839574910
+   0.229918643043211
 </pre>
 
 <p>Evaluation along the line $y = \pi/6$:</p>
@@ -161,14 +172,15 @@ f(x,y)</pre>
 
 <pre class="mcode-output">ans =
    chebfun row (1 smooth piece)
-       interval       length   endpoint values  
-[      -1,       1]       21     -0.99    -0.99 
-Epslevel = 1.776357e-15.  Vscale = 1.000000e+00.
+       interval       length     endpoint values  
+[      -1,       1]       23     -0.99    -0.99 
+vertical scale =   1 
 </pre>
 
 <p>There are plenty of other questions that may be of interest.  For instance, what are the zero contours of $f(x,y) - .95$?</p>
 <pre class="mcode-input">r = roots(f-.95);
-plot(r), axis square, title('Zero contours of f-.95')</pre>
+plot(r), axis([-1 1 -1 1])
+axis square, title('Zero contours of f-.95')</pre>
 
 <p><img src="img/guide12_05.png" class="figure" alt=""></p>
 <p>What is the partial derivative $\partial f/\partial y$?</p>
@@ -176,7 +188,7 @@ plot(r), axis square, title('Zero contours of f-.95')</pre>
 plot(fy)</pre>
 
 <p><img src="img/guide12_06.png" class="figure" alt=""></p>
-<p>The syntax for the <code>diff</code> command can cause confusion because we are following the matrix syntax in MATLAB. Chebfun2 also offers the more easily remembered <code>diffx(f,k)</code> and <code>diffy(f,k)</code>, which differentiate $f(x,y)$ $k$ times with respect to the first first and second variable, respectively.</p>
+<p>The syntax for the <code>diff</code> command can cause confusion because we are following the matrix syntax in MATLAB. Chebfun2 also offers the more easily remembered <code>diffx(f,k)</code> and <code>diffy(f,k)</code>, which differentiate $f(x,y)$ $k$ times with respect to the first and second variable, respectively.</p>
 <p>What is the mean value of $f$ on $[-1,1]\times[-1,1]$?</p>
 <pre class="mcode-input">mean2(f)</pre>
 
@@ -191,40 +203,59 @@ plot(fy)</pre>
 <pre class="mcode-output">
 Methods for class chebfun2:
 
-abs               feval             mesh              sin               
-cdr               fevalm            min               sinh              
-chebcoeffs2       flipdim           min2              size              
-chebfun2          fliplr            minandmax2        sph2cart          
-chebpolyplot      flipud            minus             sphere            
-chebpolyplot2     fred              mldivide          sqrt              
-chebpolyval2      get               mrdivide          squeeze           
-chol              grad              mtimes            std               
-complex           gradient          norm              std2              
-conj              horzcat           pivotplot         subsref           
-contour           imag              pivots            sum               
-contourf          integral          plot              sum2              
-cos               integral2         plotcoeffs        surf              
-cosh              isempty           plotcoeffs2       surface           
-ctranspose        isequal           plus              surfacearea       
-cumprod           isreal            pol2cart          svd               
-cumsum            iszero            potential         tan               
-cumsum2           jacobian          power             tand              
-dblquad           lap               prod              tanh              
-del2              laplacian         qr                times             
-diag              ldivide           quad2d            trace             
-diff              length            quiver            transpose         
-diffx             log               quiver3           uminus            
-diffy             lu                rank              uplus             
-discriminant      max               rdivide           vertcat           
-disp              max2              real              volt              
-display           mean              restrict          waterfall         
-ellipsoid         mean2             roots             
-exp               median            simplify          
+abs                   horzcat               quiver3               
+biharm                imag                  rank                  
+biharmonic            integral              rdivide               
+cdr                   integral2             real                  
+chebcoeffs2           isPeriodicTech        restrict              
+chebfun2              isempty               roots                 
+chebpolyplot          isequal               roots0                
+chebpolyplot2         isreal                rootsFeb19            
+chebpolyval2          iszero                rootsclean            
+chol                  jacobian              rootsfine             
+coeffs2               lap                   rootsnew              
+complex               laplacian             sample                
+compose               ldivide               sampleTest            
+conj                  length                simplify              
+constructor           log                   sin                   
+contour               lu                    singleSignTest        
+contourf              max                   sinh                  
+cos                   max2                  size                  
+cosh                  mean                  sph2cart              
+ctranspose            mean2                 sphere                
+cumprod               median                sqrt                  
+cumsum                mesh                  squeeze               
+cumsum2               min                   std                   
+dblquad               min2                  std2                  
+diag                  minandmax2            subsref               
+diff                  minandmax2est         sum                   
+diffx                 minus                 sum2                  
+diffy                 mldivide              sumdisk               
+discriminant          mrdivide              surf                  
+disp                  mtimes                surface               
+display               norm                  surfacearea           
+domainCheck           normalizePivots       svd                   
+domainarea            normalizeRowsAndCols  tan                   
+eig                   pivotplot             tand                  
+ellipsoid             pivots                tanh                  
+end                   plot                  times                 
+exp                   plotcoeffs            trace                 
+explain               plotcoeffs2           transpose             
+feval                 plus                  uminus                
+fevalm                pol2cart              uplus                 
+flipdim               poldec                vertcat               
+fliplr                potential             volt                  
+flipud                power                 vscale                
+fred                  prod                  waterfall             
+get                   qr                    
+grad                  quad2d                
+gradient              quiver                
 
 Static methods:
 
-chebpts2          outerProduct      vals2coeffs       
-coeffs2vals       paduaVals2coeffs  
+chebpts2              paduaVals2coeffs      
+coeffs2vals           poisson               
+outerProduct          vals2coeffs           
 
 </pre>
 
@@ -243,12 +274,11 @@ coeffs2vals       paduaVals2coeffs
 </pre>
 
 <h3 id="126-composition-of-chebfun2-objects">12.6 Composition of chebfun2 objects</h3>
-<p>So far, in this chapter, chebfun2 objects have been constructed explicitly via a command of the form <code>chebfun2(...)</code>. Another way to construct new chebfun2 objects is by composing them together with operations such as <code>+</code>, <code>-</code>, <code>.*</code>, and <code>.^</code>. For example,</p>
-<pre class="mcode-input">x = chebfun2(@(x,y) x, [-2 3 -4 4]);
-y = chebfun2(@(x,y) y, [-2 3 -4 4]);
-
+<p>New chebfun2 objects can be constructed from existing ones by composing them with operations such as <code>+</code>, <code>-</code>, <code>.*</code>, and <code>.^</code>. For example,</p>
+<pre class="mcode-input">x = chebfun2(@(x,y) x, [-4 4 -2 2]);
+y = chebfun2(@(x,y) y, [-4 4 -2 2]);
 f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
-contour(f), axis square</pre>
+contour(f), axis equal</pre>
 
 <p><img src="img/guide12_07.png" class="figure" alt=""></p>
 <h3 id="127-analytic-functions">12.7 Analytic functions</h3>
@@ -268,14 +298,14 @@ plot(f)</pre>
 
 <p><img src="img/guide12_08.png" class="figure" alt=""></p>
 <p>Many properties of analytic functions can be visualised by these types of plots, such as the location of zeros and their multiplicities. Can you work out the multiplicity of the root at $z=0$ from this plot? For another example, try <code>cheb.gallery2('airycomplex')</code>.</p>
-<p>At present, since Chebfun2 only represents smooth functions, a trick is required to draw pictures like these for functions with poles [Trefethen 2013]. For functions with branch points or essential singularities, it is currently not possible in Chebfun2 to draw phase plots.</p>
+<p>Since Chebfun2 only represents smooth functions, a trick is required to draw pictures like these for functions with poles [Trefethen 2013]. For functions with branch points or essential singularities, it is currently not possible in Chebfun2 to draw phase plots.</p>
 <h3 id="128-chebfun2-low-rank-approximations">12.8 Chebfun2 low rank approximations</h3>
-<p>Chebfun2 exploits the observation that many functions of two variables can be well approximated by low rank approximants. A rank $1$ function, also known as <em>separable</em>, is of the form $u(y)v(x)$, and a rank $k$ function is one that can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.</p>
+<p>Chebfun2 exploits the observation that many functions of two variables can be well approximated by low rank approximants. A rank $1$ function, also known as <em>separable</em>, is of the form $u(y)v(x)$, and a rank $k$ function is one that can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov. For further aspects of low-rank representations see [Trefethen 2017] and [Beckermann and Townsend 2019].</p>
 <p>Here is an exampled adapted from [Townsend &amp; Trefethen 2013] and <code>cheb.gallery2('smokering')</code>. The function $$ f(x,y) = \exp( -40(x^2-xy+2y^2 - 1/2)^2) $$ has the shape of an elliptical ring in the unit square, and Chebfun2 represents it by an approximation of reasonably high rank:</p>
 <pre class="mcode-input">ff = @(x,y) exp(-40*(x.^2 - x.*y + 2*y.^2 - 1/2).^2);
 f = chebfun2(ff);
 levels = 0.1:0.1:0.9;
-contour(f,levels)
+contour(f,levels), axis([-1 1 -1 1]), axis square
 title(['rank ' int2str(length(f))],'fontsize',12)</pre>
 
 <p><img src="img/guide12_09.png" class="figure" alt=""></p>
@@ -284,18 +314,21 @@ title(['rank ' int2str(length(f))],'fontsize',12)</pre>
 clf
 for k = 1:9
     axes('position',[.03+.33*mod(k-1,3) .67-.3*floor((k-1)/3) .28 .28])
-    contour(chebfun2(ff,k),levels,'k'), axis off
+    contour(chebfun2(ff,k),levels,'k')
+    xlim([-1 1]), axis equal, axis off
 end</pre>
 
 <p><img src="img/guide12_10.png" class="figure" alt=""></p>
 <p>For this function, "plotting accuracy" is achieved approximately at rank 16; the remaining terms are then required to get from 2-3 digits to 15.</p>
 <h3 id="129-references">12.9 References</h3>
 <p>[Bebendorf 2008] M. Bebendorf, <em>Hierarchical Matrices: A Means to Efficiently Solve Elliptic Boundary Value Problems</em>, Springer, 2008.</p>
+<p>[Beckermann &amp; Townsend 2019] Sylvester, Bounds on the singular values of matrices with displacement structure, <em>SIAM Rev.</em> 61 (2019), 319--344.</p>
 <p>[Carvajal, Chapman, &amp; Geddes 2008] O. A. Carvajal, F. W. Chapman and K. O. Geddes, "Hybrid symbolic-numeric integration in multiple dimensions via tensor-product series", <em>Proceedings of ISSAC'05</em>, M. Kauers, ed., ACM Press, 2005, 84-91.</p>
 <p>[Townsend &amp; Trefethen 2013] A. Townsend and L. N. Trefethen, "Gaussian elimination as an iterative algorithm", <em>SIAM News</em>, March 2013.</p>
 <p>[Townsend &amp; Trefethen 2013b] A. Townsend and L. N. Trefethen, "An extension of Chebfun to two dimensions", <em>SIAM Journal on Scientific Computing</em>, 35 (2013), C495-C518.</p>
 <p>[Townsend &amp; Trefethen 2014] A. Townsend and L. N. Trefethen, "Continuous analogues of matrix factorizations", <em>Proceedings of the Royal Society A</em> 471 (2014) 20140585.</p>
 <p>[Trefethen 2013] L. N. Trefethen, "Phase Portraits for functions with poles", <a href="http://www.chebfun.org/examples/complex/PortraitsWithPoles.html">http://www.chebfun.org/examples/complex/PortraitsWithPoles.html</a>.</p>
+<p>[Trefethen 2017] L. N. Trefethen, Cubature, approximation, and isotropy in the hypercube, <em>SIAM Rev.</em> 59 (2017), 469--491.</p>
 <p>[Wegert 2012] E. Wegert, <em>Visual Complex Functions: An Introduction with Phase Portraits</em>, Birkhauser/Springer, 2012.</p></div>
         </div>
     </div>
