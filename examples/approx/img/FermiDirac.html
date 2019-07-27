@@ -1,0 +1,79 @@
+---
+title: "Rational approximation of the Fermi-Dirac function"
+layout: example
+authordate: "Nick Trefethen, July 2019"
+meta: "(Chebfun example approx/FermiDirac.m) [Tags: #Fermi-Dirac, #minimax]"
+---
+
+<pre class="mcode-input">function FermiDirac</pre>The Fermi-Dirac function is important in electronic energy calculations, for which physicists have had great success with rational approximations [1]. We won't attempt to discuss the physics or the algorithms here, but just consider some rational approximations, motivated in particular by [2].
+
+The function is smooth, but approximates a step (which corresponds to the limit of zero temperature).   With $L$ as a large parameter, we can write the function like this: $$ f(E) = {1 \over 1 + \exp(x-L) }, \quad x\in [0,\infty). $$ Here for example is a plot with $L= 20$:
+
+<pre class="mcode-input">tic
+L = 20;
+f = @(x) 1./(1+exp(x-L));
+fplot(f,[0,80]), grid on, ylim([-1 2])
+title('physical domain')</pre><img src="img/FermiDirac_01.png" class="figure" alt="">
+
+This is essentially a hyperbolic tangent, but with a twist: the approximation domain we care about extends a finite distance on one side and an infinite distance on the other.  (Ultimately this is because a system has a minimum-energy state but no maximum.)  For a type $(n,n)$ approximant, it is convenient to soften up the problem by a M&ouml;bius transformation to $s\in [-1,1]$, which maps type $(n,n)$ rational functions to themselves.  The transformation is this:
+
+<pre class="mcode-input">x = @(s) (s*L+L)./(1-s);
+s = @(x) (x-L)./(x+L);</pre>Here for example is the transplanted function above:
+
+<pre class="mcode-input">g = @(s) f(x(s));
+dom = [-1 1];
+fplot(g,dom), grid on, ylim([-1 2])
+title('transplantation to [-1,1]')</pre><img src="img/FermiDirac_02.png" class="figure" alt="">
+
+Note that despite appearances, this is not symmetric about $s=0$. For example, $g(.1)$ and $1-g(-.1)$ are quite different:
+
+<pre class="mcode-input">disp([g(.1) 1-g(-.1)])</pre><pre class="mcode-output">   0.011607316445305   0.025671586349827
+</pre>To approximate $g$ by a rational function of type $(n,n)$, we can use the Chebfun `minimax` command. (Another possibility is `cf`, at least for smaller values of $L$.) Here is a little code that does this.
+
+<pre class="mcode-input">function fermi(L,n)   % minimax approx for Fermi-Dirac.  Try e.g. fermi(50,10).
+f = @(x) 1./(1+exp(x-L));
+x = @(s) (s*L+L)./(1-s);
+s = @(x) (x-L)./(x+L);
+g = @(s) f(x(s));
+[p,q,r,err,status] = minimax(g,n,n);
+poles = status.pol;
+ss = [chebpts(1000,[-1 0]); chebpts(1000,[0 1])];
+subplot(2,2,1:2)
+plot(ss,r(ss)-g(ss)), grid on, ylim(2*err*[-1 1]), hold on
+plot([-1 1],-err*[1 1],'--r'), plot([-1 1],err*[1 1],'--r'), hold off
+title(sprintf('Fermi-Dirac transplanted to [-1,1], L = %d, n = %d',L,n));
+subplot(2,2,3), plot(poles,'.r')
+axis equal, axis([-20 20 -10 10]), grid on, title poles
+subplot(2,2,4), plot(poles,'.r')
+axis equal, axis([-1 1 -.5 .5]), grid on, title closeup
+end</pre>Here is an easy example with $L=10$.
+
+<pre class="mcode-input">tic, fermi(10,10), toc</pre><pre class="mcode-output">Elapsed time is 1.289354 seconds.
+</pre><img src="img/FermiDirac_03.png" class="figure" alt="">
+
+Here is a harder one with $L=100$:
+
+<pre class="mcode-input">tic, fermi(100,15), toc</pre><pre class="mcode-output">Elapsed time is 1.758605 seconds.
+</pre><img src="img/FermiDirac_04.png" class="figure" alt="">
+
+The code even works with $L=1000$:
+
+<pre class="mcode-input">tic, fermi(1000,20), toc</pre><pre class="mcode-output">Trial interpolant too far from optimal...
+Trying AAA-Lawson-based initialization...
+Elapsed time is 1.733034 seconds.
+</pre><img src="img/FermiDirac_05.png" class="figure" alt="">
+
+Here's the same function approximated with a higher value of $n$:
+
+<pre class="mcode-input">tic, fermi(1000,30), toc</pre><pre class="mcode-output">Trial interpolant too far from optimal...
+Trying AAA-Lawson-based initialization...
+Elapsed time is 1.762854 seconds.
+</pre><img src="img/FermiDirac_06.png" class="figure" alt="">
+
+This all looks pretty satisfactory, but it would probably not be hard to break this code.  An idea for improving the speed and robustness would be to adapt the idea of Moussa [2] and start the `minimax` barycentric Remez iteration with an initial guess derived from a Zolotarev approximation of a step.
+
+[1] L. Lin, M. Chen, C. Yang, and L. He, Accelerating atomic orbital-based electronic structure calculation via pole expansion and selected inversion, _Journal of Physics: Condensed Matter_ 25 (2013), 295501.
+
+[2]  J. E. Moussa, Minimax rational approximation of the Fermi-Dirac distribution, _Journal of Chemical Physics_ 145 (2016), 164108 and arXiv:1605.03085v2, 2016.
+
+<pre class="mcode-input">end</pre>
