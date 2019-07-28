@@ -24,7 +24,7 @@ The same function is available as a chebfun2 in the Chebfun2 gallery:
 <pre class="mcode-input">f = cheb.gallery2('peaks');
 plot(f), axis tight, title('Chebfun2 Peaks')</pre><img src="img/guide12_02.png" class="figure" alt="">
 
-Of course in Chebfun we can do all sorts of things with functions to high accuracy, such as evaluate them
+In Chebfun we can do all sorts of things with functions to a high accuracy, such as evaluate them
 
 <pre class="mcode-input">f(0.5,0.5)</pre><pre class="mcode-output">ans =
    0.375375578848315
@@ -94,7 +94,7 @@ Evaluation at a point:
 
 <pre class="mcode-input">x = 2*rand - 1; y = 2*rand - 1;
 f(x,y)</pre><pre class="mcode-output">ans =
-   0.229918643043211
+  -0.997677434419261
 </pre>Evaluation along the line $y = \pi/6$:
 
 <pre class="mcode-input">f(:,pi/6)</pre><pre class="mcode-output">ans =
@@ -230,7 +230,7 @@ Since Chebfun2 only represents smooth functions, a trick is required to draw pic
 
 Chebfun2 exploits the observation that many functions of two variables can be well approximated by low rank approximants. A rank $1$ function, also known as _separable_, is of the form $u(y)v(x)$, and a rank $k$ function is one that can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov. For further aspects of low-rank representations see [Trefethen 2017] and [Beckermann and Townsend 2019].
 
-Here is an exampled adapted from [Townsend &amp; Trefethen 2013] and `cheb.gallery2('smokering')`. The function $$ f(x,y) = \exp( -40(x^2-xy+2y^2 - 1/2)^2) $$ has the shape of an elliptical ring in the unit square, and Chebfun2 represents it by an approximation of reasonably high rank:
+Here is an example adapted from [Townsend &amp; Trefethen 2013] and `cheb.gallery2('smokering')`. The function $$ f(x,y) = \exp( -40(x^2-xy+2y^2 - 1/2)^2) $$ has the shape of an elliptical ring in the unit square, and Chebfun2 represents it by an approximation of reasonably high rank:
 
 <pre class="mcode-input">ff = @(x,y) exp(-40*(x.^2 - x.*y + 2*y.^2 - 1/2).^2);
 f = chebfun2(ff);
@@ -256,7 +256,7 @@ For this function, "plotting accuracy" is achieved approximately at rank 16; the
 
 [Bebendorf 2008] M. Bebendorf, _Hierarchical Matrices: A Means to Efficiently Solve Elliptic Boundary Value Problems_, Springer, 2008.
 
-[Beckermann &amp; Townsend 2019] Sylvester, Bounds on the singular values of matrices with displacement structure, _SIAM Rev._ 61 (2019), 319--344.
+[Beckermann &amp; Townsend 2019] "Bounds on the singular values of matrices with displacement structure", _SIAM Rev._ 61 (2019), 319--344.
 
 [Carvajal, Chapman, &amp; Geddes 2008] O. A. Carvajal, F. W. Chapman and K. O. Geddes, "Hybrid symbolic-numeric integration in multiple dimensions via tensor-product series", _Proceedings of ISSAC'05_, M. Kauers, ed., ACM Press, 2005, 84-91.
 
@@ -268,7 +268,7 @@ For this function, "plotting accuracy" is achieved approximately at rank 16; the
 
 [Trefethen 2013] L. N. Trefethen, "Phase Portraits for functions with poles", <http://www.chebfun.org/examples/complex/PortraitsWithPoles.html>.
 
-[Trefethen 2017] L. N. Trefethen, Cubature, approximation, and isotropy in the hypercube, _SIAM Rev._ 59 (2017), 469--491.
+[Trefethen 2017] L. N. Trefethen, "Cubature, approximation, and isotropy in the hypercube", _SIAM Rev._ 59 (2017), 469--491.
 
 [Wegert 2012] E. Wegert, _Visual Complex Functions: An Introduction with Phase Portraits_, Birkhauser/Springer, 2012.
 

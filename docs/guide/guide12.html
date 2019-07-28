@@ -86,7 +86,7 @@ z =  3*(1-x).^2.*exp(-(x.^2) - (y+1).^2) ...
 plot(f), axis tight, title('Chebfun2 Peaks')</pre>
 
 <p><img src="img/guide12_02.png" class="figure" alt=""></p>
-<p>Of course in Chebfun we can do all sorts of things with functions to high accuracy, such as evaluate them</p>
+<p>In Chebfun we can do all sorts of things with functions to a high accuracy, such as evaluate them</p>
 <pre class="mcode-input">f(0.5,0.5)</pre>
 
 <pre class="mcode-output">ans =
@@ -164,7 +164,7 @@ vertical scale =   1
 f(x,y)</pre>
 
 <pre class="mcode-output">ans =
-   0.229918643043211
+  -0.997677434419261
 </pre>
 
 <p>Evaluation along the line $y = \pi/6$:</p>
@@ -301,7 +301,7 @@ plot(f)</pre>
 <p>Since Chebfun2 only represents smooth functions, a trick is required to draw pictures like these for functions with poles [Trefethen 2013]. For functions with branch points or essential singularities, it is currently not possible in Chebfun2 to draw phase plots.</p>
 <h3 id="128-chebfun2-low-rank-approximations">12.8 Chebfun2 low rank approximations</h3>
 <p>Chebfun2 exploits the observation that many functions of two variables can be well approximated by low rank approximants. A rank $1$ function, also known as <em>separable</em>, is of the form $u(y)v(x)$, and a rank $k$ function is one that can be written as the sum of $k$ rank $1$ functions. Smooth functions tend to be well approximated by functions of low rank. Chebfun2 determines low rank function approximations automatically by means of an algorithm that can be viewed as an iterative application of Gaussian elimination with complete pivoting [Townsend &amp; Trefethen 2013]. The underlying function representations are related to work by Carvajal, Chapman and Geddes [Carvajal, Chapman, &amp; Geddes 2008] and others including Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov. For further aspects of low-rank representations see [Trefethen 2017] and [Beckermann and Townsend 2019].</p>
-<p>Here is an exampled adapted from [Townsend &amp; Trefethen 2013] and <code>cheb.gallery2('smokering')</code>. The function $$ f(x,y) = \exp( -40(x^2-xy+2y^2 - 1/2)^2) $$ has the shape of an elliptical ring in the unit square, and Chebfun2 represents it by an approximation of reasonably high rank:</p>
+<p>Here is an example adapted from [Townsend &amp; Trefethen 2013] and <code>cheb.gallery2('smokering')</code>. The function $$ f(x,y) = \exp( -40(x^2-xy+2y^2 - 1/2)^2) $$ has the shape of an elliptical ring in the unit square, and Chebfun2 represents it by an approximation of reasonably high rank:</p>
 <pre class="mcode-input">ff = @(x,y) exp(-40*(x.^2 - x.*y + 2*y.^2 - 1/2).^2);
 f = chebfun2(ff);
 levels = 0.1:0.1:0.9;
@@ -322,13 +322,13 @@ end</pre>
 <p>For this function, "plotting accuracy" is achieved approximately at rank 16; the remaining terms are then required to get from 2-3 digits to 15.</p>
 <h3 id="129-references">12.9 References</h3>
 <p>[Bebendorf 2008] M. Bebendorf, <em>Hierarchical Matrices: A Means to Efficiently Solve Elliptic Boundary Value Problems</em>, Springer, 2008.</p>
-<p>[Beckermann &amp; Townsend 2019] Sylvester, Bounds on the singular values of matrices with displacement structure, <em>SIAM Rev.</em> 61 (2019), 319--344.</p>
+<p>[Beckermann &amp; Townsend 2019] "Bounds on the singular values of matrices with displacement structure", <em>SIAM Rev.</em> 61 (2019), 319--344.</p>
 <p>[Carvajal, Chapman, &amp; Geddes 2008] O. A. Carvajal, F. W. Chapman and K. O. Geddes, "Hybrid symbolic-numeric integration in multiple dimensions via tensor-product series", <em>Proceedings of ISSAC'05</em>, M. Kauers, ed., ACM Press, 2005, 84-91.</p>
 <p>[Townsend &amp; Trefethen 2013] A. Townsend and L. N. Trefethen, "Gaussian elimination as an iterative algorithm", <em>SIAM News</em>, March 2013.</p>
 <p>[Townsend &amp; Trefethen 2013b] A. Townsend and L. N. Trefethen, "An extension of Chebfun to two dimensions", <em>SIAM Journal on Scientific Computing</em>, 35 (2013), C495-C518.</p>
 <p>[Townsend &amp; Trefethen 2014] A. Townsend and L. N. Trefethen, "Continuous analogues of matrix factorizations", <em>Proceedings of the Royal Society A</em> 471 (2014) 20140585.</p>
 <p>[Trefethen 2013] L. N. Trefethen, "Phase Portraits for functions with poles", <a href="http://www.chebfun.org/examples/complex/PortraitsWithPoles.html">http://www.chebfun.org/examples/complex/PortraitsWithPoles.html</a>.</p>
-<p>[Trefethen 2017] L. N. Trefethen, Cubature, approximation, and isotropy in the hypercube, <em>SIAM Rev.</em> 59 (2017), 469--491.</p>
+<p>[Trefethen 2017] L. N. Trefethen, "Cubature, approximation, and isotropy in the hypercube", <em>SIAM Rev.</em> 59 (2017), 469--491.</p>
 <p>[Wegert 2012] E. Wegert, <em>Visual Complex Functions: An Introduction with Phase Portraits</em>, Birkhauser/Springer, 2012.</p></div>
         </div>
     </div>
