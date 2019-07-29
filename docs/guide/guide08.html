@@ -308,7 +308,7 @@ ans =
       363661
 sumf =
      3.141392653590463e-04
-Elapsed time is 0.700084 seconds.
+Elapsed time is 0.677975 seconds.
 </pre>
 
 <h3 id="86-minsamples-minimum-number-of-sample-points">8.6 <code>minSamples</code>: minimum number of sample points</h3>
@@ -375,7 +375,7 @@ Elapsed time is 0.700084 seconds.
 <pre class="mcode-output">ff =
   function_handle with value:
     @(x)besselj(x,exp(x))
-Elapsed time is 0.011488 seconds.
+Elapsed time is 0.011287 seconds.
 ans =
         3790
 </pre>
@@ -384,7 +384,7 @@ ans =
 <pre class="mcode-input">  tic, f = chebfun(ff,[0 8],'resampling','on'); toc
   length(f)</pre>
 
-<pre class="mcode-output">Elapsed time is 0.046959 seconds.
+<pre class="mcode-output">Elapsed time is 0.043835 seconds.
 ans =
         3788
 </pre>
@@ -499,7 +499,7 @@ Please use 'COEFFS'/@ultraS.
 <pre class="mcode-input">chebfunpref.setDefaults({'cheb2Prefs','maxRank'},1024);</pre>
 
 <p>For changing the Chebfun2 tolerance one can do this:</p>
-<pre class="mcode-input">chebfun2eps = 1e-6;</pre>
+<pre class="mcode-input">chebfun2eps 1e-6</pre>
 
 <p>Let us undo this change:</p>
 <pre class="mcode-input">chebfunpref.setDefaults('factory')</pre>

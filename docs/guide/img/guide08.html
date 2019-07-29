@@ -216,7 +216,7 @@ ans =
       363661
 sumf =
      3.141392653590463e-04
-Elapsed time is 0.700084 seconds.
+Elapsed time is 0.677975 seconds.
 </pre>
 
 ## 8.6 `minSamples`: minimum number of sample points
@@ -282,13 +282,13 @@ For example, here is a chebfun constructed in the usual factory mode:
   length(f)</pre><pre class="mcode-output">ff =
   function_handle with value:
     @(x)besselj(x,exp(x))
-Elapsed time is 0.011488 seconds.
+Elapsed time is 0.011287 seconds.
 ans =
         3790
 </pre>There is little change if we set 'resampling on', so that previously computed values are not reused:
 
 <pre class="mcode-input">  tic, f = chebfun(ff,[0 8],'resampling','on'); toc
-  length(f)</pre><pre class="mcode-output">Elapsed time is 0.046959 seconds.
+  length(f)</pre><pre class="mcode-output">Elapsed time is 0.043835 seconds.
 ans =
         3788
 </pre>One might wonder why 'resampling on' is an option at all, but in fact, it introduces some very interesting possibilities.  What if the "function" being sampled is not actually a fixed function, but depends on the grid? For example, consider this prescription:
@@ -380,7 +380,7 @@ Chebfun2, for computing with functoins on a two-dimensional rectangle, is descri
 
 <pre class="mcode-input">chebfunpref.setDefaults({'cheb2Prefs','maxRank'},1024);</pre>For changing the Chebfun2 tolerance one can do this:
 
-<pre class="mcode-input">chebfun2eps = 1e-6;</pre>Let us undo this change:
+<pre class="mcode-input">chebfun2eps 1e-6</pre>Let us undo this change:
 
 <pre class="mcode-input">chebfunpref.setDefaults('factory')</pre>
 
