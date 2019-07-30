@@ -64,7 +64,7 @@
 <pre class="mcode-input">function FermiDirac</pre>
 
 <p>The Fermi-Dirac function is important in electronic energy calculations, for which physicists have had great success with rational approximations [1]. We won't attempt to discuss the physics or the algorithms here, but just consider some rational approximations, motivated in particular by [2].</p>
-<p>The function is smooth, but approximates a step (which corresponds to the limit of zero temperature).   With (L) as a large parameter, we can write the function like this: $$ f(E) = {1 \over 1 + \exp(x-L) }, \quad x\in [0,\infty). $$ Here for example is a plot with (L= 20):</p>
+<p>The function is smooth, but approximates a step (which corresponds to the limit of zero temperature).   With $L$ as a large parameter, we can write the function like this: $$ f(E) = {1 \over 1 + \exp(x-L) }, \quad x\in [0,\infty). $$ Here for example is a plot with $L= 20$:</p>
 <pre class="mcode-input">tic
 L = 20;
 f = @(x) 1./(1+exp(x-L));
@@ -72,7 +72,7 @@ fplot(f,[0,80]), grid on, ylim([-1 2])
 title('physical domain')</pre>
 
 <p><img src="img/FermiDirac_01.png" class="figure" alt=""></p>
-<p>This is essentially a hyperbolic tangent, but with a twist: the approximation domain we care about extends a finite distance on one side and an infinite distance on the other.  (Ultimately this is because a system has a minimum-energy state but no maximum.)  For a type ((n,n)) approximant, it is convenient to soften up the problem by a M&ouml;bius transformation to (s\in [-1,1]), which maps type ((n,n)) rational functions to themselves.  The transformation is this:</p>
+<p>This is essentially a hyperbolic tangent, but with a twist: the approximation domain we care about extends a finite distance on one side and an infinite distance on the other.  (Ultimately this is because a system has a minimum-energy state but no maximum.)  For a type $(n,n)$ approximant, it is convenient to soften up the problem by a M&ouml;bius transformation to $s\in [-1,1]$, which maps type $(n,n)$ rational functions to themselves.  The transformation is this:</p>
 <pre class="mcode-input">x = @(s) (s*L+L)./(1-s);
 s = @(x) (x-L)./(x+L);</pre>
 
@@ -83,13 +83,13 @@ fplot(g,dom), grid on, ylim([-1 2])
 title('transplantation to [-1,1]')</pre>
 
 <p><img src="img/FermiDirac_02.png" class="figure" alt=""></p>
-<p>Note that despite appearances, this is not symmetric about (s=0). For example, (g(.1)) and (1-g(-.1)) are quite different:</p>
+<p>Note that despite appearances, this is not symmetric about $s=0$. For example, $g(.1)$ and $1-g(-.1)$ are quite different:</p>
 <pre class="mcode-input">disp([g(.1) 1-g(-.1)])</pre>
 
 <pre class="mcode-output">   0.011607316445305   0.025671586349827
 </pre>
 
-<p>To approximate (g) by a rational function of type ((n,n)), we can use the Chebfun <code>minimax</code> command. (Another possibility is <code>cf</code>, at least for smaller values of (L).) Here is a little code that does this.</p>
+<p>To approximate $g$ by a rational function of type $(n,n)$, we can use the Chebfun <code>minimax</code> command. (Another possibility is <code>cf</code>, at least for smaller values of $L$.) Here is a little code that does this.</p>
 <pre class="mcode-input">function fermi(L,n)   % minimax approx for Fermi-Dirac.  Try e.g. fermi(50,10).
 f = @(x) 1./(1+exp(x-L));
 x = @(s) (s*L+L)./(1-s);
@@ -108,35 +108,35 @@ subplot(2,2,4), plot(poles,'.r')
 axis equal, axis([-1 1 -.5 .5]), grid on, title closeup
 end</pre>
 
-<p>Here is an easy example with (L=10).</p>
+<p>Here is an easy example with $L=10$.</p>
 <pre class="mcode-input">tic, fermi(10,10), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.049849 seconds.
+<pre class="mcode-output">Elapsed time is 1.281164 seconds.
 </pre>
 
 <p><img src="img/FermiDirac_03.png" class="figure" alt=""></p>
-<p>Here is a harder one with (L=100):</p>
+<p>Here is a harder one with $L=100$:</p>
 <pre class="mcode-input">tic, fermi(100,15), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 1.712263 seconds.
+<pre class="mcode-output">Elapsed time is 1.775322 seconds.
 </pre>
 
 <p><img src="img/FermiDirac_04.png" class="figure" alt=""></p>
-<p>The code even works with (L=1000):</p>
+<p>The code even works with $L=1000$:</p>
 <pre class="mcode-input">tic, fermi(1000,20), toc</pre>
 
 <pre class="mcode-output">Trial interpolant too far from optimal...
 Trying AAA-Lawson-based initialization...
-Elapsed time is 1.809104 seconds.
+Elapsed time is 1.678385 seconds.
 </pre>
 
 <p><img src="img/FermiDirac_05.png" class="figure" alt=""></p>
-<p>Here's the same function approximated with a higher value of (n):</p>
+<p>Here's the same function approximated with a higher value of $n$:</p>
 <pre class="mcode-input">tic, fermi(1000,30), toc</pre>
 
 <pre class="mcode-output">Trial interpolant too far from optimal...
 Trying AAA-Lawson-based initialization...
-Elapsed time is 1.741021 seconds.
+Elapsed time is 1.781452 seconds.
 </pre>
 
 <p><img src="img/FermiDirac_06.png" class="figure" alt=""></p>
