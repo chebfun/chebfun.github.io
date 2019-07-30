@@ -48,26 +48,26 @@ subplot(2,2,4), plot(poles,'.r')
 axis equal, axis([-1 1 -.5 .5]), grid on, title closeup
 end</pre>Here is an easy example with $L=10$.
 
-<pre class="mcode-input">tic, fermi(10,10), toc</pre><pre class="mcode-output">Elapsed time is 1.281164 seconds.
+<pre class="mcode-input">tic, fermi(10,10), toc</pre><pre class="mcode-output">Elapsed time is 1.227145 seconds.
 </pre><img src="img/FermiDirac_03.png" class="figure" alt="">
 
 Here is a harder one with $L=100$:
 
-<pre class="mcode-input">tic, fermi(100,15), toc</pre><pre class="mcode-output">Elapsed time is 1.775322 seconds.
+<pre class="mcode-input">tic, fermi(100,15), toc</pre><pre class="mcode-output">Elapsed time is 1.727280 seconds.
 </pre><img src="img/FermiDirac_04.png" class="figure" alt="">
 
 The code even works with $L=1000$:
 
 <pre class="mcode-input">tic, fermi(1000,20), toc</pre><pre class="mcode-output">Trial interpolant too far from optimal...
 Trying AAA-Lawson-based initialization...
-Elapsed time is 1.678385 seconds.
+Elapsed time is 1.703201 seconds.
 </pre><img src="img/FermiDirac_05.png" class="figure" alt="">
 
 Here's the same function approximated with a higher value of $n$:
 
 <pre class="mcode-input">tic, fermi(1000,30), toc</pre><pre class="mcode-output">Trial interpolant too far from optimal...
 Trying AAA-Lawson-based initialization...
-Elapsed time is 1.781452 seconds.
+Elapsed time is 1.816686 seconds.
 </pre><img src="img/FermiDirac_06.png" class="figure" alt="">
 
 This all looks pretty satisfactory, but it would probably not be hard to break this code.  An idea for improving the speed and robustness would be to adapt the idea of Moussa [2] and start the `minimax` barycentric Remez iteration with an initial guess derived from a Zolotarev approximation of a step.
