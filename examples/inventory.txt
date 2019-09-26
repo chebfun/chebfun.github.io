@@ -20,6 +20,7 @@ approx/EightShades.m
 approx/Entire.m
 approx/EntireBound.m
 approx/EquispacedData.m
+approx/FermiDirac.m
 approx/FiltersCF.m
 approx/Galleries.m
 approx/GammaFun.m
@@ -259,6 +260,7 @@ roots/RootsSpeed.m
 roots/SecularRoots.m
 roots/Tiger.m
 roots/WhiteCurves.m
+sphere/AdvectionDiffusion.m
 sphere/AtmosphericTemperature.m
 sphere/Gravity.m
 sphere/HelmholtzDecomposition.m
