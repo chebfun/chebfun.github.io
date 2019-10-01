@@ -61,7 +61,7 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>Chebfun has a new command <code>conformal</code> for computing conformal maps. As input it takes a periodic chebfun defining the boundary curve of a simply-connected region $\Omega$ in the complex plane.  For example, here is the unit circle:</p>
+<p>Chebfun has a new command <code>conformal</code> for computing conformal maps. As input it takes a periodic chebfun defining the boundary curve of a smooth simply-connected region $\Omega$ in the complex plane.  For example, here is the unit circle:</p>
 <pre class="mcode-input">C = chebfun('exp(1i*pi*t)','trig');</pre>
 
 <p>That's not very interesting, so let's multiply the radius by a smooth random function:</p>
@@ -73,7 +73,7 @@ C = C.*(1+.15*randnfun(.2,'trig'));</pre>
 [f, finv] = conformal(C,'plots');
 toc</pre>
 
-<pre class="mcode-output">Elapsed time is 2.777657 seconds.
+<pre class="mcode-output">Elapsed time is 2.811362 seconds.
 </pre>
 
 <p><img src="img/ConformalMapping_01.png" class="figure" alt=""></p>
@@ -88,7 +88,7 @@ clf, plot(C,'b'), hold on
 plot(Z,'.k','markersize',3), hold off
 ylim([-1.3 1.3]), axis equal</pre>
 
-<pre class="mcode-output">Elapsed time is 0.003777 seconds.
+<pre class="mcode-output">Elapsed time is 0.004022 seconds.
 </pre>
 
 <p><img src="img/ConformalMapping_02.png" class="figure" alt=""></p>
@@ -111,7 +111,7 @@ max_back_and_forth_error = norm( W-W2 , inf)</pre>
      2.709618716889505e-05
 </pre>
 
-<p>The algorithm used by <code>conformal</code> is a discretization of the Kerzman-Stein integral equation [2], and our code is a descendant of one written by Anne Greenbaum and Trevor Caldwell of the University of Washington.</p>
+<p>The algorithm used by <code>conformal</code> is a discretization of the Kerzman-Stein integral equation [2], and our code is a descendant of one written by Anne Greenbaum and Trevor Caldwell of the University of Washington. This code only works for smooth domains, but we hope to introduce capabilities for regions with corners in the future.</p>
 <p>To learn more about <code>conformal</code>, type <code>help conformal</code>.  For example, an optional additional argument can be used to specify a center point in $\Omega$ other than $0$.  One can also tighten the tolerance, though the exponential distortions inherent in conformal maps (the "crowding phenomenon") make it hard to get close to machine precision except for very simple regions.</p>
 <p>[1] A. Gopal and L. N. Trefethen, Representation of conformal maps by rational functions, <em>Numer. Math.</em> 142 (2019), 359-382.</p>
 <p>[2] N. Kerzman and M. R. Trummer, Numerical conformal mapping via the Szego kernel, <em>J. Comput. Appl. Math.</em> 14 (1986), 111-123.</p>
