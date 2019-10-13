@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Approximating the pth root by composite rational functions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Approximating the pth root by composite rational functions</h1>
+<h2>Evan S. Gawlik and Yuji Nakatsukasa, October 2019 in <a href='/examples/approx/'>approx</a><span><a href='/examples/approx/PthComposite.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/approx/PthComposite.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="best-rational-approximation-to-the-p-th-root">Best rational approximation to the $p$ th root</h3>
+<p>A landmark result of rational approximation theory states that the pth root $x^{1/p}$ on $[0,1]$ can be approximated by type $(n,n)$ rational functions with root-exponential accuracy. (By contrast, polynomials can only converge algebraically.) Specifically, there exist rational functions $r_n$ of type $(n,n)$ such that asymptotically as $n\rightarrow \infty$,</p>
+<p>$$\max_{x \in [0,1]} |r_n(x)-x^{1/p}| \sim 4^{1+1/p}\sin(\pi/p)\exp( -2\pi \sqrt{n/p} ),$$</p>
+<p>where the constants were worked out by Stahl [3].</p>
+<p>For example, here is the error curve of the minimax rational approximant of type $(5,5)$ to the cube root, shown on a semilogx scale. It has the famous equioscillation property at $5+5+2=12$ points:</p>
+<pre class="mcode-input">p = 3;
+f = chebfun(@(x)x^(1/p),[0 1],'splitting','on');
+[~,~,r] = minimax(f,5,5);
+xx = logspace(-15,0,1000)';
+semilogx(xx,f(xx)-r(xx)), grid on
+title('absolute error of type (5,5) minimax approximant')</pre>
+
+<p><img src="img/PthComposite_01.png" class="figure" alt=""></p>
+<h3 id="approximation-by-composite-rational-functions">Approximation by composite rational functions</h3>
+<p>In [1], Gawlik examined rational approximations of $x^{1/p}$ obtained by composing rational functions of lower degree.  One example is the function $f_k(x)$ defined recursively by</p>
+<p>$$ f_{k+1}(x) = \frac{1}{p}\left( (p-1)\mu_k f_k(x) + \frac{x}{\mu_k^{p-1} f_k(x)^{p-1}} \right), \quad  f_0(x) = 1, $$</p>
+<p>$$ \alpha_{k+1} = \frac{p \alpha_k}{(p-1)\mu_k + \mu_k^{1-p}\alpha_k^p}, \quad  \alpha_0 = \alpha, $$</p>
+<p>where $\alpha \in (0,1)$ is a parameter and</p>
+<p>$$\mu_k = \left( \frac{\alpha_k - \alpha_k^p}{(p-1)(1-\alpha_k)}
+\right)^{1/p}.$$</p>
+<p>$f_k$ is a rational function of type $(3^{k-1},3^{k-1}-1)$, and the scaled function $\widetilde{f}_k(x)=2\alpha_k f_k(x)/(1+\alpha_k)$ has the property that the relative error $x^{-1/p}(\widetilde{f}_k(x)-x^{1/p})$ equioscillates at $2^k+1$ points on $[\alpha^p,1]$. For details, see [1,2]. Here is an illustration.</p>
+<pre class="mcode-input">alp = 0.03; alpini = alp; % approximation on $[alp^p,1]$
+rr = @(x)1;
+for kk = 1:3
+    mu = ((alp-alp^p)/((p-1)*(1-alp)))^(1/p);
+    rr = @(x) 1/p*((p-1)*mu*rr(x) + x./(mu*rr(x)).^(p-1));
+    alp = p*alp / ((p-1)*mu + mu^(1-p)*alp^p);
+end
+y = @(x)2*alp/(1+alp)*rr(x);
+xx = logspace(log10(alpini^p),0,1000);
+relerr = (y(xx)-f(xx))./(f(xx));
+semilogx(xx,relerr), grid on
+title(['relative error of composite approximant, k=3, \alpha=',num2str(alpini)])</pre>
+
+<p><img src="img/PthComposite_02.png" class="figure" alt=""></p>
+<p>Instead of the relative error, we might be interested in the absolute error, for example when approximation at or near $x=0$ is of interest. How does it look? Here is a plot including much smaller values of $x$.</p>
+<pre class="mcode-input">xx = logspace(-15,0,1000);
+abserr = y(xx)-f(xx);
+semilogx(xx,abserr),grid on
+
+LS = 'linestyle'; IN = 'interpreter'; LT = 'latex';
+CO = 'color'; FS = 'fontsize'; MS = 'markersize';
+line([alpini^p alpini^p],norm(abserr,inf)*[-1 0.5],LS,'--',CO,'r')
+text(alpini^p*1.1,-norm(abserr,inf),'$\alpha^p$',IN,LT,FS,18,CO,'r')
+title(['absolute error of composite approximant, k=3, \alpha=',num2str(alpini)])</pre>
+
+<p><img src="img/PthComposite_03.png" class="figure" alt=""></p>
+<p>The error is oscillating with growing amplitude on $[\alpha^p,1]$ as expected, and it takes the smallest values near $x=\alpha^p$. On $[0,\alpha^p]$, the error grows towards $x=0$, but stays bounded.</p>
+<p>The picture looks quite different if we start with a different value of $\alpha$. For example with a larger $\alpha$,</p>
+<pre class="mcode-input">alp = 0.1; alpini = alp;
+rr = @(x)1;
+for kk = 1:3
+    mu = ((alp-alp^p)/((p-1)*(1-alp)))^(1/p);
+    rr = @(x) 1/p*((p-1)*mu*rr(x) + x./(mu*rr(x)).^(p-1));
+    alp = p*alp / ((p-1)*mu + mu^(1-p)*alp^p);
+end
+y2 = @(x)2*alp/(1+alp)*rr(x);
+
+xx = logspace(-15,0,1000);
+abserr2 = y2(xx)-f(xx);
+hold off, semilogx(xx,abserr2), grid on
+
+line([alpini^p alpini^p],norm(abserr,inf)*[-1 0.5],LS,'--',CO,'r')
+text(alpini^p*1.1,-norm(abserr,inf),'$\alpha^p$',IN,LT,FS,18,CO,'r')
+title(['absolute error of composite approximant, k=3, \alpha=',num2str(alpini)])</pre>
+
+<p><img src="img/PthComposite_04.png" class="figure" alt=""></p>
+<p>Here is a run with a smaller $\alpha$.</p>
+<pre class="mcode-input">alp = 0.01; alpini = alp;
+rr = @(x)1;
+for kk = 1:3
+    mu = ((alp-alp^p)/((p-1)*(1-alp)))^(1/p);
+    rr = @(x) 1/p*((p-1)*mu*rr(x) + x./(mu*rr(x)).^(p-1));
+    alp = p*alp / ((p-1)*mu + mu^(1-p)*alp^p);
+end
+y3 = @(x)2*alp/(1+alp)*rr(x);
+
+xx = logspace(-15,0,1000);
+abserr3 = y3(xx)-f(xx);
+hold off, semilogx(xx,abserr3), grid on
+
+line([alpini^p alpini^p],norm(abserr,inf)*[-1 0.5],LS,'--',CO,'r')
+text(alpini^p*1.1,-norm(abserr,inf),'$\alpha^p$',IN,LT,FS,18,CO,'r')
+title(['absolute error of composite approximant, k=3, \alpha=',num2str(alpini)])</pre>
+
+<p><img src="img/PthComposite_05.png" class="figure" alt=""></p>
+<p>The maximum absolute error is attained at either $x=0$ or $x=1$. In [2] we showed that by balancing the errors at these endpoints we obtain a good composite rational approximant to $x^{1/p}$. How does the convergence compare with minimax? With respect to the degree, it is of course worse. The rational approximants are of type $(3^{k-1},3^{k-1}-1)=(9,8)$. For example, let's compare minimax with the first approximant above.</p>
+<pre class="mcode-input">[~,~,r,err] = minimax(f,9,8);
+
+minimaxerr = r(xx)-f(xx);
+hold off, semilogx(xx,abserr), grid on
+hold on
+semilogx(xx,minimaxerr)
+
+text(xx(20),abserr(1)+4e-3,'composite',IN,LT,CO,'b')
+text(xx(20),minimaxerr(1)+4e-3,'minimax',IN,LT,CO,'r')
+title('composite vs. minimax approximants type (9,8), absolute error')
+hold off</pre>
+
+<pre class="mcode-output">Trial interpolant too far from optimal...
+Trying AAA-Lawson-based initialization...
+</pre>
+
+<p><img src="img/PthComposite_06.png" class="figure" alt=""></p>
+<p>It can be shown that with respect to the degree, the composite rational approximant converges almost "pth root exponentially", that is, the error scales roughly like $\exp(-cn^{1/p})$ where $n$ is the degree. More precisely, we obtain the bound</p>
+<p>$$\max_{x \in [0,1]} |f_k(x)-x^{1/p}| \leq \exp( -b n^c ),$$</p>
+<p>where $b$ is a positive constant depending on $p$, $n=p^{k-1}$ is the degree of $f_k$, and</p>
+<p>$$ c = \frac{ \log \left(\frac{p}{p-1}\right) \log 2 }{ \log
+\left(\frac{2p}{p-1}\right) \log p }.$$</p>
+<p>But we claim that composite approximants are still interesting, because they can be generated using very few parameters---only $O(k)$ parameters are used to express a rational function of degree $3^k$. For example, here is a convergence comparison with respect to the degrees of freedom. With a double exponential convergence with respect to $k$, composite rational approximants eventually outperform minimax.</p>
+<pre class="mcode-input">k = 10; % max. number of compositions
+n = 1:30;
+stahl = exp(-2*pi*sqrt(n))*4^(1+1/p)*sin(pi/p); % Stahl's minimax estimate
+semilogy(2*n,stahl,'.-',MS,12)
+grid on, hold on
+nn = p.^(0:k);
+exponent = log(p/(p-1))*log(2) / (log(2*p/(p-1))*log(p)); % exponent obtained in [2]
+b = 3;  % experimental constant
+semilogy(p*(1:k+1),exp(-b*nn.^exponent)*10,'.-',MS,12);
+xlabel('degrees of freedom'), ylabel('error')
+text(p*(k/2),exp(-b*nn(1)^(1/exponent)),'composite',FS,12)
+text(40,stahl(end)*10,'minimax',FS,12)</pre>
+
+<p><img src="img/PthComposite_07.png" class="figure" alt=""></p>
+<p>This makes composite rational approximants attractive in e.g. computing functions at a matrix argument, for which the efficiency gain can be exponential as compared to the minimax approximant. For details, see [2].</p>
+<h3 id="references">References</h3>
+<p>[1] E. S. Gawlik, Rational minimax iterations for computing the matrix $p$ th root, arXiv:1903.06268, 2019.</p>
+<p>[2] E. S. Gawlik and Y. Nakatsukasa, Approximating the $p$ th root by composite rational functions, arXiv:1906.11326, 2019.</p>
+<p>[3] H. Stahl. Best uniform rational approximation of $x^\alpha$ on $[0, 1]$, Acta Math., 190 (2003), 241-306</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
