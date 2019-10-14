@@ -101,19 +101,19 @@ ans =
    0.377914013520379
 </pre>
 
-<p>It is interesting to compare the execution times involved for computing the double integral by different commands.  Chebfun2 does very well for smooth functions, with times comparable to those of the MATLAB <code>quad2d</code> command.</p>
+<p>It is interesting to compare the execution times involved for computing the double integral by different commands.  Chebfun2 does very well for smooth functions, with times comparable to those of the MATLAB <code>integral2</code> command.</p>
 <pre class="mcode-input">F = @(x,y) exp(-(x.^2 + y.^2 + cos(4*x.*y)));
 tol = 3e-14;
-tic, I = quad2d(F,-1,1,-1,1,'AbsTol',tol); t = toc;
-fprintf('         QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
+tic, I = integral2(F,-1,1,-1,1,'AbsTol',tol,'RelTol',tol); t = toc;
+fprintf('      INTEGRAL2:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum(sum(chebfun2(F))); t = toc;
 fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum2(chebfun2(F)); t = toc;
 fprintf('  CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)</pre>
 
-<pre class="mcode-output">         QUAD2D:  I = 1.399888131932670  time = 0.0428 secs
-CHEBFUN2/SUMSUM:  I = 1.399888131932671  time = 0.1155 secs
-  CHEBFUN2/SUM2:  I = 1.399888131932671  time = 0.0685 secs
+<pre class="mcode-output">      INTEGRAL2:  I = 1.399888131932670  time = 0.0409 secs
+CHEBFUN2/SUMSUM:  I = 1.399888131932671  time = 0.1133 secs
+  CHEBFUN2/SUM2:  I = 1.399888131932671  time = 0.0673 secs
 </pre>
 
 <p>Chebfun2 is not designed specifically for numerical quadrature (or more properly, "cubature"), and careful comparisons with existing software have not been carried out. Low rank function approximations have been previously used for numerical quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman &amp; Geddes 2005].  A cubature package CHEBINT based on Chebyshev approximations has been produced by Poppe and Cools [Poppe &amp; Cools 2013].</p>
@@ -238,15 +238,15 @@ fprintf('          Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
 tic, I = integral3(f,-2,2,.5,2.5,1,2,'abstol',3e-14,'reltol',3e-14); t = toc;
 fprintf('  MATLAB integral3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">          Chebfun2:  I = -0.48056569408898  time = 0.929 secs
-  MATLAB integral3:  I = -0.48056569408898  time = 1.898 secs
+<pre class="mcode-output">          Chebfun2:  I = -0.48056569408898  time = 0.897 secs
+  MATLAB integral3:  I = -0.48056569408898  time = 1.835 secs
 </pre>
 
 <p>We can also do the integral with Chebfun3 -- see Chapter 18:</p>
 <pre class="mcode-input">tic, f3 = chebfun3(f,[-2 2 .5 2.5 1 2]); I = sum3(f3); t = toc;
 fprintf('          Chebfun3:  I = %16.14f  time = %5.3f secs\n',I,t)</pre>
 
-<pre class="mcode-output">          Chebfun3:  I = -0.48056569408898  time = 0.245 secs
+<pre class="mcode-output">          Chebfun3:  I = -0.48056569408898  time = 0.237 secs
 </pre>
 
 <h3 id="138-references">13.8 References</h3>
