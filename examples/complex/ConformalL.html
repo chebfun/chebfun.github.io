@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Conformal mapping of an L-shaped region &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Conformal mapping of an L-shaped region</h1>
+<h2>Nick Trefethen, October 2019 in <a href='/examples/complex/'>complex</a><span><a href='/examples/complex/ConformalL.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/complex/ConformalL.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>The problem of conformally mapping a simply connected domain $\Omega$ to the unit disk, with $f(z_c) = 0$ for a given point $z_c\in \Omega$, can be reduced to a Laplace problem on $\Omega$.  If $u$ is a real harmonic function that satisfies $u(z) = -\log|z-z_c|$ on the boundary of $\Omega$, then the conformal map is $f(z) = (z-z_c)\exp (u(z) + i v(z))$, where $v$ is the harmonic conjugate of $u$.  To solve this Laplace problem numerically, an easy method is to expand $u$ as a linear combination of a suitable family of harmonic functions -- real and imaginary parts of analytic functions -- and find expansion coefficients by least-squares fitting in a set of sample points on the boundary [2,3].</p>
+<p>This process gives the "boundary correspondence function", the homeomorphism between the boundary of $\Omega$ and the unit circle. From here, one can then approximate both $f$ and its inverse by rational functions using AAA approximation as described in [1], invoking the the Chebfun <code>aaa</code> command.  The resulting representations of $f$ and $f^{-1}$ can typically be evaluated in microseconds per point.</p>
+<p>Here we apply this idea to a simple example of "Schwarz--Christoffel mapping without the Schwarz--Christoffel formula".  The following commands determine the map of an L-shaped domain.  We make use of an expansion basis consisting of two kinds of terms: powers $(z-z_0)^k$ for a point $z_0$ interior to $\Omega$, and fractional powers $z^{2k/3}$ to handle the singularity at the reentrant corner at $z=0$.</p>
+<pre class="mcode-input">  tic, N = 24;
+  format short, warning off                       % suppress Froissart message
+  Z = 1i*(1-tanh(12*linspace(1,0,5*N)'));         % sample pts on bndry
+  Z = [Z(1:end-1); chebpts(2*N,[1i -1+1i])];
+  Z = [Z(1:end-1); chebpts(2*N,[-1+1i -1-1i])];
+  a = exp(.25i*pi);                               % 45 degree rotation
+  Z = a*[Z/a; conj(Z(end-1:-1:1)/a)];
+  mZ = a^3*Z/norm(Z,inf);                         % avoid branch cut
+  z0 = -.5-.5i; cZ = (Z-z0)/norm(Z-z0,inf);
+  k1 = (0:N); k2 = (1:N);                         % exponents for (z-z0)^k terms
+  m1 = k1*(2/3); m2 = k2*(2/3);
+  m1(3:3:end) = []; m2(3:3:end) = [];             % exponents for z^(2k/3) terms
+  A = [real(cZ.^k1) imag(cZ.^k2) ...              % least-squares matrix
+       real(mZ.^m2) imag(mZ.^m2)];
+  zc = -.2-.2i;
+  U = -log(abs(Z-zc));                            % right-hand side
+  c = A\U;                                        % solve the problem
+  boundary_err = norm(A*c-U,inf)                  % measure residual
+  V = [imag(cZ.^k1) -real(cZ.^k2) ...             % conjugate harmonic fun
+       imag(mZ.^m2) -real(mZ.^m2)]*c;
+  W = (Z-zc).*exp(U+1i*V); W = W/W(1);            % boundary correspondence
+  [f,pol] = aaa(W,Z,'tol',10*boundary_err);       % conformal map
+  [finv,polinv] = aaa(Z,W,'tol',10*boundary_err); % inverse map</pre>
+
+<pre class="mcode-output">boundary_err =
+   5.1268e-07
+</pre>
+
+<p>Here is a plot of the map.  The red dots show the poles of the AAA approximation, which represents $f$ to about six digits of accuracy.  There are also a few more poles off-scale.</p>
+<pre class="mcode-input">  LW = 'linewidth'; MS = 'markersize';
+  plot(Z,'b',LW,1)
+  axis(1.1*[-1 1 -1 1]), axis equal, hold on, axis off
+  plot(pol,'.r',MS,10)
+  ray = chebpts(100); ray = ray(ray&gt;=0);
+  for th = 2*pi*(1:12)/12, plot(finv(exp(1i*th)*ray),'k',LW,.5), end
+  circ = exp(2i*pi*(0:200)/200);
+  for r = .1:.1:.9, plot(finv(r*circ),'k',LW,.5), end, hold off
+  number_of_poles_of_f = length(pol)</pre>
+
+<pre class="mcode-output">number_of_poles_of_f =
+    27
+</pre>
+
+<p><img src="img/ConformalL_01.png" class="figure" alt=""></p>
+<p>The curves just plotted are the images under $f^{-1}$ of circles and radial lines in the unit disk, which we now plot.  The red dots are the poles of $f^{-1}$.</p>
+<pre class="mcode-input">  plot(W,'b',LW,1)
+  axis(1.4*[-1 1 -1 1]), axis equal, hold on, axis off
+  plot(polinv,'.r',MS,10)
+  for th = 2*pi*(1:12)/12, plot(exp(1i*th)*ray,'k',LW,.5), end
+  for r = .1:.1:.9, plot(r*circ,'k',LW,.5), end, hold off
+  number_of_poles_of_finv = length(polinv)</pre>
+
+<pre class="mcode-output">number_of_poles_of_finv =
+    44
+</pre>
+
+<p><img src="img/ConformalL_02.png" class="figure" alt=""></p>
+<p>A well-known effect, going back to Newman and 1964 and Zolotarev in the 19th century, is that poles of rational approximations tend to cluster exponentially near singularities.  Let us examine this effect for the first plot above, where the poles cluster near the reentrant corner.  Here are the distances of those poles from the singularity plotted on a log scale.  The curving down at the left edge is a known phenomenon and is modeled in equation (3.2) of [2].</p>
+<pre class="mcode-input">distances = sort(abs(pol(real(pol)&gt;0 &amp; imag(pol)&gt;0)));
+clf, semilogy(distances,'.-',MS,12,LW,.5), grid on
+title('distances of poles to singularity')</pre>
+
+<p><img src="img/ConformalL_03.png" class="figure" alt=""></p>
+<p>The exponential clustering is striking.  The see it quantitatively, we can look at the ratios of successive distances:</p>
+<pre class="mcode-input">ratios = distances(2:end)./distances(1:end-1)</pre>
+
+<pre class="mcode-output">ratios =
+    5.6939
+    2.4054
+    1.8590
+    1.6896
+    1.6297
+    1.5929
+    1.5440
+    1.5045
+    1.4706
+    1.4493
+    1.4325
+    1.4156
+    1.4033
+    1.3970
+    1.3973
+    1.4018
+    1.4266
+    1.5493
+    1.5900
+</pre>
+
+<pre class="mcode-input">total_time_for_this_example = toc</pre>
+
+<pre class="mcode-output">total_time_for_this_example =
+    1.4908
+</pre>
+
+<p>[1] A. Gopal and L. N. Trefethen, Representation of conformal maps by rational functions, <em>Numer. Math.</em> 142 (2019), 359-382.</p>
+<p>[2] A. Gopal and L. N. Trefethen, Solving Laplace problems with corners singularities via rational functions, <em>SIAM J. Numer. Anal.</em> 57 (2019), 2074-2094.</p>
+<p>[3] L. N. Trefethen, Conformal mapping in Chebfun, Chebfun example <code>chebfun.org/examples/complex/ConformalMapping.html</code>.</p>
+<p>[4] L. N. Trefethen, Numerical conformal mapping with rational functions, manuscript in preparation, 2019.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
