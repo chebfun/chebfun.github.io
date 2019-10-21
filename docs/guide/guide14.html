@@ -56,7 +56,7 @@
     <div class='page-header'>
 <span class='chapter_number'>14</span>
 <h1>Chebfun2: Rootfinding and Optimisation</h1>
-<h2>Alex Townsend, March 2013, latest revision December 2014<span>
+<h2>Alex Townsend, March 2013, latest revision Octrober 2019<span>
     
         <a href='/docs/guide/guide13.html'
 >previous</a><span class='sep-sm
@@ -68,45 +68,56 @@
     <div class="container">
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
-<h3 id="141-zero-contours">14.1 Zero contours</h3>
-<p>Chebfun2 comes with the capability to compute the zero contours of a function of two variables. For example, here we compute a representation of Trott's curve, an example from algebraic geometry [Trott 1997].</p>
-<pre class="mcode-input">x = chebfun2(@(x,y) x); y = chebfun2(@(x,y) y);
+<h3 id="141-zero-contours-of-a-bivariate-function-roots">14.1 Zero contours of a bivariate function: <code>roots</code></h3>
+<p>The Chebfun2 <code>roots</code> command can compute the zero contours of a function of two variables. For example, here we compute the zero contours of a representation of Trott's curve, an example from algebraic geometry [Trott 1997].</p>
+<pre class="mcode-input">cheb.xy;
 trott = 144*(x.^4+y.^4)-225*(x.^2+y.^2) + 350*x.^2.*y.^2+81;
 r = roots(trott);
-LW = 'linewidth'; MS = 'markersize';
-plot(r,LW,1.6), axis([-1 1 -1 1]), axis square</pre>
+plot(r), axis([-1 1 -1 1]), axis square</pre>
 
 <p><img src="img/guide14_01.png" class="figure" alt=""></p>
-<p>The zero curves are represented as complex-valued chebfuns (see Section 13.4).   For example,</p>
+<p>The curves are represented as complex-valued chebfuns (see Section 13.4).  For example, here is one of the four components:</p>
 <pre class="mcode-input">r(:,1)</pre>
 
 <pre class="mcode-output">ans =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[      -1,       1]      576    complex values 
-Epslevel = 1.000000e-05.  Vscale = 9.980190e-01.
+       interval       length     endpoint values  
+[      -1,       1]      576     complex values 
+vertical scale =   1 
 </pre>
 
-<p>The zero contours of a function are computed by Chebfun2 to plotting accuracy: they are typically not accurate to machine precision.</p>
-<h3 id="142-roots">14.2 <code>roots</code></h3>
-<p>Chebfun2 also comes with the capability of finding zeros of bivariate systems, i.e., the solutions to $f(x,y) = g(x,y) = 0$. If the <code>roots</code> command is supplied with one chebfun2, it computes the zero contours of that function, as in the last section.  However, if it is supplied with two chebfun2 objects, as in <code>roots(f,g)</code>, then it computes the roots of the bivariate system. Generically, these are isolated points.</p>
-<p>What points on Trott's curve intersect the circle of radius $0.9$?</p>
-<pre class="mcode-input">g = chebfun2(@(x,y) x.^2 + y.^2 - .9^2);
+<p>Although <code>roots</code> can be outwitted, it is often remarkably accurate.  For example, here is the perimeter of a circle of radius 1/2, which we measure by using the fact that the arc length is equal to the 1-norm of the derivative.</p>
+<pre class="mcode-input">f = x.^2 + y.^2 - 1/4;
+perimeter = norm(diff(roots(f)),1)
+exact_perimeter = pi</pre>
+
+<pre class="mcode-output">perimeter =
+   3.141592653589794
+exact_perimeter =
+   3.141592653589793
+</pre>
+
+<p>For some more exotic examples of zero curves computed by <code>roots</code>, see the 2D Approximation section of the Chebfun examples collection at <code>www.chebfun.org</code>.</p>
+<h3 id="142-zeros-of-a-pair-of-bivariate-functions-roots-again">14.2 Zeros of a pair of bivariate functions: <code>roots</code> again</h3>
+<p>Chebfun2 <code>roots</code> can also find zeros of bivariate systems, i.e., solutions to $f(x,y) = g(x,y) = 0$. Generically, these are isolated points.</p>
+<p>For example, which points on Trott's curve intersect the circle of radius $0.9$?</p>
+<pre class="mcode-input">g = x.^2 + y.^2 - .9^2;
 r = roots(trott,g);
-plot(roots(trott),'b',LW,1.6), hold on
-plot(roots(g),'r',LW,1.6)
-plot(r(:,1),r(:,2),'.k',LW,1.6,MS,20)
+plot(roots(trott),'b'), hold on
+plot(roots(g),'r')
+MS = 'markersize';
+plot(r(:,1),r(:,2),'.k',MS,20)
 axis([-1 1 -1 1]), axis square, hold off</pre>
 
 <p><img src="img/guide14_02.png" class="figure" alt=""></p>
 <p>The solutions to bivariate polynomial systems and intersections of curves are typically computed to full machine precision.</p>
 <h3 id="143-intersections-of-curves">14.3 Intersections of curves</h3>
-<p>The problem of determining the intersections of real parameterised complex curves can be expressed as a bivariate rootfinding problem.  For instance, here are the intersections between the 'splat' curve [Guettel 2010] and a 'figure-of-eight' curve.</p>
+<p>The problem of determining the intersections of real parameterised complex curves can be expressed as a bivariate rootfinding problem.  For instance, here are the intersections between the 'splat' curve [G&uuml;ttel 2010] and a 'figure-of-eight' curve.</p>
 <pre class="mcode-input">t = chebfun('t',[0,2*pi]);
-sp = exp(1i*t) + (1+1i)*sin(6*t).^2;     % splat curve
+sp = exp(1i*t) + (1+1i)*sin(6*t)^2;      % splat curve
 figof8 = cos(t) + 1i*sin(2*t);           % figure of eight curve
-plot(sp,LW,1.6), hold on
-plot(figof8,'r',LW,1.6), axis equal
+plot(sp), hold on
+plot(figof8,'r'), axis equal
 
 d = [0 2*pi 0 2*pi];
 f = chebfun2(@(s,t) sp(t)-figof8(s),d);  % rootfinding
@@ -119,7 +130,7 @@ hold off</pre>
 <p>Chebfun2 rootfinding is based on an algorithm described in [Nakatsukasa, Noferini &amp; Townsend 2014].</p>
 <h3 id="144-global-optimisation-max2-min2-and-minandmax2">14.4 Global optimisation: <code>max2</code>, <code>min2</code>, and <code>minandmax2</code></h3>
 <p>Chebfun2 also provides functionality for global optimisation. Here is an example, where we plot the minimum and maximum as red dots.</p>
-<pre class="mcode-input">f = chebfun2(@(x,y) sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2));
+<pre class="mcode-input">f = sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2);
 [mn mnloc] = min2(f);
 [mx mxloc] = max2(f);
 plot(f), hold on
@@ -129,16 +140,16 @@ zlim([-6 6]), colormap('bone'), hold off</pre>
 
 <p><img src="img/guide14_04.png" class="figure" alt=""></p>
 <p>If both the global maximum and minimum are required, it is roughly twice as fast to compute them at the same time by using the <code>minandmax2</code> command. For instance,</p>
-<pre class="mcode-input">tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t=toc;
+<pre class="mcode-input">tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t = toc;
 fprintf('min2 and max2 separately = %5.3fs\n',t)
-tic; [Y X] = minandmax2(f); t=toc;
+tic; [Y X] = minandmax2(f); t = toc;
 fprintf('minandmax2 command = %5.3fs\n',t)</pre>
 
-<pre class="mcode-output">min2 and max2 separately = 0.487s
-minandmax2 command = 0.219s
+<pre class="mcode-output">min2 and max2 separately = 0.307s
+minandmax2 command = 0.097s
 </pre>
 
-<p>Here is a complicated function from the 2002 SIAM 100-Dollar, 100-Digit Challenge.  Chebfun2 computes its global minimum in a few seconds:</p>
+<p>Here is a complicated function from the 2002 SIAM 100-Dollar, 100-Digit Challenge [Bornemann et al. 2004].  Chebfun2 computes its global minimum in a fraction of a second:</p>
 <pre class="mcode-input">tic
 f = cheb.gallery2('challenge');
 [minval,minpos] = min2(f);
@@ -147,10 +158,10 @@ toc</pre>
 
 <pre class="mcode-output">minval =
   -3.306868647474791
-Elapsed time is 1.147926 seconds.
+Elapsed time is 0.171983 seconds.
 </pre>
 
-<p>The result closely matches the correct solution, computed to 10,000 digits Bornemann et al. [2004]:</p>
+<p>The result closely matches the correct solution, computed to 10,000 digits by Bornemann et al.:</p>
 <pre class="mcode-input">exact = -3.306868647475237280076113</pre>
 
 <pre class="mcode-output">exact =
@@ -159,15 +170,15 @@ Elapsed time is 1.147926 seconds.
 
 <p>Here is a contour plot of this wiggly function, with the minimum circled in black:</p>
 <pre class="mcode-input">colormap('default'), contour(f), hold on
-plot(minpos(1),minpos(2),'ok',MS,20,LW,3), hold off</pre>
+plot(minpos(1),minpos(2),'ok',MS,20), hold off</pre>
 
 <p><img src="img/guide14_05.png" class="figure" alt=""></p>
 <h3 id="145-critical-points">14.5 Critical points</h3>
 <p>The critical points of a smooth function of two variables can be located by finding the zeros of $\partial f/ \partial y = \partial f / \partial x = 0$. This is a rootfinding problem.  For example,</p>
-<pre class="mcode-input">f = chebfun2(@(x,y) (x.^2-y.^3+1/8).*sin(10*x.*y));
+<pre class="mcode-input">f = (x.^2-y.^3+1/8).*sin(10*x.*y);
 r = roots(gradient(f));                       % critical points
-plot(roots(diff(f,1,2)),'b',LW,1.2), hold on  % zero contours of f_x
-plot(roots(diff(f)),'r',LW,1.2)               % zero contours of f_y
+plot(roots(diff(f,1,2)),'b'), hold on         % zero contours of f_x
+plot(roots(diff(f)),'r')                      % zero contours of f_y
 plot(r(:,1),r(:,2),'k.',MS,24)                % extrema
 axis([-1,1,-1,1]), axis square</pre>
 
@@ -175,17 +186,17 @@ axis([-1,1,-1,1]), axis square</pre>
 <p>There is a new command here called <code>gradient</code> that computes the gradient vector and represents it as a chebfun2v object. The <code>roots</code> command then solves for the isolated roots of the bivariate polynomial system represented in the chebfun2v representing the gradient. For more information about <code>gradient</code>, see Chapter 15.</p>
 <h3 id="146-infinity-norm">14.6 Infinity norm</h3>
 <p>The $\infty$-norm of a function is the maximum absolute value in its domain. It can be computed by passing the argument <code>inf</code> to the <code>norm</code> command.</p>
-<pre class="mcode-input">f = chebfun2(@(x,y) sin(30*x.*y));
+<pre class="mcode-input">f = sin(30*x.*y);
 norm(f,inf)</pre>
 
 <pre class="mcode-output">ans =
-   0.999999999999995
+   1.000000000000003
 </pre>
 
 <h3 id="147-references">14.7 References</h3>
-<p>[Bornemann et al. 2004] F. Bornemann, D. Laurie, S. Wagon and J. Waldvogel, <em>The SIAM 100-Digit Challenge: A Study in High-Accuracy Nuemrical Computing</em>, SIAM 2004.</p>
-<p>[Guettel 2010] S. Guettel, "Area and centroid of a 2D region", <a href="http://www.chebfun.org/examples/geom/Area.html">http://www.chebfun.org/examples/geom/Area.html</a>.</p>
-<p>[Nakatsukasa, Noferini &amp; Townsend 2014] Y. Nakatsukasa, V. Noferini and A. Townsend, "Computing the common zeros of two bivariate functions via Bezout resultants", <em>Numerische Mathematik</em>, to appear.</p>
+<p>[Bornemann et al. 2004] F. Bornemann, D. Laurie, S. Wagon and J. Waldvogel, <em>The SIAM 100-Digit Challenge: A Study in High-Accuracy Numerical Computing</em>, SIAM 2004.</p>
+<p>[G&uuml;ttel 2010] S. G&uuml;ttel, "Area and centroid of a 2D region", <a href="http://www.chebfun.org/examples/geom/Area.html">http://www.chebfun.org/examples/geom/Area.html</a>.</p>
+<p>[Nakatsukasa, Noferini &amp; Townsend 2014] Y. Nakatsukasa, V. Noferini and A. Townsend, "Computing the common zeros of two bivariate functions via Bezout resultants", <em>Numerische Mathematik</em> 129 (2015), 181--209.</p>
 <p>[Trott 2007] M. Trott, "Applying GroebnerBasis to three problems in geometry", <em>Mathematica in Education and Research</em>, 6 (1997), 15-28.</p></div>
         </div>
     </div>
