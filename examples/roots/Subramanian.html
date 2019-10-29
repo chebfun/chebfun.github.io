@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bivariate rootfinding for pattern formation &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Bivariate rootfinding for pattern formation</h1>
+<h2>Nick Trefethen, October 2019 in <a href='/examples/roots/'>roots</a><span><a href='/examples/roots/Subramanian.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/roots/Subramanian.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Priya Subramanian at Oxford is interested in the patterns that arise in nonlinear reaction-diffusion PDEs such as the Swift-Hohenberg equation and its relatives [2,3].  A particular interest of hers is cases where the patterns may have quasicrystalline structure.</p>
+<p>In her analysis, systems of polynomial equations arise whose roots need to be computed.  She uses the Bertini software for this, based on a homotopy method [1].  Sometimes there are just two independent variables, however, and this gives nice problems for Chebfun2 (chapter 14 of the <em>Chebfun Guide</em>).</p>
+<p>Here is one of her examples.  We have parameters $Q$, $\mu$, and $\nu$, for which reasonable parameters are these:</p>
+<pre class="mcode-input">Q = 1;
+mu = 0.1;
+nu = 0.1;</pre>
+
+<p>The independent variables are called $z$ and $w$, and here are the two cubic polynomials in these variables of interest:</p>
+<pre class="mcode-input">dom = [-.3 .3 -.15 .15];
+z = chebfun2(@(z,w) z, dom);
+w = chebfun2(@(z,w) w, dom);
+p = mu*z + 2*Q*w.^2 + 4*Q*w.*z - 6*w.^3 - 42*w.^2.*z - 18*w.*z.^2 - 27*z.^3;
+q = nu*w + 4*Q*w.*z + 2*Q*z.^2 - 27*w.^3 - 18*w.^2.*z - 42*w.*z.^2 - 6*z.^3;</pre>
+
+<p>Let's plot the zero curves in blue for $p$ and red for $q$, with black dots for the common roots:</p>
+<pre class="mcode-input">MS = 'markersize'; LW = 'linewidth';
+plot(roots(p),'b',LW,2), hold on, grid on
+plot(roots(q),'r',LW,2)
+r = roots(p,q)
+plot(r(:,1),r(:,2),'.k',MS,16), axis equal, hold off
+xlabel z, ylabel w</pre>
+
+<pre class="mcode-output">r =
+  -0.090831644586318   0.035835847280723
+  -0.016094658586370   0.042959596438007
+  -0.013740321798295  -0.013740321798295
+  -0.000000000000000  -0.000000000000000
+   0.035835847280723  -0.090831644586318
+   0.042959596438006  -0.016094658586370
+   0.078256450830553   0.078256450830553
+</pre>
+
+<p><img src="img/Subramanian_01.png" class="figure" alt=""></p>
+<p>For comparison, here is what we get if we negate $\mu$:</p>
+<pre class="mcode-input">mu = -0.1;
+p = mu*z + 2*Q*w.^2 + 4*Q*w.*z - 6*w.^3 - 42*w.^2.*z - 18*w.*z.^2 - 27*z.^3;
+plot(roots(p),'b',LW,2), hold on, grid on
+plot(roots(q),'r',LW,2)
+r = roots(p,q)
+MS = 'markersize';
+plot(r(:,1),r(:,2),'.k',MS,16), axis equal, hold off
+xlabel z, ylabel w</pre>
+
+<pre class="mcode-output">r =
+  -0.000000000000000  -0.000000000000000
+   0.025417412018832  -0.086077285970434
+   0.050811642467768   0.080598330616729
+</pre>
+
+<p><img src="img/Subramanian_02.png" class="figure" alt=""></p>
+<p>[1] D. J. Bates, J. D. Hauenstein, A. J. Sommese and C. W. Wampler, <em>Numerically Solving Polynomial Systems with Bertini</em>, SIAM, 2013.</p>
+<p>[2] H. Montanelli, Swift-Hohenberg equation in 2D, <code>www.chebfun.org/examples/pde/SwiftHohenberg.html</code>.</p>
+<p>[3] P. Subramanian, reference to be supplied.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
