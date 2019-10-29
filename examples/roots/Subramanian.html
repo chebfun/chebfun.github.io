@@ -61,15 +61,16 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>Priya Subramanian at Oxford is interested in the patterns that arise in nonlinear reaction-diffusion PDEs such as the Swift-Hohenberg equation and its relatives [2,3].  A particular interest of hers is cases where the patterns may have quasicrystalline structure.</p>
+<p>Priya Subramanian at Oxford is interested in the patterns that arise in nonlinear reaction-diffusion PDEs such as the Swift-Hohenberg equation and its relatives [2,3,4].  A particular interest of hers is cases where the patterns may have quasicrystalline structure.</p>
 <p>In her analysis, systems of polynomial equations arise whose roots need to be computed.  She uses the Bertini software for this, based on a homotopy method [1].  Sometimes there are just two independent variables, however, and this gives nice problems for Chebfun2 (chapter 14 of the <em>Chebfun Guide</em>).</p>
 <p>Here is one of her examples.  We have parameters $Q$, $\mu$, and $\nu$, for which reasonable parameters are these:</p>
 <pre class="mcode-input">Q = 1;
 mu = 0.1;
 nu = 0.1;</pre>
 
-<p>The independent variables are called $z$ and $w$, and here are the two cubic polynomials in these variables of interest:</p>
-<pre class="mcode-input">dom = [-.3 .3 -.15 .15];
+<p>The independent variables are called $z$ and $w$, and here are the two cubic polynomials of interest:</p>
+<pre class="mcode-input">tic
+dom = [-.3 .3 -.15 .15];
 z = chebfun2(@(z,w) z, dom);
 w = chebfun2(@(z,w) w, dom);
 p = mu*z + 2*Q*w.^2 + 4*Q*w.*z - 6*w.^3 - 42*w.^2.*z - 18*w.*z.^2 - 27*z.^3;
@@ -80,7 +81,7 @@ q = nu*w + 4*Q*w.*z + 2*Q*z.^2 - 27*w.^3 - 18*w.^2.*z - 42*w.*z.^2 - 6*z.^3;</pr
 plot(roots(p),'b',LW,2), hold on, grid on
 plot(roots(q),'r',LW,2)
 r = roots(p,q)
-plot(r(:,1),r(:,2),'.k',MS,16), axis equal, hold off
+plot(r(:,1),r(:,2),'.k',MS,20), axis equal, hold off
 xlabel z, ylabel w</pre>
 
 <pre class="mcode-output">r =
@@ -101,7 +102,7 @@ plot(roots(p),'b',LW,2), hold on, grid on
 plot(roots(q),'r',LW,2)
 r = roots(p,q)
 MS = 'markersize';
-plot(r(:,1),r(:,2),'.k',MS,16), axis equal, hold off
+plot(r(:,1),r(:,2),'.k',MS,20), axis equal, hold off
 xlabel z, ylabel w</pre>
 
 <pre class="mcode-output">r =
@@ -111,9 +112,16 @@ xlabel z, ylabel w</pre>
 </pre>
 
 <p><img src="img/Subramanian_02.png" class="figure" alt=""></p>
-<p>[1] D. J. Bates, J. D. Hauenstein, A. J. Sommese and C. W. Wampler, <em>Numerically Solving Polynomial Systems with Bertini</em>, SIAM, 2013.</p>
+<pre class="mcode-input">Time_for_this_example = toc</pre>
+
+<pre class="mcode-output">Time_for_this_example =
+   3.376301000000000
+</pre>
+
+<p>[1] D. J. Bates, J. D. Hauenstein, A. J. Sommese, and C. W. Wampler, <em>Numerically Solving Polynomial Systems with Bertini</em>, SIAM, 2013.</p>
 <p>[2] H. Montanelli, Swift-Hohenberg equation in 2D, <code>www.chebfun.org/examples/pde/SwiftHohenberg.html</code>.</p>
-<p>[3] P. Subramanian, reference to be supplied.</p></div>
+<p>[3] P. Subramanian, A. J. Archer, E. Knobloch, and A. M. Rucklidge, Three-dimensional phase field quasicrystals, <em>Physical Review Letters</em> 117:1075501, 2016.</p>
+<p>[3] P. Subramanian and A. M. Rucklidge, Mode interactions and complex spatial patterns II. Quasicrystals, in preparation.</p></div>
         </div>
     </div>
 </div>

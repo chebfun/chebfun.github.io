@@ -8,7 +8,7 @@
 %%
 % Priya Subramanian at Oxford is interested in the 
 % patterns that arise in nonlinear reaction-diffusion PDEs such
-% as the Swift-Hohenberg equation and its relatives [2,3].  A particular
+% as the Swift-Hohenberg equation and its relatives [2,3,4].  A particular
 % interest of hers is cases where the patterns may have quasicrystalline
 % structure.  
 
@@ -28,7 +28,8 @@ nu = 0.1;
 
 %%
 % The independent variables are called $z$ and $w$, and 
-% here are the two cubic polynomials in these variables of interest:
+% here are the two cubic polynomials of interest:
+tic
 dom = [-.3 .3 -.15 .15];
 z = chebfun2(@(z,w) z, dom);
 w = chebfun2(@(z,w) w, dom);
@@ -42,7 +43,7 @@ MS = 'markersize'; LW = 'linewidth';
 plot(roots(p),'b',LW,2), hold on, grid on
 plot(roots(q),'r',LW,2)
 r = roots(p,q)
-plot(r(:,1),r(:,2),'.k',MS,16), axis equal, hold off
+plot(r(:,1),r(:,2),'.k',MS,20), axis equal, hold off
 xlabel z, ylabel w
 
 %%
@@ -53,16 +54,24 @@ plot(roots(p),'b',LW,2), hold on, grid on
 plot(roots(q),'r',LW,2)
 r = roots(p,q)
 MS = 'markersize';
-plot(r(:,1),r(:,2),'.k',MS,16), axis equal, hold off
+plot(r(:,1),r(:,2),'.k',MS,20), axis equal, hold off
 xlabel z, ylabel w
+
+%%
+Time_for_this_example = toc
 
 %% 
 %
-% [1] D. J. Bates, J. D. Hauenstein, A. J. Sommese and
+% [1] D. J. Bates, J. D. Hauenstein, A. J. Sommese, and
 % C. W. Wampler, _Numerically Solving Polynomial Systems with
 % Bertini_, SIAM, 2013.
 %
 % [2] H. Montanelli, Swift-Hohenberg equation in 2D,
 % |www.chebfun.org/examples/pde/SwiftHohenberg.html|.
 %
-% [3] P. Subramanian, reference to be supplied.
+% [3] P. Subramanian, A. J. Archer, E. Knobloch, and A. M. Rucklidge,
+% Three-dimensional phase field quasicrystals, 
+% _Physical Review Letters_ 117:1075501, 2016.
+%
+% [3] P. Subramanian and A. M. Rucklidge, Mode interactions and
+% complex spatial patterns II. Quasicrystals, in preparation.
