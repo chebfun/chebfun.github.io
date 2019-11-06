@@ -56,7 +56,7 @@
     <div class='page-header'>
 <span class='chapter_number'>16</span>
 <h1>Diskfun</h1>
-<h2>Heather Wilber, October 2016<span>
+<h2>Heather Wilber, October 2016, latest revision November 2019<span>
     
         <a href='/docs/guide/guide15.html'
 >previous</a><span class='sep-sm
@@ -69,7 +69,7 @@
 <div class="row main">
             <div id='content' class="col-sm-12" role="main">
 <h3 id="161-introduction">16.1 Introduction</h3>
-<p>Diskfun is a new part of Chebfun designed for computing with 2D scalar and vector-valued functions on the unit disk. Conceptually, it is an extension of Chebfun2 to the polar setting, designed to accurately and efficiently perform over 100 operations. These include differentiation, integration, vector calculus, and rootfinding, among many other things. Diskfun was developed in tandem with Spherefun, and the two are algorithmically closely related.  For complete details on the algorithms of both of these classes, see [Townsend, Wilber &amp; Wright, 2016], [Wilber, Townsend &amp; Wright, 2016].</p>
+<p>Diskfun is a part of Chebfun for computing with 2D scalar and vector-valued functions on the unit disk. Conceptually, it is an extension of Chebfun2 to the polar setting, designed to accurately and efficiently perform over 100 operations. These include differentiation, integration, vector calculus, and rootfinding, among many other things. Diskfun was developed in tandem with Spherefun, and the two are algorithmically closely related.  For complete details on the algorithms of both of these classes, see [Townsend, Wilber &amp; Wright, 2016], [Wilber, Townsend &amp; Wright, 2016].  Later, Ballfun was also created, for computing with functions in a spherical ball, as described in chapter 20.</p>
 <p>To get started, we simply call the Diskfun constructor. In this example, we consider a Gaussian function.</p>
 <pre class="mcode-input">LW = 'Linewidth'; MS = 'Markersize'; FS = 'Fontsize';
 g = diskfun(@(x,y) exp(-10*((x-.3).^2+y.^2)));
@@ -77,7 +77,7 @@ plot(g), view(3)</pre>
 
 <p><img src="img/guide16_01.png" class="figure" alt=""></p>
 <p>When working with functions on the disk, it is sometimes convenient to
-express them in terms of polar coordinates: Given a function $f(x,y)$
+express them in terms of polar coordinates. Given a function $f(x,y)$
 expressed in Cartesian coordinates, we apply the following transformation
 of variables:
 \begin{equation}
@@ -100,12 +100,12 @@ norm(f-g)</pre>
 <pre class="mcode-output">f =
      diskfun object 
        domain        rank    vertical scale
-      unit disk       19          0.99
+      unit disk       19            1
 </pre>
 
 <p>The output describes the  <em>numerical</em> rank of $f$,
 as well an approximation of the maximum absolute value of $f$ (the vertical scale).</p>
-<p>To evaluate a diskfun, we can use either polar or Cartesian coordinates.  (To evaluate in polar coordinates, we need to include the <code>'polar'</code> flag.)</p>
+<p>To evaluate a diskfun, we can use either Cartesian (the default) or polar coordinates (with the <code>'polar'</code> flag):</p>
 <pre class="mcode-input">[  f(sqrt(2)/4, sqrt(2)/4)    f(pi/4,1/2, 'polar')  ]</pre>
 
 <pre class="mcode-output">ans =
@@ -118,7 +118,7 @@ plot(c(:,1), 'r', c(:,2), 'k', c(:,3), 'b')
 title( 'Three angular slices of a diskfun' )</pre>
 
 <p><img src="img/guide16_02.png" class="figure" alt=""></p>
-<p>Whenever possible, we interpret commands with respect to the function in Cartesian coordinates. So, for example, the command  <code>diag</code> returns the radial slice $f(x,x)$ as a nonperiodic chebfun, and  <code>trace</code> is the integral of $f(x,x)$ over its domain, $[-1, 1]$ (these are admittedly rather artificial operations).</p>
+<p>Whenever possible, we interpret commands with respect to the function in Cartesian coordinates. So, for example, the command  <code>diag</code> returns the radial slice $f(x,x)$ as a nonperiodic chebfun, and  <code>trace</code> is the integral of $f(x,x)$ over its domain, $[-1, 1]$.   (These are admittedly rather artificial operations.)</p>
 <pre class="mcode-input">d = diag( f );
 plot( d )
 title( 'The diagonal slice of f' )</pre>
@@ -133,7 +133,7 @@ int_d =
    0.357313890819409
 </pre>
 
-<p>Just like the rest of Chebfun, Diskfun is designed to perform operations at close to machine precision, and using Diskfun requires no special knowledge about the underlying algorithms or discretization procedures.</p>
+<p>Like the rest of Chebfun, Diskfun is designed to perform operations at close to machine precision, and using Diskfun requires no special knowledge about the underlying algorithms or discretization procedures.</p>
 <h3 id="162-basic-operations">16.2 Basic operations</h3>
 <p>A suite of commands are available in Diskfun, and here we describe only a few. A complete listing can be found by typing  <code>methods diskfun</code> in the MATLAB command line.</p>
 <p>We start by adding, subtracting, and multiplying diskfuns together:</p>
@@ -173,7 +173,7 @@ plot3(loc(1), loc(2), val, 'k.', MS, 20), hold off</pre>
 <pre class="mcode-output">val =
    0.999999999999999
 loc =
-   0.199999984780338   0.199999989424699
+   0.200000005872459   0.200000000131672
 </pre>
 
 <p><img src="img/guide16_09.png" class="figure" alt=""></p>
@@ -182,7 +182,7 @@ loc =
 contour(g, [0 0], '-k', 'Linewidth', 2), hold off</pre>
 
 <p><img src="img/guide16_10.png" class="figure" alt=""></p>
-<p>The roots of a function (1D contours) can also be found explicitly. The contours are stored as a cell array of chebfuns. Each cell consists of an array-valued chebfun that parametrizes the $x$ and $y$ coordinates of the contour.</p>
+<p>The roots of a function (1D contours) can also be found explicitly. The contours are stored as a cell array of chebfuns. Each cell consists of an array-valued chebfun that parametrizes the $x$ and $y$ coordinates of the contour.  (This syntax is different from that of Chebfun2.)</p>
 <pre class="mcode-input">r = roots(g);
 plot(g), hold on
 for j = 1:length(r)
@@ -198,7 +198,7 @@ intf = sum2(f)
 tru = -3*pi/2</pre>
 
 <pre class="mcode-output">intf =
-  -4.712388980384691
+  -4.712388980384690
 tru =
   -4.712388980384690
 </pre>
@@ -277,13 +277,13 @@ title('Laplacian of u')</pre>
 norm(-lambda*u - lap(u))</pre>
 
 <pre class="mcode-output">ans =
-     3.681442420967692e-12
+     5.718384796184924e-13
 </pre>
 
-<h3 id="163-poissons-equation">16.3 Poisson's equation</h3>
-<p>We can use Diskfun to compute smooth solutions to Poisson's equation on
+<h3 id="163-poisson-equation">16.3 Poisson equation</h3>
+<p>We can use Diskfun to compute smooth solutions to the Poisson equation on
 the disk. In this example, we compute the solution $v(\theta, \rho)$
-for Poisson's equation with a Dirichlet boundary condition: we seek $v$
+for the Poisson equation with a Dirichlet boundary condition: we seek $v$
 such that
 $$ \nabla^2 v = f, \qquad v(\theta, 1) = 1,$$
 where $(\theta, \rho) \in [-\pi, \pi] \times [0, 1]$ and
@@ -314,7 +314,7 @@ title( 'v' )</pre>
 <p><img src="img/guide16_17.png" class="figure" alt=""></p>
 <p><img src="img/guide16_18.png" class="figure" alt=""></p>
 <h3 id="164-vector-calculus">16.4 Vector calculus</h3>
-<p>Since the introduction of Chebfun2, Chebfun has supported computations with vector-valued functions, including functions in 2D (Chebfun2v), 3D (Chebfun3v), and spherical geometries (Spherefunv). Similarly, Diskfunv allows one to compute with vector-valued functions on the disk. Currently, there are dozens of commands available in Diskfunv, including vector-based algebraic commands such as <code>cross</code>, as well as commands that map vector-valued functions to scalar-valued functions (e.g., <code>dot</code>, <code>curl</code>, <code>div</code> and <code>jacobian</code>) and vice-versa (e.g., <code>grad</code>), and commands for performing calculus with vector fields (e.g., <code>laplacian</code>).</p>
+<p>Since the introduction of Chebfun2, Chebfun has supported computations with vector-valued functions, including functions in 2D (Chebfun2v), 3D (Chebfun3v), and spherical geometries (Spherefunv, Ballfunv). Similarly, Diskfunv allows one to compute with vector-valued functions on the disk. Currently, there are dozens of commands available in Diskfunv, including vector-based algebraic commands such as <code>cross</code>, as well as commands that map vector-valued functions to scalar-valued functions (e.g., <code>dot</code>, <code>curl</code>, <code>div</code> and <code>jacobian</code>) and vice-versa (e.g., <code>grad</code>), and commands for performing calculus with vector fields (e.g., <code>laplacian</code>).</p>
 <p>In this example, we create a diskfun consisting of a difference of two Gaussian functions, and then compute its gradient. The result is returned as a vector-valued object called a diskfunv, with a lower case 'd'.</p>
 <pre class="mcode-input">psi = @(x,y) 5*exp(-10*(x+.2).^2-10*(y+.4).^2)...
     -5*exp(-10*(x-.2).^2-10*(y-.2).^2) + 5*(1-x.^2-y.^2)-20;
@@ -343,7 +343,7 @@ quiver(u, 'k'), axis off, hold off</pre>
 can be applied to it. For example, here is a contour plot of the
 divergence of $\mathbf{u}$.</p>
 <pre class="mcode-input">D = div( u );
-contour(D,10, LW, 1.5), hold on
+contour(D,10), hold on
 quiver(u, 'k'), axis off, hold off</pre>
 
 <p><img src="img/guide16_20.png" class="figure" alt=""></p>
@@ -362,7 +362,7 @@ $\nabla \times \mathbf{u} =  0$.</p>
 norm( v )</pre>
 
 <pre class="mcode-output">ans =
-     1.399802573963744e-11
+     1.581462823700134e-11
 </pre>
 
 <p>Diskfunv objects can be created by calling the constructor directly
@@ -396,7 +396,7 @@ title( 'The numerical surface curl of g' ), hold off</pre>
 
 <p>To see all commands available for vector-valued functions in Diskfun, type <code>methods diskfunv</code> in the MATLAB command line.</p>
 <h3 id="165-constructing-a-diskfun">16.5 Constructing a diskfun</h3>
-<p>The above sections describe how to use Diskfun, and this section provides a brief overview of how the algorithms in Diskfun work. This can be useful for understanding various aspects of approximation involving functions on the disk. More details can be found in [Townsend, Wilber &amp; Wright, 2016B], and also in the closely related Spherefun part (Chapter 17) of the guide.</p>
+<p>The above sections describe how to use Diskfun, and this section provides a brief overview of how the algorithms in Diskfun work. This can be useful for understanding various aspects of approximation involving functions on the disk. More details can be found in [Townsend, Wilber &amp; Wright, 2016b], and also in the closely related Spherefun part (Chapter 17) of the guide.</p>
 <p>Like Chebfun2 and Spherefun, Diskfun uses a variant of Gaussian elimination (GE) to form low rank approximations to functions. This often results in a compressed representation of the function, and it also facilitates the use of highly efficient algorithms that work primarily on sets of 1D functions related to the approximant.</p>
 <p>To construct a diskfun from a function $f$, we consider an extended version
 of $f$, denoted by $\tilde{f}$, which is formed by taking $f(\theta, \rho)$
@@ -419,16 +419,16 @@ plot(tf), view(2)
 title('The BMC function associated with f')</pre>
 
 <pre class="mcode-output">tf =
-   chebfun2 object
+   chebfun2 object  (trig in x)
        domain                 rank       corner values
 [-3.1, 3.1] x [  -1,   1]       26     [0.26 0.26  1.1  1.1]
 vertical scale = 1.5 
 </pre>
 
 <p><img src="img/guide16_23.png" class="figure" alt=""></p>
-<p>A structure-preserving method of GE (see [Townsend, Wilber \&amp; Wright, 2016B])
+<p>A structure-preserving method of GE (see [Townsend, Wilber &amp; Wright, 2016b])
 adaptively selects a collection of 1D circular and radial
-``slices" that are used to approximate $\tilde{f}$. Each circular slice
+"slices" that are used to approximate $\tilde{f}$. Each circular slice
 is a periodic function in $\theta$, and is represented by a trigonometric
 interpolant (or trigfun, see Chapter 11). Each radial slice, a function in
 $\rho$, is represented as a chebfun.  These slices form a low rank
@@ -447,7 +447,7 @@ points near the center and the edges of the disk can be observed in the
 tensor product grid; low rank methods alleviate this issue in
 many instances.</p>
 <pre class="mcode-input">clf
-plot(f, '.-', MS, 10), axis off
+plot(f, '.-', MS, 10, LW, 0.3), axis off
 title('Low rank function samples', FS, 16), snapnow
 
 [ m, n ] = length(f);
@@ -456,9 +456,9 @@ r = r((m+1)/2: m);
 [ tt, rr ] = meshgrid( linspace(-pi, pi, n), r );
 XX = rr.*cos(tt);
 YY = rr.*sin(tt);
-clf, plot(XX, YY, 'k-', LW, 0.1)
+clf, plot(XX, YY, 'k', LW, 0.1)
 hold on
-plot(XX', YY', 'k-', LW, 0.1)
+plot(XX', YY', 'k', LW, 0.1)
 view(2), axis square, axis off
 title('Tensor product function samples', FS, 16)</pre>
 
@@ -491,7 +491,7 @@ plotcoeffs(f)</pre>
 <p>[Churchill &amp; Brown, 1978] R.V. Churchill, and J.W. Brown, <em>Fourier Series and Boundary Value Problems</em>, McGraw-Hill, 1978.</p>
 <p>[Fornberg 1998] B. Fornberg, <em>A Practical Guide to Pseudospectral Methods</em>, Cambridge University Press, 1998.</p>
 <p>[Townsend, Wilber &amp; Wright, 2016] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in spherical and polar geometries I. The sphere, <em>SIAM J. Sci. Comp.</em>, 38-4 (2016), C403-C425.</p>
-<p>[Wilber, Townsend &amp; Wright, 2016] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in spherical and polar geometries II. The disk, <em>SIAM J. Sci. Comput.</em>, submitted, 2016.</p>
+<p>[Wilber, Townsend &amp; Wright, 2016b] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in spherical and polar geometries II. The disk, <em>SIAM J. Sci. Comput.</em>, 39-3 (2017), C238-C262.</p>
 <p>[Trefethen, 2000] L. N. Trefethen, <em>Spectral Methods in MATLAB</em>, SIAM, 2000.</p></div>
         </div>
     </div>
