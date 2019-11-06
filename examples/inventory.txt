@@ -36,6 +36,7 @@ approx/NoisyNonsmooth.m
 approx/OddEven.m
 approx/OrthPolys.m
 approx/OscError.m
+approx/PthComposite.m
 approx/Pushnitski.m
 approx/RationalAbsx.m
 approx/RationalInterp.m
@@ -90,6 +91,9 @@ complex/AnalyticContinuation.m
 complex/Arguments.m
 complex/ClosedContours.m
 complex/ComplexArcLength.m
+complex/ComplexMinimax.m
+complex/ConformalL.m
+complex/ConformalMapping.m
 complex/ConformalSquare.m
 complex/ConformalVis.m
 complex/Hyperfuns.m
@@ -258,6 +262,7 @@ roots/ResultantMethod.m
 roots/RootsNearAxis.m
 roots/RootsSpeed.m
 roots/SecularRoots.m
+roots/Subramanian.m
 roots/Tiger.m
 roots/WhiteCurves.m
 sphere/AdvectionDiffusion.m
