@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eigenvalue Landscapes &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Eigenvalue Landscapes</h1>
+<h2>Nick Trefethen, November 2019 in <a href='/examples/linalg/'>linalg</a><span><a href='/examples/linalg/EigLandscapes.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/linalg/EigLandscapes.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-complex-hermitian">1. Complex hermitian</h3>
+<p>Let $n$ be a fixed dimension and let $B$, $C$, and $D$ be random $n\times n$ hermitian matrices:</p>
+<pre class="mcode-input">n = 8;
+rng(1)
+B = randn(n) + 1i*randn(n); B = B + B';
+C = randn(n) + 1i*randn(n); C = C + C';
+D = randn(n) + 1i*randn(n); D = D + D';</pre>
+
+<p>If $x$ and $y$ are real parameters, we can consider the matrix</p>
+<pre class="mcode-input">A = @(x,y) B + x*C + y*D;</pre>
+
+<p>and its eigenvalues</p>
+<pre class="mcode-input">e = @(x,y) sort(eig(A(x,y)));</pre>
+
+<p>and its first and second eigenvalues</p>
+<pre class="mcode-input">evalk = @(r,k) r(k);
+e1 = @(x,y) evalk(e(x,y),1);
+e2 = @(x,y) evalk(e(x,y),2);</pre>
+
+<p>Let us form chebfun2 objects from e1 and e2 and plot them:</p>
+<pre class="mcode-input">f1 = chebfun2(@(x,y) e1(x,y), 'vectorize');
+f2 = chebfun2(@(x,y) e2(x,y), 'vectorize');
+plot(f1), hold on, plot(f2), hold off
+title('first two eigenvalues'), xlabel x, ylabel y</pre>
+
+<p><img src="img/EigLandscapes_01.png" class="figure" alt=""></p>
+<p>According to the theory of eigenvalue avoidance for hermitian matrices [best references?], since there are just 2 parameters rather than 3 or more, the gap between the two eigenvalues will always (with probability 1) be positive. We can confirm this by a contour plot:</p>
+<pre class="mcode-input">gap = f2-f1;
+mingap = min2(gap);
+levels = 0:.25:3;
+contour(gap,levels), axis equal, colorbar, caxis([0 3])
+title(['min gap = ' num2str(mingap)]), xlabel x, ylabel y</pre>
+
+<p><img src="img/EigLandscapes_02.png" class="figure" alt=""></p>
+<h3 id="2-real-symmetric">2. Real symmetric</h3>
+<p>If we repeat all this for real symmetric matrices, the situation changes. Now, with two parameters, we can expect that there may be some eigenvalue crossings.  To check this out, we compute the same objects as before.  The random number seed has been chosen based on a bit of experimentation to give a nice picture.</p>
+<pre class="mcode-input">rng(8)
+B = randn(n); B = B + B';
+C = randn(n); C = C + C';
+D = randn(n); D = D + D';
+A = @(x,y) B + x*C + y*D;
+e = @(x,y) sort(eig(A(x,y)));
+evalk = @(r,k) r(k);
+e1 = @(x,y) evalk(e(x,y),1);
+e2 = @(x,y) evalk(e(x,y),2);</pre>
+
+<p>Sure enough, there is now a point where the eigenvalues meet, and as a consequence, if we try to make chebfun2 objects, they won't converge, since thee functions are nonsmooth.  But we can get reasonably accurate chebfun2 objects by fixing the Chebfun2 grid:</p>
+<pre class="mcode-input">npts = 512;
+f1 = chebfun2(@(x,y) e1(x,y), [npts npts], 'vectorize');
+f2 = chebfun2(@(x,y) e2(x,y),  [npts npts], 'vectorize');
+plot(f1), hold on, plot(f2), hold off
+title('first two eigenvalues'), xlabel x, ylabel y</pre>
+
+<p><img src="img/EigLandscapes_03.png" class="figure" alt=""></p>
+<p>A contour plot confirms the eigenvalue crossing:</p>
+<pre class="mcode-input">gap = f2-f1;
+mingap = min2(gap);
+contour(gap,levels), axis equal, colorbar, caxis([0 3])
+title(['min gap = ' num2str(mingap)]), xlabel x, ylabel y</pre>
+
+<p><img src="img/EigLandscapes_04.png" class="figure" alt=""></p>
+<p>We can also see the crossing by zooming in on the two level surfaces:</p>
+<pre class="mcode-input">plot(f1), hold on, plot(f2), hold off
+axis([-.1 .4 -.1 .4 -5.5 -4]), view([-27 18]),  camlight
+xlabel x, ylabel y</pre>
+
+<p><img src="img/EigLandscapes_05.png" class="figure" alt=""></p>
+<p>Eigenvalue crossings are fascinating and can be found in a number of Chebfun examples. In particular, this example is a 2D analogue of "Eigenvalue level repulsion" (<a href="http://www.chebfun.org/examples/linalg/LevelRepulsion.html">http://www.chebfun.org/examples/linalg/LevelRepulsion.html</a>). The nontrivial zeros of the Riemann zeta function are conjectured to be related to the eigenvalues of a hermitian (not real symmetric) operator.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
