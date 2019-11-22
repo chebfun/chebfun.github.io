@@ -97,7 +97,7 @@ is
 sum2( f )</pre><pre class="mcode-output">ans =
   19.388114662154155
 </pre>
-This matches the exact value of $216\pi/35$ to 16 digits
+This matches the exact value of $216\pi/35$ to 15 digits
 
 
 <pre class="mcode-input">abs( sum2( f ) - 216*pi/35 )</pre><pre class="mcode-output">ans =
@@ -129,15 +129,17 @@ maxf = max2( f )</pre><pre class="mcode-output">maxf =
 </pre>The zero contours of `f-0.5` can be computed using `roots`
 
 <pre class="mcode-input">r = roots( f-0.5 );</pre>
-Here is a plot of these contours on the surface of the sphere together with the
-function $f$
+Here is a plot of these contours on the surface
+of the sphere together with the function $f$.  From now
+one we usually turn off the axes, since it is clear where
+the sphere lies.
 
 
-<pre class="mcode-input">plot( f ), colorbar, hold on,
+<pre class="mcode-input">plot( f ), colorbar, hold on
 for k = 1 : size(r, 1)
      plot3( r{k}(:,1), r{k}(:,2), r{k}(:,3), 'k-' , 'linewidth', 2 )
 end
-hold off</pre><img src="img/guide17_04.png" class="figure" alt="">
+hold off, axis off</pre><img src="img/guide17_04.png" class="figure" alt="">
 
 
 Contours of a function can also be visualized on the sphere using the
@@ -145,14 +147,14 @@ Contours of a function can also be visualized on the sphere using the
 increments of $0.25$
 
 
-<pre class="mcode-input">contour(f,-2:0.25:2)</pre><img src="img/guide17_05.png" class="figure" alt="">
+<pre class="mcode-input">contour(f,-2:0.25:2), axis off</pre><img src="img/guide17_05.png" class="figure" alt="">
 
 
 The landmasses of earth can be added to this, or any other plot of a
 spherefun, as follows:
 
 
-<pre class="mcode-input">hold on, spherefun.plotEarth('k-'), hold off, view([45 20])</pre><img src="img/guide17_06.png" class="figure" alt="">
+<pre class="mcode-input">hold on, spherefun.plotEarth('k-'), hold off, view([45 20]), axis off</pre><img src="img/guide17_06.png" class="figure" alt="">
 
 
 Differentiation of a function on the sphere with respect to spherical
@@ -173,30 +175,29 @@ the entire sphere.
 The `diff` method is used to compute these derivatives.  For example, the $x$ and $z$ components of the surface gradient of `f` are
 
 <pre class="mcode-input">dfdx = diff( f, 1 );
-plot( dfdx ), title( 'x-component of the surface gradient')
+plot( dfdx ), title( 'x-component of the surface gradient'), axis off
 snapnow
 
 dfdz = diff( f, 3 );
-plot(dfdz), title( 'z-component of the surface gradient')
-snapnow</pre><img src="img/guide17_07.png" class="figure" alt="">
+plot(dfdz), title( 'z-component of the surface gradient'), axis off</pre><img src="img/guide17_07.png" class="figure" alt="">
 
 <img src="img/guide17_08.png" class="figure" alt="">
 
 The surface Laplacian of `f` is
 
 <pre class="mcode-input">lapf = laplacian( f );
-clf, plot( lapf )</pre><img src="img/guide17_09.png" class="figure" alt="">
+plot( lapf ), axis off</pre><img src="img/guide17_09.png" class="figure" alt="">
 
 Finally, as with chebfun and chebfun2 objects, we can add, subtract, and multiply simple spherefuns together.
 
 <pre class="mcode-input">g = spherefun( @(l,t) 2*cos(10*cos(l-0.25).*cos(l).*(sin(t).*cos(t)).^2) );
-plot( g ), title('g'), snapnow
+plot( g ), title('g'), axis off, snapnow
 h = f + g;
-plot( h ), title('f + g'), snapnow
+plot( h ), title('f + g'), axis off, snapnow
 h = f - g;
-plot( h ), title('f - g'), snapnow
+plot( h ), title('f - g'), axis off, snapnow
 h = f.*g;
-plot( h ), title('f x g'), snapnow</pre><img src="img/guide17_10.png" class="figure" alt="">
+plot( h ), title('f x g'), axis off</pre><img src="img/guide17_10.png" class="figure" alt="">
 
 <img src="img/guide17_11.png" class="figure" alt="">
 
@@ -301,9 +302,9 @@ the function is sampled during the construction process can be visualized
 using
 
 
-<pre class="mcode-input">plot( f ), title('f'), view([-105 10]), snapnow, clf
+<pre class="mcode-input">plot( f ), title('f'), view([-105 10]), axis off, snapnow
 plot( f, '.-', MS, 20 ), view([-105 10])
-title('Skeleton used for constructing f')</pre><img src="img/guide17_14.png" class="figure" alt="">
+title('Skeleton used for constructing f'), axis off</pre><img src="img/guide17_14.png" class="figure" alt="">
 
 <img src="img/guide17_15.png" class="figure" alt="">
 
@@ -353,7 +354,7 @@ XX = cos(LL).*sin(TT);
 YY = sin(LL).*sin(TT);
 ZZ = cos(TT);
 clf, surf(XX, YY, ZZ, 1+0*XX, 'FaceColor', [1 1 0.8], 'EdgeColor', [0 0 1])
-view([0 -90]), axis([-1 1 -1 1 -1 1]), axis equal,
+view([0 -90]), axis([-1 1 -1 1 -1 1]), axis equal
 title('Tensor product function samples')</pre><img src="img/guide17_18.png" class="figure" alt="">
 
 <img src="img/guide17_19.png" class="figure" alt="">
@@ -368,7 +369,7 @@ approximant,
 
 
 <pre class="mcode-input">f18 = spherefun( @(x,y,z) cos(cosh(5*x.*z)-10*y), 18 )
-plot(f18)</pre><pre class="mcode-output">f18 =
+plot(f18), axis off</pre><pre class="mcode-output">f18 =
    spherefun object
        domain        rank    vertical scale
      unit sphere      18            1
@@ -432,8 +433,8 @@ of the surface Laplacian (in this case with eigenvalue $-6\times 7 =
 -42$)
 
 
-<pre class="mcode-input">plot( -42*Y ), title('-30Y_{6}^{-3}'), snapnow
-plot( laplacian( Y ) ), title('\Delta Y_{6}^{-3}'), snapnow
+<pre class="mcode-input">plot( -42*Y ), title('-30Y_{6}^{-3}'), axis off, snapnow
+plot( laplacian( Y ) ), title('\Delta Y_{6}^{-3}'), axis off
 norm( Y - (-1/42)*laplacian( Y ), inf)</pre><pre class="mcode-output">ans =
      0
 </pre><img src="img/guide17_21.png" class="figure" alt="">
@@ -475,7 +476,7 @@ example using a discretization size of $1000\times 1000$ and a value of
 
 <pre class="mcode-input">f = spherefun( @(x,y,z) sin(100*x.*y.*z) );  % forcing term
 u = spherefun.poisson(f, 1, 1000, 1000);     % fast Poisson solver
-plot( u )</pre><img src="img/guide17_23.png" class="figure" alt="">
+plot( u ), axis off</pre><img src="img/guide17_23.png" class="figure" alt="">
 
 See [Townsend, Wilber, &amp; Wright 2015] for a description of the fast algorithm used for solving Poisson's equation.
 
@@ -483,17 +484,15 @@ See [Townsend, Wilber, &amp; Wright 2015] for a description of the fast algorith
 
 ## 17.6 Filtering
 
-Low-pass isotropic filtering for functions on the sphere can be performed using the command `gaussfilt`. For example, consider the spherefun constructed from random data on the sphere, given on a $101$-by-$200$ equally spaced grid of points in spherical coordinates
+Low-pass isotropic filtering for functions on the sphere can be performed using the command `gaussfilt`. For example, here is a smooth random spherefun, which we plot in zebra mode, which positive values white and negative values black:
 
-<pre class="mcode-input">rng(71)
-F = randn(101,200); F(1,:) = mean(F(1,:)); F(101,:) = mean(F(101,:));
-f = spherefun(F);
-plot(f), colorbar</pre><img src="img/guide17_24.png" class="figure" alt="">
+<pre class="mcode-input">rng(1), f = randnfunsphere(.1);
+plot(f,'zebra'), axis off, colorbar</pre><img src="img/guide17_24.png" class="figure" alt="">
 
-We can smooth `f` as follows:
+We can smooth `f` a little with a spatial scale of 0.05 like this:
 
-<pre class="mcode-input">ff = gaussfilt(f, 180*pi/180);
-plot(ff), colorbar</pre><img src="img/guide17_25.png" class="figure" alt="">
+<pre class="mcode-input">ff = gaussfilt(f, 0.05);
+plot(ff,'zebra'), axis off, colorbar</pre><img src="img/guide17_25.png" class="figure" alt="">
 
 Mathematically, the `gaussfilt` command amounts to convolving `f` with a Gaussian kernel.  This is implemented by numerically solving the diffusion equation on the sphere with `f` as the initial condition. The second input argument of `gaussfilt` is an optional parameter $\sigma$ that determines the length scale (as measured in radians at the equator of the unit sphere) at which the smoothing occurs.  In the above example, this is set to $10\pi/180$, which corresponds to smoothing at a scale of 10 degrees.
 
@@ -505,7 +504,7 @@ Vector valued functions on the sphere and _surface_ vector calculus operations a
 
 <pre class="mcode-input">f = spherefun.sphharm(6,0) + sqrt(14/11)*spherefun.sphharm(6,5);
 g = grad( f );
-clf, plot( f ), hold on
+plot( f ), axis off, hold on
 quiver( g ), hold off</pre><img src="img/guide17_26.png" class="figure" alt="">
 
 Spherefunv objects consist of three spherefuns, which represent the vector-valued function in the _Cartesian_ coordinate system
@@ -528,12 +527,12 @@ Many of the operations for vector valued functions are supported.  For example, 
 <pre class="mcode-input">psi = spherefun( @(lam,th) -cos(th) + cos(th).*sin(th).^4.*cos(4*lam) );</pre>The surface curl of $\psi$ gives a field that is tangent to the level curves of $\psi$.
 
 <pre class="mcode-input">u = curl( psi );
-plot( psi ), hold on, quiver( u ), hold off</pre><img src="img/guide17_27.png" class="figure" alt="">
+plot( psi ), hold on, quiver( u ), axis off, hold off</pre><img src="img/guide17_27.png" class="figure" alt="">
 
 The vorticity represents the local spinning motion of the field.
 
 <pre class="mcode-input">omega = vorticity( u );
-plot( omega ), hold on, quiver( u ), hold off</pre><img src="img/guide17_28.png" class="figure" alt="">
+plot( omega ), hold on, quiver( u ), axis off, hold off</pre><img src="img/guide17_28.png" class="figure" alt="">
 
 The divergence of the field is
 
