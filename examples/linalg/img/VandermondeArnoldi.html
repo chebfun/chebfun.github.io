@@ -1,0 +1,152 @@
+---
+title: "Vandermonde with Arnoldi"
+layout: example
+authordate: "Pablo Brubeck, Yuji Nakatsukasa, and Nick Trefethen, January 2020"
+meta: "(Chebfun example linalg/VandermondeArnoldi.m) [Tags: #Vandermonde, #Arnoldi, #interpolation, #least-squares]"
+---
+
+<pre class="mcode-input">function VandermondeArnoldi()</pre>This example discusses an extremely useful practical tool introduced at the end of 2019 in [1].
+
+
+
+## 1. Vandermonde matrices, interpolation, and least-squares
+
+An $m\times n$ Vandermonde matrix has the form $$ A = \pmatrix{1 &amp; x_1 &amp; \dots &amp; x_1^n \cr 1 &amp; x_2 &amp; \dots &amp; x_2^n \cr \vdots &amp; \vdots &amp; &amp; \vdots \cr 1 &amp; x_m &amp; \dots &amp; x_m^n} $$ where $\{x_j\}$ is a vector of distinct numbers. If $m=n+1$ and $f$ is a column vector of $m$ data values, the equations $$ Ac = f $$ give coefficients for the degree $n$ polynomial interpolant to the data, $$ p(x) = \sum_{k=0}^n c_k x^k . $$ If $m&gt; n+1$, we have a rectangular matrix and we can write $$ Ac \approx f $$ to indicate that the system is to be solved in the least-squares sense. This will give a degree $n$ polynomial approximation.
+
+Matlab has long had a command `vander` to generate such matrices, though the columns are ordered in the reverse direction, in keeping with Matlab's convention of ordering polynomial coefficients from highest degree to lowest.  Chebfun has an overload of `vander` to produce a quasimatrix with the same structure, i.e., columns $1, x, x^2, \dots , x^n$, where $x$ is a chebfun.  Again, following Matlab, the columns are actually ordered in the reverse direction.
+
+
+
+## 2. Ill-conditioning of the matrices, not the interpolation problem
+
+Unless the points $\{x_j\}$ are uniformly distributed on the unit circle, Vandermonde matrices are exponentially ill-conditioned as $n\to\infty$. Thus for example here we examine the matrices for degree 16 and 32 interpolation in Chebyshev points:
+
+<pre class="mcode-input">format short
+cond(vander(chebpts(17)))
+cond(vander(chebpts(33)))</pre><pre class="mcode-output">ans =
+   5.4282e+05
+ans =
+   6.8311e+11
+</pre>There isn't any real need to call the `vander` command. We could equally well have generated the numbers like this:
+
+<pre class="mcode-input">cond(chebpts(17).^(0:16))
+cond(chebpts(33).^(0:32))</pre><pre class="mcode-output">ans =
+   5.4282e+05
+ans =
+   6.8312e+11
+</pre>This ill-conditioning is a reflection of the horrors of the monomial basis, not of any difficulty with the underlying interpolation problem.  In fact, these interpolation problems are extraordinarily well conditioned, as we can see by examining their Lebesgue constants (see [ATAP], chapter. 12):
+
+<pre class="mcode-input">[~, L16] = lebesgue(chebpts(17)); L16
+[~, L32] = lebesgue(chebpts(33)); L32</pre><pre class="mcode-output">L16 =
+    2.7247
+L32 =
+    3.1682
+</pre>If we look at the Chebfun quasimatrices for the function $x$ on the unit interval, we find that the condition numbers are amazingly close to what we found before:
+
+<pre class="mcode-input">x = chebfun('x');
+cond(vander(x,17))
+cond(vander(x,33))</pre><pre class="mcode-output">ans =
+   5.4803e+05
+ans =
+   6.2361e+11
+</pre>Again there was no need for the `vander` command:
+
+<pre class="mcode-input">cond(x.^(0:16))
+cond(x.^(0:32))</pre><pre class="mcode-output">ans =
+   5.4803e+05
+ans =
+   6.2360e+11
+</pre>These are condition numbers of matrices of sizes $\infty \times 17$ and $\infty \times 33$, respectively.  The fact that the numbers for our discrete and continuous Vandermonde matrices are so close reflects the fact that Chebyshev points are good approximations to the continuum of $[-1,1]$.  If we use equispaced points, the numbers come out worse:
+
+<pre class="mcode-input">cond(vander(linspace(-1,1,17)))
+cond(vander(linspace(-1,1,33)))</pre><pre class="mcode-output">ans =
+   9.9831e+06
+ans =
+   5.2567e+14
+</pre>If we try to do interpolation or least-squares fitting with these ill-conditioned matrices or quasimatrices, we quickly run into trouble at larger values of $n$.  In MATLAB, the traditional codes for computing a polynomial and then evaluating it are `polyfit` and `polyval`, whose essences (with the columns ordered by increasing degrees) look like this:
+
+<pre class="mcode-input">function c = polyfit(x,f,n)
+A = x.^(0:n);
+c = A\f;
+end
+
+function y = polyval(c,s)
+n = length(c)-1;
+B = s.^(0:n);
+y = B*c;
+end</pre>These codes work for both matrices and quasimatrices.
+
+For example, let's fit the absolute value function by a polynomial of degree 80:
+
+<pre class="mcode-input">f = abs(x);
+c = polyfit(x,f,80);
+y = polyval(c,x)</pre><pre class="mcode-output">Warning: Matrix is close to singular or badly scaled. Results may be inaccurate.
+RCOND =  4.017379e-17. 
+y =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values  
+[      -1,       1]       69       1.2      1.1 
+vertical scale = 1.5 
+</pre>We'll plot the result in a moment.  But here's a sign that it's not good: the maximum is much bigger than $1$:
+
+<pre class="mcode-input">max(y)</pre><pre class="mcode-output">ans =
+    1.5596
+</pre>The reason is that the coefficients $c$ are huge because the basis is so ill-conditioned, and cancellation has destroyed the accuracy:
+
+<pre class="mcode-input">norm(c,inf)</pre><pre class="mcode-output">ans =
+   3.5308e+14
+</pre>
+
+## 3. Vandermonde with Arnoldi
+
+It turns out there is a simple way to fix the problem: instead of working with a Vandermonde matrix or quasimatrix, generate a matrix whose columns span the same spaces by the Arnoldi process. A short paper presenting these ideas with four computed examples can be found at [1].
+
+Here is a function `polyfitA` that will do the trick for quasimatrices; the "A" stands for Arnoldi:
+
+<pre class="mcode-input">function [d,H] = polyfitA(x,f,n)
+Q = 1 + 0*x;
+H = zeros(n+1,n);
+for k = 1:n
+    q = x.*Q(:,k);
+    for j = 1:k
+        H(j,k) = Q(:,j)'*q;
+        q = q - H(j,k)*Q(:,j);
+    end
+    H(k+1,k) = norm(q);
+    Q = [Q q/H(k+1,k)];
+end
+d = Q\f;
+end</pre>And here is the corresponding `polyvalA`
+
+<pre class="mcode-input">function y = polyvalA(d,H,s)
+W = 1 + 0*s;
+n = size(H,2);
+for k = 1:n
+    w = s.*W(:,k);
+    for j = 1:k
+        w = w - H(j,k)*W(:,j);
+    end
+    W = [W w/H(k+1,k)];
+end
+y = W*d;
+end</pre>If we try them on the same example, we get the correct result:
+
+<pre class="mcode-input">[d,H] = polyfitA(x,f,80);</pre>Here's a plot of the unstable and stable interpolants:
+
+<pre class="mcode-input">yA = polyvalA(d,H,x)
+plot([y yA])</pre><pre class="mcode-output">yA =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values  
+[      -1,       1]       81         1        1 
+vertical scale =   1 
+</pre><img src="img/VandermondeArnoldi_01.png" class="figure" alt="">
+
+
+
+## References
+
+[1] P. D. Brubeck, Y. Nakatsukasa, and L. N. Trefethen, Vandermonde with Arnoldi, submitted to _SIAM Review_, 2019; also available at arXiv and at `https://people/.maths.ox.ac.uk/trefethen/papers/`.
+
+[2] L. N. Trefethen, _Approximation Theory and Approximation Practice, extended edition_, SIAM, 2020.
+
+<pre class="mcode-input">end</pre>

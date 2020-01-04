@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vandermonde with Arnoldi &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Vandermonde with Arnoldi</h1>
+<h2>Pablo Brubeck, Yuji Nakatsukasa, and Nick Trefethen, January 2020 in <a href='/examples/linalg/'>linalg</a><span><a href='/examples/linalg/VandermondeArnoldi.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/linalg/VandermondeArnoldi.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">function VandermondeArnoldi()</pre>
+
+<p>This example discusses an extremely useful practical tool introduced at the end of 2019 in [1].</p>
+<h3 id="1-vandermonde-matrices-interpolation-and-least-squares">1. Vandermonde matrices, interpolation, and least-squares</h3>
+<p>An $m\times n$ Vandermonde matrix has the form $$ A = \pmatrix{1 &amp; x_1 &amp; \dots &amp; x_1^n \cr 1 &amp; x_2 &amp; \dots &amp; x_2^n \cr \vdots &amp; \vdots &amp; &amp; \vdots \cr 1 &amp; x_m &amp; \dots &amp; x_m^n} $$ where ${x_j}$ is a vector of distinct numbers. If $m=n+1$ and $f$ is a column vector of $m$ data values, the equations $$ Ac = f $$ give coefficients for the degree $n$ polynomial interpolant to the data, $$ p(x) = \sum_{k=0}^n c_k x^k . $$ If $m&gt; n+1$, we have a rectangular matrix and we can write $$ Ac \approx f $$ to indicate that the system is to be solved in the least-squares sense. This will give a degree $n$ polynomial approximation.</p>
+<p>Matlab has long had a command <code>vander</code> to generate such matrices, though the columns are ordered in the reverse direction, in keeping with Matlab's convention of ordering polynomial coefficients from highest degree to lowest.  Chebfun has an overload of <code>vander</code> to produce a quasimatrix with the same structure, i.e., columns $1, x, x^2, \dots , x^n$, where $x$ is a chebfun.  Again, following Matlab, the columns are actually ordered in the reverse direction.</p>
+<h3 id="2-ill-conditioning-of-the-matrices-not-the-interpolation-problem">2. Ill-conditioning of the matrices, not the interpolation problem</h3>
+<p>Unless the points ${x_j}$ are uniformly distributed on the unit circle, Vandermonde matrices are exponentially ill-conditioned as $n\to\infty$. Thus for example here we examine the matrices for degree 16 and 32 interpolation in Chebyshev points:</p>
+<pre class="mcode-input">format short
+cond(vander(chebpts(17)))
+cond(vander(chebpts(33)))</pre>
+
+<pre class="mcode-output">ans =
+   5.4282e+05
+ans =
+   6.8311e+11
+</pre>
+
+<p>There isn't any real need to call the <code>vander</code> command. We could equally well have generated the numbers like this:</p>
+<pre class="mcode-input">cond(chebpts(17).^(0:16))
+cond(chebpts(33).^(0:32))</pre>
+
+<pre class="mcode-output">ans =
+   5.4282e+05
+ans =
+   6.8312e+11
+</pre>
+
+<p>This ill-conditioning is a reflection of the horrors of the monomial basis, not of any difficulty with the underlying interpolation problem.  In fact, these interpolation problems are extraordinarily well conditioned, as we can see by examining their Lebesgue constants (see [ATAP], chapter. 12):</p>
+<pre class="mcode-input">[~, L16] = lebesgue(chebpts(17)); L16
+[~, L32] = lebesgue(chebpts(33)); L32</pre>
+
+<pre class="mcode-output">L16 =
+    2.7247
+L32 =
+    3.1682
+</pre>
+
+<p>If we look at the Chebfun quasimatrices for the function $x$ on the unit interval, we find that the condition numbers are amazingly close to what we found before:</p>
+<pre class="mcode-input">x = chebfun('x');
+cond(vander(x,17))
+cond(vander(x,33))</pre>
+
+<pre class="mcode-output">ans =
+   5.4803e+05
+ans =
+   6.2361e+11
+</pre>
+
+<p>Again there was no need for the <code>vander</code> command:</p>
+<pre class="mcode-input">cond(x.^(0:16))
+cond(x.^(0:32))</pre>
+
+<pre class="mcode-output">ans =
+   5.4803e+05
+ans =
+   6.2360e+11
+</pre>
+
+<p>These are condition numbers of matrices of sizes $\infty \times 17$ and $\infty \times 33$, respectively.  The fact that the numbers for our discrete and continuous Vandermonde matrices are so close reflects the fact that Chebyshev points are good approximations to the continuum of $[-1,1]$.  If we use equispaced points, the numbers come out worse:</p>
+<pre class="mcode-input">cond(vander(linspace(-1,1,17)))
+cond(vander(linspace(-1,1,33)))</pre>
+
+<pre class="mcode-output">ans =
+   9.9831e+06
+ans =
+   5.2567e+14
+</pre>
+
+<p>If we try to do interpolation or least-squares fitting with these ill-conditioned matrices or quasimatrices, we quickly run into trouble at larger values of $n$.  In MATLAB, the traditional codes for computing a polynomial and then evaluating it are <code>polyfit</code> and <code>polyval</code>, whose essences (with the columns ordered by increasing degrees) look like this:</p>
+<pre class="mcode-input">function c = polyfit(x,f,n)
+A = x.^(0:n);
+c = A\f;
+end
+
+function y = polyval(c,s)
+n = length(c)-1;
+B = s.^(0:n);
+y = B*c;
+end</pre>
+
+<p>These codes work for both matrices and quasimatrices.</p>
+<p>For example, let's fit the absolute value function by a polynomial of degree 80:</p>
+<pre class="mcode-input">f = abs(x);
+c = polyfit(x,f,80);
+y = polyval(c,x)</pre>
+
+<pre class="mcode-output">Warning: Matrix is close to singular or badly scaled. Results may be inaccurate.
+RCOND =  4.017379e-17. 
+y =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values  
+[      -1,       1]       69       1.2      1.1 
+vertical scale = 1.5 
+</pre>
+
+<p>We'll plot the result in a moment.  But here's a sign that it's not good: the maximum is much bigger than $1$:</p>
+<pre class="mcode-input">max(y)</pre>
+
+<pre class="mcode-output">ans =
+    1.5596
+</pre>
+
+<p>The reason is that the coefficients $c$ are huge because the basis is so ill-conditioned, and cancellation has destroyed the accuracy:</p>
+<pre class="mcode-input">norm(c,inf)</pre>
+
+<pre class="mcode-output">ans =
+   3.5308e+14
+</pre>
+
+<h3 id="3-vandermonde-with-arnoldi">3. Vandermonde with Arnoldi</h3>
+<p>It turns out there is a simple way to fix the problem: instead of working with a Vandermonde matrix or quasimatrix, generate a matrix whose columns span the same spaces by the Arnoldi process. A short paper presenting these ideas with four computed examples can be found at [1].</p>
+<p>Here is a function <code>polyfitA</code> that will do the trick for quasimatrices; the "A" stands for Arnoldi:</p>
+<pre class="mcode-input">function [d,H] = polyfitA(x,f,n)
+Q = 1 + 0*x;
+H = zeros(n+1,n);
+for k = 1:n
+    q = x.*Q(:,k);
+    for j = 1:k
+        H(j,k) = Q(:,j)'*q;
+        q = q - H(j,k)*Q(:,j);
+    end
+    H(k+1,k) = norm(q);
+    Q = [Q q/H(k+1,k)];
+end
+d = Q\f;
+end</pre>
+
+<p>And here is the corresponding <code>polyvalA</code></p>
+<pre class="mcode-input">function y = polyvalA(d,H,s)
+W = 1 + 0*s;
+n = size(H,2);
+for k = 1:n
+    w = s.*W(:,k);
+    for j = 1:k
+        w = w - H(j,k)*W(:,j);
+    end
+    W = [W w/H(k+1,k)];
+end
+y = W*d;
+end</pre>
+
+<p>If we try them on the same example, we get the correct result:</p>
+<pre class="mcode-input">[d,H] = polyfitA(x,f,80);</pre>
+
+<p>Here's a plot of the unstable and stable interpolants:</p>
+<pre class="mcode-input">yA = polyvalA(d,H,x)
+plot([y yA])</pre>
+
+<pre class="mcode-output">yA =
+   chebfun column (1 smooth piece)
+       interval       length     endpoint values  
+[      -1,       1]       81         1        1 
+vertical scale =   1 
+</pre>
+
+<p><img src="img/VandermondeArnoldi_01.png" class="figure" alt=""></p>
+<h3 id="references">References</h3>
+<p>[1] P. D. Brubeck, Y. Nakatsukasa, and L. N. Trefethen, Vandermonde with Arnoldi, submitted to <em>SIAM Review</em>, 2019; also available at arXiv and at <code>https://people/.maths.ox.ac.uk/trefethen/papers/</code>.</p>
+<p>[2] L. N. Trefethen, <em>Approximation Theory and Approximation Practice, extended edition</em>, SIAM, 2020.</p>
+<pre class="mcode-input">end</pre></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
