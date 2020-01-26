@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A third-order nonlinear BVP on the half-line &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>A third-order nonlinear BVP on the half-line</h1>
+<h2>C. I. Gheorghiu, January 2020 in <a href='/examples/ode-nonlin/'>ode-nonlin</a><span><a href='/examples/ode-nonlin/GulfStream.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-nonlin/GulfStream.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>A one-layer model of the large-scale circulation in an ocean (the Gulf Stream) was proposed by Ierley and Ruehr in 1986 [1]: $$ u''' -\lambda((u')^2-uu'')-u+1=0, ~~u(0) =0, ~~x\in [0,\infty) $$ for some real $\lambda$. Boundary conditions are given as either $u(0)=u'(0)=0$ (rigid or no-slip) or $u(0)=u''(0)=0$ (slippery or stress-free). In both cases we require $u(\infty) = 1$.</p>
+<p>In order to solve the problem in Chebfun we'll need to truncate the domain to something suitable, say $[0, X]$, i.e, to make use of the so-called domain truncation (see for instance our papers [3] and [4]).</p>
+<p>An integral result for this problem is fairly useful. It reads $$ I = \int_{0}^{\infty }[(u'')^2 - 3\lambda uu'u'']dx=\frac{1}{2}, $$ and it is obtained multiplying the equation by $u'$, integrating by parts and enforcing the boundary conditions. This result is valid for both types of boundary conditions. Using this integral result we optimise the value of the length $X$ above, and find that the accuracy of the Chebfun result comes close to machine precision.</p>
+<p>We can set up the chebop and solve the differential equation with only a few lines of code (see [2] for details).</p>
+<pre class="mcode-input">tic
+X = 35;
+dom = [0, X];
+lambda = -0.1;
+op  = @(u) diff(u,3) - lambda*( diff(u,1)^2 - u*diff(u,2) ) - u + 1;
+lbc = @(u) [u; diff(u,2)];     % stress-free BC
+rbc = 1;
+N = chebop(op,dom,lbc,rbc);
+[u,info] = N\0;</pre>
+
+<p>Here is what the solution looks like.</p>
+<pre class="mcode-input">plot([u diff(u) diff(u,2)])
+axis([0 20 -1 1.5])
+xlabel('x'), legend('u','u''','u''''','location','southeast')
+title('Slippery or stress-free b. c.')</pre>
+
+<p><img src="img/GulfStream_01.png" class="figure" alt=""></p>
+<p>The residuals are small:</p>
+<pre class="mcode-input">N_residual = norm(N(u))                   % residual of diffl. eq.
+lbcu = lbc(u);
+lbc_residuals = [lbcu{1}(0) lbcu{2}(0)]   % residuals of left BC
+rbc_residual = u(end) - rbc               % residual of right BC</pre>
+
+<pre class="mcode-output">N_residual =
+     4.580588942258870e-10
+lbc_residuals =
+   1.0e-09 *
+   0.000033013148830   0.133907788023016
+rbc_residual =
+    -9.769962616701378e-15
+</pre>
+
+<p>The Newton iteration has converged quadratically:</p>
+<pre class="mcode-input">semilogy(info.normDelta,'m*-')
+ylim([1e-16 1e+01])
+xlabel('iteration')
+ylabel('norm of Newton update')
+%</pre>
+
+<p><img src="img/GulfStream_02.png" class="figure" alt=""></p>
+<p>The Chebyshev coefficients of the solution decrease rapidly:</p>
+<pre class="mcode-input">plotcoeffs(u)</pre>
+
+<p><img src="img/GulfStream_03.png" class="figure" alt=""></p>
+<p>Finally, the integral $I$ comes out with a very small error:</p>
+<pre class="mcode-input">I = sum(diff(u,2)^2 - 3*lambda*(u*diff(u)*diff(u,2)))
+I_error = abs(I-1/2)</pre>
+
+<pre class="mcode-output">I =
+   0.499999999999915
+I_error =
+     8.482103908136196e-14
+</pre>
+
+<p>We solved the problem for several values of $X$ and found that the minimal error in $I$ occurs with $X\approx 35$.</p>
+<pre class="mcode-input">total_time_for_this_example = toc</pre>
+
+<pre class="mcode-output">total_time_for_this_example =
+   3.629420000000000
+</pre>
+
+<h3 id="references">References</h3>
+<ol>
+<li>
+<p>G. R. Ierley and O. G. Ruehr, Analytic and numerical solutions of a nonlinear boundary-layer problem, <em>Stud. Apl. Math.</em> 75:1-36 (1986).</p>
+</li>
+<li>
+<p>L. N. Trefethen, A. Birkisson, and T. A. Driscoll, <em>Exploring ODEs</em>, SIAM, 2018.</p>
+</li>
+<li>
+<p>C. I. Gheorghiu, Pseudospectral solutions to some singular nonlinear BVPs, <em>Numer. Algor.</em> 68 (2015), 1-14, DOI: 10.1007/s11075-014-9834-z.</p>
+</li>
+<li>
+<p>C. I. Gheorghiu, Spectral collocation solutions to systems of boundary layer type, <em>Numer. Algor.</em> 73 (2016), 1-14, DOI:10.1007/s11075-015-0083-6</p>
+</li>
+</ol></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
