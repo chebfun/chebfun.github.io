@@ -18,7 +18,7 @@ ylim([-4 4])</pre><img src="img/Smoothies_01.png" class="figure" alt="">
 
 To see the idea, we can look at the magnitudes of the Chebyshev coefficients:
 
-<pre class="mcode-input">plotcoeffs(f)</pre><img src="img/Smoothies_02.png" class="figure" alt="">
+<pre class="mcode-input">plotcoeffs(f,'color','k')</pre><img src="img/Smoothies_02.png" class="figure" alt="">
 
 These are random numbers of amplitudes decreasing faster than the reciprocal of any polynomial, but slower than exponentially.  This is enough to guarantee that (with probability 1) $f$ is $C^\infty$ but nowhere analytic. To be a little more precise, the construction of a smoothie closely follows that of a smooth random function, implemented in the command `randnfun`.  To ensure that the statistical properties are translation-invariant rather than changing as $x$ approaches $\pm 1$, the function is actually constructed via a random Fourier rather than Chebyshev series (hence periodic) on a longer interval than $[-1,1]$, which is then restricted to $[-1,1]$. The Fourier coefficients decrease root-exponentially in amplitude, that is, at a rate $C^{-\sqrt n}$ with $C&gt;1$.
 
@@ -26,14 +26,14 @@ To get a periodic smoothie, one can use the `'trig'` flag:
 
 <pre class="mcode-input">ftrig = smoothie('trig');
 plot(ftrig), snapnow
-plotcoeffs(ftrig)</pre><img src="img/Smoothies_03.png" class="figure" alt="">
+plotcoeffs(ftrig,'color','k')</pre><img src="img/Smoothies_03.png" class="figure" alt="">
 
 <img src="img/Smoothies_04.png" class="figure" alt="">
 
 For all the details, take a look at the (quite simple) code `smoothie.m`. Another option is a complex smoothie,
 
 <pre class="mcode-input">fcomplex = smoothie('complex');
-plot(fcomplex), xlim([-2.5 2.5]), axis equal</pre><img src="img/Smoothies_05.png" class="figure" alt="">
+plot(fcomplex,'m'), ylim([-1.8 1.8]), axis equal</pre><img src="img/Smoothies_05.png" class="figure" alt="">
 
 What do the Taylor series of these functions look like?  To give the idea, we plot the first and second derivatives of the original function $f$ at the beginning of this example:
 
