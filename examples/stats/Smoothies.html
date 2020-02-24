@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Smoothies: nowhere analytic functions &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>Smoothies: nowhere analytic functions</h1>
+<h2>Nick Trefethen, February 2020 in <a href='/examples/stats/'>stats</a><span><a href='/examples/stats/Smoothies.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/stats/Smoothies.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>Since Weierstrass in the 19th century, we have known that there are functions that are continuous and yet nowhere differentiable. Such functions are associated with Fourier or Chebyshev series that are lacunary or random.  A beautiful example is a Brownian path, which can be defined by a Fourier series with random coefficients of magnitudes decreasing inverse-linearly [1,2].</p>
+<p>At the other end of the smoothness spectrum, in a common room discussion in Oxford we found ourselves wondering, what about functions that are $C^\infty$, i.e. infinitely differentiable, but nowhere analytic? It is well known how to cook up a $C^\infty$ function that is nonanalytic at a single point.  The standard example is $f(x) = \exp(-1/x^2)$ for $x\in [-1,1]$, which has zero derivatives of all orders at $x=0$ and thus a Taylor series $0 + 0x + 0x^2 + \cdots,$ but with the Taylor series obviously not converging to $f$.  Can we upgrade this to a function which has Taylor series everywhere in $[-1,1]$, yet with none of them converging to the right limit?</p>
+<p>Random Fourier series again give an elegant solution, and in Chebfun, with apologies to the fruit beverage industry, this has been implemented by the new command <code>smoothie</code>. Here is a smoothie on the default interval $[-1,1]$:</p>
+<pre class="mcode-input">rng(1)
+f = smoothie;
+plot(f)
+ylim([-4 4])</pre>
+
+<p><img src="img/Smoothies_01.png" class="figure" alt=""></p>
+<p>To see the idea, we can look at the magnitudes of the Chebyshev coefficients:</p>
+<pre class="mcode-input">plotcoeffs(f)</pre>
+
+<p><img src="img/Smoothies_02.png" class="figure" alt=""></p>
+<p>These are random numbers of amplitudes decreasing faster than the reciprocal of any polynomial, but slower than exponentially.  This is enough to guarantee that (with probability 1) $f$ is $C^\infty$ but nowhere analytic. To be a little more precise, the construction of a smoothie closely follows that of a smooth random function, implemented in the command <code>randnfun</code>.  To ensure that the statistical properties are translation-invariant rather than changing as $x$ approaches $\pm 1$, the function is actually constructed via a random Fourier rather than Chebyshev series (hence periodic) on a longer interval than $[-1,1]$, which is then restricted to $[-1,1]$. The Fourier coefficients decrease root-exponentially in amplitude, that is, at a rate $C^{-\sqrt n}$ with $C&gt;1$.</p>
+<p>To get a periodic smoothie, one can use the <code>'trig'</code> flag:</p>
+<pre class="mcode-input">ftrig = smoothie('trig');
+plot(ftrig), snapnow
+plotcoeffs(ftrig)</pre>
+
+<p><img src="img/Smoothies_03.png" class="figure" alt=""></p>
+<p><img src="img/Smoothies_04.png" class="figure" alt=""></p>
+<p>For all the details, take a look at the (quite simple) code <code>smoothie.m</code>. Another option is a complex smoothie,</p>
+<pre class="mcode-input">fcomplex = smoothie('complex');
+plot(fcomplex), xlim([-2.5 2.5]), axis equal</pre>
+
+<p><img src="img/Smoothies_05.png" class="figure" alt=""></p>
+<p>What do the Taylor series of these functions look like?  To give the idea, we plot the first and second derivatives of the original function $f$ at the beginning of this example:</p>
+<pre class="mcode-input">subplot(2,1,1), plot(diff(f)), ylim([-80 80])
+subplot(2,1,2), plot(diff(f,2)), ylim([-8000 8000])</pre>
+
+<p><img src="img/Smoothies_06.png" class="figure" alt=""></p>
+<p>These are smooth functions, but they are rapidly getting bigger in amplitude as well as having visible structure on smaller and smaller space scales.  At any point $x\in [-1,1]$, the Taylor series of $f$ will be well defined, but with coefficients growing too fast for a positive radius of convergence.</p>
+<p>References:</p>
+<p>[1] S. Filip, A. Javeed, and L. N. Trefethen, Smooth random functions, random ODEs, and Gaussian processes, <em>SIAM Review</em> 61 (2019), 185--205.</p>
+<p>[2] J.-P. Kahane, <em>Some Random Series of Functions</em>, 2nd ed., Cambridge, 1985.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
