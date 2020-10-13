@@ -73,7 +73,7 @@ C = C.*(1+.15*randnfun(.2,'trig'));</pre>
 [f, finv] = conformal(C,'plots');
 toc</pre>
 
-<pre class="mcode-output">Elapsed time is 2.866429 seconds.
+<pre class="mcode-output">Elapsed time is 2.882060 seconds.
 </pre>
 
 <p><img src="img/ConformalMapping_01.png" class="figure" alt=""></p>
@@ -88,7 +88,7 @@ clf, plot(C,'b'), hold on
 plot(Z,'.k','markersize',3), hold off
 ylim([-1.3 1.3]), axis equal</pre>
 
-<pre class="mcode-output">Elapsed time is 0.002436 seconds.
+<pre class="mcode-output">Elapsed time is 0.002664 seconds.
 </pre>
 
 <p><img src="img/ConformalMapping_02.png" class="figure" alt=""></p>
@@ -115,7 +115,7 @@ max_back_and_forth_error = norm( W-W2 , inf)</pre>
 <p>To learn more about <code>conformal</code>, type <code>help conformal</code>.  For example, an optional additional argument can be used to specify a center point in $\Omega$ other than $0$.  One can also tighten the tolerance, though the exponential distortions inherent in conformal maps (the "crowding phenomenon") make it hard to get close to machine precision except for very simple regions.</p>
 <p>[1] A. Gopal and L. N. Trefethen, Representation of conformal maps by rational functions, <em>Numer. Math.</em> 142 (2019), 359-382.</p>
 <p>[2] N. Kerzman and M. R. Trummer, Numerical conformal mapping via the Szeg&ouml; kernel, <em>J. Comput. Appl. Math.</em> 14 (1986), 111-123.</p>
-<p>[3] L. N. Trefethen, Numerical conformal mapping with rational functions, <em>Computational Methods and Function Theory</em> (2020), 1-19. manuscript in preparation, 2019.</p></div>
+<p>[3] L. N. Trefethen, Numerical conformal mapping with rational functions, <em>Computational Methods and Function Theory</em> (2020), 1-19.</p></div>
         </div>
     </div>
 </div>
