@@ -80,7 +80,7 @@
 hyperDelta = @(ep) real(F(x+1i*ep)-F(x-1i*ep));
 hyperHeaviside = @(ep) real(G(x+1i*ep)-G(x-1i*ep));</pre>
 
-<p>We now imitate the limiting process by taking small values of the parameter $\varepsilon$ and plotting the corresponding functions below: First, delta functions.</p>
+<p>We now imitate the limiting process by taking small values of the parameter $\varepsilon$ and plotting the corresponding functions below. First, delta functions.</p>
 <pre class="mcode-input">for ep = .1:-.01:.001;
     plot(hyperDelta(ep), 'color', [0 .7 0]), hold on
 end
@@ -96,7 +96,7 @@ title('Heaviside function','fontsize',12), hold off</pre>
 <p><img src="img/Hyperfuns_02.png" class="figure" alt=""></p>
 <h3 id="references">References</h3>
 <ol>
-<li>Urs Graf, <em>Introduction to Hyperfunctions and Their Integral    Transforms: An Applied and Computational Approach</em>, Birkhaeuser, 2010.</li>
+<li>Urs Graf, <em>Introduction to Hyperfunctions and Their Integral    Transforms: An Applied and Computational Approach</em>, Birkh&auml;user, 2010.</li>
 </ol></div>
         </div>
     </div>

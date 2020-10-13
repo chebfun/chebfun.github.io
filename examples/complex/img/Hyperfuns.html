@@ -35,7 +35,7 @@ The Heaviside function also has an elegant choice of generator, again with $G_- 
 
 <pre class="mcode-input">x = chebfun('x');
 hyperDelta = @(ep) real(F(x+1i*ep)-F(x-1i*ep));
-hyperHeaviside = @(ep) real(G(x+1i*ep)-G(x-1i*ep));</pre>We now imitate the limiting process by taking small values of the parameter $\varepsilon$ and plotting the corresponding functions below: First, delta functions.
+hyperHeaviside = @(ep) real(G(x+1i*ep)-G(x-1i*ep));</pre>We now imitate the limiting process by taking small values of the parameter $\varepsilon$ and plotting the corresponding functions below. First, delta functions.
 
 <pre class="mcode-input">for ep = .1:-.01:.001;
     plot(hyperDelta(ep), 'color', [0 .7 0]), hold on
@@ -53,5 +53,5 @@ title('Heaviside function','fontsize',12), hold off</pre><img src="img/Hyperfuns
 
 ## References
 
-1. Urs Graf, _Introduction to Hyperfunctions and Their Integral    Transforms: An Applied and Computational Approach_, Birkhaeuser, 2010.
+1. Urs Graf, _Introduction to Hyperfunctions and Their Integral    Transforms: An Applied and Computational Approach_, Birkh&auml;user, 2010.
 
