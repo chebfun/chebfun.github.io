@@ -121,7 +121,7 @@
 </pre>
 
 <p><img src="img/ConformalL_02.png" class="figure" alt=""></p>
-<p>A well-known effect, going back to Newman and 1964 and Zolotarev in the 19th century, is that poles of rational approximations tend to cluster exponentially near singularities.  Let us examine this effect for the first plot above, where the poles cluster near the reentrant corner.  Here are the distances of those poles from the singularity plotted on a log scale.  The curving down at the left edge is a known phenomenon and is modeled in equation (3.2) of [2].</p>
+<p>A well-known effect, going back to Newman and 1964 and Zolotarev in the 19th century, is that poles of rational approximations tend to cluster exponentially near singularities.  Let us examine this effect for the first plot above, where the poles cluster near the reentrant corner.  Here are the distances of those poles from the singularity plotted on a log scale.  The curving down at the left edge is a known phenomenon and is modeled in equation (3.2) of [2].  For an analysis of exponential clustering, see [5].</p>
 <pre class="mcode-input">distances = sort(abs(pol(real(pol)&gt;0 &amp; imag(pol)&gt;0)));
 clf, semilogy(distances,'.-',MS,12,LW,.5), grid on
 title('distances of poles to singularity')</pre>
@@ -152,16 +152,20 @@ title('distances of poles to singularity')</pre>
     1.5900
 </pre>
 
+<p>For much more about numerical conformal mapping of regions with corners, see [4] and also the code <code>confmap</code> available at [5].</p>
 <pre class="mcode-input">total_time_for_this_example = toc</pre>
 
 <pre class="mcode-output">total_time_for_this_example =
-    1.4908
+    2.1398
 </pre>
 
+<p><img src="img/ConformalL_04.png" class="figure" alt=""></p>
 <p>[1] A. Gopal and L. N. Trefethen, Representation of conformal maps by rational functions, <em>Numer. Math.</em> 142 (2019), 359-382.</p>
 <p>[2] A. Gopal and L. N. Trefethen, Solving Laplace problems with corners singularities via rational functions, <em>SIAM J. Numer. Anal.</em> 57 (2019), 2074-2094.</p>
 <p>[3] L. N. Trefethen, Conformal mapping in Chebfun, Chebfun example <code>chebfun.org/examples/complex/ConformalMapping.html</code>.</p>
-<p>[4] L. N. Trefethen, Numerical conformal mapping with rational functions, manuscript in preparation, 2019.</p></div>
+<p>[4] L. N. Trefethen, Numerical conformal mapping with rational functions, <em>Computational Methods and Function Theory</em> (2020), 1-19.</p>
+<p>[5] L. N. Trefethen, <code>confmap.m</code> code, <code>people.maths.ox.ac.uk/trefethen/lightning.html</code>.</p>
+<p>[6] L. N. Trefethen, Y. Nakatsukasa, and J. A. C. Weideman, Exponential node clustering at singularities for rational approximation, quadrature, and PDEs, <em>Numerische Mathematik</em>, submitted, 2020.</p></div>
         </div>
     </div>
 </div>
