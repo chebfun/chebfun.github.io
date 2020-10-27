@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The phaseplot command &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The phaseplot command</h1>
+<h2>Nick Trefethen, October 2020 in <a href='/examples/complex/'>complex</a><span><a href='/examples/complex/PhaseplotCommand.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/complex/PhaseplotCommand.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>To plot a complex phase portrait in Chebfun, it is now enough to execute <code>phaseplot</code> with a function handle or complex chebfun2.  For example, here is a phase portrait of the function $f(z) = z$ on the default domain $[-1, 1, -1, 1]$:</p>
+<pre class="mcode-input">phaseplot(@(z) z)</pre>
+
+<p><img src="img/PhaseplotCommand_01.png" class="figure" alt=""></p>
+<p>At each point $z$ in the domain, the color shows the complex argument of $f(z)$ at that point.  For example, if $f(z)$ is positive the color is red and if it is negative the color is cyan. Notice the sequence of six colors as traces around counterclockwise: red, yellow, green, cyan, blue, magenta.  One can think of this as an interleaving of the two famous color schemes used by printers: rgb and cmy.</p>
+<p>Phase portraits reveal a lot about analytic and meromorphic functions.  For example, $f(z) = (z-1)/(z+1)$ has a zero at $z=1$ and a pole at $z=-1$, as revealed by the colors there going in the opposite direction:</p>
+<pre class="mcode-input">f = @(z) (z-1)./(z+1);
+phaseplot(f, [-2 2 -2 2])</pre>
+
+<p><img src="img/PhaseplotCommand_02.png" class="figure" alt=""></p>
+<p>Multiple poles or zeros show more colors:</p>
+<pre class="mcode-input">f = @(z) z.^3;
+phaseplot(f)</pre>
+
+<p><img src="img/PhaseplotCommand_03.png" class="figure" alt=""></p>
+<p>Branch cuts show up as discontinuities:</p>
+<pre class="mcode-input">f = @(z) sqrt(z-1).*sqrt(z+1);
+phaseplot(f, [-2 2 -2 2])</pre>
+
+<p><img src="img/PhaseplotCommand_04.png" class="figure" alt=""></p>
+<p>Essential singularities are glorious:</p>
+<pre class="mcode-input">f = @(z) exp(3./z);
+phaseplot(f)</pre>
+
+<p><img src="img/PhaseplotCommand_05.png" class="figure" alt=""></p>
+<p>An earlier phase portrait capability was introduced in Chebfun in 2013, in which <code>plot(f)</code> gives a phase portrait if <code>f</code> is a chebfun2 that takes complex values.  The new <code>phaseplot</code> command can also take a chebfun2 as argument, but is is much more flexible since it can deal with any function handle.  This broadens the scope greatly since functions with poles and other singularities generally cannot be resolved as chebfun2 objects.</p>
+<p>If you compare the images produced by <code>phaseplot</code> with the "classic" ones such as those magnificently discussed in [1], you will find a slight difference in coloring.</p>
+<pre class="mcode-input">subplot(121), phaseplot(@(z) z)
+axis off, title('default colors')
+subplot(122), phaseplot(@(z) z, 'classic')
+axis off, title('''classic'' colors')</pre>
+
+<p><img src="img/PhaseplotCommand_06.png" class="figure" alt=""></p>
+<p>The classic color scheme makes cyan, magenta, and yellow much narrower than red, green, and blue.  This has some appeal, since the narrow stripes convey sharper information, but on the other hand it seems somewhat artificial to treat three arguments of the compass so differently from the other three. That is why <code>phaseplot</code> introduces a slight transformation of the color scheme.  In the code it is a one-liner: search for "phi" if you are curious.</p>
+<p>To see some amazing things revealed by phase portraits, check out [2].</p>
+<p>[1] E. Wegert, <em>Visual Complex Functions: An Introduction with Phase Portraits</em>, Birkh&auml;user, 2012.</p>
+<p>[2] E. Wegert, <code>www.visual.wegert.com</code>.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
