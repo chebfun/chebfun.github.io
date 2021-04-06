@@ -51,6 +51,7 @@ approx2/Alignment.m
 approx2/Belyaev.m
 approx2/BumpFunction.m
 approx2/Gibbs2D.m
+approx2/Hosepipe.m
 approx2/Localization.m
 approx2/MaxTrace.m
 approx2/NearestPSDKernel.m
@@ -99,6 +100,7 @@ complex/ConformalVis.m
 complex/Hyperfuns.m
 complex/KeyholeAblowitzFokas.m
 complex/KeyholeContour.m
+complex/PhaseplotCommand.m
 complex/PhasePortraits.m
 complex/PortraitsWithPoles.m
 complex/RationalHarmonic.m
@@ -137,6 +139,7 @@ linalg/AnalyticSVD.m
 linalg/CondNos.m
 linalg/CrossingsAnalyticity.m
 linalg/Crouzeix.m
+linalg/EigLandscapes.m
 linalg/EigsViaDet.m
 linalg/FieldOfValues.m
 linalg/LevelRepulsion.m
@@ -146,6 +149,7 @@ linalg/NonsmoothFOV.m
 linalg/ResolventNorm.m
 linalg/SOR.m
 linalg/TransientGrowth.m
+linalg/VandermondeArnoldi.m
 ode-eig/ContinuousWilkinson.m
 ode-eig/ContourProjEig.m
 ode-eig/DoubleWell.m
@@ -196,6 +200,7 @@ ode-nonlin/ChebopQuiver.m
 ode-nonlin/ExactSolns.m
 ode-nonlin/FourierCollocationNonLin.m
 ode-nonlin/GuckenheimerHolmes.m
+ode-nonlin/GulfStream.m
 ode-nonlin/IVPCapabilities.m
 ode-nonlin/LaneEmden.m
 ode-nonlin/Logistic.m
@@ -291,6 +296,7 @@ stats/RandomMaxima.m
 stats/RandomPolynomials.m
 stats/RandomSurf.m
 stats/ResamplingRandomVariables.m
+stats/Smoothies.m
 stats/SmoothRandomWalk.m
 stats/UniformExercises.m
 temp/AtmosphericTemperature.m
