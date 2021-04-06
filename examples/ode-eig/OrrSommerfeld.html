@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <p>The Orr-Sommerfeld problem is a classic problem from the field of hydrodynamic stability.  In the simplest case it models the flow of a Newtonian fluid between two infinite plates, governed by the Navier-Stokes equations. The Reynolds number $Re$ is a nondimensional parameter corresponding roughly to velocity divided by viscosity.  For any value of $Re$ there is a smooth ("laminar") solution to the Navier-Stokes equations, but the stability, and hence the observability, of this solution is a delicate and much-studied question.  In practice one observes instability and transition to turbulence when $Re$ is in the thousands or higher.</p>
-<p>The Orr-Sommerfeld operator is the linear operator $L$ that maps infinitesimal perturbations on the laminar flow to their infinitesimal growth rates. Classically speaking we expect the flow to be stable if all the eigenvalues of $L$ lie in the left half-plane, and unstable if there are any eigenvalues in the right half-plane.</p>
+<p>The Orr-Sommerfeld operator is the linear operator $L$ that maps infinitesimal perturbations of the laminar flow to their infinitesimal growth rates. Classically speaking we expect the flow to be stable if all the eigenvalues of $L$ lie in the left half-plane, and unstable if there are any eigenvalues in the right half-plane.</p>
 <p>The following Chebfun code computes the rightmost $50$ eigenvalues of $L$ for $Re=2000$.  This mathematical formulation, due to Reddy and Henningson and described in Appendix A of [1], involves a fourth order complex generalized eigenvalue problem.</p>
 <pre class="mcode-input">Re = 2000;                  % Reynolds number
 alph = 1;                   % longitudinal Fourier parameter
@@ -71,16 +71,16 @@ A = chebop(-1,1);
 A.op = @(x,u) (diff(u,4)-2*alph^2*diff(u,2)+alph^4*u)/Re - ...
     2i*alph*u - 1i*alph*(1-x.^2).*(diff(u,2)-alph^2*u);
 B = chebop(-1,1);
-B.op = @(x,u) diff(u,2) - u;
+B.op = @(x,u) diff(u,2) - alph^2*u;
 A.lbc = [0; 0];
 A.rbc = [0; 0];
 e = eigs(A,B,50,'LR');
-FS = 'fontsize'; MS = 'markersize';
+MS = 'markersize';
 maxe = max(real(e));
-plot(e,'.r',MS,16), grid on, axis([-.9 .1 -1 0]), axis square
-title(sprintf('Re = %8.2f   \\lambda_r = %7.5f',Re,maxe),FS,16)</pre>
+plot(e,'.r',MS,14), grid on, axis([-.9 .1 -1 0]), axis square
+title(sprintf('Re = %8.2f   \\lambda_r = %7.5f',Re,maxe))</pre>
 
-<p><img src="img/OrrSommerfeld_01.png" class="figure" alt=""/></p>
+<p><img src="img/OrrSommerfeld_01.png" class="figure" alt=""></p>
 <p>(The eigenvalues on the lower-right branch are near-degenerate pairs.) Here is the same computation for $Re = 5772.22$, the critical value at which an eigenvalue first crosses into the right half-plane:</p>
 <pre class="mcode-input">Re = 5772.22; alph = 1.02;
 A.op = @(x,u) (diff(u,4)-2*alph^2*diff(u,2)+alph^4*u)/Re - ...
@@ -89,9 +89,9 @@ e = eigs(A,B,50,'LR');
 maxe = max(real(e));
 plot(e,'.r',MS,16), grid on, axis([-.9 .1 -1 0]), axis square
 title(['Re = ' sprintf('%5d',Re) ...
-   ',   \lambda_r = ' sprintf('%7.5f',maxe)],FS,16)</pre>
+   ',   \lambda_r = ' sprintf('%7.5f',maxe)])</pre>
 
-<p><img src="img/OrrSommerfeld_02.png" class="figure" alt=""/></p>
+<p><img src="img/OrrSommerfeld_02.png" class="figure" alt=""></p>
 <p>Although the Orr-Sommerfeld equation is very famous, this eigenvalue analysis actually has little to do with what makes fluid flows unstable in practice, and it is difficult to see the number $5772.22$ in the laboratory [2].</p>
 <h3 id="references">References</h3>
 <ol>
