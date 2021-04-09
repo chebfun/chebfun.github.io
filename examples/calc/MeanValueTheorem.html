@@ -68,7 +68,7 @@
 b = 6;
 dom = [a b];
 x = chebfun('x', dom);
-f = (x-1).*(x-2).*(x-3);</pre>
+f = (x-1)*(x-2)*(x-3);</pre>
 
 <p>We calculate the slope of the secant:</p>
 <pre class="mcode-input">sl = (f(b) - f(a))/(b - a);</pre>
@@ -80,17 +80,16 @@ f = (x-1).*(x-2).*(x-3);</pre>
 <pre class="mcode-input">c = roots(fprime - sl)</pre>
 
 <pre class="mcode-output">c =
-  -2.000000000000000
-   5.999999999999998
+    -2
+     6
 </pre>
 
 <p>Two roots are returned. We keep the first one and ignore the other as it lies at an endpoint of the interval. The following plot visualizes this example: the tangent line at $c$ (red) is parallel to the secant (black, dashed).</p>
-<pre class="mcode-input">LW = 'linewidth'; lw = 1.6;
-plot(f, LW, lw), hold on
-plot([a b], [f(a) f(b)], '--k', LW, lw)
-plot(c(1), f(c(1)),'.r', 'markersize', 20)
+<pre class="mcode-input">plot(f), hold on
+plot([a b], [f(a) f(b)], '--k')
+plot(c(1), f(c(1)),'.r')
 L = 2;
-plot([c(1)-L c(1)+L],[f(c(1))-L*sl f(c(1))+L*sl], 'r', LW, lw)</pre>
+plot([c(1)-L c(1)+L],[f(c(1))-L*sl f(c(1))+L*sl], 'r')</pre>
 
 <p><img src="img/MeanValueTheorem_01.png" class="figure" alt=""></p></div>
         </div>
