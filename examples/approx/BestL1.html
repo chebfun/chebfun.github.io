@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="polynomial-approximation-in-the-linfty-norm">Polynomial approximation in the $L^\infty$ norm</h3>
-<p>Given a continuous real-valued function $f$ on $[a,b]$, finding the best polynomial approximant $p_\infty$ to $f$ in the $L^\infty$-norm $\mbox{min}_{p\in\mathcal{P}_n}|f-p|_{L^{\infty}}$ is known as the minimax (or sometimes Chebyshev) approximation problem. These approximations can be computed by the Chebfun <code>minimax</code> command. Let's revisit the Chebfun example https://www.chebfun.org/examples/approx/ResolutionWiggly.html and compute a best polynomial approximant of degree 100:</p>
+<p>Given a continuous real-valued function $f$ on $[a,b]$, finding the best polynomial approximant $p_\infty$ to $f$ in the $L^\infty$-norm $\mbox{min}_{p\in\mathcal{P}_n}|f-p|_{L^{\infty}}$ is known as the minimax (or sometimes Chebyshev) approximation problem. These approximations can be computed by the Chebfun <code>minimax</code> command. Let's revisit the Chebfun example <a href="https://www.chebfun.org/examples/approx/ResolutionWiggly.html">https://www.chebfun.org/examples/approx/ResolutionWiggly.html</a> and compute a best polynomial approximant of degree 100:</p>
 <pre class="mcode-input">dom = [0 14]; deg = 100;
 f = chebfun(@(x) sin(x)^2 + sin(x^2), dom);
 pinf = minimax(f, deg, 'tol', 1e-8);
@@ -124,9 +124,9 @@ title('closeup')</pre>
 <h3 id="a-word-on-the-algorithm-for-polyfitl1">A word on the algorithm for <code>polyfitL1</code></h3>
 <p>In [1], it is recommended that Watson's algorithm should be used in conjunction with linear programming problems and a refinement step. These additional algorithmic details can significantly speed up the computation. However, MATLAB's linear programming commands are in a toolbox, so we have avoided these steps in keeping with the Chebfun policy of just relying on core MATLAB.</p>
 <h3 id="references">References</h3>
-<p>[1] Y. Nakatsukasa and A. Townsend, Error localization of best L1 polynomial approximants, arXiv:1902.02664, 2019.</p>
+<p>[1] Y. Nakatsukasa and A. Townsend, Error localization of best L1 polynomial approximants, SIAM J. Numer. Anal., 59 (2021), 314--333.</p>
 <p>[2] A. M. Pinkus, <em>On L1-approximation</em>, Cambridge University Press, 1989.</p>
-<p>[3] L. N. Trefethen, Six myths of polynomial interpolation and quadrature, appendix of <em>Approximation Theory and Approximation Practice</em>, SIAM, 2013.</p>
+<p>[3] L. N. Trefethen, Six myths of polynomial interpolation and quadrature, appendix of <em>Approximation Theory and Approximation Practice, extended edition</em>, SIAM, 2019.</p>
 <p>[4] G. A. Watson. An algorithm for linear L1 approximation of continuous functions, <em>IMA J. Numer. Anal.</em>, 1 (1981), 157--167.</p></div>
         </div>
     </div>

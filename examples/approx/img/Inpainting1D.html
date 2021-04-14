@@ -43,19 +43,19 @@ The $\infty$-norm is useless for our purpose:
 <pre class="mcode-input">pinf = minimax(corrupted,n-2);
 plot(pinf), grid on, title('Linf fit')
 errinf = norm(pinf-smooth,inf)</pre><pre class="mcode-output">errinf =
-   0.276288549195747
+   0.276288549195757
 </pre><img src="img/Inpainting1D_05.png" class="figure" alt="">
 
 We've called this example "1D inpainting" because it is a 1D version of the famous "inpainting" problem in image analysis.  The tools used for that problem are varied and powerful, using everything from function approximation to partial differential equations to machine learning; what we have done here is only a small indication of some of the mathematics that may come into play. Note that the issue at hand is "sparsity" of the difference between the corrupted signal and its inpainted polynomial approximation.  The $L^1$ norm comes up in many problems related to sparsity -- famously in the area of compressed sensing --  since it is an approximation to the $L^0$ "norm" (not actually a norm).
 
 Our $L^1$ computation was quite slow:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 15.982955 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 15.203736 seconds.
 </pre>(Virtually all the time was taken by `polyfitL1`; in comparison `polyfit` and `minimax` are almost instantaneous.)  This is partly because $L^1$ fitting is challenging, but equally because Chebfun's `polyfitL1` command avoids the tool that could speed it up considerably, namely linear programming.  This is because linear programming is not available in core Matlab.
 
 For details of $L^1$ fitting in Chebfun, see [1], which is based on an algorithm by Watson [2], and also the Chebfun example "Best polynomial approximation in the $L^1$ norm.
 
-[1] Y. Nakatsukasa and A. Townsend, Error localization of best L1 polynomial approximants, arXiv:1902.02664, 2019.
+[1] Y. Nakatsukasa and A. Townsend, Error localization of best L1 polynomial approximants, SIAM J. Numer. Anal, 59 (2021), 314--333.
 
 [2] G. A. Watson. An algorithm for linear L1 approximation of continuous functions, _IMA J. Numer. Anal._, 1 (1981), 157--167.
 

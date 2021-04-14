@@ -9,7 +9,7 @@ meta: "(Chebfun example approx/BestL1.m) [Tags: #polynomial, #best, #Newton]"
 
 ## Polynomial approximation in the $L^\infty$ norm
 
-Given a continuous real-valued function $f$ on $[a,b]$, finding the best polynomial approximant $p_\infty$ to $f$ in the $L^\infty$-norm $\mbox{min}_{p\in\mathcal{P}_n}\|f-p\|_{L^{\infty}}$ is known as the minimax (or sometimes Chebyshev) approximation problem. These approximations can be computed by the Chebfun `minimax` command. Let's revisit the Chebfun example https://www.chebfun.org/examples/approx/ResolutionWiggly.html and compute a best polynomial approximant of degree 100:
+Given a continuous real-valued function $f$ on $[a,b]$, finding the best polynomial approximant $p_\infty$ to $f$ in the $L^\infty$-norm $\mbox{min}_{p\in\mathcal{P}_n}\|f-p\|_{L^{\infty}}$ is known as the minimax (or sometimes Chebyshev) approximation problem. These approximations can be computed by the Chebfun `minimax` command. Let's revisit the Chebfun example <https://www.chebfun.org/examples/approx/ResolutionWiggly.html> and compute a best polynomial approximant of degree 100:
 
 <pre class="mcode-input">dom = [0 14]; deg = 100;
 f = chebfun(@(x) sin(x)^2 + sin(x^2), dom);
@@ -89,11 +89,11 @@ In [1], it is recommended that Watson's algorithm should be used in conjunction 
 
 ## References
 
-[1] Y. Nakatsukasa and A. Townsend, Error localization of best L1 polynomial approximants, arXiv:1902.02664, 2019.
+[1] Y. Nakatsukasa and A. Townsend, Error localization of best L1 polynomial approximants, SIAM J. Numer. Anal., 59 (2021), 314--333.
 
 [2] A. M. Pinkus, _On L1-approximation_, Cambridge University Press, 1989.
 
-[3] L. N. Trefethen, Six myths of polynomial interpolation and quadrature, appendix of _Approximation Theory and Approximation Practice_, SIAM, 2013.
+[3] L. N. Trefethen, Six myths of polynomial interpolation and quadrature, appendix of _Approximation Theory and Approximation Practice, extended edition_, SIAM, 2019.
 
 [4] G. A. Watson. An algorithm for linear L1 approximation of continuous functions, _IMA J. Numer. Anal._, 1 (1981), 157--167.
 

@@ -107,7 +107,7 @@ plot(pinf), grid on, title('Linf fit')
 errinf = norm(pinf-smooth,inf)</pre>
 
 <pre class="mcode-output">errinf =
-   0.276288549195747
+   0.276288549195757
 </pre>
 
 <p><img src="img/Inpainting1D_05.png" class="figure" alt=""></p>
@@ -115,12 +115,12 @@ errinf = norm(pinf-smooth,inf)</pre>
 <p>Our $L^1$ computation was quite slow:</p>
 <pre class="mcode-input">toc</pre>
 
-<pre class="mcode-output">Elapsed time is 15.982955 seconds.
+<pre class="mcode-output">Elapsed time is 15.203736 seconds.
 </pre>
 
 <p>(Virtually all the time was taken by <code>polyfitL1</code>; in comparison <code>polyfit</code> and <code>minimax</code> are almost instantaneous.)  This is partly because $L^1$ fitting is challenging, but equally because Chebfun's <code>polyfitL1</code> command avoids the tool that could speed it up considerably, namely linear programming.  This is because linear programming is not available in core Matlab.</p>
 <p>For details of $L^1$ fitting in Chebfun, see [1], which is based on an algorithm by Watson [2], and also the Chebfun example "Best polynomial approximation in the $L^1$ norm.</p>
-<p>[1] Y. Nakatsukasa and A. Townsend, Error localization of best L1 polynomial approximants, arXiv:1902.02664, 2019.</p>
+<p>[1] Y. Nakatsukasa and A. Townsend, Error localization of best L1 polynomial approximants, SIAM J. Numer. Anal, 59 (2021), 314--333.</p>
 <p>[2] G. A. Watson. An algorithm for linear L1 approximation of continuous functions, <em>IMA J. Numer. Anal.</em>, 1 (1981), 157--167.</p></div>
         </div>
     </div>
