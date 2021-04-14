@@ -84,9 +84,9 @@ disp([pol res])</pre>
    3.9834 + 1.2129i   0.2984 - 1.9200i
    3.9834 - 1.2129i   0.2984 + 1.9200i
   -3.4613 + 0.0000i  -0.1990 + 0.0000i
-  -1.9959 + 0.0000i   0.4876 - 0.0000i
+  -1.9959 + 0.0000i   0.4876 + 0.0000i
   -1.0000 + 0.0000i  -1.0000 + 0.0000i
-   0.0000 + 0.0000i   1.0000 - 0.0000i
+   0.0000 + 0.0000i   1.0000 + 0.0000i
 </pre>
 
 <p>Note that the poles at $0$ and $-1$ with their residues $1$ and $-1$ have been closely captured, and the pole at $-2$ with residue $0.5$ is approximately captured.  If we approximate on $[-2,2]$ rather than the default $[-1,1]$, the type increases to $(7,7)$ and the approximant is a close match to the gamma function in the interval $[-3,3]$ displayed.</p>
@@ -101,8 +101,8 @@ set(h,LW,2)</pre>
    3.6952 - 1.6173i   0.5067 + 0.7977i
    3.7682 + 0.0000i  -0.9543 + 0.0000i
   -2.9760 + 0.0000i  -0.1512 + 0.0000i
-  -2.0000 + 0.0000i   0.5000 - 0.0000i
-  -0.0000 + 0.0000i   1.0000 + 0.0000i
+  -2.0000 + 0.0000i   0.5000 + 0.0000i
+   0.0000 + 0.0000i   1.0000 + 0.0000i
   -1.0000 + 0.0000i  -1.0000 + 0.0000i
 </pre>
 
@@ -128,8 +128,8 @@ title('AAA approx r'), xlabel(' ')</pre>
 <pre class="mcode-input">format long, pol(abs(pol)&lt;1)</pre>
 
 <pre class="mcode-output">ans =
-  0.000000000000099 + 0.199999999999593i
-  0.000000000000099 - 0.199999999999593i
+  0.000000000000102 + 0.199999999999571i
+  0.000000000000102 - 0.199999999999571i
 </pre>
 
 <h3 id="3-approximations-of-restricted-type-nn">3. Approximations of restricted type (n,n)</h3>
@@ -148,6 +148,9 @@ title('AAA and best type (3,3) error curves')
 ezplot(@(x) f(x)-rbest(x),[-1,1]), hold off
 grid on, ylim(1e-6*[-1 1]), xlabel(' ')
 title('AAA and best type (3,3) approximants to exp(x)')</pre>
+
+<pre class="mcode-output">Warning:  This command is deprecated. Use minimax instead. 
+</pre>
 
 <p><img src="img/AAAApprox_05.png" class="figure" alt=""></p>
 <p>In this example, the best approximant is more accurate, but computation of best approximations is a much more fragile process, easily broken, and restricted in Chebfun to real intervals. An example of a more difficult problem on a real interval is the approximation of $|x|$ on $[-1,1]$.  Here <code>aaa</code> does a pretty good job, issuing a message indicating that one Froissart doublet (spurious pole-zero pair) has been removed along the way. A warning indicates that the desired tolerance has not been achieved, though it has come pretty close.</p>
@@ -178,13 +181,13 @@ plot(pol,'.r',MS,14), hold off</pre>
   5.196152422706632 + 0.000000000000000i
   1.138695267175776 + 0.792456849446122i
   Column 2
-  1.138695267217992 - 0.792456849405682i
-  5.196152429260115 - 0.000000005054073i
-  1.135687092662283 + 0.790754176406192i
+  1.138695267218005 - 0.792456849405676i
+  5.196152429259934 - 0.000000005054655i
+  1.135686390087262 + 0.790754347086453i
 </pre>
 
 <h3 id="5-references">5. References</h3>
-<p>[1] Y. Nakatsukasa, O. Sete, and L. N. Trefethen, The AAA algorithm for rational approximation, arXiv 2016:1612.00337.</p></div>
+<p>[1] Y. Nakatsukasa, O. S&egrave;te, and L. N. Trefethen, The AAA algorithm for rational approximation, SIAM J. Sci. Comput., 40 (2018), A1494-A1522.</p></div>
         </div>
     </div>
 </div>
