@@ -18,8 +18,8 @@ A2 =
 
 We first present the plot, then explain what it means and how we computed it with Chebfun.
 
-<pre class="mcode-input">e1 = chebfun(@(t) norm(expm(t*A1)),[0 3.4],'vectorize');
-e2 = chebfun(@(t) norm(expm(t*A2)),[0 3.4],'vectorize');
+<pre class="mcode-input">e1 = chebfun(@(t) norm(expm(t*A1)),[0 3.4]);
+e2 = chebfun(@(t) norm(expm(t*A2)),[0 3.4]);
 LW = 'linewidth'; FS = 'fontsize';
 plot(e1,'b',e2,'r',LW,2)
 ylim([0 1.5]), grid on, legend('A1','A2')
@@ -29,7 +29,7 @@ title('Which curve is which?',FS,16)</pre><img src="img/NonnormalQuiz_01.png" cl
 
 The plot shows two curves, one with a hump and one without. The book asks, "Which curve is which?", and doesn't reveal the answer, but here you can see that `A2` is the matrix with the hump.  This is surprising to some people, for one might expect the hump to correspond to `A1` since it is nondiagonalizable.  In fact, the nondiagonalizability of `A1` is less important than the large entry $5$ in the upper-right corner of `A2`.
 
-This is a natural problem for Chebfun because Chebfun is good at working with functions that don't have representations by explicit formulas. Here the function we are concerned with is `norm(expm(tA))`, a function of time `t`.  Chebfun is happy to sample that function at various values of `t` and construct a corresponding chebfun.  Since `norm(expm(tA))` will not work when `t` is a vector, the `'vectorize'` flag is included to avoid a warning message.
+This is a natural problem for Chebfun because Chebfun is good at working with functions that don't have representations by explicit formulas. Here the function we are concerned with is `norm(expm(tA))`, a function of time `t`.  Chebfun is happy to sample that function at various values of `t` and construct a corresponding chebfun.
 
 Once we have the chebfuns, we can do things with them. For example, here are the maximum values of the two curves and the locations where they occur:
 
@@ -41,7 +41,7 @@ maxt1 =
 maxnorm2 =
    1.383621941609019
 maxt2 =
-   0.564256565401320
+   0.564256565401315
 </pre>
 
 ## References
