@@ -72,7 +72,7 @@ hold on, plot(chebfun('exp(1i*x)',[0 2*pi]),'k'), hold off</pre>
 
 <p><img src="img/TjTkDisk_01.png" class="figure" alt=""></p>
 <p>If $j$ or $k$ is odd, the integral is zero, but even if they are both even, to our surprise, we found that the integrals are still usually zero!  In fact, a nonzero result only shows up if $j$ and $k$ differ by 0 or 2. Thus the function plotted above, for example, has integral exactly zero over the disk.  This is not obvious.</p>
-<p>Speaking in general, suppose we want to integrate a smooth function $f(r,t)$ numerically over the unit disk, where $r$ is radius and $t$ is angle.  Soon Diskfun will be available for such problems, but here, we use standard Chebfun.  Let's assume that $f$ is defined by a function that accepts a scalar $r$ and a vector $t$, like this one:</p>
+<p>Speaking in general, suppose we want to integrate a smooth function $f(r,t)$ numerically over the unit disk, where $r$ is radius and $t$ is angle.  One could use Diskfun, but here, we use standard Chebfun.  Let's assume that $f$ is defined by a function that accepts a scalar $r$ and a vector $t$, like this one:</p>
 <pre class="mcode-input">f = @(r,t) 1 + 0*t;</pre>
 
 <p>Here is a numerical confirmation that the integral of $1$ is $\pi$:</p>
@@ -136,7 +136,7 @@ time_elapsed_in_seconds = toc</pre>
    -0.0000   -0.0000    0.0000    0.1122   -0.0249   -0.0873
     0.0000   -0.0000   -0.0000    0.0000   -0.0873    0.0159
 time_elapsed_in_seconds =
-   13.6988
+    3.6628
 </pre>
 
 <h3 id="3-analytic-expressions-for-the-integrals">3. Analytic expressions for the integrals</h3>
@@ -170,7 +170,7 @@ I = I + tril(I,-1)'</pre>
 </pre>
 
 <h3 id="4-application-to-integration-of-general-functions">4. Application to integration of general functions</h3>
-<p>The results of the last section imply that there is an immediate way to compute the integral of a chebfun2 over a disk: just take the appropriate linear combination of its bivariate Chebyshev coefficients.  We will probably develop this idea into a new Chebfun2 <code>sumdisk</code> command.</p></div>
+<p>The results of the last section imply that there is an immediate way to compute the integral of a chebfun2 over a disk: just take the appropriate linear combination of its bivariate Chebyshev coefficients.  After this example was initially written, we developed this idea into a Chebfun2 <code>sumdisk</code> command.  See the example "Sumdisk for integration over a disk".</p></div>
         </div>
     </div>
 </div>
