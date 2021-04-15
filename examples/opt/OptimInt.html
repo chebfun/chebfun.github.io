@@ -71,35 +71,33 @@
 <pre class="mcode-input">I = @(a) sum(chebfun(@(x) F(x,a)));</pre>
 
 <p>We compute a chebfun of this result, for $a$ ranging from $0$ to $100$.</p>
-<pre class="mcode-input">Ia = chebfun(@(a) I(a),[0 100],'vectorize');</pre>
+<pre class="mcode-input">Ia = chebfun(@(a) I(a),[0 100]);</pre>
 
-<p>The <code>'vectorize'</code> flag is used, since $I$ can not be evaluated with a vector.</p>
 <p>We use Chebfun's <code>roots</code> command to find where $I(a)=1$.</p>
 <pre class="mcode-input">r = roots(Ia-1)</pre>
 
 <pre class="mcode-output">r =
-   2.011698636650794
-   3.199526913460082
+   2.011698636650816
+   3.199526913460049
 </pre>
 
 <p>We plot this, to make sure it looks sensible.</p>
-<pre class="mcode-input">LW = 'linewidth'; MS = 'markersize';
-plot(Ia,LW,1.6), hold on, grid on
+<pre class="mcode-input">plot(Ia), hold on, grid on
 axis([0 35 0 1.2]), set(gca,'ytick',0:.25:1)
-plot(r,Ia(r),'.r',MS,20);</pre>
+plot(r,Ia(r),'.r');</pre>
 
 <p><img src="img/OptimInt_01.png" class="figure" alt=""></p>
 <p>Since we have $I(a)$ as a chebfun, we can do other things, like find where $I(a) = 0.25$</p>
 <pre class="mcode-input">r = roots(Ia-0.25)
-plot(r,Ia(r),'.k',MS,20), hold off</pre>
+plot(r,Ia(r),'.k'), hold off</pre>
 
 <pre class="mcode-output">r =
    0.378866771015907
-  18.225950880000603
-  19.761174831761753
-  23.753831561562048
-  26.956276286229929
-  29.291546747613694
+  18.225950880000607
+  19.761174831761743
+  23.753831561562023
+  26.956276286229951
+  29.291546747613683
 </pre>
 
 <p><img src="img/OptimInt_02.png" class="figure" alt=""></p>
@@ -115,7 +113,7 @@ plot(r,Ia(r),'.k',MS,20), hold off</pre>
 f = std(diff(x(2:end-1)))</pre>
 
 <pre class="mcode-output">f =
-   0.008984009280336
+   0.008984009280341
 </pre></div>
         </div>
     </div>
