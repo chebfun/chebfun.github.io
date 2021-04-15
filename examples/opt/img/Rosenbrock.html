@@ -18,36 +18,36 @@ The example we consider is the famous and challenging "Rosenbrock function":
 <pre class="mcode-input">x = linspace(-1.5,1.5); y = linspace(-1,3);
 [xx,yy] = meshgrid(x,y); ff = f(xx,yy);
 levels = 10:10:300;
-LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
-figure, contour(x,y,ff,levels,LW,1.2), colorbar
+MS = 'markersize';
+figure, contour(x,y,ff,levels), colorbar
 axis([-1.5 1.5 -1 3]), axis square, hold on
-title('Rosenbrock function f(x,y)',FS,14)</pre><img src="img/Rosenbrock_01.png" class="figure" alt="">
+title('Rosenbrock function f(x,y)')</pre><img src="img/Rosenbrock_01.png" class="figure" alt="">
 
 It's obvious from the formula that the minimum value is $0$, taken at $x=y=1$. In 1D Chebfun, we can find this by taking slices. If $x_0$ is a constant, then the minimum of $f(x_0,y)$ over all $y$ can be obtained like this:
 
 <pre class="mcode-input">fminx0 = @(x0) min(chebfun(@(y) f(x0,y),[-1 3]));</pre>Now we can make a chebfun representing `fminx` as a function of $x$:
 
-<pre class="mcode-input">fminx = chebfun(fminx0,[-1.5 1.5],'vectorize','splitting','on');
-figure, plot(fminx,LW,1.6)
-xlabel('x',FS,14), ylabel('min_y(f(x,y))',FS,14)
-title('minimum of f(x,y) along vertical slices',FS,14)</pre><img src="img/Rosenbrock_02.png" class="figure" alt="">
+<pre class="mcode-input">fminx = chebfun(fminx0,[-1.5 1.5],'splitting','on');
+figure, plot(fminx)
+xlabel('x'), ylabel('min_y(f(x,y))')
+title('minimum of f(x,y) along vertical slices')</pre><img src="img/Rosenbrock_02.png" class="figure" alt="">
 
 The global minimum of $f(x,y)$ is the minimum of `fminx`:
 
 <pre class="mcode-input">format long
 [minf,minx] = min(fminx)</pre><pre class="mcode-output">minf =
-     2.386979502944087e-13
+    -1.598721155460225e-14
 minx =
-   0.999999999999933
+   0.999999999999994
 </pre>The variable `minx` represents the $x$-coordinate of the minimum. We can find the $y$ coordinate like this:
 
 <pre class="mcode-input">[minf,miny] = min(chebfun(@(y) f(minx,y), [-1 3]))</pre><pre class="mcode-output">minf =
      0
 miny =
-   0.999999999999866
+   0.999999999999987
 </pre>Let's show the contour plot again, with the minimum point:
 
-<pre class="mcode-input">close, plot(minx,miny,'.k',MS,20)</pre><img src="img/Rosenbrock_03.png" class="figure" alt="">
+<pre class="mcode-input">close, plot(minx,miny,'.k',MS,14)</pre><img src="img/Rosenbrock_03.png" class="figure" alt="">
 
 
 
@@ -60,26 +60,26 @@ For example, consider this function defined on the square $[-1,1]\times[-1,1]$:
 <pre class="mcode-input">f = @(x,y) exp(x-2*x.^2-y.^2).*sin(6*(x+y+x.*y.^2));
 x = linspace(-1,1); y = linspace(-1,1);
 [xx,yy] = meshgrid(x,y); ff = f(xx,yy);
-figure, contour(x,y,ff,30,LW,1.2), colorbar
+figure, contour(x,y,ff,30), colorbar
 axis([-1 1 -1 1]), axis square, hold on
-title('f(x,y)',FS,14)</pre><img src="img/Rosenbrock_04.png" class="figure" alt="">
+title('f(x,y)')</pre><img src="img/Rosenbrock_04.png" class="figure" alt="">
 
 We define `fminx0` and `fminx` as before. Because of the lack of smoothness and the consequent need for edge detection, this computation takes a little while:
 
 <pre class="mcode-input">tic
 fminx0 = @(x0) min(chebfun(@(y) f(x0,y),[-1 1]));
-fminx = chebfun(fminx0,[-1 1],'vectorize','splitting','on');
-figure, plot(fminx,LW,1.6)
-xlabel('x',FS,14), ylabel('min_y(f(x,y))',FS,14)
-title('minimum of f(x,y) along vertical slices',FS,14)
-toc</pre><pre class="mcode-output">Elapsed time is 15.191075 seconds.
+fminx = chebfun(fminx0,[-1 1],'splitting','on');
+figure, plot(fminx)
+xlabel('x'), ylabel('min_y(f(x,y))')
+title('minimum of f(x,y) along vertical slices')
+toc</pre><pre class="mcode-output">Elapsed time is 2.928254 seconds.
 </pre><img src="img/Rosenbrock_05.png" class="figure" alt="">
 
 Here are the breakpoints that Chebfun has introduced:
 
 <pre class="mcode-input">fminx.ends</pre><pre class="mcode-output">ans =
   Columns 1 through 3
-  -1.000000000000000  -0.635872022371399   0.210237104254782
+  -1.000000000000000  -0.635872022371398   0.210237104254783
   Column 4
    1.000000000000000
 </pre>We can now quickly compute the global minimum as before:
@@ -88,14 +88,14 @@ Here are the breakpoints that Chebfun has introduced:
 [minf,miny] = min(chebfun(@(y) f(minx,y), [-1 3]))</pre><pre class="mcode-output">minf =
   -0.969232500643148
 minx =
-   0.395759627601424
+   0.395759627601427
 minf =
-  -0.969232500643148
+  -0.969232500643147
 miny =
-   0.331573987886852
+   0.331573987886849
 </pre>And here's the plot:
 
-<pre class="mcode-input">close, plot(minx,miny,'.k',MS,20)</pre><img src="img/Rosenbrock_06.png" class="figure" alt="">
+<pre class="mcode-input">close, plot(minx,miny,'.k',MS,14)</pre><img src="img/Rosenbrock_06.png" class="figure" alt="">
 
 
 
