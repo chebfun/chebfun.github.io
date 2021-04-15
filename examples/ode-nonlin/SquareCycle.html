@@ -81,9 +81,6 @@ set(gca,'ytick',-1:.5:1)</pre>
 ylabel('distance to unit square')
 xlabel t, legend({'x','y'},LO,'southwest')</pre>
 
-<pre class="mcode-output">Warning: Negative data ignored 
-</pre>
-
 <p><img src="img/SquareCycle_03.png" class="figure" alt=""></p>
 <p>Down to $10^{-11}$, everything looks clean, but at that point we see computational trouble.  This is the level of Chebfun's tolerances for the ODE solver. In fact, if we compute further to $t=150$, one of the variables erroneously becomes bigger than $1$, whereupon it rapidly diverges.</p>
 <p>Beyond here, one would need higher-precision arithmetic or the more careful methods developed by Tucker. One might also explore a change of variables such as $u = \tanh^{-1}x$ and $v = \tanh^{-1} y$.</p>

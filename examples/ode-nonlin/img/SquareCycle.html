@@ -24,8 +24,7 @@ Let's examine more closely how close these curves come to $\pm 1$.  Here is a se
 
 <pre class="mcode-input">semilogy([1-abs(x) 1-abs(y)]), grid on
 ylabel('distance to unit square')
-xlabel t, legend({'x','y'},LO,'southwest')</pre><pre class="mcode-output">Warning: Negative data ignored 
-</pre><img src="img/SquareCycle_03.png" class="figure" alt="">
+xlabel t, legend({'x','y'},LO,'southwest')</pre><img src="img/SquareCycle_03.png" class="figure" alt="">
 
 Down to $10^{-11}$, everything looks clean, but at that point we see computational trouble.  This is the level of Chebfun's tolerances for the ODE solver. In fact, if we compute further to $t=150$, one of the variables erroneously becomes bigger than $1$, whereupon it rapidly diverges.
 
