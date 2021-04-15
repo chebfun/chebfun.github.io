@@ -26,7 +26,7 @@ Speaking in general, suppose we want to integrate a smooth function $f(r,t)$ num
 
 <pre class="mcode-input">format long
 fr = @(r) r*sum(chebfun(@(t) f(r,t),[0,2*pi],'trig'));
-I = sum(chebfun(@(r) fr(r),[0 1],'vectorize'))
+I = sum(chebfun(@(r) fr(r),[0 1]))
 Iexact = pi</pre><pre class="mcode-output">I =
    3.141592653589793
 Iexact =
@@ -35,7 +35,7 @@ Iexact =
 
 <pre class="mcode-input">f = @(r,t) r^2 + 0*t;
 fr = @(r) r*sum(chebfun(@(t) f(r,t),[0,2*pi],'trig'));
-I = sum(chebfun(@(r) fr(r),[0 1],'vectorize'))
+I = sum(chebfun(@(r) fr(r),[0 1]))
 Iexact = pi/2</pre><pre class="mcode-output">I =
    1.570796326794897
 Iexact =
@@ -44,7 +44,7 @@ Iexact =
 
 <pre class="mcode-input">f = @(r,t) r^2*cos(t).^2;
 fr = @(r) r*sum(chebfun(@(t) f(r,t),[0,2*pi],'trig'));
-I = sum(chebfun(@(r) fr(r),[0 1],'vectorize'))
+I = sum(chebfun(@(r) fr(r),[0 1]))
 Iexact = pi/4</pre><pre class="mcode-output">I =
    0.785398163397448
 Iexact =
@@ -64,7 +64,7 @@ for j = 0:2:10
     Tk = chebpoly(k);
     f = @(r,t) Tk(r*cos(t)).*Tj(r*sin(t));
     fr = @(r) r*sum(chebfun(@(t) f(r,t),[0,2*pi],'trig'));
-    I(1+j/2,1+k/2) = sum(chebfun(@(r) fr(r),[0 1],'vectorize'));
+    I(1+j/2,1+k/2) = sum(chebfun(@(r) fr(r),[0 1]));
   end
 end
 I = I + tril(I,-1)'
@@ -76,7 +76,7 @@ time_elapsed_in_seconds = toc</pre><pre class="mcode-output">I =
    -0.0000   -0.0000    0.0000    0.1122   -0.0249   -0.0873
     0.0000   -0.0000   -0.0000    0.0000   -0.0873    0.0159
 time_elapsed_in_seconds =
-    3.6628
+    3.7174
 </pre>
 
 ## 3. Analytic expressions for the integrals

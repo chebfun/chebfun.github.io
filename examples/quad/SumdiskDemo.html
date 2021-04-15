@@ -98,7 +98,7 @@ sumdisk(f)</pre>
 <p>We must make a comment about the significance of <code>sumdisk</code>.  We would certainly not claim that a competitive way to integrate a function over a disk is to make a chebfun2 of it and then call <code>sumdisk</code>.  It would be much more efficient to work on the integral over the disk directly, and indeed, <code>examples/quad/TjTkDisk.html</code> gives a sample code for doing just that, which we illustrate again here:</p>
 <pre class="mcode-input">fpolar = @(r,t) f(r*cos(t),r*sin(t));
 fr = @(r) r*sum(chebfun(@(t) fpolar(r,t),[0,2*pi],'trig'));
-I = sum(chebfun(@(r) fr(r),[0 1],'vectorize'))</pre>
+I = sum(chebfun(@(r) fr(r),[0 1]))</pre>
 
 <pre class="mcode-output">I =
    2.472240777719227

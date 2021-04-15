@@ -33,7 +33,7 @@ sumdisk(f)</pre><pre class="mcode-output">ans =
 
 <pre class="mcode-input">fpolar = @(r,t) f(r*cos(t),r*sin(t));
 fr = @(r) r*sum(chebfun(@(t) fpolar(r,t),[0,2*pi],'trig'));
-I = sum(chebfun(@(r) fr(r),[0 1],'vectorize'))</pre><pre class="mcode-output">I =
+I = sum(chebfun(@(r) fr(r),[0 1]))</pre><pre class="mcode-output">I =
    2.472240777719227
 </pre>The point of `sumdisk` is two-fold: it shows off some elegant mathematics, and it provides an good way to compute integrals over a disk if, for whatever reason, you are already working with chebfun2 objects on a square.
 
