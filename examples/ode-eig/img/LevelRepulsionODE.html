@@ -27,10 +27,9 @@ E = chebfun; tic
 for k = 1:6
    E(:,k) = chebfun(@(t) ek(eigL(t),k),d,'splitting','off','eps',1e-4,'vectorize');
 end
-FS = 'fontsize'; LW = 'linewidth';
-figure, plot(E,LW,5), grid on
-title('Eigenvalues of L(t)',FS,36);
-xlabel('t',FS,36)
+figure, plot(E), grid on
+title('Eigenvalues of L(t)');
+xlabel('t')
 ylim([-6 2])</pre><img src="img/LevelRepulsionODE_01.png" class="figure" alt="">
 
 One sees two pairs of curves that nearly cross, but not quite.  This brings us to explaining what we did wrong at first.  It turns out that if the variable coefficient in the operator is replaced by the constant $1$, this eigenvalue problem is non-generic: its eigenfunctions are even or odd, and eigenvalue crossings occur.  By making this coefficient a little bit variable, we have broken that symmetry.  Changing 20 to 40 would make the coefficient function closer to constant, and the near-crossing would be even closer.
@@ -40,7 +39,7 @@ For a computed example of a similar flavor involving PDEs rather than ODEs, see 
 Alas, this example takes a while to run:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  54.567856999999997
+  31.920628000000001
 </pre>
 
 ## Reference

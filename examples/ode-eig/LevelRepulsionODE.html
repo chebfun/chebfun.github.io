@@ -78,10 +78,9 @@ E = chebfun; tic
 for k = 1:6
    E(:,k) = chebfun(@(t) ek(eigL(t),k),d,'splitting','off','eps',1e-4,'vectorize');
 end
-FS = 'fontsize'; LW = 'linewidth';
-figure, plot(E,LW,5), grid on
-title('Eigenvalues of L(t)',FS,36);
-xlabel('t',FS,36)
+figure, plot(E), grid on
+title('Eigenvalues of L(t)');
+xlabel('t')
 ylim([-6 2])</pre>
 
 <p><img src="img/LevelRepulsionODE_01.png" class="figure" alt=""></p>
@@ -91,7 +90,7 @@ ylim([-6 2])</pre>
 <pre class="mcode-input">time_in_seconds = toc</pre>
 
 <pre class="mcode-output">time_in_seconds =
-  54.567856999999997
+  31.920628000000001
 </pre>
 
 <h3 id="reference">Reference</h3>
