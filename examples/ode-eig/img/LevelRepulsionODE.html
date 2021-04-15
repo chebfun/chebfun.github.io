@@ -25,7 +25,7 @@ eigL = @(t) sort(eigs(L(t)));    % returns sorted eigenvalues of the matrix A
 d = [4.4 5.4];
 E = chebfun; tic
 for k = 1:6
-   E(:,k) = chebfun(@(t) ek(eigL(t),k),d,'splitting','off','eps',1e-4,'vectorize');
+   E(:,k) = chebfun(@(t) ek(eigL(t),k),d,'splitting','off','eps',1e-4);
 end
 figure, plot(E), grid on
 title('Eigenvalues of L(t)');
@@ -39,7 +39,7 @@ For a computed example of a similar flavor involving PDEs rather than ODEs, see 
 Alas, this example takes a while to run:
 
 <pre class="mcode-input">time_in_seconds = toc</pre><pre class="mcode-output">time_in_seconds =
-  31.920628000000001
+  33.360244999999999
 </pre>
 
 ## Reference
