@@ -61,9 +61,9 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; format compact</pre>
+<pre class="mcode-input">format compact</pre>
 
-<p>In the late nineteenth century, Karl Weierstrass rocked the analysis community when he constructed an example of a function that is everywhere continuous but nowhere differentiable. His now eponymous function, also one of the first appearances of fractal geometry, is defined as the sum $$ \sum_{k=0}^{\infty} a^k \cos(b^k \pi x), $$ where $0 &lt; a &lt; 1$ and $b$ is a positive odd integer with $ab &lt; 1 + \frac32 \pi$. Since its publication, Weierstrass' work has been generalized in many directions.</p>
+<p>In the late nineteenth century, Karl Weierstrass rocked the analysis community when he constructed an example of a function that is everywhere continuous but nowhere differentiable. His now eponymous function, also one of the first appearances of fractal geometry, is defined as the sum $$ \sum_{k=0}^{\infty} a^k \cos(b^k \pi x), $$ where $0 &lt; a &lt; 1$ and $b$ is a positive odd integer with $ab &lt; 1 + \frac32 \pi$. Since its publication, Weierstrass's work has been generalized in many directions.</p>
 <p>Chebfun is designed for work with functions with a bit of smoothness, but in this example we will see how Chebfun fares against a pathological function lying on the edge of discontinuity.</p>
 <p>Let us consider the Weierstrass-type function $$ F(x) = \sum_{k=0}^{\infty} 2^{-k} \cos\left( \frac{\pi}{2} 4^k x \right) $$ on the interval $[-1, 1]$. With its default parameter settings, Chebfun resolves the first eight iterates to machine precision, but not the ninth.</p>
 <pre class="mcode-input">f_k = @(k) @(x) 2^-k * cos(pi/2*x*4^k);
@@ -72,17 +72,14 @@ for k = 1:8,
     F{k+1} = F{k} + chebfun(f_k(k));
 end</pre>
 
-<pre class="mcode-output">Warning: Function not resolved using 65537 pts. Have you tried 'splitting on'? 
-</pre>
-
 <p>Here is what the unresolved ninth iterate looks like.</p>
-<pre class="mcode-input">plot(F{9}, 'k-', LW, 1)
-title('A pathological function of Weierstrass', FS, 16)</pre>
+<pre class="mcode-input">plot(F{9}, 'k')
+title('A pathological function of Weierstrass')</pre>
 
 <p><img src="img/WeierstrassFunction_01.png" class="figure" alt=""></p>
 <p>We must zoom in 400 times to see that Chebfun is in fact plotting a smooth function.</p>
-<pre class="mcode-input">plot(F{9}, 'k-', 'interval', [0 0.005], LW, 1)
-title('Close-up of Weierstrass approximant', FS, 16)</pre>
+<pre class="mcode-input">plot(F{9}, 'k', 'interval', [0 0.005])
+title('Close-up of Weierstrass approximant')</pre>
 
 <p><img src="img/WeierstrassFunction_02.png" class="figure" alt=""></p>
 <p>The function $F(x)$ is not differentiable, but it is integrable. For this particular Weierstrass function, the exact value of the integral can be found easily. We begin with</p>
@@ -98,7 +95,7 @@ title('Close-up of Weierstrass approximant', FS, 16)</pre>
 <pre class="mcode-input">error = sum(F{9}) - 4/pi</pre>
 
 <pre class="mcode-output">error =
-     3.330669073875470e-15
+     1.998401444325282e-15
 </pre>
 
 <p>A more difficult problem is to find the global minimum of $F(x)$ on the interval $[-1, 1]$. Even if it were possible to differentiate $F$ to find where $F'(x) = 0$, we would discover infinitely many local extrema. Of course, Chebfun's representation of $F$ is a polynomial approximant, so we can locate the roots of the derivative for any iterate. As we may expect, performance rapidly gets worse as we take more terms.</p>
@@ -116,10 +113,10 @@ disp(str)</pre>
 
 <pre class="mcode-output"> k       x_min       F_k(x_min)    computation time
 ----------------------------------------------------
- 2   -1.0000000      +0.0000000        0.10 sec
- 4   -0.6196232      -0.0504416        0.06 sec
- 6    0.6010220      -0.1761766        0.05 sec
- 8   -0.6000610      -0.2098447        1.91 sec
+ 2   -1.0000000      +0.0000000        0.02 sec
+ 4   -0.6196232      -0.0504416        0.02 sec
+ 6   -0.6010220      -0.1761766        0.03 sec
+ 8    0.6000610      -0.2098447        0.41 sec
 
 </pre>
 
@@ -133,7 +130,7 @@ disp(str)</pre>
 <p>G. H. Hardy, "Weierstrass's non-differentiable function."    <em>Transactions of the American Mathematical Society</em>, 17, no. 3 (1916), 301-325.</p>
 </li>
 <li>
-<p>L. N. Trefethen, <em>Approximation theory and approximation practice</em>. SIAM, 2013.</p>
+<p>L. N. Trefethen, <em>Approximation Theory and Approximation Practice, Extended Edition</em>, SIAM, 2019._</p>
 </li>
 </ol></div>
         </div>
