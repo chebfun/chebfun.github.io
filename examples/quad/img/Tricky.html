@@ -30,7 +30,7 @@ f =
        interval       length     endpoint values  
 [       0,       1]    14020     0.071  4.5e-07 
 vertical scale = 1.1 
-Elapsed time is 1.988905 seconds.
+Elapsed time is 0.256551 seconds.
 </pre><img src="img/Tricky_01.png" class="figure" alt="">
 
 Note that turning on splitting doesn't make much difference to speed.
@@ -38,14 +38,14 @@ Note that turning on splitting doesn't make much difference to speed.
 <pre class="mcode-input">tic, f = chebfun(ff,[0 1],'splitting','on'), I = sum(f); toc</pre><pre class="mcode-output">f =
    chebfun column (6 smooth pieces)
        interval       length     endpoint values  
-[       0,    0.38]       74     0.071     0.11 
+[       0,    0.38]       75     0.071     0.11 
 [    0.38,    0.44]       87      0.11    0.034 
 [    0.44,    0.59]       42     0.034   0.0015 
 [    0.59,     0.6]       97    0.0015   0.0055 
 [     0.6,    0.62]       76    0.0055  0.00081 
 [    0.62,       1]       23   0.00081  4.5e-07 
-vertical scale = 1.1    Total length = 399
-Elapsed time is 0.476923 seconds.
+vertical scale = 1.1    Total length = 400
+Elapsed time is 0.273102 seconds.
 </pre>
 
 ## 2. Violent oscillation
@@ -63,8 +63,8 @@ f =
 [       0,       8]     3802      0.84    -0.96 
 vertical scale =   1 
 I =
-   0.347400172657247
-Elapsed time is 0.052364 seconds.
+   0.347400172657246
+Elapsed time is 0.048439 seconds.
 </pre><img src="img/Tricky_02.png" class="figure" alt="">
 
 
@@ -77,10 +77,9 @@ If we try this with default parameters, we get a warning related to Chebfun's de
 Iexact = 0.098651704478365206119
 tic, f = chebfun(ff,[0 8],'splitting','on'); I = sum(f), toc</pre><pre class="mcode-output">Iexact =
    0.098651704478365
-Warning: Function not resolved using 6089 pts. 
 I =
    0.087881488553783
-Elapsed time is 0.509215 seconds.
+Elapsed time is 0.304316 seconds.
 </pre>By increasing splitMaxLength greatly, we can get an answer but it's outrageously slow *and* it's only accurate to 6 digits. Specifically, the commands
 
 I = sum(chebfun(ff,[0 8],'splitting','on','splitMaxLength',1e6))give the result I = 0.0986522613...  after 72 seconds.  We are well aware that Chebfun is slow for problems with many discontinuities, but for it to lose ten digits of accuracy looks like a bug somewhere.  (I have confirmed by adding up the pieces by hand that the ``exact'' answer is correct.)
@@ -104,8 +103,8 @@ f =
 [      -1,       1]      399      -2.7     0.37 
 vertical scale = 2.7 
 I =
-  -0.999065350291923
-Elapsed time is 0.027972 seconds.
+  -0.999065350291922
+Elapsed time is 0.040434 seconds.
 </pre><img src="img/Tricky_03.png" class="figure" alt="">
 
 
@@ -122,13 +121,11 @@ plot(f)</pre><pre class="mcode-output">Iexact =
 f =
    chebfun column (1 smooth piece)
        interval       length     endpoint values  
-[       0,     Inf]      415      0.36 -2.9e-15 
+[       0,     Inf]      415      0.36 -2.8e-15 
 vertical scale = 0.36 
-Warning: Result may not be accurate as the function decays slowly at
-infinity. 
 I =
-   0.378751605379085
-Elapsed time is 0.572451 seconds.
+   0.378751605379086
+Elapsed time is 0.086784 seconds.
 </pre><img src="img/Tricky_04.png" class="figure" alt="">
 
 We compare this with the result on a sufficiently large finite interval:
@@ -136,16 +133,16 @@ We compare this with the result on a sufficiently large finite interval:
 <pre class="mcode-input">tic, f = chebfun(ff,[0 40]), I = sum(f), toc</pre><pre class="mcode-output">f =
    chebfun column (1 smooth piece)
        interval       length     endpoint values  
-[       0,      40]      121      0.36  7.4e-18 
+[       0,      40]      121      0.36  1.1e-16 
 vertical scale = 0.36 
 I =
    0.378751605379087
-Elapsed time is 0.024031 seconds.
+Elapsed time is 0.018389 seconds.
 </pre>
 
 ## 6. Absolute value of polynomial
 
-This problem was posed by Harald Helfgott on MathOverflow, https://mathoverflow.net/questions/123677/rigorous-numerical-integration. See also A. Mahboubi, G. Melquiond, and T. Sibut-Pinote, Formally verified approximations of definite integrals, International Conference on Interactive Theorem Proving, Spring, 2016, 274-289.
+This problem was posed by Harald Helfgott on MathOverflow, <https://mathoverflow.net/questions/123677/rigorous-numerical-integration>. See also A. Mahboubi, G. Melquiond, and T. Sibut-Pinote, Formally verified approximations of definite integrals, International Conference on Interactive Theorem Proving, Spring, 2016, 274-289.
 
 <pre class="mcode-input">ff = @(x) abs(x^4+10*x^3+19*x^2-6*x-6)*exp(x);
 Iexact = 11.1473105500571397339
@@ -155,12 +152,12 @@ plot(f)</pre><pre class="mcode-output">Iexact =
 f =
    chebfun column (2 smooth pieces)
        interval       length     endpoint values  
-[       0,    0.62]       13         6    1e-14 
-[    0.62,       1]       11   1.8e-14       49 
-vertical scale =  49    Total length = 24
+[       0,    0.62]       13         6  9.5e-15 
+[    0.62,       1]       12  -3.9e-16       49 
+vertical scale =  49    Total length = 25
 I =
   11.147310550057142
-Elapsed time is 0.049970 seconds.
+Elapsed time is 0.044512 seconds.
 </pre><img src="img/Tricky_05.png" class="figure" alt="">
 
 
@@ -176,7 +173,7 @@ plot(f)</pre><pre class="mcode-output">Iexact =
         5050
 I =
         5050
-Elapsed time is 0.655413 seconds.
+Elapsed time is 0.467754 seconds.
 </pre><img src="img/Tricky_06.png" class="figure" alt="">
 
 
@@ -190,7 +187,7 @@ plot(f)</pre><pre class="mcode-output">Iexact =
   -0.142818642026328
 I =
   -0.142818642026329
-Elapsed time is 0.156323 seconds.
+Elapsed time is 0.114950 seconds.
 </pre><img src="img/Tricky_07.png" class="figure" alt="">
 
 
@@ -210,8 +207,8 @@ f =
 [       0,       3]   1239813      0.84     0.12 
 vertical scale =   1 
 I =
-   0.749974368527196
-Elapsed time is 7.062504 seconds.
+   0.749974368527190
+Elapsed time is 2.694330 seconds.
 </pre><img src="img/Tricky_08.png" class="figure" alt="">
 
 It is interesting to note the near-zero region near x=1 here.  That's incorrect, but has negligible effect on the integral.
@@ -222,7 +219,7 @@ Splitting on is hard work too, but at least it eventually gets the right answer,
 I = sum(f), toc
 plot(f)</pre><pre class="mcode-output">I =
    0.749974368527184
-Elapsed time is 8.295957 seconds.
+Elapsed time is 5.178014 seconds.
 </pre><img src="img/Tricky_09.png" class="figure" alt="">
 
 
@@ -231,5 +228,5 @@ Elapsed time is 8.295957 seconds.
 
 Not much has been done on rigorous extended precision arithmetic, but FJ's Arb library is a contribution in this area:
 
-[1] F. Johansson, Numerical integration in arbitrary-precision ball arithmetic, arXiv:1802.07942.
+[1] F. Johansson, Numerical integration in arbitrary-precision ball arithmetic, arXiv:1802.07942 and _International Congress on Mathematical Software_, Springer, Cham, 2018.
 
