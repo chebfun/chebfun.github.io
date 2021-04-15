@@ -7,7 +7,7 @@
 %% 1. A simple example
 % Hermite (more fully Gauss-Hermite) quadrature is a quadrature method
 % for integrands of the form $\exp(-x^2) f(x)$ on the real axis, where
-% $f$ is smooth.  It is a classical subject and surely thousands of
+% $f$ is smooth.  It is a classical subject, and surely thousands of
 % people (including many physicists) have used Hermite quadrature.
 % Nevertheless it is curious how little literature there is on its
 % practicality and convergence rate as a numerical method, compared
@@ -58,7 +58,7 @@ end
 %%
 % Here's a figure
 plot(g{-8,8},'linewidth',2)
-hold on, plot(s,g(s),'.r','markersize',14), hold off
+hold on, plot(s,g(s),'.r','markersize',16), hold off
 
 %%
 % Let's compare this efficiency with the trapezoidal rule.
@@ -92,8 +92,8 @@ end
 % twice as fast.
 
 %% Large n?
-% Thanks to recent work by Olver, Townsend, and
-% Trogdon [1], Chebfun can compute Hermite quadrature nodes
+% Thanks to recent work by Townsend, 
+% Trogdon, and Olver [1], Chebfun can compute Hermite quadrature nodes
 % and weights for very large values of $n$ with astonishing
 % speed.  For example,
 tic, [s,w]= hermpts(1000); toc
@@ -113,8 +113,19 @@ format short
 ratio = length(tail_points)/n
 
 %%
-% Are there
-% applications where Hermite quadrature in such a regime makes sense?
+% Perhaps there are
+% applications where Hermite quadrature in such a regime makes sense,
+% but we suspect they are rare.  Indeed, when $n$ is large,
+% Townsend et al. propose to throw away most of the quadrature points;
+% they call this process "subsampling".
+
+%%
+% Since this example was initially drafted, an analysis has shown
+% that indeed, for large $n$, Hermite quadrature is far less efficient
+% than chopping to a finite integral (or more precisely one
+% whose width grows in proportion to $n^{1/3}$), then using a simple
+% formula like Gauss-Legendre quadrature or the trapezoidal rule.
+% See section 5 of [3].
 
 
 %% References
@@ -125,4 +136,7 @@ ratio = length(tail_points)/n
 %
 % 2. L. N. Trefethen and J. A. C. Weideman,
 % The exponentially convergent trapezoidal rule,
-% _SIAM Review_, 2014.
+% _SIAM Review_ 56 (2014), 385-458.
+%
+% 3. L. N. Trefethen, Exactness of quadrature formulas,
+% _SIAM Review_, submitted, 2020.
