@@ -20,12 +20,11 @@ We first present the plot, then explain what it means and how we computed it wit
 
 <pre class="mcode-input">e1 = chebfun(@(t) norm(expm(t*A1)),[0 3.4]);
 e2 = chebfun(@(t) norm(expm(t*A2)),[0 3.4]);
-LW = 'linewidth'; FS = 'fontsize';
-plot(e1,'b',e2,'r',LW,2)
+plot([e1 e2])
 ylim([0 1.5]), grid on, legend('A1','A2')
-xlabel('t',FS,14)
-ylabel('||e^{tA}||',FS,14)
-title('Which curve is which?',FS,16)</pre><img src="img/NonnormalQuiz_01.png" class="figure" alt="">
+xlabel('t')
+ylabel('||e^{tA}||')
+title('Which curve is which?')</pre><img src="img/NonnormalQuiz_01.png" class="figure" alt="">
 
 The plot shows two curves, one with a hump and one without. The book asks, "Which curve is which?", and doesn't reveal the answer, but here you can see that `A2` is the matrix with the hump.  This is surprising to some people, for one might expect the hump to correspond to `A1` since it is nondiagonalizable.  In fact, the nondiagonalizability of `A1` is less important than the large entry $5$ in the upper-right corner of `A2`.
 
