@@ -67,21 +67,17 @@
 d = sort(randn(20,1)) + 1i*randn(20,1);
 A = diag(d); A(1:10,1:10) = A(1:10,1:10) + diag(ones(9,1),1);
 [W,W2] = fov(A);
-LW = 'linewidth'; MS = 'markersize'
-plot(W,'k',LW,1.6), hold on, plot(W2,'k',LW,1.6)
-hold on, plot(d,'.r',MS,14), hold off, axis off</pre>
-
-<pre class="mcode-output">MS =
-markersize
-</pre>
+MS = 'markersize';
+plot(W,'k'), hold on, plot(W2,'k')
+hold on, plot(d,'.r',MS,10), hold off, axis off</pre>
 
 <p><img src="img/EdgeDetection_01.png" class="figure" alt=""></p>
-<p>That example is a bit highbrow, so let us try a simpler one. Here's one that is <em>very</em> simple.  Suppose we make Chebfun from the function $|e^x \sin(10\pi x)|$, using 'splitting on' mode:</p>
-<pre class="mcode-input">f = chebfun('abs(exp(x).*sin(10*pi*x))','splitting','on');
+<p>That example is a bit highbrow, so let us try a simpler one. Here's one that is <em>very</em> simple.  Suppose we make a chebfun from the function $|e^x \sin(10\pi x)|$, using 'splitting on' mode:</p>
+<pre class="mcode-input">f = chebfun('abs(exp(x)*sin(10*pi*x))','splitting','on');
 plot(f)</pre>
 
 <p><img src="img/EdgeDetection_02.png" class="figure" alt=""></p>
-<p>Of course we know mathematically that the points of discontinuity are $-1,-0.9,\dots, 1$, but Chebfun doesn't know this a priori; it figures it out with edge detection to make a piecewise Chebfun. Here we see that the edges detected are correct in all the digits printed.</p>
+<p>Of course we know mathematically that the points of singularity are $-1,-0.9,\dots, 1$, but Chebfun doesn't know this a priori; it figures it out with edge detection to make a piecewise Chebfun. Here we see that the edges detected are correct in all the digits printed.</p>
 <pre class="mcode-input">format long
 domain(f)'</pre>
 
@@ -118,11 +114,11 @@ maxerr = norm(domain(f)-true_edges,inf)</pre>
 </pre>
 
 <p>Now in this example we didn't really need the edge detector; indeed we could construct the chebfun by telling it where to put the breakpoints.</p>
-<pre class="mcode-input">f2 = chebfun('abs(exp(x).*sin(10*pi*x))',true_edges,'splitting','on');
+<pre class="mcode-input">f2 = chebfun('abs(exp(x)*sin(10*pi*x))',true_edges);
 norm(f-f2)</pre>
 
 <pre class="mcode-output">ans =
-     4.691314575986808e-15
+     4.778314791845365e-15
 </pre>
 
 <p>For a more genuine illustration of edge detection in action we want a function whose edge locations are not simple to work out mathematically.  Such an example is provided by the spectral abscissa (largest eigenvalue real part) of a matrix $A = (1-t)B + tC$, where $B$ and $C$ are fixed matrices and $t$ is a parameter.  We mark the breakpoints with red dots.</p>
@@ -133,14 +129,14 @@ abscissa = @(t) max(real(eig(A(t))));
 f = chebfun(@(t) abscissa(t),[0,1],'splitting','on','vectorize');
 plot(f), grid on
 breakpts = domain(f); breakpts = breakpts(2:end-1)'
-hold on, plot(breakpts,f(breakpts),'.r',MS,12), hold off</pre>
+hold on, plot(breakpts,f(breakpts),'.r',MS,10), hold off</pre>
 
 <pre class="mcode-output">breakpts =
    0.132388194915147
    0.178339670550754
-   0.631775989556641
+   0.631775989556661
    0.750000000000000
-   0.875000000000000
+   0.812500000000000
 </pre>
 
 <p><img src="img/EdgeDetection_03.png" class="figure" alt=""></p>
@@ -153,11 +149,11 @@ hold on, plot(breakpts,f(breakpts),'.r',MS,12), hold off</pre>
   'splitLength',1000,'vectorize');
 plot(f2), grid on
 breakpts2 = domain(f2); breakpts2 = breakpts2(2:end-1)'
-hold on, plot(breakpts2,f2(breakpts2),'.r',MS,12), hold off</pre>
+hold on, plot(breakpts2,f2(breakpts2),'.r',MS,10), hold off</pre>
 
 <pre class="mcode-output">breakpts2 =
    0.132388194915147
-   0.631775989556641
+   0.631775989556661
 </pre>
 
 <p><img src="img/EdgeDetection_05.png" class="figure" alt=""></p>
