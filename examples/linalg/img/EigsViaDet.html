@@ -5,7 +5,7 @@ authordate: "Jared Aurentz and Nick Trefethen, November 2014"
 meta: "(Chebfun Example linalg/EigsViaDet.m) [Tags: #linearalgebra, #eigenvalues, #determinant]"
 ---
 
-<pre class="mcode-input">function EigsViaDet()</pre>The eigenvalues of a matrix $A$ are the roots of the determinant function, $f(x) = det(xI-A)$.  If $A$ is real symmetric and tridiagonal and of dimension $N$, then $f(x)$ can be computed in $O(N)$ operations by the method known as Sturm sequences, described in many texts such as on p. 229 of [2] or p. 423 of [3]. Let $d_k$ denote the determinant of the upper-left $k\times k$ block of $A$, and let the diagonal and superdiagonal entries of $A$ be $a_k$ and $b_k$, respectively. Then the key observation, easily derived, is that the determinants satisfy a 3-term recurrence relation,
+<pre class="mcode-input">function EigsViaDet()</pre>The eigenvalues of a matrix $A$ are the roots of the determinant function, $f(x) = \det(xI-A)$.  If $A$ is real symmetric and tridiagonal and of dimension $N$, then $f(x)$ can be computed in $O(N)$ operations by the method known as Sturm sequences, described in many texts such as on p. 229 of [2] or p. 423 of [3]. Let $d_k$ denote the determinant of the upper-left $k\times k$ block of $A$, and let the diagonal and superdiagonal entries of $A$ be $a_k$ and $b_k$, respectively. Then the key observation, easily derived, is that the determinants satisfy a 3-term recurrence relation,
 
 $$ d_{n+1} = a_{n+1} d_n - b_n^2 d_{n-1} . $$
 
@@ -25,120 +25,145 @@ Here is our function for evaluating $f(x)$, which we will call `fdet`.
 
 <pre class="mcode-input">tic
 N = 100;
-randn('seed',1), rand('seed',1);
+rng(2)
 a = 10*rand(N,1)-5;
 b = randn(N-1,1);
 A = spdiags([[b;0] a [0;b]],-1:1,N,N);</pre>Here, computed the usual way, are the "exact" eigenvalues in the interval $[-1,1]$:
 
 <pre class="mcode-input">format long
 e = eig(full(A)); e_exact = sort(e(abs(e)&lt;=1))</pre><pre class="mcode-output">e_exact =
-  -0.916049473056702
-  -0.908771201152738
-  -0.872411788881769
-  -0.847029978770642
-  -0.702300256886522
-  -0.523074611773706
-  -0.419721560888930
-  -0.392287268836446
-  -0.089131356051227
-  -0.021632690024134
-   0.058193454716664
-   0.224377193199407
-   0.538622130914891
-   0.554225021522687
-   0.863765435107438
-   0.892225828854228
-   0.960747881712756
+  -0.961311153910414
+  -0.794989285254824
+  -0.756699596770796
+  -0.677087767081030
+  -0.655861417142940
+  -0.635456250738692
+  -0.489763108304106
+  -0.243494474501560
+  -0.162447721147317
+  -0.157791206232512
+   0.033336552349965
+   0.057225892538784
+   0.206689470681890
+   0.332358821664324
+   0.342215316842884
+   0.390329770010555
+   0.515614498765148
+   0.559644866987089
+   0.560706396248340
+   0.697408406065427
+   0.921937790777520
+   0.935348696986687
 </pre>Here we make a chebfun of the determinant function:
 
 <pre class="mcode-input">c = chebfun(@(x) fdet(x,a,b,N),[-1,1]);
-FS = 'fontsize'; LW = 'linewidth'; MS = 'markersize';
-plot(c,LW,1.6), grid on
-xlabel('x',FS,12)
-title('det(xI-A) as a chebfun',FS,12)</pre><img src="img/EigsViaDet_01.png" class="figure" alt="">
+plot(c), grid on
+xlabel('x')
+title('det(xI-A) as a chebfun')</pre><img src="img/EigsViaDet_01.png" class="figure" alt="">
 
 Now we compute its roots and compare them with the true eigenvalues.
 
 <pre class="mcode-input">e_inexact = roots(c);
 disp('         exact              inexact            difference')
 disp([e_exact e_inexact e_exact-e_inexact])</pre><pre class="mcode-output">         exact              inexact            difference
-  -0.916049473056702  -0.916049472726737  -0.000000000329964
-  -0.908771201152738  -0.908771202106872   0.000000000954133
-  -0.872411788881769  -0.872411789140749   0.000000000258980
-  -0.847029978770642  -0.847029978845906   0.000000000075264
-  -0.702300256886522  -0.702300256886893   0.000000000000371
-  -0.523074611773706  -0.523074611773782   0.000000000000076
-  -0.419721560888930  -0.419721560888866  -0.000000000000064
-  -0.392287268836446  -0.392287268836482   0.000000000000036
-  -0.089131356051227  -0.089131356051230   0.000000000000003
-  -0.021632690024134  -0.021632690024134   0.000000000000001
-   0.058193454716664   0.058193454716660   0.000000000000004
-   0.224377193199407   0.224377193199407   0.000000000000000
-   0.538622130914891   0.538622130914892  -0.000000000000001
-   0.554225021522687   0.554225021522692  -0.000000000000005
-   0.863765435107438   0.863765435107438   0.000000000000000
-   0.892225828854228   0.892225828854227   0.000000000000001
-   0.960747881712756   0.960747881712757  -0.000000000000000
-</pre>Is this good agreement?  Well for most of the eigenvalues things look good, but the low ones are losing up to seven digits of accuracy, and in fact, this method faces difficulties and would quickly fail for larger values of $N$. A plot of the absolute value of `c` on a log scale gives an indication of what is going on.
+  -0.961311153910414  -0.961311153913952   0.000000000003538
+  -0.794989285254824  -0.794989285247735  -0.000000000007089
+  -0.756699596770796  -0.756699596766428  -0.000000000004368
+  -0.677087767081030  -0.677087767090647   0.000000000009616
+  -0.655861417142940  -0.655861417423589   0.000000000280648
+  -0.635456250738692  -0.635456250723850  -0.000000000014842
+  -0.489763108304106  -0.489763108304317   0.000000000000211
+  -0.243494474501560  -0.243494474500594  -0.000000000000966
+  -0.162447721147317  -0.162447721159385   0.000000000012068
+  -0.157791206232512  -0.157791206216233  -0.000000000016279
+   0.033336552349965   0.033336552352349  -0.000000000002384
+   0.057225892538784   0.057225892538496   0.000000000000287
+   0.206689470681890   0.206689470680931   0.000000000000959
+   0.332358821664324   0.332358821671998  -0.000000000007675
+   0.342215316842884   0.342215316838720   0.000000000004164
+   0.390329770010555   0.390329770010426   0.000000000000129
+   0.515614498765148   0.515614498763375   0.000000000001773
+   0.559644866987089   0.559644866958499   0.000000000028590
+   0.560706396248340   0.560706396275182  -0.000000000026842
+   0.697408406065427   0.697408406065427   0.000000000000001
+   0.921937790777520   0.921937790777521  -0.000000000000000
+   0.935348696986687   0.935348696986690  -0.000000000000003
+</pre>Is this good agreement?  Well things look pretty good, but for many of the eigenvalues we are losing up to five digits of accuracy, and in fact, this method faces difficulties and would quickly fail for larger values of $N$. A plot of the absolute value of `c` on a log scale gives an indication of what is going on.
 
-<pre class="mcode-input">semilogy(abs(c)), ylim([1e22 1e35]), grid on
-xlabel('x',FS,12)
-title('|det(xI-A)| on a log scale',FS,12)</pre><img src="img/EigsViaDet_02.png" class="figure" alt="">
+<pre class="mcode-input">semilogy(abs(c)), ylim([1e22 1e32]), grid on
+xlabel('x')
+title('|det(xI-A)| on a log scale')</pre><img src="img/EigsViaDet_02.png" class="figure" alt="">
 
 The first thing we note in this figure is that the scale of the data is a long way from $1$.  This has something to do with the scaling of the problem to the interval $[-5,5]$, and could be alleviated to some extent by a rescaling.  It could only be alleviated partially, however, for the more fundamental problem is the exponential variation of scales across the interval, a phenomenon associated with the subject of potential theory [1]. This is a mathematical fact about the determinant function. Wilkinson pointed out that in fact the determinant function can be computed with high relative accuracy, despite the bad scaling [3, p. 228], so the problem in our method is not its reliance on $det(xI-A)$.  Rather, it is in making a chebfun representation of this function over a broad interval.
 
-To confirm this, note how much better the accuracy becomes if we restrict attention to $[-1,-0.8]$:
+To confirm this, note how much better the accuracy becomes if we restrict attention to $[-1,0]$:
 
-<pre class="mcode-input">e_exact = sort(e(abs(e+0.9)&lt;=0.1))
-c = chebfun(@(x) fdet(x,a,b,N),[-1,-0.8]);
-plot(c,LW,1.6), grid on, ylim([-3e26 1e26])
-xlabel('x',FS,12)
-title('det(xI-A) on a smaller interval',FS,12)
+<pre class="mcode-input">e_exact = sort(e(e&lt;0 &amp; abs(e)&lt;1));
+c = chebfun(@(x) fdet(x,a,b,N),[-1,0]);
+plot(c), grid on, ylim([-5e26 1e27])
+xlabel('x')
+title('det(xI-A) on a smaller interval')
 e_inexact = roots(c);
 disp('         exact              inexact            difference')
-disp([e_exact e_inexact e_exact-e_inexact])</pre><pre class="mcode-output">e_exact =
-  -0.916049473056702
-  -0.908771201152738
-  -0.872411788881769
-  -0.847029978770642
-         exact              inexact            difference
-  -0.916049473056702  -0.916049473056697  -0.000000000000005
-  -0.908771201152738  -0.908771201152741   0.000000000000003
-  -0.872411788881769  -0.872411788881770   0.000000000000001
-  -0.847029978770642  -0.847029978770640  -0.000000000000002
+size(e_exact), size(e_inexact)
+disp([e_exact e_inexact e_exact-e_inexact])</pre><pre class="mcode-output">         exact              inexact            difference
+ans =
+    10     1
+ans =
+    10     1
+  -0.961311153910414  -0.961311153910410  -0.000000000000004
+  -0.794989285254824  -0.794989285254820  -0.000000000000004
+  -0.756699596770796  -0.756699596770796  -0.000000000000001
+  -0.677087767081030  -0.677087767081091   0.000000000000061
+  -0.655861417142940  -0.655861417142830  -0.000000000000111
+  -0.635456250738692  -0.635456250738734   0.000000000000041
+  -0.489763108304106  -0.489763108304107   0.000000000000000
+  -0.243494474501560  -0.243494474501561   0.000000000000000
+  -0.162447721147317  -0.162447721147313  -0.000000000000004
+  -0.157791206232512  -0.157791206232515   0.000000000000003
 </pre><img src="img/EigsViaDet_03.png" class="figure" alt="">
 
 Another amusing approach is to use Chebfun's edge detector to count eigenvalues!  The accuracy is magnificent, showing that Chebfun's edge detector is not thrown off by bad scaling.
 
-<pre class="mcode-input">c2 = chebfun(@(x) sign(fdet(x,a,b,N)),[-1,1],'splitting','on');
-plot(c2,LW,1.6,'jumpline','-'), grid on, ylim([-1.4 1.4]);
+<pre class="mcode-input">c2 = chebfun(@(x) sign(fdet(x,a,b,N)),[-1,1],'splitting','on','minSamples',100);
+plot(c2,'jumpline','-'), grid on, ylim([-1.4 1.4]);
 e_edgedetect = roots(c2);
-hold on, plot(e_edgedetect,0*e_edgedetect,'.r',MS,14), hold off
+hold on, plot(e_edgedetect,0*e_edgedetect,'.r'), hold off
 disp('         exact        via edge detection      difference')
 e_exact = sort(e(abs(e)&lt;=1));
+size(e_exact), size(e_edgedetect)
 disp([e_exact e_edgedetect e_exact-e_edgedetect])</pre><pre class="mcode-output">         exact        via edge detection      difference
-  -0.916049473056702  -0.916049473056708   0.000000000000006
-  -0.908771201152738  -0.908771201152738  -0.000000000000000
-  -0.872411788881769  -0.872411788881771   0.000000000000002
-  -0.847029978770642  -0.847029978770640  -0.000000000000002
-  -0.702300256886522  -0.702300256886524   0.000000000000002
-  -0.523074611773706  -0.523074611773706  -0.000000000000000
-  -0.419721560888930  -0.419721560888932   0.000000000000002
-  -0.392287268836446  -0.392287268836446  -0.000000000000001
-  -0.089131356051227  -0.089131356051230   0.000000000000003
-  -0.021632690024134  -0.021632690024134   0.000000000000000
-   0.058193454716664   0.058193454716661   0.000000000000003
-   0.224377193199407   0.224377193199407   0.000000000000000
-   0.538622130914891   0.538622130914892  -0.000000000000001
-   0.554225021522687   0.554225021522692  -0.000000000000005
-   0.863765435107438   0.863765435107438  -0.000000000000000
-   0.892225828854228   0.892225828854228                   0
-   0.960747881712756   0.960747881712757  -0.000000000000000
+ans =
+    22     1
+ans =
+    22     1
+  -0.961311153910414  -0.961311153910411  -0.000000000000004
+  -0.794989285254824  -0.794989285254820  -0.000000000000004
+  -0.756699596770796  -0.756699596770796  -0.000000000000001
+  -0.677087767081030  -0.677087767081030                   0
+  -0.655861417142940  -0.655861417142941   0.000000000000001
+  -0.635456250738692  -0.635456250738690  -0.000000000000002
+  -0.489763108304106  -0.489763108304107   0.000000000000000
+  -0.243494474501560  -0.243494474501560   0.000000000000000
+  -0.162447721147317  -0.162447721147317   0.000000000000000
+  -0.157791206232512  -0.157791206232512  -0.000000000000000
+   0.033336552349965   0.033336552349964   0.000000000000000
+   0.057225892538784   0.057225892538783   0.000000000000001
+   0.206689470681890   0.206689470681890   0.000000000000001
+   0.332358821664324   0.332358821664318   0.000000000000006
+   0.342215316842884   0.342215316842885  -0.000000000000001
+   0.390329770010555   0.390329770010554   0.000000000000001
+   0.515614498765148   0.515614498765148   0.000000000000001
+   0.559644866987089   0.559644866987087   0.000000000000002
+   0.560706396248340   0.560706396248338   0.000000000000002
+   0.697408406065427   0.697408406065426   0.000000000000001
+   0.921937790777520   0.921937790777520                   0
+   0.935348696986687   0.935348696986691  -0.000000000000004
 </pre><img src="img/EigsViaDet_04.png" class="figure" alt="">
 
 Here is the total time for this Example:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 6.276330 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 2.012662 seconds.
 </pre><pre class="mcode-input">end</pre>
 
 ## References
