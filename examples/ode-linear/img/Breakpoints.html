@@ -11,9 +11,9 @@ meta: "(Chebfun example ode-linear/Breakpoints.m) [Tags: #linearODE, #boundaryla
 
 By default, Chebfun solves BVPs with global grids -- Chebyshev collocation spectral methods -- and this generally works well even for problems with rapidly varying solutions.  Trouble appears, however, when the variations are _very_ rapid.  For example, following the example `ode-linear/BoundaryLayer`, here are solutions to the linear advection-diffusion equation $$ -\varepsilon u'' - u' = 1,\qquad    u(0) = u(1) = 0 , $$ with $\varepsilon = 10^{-1}, 10^{-2},\dots,  10^{-5}$.
 
-<pre class="mcode-input">dom = [0,1];
+<pre class="mcode-input">MS = 'markersize';
+dom = [0,1];
 L = @(ep) chebop(@(x,u) -ep*diff(u,2) - diff(u),dom,'dirichlet');
-LW = 'linewidth'; lw = 1.6; FS = 'fontsize'; MS = 'markersize';
 headings = '        ep      pos(max(u))    length(u)    time (secs.) ';
 disp(headings)
 fs = '%12.1e %14.9f %9d %14.2f\n';
@@ -21,20 +21,20 @@ for ep = 10.^(-1:-1:-5)
   tic, u = L(ep)\1; t = toc;
   [val,pos] = max(u);
   fprintf(fs, ep, pos, length(u), t)
-  plot(u,'b',LW,lw), hold on
+  plot(u,'b'), hold on
 end
 grid on, axis([-0.03 1 0 1.03]), hold off
-title('Boundary layers for \epsilon = 1e-1, 1e-2,..., 1e-5',FS,12)</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
-     1.0e-01    0.230263049        23           2.21
-     1.0e-02    0.046051702        59           0.17
-     1.0e-03    0.006907755       170           0.22
-     1.0e-04    0.000921034       488           0.73
-     1.0e-05    0.000115129      1495           7.81
-</pre><img src="img/Breakpoints_01.png" class="figure" alt=""/>
+title('Boundary layers for \epsilon = 1e-1, 1e-2,..., 1e-5')</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
+     1.0e-01    0.230263049        23           0.82
+     1.0e-02    0.046051702        59           0.31
+     1.0e-03    0.006907755       170           0.15
+     1.0e-04    0.000921034       488           0.24
+     1.0e-05    0.000115129      1495           1.89
+</pre><img src="img/Breakpoints_01.png" class="figure" alt="">
 
 The lengths and timings are excellent for the first three values of $\varepsilon$ and not so bad for $\varepsilon = 10^{-4}$, but for $\varepsilon = 10^{-5}$, we need a grid with thousands of points and the method cannot be regarded as satisfactory. (This boundary layer is of width $O(\varepsilon)$, but because of the quadratic clustering of Chebyshev grids at boundaries, the length of the chebfuns only grows like $O(\varepsilon^{-1/2})$.)
 
-There is a standard method used in scientific computing for such problems, adaptive grid refinement, but Chebfun does not have such a capability at present. For many problems, however, it is remarkable what one can achieve by a method we might regard as "poor man's grid refinement": simply add a Chebfun breakpoint or two near the region of rapid change.  To make this happen, it is enough to define the domain of the chebop by a vector of three or more points in order, i.e., the endpoints of an interval plus one or more points in the interior.  For example, one might pass to the chebop constructor the domain vector `dom = [0 0.01 1]` rather than simply `dom = [0 1]`.
+There is a standard method used in scientific computing for such problems, adaptive grid refinement, but Chebfun does not have such a capability. For many problems, however, it is remarkable what one can achieve by a method we might regard as "poor man's grid refinement": simply add a Chebfun breakpoint or two near the region of rapid change.  To make this happen, it is enough to define the domain of the chebop by a vector of three or more points in order, i.e., the endpoints of an interval plus one or more points in the interior.  For example, one might pass to the chebop constructor the domain vector `dom = [0 0.01 1]` rather than simply `dom = [0 1]`.
 
 If an ODE BVP is solved on a domain with breakpoints, separate Chebyshev grids are used on subintervals, and that may provide a more efficient representation of the solution, which will then be a chebfun with several pieces, i.e., several "funs". For a discussion of some of the mathematics, see [1].
 
@@ -48,30 +48,30 @@ for ep = 10.^(-1:-1:-8)
   fprintf(fs, ep, pos, length(u), t)
   [val,pos] = max(u);
   if ep == 1e-3
-    plot(u,'b',LW,lw), hold on
+    plot(u,'b'), hold on
     breakpoint = u.ends(2);
-    plot(breakpoint,u(breakpoint),'.r',MS,24)
+    plot(breakpoint,u(breakpoint),'.r',MS,16)
   end
 end
 grid on, axis([-0.03 1 0 1.03]), hold off
-title('The same computed with a breakpoint, \epsilon = 1e-3',FS,12)</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
-     1.0e-01    0.000115129        34           0.24
-     1.0e-02    0.230263049        41           0.21
-     1.0e-03    0.046051702        41           0.21
-     1.0e-04    0.006907755        41           0.30
-     1.0e-05    0.000921034        41           0.26
-     1.0e-06    0.000115129        41           0.22
-     1.0e-07    0.000013816        41           0.27
-     1.0e-08    0.000001612        41           1.93
-</pre><img src="img/Breakpoints_02.png" class="figure" alt=""/>
+title('The same computed with a breakpoint, \epsilon = 1e-3')</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
+     1.0e-01    0.000115129        34           0.22
+     1.0e-02    0.230263049        41           0.09
+     1.0e-03    0.046051702        41           0.06
+     1.0e-04    0.006907755        41           0.12
+     1.0e-05    0.000921034        41           0.15
+     1.0e-06    0.000115129        41           0.11
+     1.0e-07    0.000013816        41           0.09
+     1.0e-08    0.000001612        41           0.08
+</pre><img src="img/Breakpoints_02.png" class="figure" alt="">
 
 Quite an amazing improvement!  Notice that the breakpoint at $x_b = 40 \varepsilon$ is well out of the boundary layer.  The reason for this choice is that the purpose of the breakpoint is not to optimize the representation of $u$ within the small region $[0, x_b]$, where a reasonable number of gridpoints will be required in any case, but rather to ensure that $u$ has no significant structure on a small length scale in the big interval $[x_b,1]$. In fact, the second piece of each chebfun constructed above, the representation of $u$ on $[x_b ,1]$, is just of length 2, i.e., a linear polynomial:
 
 <pre class="mcode-input">u</pre><pre class="mcode-output">u =
    chebfun column (2 smooth pieces)
        interval       length     endpoint values  
-[       0,   4e-07]       39     3e-15        1 
-[   4e-07,       1]        2         1  1.8e-12 
+[       0,   4e-07]       39   2.6e-15        1 
+[   4e-07,       1]        2         1 -3.8e-12 
 vertical scale =   1    Total length = 41
 </pre>
 
@@ -86,15 +86,15 @@ for ep = 10.^(-1:-1:-4)
   tic, u = L(ep)\0; t = toc;
   [val,pos] = max(u);
   fprintf(fs, ep, pos, length(u), t)
-  plot(u,'m',LW,lw), hold on
+  plot(u,'m'), hold on
 end
 grid on, axis([-2 2 -6 17]), hold off
-title('Interior layers for \epsilon = 1e-1, 1e-2,..., 1e-4',FS,12)</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
-     1.0e-01    0.456331114        57           0.28
-     1.0e-02    0.188033044       154           0.29
-     1.0e-03    0.073657588       460           0.88
-     1.0e-04    0.027481095      1398           8.73
-</pre><img src="img/Breakpoints_03.png" class="figure" alt=""/>
+title('Interior layers for \epsilon = 1e-1, 1e-2,..., 1e-4')</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
+     1.0e-01    0.456331114        57           0.13
+     1.0e-02    0.188033044       154           0.10
+     1.0e-03    0.073657588       460           0.25
+     1.0e-04    0.027481095      1398           2.18
+</pre><img src="img/Breakpoints_03.png" class="figure" alt="">
 
 Inserting breakpoints on either side of $x=0$ improves matters greatly.  Again we plot just one of the curves, the one with $\varepsilon = 10^{-4}$.
 
@@ -106,22 +106,22 @@ for ep = 10.^(-1:-1:-8)
   [val,pos] = max(u);
   fprintf(fs, ep, pos, length(u), t)
   if ep == 1e-4
-    plot(u,'m',LW,lw), hold on
+    plot(u,'m'), hold on
     breakpoints = u.ends(2:3);
-    plot(breakpoints,u(breakpoints),'.k',MS,24)
+    plot(breakpoints,u(breakpoints),'.k',MS,16)
   end
 end
 grid on, axis([-2 2 -6 17]), hold off
-title('The same computed with two breakpoints \epsilon = 1e-4',FS,12)</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
-     1.0e-01    0.456331114        76           0.38
-     1.0e-02    0.188033044       114           0.35
-     1.0e-03    0.073657588       136           0.45
-     1.0e-04    0.027481095       164           0.47
-     1.0e-05    0.009892469       195           0.66
-     1.0e-06    0.003473237       117           0.61
-     1.0e-07    0.001198204       188           0.54
-     1.0e-08    0.000408122       101           0.56
-</pre><img src="img/Breakpoints_04.png" class="figure" alt=""/>
+title('The same computed with two breakpoints \epsilon = 1e-4')</pre><pre class="mcode-output">        ep      pos(max(u))    length(u)    time (secs.) 
+     1.0e-01    0.456331114        76           0.12
+     1.0e-02    0.188033044       114           0.11
+     1.0e-03    0.073657588       136           0.13
+     1.0e-04    0.027481095       166           0.14
+     1.0e-05    0.009892469       195           0.18
+     1.0e-06    0.003473237       107           0.24
+     1.0e-07    0.001198204       119           0.17
+     1.0e-08    0.000408122       101           0.17
+</pre><img src="img/Breakpoints_04.png" class="figure" alt="">
 
 Here we see the sizes of the three pieces:
 
@@ -142,12 +142,12 @@ vertical scale =  15    Total length = 101
 N.lbc = -7/6; N.rbc = 3/2;
 tic, u = N\0, t = toc;
 plot(u), grid on
-title(['Nonlinear problem: time ' num2str(t) ' secs'],FS,12)</pre><pre class="mcode-output">u =
+title(['Nonlinear problem: time ' num2str(t) ' secs'])</pre><pre class="mcode-output">u =
    chebfun column (1 smooth piece)
        interval       length     endpoint values  
 [       0,       1]      760      -1.2      1.5 
 vertical scale = 1.5 
-</pre><img src="img/Breakpoints_05.png" class="figure" alt=""/>
+</pre><img src="img/Breakpoints_05.png" class="figure" alt="">
 
 The transition occurs at about $x=1/3$, and if we put a single breakpoint there, the computations becomes five times faster.
 
@@ -155,17 +155,17 @@ The transition occurs at about $x=1/3$, and if we put a single breakpoint there,
 N.lbc = -7/6; N.rbc = 3/2;
 tic, u = N\0, t = toc
 plot(u), grid on
-title(['Same but with one breakpoint: time ' num2str(t) ' secs'],FS,12)
+title(['Same but with one breakpoint: time ' num2str(t) ' secs'])
 breakpoint = u.ends(2); hold on
-plot(breakpoint,u(breakpoint),'.r',MS,24), hold off</pre><pre class="mcode-output">u =
+plot(breakpoint,u(breakpoint),'.r',MS,16), hold off</pre><pre class="mcode-output">u =
    chebfun column (2 smooth pieces)
        interval       length     endpoint values  
-[       0,    0.33]       96      -1.2 -3.7e-09 
-[    0.33,       1]      131  -3.7e-09      1.5 
+[       0,    0.33]       96      -1.2 -3.8e-09 
+[    0.33,       1]      131  -3.8e-09      1.5 
 vertical scale = 1.5    Total length = 227
 t =
-   9.008673999999999
-</pre><img src="img/Breakpoints_06.png" class="figure" alt=""/>
+   2.633045000000000
+</pre><img src="img/Breakpoints_06.png" class="figure" alt="">
 
 Note that the matrix size is now a good smaller, which is the main reason for the speedup.
 
@@ -175,9 +175,9 @@ With two breakpoints, for this particular example, not much changes.
 N.lbc = -7/6; N.rbc = 3/2;
 tic, u = N\0, t = toc
 plot(u), grid on
-title(['Same but with two breakpoints: time ' num2str(t) ' secs'],FS,12)
+title(['Same but with two breakpoints: time ' num2str(t) ' secs'])
 breakpoints = u.ends(2:3); hold on
-plot(breakpoints,u(breakpoints),'.r',MS,24), hold off</pre><pre class="mcode-output">u =
+plot(breakpoints,u(breakpoints),'.r',MS,16), hold off</pre><pre class="mcode-output">u =
    chebfun column (3 smooth pieces)
        interval       length     endpoint values  
 [       0,     0.3]       45      -1.2    -0.86 
@@ -185,8 +185,8 @@ plot(breakpoints,u(breakpoints),'.r',MS,24), hold off</pre><pre class="mcode-out
 [    0.36,       1]       73      0.84      1.5 
 vertical scale = 1.5    Total length = 171
 t =
-  11.105658000000000
-</pre><img src="img/Breakpoints_07.png" class="figure" alt=""/>
+   3.296700000000000
+</pre><img src="img/Breakpoints_07.png" class="figure" alt="">
 
 As the illustrations of this Example probably make clear, inserting breakpoints is bit of an art, and some experimentation is generally worthwhile.
 
