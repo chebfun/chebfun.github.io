@@ -19,7 +19,7 @@ plot(E), grid on
 error = norm(E,inf)
 ylim(5e-8*[-1 1]), axis equal
 title('degree 4 error curve on a disk')</pre><pre class="mcode-output">error =
-     3.938867591771454e-08
+     3.938867571915709e-08
 </pre><img src="img/ComplexMinimax_01.png" class="figure" alt="">
 
 In fact, it is not exactly a circle, but the radius (in theory) varies by only about one part in $10^{8}$. And its winding number is not 1 but $2n+1 = 9$:
@@ -69,7 +69,7 @@ plot(error*chebfun('exp(pi*1i*x)'),'r'), hold on
 plot(E,'.k',MS,6), grid on, hold off
 ylim(4e-8*[-1 1]), axis equal
 title('Error on the crazy domain')</pre><pre class="mcode-output">error =
-     3.252012952954404e-08
+     3.233716917409685e-08
 </pre><img src="img/ComplexMinimax_04.png" class="figure" alt="">
 
 Why isn't the fit snugger than this?  As it happens, the Lawson iteration converges toward the optimum and by default, Chebfun takes just 20 steps, which for this problem isn't really enough.  By instructing Chebfun to take more steps, we can get the minimax approximant to higher accuracy:
@@ -81,7 +81,7 @@ plot(error*chebfun('exp(pi*1i*x)'),'r'), hold on
 plot(E,'.k',MS,6), grid on, hold off
 ylim(4e-8*[-1 1]), axis equal
 title('Same but more accurate')</pre><pre class="mcode-output">error =
-     3.210363463069998e-08
+     3.252078546778076e-08
 </pre><img src="img/ComplexMinimax_05.png" class="figure" alt="">
 
 The `aaa` code isn't always successful at computing minimax approximations, but usually it works.
@@ -89,8 +89,8 @@ The `aaa` code isn't always successful at computing minimax approximations, but 
 At present, `aaa` just works for type $(m,n)$ rational approximation with $m=n$. So far as we know, this is the only code in existence for complex rational minimax approximation.
 
 <pre class="mcode-input">total_time_for_this_example = toc</pre><pre class="mcode-output">total_time_for_this_example =
-   2.456055000000000
-</pre>[1] Y. Nakatsukasa and L. N. Trefethen, An algorithm for real and complex rational minimax approximation, _SIAM J. Sci. Comput.,_ submitted, and arXiv:1908.06001.
+   2.647419000000000
+</pre>[1] Y. Nakatsukasa and L. N. Trefethen, An algorithm for real and complex rational minimax approximation, _SIAM J. Sci. Comput.,_ 42 (2020), A3157-A3179.
 
 [2] L. N. Trefethen, Rational Chebsyhev approximation on the unit disk, _Numer. Math._ 37 (1981), 297--320.
 
