@@ -88,9 +88,9 @@ U = triu(A,1);</pre>
 rho = @(om) max(abs(eig(G(om))));</pre>
 
 <p>Analysis of the SOR iteration was carried out by Frankel [1] and generalized by Young [4]; see also [3].  Details are given in innumerable books, such as Golub and Van Loan [2]. Supposing we didn't know the theory, Chebfun would give us an elegant way to draw the famous optimal-$\omega$ curve:</p>
-<pre class="mcode-input">f = chebfun(rho,[1 2],'splitting','on','vectorize');
-plot(f,'linewidth',2), grid on
-xlabel('\omega','fontsize',16)
+<pre class="mcode-input">f = chebfun(rho,[1 2],'splitting','on');
+plot(f), grid on
+xlabel('\omega')
 ylabel('convergence factor')</pre>
 
 <p><img src="img/SOR_01.png" class="figure" alt=""></p>
@@ -98,7 +98,7 @@ ylabel('convergence factor')</pre>
 <pre class="mcode-input">[rho_opt,omega_opt] = min(f)</pre>
 
 <pre class="mcode-output">rho_opt =
-   0.560387921274781
+   0.560387921274775
 omega_opt =
    1.560387921274774
 </pre>
@@ -116,7 +116,7 @@ rho_exact =
 <h3 id="references">References</h3>
 <ol>
 <li>
-<p>S. Frankel, Convergence rates of iterative treatments of partial    differential equations, Mathematics of Computation 4 (1950), 56-75.</p>
+<p>S. Frankel, Convergence rates of iterative treatments of partial    differential equations, <em>Mathematics of Computation</em>, 4 (1950), 56-75.</p>
 </li>
 <li>
 <p>G. H. Golub and C. F. Van Loan, <em>Matrix Computations</em>, 4th ed., Johns    Hopkins, 2012.</p>
