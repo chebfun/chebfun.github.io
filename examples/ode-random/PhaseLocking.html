@@ -64,41 +64,40 @@
 <p>Consider the bistable equation $y' = ty - y^3 + f$, where $f$ is a random term of fixed amplitude. The fixed points of the deterministic part of the equation, locally at a time $t$, are $\pm |t|^{1/2}$.  For small $t$, noise easily crosses this gap, but as $t$ gets larger any trajectory eventually settles down to a choice that is (almost surely) fixed forever.  First we use $\lambda = 0.2$.</p>
 <pre class="mcode-input">tic, dom = [0 6]; N = chebop(dom); rng(0)
 N.lbc = 0; N.op = @(t,y) diff(y) - t*y + y^3;
-LW = 'linewidth'; FS = 'fontsize'; fs = 32;
 for k = 1:6
-  f = randnfun(0.2,dom,'norm');
-  y = N\f; plot(y,LW,5), hold on
+  f = randnfun(0.2,dom,'big');
+  y = N\f; plot(y), hold on
 end
-xlabel('t',FS,36), ylabel('y',FS,36)
-title('lambda = 0.2, 6 paths',FS,fs), toc</pre>
+xlabel('t'), ylabel('y')
+title('lambda = 0.2, 6 paths'), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 5.923743 seconds.
+<pre class="mcode-output">Elapsed time is 2.513491 seconds.
 </pre>
 
 <p><img src="img/PhaseLocking_01.png" class="figure" alt=""></p>
 <p>Here's the same computation with $\lambda = 0.05$.</p>
 <pre class="mcode-input">tic, clf
 for k = 1:6
-  f = randnfun(0.05,dom,'norm');
-  y = N\f; plot(y,LW,2), hold on
+  f = randnfun(0.05,dom,'big');
+  y = N\f; plot(y), hold on
 end
-xlabel('t',FS,36), ylabel('y',FS,36)
-title('lambda = 0.05, 6 paths',FS,fs), toc</pre>
+xlabel('t'), ylabel('y')
+title('lambda = 0.05, 6 paths'), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 8.176921 seconds.
+<pre class="mcode-output">Elapsed time is 3.707869 seconds.
 </pre>
 
 <p><img src="img/PhaseLocking_02.png" class="figure" alt=""></p>
 <p>Here's a much bigger sample.</p>
 <pre class="mcode-input">tic, clf
 for k = 1:60
-  f = randnfun(0.05,dom,'norm');
-  y = N\f; plot(y,LW,1), hold on
+  f = randnfun(0.05,dom,'big');
+  y = N\f; plot(y), hold on
 end
-xlabel('t',FS,36), ylabel('y',FS,36)
-title('lambda = 0.05, 60 paths',FS,fs), toc</pre>
+xlabel('t'), ylabel('y')
+title('lambda = 0.05, 60 paths'), toc</pre>
 
-<pre class="mcode-output">Elapsed time is 82.702343 seconds.
+<pre class="mcode-output">Elapsed time is 35.787353 seconds.
 </pre>
 
 <p><img src="img/PhaseLocking_03.png" class="figure" alt=""></p></div>
