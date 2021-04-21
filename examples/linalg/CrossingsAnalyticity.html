@@ -63,8 +63,8 @@
 <div id='content' class="col-sm-12 example" role="main">
 <p>In the example "Eigenvalue Level Repulsion" of 2010, we considered morphing one real symmetric matrix into another,</p>
 <p>$$ A(t) = (1-t)A + tB , \quad t \in [0, 1]. $$</p>
-<p>Generically there will be no double eigenvalues for any $t$, though some may come close.  Here are the bottom two eigenvalues from that example as a function of $t$:</p>
-<pre class="mcode-input">rng(1); n = 10;
+<p>Generically there will be no double eigenvalues for any $t$, though some may come close.  Here are the bottom two eigenvalues from that example as functions of $t$:</p>
+<pre class="mcode-input">rng(1), n = 10;
 A = randn(n); A = A+A'; B = randn(n); B = B+B';
 ek = @(e,k) e(k);            % returns kth element of the vector e
 eigA = @(A) sort(eig(A));    % returns sorted eigenvalues of the matrix A
@@ -75,13 +75,12 @@ for k = 1:n
 end
 E1 = E(:,1); E2 = E(:,2);
 
-FS = 'fontsize'; MS = 'markersize';
 figure, plot([E1; E2]), grid on
 title('Near-crossing of two eigenvalues');
-xlabel('t',FS,12)</pre>
+xlabel('t')</pre>
 
 <p><img src="img/CrossingsAnalyticity_01.png" class="figure" alt=""></p>
-<p>Antoine Levitt of the Ecole des Ponts has alerted me to a phenomenon that physicists know but numerical analysts may not be so well aware of.  Numerical analysts know that eigenvalues of real symmetric matrices are well-conditioned, with condition number $1$ in the 2-norm. It's the <em>eigenvectors</em>, we are taught, that grow ill-behaved as two eigenvalues come close together.</p>
+<p>Antoine Levitt of the &Eacute;cole des Ponts has alerted me to a phenomenon that physicists know but numerical analysts may not be so well aware of.  Numerical analysts know that eigenvalues of real symmetric matrices are well-conditioned, with condition number $1$ in the 2-norm. It's the <em>eigenvectors</em>, we are taught, that grow ill-behaved as two eigenvalues come close together.</p>
 <p>But in fact, the eigenvalues misbehave too, even though they are analytic functions and even though their condition number, if that's all you look at, is irreproachable. One way to see this is simply to plot the derivatives of these two eigenvalue functions as a function of the parameter $t$:</p>
 <pre class="mcode-input">plot(diff([E1; E2]))
 title('derivatives of the eigenvalue functions')</pre>
@@ -91,7 +90,7 @@ title('derivatives of the eigenvalue functions')</pre>
 <p>More interesting to fans of complex analysis is the behavior in the complex plane.  Here we use AAA approximation to find a rational function that closely matches one of the eigenvalue functions.  We plot poles as red dots, and this reveals that the region of analyticity around the real axis is very narrow. (The actual singularity is probably a square root branch point; the rational approximation introduces a string of poles along a branch cut.)</p>
 <pre class="mcode-input">X = linspace(0,1,1000);
 [r,pol] = aaa(E1,X);
-plot(pol,'.r',MS,12), grid on
+plot(pol,'.r','markersize',12), grid on
 axis([0 1 -.2 .2])
 title('narrow strip of analyticity')</pre>
 
@@ -104,7 +103,7 @@ title('sum of the two eigenvalues')</pre>
 <p><img src="img/CrossingsAnalyticity_04.png" class="figure" alt=""></p>
 <p>And here are the poles of the AAA approximant:</p>
 <pre class="mcode-input">[r,pol] = aaa(Esum(X),X);
-plot(pol,'.r',MS,12), grid on
+plot(pol,'.r','markersize',14), grid on
 axis([0 1 -.2 .2])
 title('for the sum, a wider strip of analyticity')</pre>
 
