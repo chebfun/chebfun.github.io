@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AAA approximation of a spline &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>AAA approximation of a spline</h1>
+<h2>Nick Trefethen, April 2021 in <a href='/examples/approx/'>approx</a><span><a href='/examples/approx/AAASpline.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/approx/AAASpline.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>The other day I attended Heather Wilber's defense of her PhD thesis at Cornell [2]. On of the demonstrations Wilber showed was of AAA approximation of a spline function.  Where does AAA place the poles? Near the spline nodes, of course, because these are points of nonanalyticity.</p>
+<p>To illustrate, here is the spline function from the Chebfun example "Splines" of February 2013, with nodes at the integers $0,1,\dots, 10$:</p>
+<pre class="mcode-input">x = chebfun('x',[0 10]);
+f = sin(x + x^2/4);
+s = chebfun.spline(0:10,f(0:10));</pre>
+
+<p>We compute the AAA approximation to $s$ based on 1000 sample points in $[0,10]$, and plot the poles in the complex plane. They line up near $2,3,\dots, 8$, because for this problem there are no singularities at $x= 0,1,9,10$.</p>
+<pre class="mcode-input">X = linspace(0,10,1000)';
+[r,poles] = aaa(s(X),X,'mmax',200,'tol',1e-10);
+MS = 'markersize';
+plot(poles,'.r',MS,12)
+grid on, axis equal, axis([1.5 8.5 -2 2])
+title(['poles of AAA approximant, ' int2str(length(poles)) ' in total'])</pre>
+
+<p><img src="img/AAASpline_01.png" class="figure" alt=""></p>
+<p>We zoom in near $x=4$:</p>
+<pre class="mcode-input">clf, plot(poles,'.r',MS,10), axis([3.9 4.1 -.8 .8]), grid on
+title(['poles near x=4'])</pre>
+
+<p><img src="img/AAASpline_02.png" class="figure" alt=""></p>
+<p>Here way is the function we have been approximating, with the nodes shown as black dots.</p>
+<pre class="mcode-input">plot(s), grid on
+hold on, plot(s.ends,s(s.ends),'.k',MS,12), ylim([-1.2 1.2]), hold off
+title('the spline being approximated')</pre>
+
+<p><img src="img/AAASpline_03.png" class="figure" alt=""></p>
+<p>The mathematics of this example is pretty striking. The function $r$ approximates a piecewise polynomial by a single global rational function, and it does it with great accuracy:</p>
+<pre class="mcode-input">error = norm(s(X) - r(X))</pre>
+
+<pre class="mcode-output">error =
+     9.122560880232690e-11
+</pre>
+
+<p>For details of how this is possible, see [1].</p>
+<h3 id="references">References</h3>
+<p>[1] L. N. Trefethen, Y. Nakatsukasa, and J. A. C. Weideman, Exponential node clustering at singularities for rational approximation, quadrature, and PDEs, <em>Numerische Mathematik</em>, 147 (2021), 227-254.</p>
+<p>[2] H. Wilber, <em>Computing Numerically with Rational Functions</em>, PhD thesis, Cornell University, 2021.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
