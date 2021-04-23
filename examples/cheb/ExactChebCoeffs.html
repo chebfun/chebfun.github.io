@@ -69,7 +69,7 @@
 <p>Here, we note that $\rho = |z \pm \sqrt{z^2-1}|$ is the parameter of the usual Bernstein ellipse $E_\rho$ with the point $z = x + iy$ on its boundary. So, if $f$ is a function with a pole at $z_0$ whose integral around $E_\rho$ tends to zero as $\rho \to \infty$, then by the residue theorem we have $$ a_n = \frac{-2r_0}{\sqrt{z_0^2-1}(z_0 \pm \sqrt{z_0^2-1})^n}, $$ where $r_0$ is the residue of the pole at $z_0$.</p>
 <h3 id="3-a-function-with-a-pole">3. A function with a pole</h3>
 <p>As an example, consider the function $$ f(x) = \frac{1}{5 + x}. $$ This function can be represented in Chebfun by an interpolant in 17 points.</p>
-<pre class="mcode-input">f  = @(x) 1./(5+x);
+<pre class="mcode-input">f  = @(x) 1/(5+x);
 fc = chebfun(f);
 k = 1:length(fc);</pre>
 
@@ -82,8 +82,7 @@ plotcoeffs(fc,'.-')
 title('Chebyshev coefficients of 1/(5+x)')
 xlabel('n'), ylabel('log(|a_n|)'), grid on</pre>
 
-<pre class="mcode-output">ans =
-   0.408248290463863   0.204124145231932   0.204124145231932
+<pre class="mcode-output">   0.408248290463863   0.204124145231932   0.204124145231932
   -0.041241452319315  -0.041241452319315                   0
    0.004166232729288   0.004166232729288  -0.000000000000000
   -0.000420874973563  -0.000420874973563  -0.000000000000000
@@ -103,7 +102,7 @@ xlabel('n'), ylabel('log(|a_n|)'), grid on</pre>
   -0.000000000000000  -0.000000000000000   0.000000000000000
 </pre>
 
-<p><img src="img/ExactChebCoeffs_01.png" class="figure" alt=""/></p>
+<p><img src="img/ExactChebCoeffs_01.png" class="figure" alt=""></p>
 <h3 id="references">References</h3>
 <ol>
 <li>D. Elliott, The evaluation and estimation of the coefficients in the Chebyshev series expansion of a function, <em>Mathematics of Computation</em>, 18 (1964), 274-284.</li>

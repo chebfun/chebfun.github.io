@@ -27,7 +27,7 @@ Here, we note that $\rho = |z \pm \sqrt{z^2-1}|$ is the parameter of the usual B
 
 As an example, consider the function $$ f(x) = \frac{1}{5 + x}. $$ This function can be represented in Chebfun by an interpolant in 17 points.
 
-<pre class="mcode-input">f  = @(x) 1./(5+x);
+<pre class="mcode-input">f  = @(x) 1/(5+x);
 fc = chebfun(f);
 k = 1:length(fc);</pre>The function has a pole at $-5$ with residue $1$. Substituting these values into the above formula then gives the following exact expression for the Chebyshev expansion coefficients: $$ a_n =  \frac{1}{\sqrt{6}} \frac{(-1)^n}{(5+\sqrt{24})^n}. $$ The theoretical coefficients match those computed by Chebfun, apart from floating point representation and aliasing effects. The $a_0$ coefficient is out by the usual factor of $2$:
 
@@ -37,8 +37,7 @@ display([exact_coeffs cheb_coeffs exact_coeffs-cheb_coeffs])
 
 plotcoeffs(fc,'.-')
 title('Chebyshev coefficients of 1/(5+x)')
-xlabel('n'), ylabel('log(|a_n|)'), grid on</pre><pre class="mcode-output">ans =
-   0.408248290463863   0.204124145231932   0.204124145231932
+xlabel('n'), ylabel('log(|a_n|)'), grid on</pre><pre class="mcode-output">   0.408248290463863   0.204124145231932   0.204124145231932
   -0.041241452319315  -0.041241452319315                   0
    0.004166232729288   0.004166232729288  -0.000000000000000
   -0.000420874973563  -0.000420874973563  -0.000000000000000
@@ -56,7 +55,7 @@ xlabel('n'), ylabel('log(|a_n|)'), grid on</pre><pre class="mcode-output">ans =
   -0.000000000000000  -0.000000000000000   0.000000000000000
    0.000000000000000   0.000000000000000   0.000000000000000
   -0.000000000000000  -0.000000000000000   0.000000000000000
-</pre><img src="img/ExactChebCoeffs_01.png" class="figure" alt=""/>
+</pre><img src="img/ExactChebCoeffs_01.png" class="figure" alt="">
 
 
 
