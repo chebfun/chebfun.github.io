@@ -10,12 +10,12 @@ Suppose $f$ is a 2D random function defining a "random landscape", which is fill
 Here is an illustration for $h=-1$.
 
 <pre class="mcode-input">blueblack = [.6 .6 1; 0 0 0];
-FS = 'fontsize'; CO = 'color';
+CO = 'color';
 h = -1;
 dom = [-2 2 -1 1];
 f = randnfun2(0.3,dom);
 plot(f-h, 'zebra'), axis equal off, colormap(blueblack)
-title(['h = ' num2str(h)],FS,38)</pre><img src="img/RandomPonds_01.png" class="figure" alt="">
+title(['h = ' num2str(h)])</pre><img src="img/RandomPonds_01.png" class="figure" alt="">
 
 Of course, the mathematics depends on one's notion of a random function, and Chebfun makes a particular choice defined by certain random Fourier coefficients.
 
@@ -23,13 +23,13 @@ If $h$ is lower, the ponds are smaller and more separated.
 
 <pre class="mcode-input">h = -2;
 plot(f-h, 'zebra'), axis equal off, colormap(blueblack)
-title(['h = ' num2str(h)],FS,38)</pre><img src="img/RandomPonds_02.png" class="figure" alt="">
+title(['h = ' num2str(h)])</pre><img src="img/RandomPonds_02.png" class="figure" alt="">
 
 As $h$ gets bigger, the ponds grow and connect into a giant body of water.  This is related to the subject of percolation theory.
 
 <pre class="mcode-input">for h = 0:2
    plot(f-h, 'zebra'), axis equal off, colormap(blueblack)
-   title(['h = ' num2str(h)],FS,38)
+   title(['h = ' num2str(h)])
    snapnow
 end</pre><img src="img/RandomPonds_03.png" class="figure" alt="">
 
@@ -43,9 +43,9 @@ We can also let $h$ vary across the domain.  The resulting image is reminiscent 
 f = randnfun2(.1, dom);
 h = chebfun2(@(x,y) x, dom);
 plot(f-h, 'zebra'), axis equal off, colormap(blueblack)
-title('varying h',FS,38)</pre><img src="img/RandomPonds_06.png" class="figure" alt="">
+title('varying h')</pre><img src="img/RandomPonds_06.png" class="figure" alt="">
 
 Reference:
 
-[1] B. Bowen, C. Strong, and K. M. Golden, Modeling the fractal geometry of Arctic melt ponds using the level sets of random surfaces, _Journal of Fractal Geometry_, to appear.
+[1] B. Bowen, C. Strong, and K. M. Golden, Modeling the fractal geometry of Arctic melt ponds using the level sets of random surfaces, _Journal of Fractal Geometry_, 5.2 (2018), 121--142.
 
