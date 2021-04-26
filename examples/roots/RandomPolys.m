@@ -29,26 +29,19 @@ n = 30;
 cleg = randn(n+1,1);                  % Legendre coeffs
 ccheb = leg2cheb(cleg,'norm');        % Chebyshev coeffs
 p = chebfun(ccheb,'coeffs');
-LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
-plot(p,LW,1.6), axis([-1.1 1.1 -n n]), grid on
+plot(p), axis([-1.1 1.1 -n n]), grid on
 rr = roots(p);
-hold on, plot(rr,p(rr),'.r',MS,16), hold off
+hold on, plot(rr,p(rr),'.r','markersize',12), hold off
 ratio = length(rr)/n;
-title(['fraction of roots in [-1,1]: ' num2str(ratio)],FS,12)
+title(['fraction of roots in [-1,1]: ' num2str(ratio)])
 
 %%
 % Here are its roots in the complex plane, both real and complex:
 r = roots(p,'all');
-plot([-1 1],[0 0],'k',LW,1), grid on
-hold on, plot(r,'.r',MS,12), hold off
+plot([-1 1],[0 0],'k'), grid on
+hold on, plot(r,'.r','markersize',12), hold off
 xlim([-2.5 2.5]), axis equal
 set(gca,'xtick',-2:2)
-
-%%
-% You might guess by looking at the first of these pictures that this was a
-% polynomial of odd degree, but of course it is of even degree.
-% So there must be a real root outside $[-1,1]$, as indeed
-% we see in the second picture.
 
 %%
 % Now let's construct ten random polynomials of degree 1000 and print
@@ -73,9 +66,8 @@ mean(data)
 % One could vary these experiments in all kinds of ways, for example
 % defining random polynomials via Chebyshev or more generally
 % Jacobi expansions or by interpolation
-% of random data in Chebyshev or other points.  The case of
-% Jacobi expansions is considered in [2], though the proofs
-% there are not complete.
+% of random data in Chebyshev or other points.  Such more
+% general problems have been treated recently in [2].
 
 %% References
 %
@@ -83,9 +75,9 @@ mean(data)
 %     _Proceedings of the American Mathematical Society_, 27
 %     (1971), 147-153.
 %
-% 2. M. Das and S. S. Bhatt, Real roots of random
-%    harmonic equations, _Indian Journal of Pure and
-%    Applied Mathematics_, 13 (1982), 411-420.
+% 2. D. S. Lubinsky, I. E. Pritsker, and X. Xie,
+%     Expected numer of real zeros for random linear combinations
+%     of orthogonal polynomials, manuscript, 2014.
 %
 % 3. J. E. Wilkins, The expected value of the number of
 %     real zeros of a random sum of Legendre polynomials,

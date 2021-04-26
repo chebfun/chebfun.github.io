@@ -11,10 +11,10 @@ meta: "(Chebfun example roots/RootsSpeed.m) [Tags: #colleaguematrix, #ROOTS]"
 
 Let us do a test of the speed and accuracy of the Chebfun algorithm for computing roots.  We'll pick a function whose roots we know:
 
-<pre class="mcode-input">f = chebfun(@(x) exp(x).*sin(1000*pi*x));</pre>Here is the length of the function, approximately $1000\pi$.
+<pre class="mcode-input">f = chebfun(@(x) exp(x)*sin(1000*pi*x));</pre>Here is the length of the function, approximately $1000\pi$.
 
 <pre class="mcode-input">n = length(f)</pre><pre class="mcode-output">n =
-        3282
+        3284
 </pre>This function has 2001 roots linearly spaced from $-1$ to $1$:
 
 <pre class="mcode-input">exact = linspace(-1,1,2001)';</pre>Let's compute them with Chebfun.  We'll do it twice just to make sure the timing estimate is realistic.
@@ -22,19 +22,19 @@ Let us do a test of the speed and accuracy of the Chebfun algorithm for computin
 <pre class="mcode-input">r = roots(f);
 tic, r = roots(f);</pre>Here is the time elapsed:
 
-<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 0.543148 seconds.
+<pre class="mcode-input">toc</pre><pre class="mcode-output">Elapsed time is 0.148862 seconds.
 </pre>Here is the maximum error:
 
 <pre class="mcode-input">norm(r-exact,inf)</pre><pre class="mcode-output">ans =
-     4.440892098500626e-16
-</pre>This number is twice machine epsilon, which looks very good. (Admittedly, you couldn't ask for a better conditioned problem than this one, since the derivative of $f$ at each root is large.)
+     3.330669073875470e-16
+</pre>This number is $1.5$ times machine epsilon, which looks very good. (Admittedly, you couldn't ask for a better conditioned problem than this one, since the derivative of $f$ at each root is large.)
 
 For fun we plot $f$ and its roots over a short interval:
 
 <pre class="mcode-input">d = [-0.0105,0.0105];
-plot(f,'interval',d,'linewidth',1.6)
+plot(f,'interval',d)
 axis([d -1.5 1.5]), grid on
-hold on, plot(r,f(r),'.r','markersize',18), hold off</pre><img src="img/RootsSpeed_01.png" class="figure" alt="">
+hold on, plot(r,f(r),'.r','markersize',12), hold off</pre><img src="img/RootsSpeed_01.png" class="figure" alt="">
 
 
 
@@ -42,12 +42,13 @@ hold on, plot(r,f(r),'.r','markersize',18), hold off</pre><img src="img/RootsSpe
 
 "Classically", using the MATLAB `roots` command, it takes $O(n^3)$ operations to compute the eigenvalues of a companion matrix, which is the method that MATLAB has used since the 1970s for finding roots of a polynomial in the monomial basis.  We can illustrate that this computation is slow, if not really that the complexity is cubic, by the following experiment.
 
-<pre class="mcode-input">for ntest = [250 500 1000]
+<pre class="mcode-input">for ntest = [250 500 1000 2000]
     c = randn(ntest,1);
     tic, roots(c); toc
-end</pre><pre class="mcode-output">Elapsed time is 0.087503 seconds.
-Elapsed time is 0.297758 seconds.
-Elapsed time is 1.853355 seconds.
+end</pre><pre class="mcode-output">Elapsed time is 0.036489 seconds.
+Elapsed time is 0.189847 seconds.
+Elapsed time is 0.814536 seconds.
+Elapsed time is 3.427491 seconds.
 </pre>It is clear from this experiment that calling Matlab `roots` for a polynomial of degree as large as our chebfun `f` would be very slow.
 
 However, $O(n^2)$ algorithms for this problem have been available for quite a while, though they are not built into MATLAB. A key person in this effort over the years has been Dario Bini of the University of Pisa.  See for example [2].  This group also offers Fortran software. Another notable contribution is [4].
@@ -58,13 +59,13 @@ All this is for the companion matrix eigenvalue problem, which corresponds to po
 
 First of all we note what Chebfun currently does: following an idea of Boyd [3], it subdivides the interval when necessary.  This is how a superficially $O(n^3)$ algorithm is brought down to $O(n^2)$, enabling the good performance seen above.  Note that intervals are different from circles: if you split an interval in half, you get two intervals, but if you split a circle in half, you don't get two circles.  Therefore this recursion trick is not available in the monomial case.
 
-But what about an $O(n^2)$ _linear algebra_ solution to the problem, rather than relying on splitting of intervals? Here too there has been progress [5], and we hope to have work of our own to report before long. An interesting project for the future will be to see whether Chebfun rootfinding can be improved by the use of $O(n^2)$ linear algebra algorithms rather than interval subdivision, while holding to Chebfun's principle of doing everything in MATLAB without relying on Mex files to link to Fortran or C.
+But what about an $O(n^2)$ _linear algebra_ solution to the problem, rather than relying on splitting of intervals? Here too there has been progress [5].  An interesting project for the future will be to see whether Chebfun rootfinding can be improved by the use of $O(n^2)$ linear algebra algorithms rather than interval subdivision, while holding to Chebfun's principle of doing everything in MATLAB without relying on Mex files to link to Fortran or C.
 
 
 
 ## References
 
-1. J. Aurentz, T. Mach, R. Vandebril and D. S. Watkins, to appear.
+1. J. Aurentz, T. Mach, R. Vandebril and D. S. Watkins, Fast and backward stable computation of roots of polynomials, _SIAM J. Matrix Analysis and Applications_, 36 (2016), 942-973.
 
 2. D. A. Bini, P. Boito, Y. Eidelman, L. Gemignani, and    I. Gohberg, A fast implicit QR eigenvalue algorithm for companion    matrices, _Linear Algebra and its Applications_, 432 (2010),    2006-2031.
 
@@ -74,5 +75,5 @@ But what about an $O(n^2)$ _linear algebra_ solution to the problem, rather than
 
 5. Y. Eidelman, L. Gemignani, and I. Gohberg, Efficient eigenvalue computation for quasiseparable Hermitian    matrices under low rank perturbations, _Numerical Algorithms_, 47 (2008),    253-273.
 
-6. L. N. Trefethen, _Approximation Theory and Approximation Practice_, SIAM,    2013.
+6. L. N. Trefethen, _Approximation Theory and Approximation Practice, Extended Edition__, SIAM, 2019.    2013.
 
