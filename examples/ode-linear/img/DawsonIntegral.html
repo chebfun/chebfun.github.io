@@ -11,15 +11,14 @@ $$ {dF\over dx} + 2xF = 1, \qquad F(0) = 0.  $$
 
 Chebfun can crack this problem in a few lines. Instead of a boundary condition, we will specify an interior point condition.
 
-<pre class="mcode-input">function DawsonIntegral</pre><pre class="mcode-input">LW = 'linewidth'; lw = 2;
-tic
+<pre class="mcode-input">function DawsonIntegral</pre><pre class="mcode-input">tic
 W = 5; H = 0.8;
 L = chebop(-W,W);
-L.op = @(x,f) diff(f,1) + 2*x.*f;   % ODE
+L.op = @(x,f) diff(f,1) + 2*x*f;    % ODE
 L.bc = @(x,f) f(0);                 % interior point condition
 f = L\1;
 toc
-plot(f,LW,lw), axis([-W W -H H]), hold on, grid on;</pre><pre class="mcode-output">Elapsed time is 2.369714 seconds.
+plot(f), axis([-W W -H H]), hold on, grid on</pre><pre class="mcode-output">Elapsed time is 1.066179 seconds.
 </pre><img src="img/DawsonIntegral_01.png" class="figure" alt="">
 
 The problem can be solved analytically:
@@ -40,29 +39,30 @@ It's tempting to evaluate Dawson's integral directly using Chebfun.
 
 <pre class="mcode-input">tic
 x = chebfun('x',[0,W]);
-fr = exp(-x.^2).*cumsum(exp(x.^2));  % right of x=0
+fr = exp(-x^2)*cumsum(exp(x^2));     % right of x=0
 fl = newDomain(-flipud(fr),[-W 0]);  % left of x=0
 f = join(fl,fr);                     % must be an easier way to do this!
 f = merge(f)
-plot(f,LW,lw), grid on</pre><pre class="mcode-output">f =
-   chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[      -5,       5]       38      -0.1      0.1 
-Epslevel = 9.665300e-07.  Vscale = 5.396731e-01.
+plot(f), grid on</pre><pre class="mcode-output">f =
+   chebfun column (2 smooth pieces)
+       interval       length     endpoint values  
+[      -5,       0]       87      -0.1  6.2e-07 
+[       0,       5]       87  -6.2e-07      0.1 
+vertical scale = 0.54    Total length = 174
 </pre><img src="img/DawsonIntegral_02.png" class="figure" alt="">
 
 How big is the discrepancy between $F$ and $f$? You can find out by running these three lines:
 
 <pre class="mcode">semilogy(abs(f-fexact));
-title('error when evaluate F directly');
-grid on, hold off</pre>If you do, you'll find that the accuracy is only about 5 digits. It's not difficult to understand the low accuracy if we notice that Dawson's integral as shown in Equation (2) is a product of type $0 \cdot \infty$ as $x$ diverges away from the origin. A standard way to compute Dawson's integral is given in Numerical Recipes [1], where the integral is evaluated using its Maclaurin series [2,3] near the origin and Rybicki's exponentially accurate approximation [4] otherwise. It's very likely that MATLAB's built-in routine adopts this algorithm.
+title('error when we evaluate F directly');
+grid on, hold off</pre>If you do, you'll find that the accuracy is only about 5 digits. It's not difficult to understand the low accuracy if we notice that Dawson's integral as shown in Equation (2) is a product of type $0 \cdot \infty$ as $x$ diverges away from the origin. A standard way to compute Dawson's integral is given in _Numerical Recipes_ [1], where the integral is evaluated using its Maclaurin series [2,3] near the origin and Rybicki's exponentially accurate approximation [4] otherwise. It's likely that MATLAB's built-in routine adopts this algorithm.
 
 An elegant way to evaluate Dawson's integral as well as several others in the complex error function family has been proposed by Weideman [5]. Here we borrow Weideman's eight-line MATLAB code (very slightly modified) to calculate the integral.
 
 <pre class="mcode-input">N = 36;
 tic
-f = chebfun(@(x) real(sqrt(pi)*(cef(x,N)-exp(-x.^2))/2i), [-W W]);
-toc</pre><pre class="mcode-output">Elapsed time is 0.051382 seconds.
+f = chebfun(@(x) real(sqrt(pi)*(cef(x,N)-exp(-x^2))/2i), [-W W]);
+toc</pre><pre class="mcode-output">Elapsed time is 0.057716 seconds.
 </pre>If you have the Symbolic Toolbox...
 
 <pre class="mcode">semilogy(abs(f-fexact)), grid on</pre><pre class="mcode-input">function w = cef(z,N)      % Weideman's complex error function routine
@@ -78,9 +78,12 @@ end</pre>Weideman's algorithm takes advantage of a slick rational expansion whic
 
 $$ w(x) = e^{-x^2}+\frac{2i}{\sqrt{\pi}}e^{-x^2}\int_0^x e^{t^2} dt $$
 
-uniformly accurately in the complex plane with only a small number of terms (denoted by $N$ in the code above). With $N = 36$, Dawson's integral is computed accurately within roundoff and it's done roughly ten times faster than the MATLAB Symbolic Toolbox built-in function. Amazing, isn't it? Should we suggest to MathWorks that they rewrite their Dawson's function after an 18-year delay?
+uniformly accurately in the complex plane with only a small number of terms (denoted by $N$ in the code above). With $N = 36$, Dawson's integral is computed accurately within roundoff and it's done roughly ten times faster than the MATLAB Symbolic Toolbox built-in function. Amazing, isn't it? Should we suggest to MathWorks that they rewrite their Dawson function after an 18-year delay?
 
-<pre class="mcode-input">end</pre>
+<pre class="mcode-input">end</pre><pre class="mcode-output">Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+</pre>
 
 ## References
 
