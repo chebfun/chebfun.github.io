@@ -16,37 +16,36 @@ This problem was first considered by its namesake Heinrich Blasius in 1908 and h
 In order to solve the problem in Chebfun we'll need to truncate the domain to something suitable, say $[0, 11]$. We can set up the chebop and solve the differential equation with only a few lines of code.
 
 <pre class="mcode-input">dom = [0, 11];
-op  = @(u) 2*diff(u,3) + u.*diff(u,2);
+op  = @(u) 2*diff(u,3) + u*diff(u,2);
 bc  = @(x,u) [u(0); feval(diff(u),0); feval(diff(u),dom(2))-1];
 N   = chebop(op, dom, bc);
-u   = N\0;
-u   = simplify(u)</pre><pre class="mcode-output">u =
+u   = N\0</pre><pre class="mcode-output">u =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[       0,      11]       39   6.7e-16      9.3 
-Epslevel = 1.743210e-15.  Vscale = 9.279212e+00.
+       interval       length     endpoint values  
+[       0,      11]       38  -5.4e-13      9.3 
+vertical scale = 9.3 
 </pre>Here is what the solution looks like.
 
-<pre class="mcode-input">plot(u, 'k-')
+<pre class="mcode-input">plot(u, 'k')
 title('The Blasius function')</pre><img src="img/Blasius_01.png" class="figure" alt="">
 
 We can check that the residuals are small:
 
 <pre class="mcode-input">op_residual = norm(op(u))  % Residual of the differential equation
 bc_residuals = bc(0,u)     % Residuals of boundary conditions</pre><pre class="mcode-output">op_residual =
-     2.335009764299070e-09
+     2.443882212964127e-08
 bc_residuals =
-   1.0e-11 *
-                   0
-   0.167399427652981
-  -0.107747144539871
+   1.0e-10 *
+  -0.005410902740846
+  -0.273779372038542
+  -0.058877347441921
 </pre>One quantity of interest is the second derivative of the solution $u$ at the origin. The exact value to sixteen decimal places is supplied by Boyd [1]. Let's test Chebfun's accuracy for this quantity.
 
 <pre class="mcode-input">a_exact    = 0.33205733621519630;
 a_computed = feval(diff(u,2), 0);
 a_exact - a_computed</pre><pre class="mcode-output">ans =
-     1.507317604065861e-10
-</pre>Noticing that the Blasius function approaches a linear polynomial away from the origin, the reader may wonder what is the limiting value $u(x) - x$ as $x \to \infty$? The answer again is supplied to high accuracy by Boyd, so let us see how Chebfun performs.
+    -1.793357129464823e-09
+</pre>Noticing that the Blasius function approaches a linear polynomial away from the origin, the reader may wonder, what is the limiting value $u(x) - x$ as $x \to \infty$? The answer again is supplied to high accuracy by Boyd, so let us see how Chebfun performs.
 
 <pre class="mcode-input">x = chebfun('x', dom);
 hold on, plot(x, 'r--')</pre><img src="img/Blasius_02.png" class="figure" alt="">
@@ -54,7 +53,7 @@ hold on, plot(x, 'r--')</pre><img src="img/Blasius_02.png" class="figure" alt=""
 <pre class="mcode-input">b_exact    = -1.720787657520503;
 b_computed = feval(u-x, dom(2));
 b_exact - b_computed</pre><pre class="mcode-output">ans =
-    -2.284870070923262e-10
+    -2.280482469529943e-10
 </pre>A special property of the Blasius function is that its power series representation only includes every third term, that is,
 
 $$ u(x) = \frac12 \kappa x^2 - \frac1{240} \kappa^2 x^5
@@ -64,12 +63,12 @@ with $\kappa = u''(0)$ is the quantity `a_exact` above [1]. We can compute these
 
 <pre class="mcode-input">coeffs = poly(u);
 coeffs(end:-1:end-5)'</pre><pre class="mcode-output">ans =
-   0.000000000000002
-   0.000000000001672
-   0.166028668032239
-   0.000000001557068
-  -0.000000015982565
-  -0.000459323884584
+  -0.000000000000535
+  -0.000000000027375
+   0.166028669004270
+  -0.000000012907182
+   0.000000105476715
+  -0.000459971641789
 </pre>The nonzero coefficients in the power series expansion alternate in sign, which suggests that convergence is limited by a singularity on the negative $x$-axis. Indeed this is the case, and the singularity's location is known to be approximately $x_0 = -5.6900380545$. We can see the singularity in Chebfun by extending the domain of the chebop to somewhere near $x_0$, whereupon the boundary conditions at $x=0$ become interior point conditions. (The resulting function is not fully accurate, as Chebfun warns.)
 
 <pre class="mcode-input">N2 = chebop(op, [-5.6, 11], bc);
@@ -80,9 +79,9 @@ Please try supplying a better initial guess via the .init field
 of the chebop. 
 v =
    chebfun column (1 smooth piece)
-       interval       length   endpoint values  
-[    -5.6,      11]      256        67      9.3 
-Epslevel = 1.664542e-15.  Vscale = 6.662492e+01.
+       interval       length     endpoint values  
+[    -5.6,      11]      224        67      9.3 
+vertical scale =  67 
 </pre><img src="img/Blasius_03.png" class="figure" alt="">
 
 

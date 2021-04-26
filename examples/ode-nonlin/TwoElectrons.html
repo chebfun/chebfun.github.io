@@ -62,15 +62,15 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-typical-trajectories">1. Typical trajectories</h3>
-<p>Here is a variation on the familiar $n$-body problem, suggested to us by Charlie Peskin of New York University. Suppose $n$ electrons of charge $-1$ are flying around a nucleus of infinite mass and charge $+n$.  What do the trajectories look like? For $n=1$ it's trivial, just a circular orbit.  For $n\ge 2$ one sees all kinds of disordered and chaotic trajectories, and we hope to explore some of the possibilities in a future example.  In this example we consider just a very special configuration with $n=2$, in which the two electrons are assumed to be exactly symmetrical about a line of reflection.  Here is a typical trajectory over a time interval of length 40.  (The "splitting on" command is commented on at the end of this writeup.)</p>
-<pre class="mcode-input">LW = 'linewidth'; MS = 'markersize'; lw = 1.2;
+<p>Here is a variation on the familiar $n$-body problem suggested to us by Charlie Peskin of New York University. Suppose $n$ electrons of charge $-1$ are flying around a nucleus of infinite mass and charge $+n$.  What do the trajectories look like? For $n=1$ it's trivial, just a circular orbit.  For $n\ge 2$ one sees all kinds of disordered and chaotic trajectories, and we hope to explore some of the possibilities in a future example.  In this example we consider just a very special configuration with $n=2$, in which the two electrons are assumed to be exactly symmetrical about a line of reflection.  Here is a typical trajectory over a time interval of length 40.  (The "splitting on" command is commented on at the end of this writeup.)</p>
+<pre class="mcode-input">LW = 'linewidth';
 chebfunpref.setDefaults('splitting',true)
 N = chebop(0,40);
-N.op = @(t,z) diff(z,2) + 2*z./abs(z).^3 - 0.25i*imag(z)./imag(z).^3;
+N.op = @(t,z) diff(z,2) + 2*z/abs(z)^3 - 0.25i*imag(z)/imag(z)^3;
 V = 1; N.lbc = [1i; V];
 tic, z = N\0; x = real(z); y = imag(z);
-plot(0,0,'.k',MS,8), hold on
-plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
+plot(0,0,'.k'), hold on
+plot(x,y,x,-y,LW,.7), axis(1.2*[-1 1 -1 1]), axis square, hold off
 set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 
 <p><img src="img/TwoElectrons_01.png" class="figure" alt=""></p>
@@ -88,8 +88,8 @@ set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 <pre class="mcode-input">N.domain = [0 20];
 V = 1.446; N.lbc = [1i; V];
 z = N\0; x = real(z); y = imag(z);
-plot(0,0,'.k',MS,8), hold on
-plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
+plot(0,0,'.k'), hold on
+plot(x,y,x,-y), axis(1.2*[-1 1 -1 1]), axis square, hold off
 set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 
 <p><img src="img/TwoElectrons_03.png" class="figure" alt=""></p>
@@ -101,14 +101,14 @@ set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 <pre class="mcode-input">[val,pos] = min(x,'local'); T = pos(3)-pos(2)</pre>
 
 <pre class="mcode-output">T =
-   5.080062614623892
+   5.080062614623902
 </pre>
 
 <p>Here is another swing orbit:</p>
 <pre class="mcode-input">V = 0.783; N.lbc = [1i; V];
 z = N\0; x = real(z); y = imag(z);
-plot(0,0,'.k',MS,8), hold on
-plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
+plot(0,0,'.k'), hold on
+plot(x,y,x,-y), axis(1.2*[-1 1 -1 1]), axis square, hold off
 set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 
 <p><img src="img/TwoElectrons_05.png" class="figure" alt=""></p>
@@ -116,20 +116,20 @@ set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 <pre class="mcode-input">r = roots(x-.9*max(x)); r = r(deriv(x,r)&gt;0); T = r(2)-r(1)</pre>
 
 <pre class="mcode-output">T =
-   8.458858025795349
+   8.458858025795347
 </pre>
 
 <p>And here a third swing orbit with a still longer period:</p>
 <pre class="mcode-input">V = 1.17745; N.lbc = [1i; V];
 z = N\0; x = real(z); y = imag(z);
-plot(0,0,'.k',MS,8), hold on
-plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
+plot(0,0,'.k'), hold on
+plot(x,y,x,-y), axis(1.2*[-1 1 -1 1]), axis square, hold off
 set(gca,'xtick',-1:1,'ytick',-1:1)
 r = roots(y-.9999999);
 T = mean(r(end-1:end))</pre>
 
 <pre class="mcode-output">T =
-  19.316951164201875
+  19.316951164127765
 </pre>
 
 <p><img src="img/TwoElectrons_06.png" class="figure" alt=""></p>
@@ -140,21 +140,21 @@ T = mean(r(end-1:end))</pre>
 <pre class="mcode-input">z(T)</pre>
 
 <pre class="mcode-output">ans =
-  0.000259560137241 + 1.000001673151045i
+  0.000259560053314 + 1.000001673080860i
 </pre>
 
 <p>An improved estimate of T is accordingly</p>
 <pre class="mcode-input">T = T - real(z(T))/V</pre>
 
 <pre class="mcode-output">T =
-  19.316730721603683
+  19.316730721600852
 </pre>
 
 <p>which gives a few more digits:</p>
 <pre class="mcode-input">z(T)</pre>
 
 <pre class="mcode-output">ans =
-  0.000000000552381 + 1.000001630630754i
+  0.000000000552367 + 1.000001630560596i
 </pre>
 
 <p>Here we construct a trigonometric representation, using a loosened tolerance since the computed orbit and period are still far from machine precision.</p>
@@ -177,8 +177,8 @@ set(gca,'xtick',-3:3,'ytick',-3:3)</pre>
 <pre class="mcode-input">N.domain = [0 10];
 V = 0.13220442; N.lbc = [1i; V];
 z = N\0; x = real(z); y = imag(z);
-plot(0,0,'.k',MS,8), hold on
-plot(x,y,x,-y,LW,lw), axis(1.2*[-1 1 -1 1]), axis square, hold off
+plot(0,0,'.k'), hold on
+plot(x,y,x,-y), axis(1.2*[-1 1 -1 1]), axis square, hold off
 set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 
 <p><img src="img/TwoElectrons_09.png" class="figure" alt=""></p>
@@ -192,7 +192,7 @@ set(gca,'xtick',-1:1,'ytick',-1:1)</pre>
 <pre class="mcode-input">total_time_in_seconds = toc</pre>
 
 <pre class="mcode-output">total_time_in_seconds =
-  36.036796000000002
+  15.509391000000001
 </pre>
 
 <p>Moreover, without "splitting on" as set at the beginning of this note, the time would have been about $60\%$ longer.  This is because these trajectories are highly irregular, and Chebfun expends a good deal of effort constructing global representations. Let's be good citizens and turn splitting off again.</p>
