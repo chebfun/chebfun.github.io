@@ -64,34 +64,33 @@
 <p>Suppose we have a function, like this one:</p>
 <pre class="mcode-input">x = chebfun('x',[0 10]);
 f = round(2*cos(x));
-LW = 'linewidth'; lw = 1.6;
-plot(f,LW,lw), ylim(2.5*[-1 1])</pre>
+plot(f), ylim(2.5*[-1 1])</pre>
 
 <p><img src="img/Integrals_01.png" class="figure" alt=""></p>
 <p>The Chebfun command <code>sum</code> returns the definite integral over the prescribed interval, which is just a number:</p>
 <pre class="mcode-input">format long, sum(f)</pre>
 
 <pre class="mcode-output">ans =
-  -1.150444078461234
+  -1.150444078461245
 </pre>
 
 <p>You can also calculate the definite interval over a subinterval by giving two additional arguments, like this:</p>
 <pre class="mcode-input">sum(f,3,4)</pre>
 
 <pre class="mcode-output">ans =
-  -1.864326901403206
+  -1.864326901403210
 </pre>
 
 <p>To compute an indefinite integral, use the Chebfun command <code>cumsum</code>. This returns a chebfun defined over the given interval:</p>
 <pre class="mcode-input">g = cumsum(f);
-plot(g,'m',LW,lw)</pre>
+plot(g,'m')</pre>
 
 <p><img src="img/Integrals_02.png" class="figure" alt=""></p>
 <p>Thus another way to compute the integral over a subinterval would be to take the difference of two values of the cumsum:</p>
 <pre class="mcode-input">g(4) - g(3)</pre>
 
 <pre class="mcode-output">ans =
-  -1.864326901403206
+  -1.864326901403210
 </pre>
 
 <p>As always in calculus, when working with indefinite integrals you must be careful to remember the arbitrary constant that may be added.  Thus for example, if you integrate $f$ and then differentiate it, you get $f$ back again:</p>
@@ -109,7 +108,7 @@ plot(g,'m',LW,lw)</pre>
 </pre>
 
 <p>Plotting the two instantly alerts us that we forgot to add back in the value at the left endpoint, namely $f(0) = 2$:</p>
-<pre class="mcode-input">plot(f,'b',cumsum(diff(f)),'r',LW,lw)</pre>
+<pre class="mcode-input">plot(f,'b',cumsum(diff(f)),'r')</pre>
 
 <p><img src="img/Integrals_03.png" class="figure" alt=""></p>
 <p>Sure enough, adding this number makes the two functions agree:</p>
