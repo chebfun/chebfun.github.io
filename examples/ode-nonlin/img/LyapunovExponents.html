@@ -15,16 +15,16 @@ Let's estimate the maximal Lyapunov exponent of the Lorenz system, which is know
 
 <pre class="mcode-input">dom = [0,30];
 N = chebop(@(t,x,y,z) [ diff(x) - 10*(y - x);
-                        diff(y) - 28*x + y + x.*z;
-                        diff(z) + 8*z/3 - x.*y ], dom);</pre>Now we solve for two trajectories that have a small initial separation, say $10^{-9}$.
+                        diff(y) - 28*x + y + x*z;
+                        diff(z) + 8*z/3 - x*y ], dom);</pre>Now we solve for two trajectories that have a small initial separation, say $10^{-9}$.
 
 <pre class="mcode-input">ep = 1e-9;
 N.lbc = @(x,y,z) [x+2; y+3; z-14];
-[x1,y1,z1] = deal(N\0);    % Components of 1st trajectory
+[x1,y1,z1] = N\0;         % Components of 1st trajectory
 N.lbc = @(x,y,z) [x+2; y+3; z-14+ep];
-[x2,y2,z2] = deal(N\0);    % Components of 2nd trajectory</pre>Now we find the distance between trajectories using the distance formula. This distance, which is a function of time, is plotted using a log scale on the y-axis.
+[x2,y2,z2] = N\0;         % Components of 2nd trajectory</pre>Now we find the distance between trajectories using the distance formula. This distance, which is a function of time, is plotted using a log scale on the y-axis.
 
-<pre class="mcode-input">d = sqrt(abs(x1-x2).^2 + abs(y1-y2).^2 + abs(z1-z2).^2);
+<pre class="mcode-input">d = sqrt(abs(x1-x2)^2 + abs(y1-y2)^2 + abs(z1-z2)^2);
 semilogy(d)
 xlabel('time')
 title('magnitude of separation of nearby Lorenz trajectories')</pre><img src="img/LyapunovExponents_01.png" class="figure" alt="">
@@ -38,7 +38,7 @@ The slope of the line can be computed by finding a linear fit to the log of `d`.
 <pre class="mcode-input">logd = log(d{0, 25});
 logd2 = polyfit(logd, 1);
 slope = logd2(1) - logd2(0)</pre><pre class="mcode-output">slope =
-   0.934099642366625
+   0.934100195835882
 </pre>And here it is for comparison to the previous plot:
 
 <pre class="mcode-input">hold on

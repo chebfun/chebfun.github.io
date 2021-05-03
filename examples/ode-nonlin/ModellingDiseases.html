@@ -61,8 +61,8 @@
     <div class="container">
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
-<p>Many mathematical models exist for the spread of disease. This is partly because as epidemiology matured, more sophisticated models were developed. It is also because not all diseases spread in the same fashion. In this Example we explore one of the best-known models of disease spread, the famous SIR model. The SIR model is called "compartmental" because it groups members of a population into compartments -- for example, "infected" and "uninfected" -- which interact according to a system of differential equations.</p>
-<p>The problem posed in this Example is an initial value problem, and its solution over a large time interval is made possible by the IVP capabilities released with version 5.1 of Chebfun in December 2014.</p>
+<p>Many mathematical models exist for the spread of disease. This is partly because as epidemiology matured, more sophisticated models were developed. It is also because not all diseases spread in the same fashion. In this example we explore one of the best-known models of disease spread, the famous SIR model. The SIR model is called "compartmental" because it groups members of a population into compartments -- for example, "infected" and "uninfected" -- which interact according to a system of differential equations.</p>
+<p>The problem posed in this example is an initial value problem, and its solution over a large time interval is made possible by the IVP capabilities released with version 5.1 of Chebfun in December 2014.</p>
 <h3 id="the-sir-model">The SIR model</h3>
 <p>The most famous mathematical model of epidemics is the SIR model. This model groups members of a fixed population as susceptible (S), infected (I), or recovered (R). The dynamics dictate a one-way track: susceptible members may become infected, and infected individuals may recover, but that is all. So beginning with a nonzero number of infected people, after enough time everyone ends up recovered.</p>
 <p>The model is a great simplification of how most diseases actually spread: it ignores incubation period; it assumes full contact among the whole population, ignoring geographic constraints; it assumes everyone is equally susceptible to the disease; and it treats the population as being continuous rather than discrete. Nevertheless, its assumptions about immunity make it a good model for measles, mumps, and rubella, which are all highly contagious diseases that infected people eventually develop an immunity to.</p>
@@ -72,8 +72,8 @@
 recovery_rate = .3;
 
 op = @(x,S,I,R) [ ...
-    diff(S) + contact_rate*I.*S
-    diff(I) - contact_rate*I.*S + recovery_rate*I
+    diff(S) + contact_rate*I*S
+    diff(I) - contact_rate*I*S + recovery_rate*I
     diff(R) - recovery_rate*I
     ];
 
@@ -86,8 +86,8 @@ N = chebop(op, [0, 30]);</pre>
         R
     ];</pre>
 
-<p>We will use chebop's nonlinear backslash syntax to solve the problem. The Chebfun <code>deal</code> method allows the solution components (which are returned as a chebmatrix) to be dealt to multiple outputs.</p>
-<pre class="mcode-input">[S,I,R] = deal(N\0);</pre>
+<p>We will use chebop's nonlinear backslash syntax to solve the problem.</p>
+<pre class="mcode-input">[S,I,R] = N\0;</pre>
 
 <p>Here is a plot of the solution.</p>
 <pre class="mcode-input">plot([S I R])
@@ -111,7 +111,7 @@ plot(t_eq*[1; 1], ylim(gca), 'k:')
 plot(t_eq, I(t_eq), 'k.', 'MarkerSize', 15)</pre>
 
 <pre class="mcode-output">t_eq =
-   7.355455438450354
+   7.355455438450330
 </pre>
 
 <p><img src="img/ModellingDiseases_02.png" class="figure" alt=""></p>
@@ -119,7 +119,7 @@ plot(t_eq, I(t_eq), 'k.', 'MarkerSize', 15)</pre>
 <p>What about the instantaneous mortality rate? A natural measure of mortality rate is $$ M(t) = \frac{\rho R(t)}{\int_0^t I(\xi) d\xi}, $$ where $0\leq\rho\leq 1$ denotes the average fraction of people who die from the disease. That is, the mortality rate at time $t$ is the number of people who have died from the disease divided by the total number of people who have been infected up to time $t$. Here is the instantaneous mortality rate as a function of time.</p>
 <pre class="mcode-input">hold off
 rho = .4;                   % 40 percent of infected people die
-plot(rho*R./cumsum(I))      % The instantaneous mortality rate
+plot(rho*R/cumsum(I))       % The instantaneous mortality rate
 ylim([0 1])
 xlabel('t')
 title('Instantaneous mortality rate for the SIR model')</pre>
@@ -133,7 +133,7 @@ title('Instantaneous mortality rate for the SIR model')</pre>
 <p>Daley, D. J. &amp; Gani, J. <em>Epidemic Modeling: An Introduction.</em>    NY: Cambridge University Press (2005).</p>
 </li>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology">Wikipedia: Compartmental models in    epidemiology</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology">Wikipedia: Compartmental models in    epidemiology</a>.</p>
 </li>
 </ol></div>
         </div>

@@ -5,9 +5,9 @@ authordate: "Hrothgar, October 2014"
 meta: "(Chebfun example ode-nonlin/ModellingDiseases.m) [Tags: #ode, #nonlinear, #ivp, #system, #ebola]"
 ---
 
-Many mathematical models exist for the spread of disease. This is partly because as epidemiology matured, more sophisticated models were developed. It is also because not all diseases spread in the same fashion. In this Example we explore one of the best-known models of disease spread, the famous SIR model. The SIR model is called "compartmental" because it groups members of a population into compartments -- for example, "infected" and "uninfected" -- which interact according to a system of differential equations.
+Many mathematical models exist for the spread of disease. This is partly because as epidemiology matured, more sophisticated models were developed. It is also because not all diseases spread in the same fashion. In this example we explore one of the best-known models of disease spread, the famous SIR model. The SIR model is called "compartmental" because it groups members of a population into compartments -- for example, "infected" and "uninfected" -- which interact according to a system of differential equations.
 
-The problem posed in this Example is an initial value problem, and its solution over a large time interval is made possible by the IVP capabilities released with version 5.1 of Chebfun in December 2014.
+The problem posed in this example is an initial value problem, and its solution over a large time interval is made possible by the IVP capabilities released with version 5.1 of Chebfun in December 2014.
 
 
 
@@ -25,8 +25,8 @@ Here is a chebop for the SIR model.
 recovery_rate = .3;
 
 op = @(x,S,I,R) [ ...
-    diff(S) + contact_rate*I.*S
-    diff(I) - contact_rate*I.*S + recovery_rate*I
+    diff(S) + contact_rate*I*S
+    diff(I) - contact_rate*I*S + recovery_rate*I
     diff(R) - recovery_rate*I
     ];
 
@@ -36,9 +36,9 @@ N = chebop(op, [0, 30]);</pre>The initial conditions will be that out of populat
         S - 500
         I - 1
         R
-    ];</pre>We will use chebop's nonlinear backslash syntax to solve the problem. The Chebfun `deal` method allows the solution components (which are returned as a chebmatrix) to be dealt to multiple outputs.
+    ];</pre>We will use chebop's nonlinear backslash syntax to solve the problem.
 
-<pre class="mcode-input">[S,I,R] = deal(N\0);</pre>Here is a plot of the solution.
+<pre class="mcode-input">[S,I,R] = N\0;</pre>Here is a plot of the solution.
 
 <pre class="mcode-input">plot([S I R])
 legend('S','I','R')
@@ -57,7 +57,7 @@ What is the largest number of people infected at a particular time?
 plot([S I R]), legend('S','I','R'), xlabel('t'), hold on
 plot(t_eq*[1; 1], ylim(gca), 'k:')
 plot(t_eq, I(t_eq), 'k.', 'MarkerSize', 15)</pre><pre class="mcode-output">t_eq =
-   7.355455438450354
+   7.355455438450330
 </pre><img src="img/ModellingDiseases_02.png" class="figure" alt="">
 
 Chebfun makes such computations remarkably easy.
@@ -66,7 +66,7 @@ What about the instantaneous mortality rate? A natural measure of mortality rate
 
 <pre class="mcode-input">hold off
 rho = .4;                   % 40 percent of infected people die
-plot(rho*R./cumsum(I))      % The instantaneous mortality rate
+plot(rho*R/cumsum(I))       % The instantaneous mortality rate
 ylim([0 1])
 xlabel('t')
 title('Instantaneous mortality rate for the SIR model')</pre><img src="img/ModellingDiseases_03.png" class="figure" alt="">
@@ -81,5 +81,5 @@ For this model, it is perhaps unsurprising that the instantaneous mortality rate
 
 1. Daley, D. J. &amp; Gani, J. _Epidemic Modeling: An Introduction._    NY: Cambridge University Press (2005).
 
-2. [Wikipedia: Compartmental models in    epidemiology](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology)
+2. [Wikipedia: Compartmental models in    epidemiology](<https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology>).
 
