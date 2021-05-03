@@ -84,17 +84,17 @@ N.rbc = exp(2)*cos(1);</pre>
 <pre class="mcode-input">y = N\rhs;</pre>
 
 <p>Analytic solution.</p>
-<pre class="mcode-input">y_exact = exp(2*x).*cos(x);</pre>
+<pre class="mcode-input">y_exact = exp(2*x)*cos(x);</pre>
 
 <p>How close is the computed solution to the true solution?</p>
 <pre class="mcode-input">norm(y-y_exact)</pre>
 
 <pre class="mcode-output">ans =
-     3.572143776145396e-14
+     1.393596354406182e-13
 </pre>
 
 <p>Plot the computed solution.</p>
-<pre class="mcode-input">plot(y,'linewidth',2), grid on</pre>
+<pre class="mcode-input">plot(y), grid on</pre>
 
 <p><img src="img/WikiODE_01.png" class="figure" alt=""></p>
 <h3 id="problem-2-simple-harmonic-oscillator">Problem 2: Simple harmonic oscillator</h3>
@@ -123,11 +123,11 @@ N.op = @(y) diff(y,2) + pi^2*y;</pre>
 <pre class="mcode-input">norm(y-y_exact)</pre>
 
 <pre class="mcode-output">ans =
-     2.300835291877525e-14
+     2.470505881658372e-14
 </pre>
 
 <p>Plot the computed solution.</p>
-<pre class="mcode-input">plot(y,'linewidth',2), grid on</pre>
+<pre class="mcode-input">plot(y), grid on</pre>
 
 <p><img src="img/WikiODE_02.png" class="figure" alt=""></p>
 <h3 id="problem-3-first-order-problem">Problem 3: First-order problem</h3>
@@ -155,16 +155,16 @@ N = chebop(d);</pre>
 <pre class="mcode-input">norm(y-y_exact)</pre>
 
 <pre class="mcode-output">ans =
-     0
+     2.987830876459629e-12
 </pre>
 
 <p>Plot the computed solution</p>
-<pre class="mcode-input">plot(y,'linewidth',2), grid on</pre>
+<pre class="mcode-input">plot(y), grid on</pre>
 
 <p><img src="img/WikiODE_03.png" class="figure" alt=""></p>
 <h3 id="references">References</h3>
 <ol>
-<li><a href="http://en.wikipedia.org/wiki/Linear_differential_equation">http://en.wikipedia.org/wiki/Linear_differential_equation</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Linear_differential_equation">http://en.wikipedia.org/wiki/Linear_differential_equation</a>.</li>
 </ol></div>
         </div>
     </div>
