@@ -19,13 +19,13 @@ To create the operator in Chebfun, we define the kernel and use the `fred` funct
 K = @(x,s) exp(-1i*F*(x-s).^2 );               % kernel
 L = sqrt(1i*F/pi) * chebop(@(u) fred(K,u));    % Fredholm integral operator</pre>Computing the $80$ eigenvalues of largest complex magnitude requires just a call to `eigs` with the `'lm'` option:
 
-<pre class="mcode-input">tic, lam = eigs(L,80,'lm'); toc</pre><pre class="mcode-output">Elapsed time is 13.501380 seconds.
-</pre>Finally, a beautiful pattern emerges when we plot the results:
+<pre class="mcode-input">tic, lam = eigs(L,80,'lm'); toc</pre><pre class="mcode-output">Elapsed time is 12.891044 seconds.
+</pre>A beautiful pattern emerges when we plot the results:
 
 <pre class="mcode-input">x = chebfun('x');
-clf, plot(exp(1i*pi*x),'--r','linewidth',1.6)
+clf, plot(exp(1i*pi*x),'--r')
 hold on, plot(lam,'k.','markersize',14)
-title('largest 80 eigenvalues of Fox-Li operator','fontsize',16)
+title('largest 80 eigenvalues of Fox-Li operator')
 axis equal, axis(1.05*[-1 1 -1 1]), hold off</pre><img src="img/FoxLi_01.png" class="figure" alt="">
 
 For a remarkable analysis of such patterns, see [1].
