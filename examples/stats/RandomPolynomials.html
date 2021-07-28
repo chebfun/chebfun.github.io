@@ -71,7 +71,7 @@ b = cumsum(r);
 subplot(2,1,2), plot(b), grid on, title('smooth random walk')</pre>
 
 <p><img src="img/RandomPolynomials_01.png" class="figure" alt=""></p>
-<p>All this is done via trigonometric polynomials with random coefficients.  (The idea of Fourier series with random coefficients goes back to Norbert Wiener and is treated in a marvelous book by Kahane [4].) A priori, a smooth random function is periodic and translation-invariant. In practice we usually want a nonperiodic function, and Chebfun achieves this (with small though in principle nonzero error) by truncation from a longer periodic interval to a shorter nonperiodic one.</p>
+<p>All this is done via trigonometric polynomials with random coefficients.  (The idea of Fourier series with random coefficients goes back to Norbert Wiener and is treated in a marvelous book by Kahane [4].) A priori, a smooth random function is periodic and given by a distribution that is translation-invariant. In practice we usually want a nonperiodic function, and Chebfun achieves this (with small though in principle nonzero error) by truncation from a longer periodic interval to a shorter nonperiodic one.</p>
 <p>One might ask, what are the analogues of these constructions for algebraic as opposed to trigonometric polynomials? An answer to this question has recently been provided in a pair of papers by Foster, et al. [2] and Habermann [3]. We define a <em>random polynomial of degree $n$</em> by $$ r(x) = \sum_{k=0}^n c_k \sqrt{2k+1} P_k(x), $$ where $P_k$ is the degree $k$ Legendre polynomial (shifted to $[0,1]$) and the $c_k$ are i.i.d. standard normal random variables. As $n\to\infty$, $r$ does not look like <em>white</em> noise, for it has higher frequencies and higher amplitudes near the endpoints than in the middle (examples will be shown in a moment). However, its integral converges to Brownian motion. Using the convenient identity $$ \int_0^t P_k(s) ds = {P_{k+1}(t) - P_{k-1}(t)\over 4k+2} \quad (k\ge 1), $$ we conclude that <em>polynomial random walk of degree $n$</em> can be defined by $$ w(t) = c_0 t + \sum_{k=1}^{n-1} c_k {P_{k+1}(t) - P_{k-1}(t) \over \sqrt{8k+4}}. $$ Foster, et al. note that the polynomials in this sum can be interpreted as Jacobi polynomials, except with the nonstandard exponents $-1$, and thus constrained to take the value 0 at both endpoints. Here for example is the degree $50$ "Foster-Habermann polynomial":</p>
 <pre class="mcode-input">scaled_legendre = @(n) legpoly(n,[0 1])*diag(sqrt(2*n+1));
 foster = @(n) (legpoly(n,[0 1])-legpoly(n-2,[0 1]))*diag(1./sqrt(8*n-4));
@@ -116,8 +116,8 @@ title('Nearly-semicircular variance profile')</pre>
 <p>Beautiful!</p>
 <h3 id="references">References</h3>
 <p>[1] S. Filip, A. Javeed, and L. N. Trefethen, Smooth random functions, random ODEs, and Gaussian processes, <em>SIAM Review</em> 61 (2019), 185--205.</p>
-<p>[2] J. Foster, T. Lyons, and H. Oberhauser, An optimal polynomial approximation of Brownian motion, arXiv:1904.06998, 2019.</p>
-<p>[3] K. Habermann, A semicircle law and decorrelation phenomena for iterated Kolmogorov loops, arXiv:1904.11484, 2019.</p>
+<p>[2] J. Foster, T. Lyons, and H. Oberhauser, An optimal polynomial approximation of Brownian motion, <em>SIAM J. Numer. Anal.</em>  58 (2020), 1393-1421.</p>
+<p>[3] K. Habermann, A semicircle law and decorrelation phenomena for iterated Kolmogorov loops, <em>J. LMS</em> 103 (2021), 558-586.</p>
 <p>[4] J.-P. Kahane, <em>Some Random Series of Functions</em>, 2nd ed., Cambridge, 1985.</p></div>
         </div>
     </div>
