@@ -9,28 +9,27 @@ By integrating coin flips in one or more dimensions, we get a random walk, which
 
 Let's work in 2D, using a complex variable for convenience. Here we plot the indefinite integral of a complex random function scaled by $(dx)^{-1/2}$.  Red dots mark the initial and end points.
 
-<pre class="mcode-input">LW = 'linewidth'; FS = 'fontsize'; MS = 'markersize';
-lw = 2.5; fs = 32; ms = 40;
+<pre class="mcode-input">LW = 'linewidth'; MS = 'markersize';
+ms = 12;
 dx = 0.1;
-rng(5)
-f = randnfun(dx,'norm') + 1i*randnfun(dx,'norm');
+rng(1), f = randnfun(dx,'big','complex');
 g = cumsum(f);
-plot(g,'k',LW,lw), grid on, hold on
+plot(g,'k',LW,1), grid on, hold on
 plot(g([-1 1]),'.r',MS,ms), hold off
-axis(1.9*[-1 1 -1 1]), axis square
-title(['dx = ' num2str(dx)],FS,fs)
+axis([-1.5 .5 -.5 1.5]), axis square
+title(['dx = ' num2str(dx)])
 set(gca,'xtick',-2:2,'ytick',-2:2)</pre><img src="img/SmoothRandomWalk_01.png" class="figure" alt="">
 
-We divide the characteristic length defining the random function by 4 three times. The limit of Brownian motion is being approached, as no doubt could be proved.
+We divide the characteristic length defining the random function by 4 three times. The limit of Brownian motion is being approached. For details, see [1].
 
 <pre class="mcode-input">for k = 1:3
   dx = dx/4;
-  f = randnfun(dx,'norm') + 1i*randnfun(dx,'norm');
+  rng(1), f = randnfun(dx,'big','complex');
   g = cumsum(f);
-  plot(g,'k',LW,lw), grid on, hold on
+  plot(g,'k',LW,1-.15*k), grid on, hold on
   plot(g([-1 1]),'.r',MS,ms), hold off
-  axis(1.9*[-1 1 -1 1]), axis square
-  title(['dx = ' num2str(dx)],FS,fs)
+  axis([-1.5 .5 -.5 1.5]), axis square
+  title(['dx = ' num2str(dx)])
   set(gca,'xtick',-2:2,'ytick',-2:2), snapnow
 end</pre><img src="img/SmoothRandomWalk_02.png" class="figure" alt="">
 
@@ -38,8 +37,5 @@ end</pre><img src="img/SmoothRandomWalk_02.png" class="figure" alt="">
 
 <img src="img/SmoothRandomWalk_04.png" class="figure" alt="">
 
-Here is a zoom of the final image:
-
-<pre class="mcode-input">axis([-1.6 0.6 -1.1 1.1]), axis square, axis off, title(' ')
-snapnow</pre><img src="img/SmoothRandomWalk_05.png" class="figure" alt="">
+[1] S. Filip, A. Javeed, and L. N. Trefethen, Smooth random functions, random ODEs, and Gaussian processes, _SIAM Rev._ 61 (2019), 185-205.
 
