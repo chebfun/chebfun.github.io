@@ -17,11 +17,11 @@ title('Gamma function')</pre><pre class="mcode-output">gam =
    chebfun column (5 smooth pieces)
        interval       length     endpoint values   endpoint exponents
 [      -4,      -3]       20       Inf      Inf         [-1      -1]  
-[      -3,      -2]       21      -Inf     -Inf         [-1      -1]  
+[      -3,      -2]       25      -Inf     -Inf         [-1      -1]  
 [      -2,      -1]       24       Inf      Inf         [-1      -1]  
 [      -1,-2.2e-308]       20      -Inf     -Inf         [-1      -1]  
 [-2.2e-308,       4]       35       Inf        6         [-1      0]  
-vertical scale = Inf    Total length = 120
+vertical scale = Inf    Total length = 124
 </pre><img src="img/GammaFun_01.png" class="figure" alt="">
 
 Alternatively, and always a better idea when the information is available, one can instruct Chebfun what poles to put where:
@@ -32,11 +32,11 @@ title('Gamma function again')</pre><pre class="mcode-output">gam =
    chebfun column (5 smooth pieces)
        interval       length     endpoint values   endpoint exponents
 [      -4,      -3]       20       Inf      Inf         [-1      -1]  
-[      -3,      -2]       21      -Inf     -Inf         [-1      -1]  
+[      -3,      -2]       25      -Inf     -Inf         [-1      -1]  
 [      -2,      -1]       24       Inf      Inf         [-1      -1]  
 [      -1,       0]       20      -Inf     -Inf         [-1      -1]  
 [       0,       4]       35       Inf        6         [-1      0]  
-vertical scale = Inf    Total length = 120
+vertical scale = Inf    Total length = 124
 </pre><img src="img/GammaFun_02.png" class="figure" alt="">
 
 We can now treat $\Gamma(x)$ like any other chebfun. For example, we can:
@@ -73,6 +73,6 @@ sum(sqrtgam)</pre><pre class="mcode-output">ans =
 ans =
    Inf
 ans =
-  14.043323986892389
+  14.043323986892393
 </pre>Do you understand why these results come out not-a-number, infinite, and finite?
 
