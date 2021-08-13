@@ -15,30 +15,30 @@ We multiply the ODE through by $r$ to avoid a potential division by zero. This c
 
 <pre class="mcode-input">r = chebfun('r',[0,1]);
 A = chebop(0,1);
-A.op = @(r,u) r.*diff(u,2) + diff(u);
+A.op = @(r,u) r*diff(u,2) + diff(u);
 A.lbc = 'neumann'; A.rbc = 'dirichlet';
 B = chebop(0,1);
-B.op = @(r,u) r.*u;</pre>Then we find the eigenvalues with `eigs`. It turns out that the $\omega$ values are also zeros of the Bessel function $J_0$, which gives a way to valudate the results.
+B.op = @(r,u) r*u;</pre>Then we find the eigenvalues with `eigs`. It turns out that the $\omega$ values are also zeros of the Bessel function $J_0$, which gives a way to valudate the results.
 
 <pre class="mcode-input">[V,D] = eigs(A,B);
 [omega,ii] = sort(sqrt(-diag(D)));
 omega
 V = [V{:,ii'}];
 err = omega - sort(roots( besselj(0,chebfun('r',[0 20])) ))</pre><pre class="mcode-output">omega =
-   2.404825557952783
-   5.520078110503695
-   8.653727912947350
-  11.791534439015653
-  14.930917708489117
-  18.071063967908913
+   2.404825557946273
+   5.520078110504802
+   8.653727912948732
+  11.791534439018191
+  14.930917708488634
+  18.071063967910305
 err =
    1.0e-09 *
-   0.257003751613638
-   0.217384332756865
-   0.036330050079414
-   0.001366018409499
-   0.001342925770587
-  -0.002010835942201
+   0.250494291975656
+   0.218500773030428
+   0.037726266555183
+   0.003904432333002
+   0.000854427639752
+  -0.000625277607469
 </pre>We also get the eigenfunctions, which gives a way to visualize deflections of the drums for pure frequencies.
 
 <pre class="mcode-input">V = V*diag(sign(V(0,:)));  % ensure V(0,k) &gt; 0
@@ -58,18 +58,18 @@ Here is a function that returns the ratio for any $a$.
 
 <pre class="mcode-input">function ratio = evratio(a)
   rho = 1 - a*sin(pi*r);
-  B.op = @(r,u) r.*rho.*u;
+  B.op = @(r,u) r*rho*u;
   [V,D] = eigs(A,B,2,0);
   [omega,ii] = sort(sqrt(-diag(D)));
   V = [V{:,ii'}];
   ratio = omega(2)/omega(1);
 end</pre>Now, we create a chebfun to hit the target.
 
-<pre class="mcode-input">ratfun = chebfun(@evratio,[0.5,1],'vectorize','eps',1e-11);
+<pre class="mcode-input">ratfun = chebfun(@evratio,[0.5,1]);
 astar = find(ratfun==2)
 clf, plot(ratfun), title('Eigenvalue ratio'), xlabel('a')
 set(gca,'xtick',[0.5,astar,1],'ytick',[2],'xgrid','on','ygrid','on')</pre><pre class="mcode-output">astar =
-   0.812158808549756
+   0.812158808552563
 </pre><img src="img/Drum_02.png" class="figure" alt="">
 
 We compute the ratio at `astar` to verify the answer, and plot the eigenfunctions.
@@ -80,7 +80,20 @@ shading interp, lighting phong, title('First mode')
 subplot(1,2,2), surfl(rr.*cos(tt),rr.*sin(tt),repmat(-V(rr(1,:),2),60,1))
 shading interp, lighting phong, title('Second mode')
 colormap copper</pre><pre class="mcode-output">residual =
-    -2.317701586207477e-12
+    -3.648192858918264e-12
 </pre><img src="img/Drum_03.png" class="figure" alt="">
 
-<pre class="mcode-input">end</pre>
+<pre class="mcode-input">end</pre><pre class="mcode-output">Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+Couldn't create JOGL canvas--using painters
+</pre>
