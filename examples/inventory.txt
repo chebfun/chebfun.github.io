@@ -5,6 +5,7 @@ applics/Gompertz.m
 applics/Greeks.m
 applics/VanillaOptions.m
 approx/AAAApprox.m
+approx/AAASpline.m
 approx/AbsoluteValue.m
 approx/AliasingCoefficients.m
 approx/AliasingCoefficientsLeg.m
@@ -36,6 +37,7 @@ approx/NoisyNonsmooth.m
 approx/OddEven.m
 approx/OrthPolys.m
 approx/OscError.m
+approx/Prolate.m
 approx/PthComposite.m
 approx/Pushnitski.m
 approx/RationalAbsx.m
@@ -95,6 +97,7 @@ complex/ComplexArcLength.m
 complex/ComplexMinimax.m
 complex/ConformalL.m
 complex/ConformalMapping.m
+complex/ConformalMapping2.m
 complex/ConformalSquare.m
 complex/ConformalVis.m
 complex/Hyperfuns.m
@@ -156,6 +159,7 @@ ode-eig/DoubleWell.m
 ode-eig/Drum.m
 ode-eig/Eigenstates.m
 ode-eig/FourierEigs.m
+ode-eig/Landscape.m
 ode-eig/LevelRepulsionODE.m
 ode-eig/NullSpace.m
 ode-eig/OpticalResponse.m
