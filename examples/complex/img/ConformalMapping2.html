@@ -13,7 +13,7 @@ For example, here we map a region $\Omega$ bounded by two ellipses to the annulu
 ellipse = real(circle) + .6i*imag(circle);
 C1 = 3*ellipse - 1; C2 = exp(.5i)*ellipse;
 tic, [f, finv, rho] = conformal2(C1,C2,'plots'); toc
-rho</pre><pre class="mcode-output">Elapsed time is 2.781155 seconds.
+rho</pre><pre class="mcode-output">Elapsed time is 3.344638 seconds.
 rho =
    0.409705344001635
 </pre><img src="img/ConformalMapping2_01.png" class="figure" alt="">
@@ -21,7 +21,7 @@ rho =
 Here we do it again but to 12-digit accuracy instead of the default 6 digits:
 
 <pre class="mcode-input">tic, [f, finv, rho] = conformal2(C1,C2,'plots','tol',1e-12); toc
-rho</pre><pre class="mcode-output">Elapsed time is 9.381164 seconds.
+rho</pre><pre class="mcode-output">Elapsed time is 7.900462 seconds.
 rho =
    0.409705344001634
 </pre><img src="img/ConformalMapping2_02.png" class="figure" alt="">
@@ -31,20 +31,20 @@ As with the simply-connected `conformal`, the red dots show poles associated wit
 <pre class="mcode-input">z = [1 1i];
 finv(f(z))</pre><pre class="mcode-output">ans =
   Column 1
-  1.000000000000039 - 0.000000000000014i
+  1.000000000000036 - 0.000000000000013i
   Column 2
-  0.000000000000007 + 0.999999999999993i
+  0.000000000000006 + 0.999999999999992i
 </pre>These rational representations are fantastically efficient.  We can map a million points back and forth in 1 second.
 
 <pre class="mcode-input">z = 1 + .1*rand(1e6,1) + .1i*rand(1e6,1);
-tic, finv(f(z)); toc</pre><pre class="mcode-output">Elapsed time is 0.835162 seconds.
+tic, finv(f(z)); toc</pre><pre class="mcode-output">Elapsed time is 0.515038 seconds.
 </pre>Here is a wigglier example.
 
 <pre class="mcode-input">circle = chebfun('exp(1i*pi*t)','trig');
 C1 = circle*chebfun('2+.1*cos(8*pi*t)','trig');
 C2 = circle*chebfun('1+.1*cos(5*pi*t)','trig');
 tic, [f, finv, rho] = conformal2(C1,C2,'plots'); toc
-rho</pre><pre class="mcode-output">Elapsed time is 3.361993 seconds.
+rho</pre><pre class="mcode-output">Elapsed time is 3.736870 seconds.
 rho =
    0.515907564661642
 </pre><img src="img/ConformalMapping2_03.png" class="figure" alt="">
@@ -54,9 +54,9 @@ Here is a "hyperellipse" enclosing a disk.  Note how we define the hyperellipse 
 <pre class="mcode-input">F = chebfun2(@(x,y) x.^8 + y.^8);
 C1 = roots(F-.5); C2 = .5*circle;
 tic, [f, finv, rho] = conformal2(C1,C2,'plots'); toc
-rho</pre><pre class="mcode-output">Elapsed time is 1.833265 seconds.
+rho</pre><pre class="mcode-output">Elapsed time is 3.156300 seconds.
 rho =
-   0.506114112297564
+   0.506114112297563
 </pre><img src="img/ConformalMapping2_04.png" class="figure" alt="">
 
 The algorithm used by `conformal2` consists of solving a Laplace problem (computing a Green's function) by Laurent expansion with least-squares collocation on the boundary, as described in [2]. A key part of this is the use of Vandermonde with Arnoldi orthogonalization [1], which is available with the Chebfun commands `VAorthog` and `VAeval`.  (The latter is actually not needed for this application because the AAA rational functions do the evaluation instead.)
