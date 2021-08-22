@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The AAA algorithm for system identification &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The AAA algorithm for system identification</h1>
+<h2>Stefano Costa, August 2021 in <a href='/examples/applics/'>applics</a><span><a href='/examples/applics/Bode2tf.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/applics/Bode2tf.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<p>The AAA algorithm provides a natural way to identify LTI (linear time-invariant) system parameters such as poles, zeros and DC gain from Bode plots. For example, consider the 4th order system $$ G(z) = 2\frac{(1+105z)(1+1.4/0.05z+1/0.05^2 z^2)}{(1+100z)(1+1.4/0.04z+1/0.04^2 z^2)(1+z)} $$</p>
+<pre class="mcode-input">Nc = 2*conv([105 1],[1/0.05^2 1.4/0.05 1]);
+Dc = conv(conv([100 1],[1/0.04^2 1.4/0.04 1]),[1 1]);
+N = @(z) Nc*z.^[3:-1:0]';
+D = @(z) Dc*z.^[4:-1:0]';
+G = @(z) N(z(:))./D(z(:));</pre>
+
+<p>for which we have the following:</p>
+<pre class="mcode-input">pol = roots(Dc), zer = roots(Nc), DCgain = abs(G(0))</pre>
+
+<pre class="mcode-output">pol =
+ -1.000000000000001 + 0.000000000000000i
+ -0.028000000000000 + 0.028565713714171i
+ -0.028000000000000 - 0.028565713714171i
+ -0.010000000000000 + 0.000000000000000i
+zer =
+ -0.035000000000000 + 0.035707142142714i
+ -0.035000000000000 - 0.035707142142714i
+ -0.009523809523810 + 0.000000000000000i
+DCgain =
+     2
+</pre>
+
+<p>Let's sample some values in the frequency range $10^{-4}\leq \omega \leq 10^2$, and draw the Bode plots of magnitude and phase:</p>
+<pre class="mcode-input">w = logspace(-4,2,3000);
+mag = abs(G(i*w)); ph = -angle(G(i*w));
+LW = 'linewidth'; LO = 'location'; SW = 'southwest';
+subplot(211), semilogx(w,20*log10(mag),'b-',LW,1.5), grid on, title('Magnitude (dB)')
+subplot(212), semilogx(w,ph*180/pi,'b-',LW,1.5), grid on, title('Phase (degrees)')</pre>
+
+<p><img src="img/Bode2tf_01.png" class="figure" alt=""></p>
+<p>Given magnitude and phase, an approximation $H(s)$ for $G(s)$ is readily obtained by AAA approximation of the complex signal. Samples are mirrored in order to enforce symmetry.</p>
+<pre class="mcode-input">wA = [-fliplr(w) w]; magA = [fliplr(mag) mag]; phA = [-fliplr(ph) ph];
+GA = magA.*exp(i*phA);
+[H,polA,resA,zerA] = aaa(GA,i*wA); polA, zerA, DCgainA = abs(H(0))
+subplot(211), hold on, semilogx(w,20*log10(H(i*w)),'k--',LW,1.5)
+subplot(212), hold on, semilogx(w,angle(H(i*w))*180/pi,'k--',LW,1.5)</pre>
+
+<pre class="mcode-output">polA =
+ -0.999999999999994 + 0.000000000000042i
+ -0.027999999999907 + 0.028565713714182i
+ -0.009999999998221 - 0.000000000000564i
+ -0.028000000001868 - 0.028565713713666i
+zerA =
+ -0.035000000000000 + 0.035707142142714i
+ -0.035000000000000 - 0.035707142142714i
+ -0.009523809523810 - 0.000000000000000i
+DCgainA =
+   1.999999999999998
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+</pre>
+
+<p><img src="img/Bode2tf_02.png" class="figure" alt=""></p>
+<p>Also, $H(s)$ features negligible errors in initial data:</p>
+<pre class="mcode-input">err_mag = norm(mag-abs(H(i*w)),inf)
+err_ph = norm(ph-angle(H(i*w)),inf)</pre>
+
+<pre class="mcode-output">err_mag =
+     3.996802888650564e-15
+err_ph =
+     3.509670852552826e-15
+</pre>
+
+<p>The following means of recomputing poles and zeros will play a key role in what follows:</p>
+<pre class="mcode-input">[NcA,DcA] = residue(resA,polA,[]);
+polA = roots(real(DcA)), zerA = roots(real(NcA))</pre>
+
+<pre class="mcode-output">polA =
+ -0.999999999999994 + 0.000000000000000i
+ -0.028000000000888 + 0.028565713713924i
+ -0.028000000000888 - 0.028565713713924i
+ -0.009999999998221 + 0.000000000000000i
+zerA =
+ -0.035000000000529 + 0.035707142142959i
+ -0.035000000000529 - 0.035707142142959i
+ -0.009523809523871 + 0.000000000000000i
+</pre>
+
+<p>Now let's complicate things a little bit. A reduced order approximation, useful to simplify analysis and control design, is obtained by fixing a low degree, hence solving a least-squares problem. 20 Lawson iterations under the hood place our scarce resource (poles) at best, though not necessarily in complex conjugate pairs, so we force a recomputation. With a 2nd order reduction, we expect two real distinct poles:</p>
+<pre class="mcode-input">[Hr,polAr,resAr] = aaa(GA,i*wA,'degree',2);
+polAr = roots(real(poly(polAr)));
+d = min(abs(i*wA(:)-polAr.'),[],1);
+Q = d./(i*wA(:)-polAr.');
+c = Q\GA.';
+Hr = @(x) [d./(x(:)-polAr.')]*c;
+[NAr] = residue(c,polAr,[]);
+zerAr = roots(real(NAr)), polAr, DCgainAr = abs(Hr(0))
+subplot(211), semilogx(w,20*log10(Hr(i*w)),'c-',LW,1.5), hold off
+legend('G(s)','AAA','reduced order AAA',LO,SW)
+subplot(212), semilogx(w,angle(Hr(i*w))*180/pi,'c-',LW,1.5), hold off
+legend('G(s)','AAA','reduced order AAA',LO,SW)</pre>
+
+<pre class="mcode-output">zerAr =
+  -0.294963170363480
+polAr =
+  -0.798508392917749
+  -0.035811189966024
+DCgainAr =
+   2.036869044252438
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+</pre>
+
+<p><img src="img/Bode2tf_03.png" class="figure" alt=""></p>
+<p>To see how good AAA-LS actually is, consider the scalar example with noise found in [1], i.e. $f(z) = (z-1)/(z^2+z+2)$. The function is sampled at 500 logarithmically spaced points in the interval [0.1 10], and then normally distributed noise with a standard deviation of $10^{-2}$ is added:</p>
+<pre class="mcode-input">Nc = [1 -1]; Dc = [1 1 2];
+N = @(z) Nc*z.^[1 0]';
+D = @(z) Dc*z.^[2 1 0]';
+G = @(z) N(z(:))./D(z(:));
+w = logspace(-1,1,500); magn = abs(G(i*w)); phn = -angle(G(i*w));
+magn = magn+0.01*randn(1,length(magn)); phn = phn+0.01*randn(1,length(phn));
+subplot(211), semilogx(w,20*log10(magn),'r-',LW,1.5), grid on, title('Magnitude (dB)')
+subplot(212), semilogx(w,phn*180/pi,'r-',LW,1.5), grid on, title('Phase (degrees)')</pre>
+
+<p><img src="img/Bode2tf_04.png" class="figure" alt=""></p>
+<p>We compute a rational approximant of degree only 2 using the above method. The AAA approximant shows no significant deviations from the measurements, at least in the eyeball norm. This time the number of Lawson iterations is increased, to enhance their filtering effect:</p>
+<pre class="mcode-input">wn = [-fliplr(w) w]; magn = [fliplr(magn) magn]; phn = [-fliplr(phn) phn];
+Gn = magn.*exp(i*phn);
+[~,poln,resn] = aaa(Gn,i*wn,'degree',2,'lawson',30);
+poln(find(real(poln)&gt;0)) = -1;   % force system stability
+poln = roots(real(poly(poln)));
+dn = min(abs(i*wn(:)-poln.'),[],1);
+Qn = dn./(i*wn(:)-poln.');
+cn = Qn\Gn.';
+Hn = @(x) [dn./(x(:)-poln.')]*cn;
+ %[Nn] = residue(cn,poln,[]); zern = roots(real(Nn)), poln
+ %DCgainn = abs(Hn(0))
+subplot(211), hold on, semilogx(w,20*log10(Hn(i*w)),'b-',LW,1.5), hold off
+legend('Noisy data','AAA approximant',LO,SW)
+subplot(212), hold on, semilogx(w,angle(Hn(i*w))*180/pi,'b-',LW,1.5), hold off
+legend('Noisy data','AAA approximant',LO,SW)</pre>
+
+<pre class="mcode-output">Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+</pre>
+
+<p><img src="img/Bode2tf_05.png" class="figure" alt=""></p>
+<p>The poles are decently approximated, even in these perturbed conditions, as shown by the coefficients of the denominator:</p>
+<pre class="mcode-input">Dcn = poly(poln)</pre>
+
+<pre class="mcode-output">Dcn =
+   1.000000000000000   1.006351584580056   1.991378123960296
+</pre>
+
+<p>The AAA-LS approximant effectively estimates the additive noise rather accurately, both on magnitude and phase:</p>
+<pre class="mcode-input">subplot(211), loglog(wn,abs(magn(:)-abs(Hn(i*wn))),'r-',LW,1), grid on
+title('Estimated noise in magnitude')
+subplot(212), loglog(wn,abs(phn(:)-angle(Hn(i*wn))),'r-',LW,1), grid on
+title('Estimated noise in phase')</pre>
+
+<pre class="mcode-output">Warning: Negative data ignored 
+Warning: Negative data ignored 
+</pre>
+
+<p><img src="img/Bode2tf_06.png" class="figure" alt=""></p>
+<p>[1] I. V. Gosea and S. G&uuml;ttel, Algorithms for the rational approximation of matrix-valued functions, arXiv:2003.06410v2, 2021.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
