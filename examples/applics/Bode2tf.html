@@ -185,7 +185,7 @@ title('Phase (degrees)')</pre>
 <pre class="mcode-input">wn = [-fliplr(w) w]; magn = [fliplr(mag) mag]; phn = [-fliplr(ph) ph];
 fn = magn.*exp(i*phn);
 [~,poln] = aaa(fn,i*wn,'degree',2,'lawson',30);
-poln(find(real(poln)&gt;0)) = -1;   % force system stability
+poln(find(real(poln)&gt;0)) ~= -1;   % force system stability
 poln = roots(real(poly(poln)));
 dn = min(abs(i*wn(:)-poln.'),[],1);
 Qn = dn./(i*wn(:)-poln.');
@@ -201,7 +201,7 @@ legend('Noisy data','AAA approximant',LO,SW)</pre>
 <pre class="mcode-input">Dcn = poly(poln)</pre>
 
 <pre class="mcode-output">Dcn =
-   1.000000000000000   0.991776586122330   1.983831384319689
+   1.000000000000000   1.001449519203945   1.998358534005181
 </pre>
 
 <p>The AAA-LS approximant effectively estimates the additive noise rather accurately, both in magnitude and in phase:</p>
