@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The generalised QR factorisation and constrained least squares &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>The generalised QR factorisation and constrained least squares</h1>
+<h2>Nick Hale, March 2022 in <a href='/examples/linalg/'>linalg</a><span><a href='/examples/linalg/ConstrainedLeastSquares.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/linalg/ConstrainedLeastSquares.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<pre class="mcode-input">function ConstrainedLeastSquares</pre>
+
+<h3 id="least-squares">Least squares</h3>
+<p>Anyone who has taken a course in numerical analysis or linear algebra will be familiar with the least squares problem: given an $m\times n$ matrix $A$ with $m &gt; n$ and an $m\times1$ vector $b$, find $x = {\rm argmin}||Ax-b||_2$. The problem is typically solved by forming a QR factorisation of $A$ (see, for example, [1, Part II]).</p>
+<p>Chebfun has, since its early days, implemented the continuous analogue of this idea. That is, given an $\infty\times n$ quasimatrix $A$ and an $L^2$-integrable function $f$, find $c = {\rm argmin}||Ac-f||_2$, where the norm is now the $L^2$-norm. The method of solution is now based on a continuous QR factorisation, where $Q$ is a quasimatrix with orthonormal columns. More details can be found in [2] or in Chapter 6 in the Chebfun Guide [3], which contains the following example:</p>
+<pre class="mcode-input">x = chebfun('x');
+A = x^(0:5);
+f = exp(x)*sin(6*x);
+c = A\f;
+ffit = A*c;
+clf, plot([f ffit])
+legend('f', 'ffit')</pre>
+
+<p><img src="img/ConstrainedLeastSquares_01.png" class="figure" alt=""></p>
+<h3 id="equality-constrained-least-squares-lse">Equality-constrained least squares (LSE)</h3>
+<p>A natural extension to the least squares problem is a least squares problem with linear equality constraints, i.e., find $x = {\rm argmin}||Ax-b||_2$ subject to $Bx = d$, where $B$ is a $p\times m$ matrix, with $p&lt;n&lt;m+p$.</p>
+<p>In the discrete setting, one way that such problems can be solved is by a generalised QR factorisation of the form $A^\top = QRU$, $B^\top = QS$, where $Q$ and $U$ are unitary matrices and $R$ and $S$ are upper-triangular. We omit the details, but refer the reader to [4] for a derivation. The following code computes a generalised QR factorisation via a QR factorisation of $B^\top$ followed by a rotated QR factorisation of $AQ$. (This is perhaps not the best way to compute the generalised QR factorisation, but we will see shortly that it allows us to make use of the existing Chebfun QR factorisation to compute the GQR factorisation in the continuous setting.)</p>
+<pre class="mcode-input">    function [Q, U, R, S] = gqr(A, B, flag)
+    %GQR    Generalised QR factorisation.
+    %   [Q, U, R, S] = GQR(A, B) produces a generalised QR factorisation of
+    %   A and B such that A' = QRU and B' = QS, where Q and U are unitary,
+    %   and R and S are upper triangular.
+    %
+    %   [___] = GQR(S,B,0) produces an economy-size decomposition of R &amp; U.
+
+    if ( isa(B, 'chebop') ), B = feval(B, A); end
+    if ( nargin &lt; 3 ), flag = {}; else, flag = {flag}; end
+
+    [Q, S] = qr(B.');
+    [U, R] = qr(flipud(fliplr(A*Q)), flag{:});  %#ok&lt;FLUDLR&gt;
+    R = rot90(R.',2);
+    U = flipud(fliplr(U.'));                    %#ok&lt;FLUDLR&gt;
+    end</pre>
+
+<p>We demonstrate the factorisation with an example taken from [4]:</p>
+<pre class="mcode-input">A = [1 1 1 ; 1 3  1 ; 1 -1 1; 1 1 1];
+B = [1 1 1 ; 1 1 -1];
+format short
+[Q, U, R, S] = gqr(A, B, 0)</pre>
+
+<pre class="mcode-output">Q =
+   -0.5774   -0.4082   -0.7071
+   -0.5774   -0.4082    0.7071
+   -0.5774    0.8165   -0.0000
+U =
+   -0.7108    0.1855    0.1855   -0.6526
+   -0.1697   -0.6819   -0.6819   -0.2029
+   -0.0000    0.7071   -0.7071         0
+R =
+    1.7188    3.0076   -1.6330
+         0    0.0000   -1.1547
+         0         0    2.0000
+S =
+   -1.7321   -0.5774
+         0   -1.6330
+         0         0
+</pre>
+
+<p>We validate the factorisation:</p>
+<pre class="mcode-input">I = eye(3);
+err = norm(A.'-Q*R*U) + norm(B.'-Q*S) + norm(Q*Q'-I) + norm(U*U'-I)</pre>
+
+<pre class="mcode-output">err =
+   2.4702e-15
+</pre>
+
+<p>Now that we have the GQR factorisation, it is straightforward to solve the constrained least squares problem using the approach described in [4]. We implement this in lsqcon() below.</p>
+<pre class="mcode-input">    function x = lsqcon(A, b, B, d)
+    %LSQCON    Constrained least squares.
+    %   x = LSQCON(A, b, B, d) solves the constrained least squares problem
+    %   min|Ax-b|_2 st Bx = d.
+
+    [Q, U, R, S] = gqr(A, B, 0);
+    [~,n] = size(A);  p = size(S,2);
+    i1 = 1:p;         i2 = (p+1):n;
+    y1 = S(i1,i1).'\d;
+    y2 = R(i2,i2).'\(U(i2,:)*b-R(i1,i2).'*y1);
+    x = Q*[y1 ; y2];
+
+    end</pre>
+
+<p>Let's continue our example and choose the following right-hand sides:</p>
+<pre class="mcode-input">b = [1 2 3 4]';
+d = [7 4]';
+x = lsqcon(A, b, B, d)</pre>
+
+<pre class="mcode-output">x =
+    5.7500
+   -0.2500
+    1.5000
+</pre>
+
+<p>According to [4], the exact solution is given by</p>
+<pre class="mcode-input">sol = [46, -2, 12]'/8</pre>
+
+<pre class="mcode-output">sol =
+    5.7500
+   -0.2500
+    1.5000
+</pre>
+
+<p>We have matched these to around machine precision:</p>
+<pre class="mcode-input">err = norm(x - sol)</pre>
+
+<pre class="mcode-output">err =
+   1.1957e-15
+</pre>
+
+<h3 id="continuous-lse">Continuous LSE</h3>
+<p>Like the QR factorisation, the generalised QR factorisation can be extended to the continuous setting, where $A$ and $U^\top$ are now column quasimatrices. Once we have the continuous generalised QR factorisation, the continuous constrained least squares problem is solved in the same way as its discrete counterpart. The codes gqr() and lsqcon() above are written to work in both the discrete and the continuous settings.</p>
+<p>Below we see two examples, first where the equality constraints are interpolation conditions at $x = -0.5$ and $x = 0$, and then when the mean value of the fit on [-1, 1] is constrained to be zero.</p>
+<pre class="mcode-input">% Example 1
+x = chebfun('x');
+A = x^(0:5);
+f = exp(x)*sin(6*x);
+z = [-.5 ; 0];
+B = feval(A, z); d = f(z);
+[Q, U, R, S] = gqr(A, B, 0);</pre>
+
+<p>Validation:</p>
+<pre class="mcode-input">err = norm(A'-Q*R*U) + norm(B'-Q*S) + norm(Q*Q'-eye(6)) + norm(U*U'-eye(6))
+subplot(1,2,1), spy(R), title('R'), subplot(1,2,2), spy(S), title('S')</pre>
+
+<pre class="mcode-output">err =
+   2.4109e-15
+</pre>
+
+<p><img src="img/ConstrainedLeastSquares_02.png" class="figure" alt=""></p>
+<pre class="mcode-input">% Solve the constrained least squares problem:
+c = lsqcon(A, f, B, d);
+ffit2 = A*c;
+
+% Plot and compare with the unconstrained least squares solution:
+clf, plot([f, ffit, ffit2], '-', z, f(z), 'xk');
+legend('f' ,'ffit', 'ffit2')</pre>
+
+<p><img src="img/ConstrainedLeastSquares_03.png" class="figure" alt=""></p>
+<p>We now impose that the least squares solution must have zero mean on [-1,1]. Since, in the continuous setting, the constraint $Bc = d$ will typically be formed from some functional applied to the resulting chebfun, ffit = Ac, lsqcon() allows $B$ to be passed as a chebop representing this functional.</p>
+<pre class="mcode-input">% Example 2:
+B = chebop(@(u) sum(u)); d = 0;
+
+% Solve constrained least squares problem:
+c = lsqcon(A, f, B, d);
+ffit3 = A*c;
+
+% Validate the integral constraint:
+err = sum(ffit3)</pre>
+
+<pre class="mcode-output">err =
+  -1.5266e-16
+</pre>
+
+<pre class="mcode-input">% Plot and compare with the unconstrained least squares solution:
+hold on, plot(ffit3); hold off
+legend('f' ,'ffit', 'ffit2', '', 'ffit3')</pre>
+
+<p><img src="img/ConstrainedLeastSquares_04.png" class="figure" alt=""></p>
+<p>As with the unconstrained least squares problems, there is no need for the columns of $A$ to simply be powers of $x$ (or even polynomials). Here we consider one final example where the columns of $A$ are composed of shifted gaussians. For the constraint, we choose to impose that the fit interpolates at both $x = -1$ and $x = 1$, and has mean zero on [-1 1].</p>
+<pre class="mcode-input">% Example 3:
+A = exp(-5*(x-(-3:3)/3).^2);
+plot(A)</pre>
+
+<p><img src="img/ConstrainedLeastSquares_05.png" class="figure" alt=""></p>
+<p>Solve unconstrained least squares problems:</p>
+<pre class="mcode-input">c1 = A\f;
+ffit = A*c1;</pre>
+
+<p>Solve constrained least squares problem:</p>
+<pre class="mcode-input">B = chebop(@(u) [u([-1;1]) ; sum(u)]); d = [f([-1;1]) ; 0];
+c2 = lsqcon(A, f, B, d);
+ffit2 = A*c2;
+
+% Validate the constraints:
+err = sqrt(sum(ffit2).^2 + sum(f([-1;1]) - ffit2([-1;1])).^2)</pre>
+
+<pre class="mcode-output">err =
+   2.4763e-15
+</pre>
+
+<pre class="mcode-input">% Plot and compare the solutions:
+plot(f, '-', ffit, '-', ffit2, '-');
+legend('f', 'ffit', 'ffit2')</pre>
+
+<p><img src="img/ConstrainedLeastSquares_06.png" class="figure" alt=""></p>
+<h3 id="alternatives">Alternatives</h3>
+<p>The GQR approach used above is one example of "null space" methods for solving the LSE problem. An alternative, also built on QR factorisations, is "elimination" methods. The basic difference is whether one first computes a QR factorisation of $B^\top$ or of $B$. For completeness, we include below an implementation using an elimination method, as described in [5, Section 20.9].</p>
+<pre class="mcode-input">    function x = lsqcone(A, b, B, d)
+    %LSQCONE    Constrained least squares via elimination.
+    %   x = LSQCONE(A, b, B, d) solves the constrained least squares problem
+    %   min|Ax-b|_2 st Bx = d.
+
+    if ( isa(B, 'chebop') ), B = feval(B, A); end
+
+    [Q, R, P] = qr(B, 0);
+    [~,n] = size(A);  p = size(B,1);
+    i1 = 1:p;         i2 = (p+1):n;
+    j1 = P(i1);       j2 = P(i2);
+    R1 = R(:,i1);     R2 = R(:,i2);
+    A1 = A(:,j1);     A2 = A(:,j2);
+    AA = A2 - A1*(R1\R2);
+    c = Q'*d;
+    bb = b - A1*(R1\c);
+    y2 = AA\bb;
+    y1 = R1\(c - R2*y2);
+    x = zeros(n,1);
+    x(P) = [y1 ; y2];
+
+    end</pre>
+
+<p>We repeat Example 3 using this method, and find it in agreement:</p>
+<pre class="mcode-input">c3 = lsqcone(A, f, B, d);
+err = norm(c2 - c3)</pre>
+
+<pre class="mcode-output">err =
+   8.1811e-15
+</pre>
+
+<h3 id="references">References</h3>
+<p>[1] L. N. Trefethen and D. Bau, III, <em>Numerical Linear Algebra</em>. SIAM, 1997.</p>
+<p>[2] A. Townsend and L. N. Trefethen, Continuous analogues of matrix factorizations. <em>Proceedings of the Royal Society A</em>, 2015.</p>
+<p>[3] <a href="https://www.chebfun.org/docs/guide/guide06.html">https://www.chebfun.org/docs/guide/guide06.html</a>.</p>
+<p>[4] E. Anderson, Z. Bai, and J. Dongarra, Generalized QR factorization and its applications. <em>Linear Algebra and its Applications</em>, 1992.</p>
+<p>[5] N. J. Higham, <em>Accuracy and Stability of Numerical Algorithms</em>. SIAM, 2002.</p>
+<pre class="mcode-input">end</pre>
+
+</div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2021 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
