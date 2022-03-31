@@ -75,20 +75,21 @@ plotcoeffs(A), title A</pre>
      8.080637999044003e+09
 </pre>
 
-<p>What's particularly interesting is to compute the quasimatrix QR factorization of $A$ and to look at the Chebyshev coefficients of the columns of $Q$:</p>
+<p>What's interesting now is to compute the quasimatrix QR factorization of $A$ and to look at the Chebyshev coefficients of the columns of $Q$:</p>
 <pre class="mcode-input">[Q,R] = qr(A);
 plotcoeffs(Q), title Q</pre>
 
 <p><img src="img/QuasiQR_02.png" class="figure" alt=""></p>
-<p>Rounding errors are affecting these results fundamentally.  The first column of $Q$ has a Chebyshev series that converges down to machine precision, but with each successive column, about one digits is lost.  Mathematically, all these columns should be smooth, so clearly rounding errors have messed up the mathematical picture. The computed $Q$ probably matches the mathematical ideal to about 6 digits, not 16.</p>
-<p>But now here comes Wilkinson.  Wilkinson's startling discovery was that even though $Q$ is full of errors, and so is $R$, the errors in these two objects are ``diabolically correlated'' so that when you take the product, it matches $A$ to full precision:</p>
+<p>Rounding errors are affecting these results fundamentally.  The first column of $Q$ has a Chebyshev series that converges down to machine precision, but with each successive column, about one more digit is lost.  Mathematically, all these columns should be smooth, so clearly rounding errors have messed things up. The computed $Q$ probably matches the mathematical ideal to about 6 digits, not 16.</p>
+<p>But here comes Wilkinson.  Wilkinson's startling discovery was that even though $Q$ is far from accurate, and so is $R$, the errors in these two objects are "diabolically correlated" so that when you take the product, it matches $A$ to full precision:</p>
 <pre class="mcode-input">norm(A-Q*R)</pre>
 
 <pre class="mcode-output">ans =
      2.770927790594229e-15
 </pre>
 
-<p>As he liked to put it, though $Q$ and $R$ are far from the correct factors of $A$, they are the exactly (or almost exactly) correct factors of a slightly perturbed matrix.</p></div>
+<p>As he would have put it, though $Q$ and $R$ are far from the correct factors of $A$, they are the exactly (or almost exactly) correct factors of a slightly perturbed matrix.</p>
+<p>To learn more, see Lecture 16 of Trefethen and Bau, <em>Numerical Linear Algebra</em>, SIAM 1997 and 2022.</p></div>
         </div>
     </div>
 </div>
