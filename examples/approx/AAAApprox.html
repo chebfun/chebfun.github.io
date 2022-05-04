@@ -62,16 +62,14 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <h3 id="1-a-new-kind-of-rational-approximation">1.  A new kind of rational approximation</h3>
-<p>Chebfun has a number of methods for rational approximation of a function on an interval, including <code>ratinterp</code>, <code>remez</code>, <code>cf</code>, and <code>chebpade</code>; see the example "Eight shades of rational approximation".  For rational approximation on the unit circle, one can use <code>ratinterp</code> with the <code>'unitroots'</code> flag, and for rational approximation based on a Taylor series at a point, there is <code>padeapprox</code>.  Chebfun Version 5.6.0 introduces another method, AAA approximation, which is the most general of all, applying by default on an interval but equally well on a general set in the real line or complex plane.  The code is called <code>aaa</code>.</p>
+<p>Chebfun has a number of methods for rational approximation of a function on an interval, including <code>ratinterp</code>, <code>minimax</code>, <code>cf</code>, and <code>chebpade</code>; see the example "Eight shades of rational approximation".  For rational approximation on the unit circle, one can use <code>ratinterp</code> with the <code>'unitroots'</code> flag, and for rational approximation based on a Taylor series at a point, there is <code>padeapprox</code>.  Chebfun Version 5.6.0 introduces another method, AAA approximation, which is the most general of all, applying by default on an interval but equally well on a general set in the real line or complex plane.  The code is called <code>aaa</code>.</p>
 <p>We will not describe the mathematics here except to say that <code>aaa</code> returns a function handle corresponding to a type $(m-1,m-1)$ rational function $r$ represented as a barycentric quotient: a ratio of one $m$-term partial fraction divided by another, both with the same poles.  This representation is extremely flexible and numerically well-behaved, avoiding completely any representation of numerator or denominator polynomials. See [1] for details.</p>
 <h3 id="2-approximation-on-an-interval">2. Approximation on an interval</h3>
 <p>If no approximation set is specified, <code>aaa</code> works on a real interval. For example, suppose we write</p>
 <pre class="mcode-input">r = aaa(@gamma);</pre>
 
 <p>The result is a function handle for a rational function that approximates $\Gamma(z)$ on $[-1,1]$.  We can plot it with <code>ezplot</code> and get a pretty good result!</p>
-<pre class="mcode-input">h = ezplot(r); axis([-3 3 -8 8]), grid on, title(' '), xlabel(' ')
-LW = 'linewidth'; MS = 'markersize';
-set(h,LW,2)</pre>
+<pre class="mcode-input">h = ezplot(r); axis([-3 3 -8 8]), grid on, title(' '), xlabel(' ')</pre>
 
 <p><img src="img/AAAApprox_01.png" class="figure" alt=""></p>
 <p>To learn more about the approximation we can output the poles and residues as well as the function handle.  The AAA approximant is normally of type $(m-1,m-1)$ for some value $m\ge 1$, and here we see that the approximant is of type $(6,6)$.</p>
@@ -93,8 +91,7 @@ disp([pol res])</pre>
 <pre class="mcode-input">[r,pol,res] = aaa(@gamma,'dom',[-2,2]);
 disp('        poles             residues')
 disp([pol res])
-h = ezplot(r); axis([-3 3 -8 8]), grid on, title(' '), xlabel(' ')
-set(h,LW,2)</pre>
+h = ezplot(r); axis([-3 3 -8 8]), grid on, title(' '), xlabel(' ')</pre>
 
 <pre class="mcode-output">        poles             residues
    3.6952 + 1.6173i   0.5067 - 0.7977i
@@ -139,18 +136,15 @@ clf, ezplot(@(x) exp(x)-r(x),[-1 1]), grid on
 title('AAA approx of exp(x)'), xlabel(' ')</pre>
 
 <p><img src="img/AAAApprox_04.png" class="figure" alt=""></p>
-<p>Alterntatively, we can ask <code>aaa</code> to find approximations of lower type or accuracy by specifying values of <code>'mmax'</code> or <code>'tol'</code>, respectively.  For example, here is the error curve for the type $(3,3)$ AAA approximant to $e^x$.  The error curve for best type $(3,3)$ approximation is shown for comparison.</p>
+<p>Alternatively, we can ask <code>aaa</code> to find approximations of lower type or accuracy by specifying values of <code>'mmax'</code> or <code>'tol'</code>, respectively.  For example, here is the error curve for the type $(3,3)$ AAA approximant to $e^x$.  The error curve for best type $(3,3)$ approximation is shown for comparison.</p>
 <pre class="mcode-input">f = chebfun('exp(x)');
-r = aaa(@exp,'mmax',4);
+r = aaa(@exp,'mmax',4,'lawson',0);
 ezplot(@(x) exp(x)-r(x),[-1,1]), grid on, xlabel(' ')
 title('AAA and best type (3,3) error curves')
-[p,q,rbest] = remez(f,3,3); hold on
+[p,q,rbest] = minimax(f,3,3); hold on
 ezplot(@(x) f(x)-rbest(x),[-1,1]), hold off
 grid on, ylim(1e-6*[-1 1]), xlabel(' ')
 title('AAA and best type (3,3) approximants to exp(x)')</pre>
-
-<pre class="mcode-output">Warning:  This command is deprecated. Use minimax instead. 
-</pre>
 
 <p><img src="img/AAAApprox_05.png" class="figure" alt=""></p>
 <p>In this example, the best approximant is more accurate, but computation of best approximations is a much more fragile process, easily broken, and restricted in Chebfun to real intervals. An example of a more difficult problem on a real interval is the approximation of $|x|$ on $[-1,1]$.  Here <code>aaa</code> does a pretty good job, issuing a message indicating that one Froissart doublet (spurious pole-zero pair) has been removed along the way. A warning indicates that the desired tolerance has not been achieved, though it has come pretty close.</p>
@@ -167,10 +161,10 @@ ylim(5e-14*[-1 1]), xlabel(' ')</pre>
 <pre class="mcode-input">npts = 2000; rng(0)
 X = 8*rand(npts,1)-4; Y = 2*rand(npts,1) - 1 + X.^3/16;
 Z = X + 1i*Y;
-plot(Z,'.k',MS,3), ylim([-5 5]), axis([-8 8 -5 5]), hold on
+plot(Z,'.k','markersize',3), ylim([-5 5]), axis([-8 8 -5 5]), hold on
 ff = @(z) sqrt(2+z.^2)./(z-4);
 [r,pol] = aaa(ff,Z);
-plot(pol,'.r',MS,14), hold off</pre>
+plot(pol,'.r','markersize',10), hold off</pre>
 
 <p><img src="img/AAAApprox_07.png" class="figure" alt=""></p>
 <p>Here we check the approximation at $5+5i$, $5$, and $5-5i$:</p>
@@ -192,7 +186,7 @@ plot(pol,'.r',MS,14), hold off</pre>
     </div>
 </div>
     <div class="footer">
-        <p>&copy; Copyright 2021 the University of Oxford and the Chebfun Developers.</p>
+        <p>&copy; Copyright 2022 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
