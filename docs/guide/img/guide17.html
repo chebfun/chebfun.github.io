@@ -28,7 +28,7 @@ x = \cos\lambda\sin\theta, \quad y = \sin\lambda\sin\theta, \quad z =
 \end{equation}
 
 
-Spherefun allows functions to be constructed using either coordinate system.  For example, the function $f(x,y,z) = (1 + (x+1/\sqrt{2})^2 + z^2)$ on the sphere can be constructed as follows:
+Spherefun allows functions to be constructed using either coordinate system.  For example, the function $f(x,y,z) = 1/(1 + (x+1/\sqrt{2})^2 + z^2)$ on the sphere can be constructed as follows:
 
 <pre class="mcode-input">f = spherefun( @(x,y,z) 1./(1 + (x+1/sqrt(2)).^2 + z.^2) );
 plot( f )</pre><img src="img/guide17_01.png" class="figure" alt="">
