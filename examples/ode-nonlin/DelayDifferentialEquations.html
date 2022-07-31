@@ -496,7 +496,7 @@ res =
 <p>Example 5: [11] Continuous &amp; pantograph delay</p>
 <pre class="mcode-input">dom = [0 20];
 q = 1/2;
-N = chebop(@(x,u) diff(u) - 1/100*(q*x-x-10)*u(q*x) - 1/100*(x+15)*exp(-1) - ...
+N = chebop(@(x,u) diff(u) - 1/100*(q*x-x-10)*u(q*x) - 1/100*(x+20)*exp(-1) - ...
     1/100*cumsum(u) - 1/1000*feval(volt(@(t,s)(t/q-s), u), q*x), dom);
 N.lbc = exp(-1);
 u = N\0
@@ -507,10 +507,10 @@ err = norm(sol-u)</pre>
 <pre class="mcode-output">u =
    chebfun column (1 smooth piece)
        interval       length     endpoint values  
-[       0,      20]       14      0.37      2.3 
-vertical scale = 2.3 
+[       0,      20]       14      0.37      2.7 
+vertical scale = 2.7 
 err =
-   0.870645040413005
+     6.916261673839570e-15
 </pre>
 
 <p><img src="img/DelayDifferentialEquations_20.png" class="figure" alt=""></p>
