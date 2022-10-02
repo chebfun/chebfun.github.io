@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A droplet sitting on a surface &raquo; Chebfun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/normalize.min.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/chebsite.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/tomorrow.css" rel="stylesheet"><!--  media="screen" -->
+    <link href="/css/flexslider.css" rel="stylesheet"><!--  media="screen" -->
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-4297200-10', 'chebfun.org');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+</script>  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div id='navbar' class="navbar navbar-default navbar-fixed-top">
+      <div class="container nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          <a id="logo" href="/"><img src='/images/logo.png' /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/about">About</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/examples">Examples</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/search"><span class="glyphicon glyphicon-search"></span></a></li>
+            <li><a href="https://github.com/chebfun/chebfun"><img id='github-logo' src='/css/github-logo.png'/></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<div class="page-wrapper">
+
+    <div class='page-header'>
+<h1>A droplet sitting on a surface</h1>
+<h2>Ray Treinen and Nick Trefethen, October 2022 in <a href='/examples/ode-nonlin/'>ode-nonlin</a><span><a href='/examples/ode-nonlin/Droplets.m'>download</a><span class='sep-sm'>&middot;</span><a href='//github.com/chebfun/examples/blob/master/ode-nonlin/Droplets.m'>view on GitHub</a></span></h2>
+</div>
+
+    <div class="container">
+<div class="row main">
+<div id='content' class="col-sm-12 example" role="main">
+<h3 id="1-the-equations">1.  The equations</h3>
+<p>Suppose we put a drop of liquid on a solid surface. Under idealized conditions it will form an axisymmetric droplet (a ``sessile drop'') whose shape is determined by the contact angle and by the capillary constant of the liquid, $$ \kappa = {\rho g\over \sigma}, $$ where $\rho$ is the density, $g$ is the gravitational acceleration, and $\sigma$ is the surface tension. In engineering, the behavior of droplets is one of innumerable situations where surface tension plays a role, and we hope the reader has seen the movie [2] made by the second author's father at MIT in the 1960s, still available on YouTube after all these years.  In mathematics, this is a prototypical problem in the area of capillary surfaces, on which a classic reference is the 1986 book [1] by Robert Finn at Stanford.</p>
+<p>Suppose our goal is to calculate the generating curve that defines the shape of the droplet.  As described in [3], we can do this by solving the equations $$ {dr\over ds} = \cos\psi, \quad {du\over ds} = \sin\psi, \quad {d\psi\over ds} = \kappa u - r^{-1}\sin\psi $$ where $s$ is the arc length along the curve, $r(s)$ is the radius, $u(s)$ is the height, and $\psi(s)$ is the angle of inclination of the curve. In this formulation $s\in [-L,L]$, where $L$, the total arc length of the curve starting at the center, is unknown a priori.  For convenience we can rescale by defining $\tau = s/L$, so that the computational domain becomes $\tau \in [-1,1]$ and the equations are $$ {dR\over d\tau} = L \cos\Psi, \quad {dU\over d\tau} = L \sin\Psi, \quad {d\Psi\over d\tau} = \kappa L U - L R^{-1}\sin\Psi. $$</p>
+<h3 id="2-example-borderline-wetting">2. Example: borderline wetting</h3>
+<p>Let's use Chebfun to compute a simple droplet.  We set the contact radius to $3$ and we fix the contact angle as $\pi/2$, corresponding to a liquid at the borderline of wetting/not wetting the solid.  We use the traditional scaling of the problem so that $\kappa = 1$. Here is the shape.</p>
+<pre class="mcode-input">tic
+b = 3; Psib = -pi/2;
+N = chebop(-1,1);
+N.op = @(t,R,U,Psi,L) [diff(R) - L*cos(Psi)
+                       diff(U) - L*sin(Psi)
+                       R*diff(Psi) + L*sin(Psi) - R*L*U
+                       diff(L)];
+N.bc = @(t,R,U,Psi,L) [R(-1)+b; R(1)-b; Psi(-1)+Psib; Psi(1)-Psib];
+t = chebfun('t');
+N.init = [b*t; 1+0*t; t*Psib; 2*b+0*t];
+[R,U,Psi,L] = N\0;
+U = U - min(U);
+LW = 'linewidth'; blue = [.3 .4 1];
+plot([-b-1;b+1],[0;0],'k',LW,1.5) , hold on
+fill(R,U,blue), plot(R,U,'k',LW,1), hold off
+axis equal, grid on, title('borderline wetting')</pre>
+
+<p><img src="img/Droplets_01.png" class="figure" alt=""></p>
+<h3 id="3-example-no-wetting">3. Example: no wetting</h3>
+<p>Let's change the contact angle to $\pi$, so the liquid minimally wets the surface.  If a liquid has a contact angle greater than $\pi/2$, this is described as ``not wetting''.</p>
+<pre class="mcode-input">Psib = -pi;
+N.bc = @(t,R,U,Psi,L) [R(-1)+b; R(1)-b; Psi(-1)+Psib; Psi(1)-Psib];
+N.init = [b*t; 1+0*t; t*Psib; 2*b+0*t];
+[R,U,Psi,L] = N\0;
+U = U - min(U);
+plot([-b-1;b+1],[0;0],'k',LW,1.5) , hold on
+fill(R,U,blue), plot(R,U,'k',LW,1), hold off
+axis equal, grid on, title('no wetting')</pre>
+
+<p><img src="img/Droplets_02.png" class="figure" alt=""></p>
+<h3 id="4-computational-remarks">4. Computational remarks</h3>
+<p>In Chebfun, our computations have proceeded in the simplest possible manner.  We worked on $[-1,1]$, though $[0,1]$ would also be possible with Neumann boundary conditions.  We multiplied through by $R(\tau)$ to avoid the singularity at $R=0$.  We included the unknown parameter $L$ in the problem via a trivial additional differential equation $dL/dt = 0$, though one could also use an explicit parameter formulation as described in section 7.10 fo the Chebfun Guide.</p>
+<p>Here is how long the computations took,</p>
+<pre class="mcode-input">toc</pre>
+
+<pre class="mcode-output">Elapsed time is 6.631103 seconds.
+</pre>
+
+<p>and here are the lengths of the computed functions $R$, $U$, and $\Psi$:</p>
+<pre class="mcode-input">[length(R) length(U) length(Psi)]</pre>
+
+<pre class="mcode-output">ans =
+    50    51    50
+</pre>
+
+<p>All this can be done more efficiently by bypassing Chebfun overhead, using spectral methods more carefully as described in [3].</p>
+<h3 id="5-prescribing-the-volume">5. Prescribing the volume</h3>
+<p>The prescription of the radius $b$ where the liquid meets the supporting plane is a mathematical construction to make for a nice boundary value problem. It might be more physically realistic to prescribe a volume of the liquid and treat that radius $b$ as a free parameter.</p>
+<p>While it would be possible to compute the volume of the droplet numerically, a neat computation turns this into evaluating the solution in the following formula. To derive this, we note one form of the differential equations is $$ (r\sin\psi)_r = ru $$ and this holds for any portion of the curve except at the vertical point. We take the initial height $u = u_0 &lt; 0$ when $r=0$. Then we use the method of washers to compute the volume $$ V = \int^{u_0}_u \pi r^2\, du = -\pi r^2u - 2\pi\int^0_r \rho u\, d\rho = -\pi r^2u - 2\pi\int^0_r (\rho\sin\psi)_\rho\, d\rho = -\pi r^2u  + 2\pi r\sin\psi.$$ This gives the volume formula $$ V = 2\pi b\sin\psi_b - \pi b^2 U(1) $$ for the computed curve before the vertical translation. We can include this formula to measure the volume of a drop we have computed with the modification.</p>
+<pre class="mcode-input">[R,U,Psi,L] = N\0;
+pi*b*(2*sin(Psib)-b*U(1))</pre>
+
+<pre class="mcode-output">ans =
+  62.621687652005107
+</pre>
+
+<p>We can also use this formula to build an equation that must be solved in the boundary conditions, while we add the radius $b$ to the list of parameters.</p>
+<pre class="mcode-input">Psib = -pi; v0 = 10;
+N = chebop(-1,1);
+N.op = @(t,R,U,Psi,ell,b) [diff(R) - ell*cos(Psi)
+                           diff(U) - ell*sin(Psi)
+                           R*diff(Psi) + ell*sin(Psi) - R*ell*U
+                           diff(ell)];
+N.bc = @(t,R,U,Psi,ell,b) [R(-1)+b
+                           R(1)-b
+                           Psi(-1)+Psib
+                           Psi(1)-Psib
+                           pi*b*(2*sin(Psib)-b*U(1))-v0];
+t = chebfun('t'); bguess = nthroot(v0,3)/2;
+N.init = [bguess*t; bguess*(-2+cos(t*Psib)); t*Psib; 2*bguess+0*t; bguess+0*t];
+[R,U,Psi,ell,b] = N\0;
+U = U - min(U);
+plot([floor(min(R));ceil(max(R))],[0;0],'k',LW,1.5) , hold on
+fill(R,U,blue), plot(R,U,'k',LW,1), hold off
+axis equal, grid on, title('prescribed volume')</pre>
+
+<p><img src="img/Droplets_03.png" class="figure" alt=""></p>
+<p>Finally, we note that sometimes nonlinear problems can be quite sensitive to the supplied initial guess.  In this volume constrained problem, we find that Chebfun gives the correct answer for the problem above, but if the contact angle is changed too much, then the solver does not find a solution.  More robust initial guesses are discussed in [3].</p>
+<h3 id="references">References</h3>
+<p>[1] R. Finn, <em>Equilibrium Capillary Surfaces</em>, Springer Science &amp; Business Media, 2012 (originally published in 1986).</p>
+<p>[2] L. M. Trefethen, Surface Tension in Fluid Mechanics, <a href="https://www.youtube.com/watch?v=sfyAkFc66bE">https://www.youtube.com/watch?v=sfyAkFc66bE</a> (movie created in 1963).</p>
+<p>[3] R. Treinen, Spectral methods for capillary surfaces described by bounded generating curves, arXiv:2205.02931v2, 2022.</p></div>
+        </div>
+    </div>
+</div>
+    <div class="footer">
+        <p>&copy; Copyright 2022 the University of Oxford and the Chebfun Developers.</p>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script>
+  </body>
+</html>
