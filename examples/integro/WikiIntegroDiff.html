@@ -62,7 +62,7 @@
 <div class="row main">
 <div id='content' class="col-sm-12 example" role="main">
 <p>Here, we solve a first order linear integro-differential equation considered in the Wikipedia article [1]:</p>
-<p>$$ u'(x) + 2u(x) + 5\int_0^t u(t) dt = 1~ (x\ge 0), ~~
+<p>$$ u'(x) + 2u(x) + 5\int_0^x u(t) dt = 1~ (x\ge 0), ~~
 = 0~ (x&lt;0) $$</p>
 <p>with $u(0)=0$.</p>
 <p>Begin by defining the domain $d$, chebfun variable $x$ and operator $N$.</p>
@@ -83,18 +83,18 @@ N = chebop(d);</pre>
 <pre class="mcode-input">u = N\rhs;</pre>
 
 <p>Here is the analytic solution:</p>
-<pre class="mcode-input">u_exact = 0.5*exp(-x).*sin(2*x);</pre>
+<pre class="mcode-input">u_exact = 0.5*exp(-x)*sin(2*x);</pre>
 
 <p>How close is the computed solution to the true solution?</p>
 <pre class="mcode-input">accuracy = norm(u-u_exact)</pre>
 
 <pre class="mcode-output">accuracy =
-     8.491258814888107e-16
+     2.655275752894818e-16
 </pre>
 
 <p>Plot the computed solution</p>
-<pre class="mcode-input">plot(u,'linewidth',1.6), grid on
-title('Solution of integro-differential equation','fontsize',16)</pre>
+<pre class="mcode-input">plot(u), grid on
+title('Solution of integro-differential equation')</pre>
 
 <p><img src="img/WikiIntegroDiff_01.png" class="figure" alt=""></p>
 <h3 id="references">References</h3>
@@ -105,7 +105,7 @@ title('Solution of integro-differential equation','fontsize',16)</pre>
     </div>
 </div>
     <div class="footer">
-        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+        <p>&copy; Copyright 2022 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

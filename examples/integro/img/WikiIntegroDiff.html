@@ -7,7 +7,7 @@ meta: "(Chebfun example integro/WikiIntegroDiff.m) [Tags: #linear, #backslash, #
 
 Here, we solve a first order linear integro-differential equation considered in the Wikipedia article [1]:
 
-$$ u'(x) + 2u(x) + 5\int_0^t u(t) dt = 1~ (x\ge 0), ~~
+$$ u'(x) + 2u(x) + 5\int_0^x u(t) dt = 1~ (x\ge 0), ~~
 = 0~ (x&lt;0) $$
 
 with $u(0)=0$.
@@ -26,14 +26,14 @@ N = chebop(d);</pre>The problem has a single Dirichlet boundary condition at $x=
 
 <pre class="mcode-input">u = N\rhs;</pre>Here is the analytic solution:
 
-<pre class="mcode-input">u_exact = 0.5*exp(-x).*sin(2*x);</pre>How close is the computed solution to the true solution?
+<pre class="mcode-input">u_exact = 0.5*exp(-x)*sin(2*x);</pre>How close is the computed solution to the true solution?
 
 <pre class="mcode-input">accuracy = norm(u-u_exact)</pre><pre class="mcode-output">accuracy =
-     8.491258814888107e-16
+     2.655275752894818e-16
 </pre>Plot the computed solution
 
-<pre class="mcode-input">plot(u,'linewidth',1.6), grid on
-title('Solution of integro-differential equation','fontsize',16)</pre><img src="img/WikiIntegroDiff_01.png" class="figure" alt="">
+<pre class="mcode-input">plot(u), grid on
+title('Solution of integro-differential equation')</pre><img src="img/WikiIntegroDiff_01.png" class="figure" alt="">
 
 
 
