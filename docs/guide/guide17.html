@@ -84,7 +84,7 @@ x = \cos\lambda\sin\theta, \quad y = \sin\lambda\sin\theta, \quad z =
 \cos\theta,\qquad (\lambda,\theta)\in[-\pi,\pi]\times[0,\pi].
 \label{eq:sphCoords}
 \end{equation}</p>
-<p>Spherefun allows functions to be constructed using either coordinate system.  For example, the function $f(x,y,z) = (1 + (x+1/\sqrt{2})^2 + z^2)$ on the sphere can be constructed as follows:</p>
+<p>Spherefun allows functions to be constructed using either coordinate system.  For example, the function $f(x,y,z) = 1/(1 + (x+1/\sqrt{2})^2 + z^2)$ on the sphere can be constructed as follows:</p>
 <pre class="mcode-input">f = spherefun( @(x,y,z) 1./(1 + (x+1/sqrt(2)).^2 + z.^2) );
 plot( f )</pre>
 
@@ -586,7 +586,7 @@ plot( omega ), hold on, quiver( u ), axis off, hold off</pre>
     </div>
 </div>
     <div class="footer">
-        <p>&copy; Copyright 2019 the University of Oxford and the Chebfun Developers.</p>
+        <p>&copy; Copyright 2022 the University of Oxford and the Chebfun Developers.</p>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
