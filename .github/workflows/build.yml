@@ -1,0 +1,75 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout chebsite
+      - name: Checkout chebsite
+        uses: actions/checkout@v4
+        with:
+          path: chebsite
+
+      # 2. Checkout examples repo (read-only for BUILD.py)
+      - name: Checkout examples
+        uses: actions/checkout@v4
+        with:
+          repository: chebfun/examples
+          path: examples
+          token: ${{ secrets.BUILD_REPO_TOKEN }}
+
+      # 3. Checkout guide repo (read-only for BUILD.py)
+      - name: Checkout guide
+        uses: actions/checkout@v4
+        with:
+          repository: chebfun/guide
+          path: guide
+          token: ${{ secrets.BUILD_REPO_TOKEN }}
+
+      # 4. Checkout _build repo (where we will push)
+      - name: Checkout chebfun.github.io
+        uses: actions/checkout@v4
+        with:
+          repository: chebfun/chebfun.github.io
+          path: chebsite/_build
+          token: ${{ secrets.BUILD_REPO_TOKEN }}
+
+      # 5. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # 6. Install dependencies
+      - name: Install Python dependencies
+        run: |
+          python -m venv myenv
+          source myenv/bin/activate
+          python -m pip install --upgrade pip
+          pip install --upgrade wheel
+          pip install MarkupSafe Jinja2 PyYAML Markdown python_dateutil
+          pip install Markdown==2.6.11
+
+      # 7. Run BUILD.py
+      - name: Run BUILD.py
+        run: |
+          cd chebsite
+          source ../myenv/bin/activate
+          python BUILD.py
+
+      # 8. Commit and push to _build repo
+      - name: Commit and push _build
+        run: |
+          cd chebsite/_build
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "${{ github.event.head_commit.message }}" || echo "No changes to commit"
+          git push
+
