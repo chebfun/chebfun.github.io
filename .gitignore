@@ -2,3 +2,5 @@
 *.md
 *.pl
 mlib/
+menv/
+.github
